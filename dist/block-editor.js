@@ -7813,7 +7813,9 @@
 	    _ref$placeholder = _ref.placeholder,
 	    placeholder = _ref$placeholder === void 0 ? '' : _ref$placeholder,
 	    _ref$value = _ref.value,
-	    value = _ref$value === void 0 ? '' : _ref$value;
+	    value = _ref$value === void 0 ? '' : _ref$value,
+	    _ref$allowFilters = _ref.allowFilters,
+	    allowFilters = _ref$allowFilters === void 0 ? true : _ref$allowFilters;
 	  var ref = React$2.useRef(null);
 	  var contentRef = React$2.useRef(null);
 	  var _useState = React$2.useState(false),
@@ -7823,7 +7825,10 @@
 	  var _value = React$2.useMemo(function () {
 	    return String(value || '');
 	  }, [value]);
-	  var html = hooks$3.applyFilters('blueprint-blocks.editable-string.value.before-render', _value);
+	  var html = _value;
+	  if (allowFilters) {
+	    hooks$3.applyFilters('blueprint-blocks.editable-string.value.before-render', _value);
+	  }
 	  var _onBlur = function _onBlur() {
 	    setHasFocus(false);
 	    onBlur && onBlur();
@@ -7831,7 +7836,9 @@
 	  var _onChange = function _onChange(_ref2) {
 	    var target = _ref2.target;
 	    var newValue = String((target === null || target === void 0 ? void 0 : target.value) || '').replace(/\n/g, ' ');
-	    newValue = hooks$3.applyFilters('blueprint-blocks.editable-string.value.before-on-change', newValue);
+	    if (allowFilters) {
+	      newValue = hooks$3.applyFilters('blueprint-blocks.editable-string.value.before-on-change', newValue);
+	    }
 	    onChange && onChange(newValue);
 	  };
 	  var _onFocus = function _onFocus() {
@@ -7871,6 +7878,65 @@
 	    })]
 	  });
 	});
+
+	var BlockNameField = function BlockNameField() {
+	  var dispatch = useDispatch();
+	  var _useSelector = useSelector(function (state) {
+	      var _state$blockJson;
+	      return (((_state$blockJson = state.blockJson) === null || _state$blockJson === void 0 ? void 0 : _state$blockJson.name) || '').split('/');
+	    }),
+	    _useSelector2 = _slicedToArray(_useSelector, 2),
+	    _useSelector2$ = _useSelector2[0],
+	    blockNamespace = _useSelector2$ === void 0 ? '' : _useSelector2$,
+	    _useSelector2$2 = _useSelector2[1],
+	    blockName = _useSelector2$2 === void 0 ? '' : _useSelector2$2;
+	  var setBlockName = function setBlockName(newBlockName) {
+	    dispatch(setName("".concat(blockNamespace, "/").concat(delimiterize(newBlockName))));
+	  };
+	  var setBlockNamespace = function setBlockNamespace(newBlockNamespace) {
+	    if (newBlockNamespace === '') {
+	      dispatch(setName("blueprint-block/".concat(blockName)));
+	    } else {
+	      dispatch(setName("".concat(delimiterize(newBlockNamespace), "/").concat(blockName)));
+	    }
+	  };
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    className: "BlockNameField",
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
+	      className: "BlockNameField-namespace",
+	      onChange: setBlockNamespace,
+	      value: blockNamespace
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	      "class": "BlockNameField-seperator",
+	      children: '/'
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
+	      className: "BlockNameField-name",
+	      onChange: setBlockName,
+	      placeholder: 'enter-a-block-name...',
+	      value: blockName
+	    })]
+	  });
+	};
+
+	function BlockVersionField(_ref) {
+	  _ref.name;
+	    _ref.placeholder;
+	    _ref.onBlur;
+	    _ref.onFocus;
+	    _ref.tooltip;
+	    _ref.value;
+	    _ref.setValue;
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    className: "BlockVersionField",
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	      className: "BlockVersionField-label",
+	      children: 'Version:'
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
+	      className: "BlockVersionField-value",
+	      value: '1.0.0'
+	    })]
+	  });
+	}
 
 	function RenderJson(_ref) {
 	  var _ref$index = _ref.index,
@@ -8364,7 +8430,7 @@
 	  });
 	}
 
-	var _excluded$8 = ["name", "title", "keywords", "icon", "textdomain", "description", "category"];
+	var _excluded$8 = ["title", "keywords", "icon", "textdomain", "description", "category"];
 	var _blueprintBlocksEdito$1;
 	var _ref$1 = ((_blueprintBlocksEdito$1 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$1 === void 0 ? void 0 : _blueprintBlocksEdito$1.blockMetadata) || {},
 	  _ref$blockNamespace = _ref$1.blockNamespace,
@@ -8374,7 +8440,6 @@
 	  var _useSelector = useSelector(function (state) {
 	      return state.blockJson || {};
 	    }),
-	    blockName = _useSelector.name,
 	    blockTitle = _useSelector.title,
 	    blockKeywords = _useSelector.keywords,
 	    blockIcon = _useSelector.icon,
@@ -8382,14 +8447,8 @@
 	    description = _useSelector.description,
 	    category = _useSelector.category,
 	    blockJson = _objectWithoutProperties(_useSelector, _excluded$8);
-	  var setBlockName = function setBlockName(name) {
-	    dispatch(setName(name));
-	  };
 	  var setBlockTitle = function setBlockTitle(title) {
 	    dispatch(setTitle(title));
-	    if (!isEditingBlockName) {
-	      setBlockName("".concat(blockNamespace, "/").concat(delimiterize(title)));
-	    }
 	  };
 	  var setBlockKeywords = function setBlockKeywords(keywords) {
 	    dispatch(setKeywords(keywords));
@@ -8402,142 +8461,124 @@
 	    hasFocus = _useFocus2[0],
 	    _onBlur = _useFocus2[1],
 	    _onFocus = _useFocus2[2];
-	  var _useState = React$2.useState(blockName !== "".concat(blockNamespace, "/").concat(delimiterize(blockTitle || ''))),
+	  var _useState = React$2.useState(textdomain !== blockNamespace),
 	    _useState2 = _slicedToArray(_useState, 2),
-	    isEditingBlockName = _useState2[0],
-	    setIsEditingBlockName = _useState2[1];
-	  var _useState3 = React$2.useState(textdomain !== blockNamespace),
+	    isEditingBlockTextdomain = _useState2[0],
+	    setIsEditingBlockTextdomain = _useState2[1];
+	  var _useState3 = React$2.useState(textdomain),
 	    _useState4 = _slicedToArray(_useState3, 2),
-	    isEditingBlockTextdomain = _useState4[0],
-	    setIsEditingBlockTextdomain = _useState4[1];
-	  var _useState5 = React$2.useState(textdomain),
+	    blockTextdomain = _useState4[0],
+	    setBlockTextdomain = _useState4[1];
+	  var _useState5 = React$2.useState(description),
 	    _useState6 = _slicedToArray(_useState5, 2),
-	    blockTextdomain = _useState6[0],
-	    setBlockTextdomain = _useState6[1];
-	  var _useState7 = React$2.useState(description),
+	    blockDescription = _useState6[0],
+	    setBlockDescription = _useState6[1];
+	  var _useState7 = React$2.useState(category),
 	    _useState8 = _slicedToArray(_useState7, 2),
-	    blockDescription = _useState8[0],
-	    setBlockDescription = _useState8[1];
-	  var _useState9 = React$2.useState(category),
-	    _useState10 = _slicedToArray(_useState9, 2),
-	    blockCategory = _useState10[0],
-	    setBlockCategory = _useState10[1];
+	    blockCategory = _useState8[0],
+	    setBlockCategory = _useState8[1];
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    className: "PageBlockJson",
 	    children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	      className: "PageBlockJson-grid",
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	        className: "PageBlockJson-fields",
-	        children: [/*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
-	          name: "title",
-	          label: "Block title",
-	          placeholder: "Enter a title for your block...",
-	          tooltip: "Hello...",
-	          value: blockTitle,
-	          setValue: setBlockTitle,
-	          onFocus: function onFocus() {
-	            return _onFocus.apply(void 0, ['title', !isEditingBlockName && 'name']);
+	        children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	          className: "PageBlockJson-fieldset",
+	          style: {
+	            gap: 'var(--1x)'
 	          },
-	          onBlur: function onBlur() {
-	            return _onBlur.apply(void 0, ['title', !isEditingBlockName && 'name']);
-	          }
-	        }), isEditingBlockName && /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
-	          name: "name",
-	          label: "Block name",
-	          placeholder: "Enter a name for your block...",
-	          tooltip: "Hello...",
-	          value: blockName,
-	          setValue: function setValue(value) {
-	            setBlockName(value);
-	          },
-	          onFocus: function onFocus() {
-	            return _onFocus('name');
-	          },
-	          onBlur: function onBlur() {
-	            return _onBlur('name');
-	          }
-	        }), !isEditingBlockName && /*#__PURE__*/jsxRuntimeExports.jsx(ReadOnlyTextField, {
-	          name: "name",
-	          label: "Block name",
-	          tooltip: "Hello...",
-	          value: blockName,
-	          onEdit: function onEdit() {
-	            setIsEditingBlockName(true);
-	          }
-	        }), isEditingBlockTextdomain && /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
-	          name: "text-domain",
-	          label: "Text domain",
-	          placeholder: "Enter a text domain for your block...",
-	          tooltip: "Hello...",
-	          value: blockTextdomain,
-	          setValue: function setValue(value) {
-	            setBlockTextdomain(value);
-	          },
-	          onFocus: function onFocus() {
-	            return _onFocus('textdomain');
-	          },
-	          onBlur: function onBlur() {
-	            return _onBlur('textdomain');
-	          }
-	        }), !isEditingBlockTextdomain && /*#__PURE__*/jsxRuntimeExports.jsx(ReadOnlyTextField, {
-	          name: "text-domain",
-	          label: "Text domain",
-	          tooltip: "Hello...",
-	          value: blockTextdomain,
-	          onEdit: function onEdit() {
-	            setIsEditingBlockTextdomain(true);
-	          }
-	        }), /*#__PURE__*/jsxRuntimeExports.jsx(TextareaField, {
-	          name: "description",
-	          label: "Description",
-	          placeholder: "Enter a description for your block...",
-	          tooltip: "Hello...",
-	          value: blockDescription,
-	          setValue: setBlockDescription,
-	          onFocus: function onFocus() {
-	            return _onFocus('description');
-	          },
-	          onBlur: function onBlur() {
-	            return _onBlur('description');
-	          }
-	        }), /*#__PURE__*/jsxRuntimeExports.jsx(DashiconsField, {
-	          name: "icon",
-	          label: "Block icon",
-	          value: blockIcon,
-	          setValue: setBlockIcon
-	        }), /*#__PURE__*/jsxRuntimeExports.jsx(ListField, {
-	          name: "keywords",
-	          label: "Keywords",
-	          placeholder: "",
-	          tooltip: "Keywords are used to find your block when searching in the editor.",
-	          value: blockKeywords,
-	          setValue: setBlockKeywords,
-	          onFocus: function onFocus(index) {
-	            return _onFocus('keywords', index);
-	          },
-	          onBlur: function onBlur(index) {
-	            return _onBlur('keywords', index);
-	          },
-	          max: 3
-	        }), /*#__PURE__*/jsxRuntimeExports.jsx(SelectField, {
-	          name: "category",
-	          label: "Category",
-	          tooltip: "Hello...",
-	          options: [{
-	            label: 'Common',
-	            value: 'common'
-	          }, {
-	            label: 'Layout',
-	            value: 'layout'
-	          }],
-	          value: blockCategory,
-	          setValue: setBlockCategory,
-	          onFocus: function onFocus() {
-	            return _onFocus('category');
-	          },
-	          onBlur: function onBlur() {
-	            return _onBlur('category');
-	          }
+	          children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlockNameField, {}), /*#__PURE__*/jsxRuntimeExports.jsx(BlockVersionField, {})]
+	        }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	          className: "PageBlockJson-fieldset",
+	          children: [/*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
+	            name: "title",
+	            label: "Block title",
+	            placeholder: "Enter a title for your block...",
+	            tooltip: "Hello...",
+	            value: blockTitle,
+	            setValue: setBlockTitle,
+	            onFocus: function onFocus() {
+	              return _onFocus.apply(void 0, ['title']);
+	            },
+	            onBlur: function onBlur() {
+	              return _onBlur.apply(void 0, ['title']);
+	            }
+	          }), isEditingBlockTextdomain && /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
+	            name: "text-domain",
+	            label: "Text domain",
+	            placeholder: "Enter a text domain for your block...",
+	            tooltip: "Hello...",
+	            value: blockTextdomain,
+	            setValue: function setValue(value) {
+	              setBlockTextdomain(value);
+	            },
+	            onFocus: function onFocus() {
+	              return _onFocus('textdomain');
+	            },
+	            onBlur: function onBlur() {
+	              return _onBlur('textdomain');
+	            }
+	          }), !isEditingBlockTextdomain && /*#__PURE__*/jsxRuntimeExports.jsx(ReadOnlyTextField, {
+	            name: "text-domain",
+	            label: "Text domain",
+	            tooltip: "Hello...",
+	            value: blockTextdomain,
+	            onEdit: function onEdit() {
+	              setIsEditingBlockTextdomain(true);
+	            }
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx(TextareaField, {
+	            name: "description",
+	            label: "Description",
+	            placeholder: "Enter a description for your block...",
+	            tooltip: "Hello...",
+	            value: blockDescription,
+	            setValue: setBlockDescription,
+	            onFocus: function onFocus() {
+	              return _onFocus('description');
+	            },
+	            onBlur: function onBlur() {
+	              return _onBlur('description');
+	            }
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx(DashiconsField, {
+	            name: "icon",
+	            label: "Block icon",
+	            value: blockIcon,
+	            setValue: setBlockIcon
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx(ListField, {
+	            name: "keywords",
+	            label: "Keywords",
+	            placeholder: "",
+	            tooltip: "Keywords are used to find your block when searching in the editor.",
+	            value: blockKeywords,
+	            setValue: setBlockKeywords,
+	            onFocus: function onFocus(index) {
+	              return _onFocus('keywords', index);
+	            },
+	            onBlur: function onBlur(index) {
+	              return _onBlur('keywords', index);
+	            },
+	            max: 3
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx(SelectField, {
+	            name: "category",
+	            label: "Category",
+	            tooltip: "Hello...",
+	            options: [{
+	              label: 'Common',
+	              value: 'common'
+	            }, {
+	              label: 'Layout',
+	              value: 'layout'
+	            }],
+	            value: blockCategory,
+	            setValue: setBlockCategory,
+	            onFocus: function onFocus() {
+	              return _onFocus('category');
+	            },
+	            onBlur: function onBlur() {
+	              return _onBlur('category');
+	            }
+	          })]
 	        })]
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	        className: "PageBlockJson-json",

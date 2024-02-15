@@ -12,8 +12,17 @@
 
 .PageBlockJson-fields {
 	align-self: start;
+	display: grid;
+	gap: var(--8x);
+	grid-auto-flow: row;
 	height: 100%;
 	overflow: scroll;
+}
+
+.PageBlockJson-fieldset {
+	display: grid;
+	gap: var(--2x);
+	grid-auto-flow: row;
 }
 
 .PageBlockJson-json {

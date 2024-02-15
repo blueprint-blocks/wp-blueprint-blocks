@@ -1,6 +1,8 @@
 .EditableString {
 	--color: var(--color-darkest-gray);
 	--focus-color: var(--color-light-gray);
+	--focus-margin: 0.2em;
+	--focus-padding: 0.4em;
 	--hover-color: var(--color-black);
 	--placeholder-color: var(--color-dark-gray);
 	--placeholder-focus-color: var(--color-darker-gray);
@@ -40,13 +42,13 @@
 }
 
 .EditableString.has-focus {
-	margin: 0 0.2em;
-	padding: 0 0.4em;
+	margin: 0 var(--focus-margin);
+	padding: 0 var(--focus-padding);
 
 	&::before {
 		background: var(--focus-color);
-		bottom: -0.2em;
-		top: -0.2em;
+		bottom: calc(-1 * var(--focus-margin));
+		top: calc(-1 * var(--focus-margin));
 	}
 }
 

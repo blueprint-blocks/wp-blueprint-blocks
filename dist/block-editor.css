@@ -142,6 +142,8 @@
 .EditableString {
 	--color: var(--color-darkest-gray);
 	--focus-color: var(--color-light-gray);
+	--focus-margin: 0.2em;
+	--focus-padding: 0.4em;
 	--hover-color: var(--color-black);
 	--placeholder-color: var(--color-dark-gray);
 	--placeholder-focus-color: var(--color-darker-gray);
@@ -181,18 +183,63 @@
 	}
 
 .EditableString.has-focus {
-	margin: 0 0.2em;
-	padding: 0 0.4em;
+	margin: 0 var(--focus-margin);
+	padding: 0 var(--focus-padding);
 }
 
 .EditableString.has-focus::before {
 		background: var(--focus-color);
-		bottom: -0.2em;
-		top: -0.2em;
+		bottom: calc(-1 * var(--focus-margin));
+		top: calc(-1 * var(--focus-margin));
 	}
 
 .EditableString.has-focus .placeholder {
 	color: var(--placeholder-focus-color);
+}
+
+.BlockNameField {
+	align-items: center;
+	border-bottom: 2px solid var(--color-light-gray);
+	display: grid;
+	font-size: var(--font-size-x-large);
+	font-weight: var(--font-weight-medium);
+	gap: var(--2x);
+	grid-template-columns: repeat(3, max-content);
+	padding: var(--1x) 0;
+}
+
+.BlockNameField .EditableString {
+		--focus-margin: 0;
+		--focus-padding: 0;
+	}
+
+.BlockNameField-namespace {
+	--color: var(--color-dark-gray);
+}
+
+.BlockNameField-name {
+	--color: var(--color-black);
+}
+
+.BlockNameField-seperator {
+	color: var(--color-light-gray);
+}
+
+.BlockVersionField {
+	align-items: center;
+	display: grid;
+	font-size: var(--font-size-large);
+	font-weight: var(--font-weight-semi-bold);
+	gap: var(--1x);
+	grid-template-columns: repeat(2, max-content);
+}
+
+.BlockVersionField-label {
+	color: var(--color-dark-gray);
+}
+
+.BlockVersionField-value {
+	--color: var(--color-black);
 }
 
 .JsonEditor {
@@ -492,8 +539,17 @@
 
 .PageBlockJson-fields {
 	align-self: start;
+	display: grid;
+	gap: var(--8x);
+	grid-auto-flow: row;
 	height: 100%;
 	overflow: scroll;
+}
+
+.PageBlockJson-fieldset {
+	display: grid;
+	gap: var(--2x);
+	grid-auto-flow: row;
 }
 
 .PageBlockJson-json {
@@ -1532,7 +1588,7 @@
 	--10x: 80px;
 
 	--color-white: #FFF;
-	--color-black: #000;
+	--color-black: #272432;
 
 	--color-lighter-gray: #E9EBEB;
 	--color-light-gray: #C2C2C2;
@@ -1565,13 +1621,15 @@
 	--font-family-monospace: 'Fira Mono', monospace;
 
 	--font-size-base: 16px;
-	--font-size-large: 18px;
+	--font-size-large: 20px;
+	--font-size-x-large: 28px;
 	--font-size-small: 14px;
 	--font-size-x-small: 12px;
 
 	--font-weight-base: 300;
 	--font-weight-medium: 400;
-	--font-weight-bold: 500;
+	--font-weight-semi-bold: 500;
+	--font-weight-bold: 600;
 
 	--line-height-base: 1.5;
 

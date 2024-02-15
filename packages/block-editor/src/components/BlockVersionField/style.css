@@ -1,0 +1,16 @@
+.BlockVersionField {
+	align-items: center;
+	display: grid;
+	font-size: var(--font-size-large);
+	font-weight: var(--font-weight-semi-bold);
+	gap: var(--1x);
+	grid-template-columns: repeat(2, max-content);
+}
+
+.BlockVersionField-label {
+	color: var(--color-dark-gray);
+}
+
+.BlockVersionField-value {
+	--color: var(--color-black);
+}

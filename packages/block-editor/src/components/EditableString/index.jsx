@@ -13,6 +13,7 @@ const EditableString = memo( ( {
 	onBlur,
 	placeholder = '',
 	value = '',
+	allowFilters = true,
 } ) => {
 
 	const ref = useRef( null )
@@ -23,7 +24,11 @@ const EditableString = memo( ( {
 		String( value || '' )
 	), [ value ] )
 
-	const html = applyFilters( 'blueprint-blocks.editable-string.value.before-render', _value )
+	let html = _value
+
+	if ( allowFilters ) {
+		applyFilters( 'blueprint-blocks.editable-string.value.before-render', _value )
+	}
 
 	const _onBlur = () => {
 		setHasFocus( false )
@@ -32,7 +37,9 @@ const EditableString = memo( ( {
 
 	const _onChange = ( { target } ) => {
 		let newValue = String( target?.value || '' ).replace( /\n/g, ' ' )
-		newValue = applyFilters( 'blueprint-blocks.editable-string.value.before-on-change', newValue )
+		if ( allowFilters ) {
+			newValue = applyFilters( 'blueprint-blocks.editable-string.value.before-on-change', newValue )
+		}
 		onChange && onChange( newValue )
 	}
 
