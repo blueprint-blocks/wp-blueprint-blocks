@@ -1,0 +1,10 @@
+@if $env == development {
+	.BlueprintEditor {
+		--grid-gap: 10;
+		--grid-padding: 8;
+	}
+
+	.BlueprintEditor-column {
+		gap: var(--6x);
+	}
+}

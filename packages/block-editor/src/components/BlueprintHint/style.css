@@ -1,0 +1,90 @@
+.BlueprintHint {
+	margin-left: calc(16px * var(--indent));
+	max-width: 512px;
+	position: relative;
+}
+
+.BlueprintHint-wrap {
+	border-radius: 5px;
+	box-sizing: border-box;
+	color: var(--color-gray);
+	font-family: var(--font-family);
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-medium);
+	line-height: 24px;
+	overflow: hidden;
+	padding: calc(var(--1x) + 2px) calc(var(--2x) + 2px);
+	position: relative;
+	width: 100%;
+}
+
+.BlueprintHint-wrap::before,
+.BlueprintHint-wrap::after {
+	border: 2px solid var(--color-darker-gray);
+	border-radius: 5px;
+	bottom: 0;
+	content: "";
+	display: block;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.BlueprintHint-wrap::after {
+	border-image: var(--gradient-teal-blue) 1;
+	opacity: 0;
+	transition: var(--transition);
+}
+
+.BlueprintHint.has-focus .BlueprintHint-wrap::after {
+	opacity: 1;
+}
+
+.BlueprintHint-text {
+	opacity: 1;
+	transition: var(--transition);
+}
+
+.BlueprintHint.has-focus .BlueprintHint-text {
+	opacity: 0;
+}
+
+.BlueprintHint-insert {
+	align-items: center;
+	border: 2px solid var(--color-accent-teal-blue);
+	border-radius: 12px;
+	display: grid;
+	justify-items: center;
+	height: 12px;
+	left: calc(50% - 12px);
+	opacity: 0;
+	padding: 4px;
+	position: absolute;
+	top: calc(50% - 12px);
+	transition: var(--transition);
+	width: 12px;
+}
+
+.BlueprintHint.has-focus .BlueprintHint-insert {
+	opacity: 1;
+}
+
+.BlueprintHint-insert::before,
+.BlueprintHint-insert::after {
+	background: var(--color-accent-teal-blue);
+	content: "";
+	display: block;
+	grid-column: 1;
+	grid-row: 1;
+}
+
+.BlueprintHint-insert::before {
+	height: 2px;
+	width: 12px;
+}
+
+.BlueprintHint-insert::after {
+	height: 12px;
+	width: 2px;
+}

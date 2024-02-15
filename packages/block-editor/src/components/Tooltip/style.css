@@ -1,0 +1,11 @@
+.Tooltip {
+	background: var(--color-light-slate);
+	border-radius: var(--1x);
+	font-size: var(--font-size-x-small);
+	font-weight: var(--font-weight-bold);
+	height: var(--2x);
+	line-height: var(--2x);
+	position: relative;
+	text-align: center;
+	width: var(--2x);
+}

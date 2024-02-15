@@ -1,0 +1,14 @@
+{
+	"array": {
+		"allowsNull": true
+	},
+	"number": {
+		"allowsNull": true
+	},
+	"object": {
+		"allowsNull": true
+	},
+	"string": {
+		"allowsNull": true
+	}
+}

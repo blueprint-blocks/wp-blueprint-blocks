@@ -1,0 +1,18 @@
+.BlueprintConnections {
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 10;
+
+	& svg {
+		display: block;
+		height: 100%;
+		width: 100%;
+	}
+
+	path {
+		cursor: not-allowed;
+	}
+}

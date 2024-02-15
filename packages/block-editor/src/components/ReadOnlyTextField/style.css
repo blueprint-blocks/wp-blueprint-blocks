@@ -1,0 +1,30 @@
+.ReadOnlyTextField {
+	margin-bottom: var(--3x);
+	max-width: 520px;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.ReadOnlyTextField-value {
+	background: var(--color-lighter-gray);
+	border-radius: 5px;
+	display: grid;
+	gap: var(--2x);
+	grid-template-columns: 1fr var(--4x);
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-medium);
+	height: var(--4x);
+	line-height: var(--4x);
+	padding: 0 0 0 var(--2x);
+}
+
+.ReadOnlyTextField-edit {
+	align-items: center;
+	cursor: pointer;
+	display: grid;
+	height: var(--4x);
+	justify-content: center;
+	width: var(--4x);
+}

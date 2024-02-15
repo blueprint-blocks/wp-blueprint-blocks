@@ -1,0 +1,23 @@
+.CssEditor {
+	height: 100%;
+
+	& > div,
+	.cm-editor {
+		height: 100%;
+		width: 100%;
+	}
+
+	.cm-editor {
+		border: 1px solid var(--color-gray);
+		border-radius: 9px;
+		font-family: var(--font-family-monospace);
+		font-size: var(--font-size-small);
+		font-weight: var(--font-weight-base);
+		line-height: 1.75;
+		overflow: hidden;
+	}
+
+	.cm-editor.cm-focused {
+		outline: none;
+	}
+}

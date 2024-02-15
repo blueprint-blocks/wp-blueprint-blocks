@@ -1,0 +1,1605 @@
+.Navigator {
+	align-items: center;
+	background: linear-gradient(90deg, var(--color-light-gray) 50%, var(--color-lighter-gray) 90%) padding-box,
+		linear-gradient(90deg, var(--color-gray) 60%, var(--color-lighter-gray) 100%) border-box;
+	border-bottom: 1px solid transparent;
+	display: grid;
+	grid-template-columns: 1fr max-content;
+	height: var(--7x);
+	padding-right: var(--5x);
+	position: relative;
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
+}
+
+.Navigator ul {
+		display: grid;
+		grid-auto-flow: column;
+		height: var(--7x);
+		justify-content: start;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+.Navigator li {
+		border-bottom: 1px solid transparent;
+		border-right: 1px solid var(--color-gray);
+		cursor: pointer;
+		font-size: var(--font-size-base);
+		font-weight: var(--font-weight-medium);
+		height: var(--7x);
+		line-height: var(--7x);
+		margin: 0;
+		padding: 0 var(--5x);
+		position: relative;
+		text-decoration-line: underline;
+		text-decoration-color: transparent;
+		text-decoration-thickness: 2px;
+		text-decoration-style: solid;
+		text-underline-offset: 6px;
+		transition: var(--transition);
+	}
+
+.Navigator li:before {
+		background: var(--gradient-teal-blue);
+		bottom: var(--2x);
+		content: '';
+		display: block;
+		left: var(--3x);
+		mix-blend-mode: screen;
+		opacity: 0;
+		position: absolute;
+		right: var(--3x);
+		top: var(--2x);
+		transition: var(--transition);
+	}
+
+.Navigator li:hover {
+		text-decoration-color: currentColor;
+	}
+
+.Navigator li.is-active {
+		background: var(--color-white);
+		border-bottom-color: var(--color-white);
+		cursor: default;
+		text-decoration-color: transparent;
+	}
+
+.Navigator li.is-active:before {
+		opacity: 0.9;
+	}
+
+.Navigation-actions {
+	display: grid;
+	gap: var(--2x);
+	grid-auto-flow: column;
+	grid-template-columns: max-content;
+}
+
+.Navigator-preview {
+	-webkit-appearance: none;
+	   -moz-appearance: none;
+	        appearance: none;
+	background: var(--color-white);
+	border: 1px solid var(--color-gray);
+	border-radius: 3px;
+	box-shadow: 0 1px 9px rgba(0, 0, 0, 0.1);
+	color: var(--color-black);
+	cursor: pointer;
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-medium);
+	height: var(--5x);
+	line-height: calc(var(--5x) - 2px);
+	padding: 0 var(--3x);
+}
+
+.Navigator-update {
+	-webkit-appearance: none;
+	   -moz-appearance: none;
+	        appearance: none;
+	background: radial-gradient(circle at right bottom, var(--color-accent-blue) 0%, var(--color-accent-teal) 100%);
+	border: 0;
+	border-radius: 3px;
+	box-shadow: 0 1px 9px rgba(0, 0, 0, 0.1);
+	color: var(--color-white);
+	cursor: pointer;
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-medium);
+	height: var(--5x);
+	line-height: var(--5x);
+	padding: 0 var(--3x);
+}
+
+.EditableString {
+	--color: var(--color-darkest-gray);
+	--focus-color: var(--color-light-gray);
+	--hover-color: var(--color-black);
+	--placeholder-color: var(--color-dark-gray);
+	--placeholder-focus-color: var(--color-darker-gray);
+	color: var(--color);
+	cursor: text;
+	display: inline-grid;
+	position: relative;
+	transition: var(--transition);
+}
+
+.EditableString::before {
+		border-radius: 0.2em;
+		bottom: 0;
+		content: '';
+		display: block;
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+		transition: var(--transition);
+		z-index: -1;
+	}
+
+.EditableString.has-value:hover,
+	.EditableString.has-value.has-focus {
+		color: var(--hover-color);
+	}
+
+.EditableString > div {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+.EditableString .placeholder {
+		color: var(--placeholder-color);
+		transition: var(--transition);
+	}
+
+.EditableString [data-type='token'] {
+		background: var(--gradient-teal-blue);
+		border-radius: 1em;
+		color: var(--color-white);
+		font-weight: var(--font-weight-bold);
+		display: inline-block;
+		padding: 0 0.9em 0 0.3em;
+	}
+
+.EditableString [data-type='cursor-end'],
+	.EditableString [data-type='cursor-start'] {
+		display: inline-block;
+	}
+
+.EditableString.has-focus {
+	margin: 0 0.2em;
+	padding: 0 0.4em;
+}
+
+.EditableString.has-focus::before {
+		background: var(--focus-color);
+		bottom: -0.2em;
+		top: -0.2em;
+	}
+
+.EditableString.has-focus .placeholder {
+	color: var(--placeholder-focus-color);
+}
+
+.JsonEditor {
+	border: 1px solid var(--color-gray);
+	border-radius: 9px;
+	font-family: var(--font-family-monospace);
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-base);
+	height: 100%;
+	line-height: 1.75;
+	overflow: auto;
+	padding: var(--5x);
+	white-space: pre;
+}
+.JsonEditor span {
+		align-items: center;
+		border-radius: 5px;
+		display: inline-grid;
+		gap: 4px;
+		grid-auto-flow: column;
+		min-height: calc(var(--font-size-base) * 1.75);
+		transition: var(--transition);
+		vertical-align: middle;
+	}
+.JsonEditor .has-focus,
+	.JsonEditor .has-placeholder {
+		background: var(--color-light-slate);
+		padding: 0 var(--1x);
+	}
+.JsonEditor .has-placeholder {
+		color: var(--color-slate);
+	}
+.JsonEditor .indent {
+		margin-left: 2em;
+	}
+
+.Tooltip {
+	background: var(--color-light-slate);
+	border-radius: var(--1x);
+	font-size: var(--font-size-x-small);
+	font-weight: var(--font-weight-bold);
+	height: var(--2x);
+	line-height: var(--2x);
+	position: relative;
+	text-align: center;
+	width: var(--2x);
+}
+
+.FieldLabel {
+	align-items: center;
+	display: grid;
+	font-weight: var(--font-weight-medium);
+	gap: var(--1x);
+	grid-auto-flow: column;
+	line-height: 1;
+	margin-bottom: var(--1x);
+	justify-content: start;
+}
+
+.ListField {
+	margin-bottom: var(--3x);
+	max-width: 520px;
+}
+
+.ListField:last-child {
+		margin-bottom: 0;
+	}
+
+.ListField-input {
+	align-items: center;
+	border: 1px solid var(--color-gray);
+	border-radius: 5px;
+	box-sizing: border-box;
+	display: grid;
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-base);
+	grid-auto-columns: max-content;
+	grid-auto-flow: column;
+	grid-gap: var(--1x);
+	height: var(--6x);
+	padding: 0 var(--2x);
+	width: 100%;
+}
+
+.ListField-input .EditableString {
+		border-radius: 2em;
+		height: var(--3x);
+		line-height: var(--3x);
+		margin: 0;
+		padding: 0;
+	}
+
+.ListField-input .EditableString.has-focus {
+		margin: 0;
+		padding: 0;
+	}
+
+.ListField-input .EditableString.has-value {
+		background: var(--color-light-gray);
+		font-weight: var(--font-weight-bold);
+		padding: 0 var(--1x);
+	}
+
+.ReadOnlyTextField {
+	margin-bottom: var(--3x);
+	max-width: 520px;
+}
+
+.ReadOnlyTextField:last-child {
+		margin-bottom: 0;
+	}
+
+.ReadOnlyTextField-value {
+	background: var(--color-lighter-gray);
+	border-radius: 5px;
+	display: grid;
+	gap: var(--2x);
+	grid-template-columns: 1fr var(--4x);
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-medium);
+	height: var(--4x);
+	line-height: var(--4x);
+	padding: 0 0 0 var(--2x);
+}
+
+.ReadOnlyTextField-edit {
+	align-items: center;
+	cursor: pointer;
+	display: grid;
+	height: var(--4x);
+	justify-content: center;
+	width: var(--4x);
+}
+
+.SearchSelectField {
+	margin-bottom: var(--3x);
+	max-width: 520px;
+	position: relative;
+}
+
+.SearchSelectField:last-child {
+		margin-bottom: 0;
+	}
+
+.SearchSelectField-value {
+	border: 1px solid var(--color-gray);
+	border-radius: 5px;
+	box-sizing: border-box;
+	display: block;
+	font-size: var(--font-size);
+	font-weight: var(--font-weight-base);
+	height: var(--6x);
+	line-height: calc(var(--6x) - 2px);
+	padding: 0 var(--2x);
+	width: 100%;
+}
+
+.SearchSelectField-options {
+	display: none;
+	left: 0;
+	position: absolute;
+	top: 100%;
+	width: 100%;
+}
+
+.SearchSelectField.is-open .SearchSelectField-options {
+	display: block;
+}
+
+.SelectField {
+	margin-bottom: var(--3x);
+	max-width: 520px;
+	position: relative;
+}
+
+.SelectField:last-child {
+		margin-bottom: 0;
+	}
+
+.SelectField-value {
+	border: 1px solid var(--color-gray);
+	border-radius: 5px;
+	box-sizing: border-box;
+	display: block;
+	font-size: var(--font-size);
+	font-weight: var(--font-weight-base);
+	height: var(--6x);
+	line-height: calc(var(--6x) - 2px);
+	padding: 0 var(--2x);
+	width: 100%;
+}
+
+.SelectField-options {
+	display: none;
+	left: 0;
+	position: absolute;
+	top: 100%;
+	width: 100%;
+}
+
+.SelectField.is-open .SelectField-options {
+	display: block;
+}
+
+.SelectField {
+	margin-bottom: var(--3x);
+	max-width: 520px;
+	position: relative;
+}
+
+.SelectField:last-child {
+		margin-bottom: 0;
+	}
+
+.SelectField-value {
+	border: 1px solid var(--color-gray);
+	border-radius: 5px;
+	box-sizing: border-box;
+	display: block;
+	font-size: var(--font-size);
+	font-weight: var(--font-weight-base);
+	height: var(--6x);
+	line-height: calc(var(--6x) - 2px);
+	padding: 0 var(--2x);
+	width: 100%;
+}
+
+.SelectField-options {
+	display: none;
+	left: 0;
+	position: absolute;
+	top: 100%;
+	width: 100%;
+}
+
+.SelectField.is-open .SelectField-options {
+	display: block;
+}
+
+.TextField {
+	margin-bottom: var(--3x);
+	max-width: 520px;
+}
+.TextField:last-child {
+		margin-bottom: 0;
+	}
+.TextField input[type=text] {
+		border: 1px solid var(--color-gray);
+		border-radius: 5px;
+		box-sizing: border-box;
+		display: block;
+		font-size: var(--font-size);
+		font-weight: var(--font-weight-base);
+		height: var(--6x);
+		line-height: calc(var(--6x) - 2px);
+		padding: 0 var(--2x);
+		width: 100%;
+	}
+.TextField input[type=text]:focus {
+		outline: none;
+	}
+
+.TextareaField {
+	margin-bottom: var(--3x);
+	max-width: 520px;
+}
+.TextareaField:last-child {
+		margin-bottom: 0;
+	}
+.TextareaField textarea {
+		border: 1px solid var(--color-gray);
+		border-radius: 5px;
+		box-sizing: border-box;
+		display: block;
+		font-family: var(--font-family);
+		font-size: var(--font-size);
+		font-weight: var(--font-weight-base);
+		line-height: var(--line-height-base);
+		padding: 11px var(--2x);
+		width: 100%;
+	}
+.TextareaField textarea:focus {
+		outline: none;
+	}
+
+.PageBlockJson {
+	padding: var(--5x);
+}
+
+.PageBlockJson-grid {
+	display: grid;
+	grid-gap: var(--5x);
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 100%;
+	height: 100%;
+}
+
+.PageBlockJson-fields {
+	align-self: start;
+	height: 100%;
+	overflow: scroll;
+}
+
+.PageBlockJson-json {
+	display: grid;
+	height: 100%;
+}
+
+.BlueprintAttributeHandle {
+	background: var(--color-darkest-gray);
+	border: 2px solid var(--color-lighter-gray);
+	border-radius: 10px;
+	box-sizing: border-box;
+	height: 10px;
+	position: absolute;
+	right: 0;
+	top: calc(50% - 5px);
+	width: 10px;
+}
+
+.BlueprintAttributeHandle.hide {
+	opacity: 0;
+}
+
+.BlueprintAttributeHandle.is-left {
+	left: -5px;
+}
+
+.BlueprintAttributeHandle.is-right {
+	right: 0;
+}
+
+.BlueprintWarning {
+	position: absolute;
+	top: calc(50% - 8px);
+}
+
+.BlueprintWarning.is-left {
+	left: calc(-1 * (16px + var(--1x)));
+}
+
+.BlueprintWarning.is-right {
+	right: calc(-1 * (16px + var(--1x)));
+}
+
+.BlueprintWarning-icon {
+	background: var(--gradient-orange-red);
+	border-radius: 16px;
+	color: var(--color-white);
+	font-family: var(--font-family);
+	font-size: var(--font-size-x-small);
+	font-weight: var(--font-weight-bold);
+	height: 16px;
+	line-height: 16px;
+	position: relative;
+	text-align: center;
+	width: 16px;
+}
+
+.BlueprintAttribute {
+	border-bottom: 2px solid var(--color-darker-gray);
+	color: var(--color-dark-gray);
+	font-family: var(--font-family-monospace);
+	font-size: var(--font-size-x-small);
+	font-weight: var(--font-weight-medium);
+	padding: var(--2x) 0;
+	position: relative;
+}
+
+.BlueprintAttribute :is(.key, .value) {
+		color: var(--color-gray);
+	}
+
+.BlueprintAttribute .indent {
+		margin-left: var(--2x);
+	}
+
+.BlueprintAttribute .EditableString {
+		--color: var(--color-gray);
+		--focus-color: var(--color-darker-slate);
+		--hover-color: var(--color-white);
+		--placeholder-color: var(--color-dark-gray);
+		--placeholder-focus-color: var(--color-dark-slate);
+	}
+
+.BlueprintAttribute-line {
+	position: relative;
+}
+
+.BlueprintAttribute-line > span {
+		display: inline-block;
+		position: relative;
+	}
+
+.BlueprintAttribute-line .BlueprintWarning {
+		opacity: 0;
+		transition: var(--transition);
+	}
+
+.BlueprintAttribute-line .is-invalid > .BlueprintWarning {
+		opacity: 1;
+	}
+
+.BlueprintAttribute-handle {
+	background: var(--color-darkest-gray);
+	border: 2px solid var(--color-lighter-gray);
+	border-radius: 10px;
+	box-sizing: border-box;
+	height: 10px;
+	position: absolute;
+	right: 0;
+	top: calc(50% - 5px);
+	width: 10px;
+}
+
+
+
+.BlueprintHint {
+	margin-left: calc(16px * var(--indent));
+	max-width: 512px;
+	position: relative;
+}
+
+.BlueprintHint-wrap {
+	border-radius: 5px;
+	box-sizing: border-box;
+	color: var(--color-gray);
+	font-family: var(--font-family);
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-medium);
+	line-height: 24px;
+	overflow: hidden;
+	padding: calc(var(--1x) + 2px) calc(var(--2x) + 2px);
+	position: relative;
+	width: 100%;
+}
+
+.BlueprintHint-wrap::before,
+.BlueprintHint-wrap::after {
+	border: 2px solid var(--color-darker-gray);
+	border-radius: 5px;
+	bottom: 0;
+	content: "";
+	display: block;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+.BlueprintHint-wrap::after {
+	-o-border-image: var(--gradient-teal-blue) 1;
+	   border-image: var(--gradient-teal-blue) 1;
+	opacity: 0;
+	transition: var(--transition);
+}
+
+.BlueprintHint.has-focus .BlueprintHint-wrap::after {
+	opacity: 1;
+}
+
+.BlueprintHint-text {
+	opacity: 1;
+	transition: var(--transition);
+}
+
+.BlueprintHint.has-focus .BlueprintHint-text {
+	opacity: 0;
+}
+
+.BlueprintHint-insert {
+	align-items: center;
+	border: 2px solid var(--color-accent-teal-blue);
+	border-radius: 12px;
+	display: grid;
+	justify-items: center;
+	height: 12px;
+	left: calc(50% - 12px);
+	opacity: 0;
+	padding: 4px;
+	position: absolute;
+	top: calc(50% - 12px);
+	transition: var(--transition);
+	width: 12px;
+}
+
+.BlueprintHint.has-focus .BlueprintHint-insert {
+	opacity: 1;
+}
+
+.BlueprintHint-insert::before,
+.BlueprintHint-insert::after {
+	background: var(--color-accent-teal-blue);
+	content: "";
+	display: block;
+	grid-column: 1;
+	grid-row: 1;
+}
+
+.BlueprintHint-insert::before {
+	height: 2px;
+	width: 12px;
+}
+
+.BlueprintHint-insert::after {
+	height: 12px;
+	width: 2px;
+}
+
+.BlueprintAttributeList {
+	align-items: start;
+	display: grid;
+	gap: var(--4x);
+	justify-items: start;
+}
+
+.BlueprintAttributeList-list {
+	border-top: 2px solid var(--color-darker-gray);
+	width: 100%;
+}
+
+.BlueprintAttributeList-add {
+	background: var(--color-gray);
+	border-radius: 32px;
+	color: var(--color-darkest-gray);
+	cursor: pointer;
+	display: grid;
+	font-family: var(--font-family);
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-medium);
+	height: 32px;
+	line-height: 32px;
+	padding: 0 var(--2x);
+	transition: var(--transition);
+	white-space: nowrap;
+}
+
+.BlueprintAttributeList-add:hover {
+		background: var(--color-white);
+	}
+
+.InsertButton {
+	--color: var(--color-gray);
+	align-items: center;
+	border: 1px solid var(--color);
+	border-radius: 3px;
+	box-sizing: border-box;
+	cursor: pointer;
+	display: inline-grid;
+	height: 16px;
+	justify-items: center;
+	position: relative;
+	transition: var(--transition);
+	width: 16px;
+	z-index: 20;
+}
+
+.InsertButton:hover {
+	--color: var(--color-black);
+}
+
+.InsertButton::before,
+.InsertButton::after {
+	background: var(--color);
+	content: "";
+	display: block;
+	grid-column: 1;
+	grid-row: 1;
+	transition: var(--transition);
+}
+
+.InsertButton::before {
+	height: 8px;
+	width: 1px;
+}
+
+.InsertButton::after {
+	height: 1px;
+	width: 8px;
+}
+
+.EditableObject {
+	--color: var(--color-darkest-gray);
+	--focus-color: var(--color-light-gray);
+	--hover-color: var(--color-black);
+	--placeholder-color: var(--color-dark-gray);
+	--placeholder-focus-color: var(--color-darker-gray);
+	color: var(--color);
+	cursor: text;
+	display: inline-grid;
+	position: relative;
+	transition: var(--transition);
+}
+
+.EditableObject::before {
+		border-radius: 0.2em;
+		bottom: 0;
+		content: '';
+		display: block;
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+		transition: var(--transition);
+		z-index: -1;
+	}
+
+.EditableObject.has-value:hover,
+	.EditableObject.has-value.has-focus {
+		color: var(--hover-color);
+	}
+
+.EditableObject .placeholder {
+		color: var(--placeholder-color);
+		transition: var(--transition);
+	}
+
+.EditableObject-open {
+	grid-column: 1;
+	grid-row: 1;
+}
+
+.EditableObject-properties {
+	grid-column: 1;
+	grid-row: 2;
+}
+
+.EditableObject-property {
+	display: grid;
+	grid-auto-columns: max-content;
+	grid-auto-flow: column;
+}
+
+.EditableObject-close {
+	grid-column: 1;
+	grid-row: 3;
+}
+
+.BlueprintComponentAttribute {
+	color: var(--color-dark-gray);
+	display: grid;
+	font-family: var(--font-family-monospace);
+	font-size: var(--font-size-x-small);
+	font-weight: var(--font-weight-bold);
+	grid-auto-columns: max-content;
+	grid-auto-flow: column;
+	justify-items: start;
+	line-height: 20px;
+	position: relative;
+	white-space: pre;
+	z-index: 20;
+}
+
+.BlueprintComponentAttribute span {
+		display: block;
+	}
+
+.BlueprintComponentAttribute-name .EditableString {
+		--color: var(--color-accent-teal-blue);
+	}
+
+.BlueprintComponentAttribute-value .EditableString div[contenteditable] {
+	margin-left: -4px;
+	margin-right: -4px;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+.BlueprintComponentAttribute.is-object {
+	grid-template-columns: max-content max-content 1fr;
+}
+
+.BlueprintComponentAttribute.is-object .BlueprintComponentAttribute-value {
+	grid-column: 1 / span 3;
+	grid-row: 2;
+	padding-left: var(--3x);
+}
+
+.BlueprintComponentAttribute.is-object .BlueprintComponentAttribute-open {
+	grid-column: 3;
+	grid-row: 1;
+}
+
+.BlueprintComponentAttribute.is-object .BlueprintComponentAttribute-close {
+	grid-column: 1;
+	grid-row: 3;
+}
+
+.is-multi-line > .BlueprintComponentAttribute {
+	margin-left: var(--2x);
+}
+
+.is-multi-line > .BlueprintComponentInsert {
+	margin-left: var(--2x);
+}
+
+.BlueprintComponent {
+	align-items: start;
+	display: grid;
+	gap: var(--1x);
+	justify-items: start;
+	margin-left: calc(16px * var(--indent, 0));
+	padding: 2px 0;
+	position: relative;
+	width: calc(100% - (16px * var(--indent, 0)));
+}
+
+.BlueprintComponent .EditableString {
+		z-index: 20;
+	}
+
+.BlueprintComponent-markup {
+	display: grid;
+	font-family: var(--font-family-monospace);
+	font-size: var(--font-size-x-small);
+	font-weight: var(--font-weight-bold);
+	gap: 4px;
+	grid-auto-columns: max-content;
+	grid-auto-flow: column;
+	grid-auto-rows: max-content;
+	overflow: auto;
+	white-space: pre;
+	width: 100%;
+}
+
+.BlueprintComponent-markup.is-multi-line {
+		align-items: start;
+		grid-auto-columns: 100%;
+		grid-auto-flow: row;
+		justify-items: start;
+	}
+
+.BlueprintComponent-tagName {
+	color: var(--color-accent-pink);
+}
+
+.BlueprintComponent-open,
+.BlueprintComponent-close {
+	background: var(--color-white);
+	border-radius: 5px;
+	box-sizing: border-box;
+	max-width: 512px;
+	min-height: 24px;
+	padding: var(--1x) var(--2x);
+	transition: var(--transition);
+	width: 100%;
+}
+
+.BlueprintComponent-body {
+	align-items: start;
+	display: grid;
+	gap: var(--1x);
+	justify-items: start;
+	padding: 2px 0;
+	position: relative;
+	transition: var(--transition);
+	width: 100%;
+	z-index: 20;
+}
+
+.BlueprintComponent.is-clone {
+	bottom: 0;
+	cursor: grab;
+	left: 0;
+	opacity: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 10;
+}
+
+.BlueprintComponent.is-dragging > :is(.BlueprintComponent-open, .BlueprintComponent-close, .BlueprintComponent-body) {
+	filter: blur(1px);
+	opacity: 0.6;
+}
+
+.BlueprintComponent.is-clone.react-draggable-dragging {
+	cursor: grabbing;
+	opacity: 0.6;
+}
+
+.BlueprintInsert {
+	height: 0;
+	margin-left: calc(16px * var(--indent));
+	max-width: 512px;
+	position: relative;
+	transition: var(--transition);
+	width: calc(100% - (16px * var(--indent)));
+	will-change: height;
+}
+
+.BlueprintInsert.has-focus {
+		height: 24px;
+	}
+
+.BlueprintInsert-line {
+	align-items: center;
+	display: grid;
+	gap: 4px;
+	grid-template-columns: 1fr 24px 1fr;
+	height: 24px;
+	left: 0;
+	opacity: 0;
+	position: absolute;
+	right: 0;
+	top: calc(50% - 12px);
+	transition: var(--transition);
+	width: 100%;
+}
+
+.BlueprintInsert-line::before,
+	.BlueprintInsert-line::after {
+		border-radius: 1px;
+		content: "";
+		display: block;
+		height: 2px;
+	}
+
+.BlueprintInsert-line::before {
+		background: linear-gradient(var(--color-accent-teal), var(--color-accent-teal-blue));
+	}
+
+.BlueprintInsert-line::after {
+		background: linear-gradient(var(--color-accent-teal-blue), var(--color-accent-blue));
+	}
+
+.BlueprintInsert-line > div {
+		align-items: center;
+		border: 2px solid var(--color-accent-teal-blue);
+		border-radius: 12px;
+		display: grid;
+		justify-items: center;
+		height: 12px;
+		padding: 4px;
+		width: 12px;
+	}
+
+.BlueprintInsert-line > div::before,
+	.BlueprintInsert-line > div::after {
+		background: var(--color-accent-teal-blue);
+		content: "";
+		display: block;
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+.BlueprintInsert-line > div::before {
+		height: 2px;
+		width: 12px;
+	}
+
+.BlueprintInsert-line > div::after {
+		height: 12px;
+		width: 2px;
+	}
+
+.has-focus > .BlueprintInsert-line {
+	opacity: 1;
+}
+
+.BlueprintComponentList {
+	align-items: start;
+	display: grid;
+	gap: var(--1x);
+	justify-items: start;
+	width: 100%
+}
+
+.BlueprintConnections {
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 10;
+}
+.BlueprintConnections svg {
+		display: block;
+		height: 100%;
+		width: 100%;
+	}
+.BlueprintConnections path {
+		cursor: not-allowed;
+	}
+
+.BlueprintEditor {
+	--column-1-width: 20;
+	--column-2-width: calc(32 + var(--column-2-depth, 0));
+	--column-3-width: calc(32 + var(--column-3-depth, 0));
+	--column-4-width: calc(32 + var(--column-4-depth, 0));
+	--column-5-width: calc(32 + var(--column-5-depth, 0));
+	--grid-gap: 6;
+	--grid-padding: 4;
+	background: var(--color-darkest-gray);
+	border-radius: 9px;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+	z-index: 1;
+}
+
+.BlueprintEditor-scroll {
+	height: 100%;
+	overflow: auto;
+	width: 100%;
+}
+
+.BlueprintEditor-grid {
+	background: var(--color-black);
+	display: flex;
+	flex-shrink: 0;
+	height: 100%;
+	left: 0;
+	-webkit-mask-image: url('../assets/images/grid-lines.png');
+	        mask-image: url('../assets/images/grid-lines.png');
+	-webkit-mask-repeat: repeat;
+	        mask-repeat: repeat;
+	-webkit-mask-position: -1px -1px;
+	        mask-position: -1px -1px;
+	-webkit-mask-size: 16px;
+	        mask-size: 16px;
+	opacity: 0.25;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+.BlueprintEditor-wrap {
+	align-items: center;
+	box-sizing: border-box;
+	display: flex;
+	min-height: 100%;
+	position: relative;
+	width: calc(16px * (var(--column-1-width) + var(--column-2-width) + var(--column-3-width) + var(--column-4-width) + var(--column-5-width) + (var(--grid-gap) * 4) + (var(--grid-padding) * 2)) - 1px);
+}
+
+.BlueprintEditor-columns {
+	align-items: center;
+	box-sizing: border-box;
+	display: grid;
+	flex-shrink: 0;
+	gap: calc(16px * var(--grid-gap));
+	grid-template-columns: calc(var(--column-1-width) * 16px) calc(var(--column-2-width) * 16px) calc(var(--column-3-width) * 16px) calc(var(--column-4-width) * 16px) calc(var(--column-5-width) * 16px);
+	min-height: 100%;
+	min-width: 100%;
+	padding: calc(16px * var(--grid-padding));
+	padding-right: calc(16px * var(--grid-padding) - 1px);
+}
+
+.BlueprintEditor-column {
+	display: grid;
+	gap: var(--4x);
+	position: relative;
+	z-index: 20;
+}
+
+.BlueprintEditor-label {
+	color: var(--color-gray);
+	display: block;
+	font-family: var(--font-family);
+	font-size: 16px;
+	font-weight: var(--font-weight-medium);
+	line-height: 16px;
+}
+
+
+
+.BlueprintSidebarItem {
+	background: var(--color-white);
+	border-radius: 5px;
+	box-shadow: 0 1px 9px rgba(0, 0, 0, 0.1);
+	cursor: grab;
+	font-size: var(--font-size-small);
+	margin: 0 0 var(--1x);
+	padding: var(--2x);
+	position: relative;
+}
+
+.BlueprintSidebarItem:last-child {
+		margin-bottom: 0;
+	}
+
+.BlueprintSidebarItem.is-clone {
+	bottom: 0;
+	left: 0;
+	opacity: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 10;
+}
+
+.BlueprintSidebarItem.is-clone.react-draggable-dragging {
+	cursor: grabbing;
+	opacity: 0.6;
+}
+
+.BlueprintSidebarItem-label {
+	color: var(--color-darkest-gray);
+	font-weight: var(--font-weight-medium);
+}
+
+.BlueprintSidebarItem.is-html .BlueprintSidebarItem-label {
+	font-family: var(--font-family-monospace);
+	font-size: var(--font-size-x-small);
+	font-weight: var(--font-weight-bold);
+}
+
+.BlueprintSidebarItem-description {
+	color: var(--color-darker-gray);
+}
+
+.BlueprintSidebarComponentsPanel {
+	transition: var(--transition);
+}
+.BlueprintSidebarComponentsPanel:not(.is-active) {
+		opacity: 0;
+		transform: translateX(100%);
+	}
+
+.BlueprintContextualAttributeNameHelp {
+	display: grid;
+	gap: var(--5x);
+	grid-auto-flow: row;
+	grid-template-columns: 100%;
+}
+
+.BlueprintContextualAttributeNameHelp h3 {
+		color: var(--color-black);
+		font-size: var(--font-size-large);
+		font-weight: var(--font-weight-bold);
+		margin: 0 0 var(--1x);
+	}
+
+.BlueprintContextualAttributeNameHelp h3:last-child {
+			margin-bottom: 0;
+		}
+
+.BlueprintContextualAttributeNameHelp h4 {
+		color: var(--color-black);
+		font-size: var(--font-size-base);
+		font-weight: var(--font-weight-bold);
+		margin: 0 0 var(--1x);
+	}
+
+.BlueprintContextualAttributeNameHelp h5 {
+		color: var(--color-black);
+		font-size: var(--font-size-small);
+		font-weight: var(--font-weight-bold);
+		margin: var(--3x) 0 var(--1x);
+	}
+
+.BlueprintContextualAttributeNameHelp p {
+		color: var(--color-black);
+		font-size: var(--font-size-small);
+		margin: 0 0 var(--1x);
+	}
+
+.BlueprintContextualAttributeNameHelp p:last-child {
+			margin-bottom: 0;
+		}
+
+.BlueprintContextualAttributeNameHelp ul {
+		font-size: var(--font-size-small);
+		list-style: disc;
+		margin: 0 0 var(--3x) var(--2x);
+	}
+
+.BlueprintContextualAttributeNameHelp ul:last-child {
+			margin-bottom: 0;
+		}
+
+.BlueprintContextualAttributeNameHelp li {
+		margin: 0;
+	}
+
+.BlueprintContextualAttributeNameHelp li + li {
+		margin-top: var(--1x);
+	}
+
+.BlueprintContextualAttributeNameHelp-suggestedValues {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--1x);
+	width: 100%;
+}
+
+.BlueprintContextualAttributeNameHelp-suggestedValues > div {
+		background: var(--color-white);
+		border-radius: 5px;
+		box-shadow: 0 1px 9px rgba(0, 0, 0, 0.1);
+		cursor: pointer;
+		display: inline-block;
+		flex-grow: 0;
+		flex-shrink: 0;
+		font-family: var(--font-family-monospace);
+		font-size: var(--font-size-x-small);
+		font-weight: var(--font-weight-bold);
+		padding: 0 0.4em;
+	}
+
+
+.BlueprintSidebarContextPanel {
+	transition: var(--transition);
+}
+.BlueprintSidebarContextPanel:not(.is-active) {
+		opacity: 0;
+		transform: translateX(-100%);
+	}
+
+.BlueprintSidebar {
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: 100%;
+	overflow: hidden;
+	position: relative;
+	z-index: 2;
+}
+
+.BlueprintSidebar > div {
+		box-sizing: border-box;
+		grid-column: 1;
+		grid-row: 1;
+		height: 100%;
+		overflow: auto;
+		padding: var(--5x) var(--3x);
+		width: 100%;
+	}
+
+.BlueprintSidebar.is-dragging,
+.BlueprintSidebar.is-dragging > div {
+	overflow: visible;
+}
+
+.BlueprintSidebar-heading {
+	color: var(--color-black);
+	font-size: var(--font-size-large);
+	font-weight: var(--font-weight-bold);
+	margin: var(--5x) 0 var(--1x);
+}
+
+.BlueprintSidebar-heading:first-child {
+		margin-top: 0;
+	}
+
+.PageBlueprint {
+	display: grid;
+	padding: var(--5x);
+}
+
+.PageBlueprint-view {
+	--sidebar-width: 340px;
+	align-items: stretch;
+	background: var(--color-lighter-gray);
+	border-radius: 9px;
+	display: grid;
+	grid-template-columns: calc(100% - var(--sidebar-width)) var(--sidebar-width);
+	grid-template-rows: 100%;
+	overflow: hidden;
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
+}
+
+.CssEditor {
+	height: 100%;
+}
+.CssEditor > div,
+	.CssEditor .cm-editor {
+		height: 100%;
+		width: 100%;
+	}
+.CssEditor .cm-editor {
+		border: 1px solid var(--color-gray);
+		border-radius: 9px;
+		font-family: var(--font-family-monospace);
+		font-size: var(--font-size-small);
+		font-weight: var(--font-weight-base);
+		line-height: 1.75;
+		overflow: hidden;
+	}
+.CssEditor .cm-editor.cm-focused {
+		outline: none;
+	}
+
+.CssSidebar {
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: 100%;
+	overflow: hidden;
+	position: relative;
+	z-index: 2;
+}
+
+.CssSidebar > div {
+		box-sizing: border-box;
+		grid-column: 1;
+		grid-row: 1;
+		height: 100%;
+		overflow: auto;
+		padding: var(--5x) var(--3x);
+		width: 100%;
+	}
+
+.CssSidebar-heading h3 {
+		color: var(--color-black);
+		font-size: var(--font-size-large);
+		font-weight: var(--font-weight-bold);
+		margin: 0 0 var(--1x);
+	}
+
+.CssSidebar-heading h3:last-child {
+			margin-bottom: 0;
+		}
+
+.CssSidebar-heading p {
+		color: var(--color-black);
+		font-size: var(--font-size-small);
+		margin: 0 0 var(--1x);
+	}
+
+.CssSidebar-heading p:last-child {
+			margin-bottom: 0;
+		}
+
+
+.CssSidebar-propertyList {
+	align-items: start;
+	display: grid;
+	gap: var(--1x);
+	grid-auto-flow: row;
+	grid-template-columns: 100%;
+}
+
+.CssSidebar-property {
+	align-items: start;
+	background: var(--color-white);
+	border-radius: 5px;
+	box-shadow: 0 1px 9px rgba(0, 0, 0, 0.1);
+	color: var(--color-black);
+	-moz-column-gap: var(--1x);
+	     column-gap: var(--1x);
+	cursor: pointer;
+	display: grid;
+	grid-auto-flow: row;
+	grid-template-columns: 100%;
+	grid-template-rows: max-content max-content;
+	flex-grow: 0;
+	flex-shrink: 0;
+	font-family: var(--font-family-monospace);
+	font-size: var(--font-size-x-small);
+	justify-content: start;
+	overflow: hidden;
+	padding: var(--1x);
+	position: relative;
+	white-space: nowrap;
+}
+
+.CssSidebar-property.has-preview {
+	grid-template-columns: minmax(0, 1fr) 36px;
+}
+
+.CssSidebar-propertyName {
+	color: var(--color-dark-slate);
+	grid-column: 1;
+	overflow: hidden;
+}
+
+.CssSidebar-propertyValue {
+	font-weight: var(--font-weight-bold);
+	grid-column: 1;
+	overflow: hidden;
+}
+
+.CssSidebar-propertyPreview {
+	aspect-ratio: 1 / 1;
+	background: var(--property-value, var(--color-light-slate));
+	border: 1px solid var(--color-slate);
+	border-radius: 3px;
+	box-shadow: 0 0 var(--1x) #fff;
+	box-sizing: border-box;
+	grid-column: 2;
+	grid-row: 1 / span 2;
+	height: 36px;
+	width: 36px;
+}
+
+.PageEditorCss {
+	display: grid;
+	padding: var(--5x);
+}
+
+.PageEditorCss-view {
+	--sidebar-width: 340px;
+	align-items: stretch;
+	background: var(--color-lighter-gray);
+	border-radius: 9px;
+	display: grid;
+	grid-template-columns: calc(100% - var(--sidebar-width)) var(--sidebar-width);
+	grid-template-rows: 100%;
+	overflow: hidden;
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
+}
+
+.PageViewCss {
+	display: grid;
+	padding: var(--5x);
+}
+
+.PageViewCss-view {
+	--sidebar-width: 340px;
+	align-items: stretch;
+	background: var(--color-lighter-gray);
+	border-radius: 9px;
+	display: grid;
+	grid-template-columns: calc(100% - var(--sidebar-width)) var(--sidebar-width);
+	grid-template-rows: 100%;
+	overflow: hidden;
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
+}
+
+.App {
+	--1x: 8px;
+	--2x: 16px;
+	--3x: 24px;
+	--4x: 32px;
+	--5x: 40px;
+	--6x: 48px;
+	--7x: 56px;
+	--8x: 64px;
+	--9x: 72px;
+	--10x: 80px;
+
+	--color-white: #FFF;
+	--color-black: #000;
+
+	--color-lighter-gray: #FAFAFA;
+	--color-light-gray: #F2F2F2;
+	--color-gray: #C6C6C6;
+	--color-dark-gray: #8C8C8C;
+	--color-darker-gray: #5D5D5D;
+	--color-darkest-gray: #272432;
+
+	--color-light-slate: #D6E5EF;
+	--color-slate: #A3BFD4;
+	--color-dark-slate: #8198A7;
+	--color-darker-slate: #5D7382;
+
+	--color-accent-teal: #00E8B8;
+	--color-accent-teal-blue: #03AECF;
+	--color-accent-blue: #0575E6;
+	--color-accent-purple: #7F1192;
+	--color-accent-pink: #B10A50;
+	--color-accent-red: #E6255D;
+	--color-accent-orange: #EF3E23;
+	--color-accent-yellow: #EA971A;
+
+	--color-code-property: #B10A50;
+	--color-code-value: #EA971A;
+
+	--gradient-orange-red: linear-gradient(135deg, var(--color-accent-orange), var(--color-accent-red));
+	--gradient-teal-blue: linear-gradient(135deg, var(--color-accent-teal), var(--color-accent-blue));
+
+	--font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+	--font-family-monospace: 'Fira Mono', monospace;
+
+	--font-size-base: 16px;
+	--font-size-large: 18px;
+	--font-size-small: 14px;
+	--font-size-x-small: 12px;
+
+	--font-weight-base: 300;
+	--font-weight-medium: 400;
+	--font-weight-bold: 500;
+
+	--line-height-base: 1.5;
+
+	--transition: all 0.15s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+
+	background: var(--color-white);
+	color: var(--color-black);
+	display: grid;
+	grid-template-rows: 65px calc(100% - 65px);
+	font-family: var(--font-family);
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-base);
+	line-height: var(--line-height-base);
+	min-height: 720px;
+}
+
+
+
+@font-face {
+	font-family: "Fira Mono";
+	font-weight: 300;
+	src: url('../assets/fonts/fira-mono/fira-mono-regular.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: "Fira Mono";
+	font-weight: 400;
+	src: url('../assets/fonts/fira-mono/fira-mono-medium.woff2') format('woff2');
+}
+
+#wpcontent {
+	padding-left: 0;
+}
+
+#wpfooter {
+	display: none;
+}
+
+#wpbody {
+	align-items: stretch;
+	display: grid;
+	grid-template-rows: 100%;
+	height: calc(100vh - var(--wp-admin--admin-bar--height, 0px));
+}

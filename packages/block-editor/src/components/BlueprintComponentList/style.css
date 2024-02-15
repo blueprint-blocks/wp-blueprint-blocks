@@ -1,0 +1,11 @@
+.BlueprintComponentList {
+	align-items: start;
+	display: grid;
+	gap: var(--1x);
+	justify-items: start;
+	width: 100%;
+
+	@if $debug-rect == true {
+		gap: var(--5x);
+	}
+}

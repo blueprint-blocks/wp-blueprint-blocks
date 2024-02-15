@@ -1,0 +1,12 @@
+[
+	{
+		"icon": "dashicons dashicons-hammer",
+		"label": "Hammer",
+		"value": "hammer"
+	},
+	{
+		"icon": "dashicons dashicons-book",
+		"label": "Book",
+		"value": "book"
+	}
+]

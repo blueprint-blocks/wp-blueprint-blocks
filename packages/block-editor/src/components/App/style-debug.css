@@ -1,0 +1,96 @@
+@if $env == development {
+	.App {
+		& :is(.debug-tl, .debug-tr, .debug-bl, .debug-br) {
+			color: var(--color-gray);
+			font-size: 9px;
+			line-height: 1;
+			position: absolute;
+		}
+
+		& :is(.debug-tl, .debug-tr, .debug-bl, .debug-br)::before,
+		& :is(.debug-tl, .debug-tr, .debug-bl, .debug-br)::after {
+			background: var(--color-darker-gray);
+			content: '';
+			display: block;
+			position: absolute;
+		}
+
+		& :is(.debug-tl, .debug-tr, .debug-bl, .debug-br)::before {
+			height: 6px;
+			width: 1px;
+		}
+
+		& :is(.debug-tl, .debug-tr, .debug-bl, .debug-br)::after {
+			height: 1px;
+			width: 6px;
+		}
+
+		.debug-tl {
+			left: 0;
+			padding: 0 4px 4px 0;
+			top: 0;
+			transform: translate(-100%, -100%);
+		}
+
+		.debug-tr {
+			padding: 0 0 4px 4px;
+			right: 0;
+			top: 0;
+			transform: translate(100%, -100%);
+		}
+
+		.debug-bl {
+			bottom: 0;
+			left: 0;
+			padding: 4px 4px 0 0;
+			transform: translate(-100%, 100%);
+		}
+
+		.debug-br {
+			bottom: 0;
+			padding: 4px 0 0 4px;
+			right: 0;
+			transform: translate(100%, 100%);
+		}
+
+		.debug-tl::before,
+		.debug-tr::before {
+			bottom: 4px;
+		}
+
+		.debug-tl::after,
+		.debug-tr::after {
+			bottom: 0;
+		}
+
+		.debug-bl::before,
+		.debug-br::before {
+			top: 4px;
+		}
+
+		.debug-bl::after,
+		.debug-br::after {
+			top: 0;
+		}
+
+		.debug-tl::after,
+		.debug-bl::after {
+			right: 4px;
+		}
+
+		.debug-tl::before,
+		.debug-bl::before {
+			right: 0;
+		}
+
+		.debug-tr::after,
+		.debug-br::after {
+			left: 4px;
+		}
+
+		.debug-tr::before,
+		.debug-br::before {
+			left: 0;
+		}
+	}
+}

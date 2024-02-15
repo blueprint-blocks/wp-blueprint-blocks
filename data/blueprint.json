@@ -1,0 +1,43 @@
+{
+	"$schema": "https://schemas.blueprint-blocks.com/blueprint.json",
+	"apiVersion": 1,
+	"blockEdit": [
+		{
+			"tagName": "div",
+			"className": {
+				"{{ block._className }}": true
+			},
+			"style": {
+				"background-color": "red",
+				"text-color": "white"
+			},
+			"children": [
+				{
+					"type": "rich-text",
+					"attributeName": "title",
+					"tagName": "h2",
+					"placeholder": "Enter a title..."
+				},
+				{
+					"type": "rich-text",
+					"attributeName": "subtitle",
+					"tagName": "p",
+					"placeholder": "Enter a subtitle..."
+				},
+				{
+					"type": "image",
+					"attributeName": "image",
+					"label": "Image"
+				},
+				{
+					"type": "link",
+					"attributeName": "link",
+					"placeholder": "Back to where..."
+				}
+			]
+		}
+	],
+	"blockSave": null,
+	"blockSidebar": [],
+	"blockToolbar": []
+}

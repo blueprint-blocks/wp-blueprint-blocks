@@ -1,0 +1,39 @@
+.InsertButton {
+	--color: var(--color-gray);
+	align-items: center;
+	border: 1px solid var(--color);
+	border-radius: 3px;
+	box-sizing: border-box;
+	cursor: pointer;
+	display: inline-grid;
+	height: 16px;
+	justify-items: center;
+	position: relative;
+	transition: var(--transition);
+	width: 16px;
+	z-index: 20;
+}
+
+.InsertButton:hover {
+	--color: var(--color-black);
+}
+
+.InsertButton::before,
+.InsertButton::after {
+	background: var(--color);
+	content: "";
+	display: block;
+	grid-column: 1;
+	grid-row: 1;
+	transition: var(--transition);
+}
+
+.InsertButton::before {
+	height: 8px;
+	width: 1px;
+}
+
+.InsertButton::after {
+	height: 1px;
+	width: 8px;
+}

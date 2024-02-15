@@ -1,0 +1,22 @@
+.PageBlockJson {
+	padding: var(--5x);
+}
+
+.PageBlockJson-grid {
+	display: grid;
+	grid-gap: var(--5x);
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 100%;
+	height: 100%;
+}
+
+.PageBlockJson-fields {
+	align-self: start;
+	height: 100%;
+	overflow: scroll;
+}
+
+.PageBlockJson-json {
+	display: grid;
+	height: 100%;
+}

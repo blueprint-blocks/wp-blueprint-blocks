@@ -1,0 +1,33 @@
+.JsonView {
+	border: 1px solid var(--color-gray);
+	border-radius: 9px;
+	font-family: var(--font-family-monospace);
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-base);
+	height: 100%;
+	line-height: 1.75;
+	overflow: auto;
+	padding: var(--5x);
+	white-space: pre;
+
+	& span {
+		align-items: center;
+		border-radius: 5px;
+		display: inline-grid;
+		gap: 4px;
+		grid-auto-flow: column;
+		min-height: calc(var(--font-size-base) * 1.75);
+		transition: var(--transition);
+		vertical-align: middle;
+	}
+
+	& .has-focus,
+	& .has-placeholder {
+		background: var(--color-light-slate);
+		padding: 0 var(--1x);
+	}
+
+	& .has-placeholder {
+		color: var(--color-slate);
+	}
+}

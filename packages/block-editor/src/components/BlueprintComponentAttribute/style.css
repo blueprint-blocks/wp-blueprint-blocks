@@ -1,0 +1,55 @@
+.BlueprintComponentAttribute {
+	color: var(--color-dark-gray);
+	display: grid;
+	font-family: var(--font-family-monospace);
+	font-size: var(--font-size-x-small);
+	font-weight: var(--font-weight-bold);
+	grid-auto-columns: max-content;
+	grid-auto-flow: column;
+	justify-items: start;
+	line-height: 20px;
+	position: relative;
+	white-space: pre;
+	z-index: 20;
+
+	span {
+		display: block;
+	}
+}
+
+.BlueprintComponentAttribute-name {
+	.EditableString {
+		--color: var(--color-accent-teal-blue);
+	}
+}
+
+.BlueprintComponentAttribute-value .EditableString div[contenteditable] {
+	margin-left: -4px;
+	margin-right: -4px;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+.BlueprintComponentAttribute.is-object {
+	grid-template-columns: max-content max-content 1fr;
+}
+
+.BlueprintComponentAttribute.is-object .BlueprintComponentAttribute-value {
+	grid-column: 1 / span 3;
+	grid-row: 2;
+	padding-left: var(--3x);
+}
+
+.BlueprintComponentAttribute.is-object .BlueprintComponentAttribute-open {
+	grid-column: 3;
+	grid-row: 1;
+}
+
+.BlueprintComponentAttribute.is-object .BlueprintComponentAttribute-close {
+	grid-column: 1;
+	grid-row: 3;
+}
+
+.is-multi-line > .BlueprintComponentAttribute {
+	margin-left: var(--2x);
+}

@@ -1,0 +1,107 @@
+.Navigator {
+	align-items: center;
+	background: linear-gradient(90deg, var(--color-light-gray) 50%, var(--color-lighter-gray) 90%) padding-box,
+		linear-gradient(90deg, var(--color-gray) 60%, var(--color-lighter-gray) 100%) border-box;
+	border-bottom: 1px solid transparent;
+	display: grid;
+	grid-template-columns: 1fr max-content;
+	height: var(--7x);
+	padding-right: var(--5x);
+	position: relative;
+	user-select: none;
+
+	& ul {
+		display: grid;
+		grid-auto-flow: column;
+		height: var(--7x);
+		justify-content: start;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	& li {
+		border-bottom: 1px solid transparent;
+		border-right: 1px solid var(--color-gray);
+		cursor: pointer;
+		font-size: var(--font-size-base);
+		font-weight: var(--font-weight-medium);
+		height: var(--7x);
+		line-height: var(--7x);
+		margin: 0;
+		padding: 0 var(--5x);
+		position: relative;
+		text-decoration-line: underline;
+		text-decoration-color: transparent;
+		text-decoration-thickness: 2px;
+		text-decoration-style: solid;
+		text-underline-offset: 6px;
+		transition: var(--transition);
+	}
+
+	& li:before {
+		background: var(--gradient-teal-blue);
+		bottom: var(--2x);
+		content: '';
+		display: block;
+		left: var(--3x);
+		mix-blend-mode: screen;
+		opacity: 0;
+		position: absolute;
+		right: var(--3x);
+		top: var(--2x);
+		transition: var(--transition);
+	}
+
+	& li:hover {
+		text-decoration-color: currentColor;
+	}
+
+	& li.is-active {
+		background: var(--color-white);
+		border-bottom-color: var(--color-white);
+		cursor: default;
+		text-decoration-color: transparent;
+	}
+
+	& li.is-active:before {
+		opacity: 0.9;
+	}
+}
+
+.Navigation-actions {
+	display: grid;
+	gap: var(--2x);
+	grid-auto-flow: column;
+	grid-template-columns: max-content;
+}
+
+.Navigator-preview {
+	appearance: none;
+	background: var(--color-white);
+	border: 1px solid var(--color-gray);
+	border-radius: 3px;
+	box-shadow: 0 1px 9px rgba(0, 0, 0, 0.1);
+	color: var(--color-black);
+	cursor: pointer;
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-medium);
+	height: var(--5x);
+	line-height: calc(var(--5x) - 2px);
+	padding: 0 var(--3x);
+}
+
+.Navigator-update {
+	appearance: none;
+	background: radial-gradient(circle at right bottom, var(--color-accent-blue) 0%, var(--color-accent-teal) 100%);
+	border: 0;
+	border-radius: 3px;
+	box-shadow: 0 1px 9px rgba(0, 0, 0, 0.1);
+	color: var(--color-white);
+	cursor: pointer;
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-medium);
+	height: var(--5x);
+	line-height: var(--5x);
+	padding: 0 var(--3x);
+}

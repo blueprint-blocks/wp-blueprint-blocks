@@ -1,0 +1,25 @@
+.TextField {
+	margin-bottom: var(--3x);
+	max-width: 520px;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	& input[type=text] {
+		border: 1px solid var(--color-gray);
+		border-radius: 5px;
+		box-sizing: border-box;
+		display: block;
+		font-size: var(--font-size);
+		font-weight: var(--font-weight-base);
+		height: var(--6x);
+		line-height: calc(var(--6x) - 2px);
+		padding: 0 var(--2x);
+		width: 100%;
+	}
+
+	& input[type=text]:focus {
+		outline: none;
+	}
+}

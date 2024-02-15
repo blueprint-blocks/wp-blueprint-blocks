@@ -1,0 +1,86 @@
+.BlueprintInsert {
+	height: 0;
+	margin-left: calc(16px * var(--indent));
+	max-width: 512px;
+	position: relative;
+	transition: var(--transition);
+	width: calc(100% - (16px * var(--indent)));
+	will-change: height;
+
+	@if $debug-rect == true {
+		height: 24px;
+	}
+
+	&.has-focus {
+		height: 24px;
+	}
+}
+
+.BlueprintInsert-line {
+	align-items: center;
+	display: grid;
+	gap: 4px;
+	grid-template-columns: 1fr 24px 1fr;
+	height: 24px;
+	left: 0;
+	opacity: 0;
+	position: absolute;
+	right: 0;
+	top: calc(50% - 12px);
+	transition: var(--transition);
+	width: 100%;
+
+	@if $debug-rect == true {
+		opacity: 0.5;
+	}
+
+	&::before,
+	&::after {
+		border-radius: 1px;
+		content: "";
+		display: block;
+		height: 2px;
+	}
+
+	&::before {
+		background: linear-gradient(var(--color-accent-teal), var(--color-accent-teal-blue));
+	}
+
+	&::after {
+		background: linear-gradient(var(--color-accent-teal-blue), var(--color-accent-blue));
+	}
+
+	& > div {
+		align-items: center;
+		border: 2px solid var(--color-accent-teal-blue);
+		border-radius: 12px;
+		display: grid;
+		justify-items: center;
+		height: 12px;
+		padding: 4px;
+		width: 12px;
+	}
+
+	& > div::before,
+	& > div::after {
+		background: var(--color-accent-teal-blue);
+		content: "";
+		display: block;
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	& > div::before {
+		height: 2px;
+		width: 12px;
+	}
+
+	& > div::after {
+		height: 12px;
+		width: 2px;
+	}
+}
+
+.has-focus > .BlueprintInsert-line {
+	opacity: 1;
+}

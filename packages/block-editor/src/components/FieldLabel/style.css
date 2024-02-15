@@ -1,0 +1,10 @@
+.FieldLabel {
+	align-items: center;
+	display: grid;
+	font-weight: var(--font-weight-medium);
+	gap: var(--1x);
+	grid-auto-flow: column;
+	line-height: 1;
+	margin-bottom: var(--1x);
+	justify-content: start;
+}

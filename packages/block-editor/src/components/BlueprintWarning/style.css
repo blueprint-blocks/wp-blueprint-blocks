@@ -1,0 +1,26 @@
+.BlueprintWarning {
+	position: absolute;
+	top: calc(50% - 8px);
+}
+
+.BlueprintWarning.is-left {
+	left: calc(-1 * (16px + var(--1x)));
+}
+
+.BlueprintWarning.is-right {
+	right: calc(-1 * (16px + var(--1x)));
+}
+
+.BlueprintWarning-icon {
+	background: var(--gradient-orange-red);
+	border-radius: 16px;
+	color: var(--color-white);
+	font-family: var(--font-family);
+	font-size: var(--font-size-x-small);
+	font-weight: var(--font-weight-bold);
+	height: 16px;
+	line-height: 16px;
+	position: relative;
+	text-align: center;
+	width: 16px;
+}

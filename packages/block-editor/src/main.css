@@ -1,0 +1,26 @@
+@font-face {
+	font-family: "Fira Mono";
+	font-weight: 300;
+	src: url('../assets/fonts/fira-mono/fira-mono-regular.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: "Fira Mono";
+	font-weight: 400;
+	src: url('../assets/fonts/fira-mono/fira-mono-medium.woff2') format('woff2');
+}
+
+#wpcontent {
+	padding-left: 0;
+}
+
+#wpfooter {
+	display: none;
+}
+
+#wpbody {
+	align-items: stretch;
+	display: grid;
+	grid-template-rows: 100%;
+	height: calc(100vh - var(--wp-admin--admin-bar--height, 0px));
+}

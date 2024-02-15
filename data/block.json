@@ -1,0 +1,40 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "blueprint-blocks/",
+	"version": "1.0.0",
+	"title": "",
+	"description": "",
+	"icon": "grid-view",
+	"keywords": [],
+	"category": "common",
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": null
+		},
+		"subtitle": {
+			"type": "string",
+			"default": null
+		},
+		"image": {
+			"type": "object",
+			"default": {}
+		},
+		"link": {
+			"type": "object",
+			"default": {
+				"href": "#",
+				"label": "Learn more",
+				"target": "_blank"
+			}
+		}
+	},
+	"supports": {
+		"align": [],
+		"html": false,
+		"multiple": true,
+		"reusable": false
+	},
+	"textdomain": "blueprint-blocks"
+}

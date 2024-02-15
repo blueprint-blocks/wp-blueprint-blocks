@@ -1,0 +1,8 @@
+.BlueprintSidebarContextPanel {
+	transition: var(--transition);
+
+	&:not(.is-active) {
+		opacity: 0;
+		transform: translateX(-100%);
+	}
+}
