@@ -53,8 +53,9 @@ export default {
 			preventAssignment: true,
 			values: {
 				'process.env.NODE_ENV': JSON.stringify( process.env.NODE_ENV ),
-				'process.env.DEBUG_RECT': env.DEBUG_RECT,
-				'process.env.DEBUG_RENDER_COUNT': env.DEBUG_RENDER_COUNT,
+				'env.DEBUG_RECT': env.parsed.DEBUG_RECT,
+				'env.DEBUG_RENDER_COUNT': env.parsed.DEBUG_RENDER_COUNT,
+				'env.PRO_VERSION': env.parsed.PRO_VERSION,
 			},
 		} ),
 		json(),

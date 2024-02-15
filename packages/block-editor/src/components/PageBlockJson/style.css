@@ -25,6 +25,17 @@
 	grid-auto-flow: row;
 }
 
+.PageBlockJson-header {
+	align-items: center;
+	color: var(--color-black);
+	display: grid;
+	gap: var(--2x);
+	grid-auto-columns: max-content;
+	grid-auto-flow: column;
+	font-size: var(--font-size-large);
+	font-weight: var(--font-weight-medium);
+}
+
 .PageBlockJson-json {
 	display: grid;
 	height: 100%;

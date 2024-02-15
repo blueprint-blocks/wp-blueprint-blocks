@@ -27,7 +27,7 @@ const EditableString = memo( ( {
 	let html = _value
 
 	if ( allowFilters ) {
-		applyFilters( 'blueprint-blocks.editable-string.value.before-render', _value )
+		html = applyFilters( 'blueprint-blocks.editable-string.value.before-render', _value )
 	}
 
 	const _onBlur = () => {

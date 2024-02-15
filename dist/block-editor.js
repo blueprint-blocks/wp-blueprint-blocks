@@ -7827,7 +7827,7 @@
 	  }, [value]);
 	  var html = _value;
 	  if (allowFilters) {
-	    hooks$3.applyFilters('blueprint-blocks.editable-string.value.before-render', _value);
+	    html = hooks$3.applyFilters('blueprint-blocks.editable-string.value.before-render', _value);
 	  }
 	  var _onBlur = function _onBlur() {
 	    setHasFocus(false);
@@ -8571,6 +8571,22 @@
 	              return _onBlur('category');
 	            }
 	          })]
+	        }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	          className: "PageBlockJson-fieldset",
+	          children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	            className: "PageBlockJson-header",
+	            children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	              children: 'Inner Blocks'
+	            }), true !== true ]
+	          })
+	        }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	          className: "PageBlockJson-fieldset",
+	          children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	            className: "PageBlockJson-header",
+	            children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	              children: 'Block Supports'
+	            })
+	          })
 	        })]
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	        className: "PageBlockJson-json",

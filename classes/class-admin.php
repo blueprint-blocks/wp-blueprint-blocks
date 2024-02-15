@@ -27,15 +27,15 @@ class Admin
 		}
 
 		wp_enqueue_style(
-			'blueprint-blocks-editor',
-			blueprint_blocks()->url . 'dist/block-editor.css',
+			'blueprint-blocks-editor-pro',
+			blueprint_blocks()->url . 'dist/block-editor-pro.css',
 			array(),
 			blueprint_blocks()::VERSION
 		);
 
 		wp_enqueue_script(
-			'blueprint-blocks-editor',
-			blueprint_blocks()->url . 'dist/block-editor.js',
+			'blueprint-blocks-editor-pro',
+			blueprint_blocks()->url . 'dist/block-editor-pro.js',
 			array(
 				'lodash',
 				'react',
@@ -51,14 +51,14 @@ class Admin
 
 		wp_enqueue_style(
 			'blueprint-blocks-editor',
-			blueprint_blocks()->url . 'dist/block-editor-pro.css',
+			blueprint_blocks()->url . 'dist/block-editor.css',
 			array(),
 			blueprint_blocks()::VERSION
 		);
 
 		wp_enqueue_script(
-			'blueprint-blocks-editor-pro',
-			blueprint_blocks()->url . 'dist/block-editor-pro.js',
+			'blueprint-blocks-editor',
+			blueprint_blocks()->url . 'dist/block-editor.js',
 			array(
 				'lodash',
 				'react',

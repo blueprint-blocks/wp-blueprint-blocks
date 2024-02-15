@@ -2,6 +2,7 @@
 	background: var(--color-lighter-gray);
 	border-radius: var(--1x);
 	color: var(--color-dark-gray);
+	cursor: pointer;
 	font-size: var(--font-size-small);
 	font-weight: var(--font-weight-bold);
 	height: var(--2x);

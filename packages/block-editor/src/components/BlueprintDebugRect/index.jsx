@@ -7,7 +7,7 @@ function BlueprintDebugRect( {
 	parentRef = null,
 } ) {
 
-	if (process.env.NODE_ENV !== 'development' || process.env.DEBUG_RECT !== 'true' ) {
+	if ( process.env.NODE_ENV !== 'development' || env.DEBUG_RECT !== true ) {
 		return null
 	}
 

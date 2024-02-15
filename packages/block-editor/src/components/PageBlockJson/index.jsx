@@ -11,6 +11,7 @@ import JsonEditor from '../JsonEditor'
 import ListField from '../ListField'
 import ReadOnlyTextField from '../ReadOnlyTextField'
 import DashiconsField from '../DashiconsField'
+import ProFlag from '../ProFlag'
 import SelectField from '../SelectField'
 import TextField from '../TextField'
 import TextareaField from '../TextareaField'
@@ -148,6 +149,21 @@ function PageBlockJson() {
 							onFocus={ () => onFocus('category') }
 							onBlur={ () => onBlur('category') }
 						/>
+					</div>
+
+					<div className="PageBlockJson-fieldset">
+						<div className="PageBlockJson-header">
+							<div>{ 'Inner Blocks' }</div>
+							{ env.PRO_VERSION !== true && (
+								<ProFlag />
+							) }
+						</div>
+					</div>
+
+					<div className="PageBlockJson-fieldset">
+						<div className="PageBlockJson-header">
+							<div>{ 'Block Supports' }</div>
+						</div>
 					</div>
 
 				</div>

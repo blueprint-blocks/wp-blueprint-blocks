@@ -280,6 +280,7 @@
 	background: var(--color-lighter-gray);
 	border-radius: var(--1x);
 	color: var(--color-dark-gray);
+	cursor: pointer;
 	font-size: var(--font-size-small);
 	font-weight: var(--font-weight-bold);
 	height: var(--2x);
@@ -455,6 +456,20 @@
 	display: block;
 }
 
+.ProFlag {
+	background: var(--gradient-teal-blue);
+	border-radius: var(--3x);
+	color: var(--color-white);
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-bold);
+	height: var(--3x);
+	line-height: var(--3x);
+	padding: 0 12px;
+	text-transform: uppercase;
+	width: -moz-fit-content;
+	width: fit-content;
+}
+
 .SelectField {
 	margin-bottom: var(--3x);
 	max-width: 520px;
@@ -560,6 +575,17 @@
 	display: grid;
 	gap: var(--2x);
 	grid-auto-flow: row;
+}
+
+.PageBlockJson-header {
+	align-items: center;
+	color: var(--color-black);
+	display: grid;
+	gap: var(--2x);
+	grid-auto-columns: max-content;
+	grid-auto-flow: column;
+	font-size: var(--font-size-large);
+	font-weight: var(--font-weight-medium);
 }
 
 .PageBlockJson-json {
