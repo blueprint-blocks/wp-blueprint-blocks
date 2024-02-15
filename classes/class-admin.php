@@ -49,6 +49,22 @@ class Admin
 			true
 		);
 
+		wp_enqueue_script(
+			'blueprint-blocks-editor-pro',
+			blueprint_blocks()->url . 'dist/block-editor-pro.js',
+			array(
+				'lodash',
+				'react',
+				'react-dom',
+				'wp-a11y',
+				'wp-api-fetch',
+				'wp-hooks',
+				'wp-i18n',
+			),
+			blueprint_blocks()::VERSION,
+			true
+		);
+
 		$current_theme = wp_get_theme();
 
 		$post_id = null;
