@@ -1,10 +1,15 @@
 .FieldLabel {
 	align-items: center;
+	color: var(--color-dark-gray);
+	cursor: default;
 	display: grid;
+	font-size: var(--font-size-small);
 	font-weight: var(--font-weight-medium);
 	gap: var(--1x);
-	grid-auto-flow: column;
+	grid-template-columns: 1fr max-content;
 	line-height: 1;
-	margin-bottom: var(--1x);
-	justify-content: start;
+
+	.Tooltip {
+		margin: -1px 0;
+	}
 }

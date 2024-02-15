@@ -8371,8 +8371,7 @@
 	}
 
 	function TextField(_ref) {
-	  var name = _ref.name,
-	    label = _ref.label,
+	  var label = _ref.label,
 	    placeholder = _ref.placeholder,
 	    onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus,
@@ -8382,20 +8381,14 @@
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    className: "TextField",
 	    children: [label && /*#__PURE__*/jsxRuntimeExports.jsx(FieldLabel, {
-	      htmlFor: name,
 	      label: label,
 	      tooltip: tooltip
-	    }), /*#__PURE__*/jsxRuntimeExports.jsx("input", {
-	      type: "text",
-	      name: name,
-	      onChange: function onChange(_ref2) {
-	        var target = _ref2.target;
-	        return setValue(target.value);
-	      },
-	      placeholder: placeholder,
-	      value: value,
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
 	      onBlur: onBlur,
-	      onFocus: onFocus
+	      onChange: setValue,
+	      onFocus: onFocus,
+	      placeholder: placeholder,
+	      value: value
 	    })]
 	  });
 	}
@@ -8493,16 +8486,15 @@
 	          className: "PageBlockJson-fieldset",
 	          children: [/*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
 	            name: "title",
-	            label: "Block title",
-	            placeholder: "Enter a title for your block...",
+	            label: "Enter a title...",
 	            tooltip: "Hello...",
 	            value: blockTitle,
 	            setValue: setBlockTitle,
 	            onFocus: function onFocus() {
-	              return _onFocus.apply(void 0, ['title']);
+	              return _onFocus('title');
 	            },
 	            onBlur: function onBlur() {
-	              return _onBlur.apply(void 0, ['title']);
+	              return _onBlur('title');
 	            }
 	          }), isEditingBlockTextdomain && /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
 	            name: "text-domain",

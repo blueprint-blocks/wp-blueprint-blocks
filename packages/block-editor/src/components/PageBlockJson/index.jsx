@@ -70,13 +70,12 @@ function PageBlockJson() {
 					<div className="PageBlockJson-fieldset">
 						<TextField
 							name="title"
-							label="Block title"
-							placeholder="Enter a title for your block..."
+							label="Enter a title..."
 							tooltip="Hello..."
 							value={ blockTitle }
 							setValue={ setBlockTitle }
-							onFocus={ () => onFocus(...['title']) }
-							onBlur={ () => onBlur(...['title']) }
+							onFocus={ () => onFocus( 'title' ) }
+							onBlur={ () => onBlur( 'title' ) }
 						/>
 						{ isEditingBlockTextdomain && (
 							<TextField

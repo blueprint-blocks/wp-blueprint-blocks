@@ -1,11 +1,18 @@
 .Tooltip {
-	background: var(--color-light-slate);
+	background: var(--color-lighter-gray);
 	border-radius: var(--1x);
-	font-size: var(--font-size-x-small);
+	color: var(--color-dark-gray);
+	font-size: var(--font-size-small);
 	font-weight: var(--font-weight-bold);
 	height: var(--2x);
 	line-height: var(--2x);
 	position: relative;
 	text-align: center;
+	transition: var(--transition);
 	width: var(--2x);
+}
+
+.Tooltip:hover {
+	background: var(--color-accent-teal-blue);
+	color: var(--color-white);
 }
