@@ -17,11 +17,11 @@ function Navigator( {
 						className={ ( index === activeNavItem ) && 'is-active' || '' }
 						onClick={ () => setActiveNavItem( index ) }
 					>
-						{ label }
+						<span>{ label }</span>
 					</li>
 				) ) }
 			</ul>
-			<div className="Navigation-actions">
+			<div className="Navigator-actions">
 				<button className="Navigator-preview" onClick={ onPreview } >
 					{ 'Preview' }
 				</button>

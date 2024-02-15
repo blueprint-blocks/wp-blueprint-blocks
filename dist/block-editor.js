@@ -6304,11 +6304,13 @@
 	          onClick: function onClick() {
 	            return setActiveNavItem(index);
 	          },
-	          children: label
+	          children: /*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	            children: label
+	          })
 	        }, index);
 	      })
 	    }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	      className: "Navigation-actions",
+	      className: "Navigator-actions",
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("button", {
 	        className: "Navigator-preview",
 	        onClick: onPreview,

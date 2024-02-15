@@ -13,10 +13,10 @@
 	--color-white: #FFF;
 	--color-black: #000;
 
-	--color-lighter-gray: #FAFAFA;
-	--color-light-gray: #F2F2F2;
-	--color-gray: #C6C6C6;
-	--color-dark-gray: #8C8C8C;
+	--color-lighter-gray: #E9EBEB;
+	--color-light-gray: #C2C2C2;
+	--color-gray: #9A9A9A;
+	--color-dark-gray: #7C7C7C;
 	--color-darker-gray: #5D5D5D;
 	--color-darkest-gray: #272432;
 
@@ -56,7 +56,7 @@
 
 	--transition: all 0.15s cubic-bezier(0.55, 0.055, 0.675, 0.19);
 
-	background: var(--color-white);
+	background: #f0f0f1;
 	color: var(--color-black);
 	display: grid;
 	grid-template-rows: 65px calc(100% - 65px);
