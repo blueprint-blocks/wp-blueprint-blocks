@@ -8,5 +8,6 @@
 	line-height: var(--3x);
 	padding: 0 12px;
 	text-transform: uppercase;
+	user-select: none;
 	width: fit-content;
 }

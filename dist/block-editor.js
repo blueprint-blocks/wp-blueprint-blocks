@@ -6324,6 +6324,72 @@
 	  });
 	}
 
+	var classnames = {exports: {}};
+
+	/*!
+		Copyright (c) 2018 Jed Watson.
+		Licensed under the MIT License (MIT), see
+		http://jedwatson.github.io/classnames
+	*/
+
+	(function (module) {
+		/* global define */
+
+		(function () {
+
+		  var hasOwn = {}.hasOwnProperty;
+		  function classNames() {
+		    var classes = '';
+		    for (var i = 0; i < arguments.length; i++) {
+		      var arg = arguments[i];
+		      if (arg) {
+		        classes = appendClass(classes, parseValue(arg));
+		      }
+		    }
+		    return classes;
+		  }
+		  function parseValue(arg) {
+		    if (typeof arg === 'string' || typeof arg === 'number') {
+		      return arg;
+		    }
+		    if (typeof arg !== 'object') {
+		      return '';
+		    }
+		    if (Array.isArray(arg)) {
+		      return classNames.apply(null, arg);
+		    }
+		    if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
+		      return arg.toString();
+		    }
+		    var classes = '';
+		    for (var key in arg) {
+		      if (hasOwn.call(arg, key) && arg[key]) {
+		        classes = appendClass(classes, key);
+		      }
+		    }
+		    return classes;
+		  }
+		  function appendClass(value, newClass) {
+		    if (!newClass) {
+		      return value;
+		    }
+		    if (value) {
+		      return value + ' ' + newClass;
+		    }
+		    return value + newClass;
+		  }
+		  if (module.exports) {
+		    classNames.default = classNames;
+		    module.exports = classNames;
+		  } else {
+		    window.classNames = classNames;
+		  }
+		})(); 
+	} (classnames));
+
+	var classnamesExports = classnames.exports;
+	var classNames = /*@__PURE__*/getDefaultExportFromCjs(classnamesExports);
+
 	function useBlockNamespace() {
 	  var _useSelector = useSelector(function (state) {
 	      return state.blockJson || {};
@@ -6534,72 +6600,6 @@
 	    };
 	  }, [ref, handler]);
 	}
-
-	var classnames = {exports: {}};
-
-	/*!
-		Copyright (c) 2018 Jed Watson.
-		Licensed under the MIT License (MIT), see
-		http://jedwatson.github.io/classnames
-	*/
-
-	(function (module) {
-		/* global define */
-
-		(function () {
-
-		  var hasOwn = {}.hasOwnProperty;
-		  function classNames() {
-		    var classes = '';
-		    for (var i = 0; i < arguments.length; i++) {
-		      var arg = arguments[i];
-		      if (arg) {
-		        classes = appendClass(classes, parseValue(arg));
-		      }
-		    }
-		    return classes;
-		  }
-		  function parseValue(arg) {
-		    if (typeof arg === 'string' || typeof arg === 'number') {
-		      return arg;
-		    }
-		    if (typeof arg !== 'object') {
-		      return '';
-		    }
-		    if (Array.isArray(arg)) {
-		      return classNames.apply(null, arg);
-		    }
-		    if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
-		      return arg.toString();
-		    }
-		    var classes = '';
-		    for (var key in arg) {
-		      if (hasOwn.call(arg, key) && arg[key]) {
-		        classes = appendClass(classes, key);
-		      }
-		    }
-		    return classes;
-		  }
-		  function appendClass(value, newClass) {
-		    if (!newClass) {
-		      return value;
-		    }
-		    if (value) {
-		      return value + ' ' + newClass;
-		    }
-		    return value + newClass;
-		  }
-		  if (module.exports) {
-		    classNames.default = classNames;
-		    module.exports = classNames;
-		  } else {
-		    window.classNames = classNames;
-		  }
-		})(); 
-	} (classnames));
-
-	var classnamesExports = classnames.exports;
-	var classNames = /*@__PURE__*/getDefaultExportFromCjs(classnamesExports);
 
 	var reactContenteditable = {};
 
@@ -8302,6 +8302,13 @@
 	  });
 	}
 
+	function ProFlag() {
+	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	    className: "ProFlag",
+	    children: 'PRO'
+	  });
+	}
+
 	function SelectField(_ref) {
 	  var name = _ref.name,
 	    label = _ref.label,
@@ -8371,19 +8378,30 @@
 	}
 
 	function TextField(_ref) {
-	  var label = _ref.label,
+	  var _ref$disabled = _ref.disabled,
+	    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
+	    label = _ref.label,
 	    placeholder = _ref.placeholder,
 	    onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus,
 	    tooltip = _ref.tooltip,
-	    value = _ref.value,
+	    _ref$value = _ref.value,
+	    value = _ref$value === void 0 ? '' : _ref$value,
 	    setValue = _ref.setValue;
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	    className: "TextField",
+	    className: classNames('TextField', {
+	      'is-disabled': disabled
+	    }),
 	    children: [label && /*#__PURE__*/jsxRuntimeExports.jsx(FieldLabel, {
 	      label: label,
 	      tooltip: tooltip
-	    }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
+	    }), disabled && value.length === 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	      "class": "TextField-placeholder",
+	      children: placeholder
+	    }), disabled && value.length > 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	      "class": "TextField-value",
+	      children: value
+	    }), !disabled && /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
 	      onBlur: onBlur,
 	      onChange: setValue,
 	      onFocus: onFocus,
@@ -8571,14 +8589,27 @@
 	              return _onBlur('category');
 	            }
 	          })]
-	        }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	        }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	          className: "PageBlockJson-fieldset",
-	          children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	          children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	            className: "PageBlockJson-header",
 	            children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	              children: 'Inner Blocks'
-	            }), true !== true ]
-	          })
+	            }), /*#__PURE__*/jsxRuntimeExports.jsx(ProFlag, {})]
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
+	            disabled: false !== true,
+	            name: "title",
+	            label: "Enter a title...",
+	            tooltip: "Hello...",
+	            value: blockTitle,
+	            setValue: setBlockTitle,
+	            onFocus: function onFocus() {
+	              return _onFocus('title');
+	            },
+	            onBlur: function onBlur() {
+	              return _onBlur('title');
+	            }
+	          })]
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	          className: "PageBlockJson-fieldset",
 	          children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {

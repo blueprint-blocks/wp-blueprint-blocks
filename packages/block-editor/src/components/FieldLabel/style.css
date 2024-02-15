@@ -8,6 +8,7 @@
 	gap: var(--1x);
 	grid-template-columns: 1fr max-content;
 	line-height: 1;
+	user-select: none;
 
 	.Tooltip {
 		margin: -1px 0;

@@ -34,6 +34,7 @@
 	grid-auto-flow: column;
 	font-size: var(--font-size-large);
 	font-weight: var(--font-weight-medium);
+	user-select: none;
 }
 
 .PageBlockJson-json {

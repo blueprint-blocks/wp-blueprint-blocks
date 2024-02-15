@@ -69,4 +69,9 @@
 	font-weight: var(--font-weight-base);
 	line-height: var(--line-height-base);
 	min-height: 720px;
+
+	.is-disabled {
+		cursor: default;
+		opacity: 0.5;
+	}
 }

@@ -1,33 +1,48 @@
+import classNames from 'classnames'
+
 import EditableString from '../EditableString'
 import FieldLabel from '../FieldLabel'
 
 import './style.css'
 
 function TextField( {
+	disabled = false,
 	label,
 	placeholder,
 	onBlur,
 	onFocus,
 	tooltip,
-	value,
+	value = '',
 	setValue,
 } ) {
 
 	return (
-		<div className="TextField">
+		<div className={ classNames( 'TextField', { 'is-disabled': disabled } ) }>
 			{ label && (
 				<FieldLabel
 					label={ label }
 					tooltip={ tooltip }
 				/>
 			) }
-			<EditableString
-				onBlur={ onBlur }
-				onChange={ setValue }
-				onFocus={ onFocus }
-				placeholder={ placeholder }
-				value={ value }
-			/>
+			{ disabled && value.length === 0 && (
+				<div class="TextField-placeholder">
+					{ placeholder }
+				</div>
+			) }
+			{ disabled && value.length > 0 && (
+				<div class="TextField-value">
+					{ value }
+				</div>
+			) }
+			{ !disabled && (
+				<EditableString
+					onBlur={ onBlur }
+					onChange={ setValue }
+					onFocus={ onFocus }
+					placeholder={ placeholder }
+					value={ value }
+				/>
+			) }
 		</div>
 	)
 

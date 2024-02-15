@@ -306,6 +306,9 @@
 	gap: var(--1x);
 	grid-template-columns: 1fr max-content;
 	line-height: 1;
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
 }
 .FieldLabel .Tooltip {
 		margin: -1px 0;
@@ -466,6 +469,9 @@
 	line-height: var(--3x);
 	padding: 0 12px;
 	text-transform: uppercase;
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
 	width: -moz-fit-content;
 	width: fit-content;
 }
@@ -517,14 +523,27 @@
 	max-width: 640px;
 	padding: var(--1x);
 }
-.TextField .EditableString {
+.TextField :is(.EditableString, .TextField-placeholder, .TextField-value) {
 		--focus-margin: 0;
 		--focus-padding: 0;
+		--color: var(--color-black);
 		--placeholder-color: var(--color-gray);
 		--placeholder-focus-color: var(--color-gray);
 		font-size: var(--font-size-large);
 		font-weight: var(--font-weight-semi-bold);
 		line-height: 1;
+	}
+.TextField .TextField-placeholder {
+		color: var(--color-gray);
+		-webkit-user-select: none;
+		   -moz-user-select: none;
+		        user-select: none;
+	}
+.TextField .TextField-value {
+		color: var(--color-black);
+		-webkit-user-select: none;
+		   -moz-user-select: none;
+		        user-select: none;
 	}
 
 .TextareaField {
@@ -586,6 +605,9 @@
 	grid-auto-flow: column;
 	font-size: var(--font-size-large);
 	font-weight: var(--font-weight-medium);
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
 }
 
 .PageBlockJson-json {
@@ -1683,6 +1705,10 @@
 	line-height: var(--line-height-base);
 	min-height: 720px;
 }
+.App .is-disabled {
+		cursor: default;
+		opacity: 0.5;
+	}
 
 
 

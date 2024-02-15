@@ -10,13 +10,24 @@
 	max-width: 640px;
 	padding: var(--1x);
 
-	.EditableString {
+	:is(.EditableString, .TextField-placeholder, .TextField-value) {
 		--focus-margin: 0;
 		--focus-padding: 0;
+		--color: var(--color-black);
 		--placeholder-color: var(--color-gray);
 		--placeholder-focus-color: var(--color-gray);
 		font-size: var(--font-size-large);
 		font-weight: var(--font-weight-semi-bold);
 		line-height: 1;
+	}
+
+	.TextField-placeholder {
+		color: var(--color-gray);
+		user-select: none;
+	}
+
+	.TextField-value {
+		color: var(--color-black);
+		user-select: none;
 	}
 }

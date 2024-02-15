@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -158,6 +159,16 @@ function PageBlockJson() {
 								<ProFlag />
 							) }
 						</div>
+						<TextField
+							disabled={ env.PRO_VERSION !== true }
+							name="title"
+							label="Enter a title..."
+							tooltip="Hello..."
+							value={ blockTitle }
+							setValue={ setBlockTitle }
+							onFocus={ () => onFocus( 'title' ) }
+							onBlur={ () => onBlur( 'title' ) }
+						/>
 					</div>
 
 					<div className="PageBlockJson-fieldset">
