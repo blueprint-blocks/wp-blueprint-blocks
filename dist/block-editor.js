@@ -1,4 +1,4 @@
-(function (React$2, require$$2, apiFetch) {
+(function (React$2, require$$2, apiFetch, hooks$3) {
 	'use strict';
 
 	function _interopNamespaceDefault(e) {
@@ -4227,26 +4227,6 @@
 	  return false;
 	}
 
-	function convertDomNodesToTokenizedString() {
-	  var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-	  if (typeof string !== 'string') {
-	    return string;
-	  }
-	  var _string = string.replaceAll(/<span data-type=\"token\">\s?(.*?)<\/span>/g, function (match, p1) {
-	    return "{{ ".concat(p1.trim(), " }}");
-	  });
-	  _string = _string.replaceAll(/<span data-type=\"cursor-start\">(.*?)<\/span>/g, function (match, p1) {
-	    return p1;
-	  });
-	  _string = _string.replaceAll(/<span data-type=\"cursor-end\"> <\/span>/g, function (match) {
-	    return '';
-	  });
-	  _string = _string.replaceAll(/<span data-type=\"cursor-end\">\s(.*?)<\/span>/g, function (match, p1) {
-	    return p1;
-	  });
-	  return _string;
-	}
-
 	function isObject(value) {
 	  return _typeof(value) === 'object' && !Array.isArray(value) && value !== null;
 	}
@@ -4287,22 +4267,6 @@
 	      return d.trim();
 	    });
 	  }));
-	}
-
-	function convertTokenizedStringToDomNodes() {
-	  var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-	  if (typeof string !== 'string') {
-	    return string;
-	  }
-	  var _string = string;
-	  console.log(_string);
-	  if (string.slice(0, 2) === '{{') {
-	    _string = "<span data-type=\"cursor-start\"> </span>".concat(_string);
-	  }
-	  _string = _string.replaceAll(/\{\{(.*?)\}\}/g, function (match, p1) {
-	    return "<span data-type=\"token\"> ".concat(p1.trim(), "</span><span data-type=\"cursor-end\"> </span>");
-	  });
-	  return _string;
 	}
 
 	document.createElement('textarea');
@@ -7857,7 +7821,7 @@
 	  var _value = React$2.useMemo(function () {
 	    return String(value || '');
 	  }, [value]);
-	  var html = convertTokenizedStringToDomNodes(_value);
+	  var html = hooks$3.applyFilters('blueprint-blocks.editable-string.value.before-render', _value);
 	  var _onBlur = function _onBlur() {
 	    setHasFocus(false);
 	    onBlur && onBlur();
@@ -7865,7 +7829,7 @@
 	  var _onChange = function _onChange(_ref2) {
 	    var target = _ref2.target;
 	    var newValue = String((target === null || target === void 0 ? void 0 : target.value) || '').replace(/\n/g, ' ');
-	    newValue = convertDomNodesToTokenizedString(newValue);
+	    newValue = hooks$3.applyFilters('blueprint-blocks.editable-string.value.before-on-change', newValue);
 	    onChange && onChange(newValue);
 	  };
 	  var _onFocus = function _onFocus() {
@@ -71718,4 +71682,4 @@
 		angularLanguage: angularLanguage
 	});
 
-})(React, ReactDOM, wp.apiFetch);
+})(React, ReactDOM, wp.apiFetch, wp.hooks);

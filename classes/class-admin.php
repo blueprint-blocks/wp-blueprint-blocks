@@ -49,6 +49,13 @@ class Admin
 			true
 		);
 
+		wp_enqueue_style(
+			'blueprint-blocks-editor',
+			blueprint_blocks()->url . 'dist/block-editor-pro.css',
+			array(),
+			blueprint_blocks()::VERSION
+		);
+
 		wp_enqueue_script(
 			'blueprint-blocks-editor-pro',
 			blueprint_blocks()->url . 'dist/block-editor-pro.js',

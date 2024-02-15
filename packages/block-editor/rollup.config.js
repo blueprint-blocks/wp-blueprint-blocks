@@ -17,6 +17,7 @@ const env = config( {
 export default {
 	external: [
 		'@wordpress/api-fetch',
+		'@wordpress/hooks',
 		'react',
 		'react-dom',
 	],
@@ -27,6 +28,7 @@ export default {
 		format: 'iife',
 		globals: {
 			'@wordpress/api-fetch': 'wp.apiFetch',
+			'@wordpress/hooks': 'wp.hooks',
 			'react': 'React',
 			'react-dom': 'ReactDOM',
 		},

@@ -1,11 +1,7 @@
 import classNames from 'classnames'
 import { memo, useCallback, useMemo, useRef, useState } from 'react'
 import ContentEditable from 'react-contenteditable'
-
-import {
-	convertTokenizedStringToDomNodes,
-	convertDomNodesToTokenizedString,
-} from '../../functions'
+import { applyFilters } from '@wordpress/hooks'
 
 import './style.css'
 
@@ -27,7 +23,7 @@ const EditableString = memo( ( {
 		String( value || '' )
 	), [ value ] )
 
-	const html = convertTokenizedStringToDomNodes( _value )
+	const html = applyFilters( 'blueprint-blocks.editable-string.value.before-render', _value )
 
 	const _onBlur = () => {
 		setHasFocus( false )
@@ -36,7 +32,7 @@ const EditableString = memo( ( {
 
 	const _onChange = ( { target } ) => {
 		let newValue = String( target?.value || '' ).replace( /\n/g, ' ' )
-		newValue = convertDomNodesToTokenizedString( newValue )
+		newValue = applyFilters( 'blueprint-blocks.editable-string.value.before-on-change', newValue )
 		onChange && onChange( newValue )
 	}
 
