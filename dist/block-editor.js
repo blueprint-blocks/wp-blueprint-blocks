@@ -7806,12 +7806,16 @@
 	var EditableString = /*#__PURE__*/React$2.memo(function (_ref) {
 	  var _ref$className = _ref.className,
 	    className = _ref$className === void 0 ? '' : _ref$className,
+	    _ref$multiline = _ref.multiline,
+	    multiline = _ref$multiline === void 0 ? false : _ref$multiline,
 	    onChange = _ref.onChange,
 	    onDelete = _ref.onDelete,
 	    onFocus = _ref.onFocus,
 	    onBlur = _ref.onBlur,
 	    _ref$placeholder = _ref.placeholder,
 	    placeholder = _ref$placeholder === void 0 ? '' : _ref$placeholder,
+	    _ref$rows = _ref.rows,
+	    rows = _ref$rows === void 0 ? 1 : _ref$rows,
 	    _ref$value = _ref.value,
 	    value = _ref$value === void 0 ? '' : _ref$value,
 	    _ref$allowFilters = _ref.allowFilters,
@@ -7855,9 +7859,13 @@
 	    "data-testid": "editable-string",
 	    className: classNames('EditableString', className, {
 	      'has-focus': hasFocus,
-	      'has-value': _value.length > 0
+	      'has-value': _value.length > 0,
+	      'is-multiline': multiline
 	    }),
 	    onKeyDown: onKeyDown,
+	    style: {
+	      '--rows': multiline && rows || 1
+	    },
 	    children: [_value.length === 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "placeholder",
 	      "data-testid": "editable-string/placeholder",
@@ -7870,7 +7878,7 @@
 	      onBlur: _onBlur,
 	      onFocus: _onFocus,
 	      onKeyDown: function onKeyDown(event) {
-	        if (event.key === 'Enter') {
+	        if (event.key === 'Enter' && multiline === false) {
 	          event.preventDefault();
 	          event.stopPropagation();
 	        }
@@ -8381,9 +8389,13 @@
 	  var _ref$disabled = _ref.disabled,
 	    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
 	    label = _ref.label,
-	    placeholder = _ref.placeholder,
+	    _ref$multiline = _ref.multiline,
+	    multiline = _ref$multiline === void 0 ? false : _ref$multiline,
 	    onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus,
+	    placeholder = _ref.placeholder,
+	    _ref$rows = _ref.rows,
+	    rows = _ref$rows === void 0 ? 1 : _ref$rows,
 	    tooltip = _ref.tooltip,
 	    _ref$value = _ref.value,
 	    value = _ref$value === void 0 ? '' : _ref$value,
@@ -8402,41 +8414,13 @@
 	      "class": "TextField-value",
 	      children: value
 	    }), !disabled && /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
+	      multiline: multiline,
 	      onBlur: onBlur,
 	      onChange: setValue,
 	      onFocus: onFocus,
 	      placeholder: placeholder,
+	      rows: rows,
 	      value: value
-	    })]
-	  });
-	}
-
-	function TextareaField(_ref) {
-	  var name = _ref.name,
-	    label = _ref.label,
-	    placeholder = _ref.placeholder,
-	    onBlur = _ref.onBlur,
-	    onFocus = _ref.onFocus,
-	    tooltip = _ref.tooltip,
-	    value = _ref.value,
-	    setValue = _ref.setValue;
-	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	    className: "TextareaField",
-	    children: [label && /*#__PURE__*/jsxRuntimeExports.jsx(FieldLabel, {
-	      htmlFor: name,
-	      label: label,
-	      tooltip: tooltip
-	    }), /*#__PURE__*/jsxRuntimeExports.jsx("textarea", {
-	      name: name,
-	      onChange: function onChange(_ref2) {
-	        var target = _ref2.target;
-	        return setValue(target.value);
-	      },
-	      placeholder: placeholder,
-	      onBlur: onBlur,
-	      onFocus: onFocus,
-	      value: value,
-	      rows: "4"
 	    })]
 	  });
 	}
@@ -8503,7 +8487,6 @@
 	        }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	          className: "PageBlockJson-fieldset",
 	          children: [/*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
-	            name: "title",
 	            label: "Enter a title...",
 	            tooltip: "Hello...",
 	            value: blockTitle,
@@ -8537,11 +8520,11 @@
 	            onEdit: function onEdit() {
 	              setIsEditingBlockTextdomain(true);
 	            }
-	          }), /*#__PURE__*/jsxRuntimeExports.jsx(TextareaField, {
-	            name: "description",
-	            label: "Description",
-	            placeholder: "Enter a description for your block...",
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
+	            label: "Enter a description...",
 	            tooltip: "Hello...",
+	            multiline: true,
+	            rows: 4,
 	            value: blockDescription,
 	            setValue: setBlockDescription,
 	            onFocus: function onFocus() {

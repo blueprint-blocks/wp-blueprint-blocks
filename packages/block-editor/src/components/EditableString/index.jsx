@@ -7,11 +7,13 @@ import './style.css'
 
 const EditableString = memo( ( {
 	className = '',
+	multiline = false,
 	onChange,
 	onDelete,
 	onFocus,
 	onBlur,
 	placeholder = '',
+	rows = 1,
 	value = '',
 	allowFilters = true,
 } ) => {
@@ -61,8 +63,12 @@ const EditableString = memo( ( {
 			className={ classNames( 'EditableString', className, {
 				'has-focus': hasFocus,
 				'has-value': ( _value.length > 0 ),
+				'is-multiline': multiline,
 			} ) }
 			onKeyDown={ onKeyDown }
+			style={ {
+				'--rows': ( multiline && rows || 1 ),
+			} }
 		>
 			{ ( _value.length === 0 ) && (
 				<div className="placeholder" data-testid="editable-string/placeholder">
@@ -77,7 +83,7 @@ const EditableString = memo( ( {
 				onBlur={ _onBlur }
 				onFocus={ _onFocus }
 				onKeyDown={ ( event ) => {
-					if ( event.key === 'Enter' ) {
+					if ( event.key === 'Enter' && multiline === false ) {
 						event.preventDefault()
 						event.stopPropagation()
 					}

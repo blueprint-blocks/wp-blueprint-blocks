@@ -6,11 +6,16 @@
 	--hover-color: var(--color-black);
 	--placeholder-color: var(--color-dark-gray);
 	--placeholder-focus-color: var(--color-darker-gray);
+	--rows: 1;
 	color: var(--color);
 	cursor: text;
 	display: inline-grid;
+	max-width: 100%;
+	min-height: calc(1.5em * var(--rows));
+	overflow: auto;
 	position: relative;
 	transition: var(--transition);
+	white-space: nowrap;
 
 	&::before {
 		border-radius: 0.2em;
@@ -39,6 +44,10 @@
 		color: var(--placeholder-color);
 		transition: var(--transition);
 	}
+}
+
+.EditableString.is-multiline {
+	white-space: initial;
 }
 
 .EditableString.has-focus {

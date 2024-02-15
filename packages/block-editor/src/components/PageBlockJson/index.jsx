@@ -71,7 +71,6 @@ function PageBlockJson() {
 
 					<div className="PageBlockJson-fieldset">
 						<TextField
-							name="title"
 							label="Enter a title..."
 							tooltip="Hello..."
 							value={ blockTitle }
@@ -104,15 +103,15 @@ function PageBlockJson() {
 								} }
 							/>
 						) }
-						<TextareaField
-							name="description"
-							label="Description"
-							placeholder="Enter a description for your block..."
+						<TextField
+							label="Enter a description..."
 							tooltip="Hello..."
+							multiline={ true }
+							rows={ 4 }
 							value={ blockDescription }
 							setValue={ setBlockDescription }
-							onFocus={ () => onFocus('description') }
-							onBlur={ () => onBlur('description') }
+							onFocus={ () => onFocus( 'description' ) }
+							onBlur={ () => onBlur( 'description' ) }
 						/>
 						<DashiconsField
 							name="icon"

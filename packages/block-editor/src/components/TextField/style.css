@@ -21,6 +21,12 @@
 		line-height: 1;
 	}
 
+	.EditableString {
+		display: grid;
+		overflow: auto;
+		width: 100%;
+	}
+
 	.TextField-placeholder {
 		color: var(--color-gray);
 		user-select: none;

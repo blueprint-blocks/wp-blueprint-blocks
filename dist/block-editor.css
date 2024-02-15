@@ -147,11 +147,16 @@
 	--hover-color: var(--color-black);
 	--placeholder-color: var(--color-dark-gray);
 	--placeholder-focus-color: var(--color-darker-gray);
+	--rows: 1;
 	color: var(--color);
 	cursor: text;
 	display: inline-grid;
+	max-width: 100%;
+	min-height: calc(1.5em * var(--rows));
+	overflow: auto;
 	position: relative;
 	transition: var(--transition);
+	white-space: nowrap;
 }
 
 .EditableString::before {
@@ -181,6 +186,10 @@
 		color: var(--placeholder-color);
 		transition: var(--transition);
 	}
+
+.EditableString.is-multiline {
+	white-space: initial;
+}
 
 .EditableString.has-focus {
 	margin: 0 var(--focus-margin);
@@ -532,6 +541,11 @@
 		font-size: var(--font-size-large);
 		font-weight: var(--font-weight-semi-bold);
 		line-height: 1;
+	}
+.TextField .EditableString {
+		display: grid;
+		overflow: auto;
+		width: 100%;
 	}
 .TextField .TextField-placeholder {
 		color: var(--color-gray);

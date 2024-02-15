@@ -8,9 +8,11 @@ import './style.css'
 function TextField( {
 	disabled = false,
 	label,
-	placeholder,
+	multiline = false,
 	onBlur,
 	onFocus,
+	placeholder,
+	rows = 1,
 	tooltip,
 	value = '',
 	setValue,
@@ -36,10 +38,12 @@ function TextField( {
 			) }
 			{ !disabled && (
 				<EditableString
+					multiline={ multiline }
 					onBlur={ onBlur }
 					onChange={ setValue }
 					onFocus={ onFocus }
 					placeholder={ placeholder }
+					rows={ rows }
 					value={ value }
 				/>
 			) }
