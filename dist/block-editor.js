@@ -8592,7 +8592,6 @@
 	          },
 	          values: {
 	            textdomain: blockTextdomain,
-	            name: blockName,
 	            title: blockTitle,
 	            description: blockDescription,
 	            category: blockCategory,
