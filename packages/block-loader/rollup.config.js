@@ -7,7 +7,7 @@ export default {
 	],
 	input: 'src/main.js',
 	output: {
-		file: 'dist/main.js',
+		file: '../../dist/block-loader.js',
 		sourcemap: ( process.env.NODE_ENV === 'development' ),
 		format: 'iife',
 		globals: {

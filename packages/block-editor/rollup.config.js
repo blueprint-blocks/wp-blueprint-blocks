@@ -22,7 +22,7 @@ export default {
 	],
 	input: 'src/main.jsx',
 	output: {
-		file: 'dist/main.js',
+		file: '../../dist/block-editor.js',
 		sourcemap: ( process.env.NODE_ENV === 'development' ) && 'inline' || false,
 		format: 'iife',
 		globals: {
@@ -57,7 +57,7 @@ export default {
 		} ),
 		json(),
 		postcss( {
-			extract: 'main.css',
+			extract: 'block-editor.css',
 			plugins: [
 				postcssVariables( {
 					disable: '@mixin, @include, @content',
