@@ -1,0 +1,9 @@
+0 silly argv { _: [ 'run' ], lernaVersion: '7.3.0', '$0': 'lerna', script: 'build' }
+1 notice cli v7.3.0
+2 verbose packageConfigs Resolving packages based on package.json "workspaces" configuration.
+3 verbose rootPath /Users/cody/Sites/wp-blueprint-blocks-pro
+4 error Error: GenericFailure
+4 error     at retrieveWorkspaceFiles (/Users/cody/.nvm/versions/node/v18.0.0/lib/node_modules/lerna/node_modules/nx/src/project-graph/utils/retrieve-workspace-files.js:26:83)
+4 error     at async buildProjectGraphWithoutDaemon (/Users/cody/.nvm/versions/node/v18.0.0/lib/node_modules/lerna/node_modules/nx/src/project-graph/project-graph.js:64:90)
+4 error     at async createProjectGraphAsync (/Users/cody/.nvm/versions/node/v18.0.0/lib/node_modules/lerna/node_modules/nx/src/project-graph/project-graph.js:113:25)
+4 error     at async detectProjects (/Users/cody/.nvm/versions/node/v18.0.0/lib/node_modules/lerna/dist/index.js:1449:25)
