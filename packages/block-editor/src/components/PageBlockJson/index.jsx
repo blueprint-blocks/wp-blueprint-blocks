@@ -106,7 +106,7 @@ function PageBlockJson() {
 						<TextField
 							label="Enter a description..."
 							tooltip="Hello..."
-							multiline={ true }
+							multiLine={ true }
 							rows={ 4 }
 							value={ blockDescription }
 							setValue={ setBlockDescription }

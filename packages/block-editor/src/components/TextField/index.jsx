@@ -6,9 +6,10 @@ import FieldLabel from '../FieldLabel'
 import './style.css'
 
 function TextField( {
+	allowEnter = false,
 	disabled = false,
 	label,
-	multiline = false,
+	multiLine = false,
 	onBlur,
 	onFocus,
 	placeholder,
@@ -38,7 +39,8 @@ function TextField( {
 			) }
 			{ !disabled && (
 				<EditableString
-					multiline={ multiline }
+					allowEnter={ allowEnter }
+					multiLine={ multiLine }
 					onBlur={ onBlur }
 					onChange={ setValue }
 					onFocus={ onFocus }

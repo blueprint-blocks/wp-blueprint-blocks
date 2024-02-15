@@ -7804,10 +7804,12 @@
 	var _default$1 = reactContenteditable.default = ContentEditable;
 
 	var EditableString = /*#__PURE__*/React$2.memo(function (_ref) {
-	  var _ref$className = _ref.className,
+	  var _ref$allowEnter = _ref.allowEnter,
+	    allowEnter = _ref$allowEnter === void 0 ? false : _ref$allowEnter,
+	    _ref$className = _ref.className,
 	    className = _ref$className === void 0 ? '' : _ref$className,
-	    _ref$multiline = _ref.multiline,
-	    multiline = _ref$multiline === void 0 ? false : _ref$multiline,
+	    _ref$multiLine = _ref.multiLine,
+	    multiLine = _ref$multiLine === void 0 ? false : _ref$multiLine,
 	    onChange = _ref.onChange,
 	    onDelete = _ref.onDelete,
 	    onFocus = _ref.onFocus,
@@ -7860,11 +7862,11 @@
 	    className: classNames('EditableString', className, {
 	      'has-focus': hasFocus,
 	      'has-value': _value.length > 0,
-	      'is-multiline': multiline
+	      'is-multiline': multiLine
 	    }),
 	    onKeyDown: onKeyDown,
 	    style: {
-	      '--rows': multiline && rows || 1
+	      '--rows': multiLine && rows || 1
 	    },
 	    children: [_value.length === 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "placeholder",
@@ -7878,7 +7880,7 @@
 	      onBlur: _onBlur,
 	      onFocus: _onFocus,
 	      onKeyDown: function onKeyDown(event) {
-	        if (event.key === 'Enter' && multiline === false) {
+	        if (event.key === 'Enter' && allowEnter === false) {
 	          event.preventDefault();
 	          event.stopPropagation();
 	        }
@@ -8386,11 +8388,13 @@
 	}
 
 	function TextField(_ref) {
-	  var _ref$disabled = _ref.disabled,
+	  var _ref$allowEnter = _ref.allowEnter,
+	    allowEnter = _ref$allowEnter === void 0 ? false : _ref$allowEnter,
+	    _ref$disabled = _ref.disabled,
 	    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
 	    label = _ref.label,
-	    _ref$multiline = _ref.multiline,
-	    multiline = _ref$multiline === void 0 ? false : _ref$multiline,
+	    _ref$multiLine = _ref.multiLine,
+	    multiLine = _ref$multiLine === void 0 ? false : _ref$multiLine,
 	    onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus,
 	    placeholder = _ref.placeholder,
@@ -8414,7 +8418,8 @@
 	      "class": "TextField-value",
 	      children: value
 	    }), !disabled && /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
-	      multiline: multiline,
+	      allowEnter: allowEnter,
+	      multiLine: multiLine,
 	      onBlur: onBlur,
 	      onChange: setValue,
 	      onFocus: onFocus,
@@ -8523,7 +8528,7 @@
 	          }), /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
 	            label: "Enter a description...",
 	            tooltip: "Hello...",
-	            multiline: true,
+	            multiLine: true,
 	            rows: 4,
 	            value: blockDescription,
 	            setValue: setBlockDescription,

@@ -6,8 +6,9 @@ import { applyFilters } from '@wordpress/hooks'
 import './style.css'
 
 const EditableString = memo( ( {
+	allowEnter = false,
 	className = '',
-	multiline = false,
+	multiLine = false,
 	onChange,
 	onDelete,
 	onFocus,
@@ -63,11 +64,11 @@ const EditableString = memo( ( {
 			className={ classNames( 'EditableString', className, {
 				'has-focus': hasFocus,
 				'has-value': ( _value.length > 0 ),
-				'is-multiline': multiline,
+				'is-multiline': multiLine,
 			} ) }
 			onKeyDown={ onKeyDown }
 			style={ {
-				'--rows': ( multiline && rows || 1 ),
+				'--rows': ( multiLine && rows || 1 ),
 			} }
 		>
 			{ ( _value.length === 0 ) && (
@@ -83,7 +84,7 @@ const EditableString = memo( ( {
 				onBlur={ _onBlur }
 				onFocus={ _onFocus }
 				onKeyDown={ ( event ) => {
-					if ( event.key === 'Enter' && multiline === false ) {
+					if ( event.key === 'Enter' && allowEnter === false ) {
 						event.preventDefault()
 						event.stopPropagation()
 					}
