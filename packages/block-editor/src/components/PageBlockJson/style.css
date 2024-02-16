@@ -17,7 +17,7 @@
 
 .PageBlockJson-fieldset {
 	display: grid;
-	gap: var(--2x);
+	gap: var(--3x);
 	grid-auto-flow: row;
 }
 

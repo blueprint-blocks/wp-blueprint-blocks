@@ -25,7 +25,7 @@
 	& li {
 		cursor: pointer;
 		font-size: var(--font-size-base);
-		font-weight: var(--font-weight-medium);
+		font-weight: var(--font-weight-semi-bold);
 		height: var(--3x);
 		margin: 0;
 		padding: var(--2x) var(--4x) calc(var(--2x) + 3px);

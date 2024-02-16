@@ -20,6 +20,7 @@ import { useFocus } from '../../hooks'
 
 import BlockNameField from '../BlockNameField'
 import BlockVersionField from '../BlockVersionField'
+import CheckboxField from '../CheckboxField'
 import JsonEditor from '../JsonEditor'
 import ListField from '../ListField'
 import DashiconsField from '../DashiconsField'
@@ -169,7 +170,7 @@ function PageBlockJson() {
 							value={ env.PRO_VERSION === true && blockJson?.parent || [] }
 							setValue={ ( value ) => {
 								if ( env.PRO_VERSION === true ) {
-									setBlockParent( value )
+									dispatch( setBlockParent( value ) )
 								} else if ( value && !( value.length === 1 && value[ 0 ] === '' ) ) {
 									dispatch( showUpsellPrompt() )
 								}
@@ -184,7 +185,7 @@ function PageBlockJson() {
 							value={ env.PRO_VERSION === true && blockJson?.ancestor || [] }
 							setValue={ ( value ) => {
 								if ( env.PRO_VERSION === true ) {
-									setBlockAncestor( value )
+									dispatch( setBlockAncestor( value ) )
 								} else if ( ! ( value.length === 1 && value[ 0 ] === '' ) ) {
 									dispatch( showUpsellPrompt() )
 								}
@@ -199,7 +200,7 @@ function PageBlockJson() {
 							value={ env.PRO_VERSION === true && blockJson?.allowedBlocks || [] }
 							setValue={ ( value ) => {
 								if ( env.PRO_VERSION === true ) {
-									setBlockAllowedBlocks( value )
+									dispatch( setBlockAllowedBlocks( value ) )
 								} else if ( value && !( value.length === 1 && value[ 0 ] === '' ) ) {
 									dispatch( showUpsellPrompt() )
 								}
@@ -213,8 +214,144 @@ function PageBlockJson() {
 						<div className="PageBlockJson-header">
 							<div>{ 'Block Supports' }</div>
 						</div>
+						<CheckboxField
+							label={ 'Anchor' }
+							value={ false }
+						>
+							<p>
+								{ 'Anchors let you link directly to a specific block on a page. This property adds a field to define an id for the block and a button to copy the direct link.' }<br />
+								<a href="#">{ 'Learn more' }</a>
+							</p>
+						</CheckboxField>
+						<CheckboxField
+							label={ 'Align' }
+							value={ true }
+						>
+							<p>
+								{ 'Alignment adds block controls which allow changing the block’s alignment.' }<br />
+								<a href="#">{ 'Learn more' }</a>
+							</p>
+							<div className="CheckboxField-list">
+								<CheckboxField
+									label={ 'Left' }
+									size="small"
+									value={ true }
+								/>
+								<CheckboxField
+									label={ 'Right' }
+									size="small"
+									value={ true }
+								/>
+								<CheckboxField
+									label={ 'Full' }
+									size="small"
+									value={ true }
+								/>
+								<CheckboxField
+									label={ 'Wide' }
+									size="small"
+									value={ true }
+								/>
+							</div>
+						</CheckboxField>
+						<CheckboxField
+							label={ 'Align Wide' }
+							value={ true }
+						>
+							<p>
+								{ 'If wide alignment is enabled for the active theme, unchecking this flag will disable wide alignment for this block.' }<br />
+								<a href="#">{ 'Learn more' }</a>
+							</p>
+						</CheckboxField>
+						<CheckboxField
+							setValue={ ( value ) => {
+								if ( env.PRO_VERSION === true ) {
+									//dispatch( setBlockAncestor( value ) )
+								} else {
+									dispatch( showUpsellPrompt() )
+								}
+							} }
+							value={ false }
+						>
+							<div className="CheckboxField-label">
+								<span>{ 'Aria Label' }</span>
+								<ProFlag />
+							</div>
+							<p>
+								{ 'This flag allows enabling the definition of an aria-label for the block, without exposing block controls.' }<br />
+								<a href="#">{ 'Learn more' }</a>
+							</p>
+						</CheckboxField>
+						<CheckboxField
+							setValue={ ( value ) => {
+								if ( env.PRO_VERSION === true ) {
+									//dispatch( setBlockAncestor( value ) )
+								} else {
+									dispatch( showUpsellPrompt() )
+								}
+							} }
+							value={ true }
+						>
+							<div className="CheckboxField-label">
+								<span>{ 'Class Name' }</span>
+								<ProFlag />
+							</div>
+							<p>
+								{ 'By default, the class .wp-block-your-block-name is added to the root element of your saved markup. Unchecking this flag will disable this functionality.' }<br />
+								<a href="#">{ 'Learn more' }</a>
+							</p>
+						</CheckboxField>
+						<CheckboxField
+							setValue={ ( value ) => {
+								if ( env.PRO_VERSION === true ) {
+									//dispatch( setBlockAncestor( value ) )
+								} else {
+									dispatch( showUpsellPrompt() )
+								}
+							} }
+							value={ true }
+						>
+							<div className="CheckboxField-label">
+								<span>{ 'Custom Class Name' }</span>
+								<ProFlag />
+							</div>
+							<p>
+								{ 'This flag adds block controls to define a custom class name for the block’s wrapper.' }<br />
+								<a href="#">{ 'Learn more' }</a>
+							</p>
+						</CheckboxField>
+						<CheckboxField
+							label={ 'Color' }
+							value={ true }
+						>
+							<p>
+								{ 'Color adds block controls which allow changing the block’s color.' }<br />
+								<a href="#">{ 'Learn more' }</a>
+							</p>
+							<div className="CheckboxField-list">
+								<CheckboxField
+									label={ 'Background' }
+									size="small"
+									value={ true }
+								/>
+								<CheckboxField
+									label={ 'Gradients' }
+									size="small"
+									value={ false }
+								/>
+								<CheckboxField
+									label={ 'Link' }
+									size="small"
+									value={ true }
+								/>
+								<CheckboxField
+									label={ 'Text' }
+									size="small"
+									value={ true }
+								/>
+							</div>
+						</CheckboxField>
 					</div>
-
 				</div>
 				<div className="PageBlockJson-json">
 					<JsonEditor

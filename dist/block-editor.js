@@ -7979,6 +7979,42 @@
 	  });
 	}
 
+	function CheckboxField(_ref) {
+	  var children = _ref.children,
+	    label = _ref.label,
+	    _ref$size = _ref.size,
+	    size = _ref$size === void 0 ? '' : _ref$size;
+	    _ref.tooltip;
+	    var _ref$value = _ref.value,
+	    value = _ref$value === void 0 ? false : _ref$value,
+	    setValue = _ref.setValue;
+	  var onChange = function onChange(event) {
+	    var _event$target;
+	    setValue(((_event$target = event.target) === null || _event$target === void 0 ? void 0 : _event$target.checked) || false);
+	  };
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    className: classNames('CheckboxField', {
+	      'is-checked': value === true,
+	      'is-small': size === 'small'
+	    }),
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	      className: classNames('CheckboxField-checkbox'),
+	      children: /*#__PURE__*/jsxRuntimeExports.jsx("input", {
+	        type: "checkbox",
+	        value: "1",
+	        checked: value,
+	        onChange: onChange
+	      })
+	    }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	      className: classNames('CheckboxField-content'),
+	      children: [label && /*#__PURE__*/jsxRuntimeExports.jsx("label", {
+	        className: classNames('CheckboxField-label'),
+	        children: label
+	      }), children]
+	    })]
+	  });
+	}
+
 	function RenderJson(_ref) {
 	  var _ref$index = _ref.index,
 	    index = _ref$index === void 0 ? null : _ref$index,
@@ -8527,14 +8563,142 @@
 	              return _onBlur('allowedBlocks', index);
 	            }
 	          })]
-	        }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	        }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	          className: "PageBlockJson-fieldset",
-	          children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	          children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	            className: "PageBlockJson-header",
 	            children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	              children: 'Block Supports'
 	            })
-	          })
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
+	            label: 'Anchor',
+	            value: false,
+	            children: /*#__PURE__*/jsxRuntimeExports.jsxs("p", {
+	              children: ['Anchors let you link directly to a specific block on a page. This property adds a field to define an id for the block and a button to copy the direct link.', /*#__PURE__*/jsxRuntimeExports.jsx("br", {}), /*#__PURE__*/jsxRuntimeExports.jsx("a", {
+	                href: "#",
+	                children: 'Learn more'
+	              })]
+	            })
+	          }), /*#__PURE__*/jsxRuntimeExports.jsxs(CheckboxField, {
+	            label: 'Align',
+	            value: true,
+	            children: [/*#__PURE__*/jsxRuntimeExports.jsxs("p", {
+	              children: ['Alignment adds block controls which allow changing the block’s alignment.', /*#__PURE__*/jsxRuntimeExports.jsx("br", {}), /*#__PURE__*/jsxRuntimeExports.jsx("a", {
+	                href: "#",
+	                children: 'Learn more'
+	              })]
+	            }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	              className: "CheckboxField-list",
+	              children: [/*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
+	                label: 'Left',
+	                size: "small",
+	                value: true
+	              }), /*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
+	                label: 'Right',
+	                size: "small",
+	                value: true
+	              }), /*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
+	                label: 'Full',
+	                size: "small",
+	                value: true
+	              }), /*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
+	                label: 'Wide',
+	                size: "small",
+	                value: true
+	              })]
+	            })]
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
+	            label: 'Align Wide',
+	            value: true,
+	            children: /*#__PURE__*/jsxRuntimeExports.jsxs("p", {
+	              children: ['If wide alignment is enabled for the active theme, unchecking this flag will disable wide alignment for this block.', /*#__PURE__*/jsxRuntimeExports.jsx("br", {}), /*#__PURE__*/jsxRuntimeExports.jsx("a", {
+	                href: "#",
+	                children: 'Learn more'
+	              })]
+	            })
+	          }), /*#__PURE__*/jsxRuntimeExports.jsxs(CheckboxField, {
+	            setValue: function setValue(value) {
+	              {
+	                dispatch(showUpsellPrompt());
+	              }
+	            },
+	            value: false,
+	            children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	              className: "CheckboxField-label",
+	              children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	                children: 'Aria Label'
+	              }), /*#__PURE__*/jsxRuntimeExports.jsx(ProFlag, {})]
+	            }), /*#__PURE__*/jsxRuntimeExports.jsxs("p", {
+	              children: ['This flag allows enabling the definition of an aria-label for the block, without exposing block controls.', /*#__PURE__*/jsxRuntimeExports.jsx("br", {}), /*#__PURE__*/jsxRuntimeExports.jsx("a", {
+	                href: "#",
+	                children: 'Learn more'
+	              })]
+	            })]
+	          }), /*#__PURE__*/jsxRuntimeExports.jsxs(CheckboxField, {
+	            setValue: function setValue(value) {
+	              {
+	                dispatch(showUpsellPrompt());
+	              }
+	            },
+	            value: true,
+	            children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	              className: "CheckboxField-label",
+	              children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	                children: 'Class Name'
+	              }), /*#__PURE__*/jsxRuntimeExports.jsx(ProFlag, {})]
+	            }), /*#__PURE__*/jsxRuntimeExports.jsxs("p", {
+	              children: ['By default, the class .wp-block-your-block-name is added to the root element of your saved markup. Unchecking this flag will disable this functionality.', /*#__PURE__*/jsxRuntimeExports.jsx("br", {}), /*#__PURE__*/jsxRuntimeExports.jsx("a", {
+	                href: "#",
+	                children: 'Learn more'
+	              })]
+	            })]
+	          }), /*#__PURE__*/jsxRuntimeExports.jsxs(CheckboxField, {
+	            setValue: function setValue(value) {
+	              {
+	                dispatch(showUpsellPrompt());
+	              }
+	            },
+	            value: true,
+	            children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	              className: "CheckboxField-label",
+	              children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	                children: 'Custom Class Name'
+	              }), /*#__PURE__*/jsxRuntimeExports.jsx(ProFlag, {})]
+	            }), /*#__PURE__*/jsxRuntimeExports.jsxs("p", {
+	              children: ['This flag adds block controls to define a custom class name for the block’s wrapper.', /*#__PURE__*/jsxRuntimeExports.jsx("br", {}), /*#__PURE__*/jsxRuntimeExports.jsx("a", {
+	                href: "#",
+	                children: 'Learn more'
+	              })]
+	            })]
+	          }), /*#__PURE__*/jsxRuntimeExports.jsxs(CheckboxField, {
+	            label: 'Color',
+	            value: true,
+	            children: [/*#__PURE__*/jsxRuntimeExports.jsxs("p", {
+	              children: ['Color adds block controls which allow changing the block’s color.', /*#__PURE__*/jsxRuntimeExports.jsx("br", {}), /*#__PURE__*/jsxRuntimeExports.jsx("a", {
+	                href: "#",
+	                children: 'Learn more'
+	              })]
+	            }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	              className: "CheckboxField-list",
+	              children: [/*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
+	                label: 'Background',
+	                size: "small",
+	                value: true
+	              }), /*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
+	                label: 'Gradients',
+	                size: "small",
+	                value: false
+	              }), /*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
+	                label: 'Link',
+	                size: "small",
+	                value: true
+	              }), /*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
+	                label: 'Text',
+	                size: "small",
+	                value: true
+	              })]
+	            })]
+	          })]
 	        })]
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	        className: "PageBlockJson-json",

@@ -59,6 +59,7 @@
 	--line-height-base: 1.5;
 
 	--box-shadow-low: 3px 3px 0 #27243233;
+	--box-shadow-x-low: 2px 2px 0 #27243233;
 
 	--transition: all 0.15s cubic-bezier(0.55, 0.055, 0.675, 0.19);
 

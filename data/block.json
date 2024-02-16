@@ -35,6 +35,7 @@
 	},
 	"supports": {
 		"align": [],
+		"anchor": false,
 		"html": false,
 		"multiple": true,
 		"reusable": false
