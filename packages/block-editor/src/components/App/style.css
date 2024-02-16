@@ -63,12 +63,12 @@
 	background: #f0f0f1;
 	color: var(--color-black);
 	display: grid;
-	grid-template-rows: 65px calc(100% - 65px);
+	grid-template-rows: 65px max-content;
 	font-family: var(--font-family);
 	font-size: var(--font-size-base);
 	font-weight: var(--font-weight-base);
 	line-height: var(--line-height-base);
-	min-height: 720px;
+	position: relative;
 
 	.is-disabled {
 		cursor: default;

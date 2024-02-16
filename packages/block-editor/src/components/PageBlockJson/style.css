@@ -3,20 +3,16 @@
 }
 
 .PageBlockJson-grid {
+	align-items: start;
 	display: grid;
 	grid-gap: var(--5x);
 	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 100%;
-	height: 100%;
 }
 
 .PageBlockJson-fields {
-	align-self: start;
 	display: grid;
 	gap: var(--8x);
 	grid-auto-flow: row;
-	height: 100%;
-	overflow: scroll;
 }
 
 .PageBlockJson-fieldset {
@@ -38,6 +34,6 @@
 }
 
 .PageBlockJson-json {
-	display: grid;
-	height: 100%;
+	position: sticky;
+	top: calc(var(--wp-admin--admin-bar--height) + var(--5x));
 }

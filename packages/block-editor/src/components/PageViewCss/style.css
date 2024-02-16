@@ -1,5 +1,7 @@
 .PageViewCss {
+	box-sizing: border-box;
 	display: grid;
+	height: max(680px, calc(100vh - 65px - var(--wp-admin--admin-bar--height)));
 	padding: var(--5x);
 }
 

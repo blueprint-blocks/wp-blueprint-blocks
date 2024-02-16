@@ -5,10 +5,12 @@
 	grid-template-columns: 1fr max-content;
 	height: calc(var(--7x) + 3px);
 	padding-right: var(--5x);
-	position: relative;
+	position: sticky;
+	top: var(--wp-admin--admin-bar--height);
 	-webkit-user-select: none;
 	   -moz-user-select: none;
 	        user-select: none;
+	z-index: 50;
 }
 
 .Navigator ul {
@@ -597,20 +599,16 @@
 }
 
 .PageBlockJson-grid {
+	align-items: start;
 	display: grid;
 	grid-gap: var(--5x);
 	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 100%;
-	height: 100%;
 }
 
 .PageBlockJson-fields {
-	align-self: start;
 	display: grid;
 	gap: var(--8x);
 	grid-auto-flow: row;
-	height: 100%;
-	overflow: scroll;
 }
 
 .PageBlockJson-fieldset {
@@ -634,8 +632,8 @@
 }
 
 .PageBlockJson-json {
-	display: grid;
-	height: 100%;
+	position: sticky;
+	top: calc(var(--wp-admin--admin-bar--height) + var(--5x));
 }
 
 .BlueprintAttributeHandle {
@@ -1477,7 +1475,9 @@
 	}
 
 .PageBlueprint {
+	box-sizing: border-box;
 	display: grid;
+	height: max(680px, calc(100vh - 65px - var(--wp-admin--admin-bar--height)));
 	padding: var(--5x);
 }
 
@@ -1619,7 +1619,9 @@
 }
 
 .PageEditorCss {
+	box-sizing: border-box;
 	display: grid;
+	height: max(680px, calc(100vh - 65px - var(--wp-admin--admin-bar--height)));
 	padding: var(--5x);
 }
 
@@ -1638,7 +1640,9 @@
 }
 
 .PageViewCss {
+	box-sizing: border-box;
 	display: grid;
+	height: max(680px, calc(100vh - 65px - var(--wp-admin--admin-bar--height)));
 	padding: var(--5x);
 }
 
@@ -1721,12 +1725,12 @@
 	background: #f0f0f1;
 	color: var(--color-black);
 	display: grid;
-	grid-template-rows: 65px calc(100% - 65px);
+	grid-template-rows: 65px max-content;
 	font-family: var(--font-family);
 	font-size: var(--font-size-base);
 	font-weight: var(--font-weight-base);
 	line-height: var(--line-height-base);
-	min-height: 720px;
+	position: relative;
 }
 .App .is-disabled {
 		cursor: default;

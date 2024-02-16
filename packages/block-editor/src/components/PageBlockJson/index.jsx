@@ -70,13 +70,29 @@ function PageBlockJson() {
 					</div>
 
 					<div className="PageBlockJson-fieldset">
-					<TextField
+						<DashiconsField
+							name="icon"
+							label="Block icon"
+							value={ blockIcon }
+							setValue={ setBlockIcon }
+						/>
+						<TextField
 							label="Enter a title..."
 							tooltip="Hello..."
 							value={ blockTitle }
 							setValue={ setBlockTitle }
 							onFocus={ () => onFocus( 'title' ) }
 							onBlur={ () => onBlur( 'title' ) }
+						/>
+						<TextField
+							label="Enter a description..."
+							tooltip="Hello..."
+							multiLine={ true }
+							rows={ 4 }
+							value={ blockDescription }
+							setValue={ setBlockDescription }
+							onFocus={ () => onFocus( 'description' ) }
+							onBlur={ () => onBlur( 'description' ) }
 						/>
 						{ env.PRO_VERSION === true && (
 							<TextField
@@ -88,22 +104,6 @@ function PageBlockJson() {
 								onBlur={ () => onBlur( 'textdomain' ) }
 							/>
 						) }
-						<TextField
-							label="Enter a description..."
-							tooltip="Hello..."
-							multiLine={ true }
-							rows={ 4 }
-							value={ blockDescription }
-							setValue={ setBlockDescription }
-							onFocus={ () => onFocus( 'description' ) }
-							onBlur={ () => onBlur( 'description' ) }
-						/>
-						<DashiconsField
-							name="icon"
-							label="Block icon"
-							value={ blockIcon }
-							setValue={ setBlockIcon }
-						/>
 						<ListField
 							label="Enter a few keywords..."
 							placeholder="Enter a keyword..."

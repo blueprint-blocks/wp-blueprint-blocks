@@ -8472,7 +8472,12 @@
 	          children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlockNameField, {}), /*#__PURE__*/jsxRuntimeExports.jsx(BlockVersionField, {})]
 	        }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	          className: "PageBlockJson-fieldset",
-	          children: [/*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
+	          children: [/*#__PURE__*/jsxRuntimeExports.jsx(DashiconsField, {
+	            name: "icon",
+	            label: "Block icon",
+	            value: blockIcon,
+	            setValue: setBlockIcon
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
 	            label: "Enter a title...",
 	            tooltip: "Hello...",
 	            value: blockTitle,
@@ -8483,7 +8488,7 @@
 	            onBlur: function onBlur() {
 	              return _onBlur('title');
 	            }
-	          }), false === true , /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
 	            label: "Enter a description...",
 	            tooltip: "Hello...",
 	            multiLine: true,
@@ -8496,12 +8501,7 @@
 	            onBlur: function onBlur() {
 	              return _onBlur('description');
 	            }
-	          }), /*#__PURE__*/jsxRuntimeExports.jsx(DashiconsField, {
-	            name: "icon",
-	            label: "Block icon",
-	            value: blockIcon,
-	            setValue: setBlockIcon
-	          }), /*#__PURE__*/jsxRuntimeExports.jsx(ListField, {
+	          }), false === true , /*#__PURE__*/jsxRuntimeExports.jsx(ListField, {
 	            label: "Enter a few keywords...",
 	            placeholder: "Enter a keyword...",
 	            tooltip: "Keywords are used to find your block when searching in the editor.",
