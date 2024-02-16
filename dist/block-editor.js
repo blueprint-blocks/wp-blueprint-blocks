@@ -4136,6 +4136,13 @@
 			allowsChildren: false,
 			shortDescription: "Allow inclusion of blocks inside of this block.",
 			pro: true
+		},
+		{
+			type: "boolean",
+			label: "True / False",
+			allowsChildren: false,
+			shortDescription: "Toggle-based input for accepting true and false values.",
+			pro: true
 		}
 	];
 	var html$1 = [
