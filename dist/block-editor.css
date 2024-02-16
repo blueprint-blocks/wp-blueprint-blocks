@@ -3,7 +3,7 @@
 	background: var(--color-white);
 	display: grid;
 	grid-template-columns: 1fr max-content;
-	height: calc(var(--7x) + 3px);
+	height: calc(var(--navigator-height) + 3px);
 	padding-right: var(--5x);
 	position: sticky;
 	top: var(--wp-admin--admin-bar--height);
@@ -16,7 +16,7 @@
 .Navigator ul {
 		display: grid;
 		grid-auto-flow: column;
-		height: calc(var(--7x) + 3px);
+		height: calc(var(--navigator-height) + 3px);
 		justify-content: start;
 		list-style: none;
 		margin: 0;
@@ -688,7 +688,7 @@
 
 .PageBlockJson-json {
 	position: sticky;
-	top: calc(var(--wp-admin--admin-bar--height) + var(--5x));
+	top: calc(var(--wp-admin--admin-bar--height) + var(--navigator-height) + var(--5x));
 }
 
 .BlueprintAttributeHandle {
@@ -2002,6 +2002,7 @@
 	--transition: all 0.15s cubic-bezier(0.55, 0.055, 0.675, 0.19);
 
 	--app-height: max(680px, calc(100vh - 65px - var(--wp-admin--admin-bar--height)));
+	--navigator-height: var(--7x);
 
 	background: #f0f0f1;
 	color: var(--color-black);

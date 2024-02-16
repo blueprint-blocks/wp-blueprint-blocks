@@ -35,5 +35,5 @@
 
 .PageBlockJson-json {
 	position: sticky;
-	top: calc(var(--wp-admin--admin-bar--height) + var(--5x));
+	top: calc(var(--wp-admin--admin-bar--height) + var(--navigator-height) + var(--5x));
 }

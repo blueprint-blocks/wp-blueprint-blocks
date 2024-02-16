@@ -64,6 +64,7 @@
 	--transition: all 0.15s cubic-bezier(0.55, 0.055, 0.675, 0.19);
 
 	--app-height: max(680px, calc(100vh - 65px - var(--wp-admin--admin-bar--height)));
+	--navigator-height: var(--7x);
 
 	background: #f0f0f1;
 	color: var(--color-black);
