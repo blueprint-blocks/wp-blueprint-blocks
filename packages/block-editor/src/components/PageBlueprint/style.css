@@ -8,8 +8,6 @@
 .PageBlueprint-view {
 	--sidebar-width: 340px;
 	align-items: stretch;
-	background: var(--color-lighter-gray);
-	border-radius: 9px;
 	display: grid;
 	grid-template-columns: calc(100% - var(--sidebar-width)) var(--sidebar-width);
 	grid-template-rows: 100%;

@@ -11,6 +11,10 @@
 	&:last-child {
 		margin-bottom: 0;
 	}
+
+	.ProFlag {
+		margin-top: var(--1x);
+	}
 }
 
 .BlueprintSidebarItem.is-clone {

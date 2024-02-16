@@ -4067,6 +4067,7 @@
 			allowsChildren: false,
 			description: "Text based input with options for complex formatting. If no value is input to this field in the editor, it will not be displayed on the front end.",
 			shortDescription: "Text based input with options for complex formatting.",
+			pro: false,
 			attributes: {
 				allowedFormats: {
 					type: "array"
@@ -4102,6 +4103,7 @@
 			label: "Plain Text",
 			allowsChildren: false,
 			shortDescription: "Plain text based input without options for formatting.",
+			pro: false,
 			defaultAttributes: {
 				placeholder: "Enter some text..."
 			}
@@ -4111,6 +4113,7 @@
 			label: "Link",
 			allowsChildren: false,
 			shortDescription: "Inputs for an embedded link accepting a label, href, and target.",
+			pro: false,
 			defaultAttributes: {
 				placeholder: "Enter a label...",
 				tagName: "a"
@@ -4121,10 +4124,18 @@
 			label: "Image",
 			allowsChildren: false,
 			shortDescription: "Upload dialog for all image formats.",
+			pro: false,
 			defaultAttributes: {
 				label: "Image",
 				tagName: "img"
 			}
+		},
+		{
+			type: "inner-blocks",
+			label: "Inner Blocks",
+			allowsChildren: false,
+			shortDescription: "Allow inclusion of blocks inside of this block.",
+			pro: true
 		}
 	];
 	var html$1 = [
@@ -4361,6 +4372,25 @@
 
 	function isAttributeStringValue(value) {
 	  return !isStringNullValue(value) && !isAttributeArrayValue(value) && !isAttributeNumberValue(value) && !isAttributeObjectValue(value);
+	}
+
+	function isProComponent() {
+	  var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'html';
+	  var _iterator = _createForOfIteratorHelper(blockComponents$1.fields),
+	    _step;
+	  try {
+	    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+	      var component = _step.value;
+	      if ((component === null || component === void 0 ? void 0 : component.type) === type) {
+	        return (component === null || component === void 0 ? void 0 : component.pro) || false;
+	      }
+	    }
+	  } catch (err) {
+	    _iterator.e(err);
+	  } finally {
+	    _iterator.f();
+	  }
+	  return false;
 	}
 
 	function normalizeClasslistAsObject() {
@@ -11320,12 +11350,20 @@
 	  var components = useSelector(function (state) {
 	    return getComponentList(state.blockBlueprint, 'edit');
 	  });
+	  var newDraggingComponent = useSelector(function (state) {
+	    var _state$blockBlueprint;
+	    return ((_state$blockBlueprint = state.blockBlueprint) === null || _state$blockBlueprint === void 0 || (_state$blockBlueprint = _state$blockBlueprint.newDraggingComponent) === null || _state$blockBlueprint === void 0 ? void 0 : _state$blockBlueprint.type) || null;
+	  });
 	  var onDrop = function onDrop(_ref2) {
 	    var ancestry = _ref2.ancestry;
-	    dispatch(insertDraggingComponentAtPosition({
-	      context: 'edit',
-	      position: ancestry
-	    }));
+	    if (newDraggingComponent && isProComponent(newDraggingComponent)) {
+	      dispatch(showUpsellPrompt());
+	    } else {
+	      dispatch(insertDraggingComponentAtPosition({
+	        context: 'edit',
+	        position: ancestry
+	      }));
+	    }
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentList, {
 	    isRoot: true,
@@ -11343,9 +11381,15 @@
 	  var components = useSelector(function (state) {
 	    return getComponentList(state.blockBlueprint, 'save');
 	  });
+	  var newDraggingComponent = useSelector(function (state) {
+	    var _state$blockBlueprint;
+	    return ((_state$blockBlueprint = state.blockBlueprint) === null || _state$blockBlueprint === void 0 || (_state$blockBlueprint = _state$blockBlueprint.newDraggingComponent) === null || _state$blockBlueprint === void 0 ? void 0 : _state$blockBlueprint.type) || null;
+	  });
 	  var onDrop = function onDrop(_ref2) {
 	    var ancestry = _ref2.ancestry;
-	    if (Array.isArray(components) && components.length === 0) {
+	    if (newDraggingComponent && isProComponent(newDraggingComponent)) {
+	      dispatch(showUpsellPrompt());
+	    } else if (Array.isArray(components) && components.length === 0) {
 	      dispatch(insertNewComponentAtPosition({
 	        context: 'save',
 	        component: {
@@ -11380,12 +11424,20 @@
 	  var components = useSelector(function (state) {
 	    return getComponentList(state.blockBlueprint, 'sidebar');
 	  });
+	  var newDraggingComponent = useSelector(function (state) {
+	    var _state$blockBlueprint;
+	    return ((_state$blockBlueprint = state.blockBlueprint) === null || _state$blockBlueprint === void 0 || (_state$blockBlueprint = _state$blockBlueprint.newDraggingComponent) === null || _state$blockBlueprint === void 0 ? void 0 : _state$blockBlueprint.type) || null;
+	  });
 	  var onDrop = function onDrop(_ref2) {
 	    var ancestry = _ref2.ancestry;
-	    dispatch(insertDraggingComponentAtPosition({
-	      context: 'sidebar',
-	      position: ancestry
-	    }));
+	    if (newDraggingComponent && isProComponent(newDraggingComponent)) {
+	      dispatch(showUpsellPrompt());
+	    } else {
+	      dispatch(insertDraggingComponentAtPosition({
+	        context: 'sidebar',
+	        position: ancestry
+	      }));
+	    }
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentList, {
 	    isRoot: true,
@@ -11403,12 +11455,20 @@
 	  var components = useSelector(function (state) {
 	    return getComponentList(state.blockBlueprint, 'toolbar');
 	  });
+	  var newDraggingComponent = useSelector(function (state) {
+	    var _state$blockBlueprint;
+	    return ((_state$blockBlueprint = state.blockBlueprint) === null || _state$blockBlueprint === void 0 || (_state$blockBlueprint = _state$blockBlueprint.newDraggingComponent) === null || _state$blockBlueprint === void 0 ? void 0 : _state$blockBlueprint.type) || null;
+	  });
 	  var onDrop = function onDrop(_ref2) {
 	    var ancestry = _ref2.ancestry;
-	    dispatch(insertDraggingComponentAtPosition({
-	      context: 'toolbar',
-	      position: ancestry
-	    }));
+	    if (newDraggingComponent && isProComponent(newDraggingComponent)) {
+	      dispatch(showUpsellPrompt());
+	    } else {
+	      dispatch(insertDraggingComponentAtPosition({
+	        context: 'toolbar',
+	        position: ancestry
+	      }));
+	    }
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentList, {
 	    isRoot: true,
@@ -11601,7 +11661,9 @@
 	    _ref$type = _ref.type,
 	    type = _ref$type === void 0 ? 'html' : _ref$type,
 	    _ref$defaultAttribute = _ref.defaultAttributes,
-	    defaultAttributes = _ref$defaultAttribute === void 0 ? {} : _ref$defaultAttribute;
+	    defaultAttributes = _ref$defaultAttribute === void 0 ? {} : _ref$defaultAttribute,
+	    _ref$pro = _ref.pro,
+	    pro = _ref$pro === void 0 ? false : _ref$pro;
 	  var dispatch = useDispatch();
 	  var ref = React$2.useRef(null);
 	  var rect = useRect(ref);
@@ -11641,7 +11703,7 @@
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintSidebarItem-description",
 	      children: shortDescription
-	    }), /*#__PURE__*/jsxRuntimeExports.jsx(Draggable$1, {
+	    }), pro === true && /*#__PURE__*/jsxRuntimeExports.jsx(ProFlag, {}), /*#__PURE__*/jsxRuntimeExports.jsx(Draggable$1, {
 	      axis: "both",
 	      bounds: {
 	        bottom: editorRect.bottom - rect.bottom,
@@ -11660,7 +11722,7 @@
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	          className: "BlueprintSidebarItem-description",
 	          children: shortDescription
-	        })]
+	        }), pro === true && /*#__PURE__*/jsxRuntimeExports.jsx(ProFlag, {})]
 	      })
 	    })]
 	  });

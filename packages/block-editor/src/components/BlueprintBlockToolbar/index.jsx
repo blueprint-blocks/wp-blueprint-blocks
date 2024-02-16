@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux'
 
+import { isProComponent } from '../../functions'
 import { getComponentList, insertDraggingComponentAtPosition } from '../../store/block-blueprint'
+import { showUpsellPrompt } from '../../store/upsell-prompt'
 
 import BlueprintComponentList from '../BlueprintComponentList'
 
@@ -14,11 +16,19 @@ function BlueprintBlockToolbar( {
 		getComponentList( state.blockBlueprint, 'toolbar' )
 	) )
 
+	const newDraggingComponent = useSelector( ( state ) => (
+		state.blockBlueprint?.newDraggingComponent?.type || null
+	) )
+
 	const onDrop = ( { ancestry } ) => {
-		dispatch( insertDraggingComponentAtPosition( {
-			context: 'toolbar',
-			position: ancestry,
-		} ) )
+		if ( env.PRO_VERSION !== true && newDraggingComponent && isProComponent( newDraggingComponent ) ) {
+			dispatch( showUpsellPrompt() )
+		} else {
+			dispatch( insertDraggingComponentAtPosition( {
+				context: 'toolbar',
+				position: ancestry,
+			} ) )
+		}
 	}
 
 	return (

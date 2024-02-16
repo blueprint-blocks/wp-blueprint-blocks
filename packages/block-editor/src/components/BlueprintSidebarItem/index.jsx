@@ -3,6 +3,8 @@ import { useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Draggable from 'react-draggable'
 
+import ProFlag from '../ProFlag'
+
 import { useRect } from '../../hooks'
 import { startDraggingNewComponent, stopDragging, unsetDraggingComponent } from '../../store/block-blueprint'
 
@@ -14,6 +16,7 @@ function BlueprintSidebarItem( {
 	editorRef = null,
 	type = 'html',
 	defaultAttributes = {},
+	pro = false,
 } ) {
 
 	const dispatch = useDispatch()
@@ -53,6 +56,9 @@ function BlueprintSidebarItem( {
 			<div className="BlueprintSidebarItem-description">
 				{ shortDescription }
 			</div>
+			{ env.PRO_VERSION !== true && pro === true && (
+				<ProFlag />
+			) }
 			<Draggable
 				axis="both"
 				bounds={ {
@@ -72,6 +78,9 @@ function BlueprintSidebarItem( {
 					<div className="BlueprintSidebarItem-description">
 						{ shortDescription }
 					</div>
+					{ env.PRO_VERSION !== true && pro === true && (
+						<ProFlag />
+					) }
 				</div>
 			</Draggable>
 		</div>

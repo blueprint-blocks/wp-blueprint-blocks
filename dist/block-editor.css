@@ -1366,6 +1366,10 @@
 		margin-bottom: 0;
 	}
 
+.BlueprintSidebarItem .ProFlag {
+		margin-top: var(--1x);
+	}
+
 .BlueprintSidebarItem.is-clone {
 	bottom: 0;
 	left: 0;
@@ -1509,7 +1513,7 @@
 		grid-row: 1;
 		height: 100%;
 		overflow: auto;
-		padding: var(--5x) var(--3x);
+		padding: 0 0 0 var(--3x);
 		width: 100%;
 	}
 
@@ -1539,8 +1543,6 @@
 .PageBlueprint-view {
 	--sidebar-width: 340px;
 	align-items: stretch;
-	background: var(--color-lighter-gray);
-	border-radius: 9px;
 	display: grid;
 	grid-template-columns: calc(100% - var(--sidebar-width)) var(--sidebar-width);
 	grid-template-rows: 100%;
