@@ -8,6 +8,7 @@ import blockViewCss from './block-view-css'
 import editor from './editor'
 import postMetadata from './post-metadata'
 import postType from './post-type'
+import upsellPrompt from './upsell-prompt'
 
 const store = configureStore( {
 	reducer: combineReducers( {
@@ -19,6 +20,7 @@ const store = configureStore( {
 		editor,
 		postMetadata,
 		postType,
+		upsellPrompt,
 	} ),
 } )
 

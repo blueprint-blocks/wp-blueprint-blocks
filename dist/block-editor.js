@@ -3943,7 +3943,7 @@
 	  };
 	}
 
-	var slice$7 = createSlice({
+	var slice$8 = createSlice({
 	  name: 'attributeHandles',
 	  initialState: {
 	    allHandles: {},
@@ -4015,10 +4015,10 @@
 	    }
 	  }
 	});
-	var actions$7 = slice$7.actions,
-	  reducer$7 = slice$7.reducer;
-	var removePosition = actions$7.removePosition,
-	  setPosition = actions$7.setPosition;
+	var actions$8 = slice$8.actions,
+	  reducer$8 = slice$8.reducer;
+	var removePosition = actions$8.removePosition,
+	  setPosition = actions$8.setPosition;
 
 	function delimiterize(string) {
 	  return string.replace(/([a-z])([A-Z])/g, function (match, p1, p2) {
@@ -4438,7 +4438,7 @@
 	}
 
 	var _blueprintBlocksEdito$7;
-	var _excluded$b = ["children"];
+	var _excluded$a = ["children"];
 	var blockComponents = {};
 	function parseComponentTree() {
 	  var components = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -4449,7 +4449,7 @@
 	  components.forEach(function (_ref) {
 	    var _ref$children = _ref.children,
 	      children = _ref$children === void 0 ? [] : _ref$children,
-	      component = _objectWithoutProperties(_ref, _excluded$b);
+	      component = _objectWithoutProperties(_ref, _excluded$a);
 	    var clientId = getUniqueClientId();
 	    var childClientIds = [];
 	    if (children.length > 0) {
@@ -4849,21 +4849,21 @@
 	  unsetDraggingComponent: unsetDraggingComponent$1
 	};
 
-	var slice$6 = createSlice({
+	var slice$7 = createSlice({
 	  name: 'blockBlueprint',
 	  initialState: initialState,
 	  reducers: reducers
 	});
-	var actions$6 = slice$6.actions,
-	  reducer$6 = slice$6.reducer;
-	var insertNewComponentAtPosition = actions$6.insertNewComponentAtPosition,
-	  insertDraggingComponentAtPosition = actions$6.insertDraggingComponentAtPosition,
-	  setComponentAttribute = actions$6.setComponentAttribute,
-	  startDraggingExistingComponent = actions$6.startDraggingExistingComponent,
-	  startDraggingNewComponent = actions$6.startDraggingNewComponent,
-	  stopDragging = actions$6.stopDragging,
-	  unsetComponentAttribute = actions$6.unsetComponentAttribute,
-	  unsetDraggingComponent = actions$6.unsetDraggingComponent;
+	var actions$7 = slice$7.actions,
+	  reducer$7 = slice$7.reducer;
+	var insertNewComponentAtPosition = actions$7.insertNewComponentAtPosition,
+	  insertDraggingComponentAtPosition = actions$7.insertDraggingComponentAtPosition,
+	  setComponentAttribute = actions$7.setComponentAttribute,
+	  startDraggingExistingComponent = actions$7.startDraggingExistingComponent,
+	  startDraggingNewComponent = actions$7.startDraggingNewComponent,
+	  stopDragging = actions$7.stopDragging,
+	  unsetComponentAttribute = actions$7.unsetComponentAttribute,
+	  unsetDraggingComponent = actions$7.unsetDraggingComponent;
 
 	var getBlockClassName = function getBlockClassName(state, context) {
 	  var _state$name = state.name,
@@ -4887,7 +4887,7 @@
 	var _ref$2 = ((_blueprintBlocksEdito$6 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$6 === void 0 ? void 0 : _blueprintBlocksEdito$6.blockMetadata) || {},
 	  _ref$blockJson = _ref$2.blockJson,
 	  blockJson = _ref$blockJson === void 0 ? {} : _ref$blockJson;
-	var slice$5 = createSlice({
+	var slice$6 = createSlice({
 	  name: 'blockJson',
 	  initialState: _objectSpread2(_objectSpread2({}, blockJson), {}, {
 	    keywords: _toConsumableArray((blockJson === null || blockJson === void 0 ? void 0 : blockJson.keywords) || []),
@@ -4932,34 +4932,58 @@
 	        return key !== name;
 	      }));
 	    },
+	    setAllowedBlocks: function setAllowedBlocks(state, action) {
+	      state.allowedBlocks = Array.isArray(action.payload) && action.payload || [action.payload];
+	    },
+	    setAncestor: function setAncestor(state, action) {
+	      state.ancestor = Array.isArray(action.payload) && action.payload || [action.payload];
+	    },
+	    setCategory: function setCategory(state, action) {
+	      state.category = action.payload;
+	    },
+	    setDescription: function setDescription(state, action) {
+	      state.description = action.payload;
+	    },
+	    setIcon: function setIcon(state, action) {
+	      state.icon = action.payload;
+	    },
 	    setKeywords: function setKeywords(state, action) {
 	      state.keywords = (Array.isArray(action.payload) && action.payload || [action.payload]).slice(0, 3);
 	    },
 	    setName: function setName(state, action) {
 	      state.name = action.payload;
 	    },
+	    setParent: function setParent(state, action) {
+	      state.parent = Array.isArray(action.payload) && action.payload || [action.payload];
+	    },
+	    setTextdomain: function setTextdomain(state, action) {
+	      state.textdomain = action.payload;
+	    },
 	    setTitle: function setTitle(state, action) {
 	      state.title = action.payload;
-	    },
-	    setIcon: function setIcon(state, action) {
-	      state.icon = action.payload;
 	    }
 	  }
 	});
-	var actions$5 = slice$5.actions,
-	  reducer$5 = slice$5.reducer;
-	var addAttribute = actions$5.addAttribute,
-	  editAttribute = actions$5.editAttribute,
-	  removeAttribute = actions$5.removeAttribute,
-	  setIcon = actions$5.setIcon,
-	  setKeywords = actions$5.setKeywords,
-	  setName = actions$5.setName,
-	  setTitle = actions$5.setTitle;
+	var actions$6 = slice$6.actions,
+	  reducer$6 = slice$6.reducer;
+	var addAttribute = actions$6.addAttribute,
+	  editAttribute = actions$6.editAttribute,
+	  removeAttribute = actions$6.removeAttribute;
+	  actions$6.setAllowedBlocks;
+	  actions$6.setAncestor;
+	  var setCategory = actions$6.setCategory,
+	  setDescription = actions$6.setDescription,
+	  setIcon = actions$6.setIcon,
+	  setKeywords = actions$6.setKeywords,
+	  setName = actions$6.setName;
+	  actions$6.setParent;
+	  actions$6.setTextdomain;
+	  var setTitle = actions$6.setTitle;
 
 	var _blueprintBlocksEdito$5 = blueprintBlocksEditorSettings,
 	  _blueprintBlocksEdito2$3 = _blueprintBlocksEdito$5.blockMetadata,
 	  blockMetadata$1 = _blueprintBlocksEdito2$3 === void 0 ? {} : _blueprintBlocksEdito2$3;
-	var slice$4 = createSlice({
+	var slice$5 = createSlice({
 	  name: 'blockEditorCss',
 	  initialState: {
 	    raw: (blockMetadata$1 === null || blockMetadata$1 === void 0 ? void 0 : blockMetadata$1.editorCss) || ''
@@ -4970,14 +4994,14 @@
 	    }
 	  }
 	});
-	var actions$4 = slice$4.actions,
-	  reducer$4 = slice$4.reducer;
-	var setEditorCss = actions$4.setEditorCss;
+	var actions$5 = slice$5.actions,
+	  reducer$5 = slice$5.reducer;
+	var setEditorCss = actions$5.setEditorCss;
 
 	var _blueprintBlocksEdito$4 = blueprintBlocksEditorSettings,
 	  _blueprintBlocksEdito2$2 = _blueprintBlocksEdito$4.blockMetadata,
 	  blockMetadata = _blueprintBlocksEdito2$2 === void 0 ? {} : _blueprintBlocksEdito2$2;
-	var slice$3 = createSlice({
+	var slice$4 = createSlice({
 	  name: 'blockViewCss',
 	  initialState: {
 	    raw: (blockMetadata === null || blockMetadata === void 0 ? void 0 : blockMetadata.viewCss) || ''
@@ -4988,12 +5012,12 @@
 	    }
 	  }
 	});
-	var actions$3 = slice$3.actions,
-	  reducer$3 = slice$3.reducer;
-	var setViewCss = actions$3.setViewCss;
+	var actions$4 = slice$4.actions,
+	  reducer$4 = slice$4.reducer;
+	var setViewCss = actions$4.setViewCss;
 
-	var _excluded$a = ["context"];
-	var slice$2 = createSlice({
+	var _excluded$9 = ["context"];
+	var slice$3 = createSlice({
 	  name: 'editor',
 	  initialState: {
 	    currentFocus: null,
@@ -5006,7 +5030,7 @@
 	      var _ref = action.payload || {},
 	        _ref$context = _ref.context,
 	        context = _ref$context === void 0 ? null : _ref$context,
-	        props = _objectWithoutProperties(_ref, _excluded$a);
+	        props = _objectWithoutProperties(_ref, _excluded$9);
 	      if (context === null) {
 	        return;
 	      }
@@ -5025,16 +5049,16 @@
 	    }
 	  }
 	});
-	var actions$2 = slice$2.actions,
-	  reducer$2 = slice$2.reducer;
-	var setFocus = actions$2.setFocus,
-	  setSize = actions$2.setSize,
-	  unsetFocus = actions$2.unsetFocus;
+	var actions$3 = slice$3.actions,
+	  reducer$3 = slice$3.reducer;
+	var setFocus = actions$3.setFocus,
+	  setSize = actions$3.setSize,
+	  unsetFocus = actions$3.unsetFocus;
 
 	var _blueprintBlocksEdito$3 = blueprintBlocksEditorSettings,
 	  _blueprintBlocksEdito2$1 = _blueprintBlocksEdito$3.postMetadata,
 	  postMetadata = _blueprintBlocksEdito2$1 === void 0 ? {} : _blueprintBlocksEdito2$1;
-	var slice$1 = createSlice({
+	var slice$2 = createSlice({
 	  name: 'postMetadata',
 	  initialState: _objectSpread2(_objectSpread2({}, postMetadata), {}, {
 	    postId: (postMetadata === null || postMetadata === void 0 ? void 0 : postMetadata.postId) || null
@@ -5045,14 +5069,14 @@
 	    }
 	  }
 	});
-	var actions$1 = slice$1.actions,
-	  reducer$1 = slice$1.reducer;
-	var setPostId = actions$1.setPostId;
+	var actions$2 = slice$2.actions,
+	  reducer$2 = slice$2.reducer;
+	var setPostId = actions$2.setPostId;
 
 	var _blueprintBlocksEdito$2 = blueprintBlocksEditorSettings,
 	  _blueprintBlocksEdito2 = _blueprintBlocksEdito$2.postType,
 	  postType = _blueprintBlocksEdito2 === void 0 ? {} : _blueprintBlocksEdito2;
-	var slice = createSlice({
+	var slice$1 = createSlice({
 	  name: 'postType',
 	  initialState: _objectSpread2(_objectSpread2({}, postType), {}, {
 	    name: (postType === null || postType === void 0 ? void 0 : postType.name) || null,
@@ -5064,25 +5088,45 @@
 	    }
 	  }
 	});
+	var actions$1 = slice$1.actions,
+	  reducer$1 = slice$1.reducer;
+	actions$1.setPostId;
+
+	var slice = createSlice({
+	  name: 'upsellPrompt',
+	  initialState: {
+	    visible: false
+	  },
+	  reducers: {
+	    hideUpsellPrompt: function hideUpsellPrompt(state, action) {
+	      state.visible = false;
+	    },
+	    showUpsellPrompt: function showUpsellPrompt(state, action) {
+	      state.visible = true;
+	    }
+	  }
+	});
 	var actions = slice.actions,
 	  reducer = slice.reducer;
-	actions.setPostId;
+	var hideUpsellPrompt = actions.hideUpsellPrompt,
+	  showUpsellPrompt = actions.showUpsellPrompt;
 
 	var store = configureStore({
 	  reducer: combineReducers({
-	    attributeHandles: reducer$7,
-	    blockBlueprint: reducer$6,
-	    blockJson: reducer$5,
-	    blockEditorCss: reducer$4,
-	    blockViewCss: reducer$3,
-	    editor: reducer$2,
-	    postMetadata: reducer$1,
-	    postType: reducer
+	    attributeHandles: reducer$8,
+	    blockBlueprint: reducer$7,
+	    blockJson: reducer$6,
+	    blockEditorCss: reducer$5,
+	    blockViewCss: reducer$4,
+	    editor: reducer$3,
+	    postMetadata: reducer$2,
+	    postType: reducer$1,
+	    upsellPrompt: reducer
 	  })
 	});
 	window.blueprintBlocksStore = store;
 
-	var _excluded$9 = ["id"],
+	var _excluded$8 = ["id"],
 	  _excluded2$1 = ["id"];
 	function saveNewBlock(_ref) {
 	  var postType = _ref.postType,
@@ -5106,7 +5150,7 @@
 	      }
 	    }).then(function (_ref2) {
 	      var id = _ref2.id;
-	        _objectWithoutProperties(_ref2, _excluded$9);
+	        _objectWithoutProperties(_ref2, _excluded$8);
 	      resolve({
 	        id: id
 	      });
@@ -7820,8 +7864,8 @@
 	    rows = _ref$rows === void 0 ? 1 : _ref$rows,
 	    _ref$value = _ref.value,
 	    value = _ref$value === void 0 ? '' : _ref$value,
-	    _ref$allowFilters = _ref.allowFilters,
-	    allowFilters = _ref$allowFilters === void 0 ? true : _ref$allowFilters;
+	    _ref$allowTransforms = _ref.allowTransforms,
+	    allowTransforms = _ref$allowTransforms === void 0 ? true : _ref$allowTransforms;
 	  var ref = React$2.useRef(null);
 	  var contentRef = React$2.useRef(null);
 	  var _useState = React$2.useState(false),
@@ -7832,7 +7876,7 @@
 	    return String(value || '');
 	  }, [value]);
 	  var html = _value;
-	  if (allowFilters) {
+	  if (allowTransforms) {
 	    html = hooks$3.applyFilters('blueprint-blocks.editable-string.value.before-render', _value);
 	  }
 	  var _onBlur = function _onBlur() {
@@ -7842,7 +7886,7 @@
 	  var _onChange = function _onChange(_ref2) {
 	    var target = _ref2.target;
 	    var newValue = String((target === null || target === void 0 ? void 0 : target.value) || '').replace(/\n/g, ' ');
-	    if (allowFilters) {
+	    if (allowTransforms) {
 	      newValue = hooks$3.applyFilters('blueprint-blocks.editable-string.value.before-on-change', newValue);
 	    }
 	    onChange && onChange(newValue);
@@ -8087,10 +8131,10 @@
 	}
 
 	function ListField(_ref) {
-	  var disabled = _ref.disabled,
-	    label = _ref.label;
-	    _ref.min;
-	    var _ref$max = _ref.max,
+	  var _ref$disabled = _ref.disabled,
+	    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
+	    label = _ref.label,
+	    _ref$max = _ref.max,
 	    max = _ref$max === void 0 ? 0 : _ref$max,
 	    placeholder = _ref.placeholder,
 	    onBlur = _ref.onBlur,
@@ -8142,7 +8186,7 @@
 	    }));
 	  };
 	  var itemList = value.slice(0, max);
-	  if (itemList[itemList.length - 1] !== '') {
+	  if ((itemList === null || itemList === void 0 ? void 0 : itemList[itemList.length - 1]) !== '') {
 	    itemList.push('');
 	  }
 	  useOnClickOutside(ref, function () {
@@ -8157,12 +8201,11 @@
 	      return setFocus(Math.min((value === null || value === void 0 ? void 0 : value.length) || 0, max));
 	    },
 	    children: [label && /*#__PURE__*/jsxRuntimeExports.jsx(FieldLabel, {
-	      htmlFor: name,
 	      label: label,
 	      tooltip: tooltip
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "ListField-list",
-	      children: itemList.slice(0, max).map(function (itemValue, index) {
+	      children: (max > 0 && itemList.slice(0, max) || itemList).map(function (itemValue, index) {
 	        return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	          onClick: function onClick(event) {
 	            return event.stopPropagation();
@@ -8173,13 +8216,13 @@
 	          onBlur: function onBlur() {
 	            return setBlur(index);
 	          },
-	          children: [disabled && index < itemList.length - 1 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	          children: [disabled === true && index < itemList.length - 1 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	            "class": "ListField-value",
 	            children: itemValue
-	          }), disabled && index === itemList.length - 1 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	          }), disabled === true && index === itemList.length - 1 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	            "class": "ListField-placeholder",
 	            children: placeholder
-	          }), !disabled && /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
+	          }), disabled !== true && /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
 	            placeholder: placeholder,
 	            value: itemValue,
 	            onChange: function onChange(indexValue) {
@@ -8293,9 +8336,20 @@
 	  });
 	}
 
-	function ProFlag() {
+	function ProFlag(_ref) {
+	  var _ref$upsell = _ref.upsell,
+	    upsell = _ref$upsell === void 0 ? true : _ref$upsell;
+	  var dispatch = useDispatch();
+	  var onClick = function onClick() {
+	    if (upsell) {
+	      dispatch(showUpsellPrompt());
+	    }
+	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	    className: "ProFlag",
+	    className: classNames('ProFlag', {
+	      'has-upsell': upsell
+	    }),
+	    onClick: onClick,
 	    children: 'PRO'
 	  });
 	}
@@ -8411,53 +8465,34 @@
 	  });
 	}
 
-	var _excluded$8 = ["title", "keywords", "icon", "textdomain", "description", "category"];
 	var _blueprintBlocksEdito$1;
-	var _ref$1 = ((_blueprintBlocksEdito$1 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$1 === void 0 ? void 0 : _blueprintBlocksEdito$1.blockMetadata) || {},
-	  _ref$blockNamespace = _ref$1.blockNamespace,
-	  blockNamespace = _ref$blockNamespace === void 0 ? 'blueprint-blocks' : _ref$blockNamespace;
+	var _ref$1 = ((_blueprintBlocksEdito$1 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$1 === void 0 ? void 0 : _blueprintBlocksEdito$1.blockMetadata) || {};
+	  _ref$1.blockNamespace;
 	function PageBlockJson() {
 	  var dispatch = useDispatch();
-	  var _useSelector = useSelector(function (state) {
-	      return state.blockJson || {};
-	    }),
-	    blockTitle = _useSelector.title,
-	    blockKeywords = _useSelector.keywords,
-	    blockIcon = _useSelector.icon,
-	    textdomain = _useSelector.textdomain,
-	    description = _useSelector.description,
-	    category = _useSelector.category,
-	    blockJson = _objectWithoutProperties(_useSelector, _excluded$8);
-	  var setBlockTitle = function setBlockTitle(title) {
-	    dispatch(setTitle(title));
+	  var blockJson = useSelector(function (state) {
+	    return state.blockJson || {};
+	  });
+	  var setBlockDescription = function setBlockDescription(description) {
+	    dispatch(setDescription(description));
+	  };
+	  var setBlockCategory = function setBlockCategory(category) {
+	    dispatch(setCategory(category));
+	  };
+	  var setBlockIcon = function setBlockIcon(icon) {
+	    dispatch(setIcon(icon));
 	  };
 	  var setBlockKeywords = function setBlockKeywords(keywords) {
 	    dispatch(setKeywords(keywords));
 	  };
-	  var setBlockIcon = function setBlockIcon(icon) {
-	    dispatch(setIcon(icon));
+	  var setBlockTitle = function setBlockTitle(title) {
+	    dispatch(setTitle(title));
 	  };
 	  var _useFocus = useFocus([]),
 	    _useFocus2 = _slicedToArray(_useFocus, 3),
 	    hasFocus = _useFocus2[0],
 	    _onBlur = _useFocus2[1],
 	    _onFocus = _useFocus2[2];
-	  var _useState = React$2.useState(textdomain !== blockNamespace),
-	    _useState2 = _slicedToArray(_useState, 2);
-	    _useState2[0];
-	    _useState2[1];
-	  var _useState3 = React$2.useState(textdomain),
-	    _useState4 = _slicedToArray(_useState3, 2),
-	    blockTextdomain = _useState4[0];
-	    _useState4[1];
-	  var _useState5 = React$2.useState(description),
-	    _useState6 = _slicedToArray(_useState5, 2),
-	    blockDescription = _useState6[0],
-	    setBlockDescription = _useState6[1];
-	  var _useState7 = React$2.useState(category),
-	    _useState8 = _slicedToArray(_useState7, 2),
-	    blockCategory = _useState8[0],
-	    setBlockCategory = _useState8[1];
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    className: "PageBlockJson",
 	    children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
@@ -8475,12 +8510,12 @@
 	          children: [/*#__PURE__*/jsxRuntimeExports.jsx(DashiconsField, {
 	            name: "icon",
 	            label: "Block icon",
-	            value: blockIcon,
+	            value: blockJson === null || blockJson === void 0 ? void 0 : blockJson.icon,
 	            setValue: setBlockIcon
 	          }), /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
 	            label: "Enter a title...",
 	            tooltip: "Hello...",
-	            value: blockTitle,
+	            value: blockJson === null || blockJson === void 0 ? void 0 : blockJson.title,
 	            setValue: setBlockTitle,
 	            onFocus: function onFocus() {
 	              return _onFocus('title');
@@ -8493,7 +8528,7 @@
 	            tooltip: "Hello...",
 	            multiLine: true,
 	            rows: 4,
-	            value: blockDescription,
+	            value: blockJson === null || blockJson === void 0 ? void 0 : blockJson.description,
 	            setValue: setBlockDescription,
 	            onFocus: function onFocus() {
 	              return _onFocus('description');
@@ -8505,7 +8540,7 @@
 	            label: "Enter a few keywords...",
 	            placeholder: "Enter a keyword...",
 	            tooltip: "Keywords are used to find your block when searching in the editor.",
-	            value: blockKeywords,
+	            value: blockJson === null || blockJson === void 0 ? void 0 : blockJson.keywords,
 	            setValue: setBlockKeywords,
 	            onFocus: function onFocus(index) {
 	              return _onFocus('keywords', index);
@@ -8525,7 +8560,7 @@
 	              label: 'Layout',
 	              value: 'layout'
 	            }],
-	            value: blockCategory,
+	            value: blockJson === null || blockJson === void 0 ? void 0 : blockJson.category,
 	            setValue: setBlockCategory,
 	            onFocus: function onFocus() {
 	              return _onFocus('category');
@@ -8542,50 +8577,53 @@
 	              children: 'Inner Blocks'
 	            }), /*#__PURE__*/jsxRuntimeExports.jsx(ProFlag, {})]
 	          }), /*#__PURE__*/jsxRuntimeExports.jsx(ListField, {
-	            disabled: false !== true,
-	            name: "keywords",
 	            label: "What blocks can this block be inserted in?",
 	            placeholder: "Start typing to choose a block...",
 	            tooltip: "Keywords are used to find your block when searching in the editor.",
-	            value: blockKeywords,
-	            setValue: setBlockKeywords,
+	            value: [],
+	            setValue: function setValue(value) {
+	              if (value && !(value.length === 1 && value[0] === '')) {
+	                dispatch(showUpsellPrompt());
+	              }
+	            },
 	            onFocus: function onFocus(index) {
-	              return _onFocus('keywords', index);
+	              return _onFocus('parent', index);
 	            },
 	            onBlur: function onBlur(index) {
-	              return _onBlur('keywords', index);
-	            },
-	            max: 3
+	              return _onBlur('parent', index);
+	            }
 	          }), /*#__PURE__*/jsxRuntimeExports.jsx(ListField, {
-	            disabled: false !== true,
-	            name: "keywords",
 	            label: "What blocks can this block be inserted in, anywhere in the ancestry tree?",
 	            placeholder: "Start typing to choose a block...",
 	            tooltip: "Keywords are used to find your block when searching in the editor.",
-	            value: blockKeywords,
-	            setValue: setBlockKeywords,
+	            value: [],
+	            setValue: function setValue(value) {
+	              if (!(value.length === 1 && value[0] === '')) {
+	                dispatch(showUpsellPrompt());
+	              }
+	            },
 	            onFocus: function onFocus(index) {
-	              return _onFocus('keywords', index);
+	              return _onFocus('ancestor', index);
 	            },
 	            onBlur: function onBlur(index) {
-	              return _onBlur('keywords', index);
-	            },
-	            max: 3
+	              return _onBlur('ancestor', index);
+	            }
 	          }), /*#__PURE__*/jsxRuntimeExports.jsx(ListField, {
-	            disabled: false !== true,
-	            name: "keywords",
 	            label: "What blocks can be inserted into this block?",
 	            placeholder: "Start typing to choose a block...",
 	            tooltip: "Keywords are used to find your block when searching in the editor.",
-	            value: blockKeywords,
-	            setValue: setBlockKeywords,
+	            value: [],
+	            setValue: function setValue(value) {
+	              if (value && !(value.length === 1 && value[0] === '')) {
+	                dispatch(showUpsellPrompt());
+	              }
+	            },
 	            onFocus: function onFocus(index) {
-	              return _onFocus('keywords', index);
+	              return _onFocus('allowedBlocks', index);
 	            },
 	            onBlur: function onBlur(index) {
-	              return _onBlur('keywords', index);
-	            },
-	            max: 3
+	              return _onBlur('allowedBlocks', index);
+	            }
 	          })]
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	          className: "PageBlockJson-fieldset",
@@ -8607,11 +8645,11 @@
 	            keywords: 'Enter a keyword...'
 	          },
 	          values: {
-	            textdomain: blockTextdomain,
-	            title: blockTitle,
-	            description: blockDescription,
-	            category: blockCategory,
-	            keywords: blockKeywords
+	            textdomain: blockJson === null || blockJson === void 0 ? void 0 : blockJson.textdomain,
+	            title: blockJson === null || blockJson === void 0 ? void 0 : blockJson.title,
+	            description: blockJson === null || blockJson === void 0 ? void 0 : blockJson.description,
+	            category: blockJson === null || blockJson === void 0 ? void 0 : blockJson.category,
+	            keywords: blockJson === null || blockJson === void 0 ? void 0 : blockJson.keywords
 	          }
 	        })
 	      })]
@@ -16103,9 +16141,9 @@
 	}
 	const t = Tag$1.define;
 	const comment$1 = t(),
-	  name$1 = t(),
-	  typeName = t(name$1),
-	  propertyName = t(name$1),
+	  name = t(),
+	  typeName = t(name),
+	  propertyName = t(name),
 	  literal = t(),
 	  string$1 = t(literal),
 	  number$1 = t(literal),
@@ -16156,11 +16194,11 @@
 	  /**
 	  Any kind of identifier.
 	  */
-	  name: name$1,
+	  name,
 	  /**
 	  The [name](#highlight.tags.name) of a variable.
 	  */
-	  variableName: t(name$1),
+	  variableName: t(name),
 	  /**
 	  A type [name](#highlight.tags.name).
 	  */
@@ -16180,19 +16218,19 @@
 	  /**
 	  The [name](#highlight.tags.name) of a class.
 	  */
-	  className: t(name$1),
+	  className: t(name),
 	  /**
 	  A label [name](#highlight.tags.name).
 	  */
-	  labelName: t(name$1),
+	  labelName: t(name),
 	  /**
 	  A namespace [name](#highlight.tags.name).
 	  */
-	  namespace: t(name$1),
+	  namespace: t(name),
 	  /**
 	  The [name](#highlight.tags.name) of a macro.
 	  */
-	  macroName: t(name$1),
+	  macroName: t(name),
 	  /**
 	  A literal value.
 	  */
@@ -41662,6 +41700,96 @@
 	  });
 	}
 
+	function Logo(_ref) {
+	  var _ref$pro = _ref.pro,
+	    pro = _ref$pro === void 0 ? true : _ref$pro;
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    className: "Logo",
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("h1", {
+	      children: 'Blueprint Blocks'
+	    }), pro === true && /*#__PURE__*/jsxRuntimeExports.jsx(ProFlag, {
+	      upsell: false
+	    })]
+	  });
+	}
+
+	function UpsellPrompt() {
+	  var dispatch = useDispatch();
+	  var ref = React$2.useRef(null);
+	  var onClose = function onClose() {
+	    var _ref$current;
+	    ref === null || ref === void 0 || (_ref$current = ref.current) === null || _ref$current === void 0 || _ref$current.classList.remove('is-visible');
+	    setTimeout(function () {
+	      dispatch(hideUpsellPrompt());
+	    }, 300);
+	  };
+	  React$2.useEffect(function () {
+	    setTimeout(function () {
+	      var _ref$current2;
+	      ref === null || ref === void 0 || (_ref$current2 = ref.current) === null || _ref$current2 === void 0 || _ref$current2.classList.add('is-visible');
+	    }, 50);
+	  }, []);
+	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	    ref: ref,
+	    className: "UpsellPrompt",
+	    children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	      className: "UpsellPrompt-wrap",
+	      children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	        className: "UpsellPrompt-window",
+	        children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	          className: "UpsellPrompt-close",
+	          onClick: onClose
+	        }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	          className: "UpsellPrompt-content",
+	          children: [/*#__PURE__*/jsxRuntimeExports.jsx(Logo, {}), /*#__PURE__*/jsxRuntimeExports.jsx("p", {
+	            children: 'Ready to level up you block building game? Blueprint Blocks is the native Gutenberg platform for web professionals that has near-zero learning curve but is extremely powerful. Transparent annual pricing with ongoing updates and support.'
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	            className: "UpsellPrompt-try",
+	            children: 'Try Blueprint Blocks Pro risk-free for 30 days. Switch plans at any time.'
+	          })]
+	        }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	          className: "UpsellPrompt-tiles",
+	          children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	            className: "UpsellPrompt-tile",
+	            children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	              children: [/*#__PURE__*/jsxRuntimeExports.jsx("h3", {
+	                children: "Single Site"
+	              }), /*#__PURE__*/jsxRuntimeExports.jsx("p", {
+	                children: "Utilize all pro features on a single site."
+	              })]
+	            }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	              className: "UpsellPrompt-pricing",
+	              children: ["$149 ", /*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	                children: "per year"
+	              })]
+	            }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	              className: "UpsellPrompt-secondaryButton",
+	              children: "Upgrade Now"
+	            })]
+	          }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	            className: "UpsellPrompt-tile",
+	            children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	              children: [/*#__PURE__*/jsxRuntimeExports.jsx("h3", {
+	                children: "Unlimited Sites"
+	              }), /*#__PURE__*/jsxRuntimeExports.jsx("p", {
+	                children: "Utilize all pro features on unlimited sites."
+	              })]
+	            }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	              className: "UpsellPrompt-pricing",
+	              children: ["$299 ", /*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	                children: "per year"
+	              })]
+	            }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	              className: "UpsellPrompt-primaryButton",
+	              children: "Upgrade Now"
+	            })]
+	          })]
+	        })]
+	      })
+	    })
+	  });
+	}
+
 	function App() {
 	  var dispatch = useDispatch();
 	  var ref = React$2.useRef(null);
@@ -41686,6 +41814,9 @@
 	  });
 	  var blockViewCss = useSelector(function (state) {
 	    return state.blockViewCss.raw;
+	  });
+	  var upsellPromptIsVisible = useSelector(function (state) {
+	    return state.upsellPrompt.visible;
 	  });
 	  var onPreview = function onPreview() {};
 	  var onUpdate = function onUpdate() {
@@ -41722,7 +41853,7 @@
 	      setActiveNavItem: setActiveNavItem,
 	      onPreview: onPreview,
 	      onUpdate: onUpdate
-	    }), activeNavItem === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlockJson, {}), activeNavItem === 1 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlueprint, {}), activeNavItem === 2 && /*#__PURE__*/jsxRuntimeExports.jsx(PageViewCss, {}), activeNavItem === 3 && /*#__PURE__*/jsxRuntimeExports.jsx(PageEditorCss, {})]
+	    }), activeNavItem === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlockJson, {}), activeNavItem === 1 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlueprint, {}), activeNavItem === 2 && /*#__PURE__*/jsxRuntimeExports.jsx(PageViewCss, {}), activeNavItem === 3 && /*#__PURE__*/jsxRuntimeExports.jsx(PageEditorCss, {}), upsellPromptIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(UpsellPrompt, {})]
 	  });
 	}
 

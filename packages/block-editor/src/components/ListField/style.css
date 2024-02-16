@@ -15,25 +15,29 @@
 .ListField-list {
 	align-items: center;
 	display: flex;
-	font-size: var(--font-size-small);
-	font-weight: var(--font-weight-base);
+	font-size: var(--font-size-large);
+	font-weight: var(--font-weight-medium);
 	gap: var(--1x);
 	width: 100%;
 
 	:is(.EditableString, .ListField-value, .ListField-placeholder) {
 		--focus-margin: 0;
 		--focus-padding: 0;
-		--placeholder-color: var(--color-dark-gray);
-		--placeholder-focus-color: var(--color-dark-gray);
+		--placeholder-color: var(--color-light-gray);
+		--placeholder-focus-color: var(--color-light-gray);
 		--line-height: var(--3x);
 		border-radius: var(--3x);
 	}
 
 	:is(.EditableString.has-value, .ListField-value) {
-		--focus-padding: var(--1x);
-		--padding: var(--1x);
+		--focus-padding: var(--2x);
+		--padding: var(--2x);
 		background: var(--color-lighter-gray);
 		font-weight: var(--font-weight-bold);
+	}
+
+	:is(.EditableString:not(.has-value), .ListField-placeholder) {
+		font-size: var(--font-size-base);
 	}
 }
 
@@ -42,5 +46,5 @@
 }
 
 .ListField-value {
-	padding: 0 var(--1x);
+	padding: 0 var(--2x);
 }

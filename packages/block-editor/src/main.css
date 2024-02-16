@@ -20,7 +20,5 @@
 
 #wpbody {
 	align-items: stretch;
-	display: grid;
-	grid-template-rows: 100%;
-	height: calc(100vh - var(--wp-admin--admin-bar--height, 0px));
+	min-height: calc(100vh - var(--wp-admin--admin-bar--height, 0px));
 }

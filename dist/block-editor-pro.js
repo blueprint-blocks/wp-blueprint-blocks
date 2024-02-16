@@ -27,7 +27,6 @@
 	    return string;
 	  }
 	  var _string = string;
-	  console.log(_string);
 	  if (string.slice(0, 2) === '{{') {
 	    _string = "<span data-type=\"cursor-start\"> </span>".concat(_string);
 	  }

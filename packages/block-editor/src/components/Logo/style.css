@@ -1,0 +1,15 @@
+.Logo {
+	align-items: center;
+	display: grid;
+	gap: var(--1x);
+	grid-auto-columns: max-content;
+	grid-auto-flow: column;
+
+	h1 {
+		color: var(--color-black);
+		font-size: 40px;
+		letter-spacing: -0.05em;
+		line-height: 1;
+		margin: 0;
+	}
+}

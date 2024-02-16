@@ -2,7 +2,19 @@ import classNames from 'classnames'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { setIcon, setKeywords, setTitle } from '../../store/block-json'
+import {
+	setAllowedBlocks,
+	setAncestor,
+	setCategory,
+	setDescription,
+	setIcon,
+	setKeywords,
+	setParent,
+	setTextdomain,
+	setTitle,
+} from '../../store/block-json'
+
+import { showUpsellPrompt } from '../../store/upsell-prompt'
 
 import { useFocus } from '../../hooks'
 
@@ -10,12 +22,10 @@ import BlockNameField from '../BlockNameField'
 import BlockVersionField from '../BlockVersionField'
 import JsonEditor from '../JsonEditor'
 import ListField from '../ListField'
-import ReadOnlyTextField from '../ReadOnlyTextField'
 import DashiconsField from '../DashiconsField'
 import ProFlag from '../ProFlag'
 import SelectField from '../SelectField'
 import TextField from '../TextField'
-import TextareaField from '../TextareaField'
 
 import './style.css'
 
@@ -27,37 +37,47 @@ function PageBlockJson() {
 
 	const dispatch = useDispatch()
 
-	const {
-		title: blockTitle,
-		keywords: blockKeywords,
-		icon: blockIcon,
-		textdomain, // to update
-		description, // to update
-		category, // to update
-		...blockJson
-	} = useSelector( ( state ) => {
-		return state.blockJson || {}
-	} )
+	const blockJson = useSelector( ( state ) => (
+		state.blockJson || {}
+	) )
 
-	const setBlockTitle = ( title ) => {
-		dispatch( setTitle( title ) )
+	const setBlockAllowedBlocks = ( allowedBlocks ) => {
+		dispatch( setAllowedBlocks( allowedBlocks ) )
 	}
 
-	const setBlockKeywords = ( keywords ) => {
-		dispatch( setKeywords( keywords ) )
+	const setBlockAncestor = ( ancestor ) => {
+		dispatch( setAncestor( ancestor ) )
+	}
+
+	const setBlockDescription = ( description ) => {
+		dispatch( setDescription( description ) )
+	}
+
+	const setBlockCategory = ( category ) => {
+		dispatch( setCategory( category ) )
 	}
 
 	const setBlockIcon = ( icon ) => {
 		dispatch( setIcon( icon ) )
 	}
 
+	const setBlockKeywords = ( keywords ) => {
+		dispatch( setKeywords( keywords ) )
+	}
+
+	const setBlockParent = ( parent ) => {
+		dispatch( setParent( parent ) )
+	}
+
+	const setBlockTextdomain = ( textdomain ) => {
+		dispatch( setTextdomain( textdomain ) )
+	}
+
+	const setBlockTitle = ( title ) => {
+		dispatch( setTitle( title ) )
+	}
+
 	const [ hasFocus, onBlur, onFocus ] = useFocus( [] )
-
-	const [ isEditingBlockTextdomain, setIsEditingBlockTextdomain ] = useState(textdomain !== blockNamespace)
-
-	const [ blockTextdomain, setBlockTextdomain ] = useState( textdomain )
-	const [ blockDescription, setBlockDescription ] = useState( description )
-	const [ blockCategory, setBlockCategory ] = useState( category )
 
 	return (
 		<div className="PageBlockJson">
@@ -73,13 +93,13 @@ function PageBlockJson() {
 						<DashiconsField
 							name="icon"
 							label="Block icon"
-							value={ blockIcon }
+							value={ blockJson?.icon }
 							setValue={ setBlockIcon }
 						/>
 						<TextField
 							label="Enter a title..."
 							tooltip="Hello..."
-							value={ blockTitle }
+							value={ blockJson?.title }
 							setValue={ setBlockTitle }
 							onFocus={ () => onFocus( 'title' ) }
 							onBlur={ () => onBlur( 'title' ) }
@@ -89,7 +109,7 @@ function PageBlockJson() {
 							tooltip="Hello..."
 							multiLine={ true }
 							rows={ 4 }
-							value={ blockDescription }
+							value={ blockJson?.description }
 							setValue={ setBlockDescription }
 							onFocus={ () => onFocus( 'description' ) }
 							onBlur={ () => onBlur( 'description' ) }
@@ -98,7 +118,7 @@ function PageBlockJson() {
 							<TextField
 								label="Enter a text domain..."
 								tooltip="Hello..."
-								value={ blockTextdomain }
+								value={ blockJson?.textdomain }
 								setValue={ setBlockTextdomain }
 								onFocus={ () => onFocus( 'textdomain' ) }
 								onBlur={ () => onBlur( 'textdomain' ) }
@@ -108,7 +128,7 @@ function PageBlockJson() {
 							label="Enter a few keywords..."
 							placeholder="Enter a keyword..."
 							tooltip="Keywords are used to find your block when searching in the editor."
-							value={ blockKeywords }
+							value={ blockJson?.keywords }
 							setValue={ setBlockKeywords }
 							onFocus={ ( index ) => onFocus( 'keywords', index ) }
 							onBlur={ ( index ) => onBlur( 'keywords', index ) }
@@ -128,7 +148,7 @@ function PageBlockJson() {
 									value: 'layout',
 								}
 							] }
-							value={ blockCategory }
+							value={ blockJson?.category }
 							setValue={ setBlockCategory }
 							onFocus={ () => onFocus('category') }
 							onBlur={ () => onBlur('category') }
@@ -143,40 +163,49 @@ function PageBlockJson() {
 							) }
 						</div>
 						<ListField
-							disabled={ env.PRO_VERSION !== true }
-							name="keywords"
 							label="What blocks can this block be inserted in?"
 							placeholder="Start typing to choose a block..."
 							tooltip="Keywords are used to find your block when searching in the editor."
-							value={ blockKeywords }
-							setValue={ setBlockKeywords }
-							onFocus={ ( index ) => onFocus( 'keywords', index ) }
-							onBlur={ ( index ) => onBlur( 'keywords', index ) }
-							max={ 3 }
+							value={ env.PRO_VERSION === true && blockJson?.parent || [] }
+							setValue={ ( value ) => {
+								if ( env.PRO_VERSION === true ) {
+									setBlockParent( value )
+								} else if ( value && !( value.length === 1 && value[ 0 ] === '' ) ) {
+									dispatch( showUpsellPrompt() )
+								}
+							} }
+							onFocus={ ( index ) => onFocus( 'parent', index ) }
+							onBlur={ ( index ) => onBlur( 'parent', index ) }
 						/>
 						<ListField
-							disabled={ env.PRO_VERSION !== true }
-							name="keywords"
 							label="What blocks can this block be inserted in, anywhere in the ancestry tree?"
 							placeholder="Start typing to choose a block..."
 							tooltip="Keywords are used to find your block when searching in the editor."
-							value={ blockKeywords }
-							setValue={ setBlockKeywords }
-							onFocus={ ( index ) => onFocus( 'keywords', index ) }
-							onBlur={ ( index ) => onBlur( 'keywords', index ) }
-							max={ 3 }
+							value={ env.PRO_VERSION === true && blockJson?.ancestor || [] }
+							setValue={ ( value ) => {
+								if ( env.PRO_VERSION === true ) {
+									setBlockAncestor( value )
+								} else if ( ! ( value.length === 1 && value[ 0 ] === '' ) ) {
+									dispatch( showUpsellPrompt() )
+								}
+							} }
+							onFocus={ ( index ) => onFocus( 'ancestor', index ) }
+							onBlur={ ( index ) => onBlur( 'ancestor', index ) }
 						/>
 						<ListField
-							disabled={ env.PRO_VERSION !== true }
-							name="keywords"
 							label="What blocks can be inserted into this block?"
 							placeholder="Start typing to choose a block..."
 							tooltip="Keywords are used to find your block when searching in the editor."
-							value={ blockKeywords }
-							setValue={ setBlockKeywords }
-							onFocus={ ( index ) => onFocus( 'keywords', index ) }
-							onBlur={ ( index ) => onBlur( 'keywords', index ) }
-							max={ 3 }
+							value={ env.PRO_VERSION === true && blockJson?.allowedBlocks || [] }
+							setValue={ ( value ) => {
+								if ( env.PRO_VERSION === true ) {
+									setBlockAllowedBlocks( value )
+								} else if ( value && !( value.length === 1 && value[ 0 ] === '' ) ) {
+									dispatch( showUpsellPrompt() )
+								}
+							} }
+							onFocus={ ( index ) => onFocus( 'allowedBlocks', index ) }
+							onBlur={ ( index ) => onBlur( 'allowedBlocks', index ) }
 						/>
 					</div>
 
@@ -197,11 +226,11 @@ function PageBlockJson() {
 							keywords: 'Enter a keyword...',
 						} }
 						values={ {
-							textdomain: blockTextdomain,
-							title: blockTitle,
-							description: blockDescription,
-							category: blockCategory,
-							keywords: blockKeywords,
+							textdomain: blockJson?.textdomain,
+							title: blockJson?.title,
+							description: blockJson?.description,
+							category: blockJson?.category,
+							keywords: blockJson?.keywords,
 						} }
 					/>
 				</div>

@@ -9,9 +9,8 @@ import { useOnClickOutside } from '../../hooks'
 import './style.css'
 
 function ListField( {
-	disabled,
+	disabled = false,
 	label,
-	min = 0,
 	max = 0,
 	placeholder,
 	onBlur,
@@ -64,7 +63,7 @@ function ListField( {
 
 	const itemList = value.slice( 0, max )
 
-	if ( itemList[ itemList.length - 1 ] !== '' ) {
+	if ( itemList?.[ itemList.length - 1 ] !== '' ) {
 		itemList.push( '' )
 	}
 
@@ -73,26 +72,35 @@ function ListField( {
 	} )
 
 	return (
-		<div ref={ ref } className={ classNames( 'ListField', { 'is-disabled': disabled } ) } onClick={ () => setFocus( Math.min( value?.length || 0, max ) ) }>
-			{ label && <FieldLabel htmlFor={ name } label={ label } tooltip={ tooltip } /> }
+		<div
+			ref={ ref }
+			className={ classNames( 'ListField', { 'is-disabled': disabled } ) }
+			onClick={ () => setFocus( Math.min( value?.length || 0, max ) ) }
+		>
+			{ label && (
+				<FieldLabel
+					label={ label }
+					tooltip={ tooltip }
+				/>
+			) }
 			<div className="ListField-list">
-				{ itemList.slice( 0, max ).map( ( itemValue, index ) => (
+				{ ( max > 0 && itemList.slice( 0, max ) || itemList ).map( ( itemValue, index ) => (
 					<div
 						onClick={ ( event ) => event.stopPropagation() }
 						onFocus={ () => setFocus( index ) }
 						onBlur={ () => setBlur( index ) }
 					>
-						{ disabled && ( index < itemList.length - 1 ) && (
+						{ disabled === true && ( index < itemList.length - 1 ) && (
 							<div class="ListField-value">
 								{ itemValue }
 							</div>
 						) }
-						{ disabled && ( index === itemList.length - 1 ) && (
+						{ disabled === true && ( index === itemList.length - 1 ) && (
 							<div class="ListField-placeholder">
 								{ placeholder }
 							</div>
 						) }
-						{ !disabled && (
+						{ disabled !== true && (
 							<EditableString
 								key={ index }
 								placeholder={ placeholder }

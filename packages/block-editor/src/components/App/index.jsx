@@ -10,6 +10,7 @@ import PageBlockJson from '../PageBlockJson'
 import PageBlueprint from '../PageBlueprint'
 import PageEditorCss from '../PageEditorCss'
 import PageViewCss from '../PageViewCss'
+import UpsellPrompt from '../UpsellPrompt'
 
 import './style.css'
 import './style-debug.css'
@@ -44,6 +45,10 @@ function App() {
 
 	const blockViewCss = useSelector( ( state ) => (
 		state.blockViewCss.raw
+	) )
+
+	const upsellPromptIsVisible = useSelector( ( state ) => (
+		state.upsellPrompt.visible
 	) )
 
 	const onPreview = () => {
@@ -103,6 +108,9 @@ function App() {
 			) }
 			{ activeNavItem === 3 && (
 				<PageEditorCss />
+			) }
+			{ env.PRO_VERSION !== true && upsellPromptIsVisible && (
+				<UpsellPrompt />
 			) }
 		</div>
 	)

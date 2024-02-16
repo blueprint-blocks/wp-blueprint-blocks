@@ -16,7 +16,7 @@ const EditableString = memo( ( {
 	placeholder = '',
 	rows = 1,
 	value = '',
-	allowFilters = true,
+	allowTransforms = true,
 } ) => {
 
 	const ref = useRef( null )
@@ -29,7 +29,7 @@ const EditableString = memo( ( {
 
 	let html = _value
 
-	if ( allowFilters ) {
+	if ( allowTransforms ) {
 		html = applyFilters( 'blueprint-blocks.editable-string.value.before-render', _value )
 	}
 
@@ -40,7 +40,7 @@ const EditableString = memo( ( {
 
 	const _onChange = ( { target } ) => {
 		let newValue = String( target?.value || '' ).replace( /\n/g, ' ' )
-		if ( allowFilters ) {
+		if ( allowTransforms ) {
 			newValue = applyFilters( 'blueprint-blocks.editable-string.value.before-on-change', newValue )
 		}
 		onChange && onChange( newValue )

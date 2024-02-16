@@ -17,3 +17,9 @@
 	background: var(--color-accent-teal-blue);
 	color: var(--color-white);
 }
+
+.is-disabled .Tooltip:hover {
+	background: var(--color-lighter-gray);
+	color: var(--color-dark-gray);
+	cursor: default;
+}

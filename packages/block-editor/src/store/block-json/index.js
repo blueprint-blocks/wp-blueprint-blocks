@@ -85,17 +85,35 @@ const slice = createSlice( {
 				key !== name
 			) ) )
 		},
+		setAllowedBlocks( state, action ) {
+			state.allowedBlocks = ( Array.isArray( action.payload ) && action.payload || [ action.payload ] )
+		},
+		setAncestor( state, action ) {
+			state.ancestor = ( Array.isArray( action.payload ) && action.payload || [ action.payload ] )
+		},
+		setCategory( state, action ) {
+			state.category = action.payload
+		},
+		setDescription( state, action ) {
+			state.description = action.payload
+		},
+		setIcon( state, action ) {
+			state.icon = action.payload
+		},
 		setKeywords( state, action ) {
 			state.keywords = ( Array.isArray( action.payload ) && action.payload || [ action.payload ] ).slice( 0, 3 )
 		},
 		setName( state, action ) {
 			state.name = action.payload
 		},
+		setParent( state, action ) {
+			state.parent = ( Array.isArray( action.payload ) && action.payload || [ action.payload ] )
+		},
+		setTextdomain( state, action ) {
+			state.textdomain = action.payload
+		},
 		setTitle( state, action ) {
 			state.title = action.payload
-		},
-		setIcon( state, action ) {
-			state.icon = action.payload
 		},
 	},
 
@@ -107,9 +125,15 @@ export const {
 	addAttribute,
 	editAttribute,
 	removeAttribute,
+	setAllowedBlocks,
+	setAncestor,
+	setCategory,
+	setDescription,
 	setIcon,
 	setKeywords,
 	setName,
+	setParent,
+	setTextdomain,
 	setTitle,
 } = actions
 

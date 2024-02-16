@@ -312,6 +312,12 @@
 	color: var(--color-white);
 }
 
+.is-disabled .Tooltip:hover {
+	background: var(--color-lighter-gray);
+	color: var(--color-dark-gray);
+	cursor: default;
+}
+
 .FieldLabel {
 	align-items: center;
 	color: var(--color-dark-gray);
@@ -347,8 +353,8 @@
 .ListField-list {
 	align-items: center;
 	display: flex;
-	font-size: var(--font-size-small);
-	font-weight: var(--font-weight-base);
+	font-size: var(--font-size-large);
+	font-weight: var(--font-weight-medium);
 	gap: var(--1x);
 	width: 100%;
 }
@@ -356,17 +362,21 @@
 .ListField-list :is(.EditableString, .ListField-value, .ListField-placeholder) {
 		--focus-margin: 0;
 		--focus-padding: 0;
-		--placeholder-color: var(--color-dark-gray);
-		--placeholder-focus-color: var(--color-dark-gray);
+		--placeholder-color: var(--color-light-gray);
+		--placeholder-focus-color: var(--color-light-gray);
 		--line-height: var(--3x);
 		border-radius: var(--3x);
 	}
 
 .ListField-list :is(.EditableString.has-value, .ListField-value) {
-		--focus-padding: var(--1x);
-		--padding: var(--1x);
+		--focus-padding: var(--2x);
+		--padding: var(--2x);
 		background: var(--color-lighter-gray);
 		font-weight: var(--font-weight-bold);
+	}
+
+.ListField-list :is(.EditableString:not(.has-value), .ListField-placeholder) {
+		font-size: var(--font-size-base);
 	}
 
 .ListField-placeholder {
@@ -374,38 +384,7 @@
 }
 
 .ListField-value {
-	padding: 0 var(--1x);
-}
-
-.ReadOnlyTextField {
-	margin-bottom: var(--3x);
-	max-width: 520px;
-}
-
-.ReadOnlyTextField:last-child {
-		margin-bottom: 0;
-	}
-
-.ReadOnlyTextField-value {
-	background: var(--color-lighter-gray);
-	border-radius: 5px;
-	display: grid;
-	gap: var(--2x);
-	grid-template-columns: 1fr var(--4x);
-	font-size: var(--font-size-small);
-	font-weight: var(--font-weight-medium);
-	height: var(--4x);
-	line-height: var(--4x);
-	padding: 0 0 0 var(--2x);
-}
-
-.ReadOnlyTextField-edit {
-	align-items: center;
-	cursor: pointer;
-	display: grid;
-	height: var(--4x);
-	justify-content: center;
-	width: var(--4x);
+	padding: 0 var(--2x);
 }
 
 .SearchSelectField {
@@ -495,6 +474,10 @@
 	width: fit-content;
 }
 
+.ProFlag.has-upsell {
+	cursor: pointer;
+}
+
 .SelectField {
 	margin-bottom: var(--3x);
 	max-width: 520px;
@@ -569,29 +552,6 @@
 		-webkit-user-select: none;
 		   -moz-user-select: none;
 		        user-select: none;
-	}
-
-.TextareaField {
-	margin-bottom: var(--3x);
-	max-width: 520px;
-}
-.TextareaField:last-child {
-		margin-bottom: 0;
-	}
-.TextareaField textarea {
-		border: 1px solid var(--color-gray);
-		border-radius: 5px;
-		box-sizing: border-box;
-		display: block;
-		font-family: var(--font-family);
-		font-size: var(--font-size);
-		font-weight: var(--font-weight-base);
-		line-height: var(--line-height-base);
-		padding: 11px var(--2x);
-		width: 100%;
-	}
-.TextareaField textarea:focus {
-		outline: none;
 	}
 
 .PageBlockJson {
@@ -1477,7 +1437,7 @@
 .PageBlueprint {
 	box-sizing: border-box;
 	display: grid;
-	height: max(680px, calc(100vh - 65px - var(--wp-admin--admin-bar--height)));
+	height: var(--app-height);
 	padding: var(--5x);
 }
 
@@ -1621,7 +1581,7 @@
 .PageEditorCss {
 	box-sizing: border-box;
 	display: grid;
-	height: max(680px, calc(100vh - 65px - var(--wp-admin--admin-bar--height)));
+	height: var(--app-height);
 	padding: var(--5x);
 }
 
@@ -1642,7 +1602,7 @@
 .PageViewCss {
 	box-sizing: border-box;
 	display: grid;
-	height: max(680px, calc(100vh - 65px - var(--wp-admin--admin-bar--height)));
+	height: var(--app-height);
 	padding: var(--5x);
 }
 
@@ -1658,6 +1618,225 @@
 	-webkit-user-select: none;
 	   -moz-user-select: none;
 	        user-select: none;
+}
+
+.Logo {
+	align-items: center;
+	display: grid;
+	gap: var(--1x);
+	grid-auto-columns: max-content;
+	grid-auto-flow: column;
+}
+.Logo h1 {
+		color: var(--color-black);
+		font-size: 40px;
+		letter-spacing: -0.05em;
+		line-height: 1;
+		margin: 0;
+	}
+
+.UpsellPrompt {
+	background: #FFFFFF40;
+	height: 100%;
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	transition: var(--transition);
+	z-index: 100;
+}
+
+.UpsellPrompt.is-visible {
+	-webkit-backdrop-filter: blur(4px);
+	backdrop-filter: blur(4px);
+	opacity: 1;
+}
+
+.UpsellPrompt-wrap {
+	align-items: center;
+	box-sizing: border-box;
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: 100%;
+	height: var(--app-height);
+	justify-items: center;
+	padding: var(--8x);
+	position: sticky;
+	top: var(--wp-admin--admin-bar--height);
+	width: 100%;
+}
+
+.UpsellPrompt-window {
+	background: var(--color-white);
+	border-radius: 9px;
+	box-shadow: var(--box-shadow-low);
+	box-sizing: border-box;
+	display: grid;
+	gap: var(--8x);
+	grid-auto-flow: row;
+	max-width: 960px;
+	padding: var(--5x) var(--8x);
+	transform: scale(0.8);
+	transform-origin: center;
+	transition: var(--transition);
+	width: 100%;
+}
+
+.UpsellPrompt.is-visible .UpsellPrompt-window {
+	transform: scale(1);
+}
+
+.UpsellPrompt-close {
+	--color: var(--color-dark-gray);
+	--background-color: var(--color-lighter-gray);
+	align-items: center;
+	background: var(--background-color);
+	border-radius: var(--4x);
+	cursor: pointer;
+	display: grid;
+	height: var(--4x);
+	justify-items: center;
+	position: absolute;
+	right: var(--2x);
+	top: var(--2x);
+	transition: var(--transition);
+	width: var(--4x);
+}
+
+.UpsellPrompt-close::before,
+	.UpsellPrompt-close::after {
+		background: var(--color);
+		content: '';
+		display: block;
+		grid-column: 1;
+		grid-row: 1;
+		height: var(--2x);
+		transition: var(--transition);
+		width: 3px;
+	}
+
+.UpsellPrompt-close::before {
+		transform: rotate(-45deg);
+	}
+
+.UpsellPrompt-close::after {
+		transform: rotate(45deg);
+	}
+
+.UpsellPrompt-close:hover {
+	--color: var(--color-white);
+	--background-color: var(--color-darker-gray);
+}
+
+.UpsellPrompt-content {
+	display: grid;
+	gap: var(--3x);
+	grid-auto-flow: row;
+	width: 100%;
+}
+
+.UpsellPrompt-content p {
+		color: var(--color-dark-gray);
+		font-size: var(--font-size-large);
+		font-weight: var(--font-weight-medium);
+		margin: 0;
+	}
+
+.UpsellPrompt-try {
+	align-items: center;
+	border: 2px solid var(--color-lighter-gray);
+	border-radius: 7px;
+	display: grid;
+	gap: var(--2x);
+	grid-template-columns: max-content 1fr;
+	font-size: var(--font-size-large);
+	font-weight: var(--font-weight-bold);
+	padding: var(--1x) var(--2x);
+	width: -moz-fit-content;
+	width: fit-content;
+}
+
+.UpsellPrompt-try::before {
+		background: url('../assets/images/icon-badge.png') no-repeat center;
+		background-size: contain;
+		content: '';
+		display: block;
+		height: var(--3x);
+		width: var(--3x);
+	}
+
+.UpsellPrompt-tiles {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.UpsellPrompt-tile {
+	display: grid;
+	gap: var(--3x);
+	grid-auto-flow: row;
+}
+
+.UpsellPrompt-tile:nth-child(1) {
+		border-right: 1px solid var(--color-lighter-gray);
+		padding-right: var(--3x);
+	}
+
+.UpsellPrompt-tile:nth-child(2) {
+		border-left: 1px solid var(--color-lighter-gray);
+		padding-left: var(--3x);
+	}
+
+.UpsellPrompt-tile h3 {
+		color: var(--color-black);
+		font-size: var(--font-size-large);
+		margin: 0;
+	}
+
+.UpsellPrompt-tile p {
+		color: var(--color-gray);
+		font-size: var(--font-size-base);
+		margin: 0;
+	}
+
+.UpsellPrompt-pricing {
+	color: var(--color-black);
+	font-size: var(--font-size-xx-large);
+	font-weight: var(--font-weight-bold);
+	letter-spacing: -0.05em;
+	vertical-align: baseline;
+}
+
+.UpsellPrompt-pricing span {
+		color: var(--color-gray);
+		font-size: var(--font-size-base);
+		font-weight: var(--font-weight-medium);
+		letter-spacing: 0;
+	}
+
+.UpsellPrompt-primaryButton {
+	background: var(--gradient-teal-blue);
+	border-radius: var(--7x);
+	color: var(--color-white);
+	cursor: pointer;
+	font-size: var(--font-size-large);
+	font-weight: var(--font-weight-semi-bold);
+	height: var(--7x);
+	line-height: var(--7x);
+	padding: 0 var(--3x);
+	text-align: center;
+}
+
+.UpsellPrompt-secondaryButton {
+	background: var(--gradient-light-gray);
+	border-radius: var(--7x);
+	color: var(--color-black);
+	cursor: pointer;
+	font-size: var(--font-size-large);
+	font-weight: var(--font-weight-semi-bold);
+	height: var(--7x);
+	line-height: var(--7x);
+	padding: 0 var(--3x);
+	text-align: center;
 }
 
 .App {
@@ -1687,9 +1866,9 @@
 	--color-dark-slate: #8198A7;
 	--color-darker-slate: #5D7382;
 
-	--color-accent-teal: #00E8B8;
-	--color-accent-teal-blue: #03AECF;
-	--color-accent-blue: #0575E6;
+	--color-accent-teal: #00FFBA;
+	--color-accent-teal-blue: #00B2D0;
+	--color-accent-blue: #006BE5;
 	--color-accent-purple: #7F1192;
 	--color-accent-pink: #B10A50;
 	--color-accent-red: #E6255D;
@@ -1699,8 +1878,9 @@
 	--color-code-property: #B10A50;
 	--color-code-value: #EA971A;
 
-	--gradient-orange-red: linear-gradient(135deg, var(--color-accent-orange), var(--color-accent-red));
-	--gradient-teal-blue: linear-gradient(135deg, var(--color-accent-teal), var(--color-accent-blue));
+	--gradient-orange-red: linear-gradient(150deg, var(--color-accent-orange), var(--color-accent-red));
+	--gradient-teal-blue: linear-gradient(150deg, var(--color-accent-teal), var(--color-accent-blue));
+	--gradient-light-gray: linear-gradient(150deg, var(--color-lighter-gray), var(--color-light-gray));
 
 	--font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
 	--font-family-monospace: 'Fira Mono', monospace;
@@ -1708,6 +1888,7 @@
 	--font-size-base: 16px;
 	--font-size-large: 20px;
 	--font-size-x-large: 28px;
+	--font-size-xx-large: 40px;
 	--font-size-small: 14px;
 	--font-size-x-small: 12px;
 
@@ -1721,6 +1902,8 @@
 	--box-shadow-low: 3px 3px 0 #27243233;
 
 	--transition: all 0.15s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+
+	--app-height: max(680px, calc(100vh - 65px - var(--wp-admin--admin-bar--height)));
 
 	background: #f0f0f1;
 	color: var(--color-black);
@@ -1764,7 +1947,5 @@
 
 #wpbody {
 	align-items: stretch;
-	display: grid;
-	grid-template-rows: 100%;
-	height: calc(100vh - var(--wp-admin--admin-bar--height, 0px));
+	min-height: calc(100vh - var(--wp-admin--admin-bar--height, 0px));
 }
