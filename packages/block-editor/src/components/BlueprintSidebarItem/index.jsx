@@ -49,29 +49,12 @@ function BlueprintSidebarItem( {
 	}
 
 	return (
-		<div ref={ ref } className={ classNames( 'BlueprintSidebarItem', { 'is-html': ( type === 'html' ) } ) }>
-			<div className="BlueprintSidebarItem-label">
-				{ label }
-			</div>
-			<div className="BlueprintSidebarItem-description">
-				{ shortDescription }
-			</div>
-			{ env.PRO_VERSION !== true && pro === true && (
-				<ProFlag />
-			) }
-			<Draggable
-				axis="both"
-				bounds={ {
-					bottom: ( editorRect.bottom - rect.bottom ),
-					left: ( editorRect.left - rect.left ),
-					right: ( editorRect.right - rect.right ),
-					top: ( editorRect.top - rect.top ),
-				} }
-				position={ position }
-				onStart={ onStartDrag }
-				onStop={ onStopDrag }
-			>
-				<div className="BlueprintSidebarItem is-clone">
+		<div ref={ ref } className={ classNames( 'BlueprintSidebarItem', {
+			'is-html': ( type === 'html' ),
+			'is-pro': ( env.PRO_VERSION !== true && pro === true ),
+		} ) }>
+			<div>
+				<div>
 					<div className="BlueprintSidebarItem-label">
 						{ label }
 					</div>
@@ -81,8 +64,39 @@ function BlueprintSidebarItem( {
 					{ env.PRO_VERSION !== true && pro === true && (
 						<ProFlag />
 					) }
+					<Draggable
+						axis="both"
+						bounds={ {
+							bottom: ( editorRect.bottom - rect.bottom ),
+							left: ( editorRect.left - rect.left ),
+							right: ( editorRect.right - rect.right ),
+							top: ( editorRect.top - rect.top ),
+						} }
+						position={ position }
+						onStart={ onStartDrag }
+						onStop={ onStopDrag }
+					>
+						<div className={ classNames( 'BlueprintSidebarItem', 'is-clone', {
+							'is-html': ( type === 'html' ),
+							'is-pro': ( env.PRO_VERSION !== true && pro === true ),
+						} ) }>
+							<div>
+								<div>
+									<div className="BlueprintSidebarItem-label">
+										{ label }
+									</div>
+									<div className="BlueprintSidebarItem-description">
+										{ shortDescription }
+									</div>
+									{ env.PRO_VERSION !== true && pro === true && (
+										<ProFlag />
+									) }
+								</div>
+							</div>
+						</div>
+					</Draggable>
 				</div>
-			</Draggable>
+			</div>
 		</div>
 	)
 }

@@ -11692,39 +11692,51 @@
 	      dispatch(unsetDraggingComponent());
 	    }, 0);
 	  };
-	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    ref: ref,
 	    className: classNames('BlueprintSidebarItem', {
-	      'is-html': type === 'html'
+	      'is-html': type === 'html',
+	      'is-pro': pro === true
 	    }),
-	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	      className: "BlueprintSidebarItem-label",
-	      children: label
-	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	      className: "BlueprintSidebarItem-description",
-	      children: shortDescription
-	    }), pro === true && /*#__PURE__*/jsxRuntimeExports.jsx(ProFlag, {}), /*#__PURE__*/jsxRuntimeExports.jsx(Draggable$1, {
-	      axis: "both",
-	      bounds: {
-	        bottom: editorRect.bottom - rect.bottom,
-	        left: editorRect.left - rect.left,
-	        right: editorRect.right - rect.right,
-	        top: editorRect.top - rect.top
-	      },
-	      position: position,
-	      onStart: onStartDrag,
-	      onStop: onStopDrag,
+	    children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	        className: "BlueprintSidebarItem is-clone",
 	        children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	          className: "BlueprintSidebarItem-label",
 	          children: label
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	          className: "BlueprintSidebarItem-description",
 	          children: shortDescription
-	        }), pro === true && /*#__PURE__*/jsxRuntimeExports.jsx(ProFlag, {})]
+	        }), pro === true && /*#__PURE__*/jsxRuntimeExports.jsx(ProFlag, {}), /*#__PURE__*/jsxRuntimeExports.jsx(Draggable$1, {
+	          axis: "both",
+	          bounds: {
+	            bottom: editorRect.bottom - rect.bottom,
+	            left: editorRect.left - rect.left,
+	            right: editorRect.right - rect.right,
+	            top: editorRect.top - rect.top
+	          },
+	          position: position,
+	          onStart: onStartDrag,
+	          onStop: onStopDrag,
+	          children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	            className: classNames('BlueprintSidebarItem', 'is-clone', {
+	              'is-html': type === 'html',
+	              'is-pro': pro === true
+	            }),
+	            children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	              children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	                children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	                  className: "BlueprintSidebarItem-label",
+	                  children: label
+	                }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	                  className: "BlueprintSidebarItem-description",
+	                  children: shortDescription
+	                }), pro === true && /*#__PURE__*/jsxRuntimeExports.jsx(ProFlag, {})]
+	              })
+	            })
+	          })
+	        })]
 	      })
-	    })]
+	    })
 	  });
 	}
 
