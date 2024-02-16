@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { useCallback, useRef, useState } from 'react'
 
 import EditableString from '../EditableString'
@@ -8,6 +9,7 @@ import { useOnClickOutside } from '../../hooks'
 import './style.css'
 
 function ListField( {
+	disabled,
 	label,
 	min = 0,
 	max = 0,
@@ -71,7 +73,7 @@ function ListField( {
 	} )
 
 	return (
-		<div ref={ ref } className="ListField" onClick={ () => setFocus( Math.min( value?.length || 0, max ) ) }>
+		<div ref={ ref } className={ classNames( 'ListField', { 'is-disabled': disabled } ) } onClick={ () => setFocus( Math.min( value?.length || 0, max ) ) }>
 			{ label && <FieldLabel htmlFor={ name } label={ label } tooltip={ tooltip } /> }
 			<div className="ListField-list">
 				{ itemList.slice( 0, max ).map( ( itemValue, index ) => (
@@ -80,12 +82,24 @@ function ListField( {
 						onFocus={ () => setFocus( index ) }
 						onBlur={ () => setBlur( index ) }
 					>
-						<EditableString
-							key={ index }
-							placeholder={ 'Enter a keyword...' }
-							value={ itemValue }
-							onChange={ ( indexValue ) => onChange( indexValue, index ) }
-						/>
+						{ disabled && ( index < itemList.length - 1 ) && (
+							<div class="ListField-value">
+								{ itemValue }
+							</div>
+						) }
+						{ disabled && ( index === itemList.length - 1 ) && (
+							<div class="ListField-placeholder">
+								{ placeholder }
+							</div>
+						) }
+						{ !disabled && (
+							<EditableString
+								key={ index }
+								placeholder={ placeholder }
+								value={ itemValue }
+								onChange={ ( indexValue ) => onChange( indexValue, index ) }
+							/>
+						) }
 					</div>
 				) ) }
 			</div>

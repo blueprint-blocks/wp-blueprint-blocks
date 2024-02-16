@@ -9,6 +9,7 @@
 	grid-template-columns: 100%;
 	max-width: 640px;
 	padding: var(--1x);
+	position: relative;
 
 	:is(.EditableString, .TextField-placeholder, .TextField-value) {
 		--focus-margin: 0;

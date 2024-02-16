@@ -339,6 +339,7 @@
 	grid-template-columns: 100%;
 	max-width: 640px;
 	padding: var(--1x);
+	position: relative;
 }
 
 .ListField-list {
@@ -350,19 +351,29 @@
 	width: 100%;
 }
 
-.ListField-list .EditableString {
+.ListField-list :is(.EditableString, .ListField-value, .ListField-placeholder) {
 		--focus-margin: 0;
 		--focus-padding: 0;
+		--placeholder-color: var(--color-dark-gray);
+		--placeholder-focus-color: var(--color-dark-gray);
 		--line-height: var(--3x);
 		border-radius: var(--3x);
 	}
 
-.ListField-list .EditableString.has-value {
+.ListField-list :is(.EditableString.has-value, .ListField-value) {
 		--focus-padding: var(--1x);
 		--padding: var(--1x);
 		background: var(--color-lighter-gray);
 		font-weight: var(--font-weight-bold);
 	}
+
+.ListField-placeholder {
+	color: var(--color-dark-gray);
+}
+
+.ListField-value {
+	padding: 0 var(--1x);
+}
 
 .ReadOnlyTextField {
 	margin-bottom: var(--3x);
@@ -528,6 +539,7 @@
 	grid-template-columns: 100%;
 	max-width: 640px;
 	padding: var(--1x);
+	position: relative;
 }
 .TextField :is(.EditableString, .TextField-placeholder, .TextField-value) {
 		--focus-margin: 0;
@@ -1719,6 +1731,9 @@
 .App .is-disabled {
 		cursor: default;
 		opacity: 0.5;
+		-webkit-user-select: none;
+		   -moz-user-select: none;
+		        user-select: none;
 	}
 
 

@@ -70,7 +70,7 @@ function PageBlockJson() {
 					</div>
 
 					<div className="PageBlockJson-fieldset">
-						<TextField
+					<TextField
 							label="Enter a title..."
 							tooltip="Hello..."
 							value={ blockTitle }
@@ -78,29 +78,14 @@ function PageBlockJson() {
 							onFocus={ () => onFocus( 'title' ) }
 							onBlur={ () => onBlur( 'title' ) }
 						/>
-						{ isEditingBlockTextdomain && (
+						{ env.PRO_VERSION === true && (
 							<TextField
-								name="text-domain"
-								label="Text domain"
-								placeholder="Enter a text domain for your block..."
+								label="Enter a text domain..."
 								tooltip="Hello..."
 								value={ blockTextdomain }
-								setValue={ ( value ) => {
-									setBlockTextdomain(value)
-								} }
-								onFocus={ () => onFocus('textdomain') }
-								onBlur={ () => onBlur('textdomain') }
-							/>
-						) }
-						{ !isEditingBlockTextdomain && (
-							<ReadOnlyTextField
-								name="text-domain"
-								label="Text domain"
-								tooltip="Hello..."
-								value={ blockTextdomain }
-								onEdit={ () => {
-									setIsEditingBlockTextdomain(true)
-								} }
+								setValue={ setBlockTextdomain }
+								onFocus={ () => onFocus( 'textdomain' ) }
+								onBlur={ () => onBlur( 'textdomain' ) }
 							/>
 						) }
 						<TextField
@@ -120,9 +105,8 @@ function PageBlockJson() {
 							setValue={ setBlockIcon }
 						/>
 						<ListField
-							name="keywords"
-							label="Keywords"
-							placeholder=""
+							label="Enter a few keywords..."
+							placeholder="Enter a keyword..."
 							tooltip="Keywords are used to find your block when searching in the editor."
 							value={ blockKeywords }
 							setValue={ setBlockKeywords }
@@ -158,15 +142,41 @@ function PageBlockJson() {
 								<ProFlag />
 							) }
 						</div>
-						<TextField
+						<ListField
 							disabled={ env.PRO_VERSION !== true }
-							name="title"
-							label="Enter a title..."
-							tooltip="Hello..."
-							value={ blockTitle }
-							setValue={ setBlockTitle }
-							onFocus={ () => onFocus( 'title' ) }
-							onBlur={ () => onBlur( 'title' ) }
+							name="keywords"
+							label="What blocks can this block be inserted in?"
+							placeholder="Start typing to choose a block..."
+							tooltip="Keywords are used to find your block when searching in the editor."
+							value={ blockKeywords }
+							setValue={ setBlockKeywords }
+							onFocus={ ( index ) => onFocus( 'keywords', index ) }
+							onBlur={ ( index ) => onBlur( 'keywords', index ) }
+							max={ 3 }
+						/>
+						<ListField
+							disabled={ env.PRO_VERSION !== true }
+							name="keywords"
+							label="What blocks can this block be inserted in, anywhere in the ancestry tree?"
+							placeholder="Start typing to choose a block..."
+							tooltip="Keywords are used to find your block when searching in the editor."
+							value={ blockKeywords }
+							setValue={ setBlockKeywords }
+							onFocus={ ( index ) => onFocus( 'keywords', index ) }
+							onBlur={ ( index ) => onBlur( 'keywords', index ) }
+							max={ 3 }
+						/>
+						<ListField
+							disabled={ env.PRO_VERSION !== true }
+							name="keywords"
+							label="What blocks can be inserted into this block?"
+							placeholder="Start typing to choose a block..."
+							tooltip="Keywords are used to find your block when searching in the editor."
+							value={ blockKeywords }
+							setValue={ setBlockKeywords }
+							onFocus={ ( index ) => onFocus( 'keywords', index ) }
+							onBlur={ ( index ) => onBlur( 'keywords', index ) }
+							max={ 3 }
 						/>
 					</div>
 

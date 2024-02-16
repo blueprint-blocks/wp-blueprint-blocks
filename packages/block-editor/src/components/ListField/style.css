@@ -9,6 +9,7 @@
 	grid-template-columns: 100%;
 	max-width: 640px;
 	padding: var(--1x);
+	position: relative;
 }
 
 .ListField-list {
@@ -19,17 +20,27 @@
 	gap: var(--1x);
 	width: 100%;
 
-	.EditableString {
+	:is(.EditableString, .ListField-value, .ListField-placeholder) {
 		--focus-margin: 0;
 		--focus-padding: 0;
+		--placeholder-color: var(--color-dark-gray);
+		--placeholder-focus-color: var(--color-dark-gray);
 		--line-height: var(--3x);
 		border-radius: var(--3x);
 	}
 
-	.EditableString.has-value {
+	:is(.EditableString.has-value, .ListField-value) {
 		--focus-padding: var(--1x);
 		--padding: var(--1x);
 		background: var(--color-lighter-gray);
 		font-weight: var(--font-weight-bold);
 	}
+}
+
+.ListField-placeholder {
+	color: var(--color-dark-gray);
+}
+
+.ListField-value {
+	padding: 0 var(--1x);
 }

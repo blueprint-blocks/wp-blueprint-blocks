@@ -8087,12 +8087,13 @@
 	}
 
 	function ListField(_ref) {
-	  var label = _ref.label;
+	  var disabled = _ref.disabled,
+	    label = _ref.label;
 	    _ref.min;
 	    var _ref$max = _ref.max,
-	    max = _ref$max === void 0 ? 0 : _ref$max;
-	    _ref.placeholder;
-	    var onBlur = _ref.onBlur,
+	    max = _ref$max === void 0 ? 0 : _ref$max,
+	    placeholder = _ref.placeholder,
+	    onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus,
 	    tooltip = _ref.tooltip,
 	    _ref$value = _ref.value,
@@ -8149,7 +8150,9 @@
 	  });
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
-	    className: "ListField",
+	    className: classNames('ListField', {
+	      'is-disabled': disabled
+	    }),
 	    onClick: function onClick() {
 	      return setFocus(Math.min((value === null || value === void 0 ? void 0 : value.length) || 0, max));
 	    },
@@ -8160,7 +8163,7 @@
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "ListField-list",
 	      children: itemList.slice(0, max).map(function (itemValue, index) {
-	        return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	        return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	          onClick: function onClick(event) {
 	            return event.stopPropagation();
 	          },
@@ -8170,42 +8173,21 @@
 	          onBlur: function onBlur() {
 	            return setBlur(index);
 	          },
-	          children: /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
-	            placeholder: 'Enter a keyword...',
+	          children: [disabled && index < itemList.length - 1 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	            "class": "ListField-value",
+	            children: itemValue
+	          }), disabled && index === itemList.length - 1 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	            "class": "ListField-placeholder",
+	            children: placeholder
+	          }), !disabled && /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
+	            placeholder: placeholder,
 	            value: itemValue,
 	            onChange: function onChange(indexValue) {
 	              return _onChange(indexValue, index);
 	            }
-	          }, index)
+	          }, index)]
 	        });
 	      })
-	    })]
-	  });
-	}
-
-	function ReadOnlyTextField(_ref) {
-	  var name = _ref.name,
-	    label = _ref.label,
-	    onEdit = _ref.onEdit,
-	    tooltip = _ref.tooltip,
-	    value = _ref.value;
-	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	    className: "ReadOnlyTextField",
-	    children: [label && /*#__PURE__*/jsxRuntimeExports.jsx(FieldLabel, {
-	      htmlFor: name,
-	      label: label,
-	      tooltip: tooltip
-	    }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	      className: "ReadOnlyTextField-value",
-	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	        children: value
-	      }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	        className: "ReadOnlyTextField-edit",
-	        onClick: onEdit,
-	        children: /*#__PURE__*/jsxRuntimeExports.jsx("i", {
-	          className: "fa-solid fa-pencil"
-	        })
-	      })]
 	    })]
 	  });
 	}
@@ -8461,13 +8443,13 @@
 	    _onBlur = _useFocus2[1],
 	    _onFocus = _useFocus2[2];
 	  var _useState = React$2.useState(textdomain !== blockNamespace),
-	    _useState2 = _slicedToArray(_useState, 2),
-	    isEditingBlockTextdomain = _useState2[0],
-	    setIsEditingBlockTextdomain = _useState2[1];
+	    _useState2 = _slicedToArray(_useState, 2);
+	    _useState2[0];
+	    _useState2[1];
 	  var _useState3 = React$2.useState(textdomain),
 	    _useState4 = _slicedToArray(_useState3, 2),
-	    blockTextdomain = _useState4[0],
-	    setBlockTextdomain = _useState4[1];
+	    blockTextdomain = _useState4[0];
+	    _useState4[1];
 	  var _useState5 = React$2.useState(description),
 	    _useState6 = _slicedToArray(_useState5, 2),
 	    blockDescription = _useState6[0],
@@ -8501,30 +8483,7 @@
 	            onBlur: function onBlur() {
 	              return _onBlur('title');
 	            }
-	          }), isEditingBlockTextdomain && /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
-	            name: "text-domain",
-	            label: "Text domain",
-	            placeholder: "Enter a text domain for your block...",
-	            tooltip: "Hello...",
-	            value: blockTextdomain,
-	            setValue: function setValue(value) {
-	              setBlockTextdomain(value);
-	            },
-	            onFocus: function onFocus() {
-	              return _onFocus('textdomain');
-	            },
-	            onBlur: function onBlur() {
-	              return _onBlur('textdomain');
-	            }
-	          }), !isEditingBlockTextdomain && /*#__PURE__*/jsxRuntimeExports.jsx(ReadOnlyTextField, {
-	            name: "text-domain",
-	            label: "Text domain",
-	            tooltip: "Hello...",
-	            value: blockTextdomain,
-	            onEdit: function onEdit() {
-	              setIsEditingBlockTextdomain(true);
-	            }
-	          }), /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
+	          }), false === true , /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
 	            label: "Enter a description...",
 	            tooltip: "Hello...",
 	            multiLine: true,
@@ -8543,9 +8502,8 @@
 	            value: blockIcon,
 	            setValue: setBlockIcon
 	          }), /*#__PURE__*/jsxRuntimeExports.jsx(ListField, {
-	            name: "keywords",
-	            label: "Keywords",
-	            placeholder: "",
+	            label: "Enter a few keywords...",
+	            placeholder: "Enter a keyword...",
 	            tooltip: "Keywords are used to find your block when searching in the editor.",
 	            value: blockKeywords,
 	            setValue: setBlockKeywords,
@@ -8583,19 +8541,51 @@
 	            children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	              children: 'Inner Blocks'
 	            }), /*#__PURE__*/jsxRuntimeExports.jsx(ProFlag, {})]
-	          }), /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx(ListField, {
 	            disabled: false !== true,
-	            name: "title",
-	            label: "Enter a title...",
-	            tooltip: "Hello...",
-	            value: blockTitle,
-	            setValue: setBlockTitle,
-	            onFocus: function onFocus() {
-	              return _onFocus('title');
+	            name: "keywords",
+	            label: "What blocks can this block be inserted in?",
+	            placeholder: "Start typing to choose a block...",
+	            tooltip: "Keywords are used to find your block when searching in the editor.",
+	            value: blockKeywords,
+	            setValue: setBlockKeywords,
+	            onFocus: function onFocus(index) {
+	              return _onFocus('keywords', index);
 	            },
-	            onBlur: function onBlur() {
-	              return _onBlur('title');
-	            }
+	            onBlur: function onBlur(index) {
+	              return _onBlur('keywords', index);
+	            },
+	            max: 3
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx(ListField, {
+	            disabled: false !== true,
+	            name: "keywords",
+	            label: "What blocks can this block be inserted in, anywhere in the ancestry tree?",
+	            placeholder: "Start typing to choose a block...",
+	            tooltip: "Keywords are used to find your block when searching in the editor.",
+	            value: blockKeywords,
+	            setValue: setBlockKeywords,
+	            onFocus: function onFocus(index) {
+	              return _onFocus('keywords', index);
+	            },
+	            onBlur: function onBlur(index) {
+	              return _onBlur('keywords', index);
+	            },
+	            max: 3
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx(ListField, {
+	            disabled: false !== true,
+	            name: "keywords",
+	            label: "What blocks can be inserted into this block?",
+	            placeholder: "Start typing to choose a block...",
+	            tooltip: "Keywords are used to find your block when searching in the editor.",
+	            value: blockKeywords,
+	            setValue: setBlockKeywords,
+	            onFocus: function onFocus(index) {
+	              return _onFocus('keywords', index);
+	            },
+	            onBlur: function onBlur(index) {
+	              return _onBlur('keywords', index);
+	            },
+	            max: 3
 	          })]
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	          className: "PageBlockJson-fieldset",
