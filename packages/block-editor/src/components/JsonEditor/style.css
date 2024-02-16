@@ -1,6 +1,7 @@
 .JsonEditor {
-	border: 1px solid var(--color-gray);
+	background: var(--color-black);
 	border-radius: 9px;
+	color: var(--color-white);
 	font-family: var(--font-family-monospace);
 	font-size: var(--font-size-small);
 	font-weight: var(--font-weight-base);
@@ -23,15 +24,20 @@
 
 	& .has-focus,
 	& .has-placeholder {
-		background: var(--color-light-slate);
+		background: var(--color-darker-gray);
+		border-radius: 5px;
 		padding: 0 var(--1x);
-	}
-
-	& .has-placeholder {
-		color: var(--color-slate);
 	}
 
 	.indent {
 		margin-left: 2em;
+	}
+
+	.EditableString {
+		--color: var(--color-white);
+		--focus-color: var(--color-white);
+		--hover-color: var(--color-white);
+		--placeholder-color: var(--color-gray);
+		--placeholder-focus-color: var(--color-gray);
 	}
 }
