@@ -145,15 +145,20 @@
 	--focus-margin: 0.2em;
 	--focus-padding: 0.4em;
 	--hover-color: var(--color-black);
+	--line-height: 1.5em;
+	--margin: 0;
+	--padding: 0;
 	--placeholder-color: var(--color-dark-gray);
 	--placeholder-focus-color: var(--color-darker-gray);
 	--rows: 1;
 	color: var(--color);
 	cursor: text;
 	display: inline-grid;
+	margin: 0 var(--margin);
 	max-width: 100%;
-	min-height: calc(1.5em * var(--rows));
+	min-height: calc(var(--line-height) * var(--rows));
 	overflow: auto;
+	padding: 0 var(--padding);
 	position: relative;
 	transition: var(--transition);
 	white-space: nowrap;
@@ -324,47 +329,39 @@
 	}
 
 .ListField {
-	margin-bottom: var(--3x);
-	max-width: 520px;
+	background: var(--color-white);
+	border: 2px solid var(--color-black);
+	border-radius: 7px;
+	box-shadow: var(--box-shadow-low);
+	display: grid;
+	gap: var(--1x);
+	grid-auto-flow: row;
+	grid-template-columns: 100%;
+	max-width: 640px;
+	padding: var(--1x);
 }
 
-.ListField:last-child {
-		margin-bottom: 0;
-	}
-
-.ListField-input {
+.ListField-list {
 	align-items: center;
-	border: 1px solid var(--color-gray);
-	border-radius: 5px;
-	box-sizing: border-box;
-	display: grid;
+	display: flex;
 	font-size: var(--font-size-small);
 	font-weight: var(--font-weight-base);
-	grid-auto-columns: max-content;
-	grid-auto-flow: column;
-	grid-gap: var(--1x);
-	height: var(--6x);
-	padding: 0 var(--2x);
+	gap: var(--1x);
 	width: 100%;
 }
 
-.ListField-input .EditableString {
-		border-radius: 2em;
-		height: var(--3x);
-		line-height: var(--3x);
-		margin: 0;
-		padding: 0;
+.ListField-list .EditableString {
+		--focus-margin: 0;
+		--focus-padding: 0;
+		--line-height: var(--3x);
+		border-radius: var(--3x);
 	}
 
-.ListField-input .EditableString.has-focus {
-		margin: 0;
-		padding: 0;
-	}
-
-.ListField-input .EditableString.has-value {
-		background: var(--color-light-gray);
+.ListField-list .EditableString.has-value {
+		--focus-padding: var(--1x);
+		--padding: var(--1x);
+		background: var(--color-lighter-gray);
 		font-weight: var(--font-weight-bold);
-		padding: 0 var(--1x);
 	}
 
 .ReadOnlyTextField {

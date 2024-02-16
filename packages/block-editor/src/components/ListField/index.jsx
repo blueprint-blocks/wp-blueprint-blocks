@@ -8,16 +8,15 @@ import { useOnClickOutside } from '../../hooks'
 import './style.css'
 
 function ListField( {
-	name,
 	label,
+	min = 0,
+	max = 0,
 	placeholder,
 	onBlur,
 	onFocus,
 	tooltip,
 	value = [],
 	setValue,
-	min = 0,
-	max = 0,
 } ) {
 
 	const ref = useRef( null )
@@ -74,7 +73,7 @@ function ListField( {
 	return (
 		<div ref={ ref } className="ListField" onClick={ () => setFocus( Math.min( value?.length || 0, max ) ) }>
 			{ label && <FieldLabel htmlFor={ name } label={ label } tooltip={ tooltip } /> }
-			<div className="ListField-input">
+			<div className="ListField-list">
 				{ itemList.slice( 0, max ).map( ( itemValue, index ) => (
 					<div
 						onClick={ ( event ) => event.stopPropagation() }

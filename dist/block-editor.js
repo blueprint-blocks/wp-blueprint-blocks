@@ -8087,8 +8087,10 @@
 	}
 
 	function ListField(_ref) {
-	  var name = _ref.name,
-	    label = _ref.label;
+	  var label = _ref.label;
+	    _ref.min;
+	    var _ref$max = _ref.max,
+	    max = _ref$max === void 0 ? 0 : _ref$max;
 	    _ref.placeholder;
 	    var onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus,
@@ -8096,9 +8098,6 @@
 	    _ref$value = _ref.value,
 	    value = _ref$value === void 0 ? [] : _ref$value,
 	    setValue = _ref.setValue;
-	    _ref.min;
-	    var _ref$max = _ref.max,
-	    max = _ref$max === void 0 ? 0 : _ref$max;
 	  var ref = React$2.useRef(null);
 	  var _useState = React$2.useState(false),
 	    _useState2 = _slicedToArray(_useState, 2),
@@ -8159,7 +8158,7 @@
 	      label: label,
 	      tooltip: tooltip
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	      className: "ListField-input",
+	      className: "ListField-list",
 	      children: itemList.slice(0, max).map(function (itemValue, index) {
 	        return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	          onClick: function onClick(event) {
@@ -16114,9 +16113,9 @@
 	}
 	const t = Tag$1.define;
 	const comment$1 = t(),
-	  name = t(),
-	  typeName = t(name),
-	  propertyName = t(name),
+	  name$1 = t(),
+	  typeName = t(name$1),
+	  propertyName = t(name$1),
 	  literal = t(),
 	  string$1 = t(literal),
 	  number$1 = t(literal),
@@ -16167,11 +16166,11 @@
 	  /**
 	  Any kind of identifier.
 	  */
-	  name,
+	  name: name$1,
 	  /**
 	  The [name](#highlight.tags.name) of a variable.
 	  */
-	  variableName: t(name),
+	  variableName: t(name$1),
 	  /**
 	  A type [name](#highlight.tags.name).
 	  */
@@ -16191,19 +16190,19 @@
 	  /**
 	  The [name](#highlight.tags.name) of a class.
 	  */
-	  className: t(name),
+	  className: t(name$1),
 	  /**
 	  A label [name](#highlight.tags.name).
 	  */
-	  labelName: t(name),
+	  labelName: t(name$1),
 	  /**
 	  A namespace [name](#highlight.tags.name).
 	  */
-	  namespace: t(name),
+	  namespace: t(name$1),
 	  /**
 	  The [name](#highlight.tags.name) of a macro.
 	  */
-	  macroName: t(name),
+	  macroName: t(name$1),
 	  /**
 	  A literal value.
 	  */
