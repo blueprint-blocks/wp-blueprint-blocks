@@ -4175,19 +4175,6 @@
 		html: html$1
 	};
 
-	var dashicons = [
-		{
-			icon: "dashicons dashicons-hammer",
-			label: "Hammer",
-			value: "hammer"
-		},
-		{
-			icon: "dashicons dashicons-book",
-			label: "Book",
-			value: "book"
-		}
-	];
-
 	var navItems = [
 		{
 			label: "1. Block.json"
@@ -8235,104 +8222,19 @@
 	  });
 	}
 
-	function SearchSelectField(_ref) {
-	  var name = _ref.name,
-	    label = _ref.label,
-	    onBlur = _ref.onBlur,
-	    onFocus = _ref.onFocus,
-	    _ref$options = _ref.options,
-	    options = _ref$options === void 0 ? [] : _ref$options,
-	    tooltip = _ref.tooltip,
-	    _ref$value = _ref.value,
-	    value = _ref$value === void 0 ? null : _ref$value,
-	    setValue = _ref.setValue;
-	  var ref = React$2.useRef();
-
-	  // State for our select dropdown
-	  var _useState = React$2.useState(false),
-	    _useState2 = _slicedToArray(_useState, 2),
-	    isSelectOpen = _useState2[0],
-	    setSelectOpen = _useState2[1];
-	  var currentOption = React$2.useMemo(function () {
-	    for (var i = 0; i < options.length; i++) {
-	      if (options[i].value === value) {
-	        return options[i];
-	      }
-	    }
-	    return null;
-	  }, [options, value]);
-	  var onClick = function onClick() {
-	    setSelectOpen(true);
-	    onFocus && onFocus();
-	  };
-	  var onSelectOption = function onSelectOption(event) {
-	    var _event$target$dataset;
-	    event.stopPropagation();
-	    setValue((_event$target$dataset = event.target.dataset) === null || _event$target$dataset === void 0 ? void 0 : _event$target$dataset.value);
-	    setSelectOpen(false);
-	    onBlur && onBlur();
-	  };
-	  React$2.useLayoutEffect(function () {
-	    ref.current.classList.toggle('is-open', isSelectOpen);
-	  }, [isSelectOpen]);
-
-	  // Call hook passing in the ref and a function to call on outside click
-	  useOnClickOutside(ref, function () {
-	    if (isSelectOpen === true) {
-	      setSelectOpen(false);
-	      onBlur && onBlur();
-	    }
-	  });
-	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	    ref: ref,
-	    className: "SearchSelectField",
-	    onClick: onClick,
-	    children: [label && /*#__PURE__*/jsxRuntimeExports.jsx(FieldLabel, {
-	      htmlFor: name,
-	      label: label,
-	      tooltip: tooltip
-	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	      className: "SearchSelectField-value",
-	      children: currentOption && /*#__PURE__*/jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, {
-	        children: [(currentOption === null || currentOption === void 0 ? void 0 : currentOption.icon) && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	          "class": currentOption.icon
-	        }), currentOption.label]
-	      })
-	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	      className: "SearchSelectField-options",
-	      children: options.map(function (_ref2, index) {
-	        var icon = _ref2.icon,
-	          label = _ref2.label,
-	          value = _ref2.value;
-	        return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	          "data-value": value,
-	          onClick: onSelectOption,
-	          children: [icon && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	            "class": icon
-	          }), label]
-	        }, index);
-	      })
-	    })]
-	  });
-	}
-
 	function DashiconsField(_ref) {
-	  var name = _ref.name,
-	    label = _ref.label,
-	    onBlur = _ref.onBlur,
-	    onFocus = _ref.onFocus,
-	    tooltip = _ref.tooltip,
-	    value = _ref.value,
-	    setValue = _ref.setValue;
-	  return /*#__PURE__*/jsxRuntimeExports.jsx(SearchSelectField, {
-	    name: name,
-	    label: label,
-	    onBlur: onBlur,
-	    onFocus: onFocus,
-	    options: dashicons,
-	    tooltip: tooltip,
-	    setValue: setValue,
-	    value: value
+	  _ref.name;
+	    _ref.label;
+	    _ref.onBlur;
+	    _ref.onFocus;
+	    _ref.tooltip;
+	    _ref.value;
+	    _ref.setValue;
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    className: "DashiconsField",
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	      className: "dashicons dashicons-hammer"
+	    }), false ]
 	  });
 	}
 

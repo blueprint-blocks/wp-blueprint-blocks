@@ -1,24 +1,20 @@
 .SelectField {
-	margin-bottom: var(--3x);
-	max-width: 520px;
+	background: var(--color-white);
+	border: 2px solid var(--color-black);
+	border-radius: 7px;
+	box-shadow: var(--box-shadow-low);
+	display: grid;
+	gap: var(--1x);
+	grid-auto-flow: row;
+	grid-template-columns: 100%;
+	max-width: 640px;
+	padding: var(--1x);
 	position: relative;
-
-	&:last-child {
-		margin-bottom: 0;
-	}
 }
 
 .SelectField-value {
-	border: 1px solid var(--color-gray);
-	border-radius: 5px;
-	box-sizing: border-box;
-	display: block;
-	font-size: var(--font-size);
-	font-weight: var(--font-weight-base);
-	height: var(--6x);
-	line-height: calc(var(--6x) - 2px);
-	padding: 0 var(--2x);
-	width: 100%;
+	font-size: var(--font-size-large);
+	font-weight: var(--font-weight-semi-bold);
 }
 
 .SelectField-options {

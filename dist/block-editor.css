@@ -372,7 +372,7 @@
 		--focus-padding: var(--2x);
 		--padding: var(--2x);
 		background: var(--color-lighter-gray);
-		font-weight: var(--font-weight-bold);
+		font-weight: var(--font-weight-semi-bold);
 	}
 
 .ListField-list :is(.EditableString:not(.has-value), .ListField-placeholder) {
@@ -422,40 +422,27 @@
 	display: block;
 }
 
-.SelectField {
-	margin-bottom: var(--3x);
-	max-width: 520px;
+.DashiconsField {
+	align-items: center;
+	aspect-ratio: 1 / 1;
+	background: var(--color-white);
+	border: 2px solid var(--color-black);
+	border-radius: 7px;
+	box-shadow: var(--box-shadow-low);
+	box-sizing: border-box;
+	display: grid;
+	height: 64px;
+	justify-items: center;
+	padding: var(--1x);
 	position: relative;
+	width: 64px;
 }
-
-.SelectField:last-child {
-		margin-bottom: 0;
+.DashiconsField span {
+		font-size: 36px;
+		height: 36px;
+		width: 36px;
 	}
 
-.SelectField-value {
-	border: 1px solid var(--color-gray);
-	border-radius: 5px;
-	box-sizing: border-box;
-	display: block;
-	font-size: var(--font-size);
-	font-weight: var(--font-weight-base);
-	height: var(--6x);
-	line-height: calc(var(--6x) - 2px);
-	padding: 0 var(--2x);
-	width: 100%;
-}
-
-.SelectField-options {
-	display: none;
-	left: 0;
-	position: absolute;
-	top: 100%;
-	width: 100%;
-}
-
-.SelectField.is-open .SelectField-options {
-	display: block;
-}
 
 .ProFlag {
 	background: var(--gradient-teal-blue);
@@ -479,26 +466,22 @@
 }
 
 .SelectField {
-	margin-bottom: var(--3x);
-	max-width: 520px;
+	background: var(--color-white);
+	border: 2px solid var(--color-black);
+	border-radius: 7px;
+	box-shadow: var(--box-shadow-low);
+	display: grid;
+	gap: var(--1x);
+	grid-auto-flow: row;
+	grid-template-columns: 100%;
+	max-width: 640px;
+	padding: var(--1x);
 	position: relative;
 }
 
-.SelectField:last-child {
-		margin-bottom: 0;
-	}
-
 .SelectField-value {
-	border: 1px solid var(--color-gray);
-	border-radius: 5px;
-	box-sizing: border-box;
-	display: block;
-	font-size: var(--font-size);
-	font-weight: var(--font-weight-base);
-	height: var(--6x);
-	line-height: calc(var(--6x) - 2px);
-	padding: 0 var(--2x);
-	width: 100%;
+	font-size: var(--font-size-large);
+	font-weight: var(--font-weight-semi-bold);
 }
 
 .SelectField-options {

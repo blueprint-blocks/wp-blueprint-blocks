@@ -15,16 +15,21 @@ function DashiconsField( {
 } ) {
 
 	return (
-		<SearchSelectField
-			name={ name }
-			label={ label }
-			onBlur={ onBlur }
-			onFocus={ onFocus }
-			options={ dashicons }
-			tooltip={ tooltip }
-			setValue={ setValue }
-			value={ value }
-		/>
+		<div className="DashiconsField">
+			<span className="dashicons dashicons-hammer" />
+			{ false && (
+				<SearchSelectField
+					name={ name }
+					label={ label }
+					onBlur={ onBlur }
+					onFocus={ onFocus }
+					options={ dashicons }
+					tooltip={ tooltip }
+					setValue={ setValue }
+					value={ value }
+				/>
+			) }
+		</div>
 	)
 
 }

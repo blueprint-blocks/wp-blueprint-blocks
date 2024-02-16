@@ -33,7 +33,7 @@
 		--focus-padding: var(--2x);
 		--padding: var(--2x);
 		background: var(--color-lighter-gray);
-		font-weight: var(--font-weight-bold);
+		font-weight: var(--font-weight-semi-bold);
 	}
 
 	:is(.EditableString:not(.has-value), .ListField-placeholder) {
