@@ -24,7 +24,6 @@ import CheckboxField from "../CheckboxField";
 import JsonEditor from "../JsonEditor";
 import ListField from "../ListField";
 import DashiconsField from "../DashiconsField";
-import ProFlag from "../ProFlag";
 import SelectField from "../SelectField";
 import TextField from "../TextField";
 
@@ -98,16 +97,6 @@ function PageBlockJson() {
               onFocus={() => onFocus("description")}
               onBlur={() => onBlur("description")}
             />
-            {env.PRO_VERSION === true && (
-              <TextField
-                label="Enter a text domain..."
-                tooltip="Hello..."
-                value={blockJson?.textdomain}
-                setValue={setBlockTextdomain}
-                onFocus={() => onFocus("textdomain")}
-                onBlur={() => onBlur("textdomain")}
-              />
-            )}
             <ListField
               label="Enter a few keywords..."
               placeholder="Enter a keyword..."

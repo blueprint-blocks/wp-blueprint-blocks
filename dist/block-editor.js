@@ -8297,24 +8297,6 @@
 	  });
 	}
 
-	function ProFlag(_ref) {
-	  var _ref$upsell = _ref.upsell,
-	    upsell = _ref$upsell === void 0 ? true : _ref$upsell;
-	  var dispatch = useDispatch();
-	  var onClick = function onClick() {
-	    if (upsell) {
-	      dispatch(showUpsellPrompt());
-	    }
-	  };
-	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	    className: classNames('ProFlag', {
-	      'has-upsell': upsell
-	    }),
-	    onClick: onClick,
-	    children: 'PRO'
-	  });
-	}
-
 	function SelectField(_ref) {
 	  var name = _ref.name,
 	    label = _ref.label,
@@ -8497,7 +8479,7 @@
 	            onBlur: function onBlur() {
 	              return _onBlur("description");
 	            }
-	          }), false === true , /*#__PURE__*/jsxRuntimeExports.jsx(ListField, {
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx(ListField, {
 	            label: "Enter a few keywords...",
 	            placeholder: "Enter a keyword...",
 	            tooltip: "Keywords are used to find your block when searching in the editor.",
@@ -11239,7 +11221,7 @@
 	  });
 	  var onDrop = function onDrop(_ref2) {
 	    var ancestry = _ref2.ancestry;
-	    if (newDraggingComponent && isProComponent(newDraggingComponent)) {
+	    if (env.PRO_VERSION !== true && newDraggingComponent && isProComponent(newDraggingComponent)) {
 	      dispatch(showUpsellPrompt());
 	    } else {
 	      dispatch(insertDraggingComponentAtPosition({
@@ -11270,7 +11252,7 @@
 	  });
 	  var onDrop = function onDrop(_ref2) {
 	    var ancestry = _ref2.ancestry;
-	    if (newDraggingComponent && isProComponent(newDraggingComponent)) {
+	    if (env.PRO_VERSION !== true && newDraggingComponent && isProComponent(newDraggingComponent)) {
 	      dispatch(showUpsellPrompt());
 	    } else if (Array.isArray(components) && components.length === 0) {
 	      dispatch(insertNewComponentAtPosition({
@@ -11313,7 +11295,7 @@
 	  });
 	  var onDrop = function onDrop(_ref2) {
 	    var ancestry = _ref2.ancestry;
-	    if (newDraggingComponent && isProComponent(newDraggingComponent)) {
+	    if (env.PRO_VERSION !== true && newDraggingComponent && isProComponent(newDraggingComponent)) {
 	      dispatch(showUpsellPrompt());
 	    } else {
 	      dispatch(insertDraggingComponentAtPosition({
@@ -11344,7 +11326,7 @@
 	  });
 	  var onDrop = function onDrop(_ref2) {
 	    var ancestry = _ref2.ancestry;
-	    if (newDraggingComponent && isProComponent(newDraggingComponent)) {
+	    if (env.PRO_VERSION !== true && newDraggingComponent && isProComponent(newDraggingComponent)) {
 	      dispatch(showUpsellPrompt());
 	    } else {
 	      dispatch(insertDraggingComponentAtPosition({
@@ -11554,7 +11536,7 @@
 	    _ref$editorRef = _ref.editorRef,
 	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef,
 	    _ref$type = _ref.type,
-	    type = _ref$type === void 0 ? 'html' : _ref$type,
+	    type = _ref$type === void 0 ? "html" : _ref$type,
 	    _ref$defaultAttribute = _ref.defaultAttributes,
 	    defaultAttributes = _ref$defaultAttribute === void 0 ? {} : _ref$defaultAttribute;
 	    _ref.pro;
@@ -11588,8 +11570,8 @@
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    ref: ref,
-	    className: classNames('BlueprintSidebarItem', {
-	      'is-html': type === 'html'
+	    className: classNames("BlueprintSidebarItem", {
+	      "is-html": type === "html"
 	    }),
 	    children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
@@ -11611,8 +11593,8 @@
 	          onStart: onStartDrag,
 	          onStop: onStopDrag,
 	          children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	            className: classNames('BlueprintSidebarItem', 'is-clone', {
-	              'is-html': type === 'html'
+	            className: classNames("BlueprintSidebarItem", "is-clone", {
+	              "is-html": type === "html"
 	            }),
 	            children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	              children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
@@ -41732,15 +41714,14 @@
 	  });
 	}
 
-	function Logo(_ref) {
-	  var _ref$pro = _ref.pro,
-	    pro = _ref$pro === void 0 ? true : _ref$pro;
+	function Logo() {
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    className: "Logo",
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("h1", {
-	      children: 'Blueprint Blocks'
-	    }), pro === true && /*#__PURE__*/jsxRuntimeExports.jsx(ProFlag, {
-	      upsell: false
+	      children: "Blueprint Blocks"
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	      className: "Logo-pro",
+	      children: "PRO"
 	    })]
 	  });
 	}
