@@ -51,7 +51,6 @@ function BlueprintSidebarItem( {
 	return (
 		<div ref={ ref } className={ classNames( 'BlueprintSidebarItem', {
 			'is-html': ( type === 'html' ),
-			'is-pro': ( env.PRO_VERSION !== true && pro === true ),
 		} ) }>
 			<div>
 				<div>
@@ -61,9 +60,6 @@ function BlueprintSidebarItem( {
 					<div className="BlueprintSidebarItem-description">
 						{ shortDescription }
 					</div>
-					{ env.PRO_VERSION !== true && pro === true && (
-						<ProFlag />
-					) }
 					<Draggable
 						axis="both"
 						bounds={ {
@@ -78,7 +74,6 @@ function BlueprintSidebarItem( {
 					>
 						<div className={ classNames( 'BlueprintSidebarItem', 'is-clone', {
 							'is-html': ( type === 'html' ),
-							'is-pro': ( env.PRO_VERSION !== true && pro === true ),
 						} ) }>
 							<div>
 								<div>
@@ -88,9 +83,6 @@ function BlueprintSidebarItem( {
 									<div className="BlueprintSidebarItem-description">
 										{ shortDescription }
 									</div>
-									{ env.PRO_VERSION !== true && pro === true && (
-										<ProFlag />
-									) }
 								</div>
 							</div>
 						</div>

@@ -1269,84 +1269,99 @@
 	}
 
 .BlueprintEditor {
-	--column-1-width: 20;
-	--column-2-width: calc(32 + var(--column-2-depth, 0));
-	--column-3-width: calc(32 + var(--column-3-depth, 0));
-	--column-4-width: calc(32 + var(--column-4-depth, 0));
-	--column-5-width: calc(32 + var(--column-5-depth, 0));
-	--grid-gap: 6;
-	--grid-padding: 4;
-	background: var(--color-darkest-gray);
-	border-radius: 9px;
-	height: 100%;
-	overflow: hidden;
-	position: relative;
-	z-index: 1;
+    --column-1-width: 20;
+    --column-2-width: calc(32 + var(--column-2-depth, 0));
+    --column-3-width: calc(32 + var(--column-3-depth, 0));
+    --column-4-width: calc(32 + var(--column-4-depth, 0));
+    --column-5-width: calc(32 + var(--column-5-depth, 0));
+    --grid-gap: 6;
+    --grid-padding: 4;
+    background: var(--color-darkest-gray);
+    border-radius: 9px;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 1fr var(--6x);
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
 }
 
 .BlueprintEditor-scroll {
-	height: 100%;
-	overflow: auto;
-	width: 100%;
+    height: 100%;
+    overflow: auto;
+    width: 100%;
 }
 
 .BlueprintEditor-grid {
-	background: var(--color-black);
-	display: flex;
-	flex-shrink: 0;
-	height: 100%;
-	left: 0;
-	-webkit-mask-image: url('../assets/images/grid-lines.png');
-	        mask-image: url('../assets/images/grid-lines.png');
-	-webkit-mask-repeat: repeat;
-	        mask-repeat: repeat;
-	-webkit-mask-position: -1px -1px;
-	        mask-position: -1px -1px;
-	-webkit-mask-size: 16px;
-	        mask-size: 16px;
-	opacity: 0.25;
-	position: absolute;
-	top: 0;
-	width: 100%;
-	z-index: -1;
+    background: var(--color-black);
+    display: flex;
+    flex-shrink: 0;
+    height: 100%;
+    left: 0;
+    -webkit-mask-image: url("../assets/images/grid-lines.png");
+            mask-image: url("../assets/images/grid-lines.png");
+    -webkit-mask-repeat: repeat;
+            mask-repeat: repeat;
+    -webkit-mask-position: -1px -1px;
+            mask-position: -1px -1px;
+    -webkit-mask-size: 16px;
+            mask-size: 16px;
+    opacity: 0.25;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: -1;
 }
 
 .BlueprintEditor-wrap {
-	align-items: center;
-	box-sizing: border-box;
-	display: flex;
-	min-height: 100%;
-	position: relative;
-	width: calc(16px * (var(--column-1-width) + var(--column-2-width) + var(--column-3-width) + var(--column-4-width) + var(--column-5-width) + (var(--grid-gap) * 4) + (var(--grid-padding) * 2)) - 1px);
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    min-height: 100%;
+    position: relative;
+    width: calc(
+        16px *
+            (
+                var(--column-1-width) + var(--column-2-width) +
+                    var(--column-3-width) + var(--column-4-width) +
+                    var(--column-5-width) + (var(--grid-gap) * 4) +
+                    (var(--grid-padding) * 2)
+            ) - 1px
+    );
 }
 
 .BlueprintEditor-columns {
-	align-items: center;
-	box-sizing: border-box;
-	display: grid;
-	flex-shrink: 0;
-	gap: calc(16px * var(--grid-gap));
-	grid-template-columns: calc(var(--column-1-width) * 16px) calc(var(--column-2-width) * 16px) calc(var(--column-3-width) * 16px) calc(var(--column-4-width) * 16px) calc(var(--column-5-width) * 16px);
-	min-height: 100%;
-	min-width: 100%;
-	padding: calc(16px * var(--grid-padding));
-	padding-right: calc(16px * var(--grid-padding) - 1px);
+    align-items: center;
+    box-sizing: border-box;
+    display: grid;
+    flex-shrink: 0;
+    gap: calc(16px * var(--grid-gap));
+    grid-template-columns:
+        calc(var(--column-1-width) * 16px) calc(var(--column-2-width) * 16px)
+        calc(var(--column-3-width) * 16px) calc(var(--column-4-width) * 16px) calc(var(
+                    --column-5-width
+                ) * 16px);
+    min-height: 100%;
+    min-width: 100%;
+    padding: calc(16px * var(--grid-padding));
+    padding-right: calc(16px * var(--grid-padding) - 1px);
 }
 
 .BlueprintEditor-column {
-	display: grid;
-	gap: var(--4x);
-	position: relative;
-	z-index: 20;
+    display: grid;
+    gap: var(--4x);
+    position: relative;
+    z-index: 20;
 }
 
 .BlueprintEditor-label {
-	color: var(--color-gray);
-	display: block;
-	font-family: var(--font-family);
-	font-size: 16px;
-	font-weight: var(--font-weight-medium);
-	line-height: 16px;
+    color: var(--color-gray);
+    display: block;
+    font-family: var(--font-family);
+    font-size: 16px;
+    font-weight: var(--font-weight-medium);
+    line-height: 16px;
 }
 
 

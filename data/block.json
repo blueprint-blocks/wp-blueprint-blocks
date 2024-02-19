@@ -8,9 +8,6 @@
 	"icon": "grid-view",
 	"keywords": [],
 	"category": "common",
-	"parent": [],
-	"ancestor": [],
-	"allowedBlocks": [],
 	"attributes": {
 		"title": {
 			"type": "string",
