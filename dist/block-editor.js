@@ -8532,62 +8532,6 @@
 	          })]
 	        }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	          className: "PageBlockJson-fieldset",
-	          children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	            className: "PageBlockJson-header",
-	            children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	              children: "Inner Blocks"
-	            }), /*#__PURE__*/jsxRuntimeExports.jsx(ProFlag, {})]
-	          }), /*#__PURE__*/jsxRuntimeExports.jsx(ListField, {
-	            label: "What blocks can this block be inserted in?",
-	            placeholder: "Start typing to choose a block...",
-	            tooltip: "Keywords are used to find your block when searching in the editor.",
-	            value: [],
-	            setValue: function setValue(value) {
-	              if (value && !(value.length === 1 && value[0] === "")) {
-	                dispatch(showUpsellPrompt());
-	              }
-	            },
-	            onFocus: function onFocus(index) {
-	              return _onFocus("parent", index);
-	            },
-	            onBlur: function onBlur(index) {
-	              return _onBlur("parent", index);
-	            }
-	          }), /*#__PURE__*/jsxRuntimeExports.jsx(ListField, {
-	            label: "What blocks can this block be inserted in, anywhere in the ancestry tree?",
-	            placeholder: "Start typing to choose a block...",
-	            tooltip: "Keywords are used to find your block when searching in the editor.",
-	            value: [],
-	            setValue: function setValue(value) {
-	              if (!(value.length === 1 && value[0] === "")) {
-	                dispatch(showUpsellPrompt());
-	              }
-	            },
-	            onFocus: function onFocus(index) {
-	              return _onFocus("ancestor", index);
-	            },
-	            onBlur: function onBlur(index) {
-	              return _onBlur("ancestor", index);
-	            }
-	          }), /*#__PURE__*/jsxRuntimeExports.jsx(ListField, {
-	            label: "What blocks can be inserted into this block?",
-	            placeholder: "Start typing to choose a block...",
-	            tooltip: "Keywords are used to find your block when searching in the editor.",
-	            value: [],
-	            setValue: function setValue(value) {
-	              if (value && !(value.length === 1 && value[0] === "")) {
-	                dispatch(showUpsellPrompt());
-	              }
-	            },
-	            onFocus: function onFocus(index) {
-	              return _onFocus("allowedBlocks", index);
-	            },
-	            onBlur: function onBlur(index) {
-	              return _onBlur("allowedBlocks", index);
-	            }
-	          })]
-	        }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	          className: "PageBlockJson-fieldset",
 	          children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	            className: "PageBlockJson-header",
 	            children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
@@ -8639,60 +8583,6 @@
 	                children: "Learn more"
 	              })]
 	            })
-	          }), /*#__PURE__*/jsxRuntimeExports.jsxs(CheckboxField, {
-	            setValue: function setValue(value) {
-	              {
-	                dispatch(showUpsellPrompt());
-	              }
-	            },
-	            value: false,
-	            children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	              className: "CheckboxField-label",
-	              children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	                children: "Aria Label"
-	              }), /*#__PURE__*/jsxRuntimeExports.jsx(ProFlag, {})]
-	            }), /*#__PURE__*/jsxRuntimeExports.jsxs("p", {
-	              children: ["This flag allows enabling the definition of an aria-label for the block, without exposing block controls.", /*#__PURE__*/jsxRuntimeExports.jsx("br", {}), /*#__PURE__*/jsxRuntimeExports.jsx("a", {
-	                href: "#",
-	                children: "Learn more"
-	              })]
-	            })]
-	          }), /*#__PURE__*/jsxRuntimeExports.jsxs(CheckboxField, {
-	            setValue: function setValue(value) {
-	              {
-	                dispatch(showUpsellPrompt());
-	              }
-	            },
-	            value: true,
-	            children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	              className: "CheckboxField-label",
-	              children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	                children: "Class Name"
-	              }), /*#__PURE__*/jsxRuntimeExports.jsx(ProFlag, {})]
-	            }), /*#__PURE__*/jsxRuntimeExports.jsxs("p", {
-	              children: ["By default, the class .wp-block-your-block-name is added to the root element of your saved markup. Unchecking this flag will disable this functionality.", /*#__PURE__*/jsxRuntimeExports.jsx("br", {}), /*#__PURE__*/jsxRuntimeExports.jsx("a", {
-	                href: "#",
-	                children: "Learn more"
-	              })]
-	            })]
-	          }), /*#__PURE__*/jsxRuntimeExports.jsxs(CheckboxField, {
-	            setValue: function setValue(value) {
-	              {
-	                dispatch(showUpsellPrompt());
-	              }
-	            },
-	            value: true,
-	            children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	              className: "CheckboxField-label",
-	              children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	                children: "Custom Class Name"
-	              }), /*#__PURE__*/jsxRuntimeExports.jsx(ProFlag, {})]
-	            }), /*#__PURE__*/jsxRuntimeExports.jsxs("p", {
-	              children: ["This flag adds block controls to define a custom class name for the block’s wrapper.", /*#__PURE__*/jsxRuntimeExports.jsx("br", {}), /*#__PURE__*/jsxRuntimeExports.jsx("a", {
-	                href: "#",
-	                children: "Learn more"
-	              })]
-	            })]
 	          }), /*#__PURE__*/jsxRuntimeExports.jsxs(CheckboxField, {
 	            label: "Color",
 	            value: true,
@@ -11574,21 +11464,24 @@
 	function BlueprintEditor() {
 	  var dispatch = useDispatch();
 	  var column2Depth = useSelector(function (state) {
-	    return getComponentListDepth(state.blockBlueprint, 'edit');
+	    return getComponentListDepth(state.blockBlueprint, "edit");
 	  });
 	  var column3Depth = useSelector(function (state) {
-	    return getComponentListDepth(state.blockBlueprint, 'toolbar');
+	    return getComponentListDepth(state.blockBlueprint, "toolbar");
 	  });
 	  var column4Depth = useSelector(function (state) {
-	    return getComponentListDepth(state.blockBlueprint, 'sidebar');
+	    return getComponentListDepth(state.blockBlueprint, "sidebar");
 	  });
 	  var column5Depth = useSelector(function (state) {
-	    return getComponentListDepth(state.blockBlueprint, 'save');
+	    return getComponentListDepth(state.blockBlueprint, "save");
 	  });
 	  var ref = React$2.useRef(null);
 	  var scrollRef = React$2.useRef(null);
 	  var wrapRef = React$2.useRef(null);
-	  var wrapRect = useRect(wrapRef, null, ['height', 'width']);
+	  var wrapRect = useRect(wrapRef, null, ["height", "width"]);
+	  var onClickUpsellBanner = function onClickUpsellBanner() {
+	    dispatch(showUpsellPrompt());
+	  };
 	  React$2.useLayoutEffect(function () {
 	    dispatch(setSize({
 	      height: wrapRect.height,
@@ -11596,15 +11489,15 @@
 	    }));
 	  }, [wrapRect]);
 	  React$2.useLayoutEffect(function () {
-	    ref.current.style.setProperty('--column-2-depth', column2Depth);
-	    ref.current.style.setProperty('--column-3-depth', column3Depth);
-	    ref.current.style.setProperty('--column-4-depth', column4Depth);
-	    ref.current.style.setProperty('--column-5-depth', column5Depth);
+	    ref.current.style.setProperty("--column-2-depth", column2Depth);
+	    ref.current.style.setProperty("--column-3-depth", column3Depth);
+	    ref.current.style.setProperty("--column-4-depth", column4Depth);
+	    ref.current.style.setProperty("--column-5-depth", column5Depth);
 	  }, [column2Depth, column3Depth, column4Depth, column5Depth]);
-	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: "BlueprintEditor",
-	    children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      ref: scrollRef,
 	      className: "BlueprintEditor-scroll",
 	      children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
@@ -11642,7 +11535,16 @@
 	          })]
 	        })]
 	      })
-	    })
+	    }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	      className: "BlueprintEditor-banner",
+	      onClick: onClickUpsellBanner,
+	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("p", {
+	        children: "Ready to level up with advanced features?"
+	      }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	        className: "BlueprintEditor-bannerCta",
+	        children: "Learn More"
+	      })]
+	    })]
 	  });
 	}
 

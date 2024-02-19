@@ -8,19 +8,63 @@
     --grid-padding: 4;
     background: var(--color-darkest-gray);
     border-radius: 9px;
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 1fr var(--6x);
     height: 100%;
     overflow: hidden;
     position: relative;
     z-index: 1;
 }
 
+.BlueprintEditor-banner {
+    align-items: center;
+    backdrop-filter: blur(4px);
+    background: #ffffffbf;
+    border-radius: var(--8x);
+    box-shadow: 0 var(--1x) var(--3x) rgba(0, 0, 0, 0.1);
+    bottom: var(--3x);
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    height: var(--6x);
+    left: var(--3x);
+    padding: var(--1x) var(--1x) var(--1x) var(--3x);
+    position: absolute;
+    right: var(--3x);
+    transition: var(--transition);
+    z-index: 50;
+
+    p {
+        color: var(--color-black);
+        font-size: var(--font-size-large);
+        font-weight: var(--font-weight-semi-bold);
+        margin: 0;
+    }
+
+    &:hover {
+        background: #ffffff;
+    }
+}
+
+.BlueprintEditor-bannerCta {
+    background: var(--gradient-teal-blue);
+    border-radius: var(--6x);
+    color: var(--color-white);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    height: var(--6x);
+    line-height: var(--6x);
+    padding: 0 var(--3x);
+}
+
 .BlueprintEditor-scroll {
     height: 100%;
     overflow: auto;
     width: 100%;
+
+    &::after {
+        content: "";
+        display: block;
+        height: var(--11x);
+    }
 }
 
 .BlueprintEditor-grid {

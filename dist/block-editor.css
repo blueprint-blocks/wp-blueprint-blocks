@@ -1278,13 +1278,52 @@
     --grid-padding: 4;
     background: var(--color-darkest-gray);
     border-radius: 9px;
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 1fr var(--6x);
     height: 100%;
     overflow: hidden;
     position: relative;
     z-index: 1;
+}
+
+.BlueprintEditor-banner {
+    align-items: center;
+    -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+    background: #ffffffbf;
+    border-radius: var(--8x);
+    box-shadow: 0 var(--1x) var(--3x) rgba(0, 0, 0, 0.1);
+    bottom: var(--3x);
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    height: var(--6x);
+    left: var(--3x);
+    padding: var(--1x) var(--1x) var(--1x) var(--3x);
+    position: absolute;
+    right: var(--3x);
+    transition: var(--transition);
+    z-index: 50;
+}
+
+.BlueprintEditor-banner p {
+        color: var(--color-black);
+        font-size: var(--font-size-large);
+        font-weight: var(--font-weight-semi-bold);
+        margin: 0;
+    }
+
+.BlueprintEditor-banner:hover {
+        background: #ffffff;
+    }
+
+.BlueprintEditor-bannerCta {
+    background: var(--gradient-teal-blue);
+    border-radius: var(--6x);
+    color: var(--color-white);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    height: var(--6x);
+    line-height: var(--6x);
+    padding: 0 var(--3x);
 }
 
 .BlueprintEditor-scroll {
@@ -1292,6 +1331,12 @@
     overflow: auto;
     width: 100%;
 }
+
+.BlueprintEditor-scroll::after {
+        content: "";
+        display: block;
+        height: var(--11x);
+    }
 
 .BlueprintEditor-grid {
     background: var(--color-black);
@@ -1777,294 +1822,317 @@
 	}
 
 .UpsellPrompt {
-	background: #FFFFFF40;
-	height: 100%;
-	opacity: 0;
-	position: absolute;
-	top: 0;
-	width: 100%;
-	transition: var(--transition);
-	z-index: 100;
+    background: #ffffff40;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    transition: var(--transition);
+    z-index: 100;
 }
 
 .UpsellPrompt.is-visible {
-	-webkit-backdrop-filter: blur(4px);
-	backdrop-filter: blur(4px);
-	opacity: 1;
+    -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+    opacity: 1;
 }
 
 .UpsellPrompt-wrap {
-	align-items: center;
-	box-sizing: border-box;
-	display: grid;
-	grid-template-columns: 100%;
-	grid-template-rows: 100%;
-	height: var(--app-height);
-	justify-items: center;
-	padding: var(--8x);
-	position: sticky;
-	top: var(--wp-admin--admin-bar--height);
-	width: 100%;
+    align-items: center;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 100%;
+    height: var(--app-height);
+    justify-items: center;
+    padding: var(--8x);
+    position: sticky;
+    top: var(--wp-admin--admin-bar--height);
+    width: 100%;
 }
 
 .UpsellPrompt-window {
-	background: var(--color-white);
-	border-radius: 9px;
-	box-shadow: var(--box-shadow-low);
-	box-sizing: border-box;
-	display: grid;
-	gap: var(--8x);
-	grid-auto-flow: row;
-	max-width: 960px;
-	padding: var(--5x) var(--8x);
-	transform: scale(0.8);
-	transform-origin: center;
-	transition: var(--transition);
-	width: 100%;
+    background: var(--color-white);
+    border-radius: 9px;
+    box-shadow: var(--box-shadow-low);
+    box-sizing: border-box;
+    display: grid;
+    gap: var(--8x);
+    grid-auto-flow: row;
+    max-width: 960px;
+    padding: var(--5x) var(--8x);
+    transform: scale(0.8);
+    transform-origin: center;
+    transition: var(--transition);
+    width: 100%;
 }
 
 .UpsellPrompt.is-visible .UpsellPrompt-window {
-	transform: scale(1);
+    transform: scale(1);
 }
 
 .UpsellPrompt-close {
-	--color: var(--color-dark-gray);
-	--background-color: var(--color-lighter-gray);
-	align-items: center;
-	background: var(--background-color);
-	border-radius: var(--4x);
-	cursor: pointer;
-	display: grid;
-	height: var(--4x);
-	justify-items: center;
-	position: absolute;
-	right: var(--2x);
-	top: var(--2x);
-	transition: var(--transition);
-	width: var(--4x);
+    --color: var(--color-dark-gray);
+    --background-color: var(--color-lighter-gray);
+    align-items: center;
+    background: var(--background-color);
+    border-radius: var(--4x);
+    cursor: pointer;
+    display: grid;
+    height: var(--4x);
+    justify-items: center;
+    position: absolute;
+    right: var(--2x);
+    top: var(--2x);
+    transition: var(--transition);
+    width: var(--4x);
 }
 
 .UpsellPrompt-close::before,
-	.UpsellPrompt-close::after {
-		background: var(--color);
-		content: '';
-		display: block;
-		grid-column: 1;
-		grid-row: 1;
-		height: var(--2x);
-		transition: var(--transition);
-		width: 3px;
-	}
+    .UpsellPrompt-close::after {
+        background: var(--color);
+        content: "";
+        display: block;
+        grid-column: 1;
+        grid-row: 1;
+        height: var(--2x);
+        transition: var(--transition);
+        width: 3px;
+    }
 
 .UpsellPrompt-close::before {
-		transform: rotate(-45deg);
-	}
+        transform: rotate(-45deg);
+    }
 
 .UpsellPrompt-close::after {
-		transform: rotate(45deg);
-	}
+        transform: rotate(45deg);
+    }
 
 .UpsellPrompt-close:hover {
-	--color: var(--color-white);
-	--background-color: var(--color-darker-gray);
+    --color: var(--color-white);
+    --background-color: var(--color-darker-gray);
 }
 
 .UpsellPrompt-content {
-	display: grid;
-	gap: var(--3x);
-	grid-auto-flow: row;
-	width: 100%;
+    display: grid;
+    gap: var(--3x);
+    grid-auto-flow: row;
+    width: 100%;
 }
 
 .UpsellPrompt-content p {
-		color: var(--color-dark-gray);
-		font-size: var(--font-size-large);
-		font-weight: var(--font-weight-medium);
-		margin: 0;
-	}
+        color: var(--color-dark-gray);
+        font-size: var(--font-size-large);
+        font-weight: var(--font-weight-medium);
+        margin: 0;
+    }
 
 .UpsellPrompt-try {
-	align-items: center;
-	border: 2px solid var(--color-lighter-gray);
-	border-radius: 7px;
-	display: grid;
-	gap: var(--2x);
-	grid-template-columns: max-content 1fr;
-	font-size: var(--font-size-large);
-	font-weight: var(--font-weight-bold);
-	padding: var(--1x) var(--2x);
-	width: -moz-fit-content;
-	width: fit-content;
+    align-items: center;
+    border: 2px solid var(--color-lighter-gray);
+    border-radius: 7px;
+    display: grid;
+    gap: var(--2x);
+    grid-template-columns: max-content 1fr;
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-bold);
+    padding: var(--1x) var(--2x);
+    width: -moz-fit-content;
+    width: fit-content;
 }
 
 .UpsellPrompt-try::before {
-		background: url('../assets/images/icon-badge.png') no-repeat center;
-		background-size: contain;
-		content: '';
-		display: block;
-		height: var(--3x);
-		width: var(--3x);
-	}
+        background: url("../assets/images/icon-badge.png") no-repeat center;
+        background-size: contain;
+        content: "";
+        display: block;
+        height: var(--3x);
+        width: var(--3x);
+    }
 
 .UpsellPrompt-tiles {
-	display: grid;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .UpsellPrompt-tile {
-	display: grid;
-	gap: var(--3x);
-	grid-auto-flow: row;
+    display: grid;
+    gap: var(--3x);
+    grid-auto-flow: row;
 }
 
 .UpsellPrompt-tile:nth-child(1) {
-		border-right: 1px solid var(--color-lighter-gray);
-		padding-right: var(--3x);
-	}
+        border-right: 1px solid var(--color-lighter-gray);
+        padding-right: var(--3x);
+    }
 
 .UpsellPrompt-tile:nth-child(2) {
-		border-left: 1px solid var(--color-lighter-gray);
-		padding-left: var(--3x);
-	}
+        border-left: 1px solid var(--color-lighter-gray);
+        padding-left: var(--3x);
+    }
 
 .UpsellPrompt-tile h3 {
-		color: var(--color-black);
-		font-size: var(--font-size-large);
-		margin: 0;
-	}
+        color: var(--color-black);
+        font-size: var(--font-size-large);
+        margin: 0;
+    }
 
 .UpsellPrompt-tile p {
-		color: var(--color-gray);
-		font-size: var(--font-size-base);
-		margin: 0;
-	}
+        color: var(--color-gray);
+        font-size: var(--font-size-base);
+        margin: 0;
+    }
 
 .UpsellPrompt-pricing {
-	color: var(--color-black);
-	font-size: var(--font-size-xx-large);
-	font-weight: var(--font-weight-bold);
-	letter-spacing: -0.05em;
-	vertical-align: baseline;
+    color: var(--color-black);
+    font-size: var(--font-size-xx-large);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: -0.05em;
+    vertical-align: baseline;
 }
 
 .UpsellPrompt-pricing span {
-		color: var(--color-gray);
-		font-size: var(--font-size-base);
-		font-weight: var(--font-weight-medium);
-		letter-spacing: 0;
-	}
+        color: var(--color-gray);
+        font-size: var(--font-size-base);
+        font-weight: var(--font-weight-medium);
+        letter-spacing: 0;
+    }
 
 .UpsellPrompt-primaryButton {
-	background: var(--gradient-teal-blue);
-	border-radius: var(--7x);
-	color: var(--color-white);
-	cursor: pointer;
-	font-size: var(--font-size-large);
-	font-weight: var(--font-weight-semi-bold);
-	height: var(--7x);
-	line-height: var(--7x);
-	padding: 0 var(--3x);
-	text-align: center;
+    background: var(--gradient-teal-blue);
+    border-radius: var(--7x);
+    color: var(--color-white);
+    cursor: pointer;
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-semi-bold);
+    height: var(--7x);
+    line-height: var(--7x);
+    padding: 0 var(--3x);
+    text-align: center;
 }
 
 .UpsellPrompt-secondaryButton {
-	background: var(--gradient-light-gray);
-	border-radius: var(--7x);
-	color: var(--color-black);
-	cursor: pointer;
-	font-size: var(--font-size-large);
-	font-weight: var(--font-weight-semi-bold);
-	height: var(--7x);
-	line-height: var(--7x);
-	padding: 0 var(--3x);
-	text-align: center;
+    background: var(--gradient-light-gray);
+    border-radius: var(--7x);
+    color: var(--color-black);
+    cursor: pointer;
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-semi-bold);
+    height: var(--7x);
+    line-height: var(--7x);
+    padding: 0 var(--3x);
+    text-align: center;
 }
 
 .App {
-	--1x: 8px;
-	--2x: 16px;
-	--3x: 24px;
-	--4x: 32px;
-	--5x: 40px;
-	--6x: 48px;
-	--7x: 56px;
-	--8x: 64px;
-	--9x: 72px;
-	--10x: 80px;
+    --1x: 8px;
+    --2x: 16px;
+    --3x: 24px;
+    --4x: 32px;
+    --5x: 40px;
+    --6x: 48px;
+    --7x: 56px;
+    --8x: 64px;
+    --9x: 72px;
+    --10x: 80px;
+    --11x: 88px;
+    --12x: 96px;
 
-	--color-white: #FFF;
-	--color-black: #272432;
+    --color-white: #fff;
+    --color-black: #272432;
 
-	--color-lighter-gray: #E9EBEB;
-	--color-light-gray: #C2C2C2;
-	--color-gray: #9A9A9A;
-	--color-dark-gray: #7C7C7C;
-	--color-darker-gray: #5D5D5D;
-	--color-darkest-gray: #272432;
+    --color-lighter-gray: #e9ebeb;
+    --color-light-gray: #c2c2c2;
+    --color-gray: #9a9a9a;
+    --color-dark-gray: #7c7c7c;
+    --color-darker-gray: #5d5d5d;
+    --color-darkest-gray: #272432;
 
-	--color-light-slate: #D6E5EF;
-	--color-slate: #A3BFD4;
-	--color-dark-slate: #8198A7;
-	--color-darker-slate: #5D7382;
+    --color-light-slate: #d6e5ef;
+    --color-slate: #a3bfd4;
+    --color-dark-slate: #8198a7;
+    --color-darker-slate: #5d7382;
 
-	--color-accent-teal: #00FFBA;
-	--color-accent-teal-blue: #00B2D0;
-	--color-accent-blue: #006BE5;
-	--color-accent-purple: #7F1192;
-	--color-accent-pink: #B10A50;
-	--color-accent-red: #E6255D;
-	--color-accent-orange: #EF3E23;
-	--color-accent-yellow: #EA971A;
+    --color-accent-teal: #00ffba;
+    --color-accent-teal-blue: #00b2d0;
+    --color-accent-blue: #006be5;
+    --color-accent-purple: #7f1192;
+    --color-accent-pink: #b10a50;
+    --color-accent-red: #e6255d;
+    --color-accent-orange: #ef3e23;
+    --color-accent-yellow: #ea971a;
 
-	--color-code-property: #B10A50;
-	--color-code-value: #EA971A;
+    --color-code-property: #b10a50;
+    --color-code-value: #ea971a;
 
-	--gradient-orange-red: linear-gradient(150deg, var(--color-accent-orange), var(--color-accent-red));
-	--gradient-teal-blue: linear-gradient(150deg, var(--color-accent-teal), var(--color-accent-blue));
-	--gradient-light-gray: linear-gradient(150deg, var(--color-lighter-gray), var(--color-light-gray));
+    --gradient-orange-red: linear-gradient(
+        150deg,
+        var(--color-accent-orange),
+        var(--color-accent-red)
+    );
+    --gradient-teal-blue: linear-gradient(
+        150deg,
+        var(--color-accent-teal),
+        var(--color-accent-blue)
+    );
+    --gradient-light-gray: radial-gradient(
+        ellipse at right,
+        var(--color-lighter-gray),
+        var(--color-light-gray)
+    );
+    --gradient-purple-pink: radial-gradient(
+        ellipse at bottom,
+        #9e05e6,
+        #5200bb
+    );
 
-	--font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
-	--font-family-monospace: 'Fira Mono', monospace;
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    --font-family-monospace: "Fira Mono", monospace;
 
-	--font-size-base: 16px;
-	--font-size-large: 20px;
-	--font-size-x-large: 28px;
-	--font-size-xx-large: 40px;
-	--font-size-small: 14px;
-	--font-size-x-small: 12px;
+    --font-size-base: 16px;
+    --font-size-large: 20px;
+    --font-size-x-large: 28px;
+    --font-size-xx-large: 40px;
+    --font-size-small: 14px;
+    --font-size-x-small: 12px;
 
-	--font-weight-base: 300;
-	--font-weight-medium: 400;
-	--font-weight-semi-bold: 500;
-	--font-weight-bold: 600;
+    --font-weight-base: 300;
+    --font-weight-medium: 400;
+    --font-weight-semi-bold: 500;
+    --font-weight-bold: 600;
 
-	--line-height-base: 1.5;
+    --line-height-base: 1.5;
 
-	--box-shadow-low: 3px 3px 0 #27243233;
-	--box-shadow-x-low: 2px 2px 0 #27243233;
+    --box-shadow-low: 3px 3px 0 #27243233;
+    --box-shadow-x-low: 2px 2px 0 #27243233;
 
-	--transition: all 0.15s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    --transition: all 0.15s cubic-bezier(0.55, 0.055, 0.675, 0.19);
 
-	--app-height: max(680px, calc(100vh - 65px - var(--wp-admin--admin-bar--height)));
-	--navigator-height: var(--7x);
+    --app-height: max(
+        680px,
+        calc(100vh - 65px - var(--wp-admin--admin-bar--height))
+    );
+    --navigator-height: var(--7x);
 
-	background: #f0f0f1;
-	color: var(--color-black);
-	display: grid;
-	grid-template-rows: 65px max-content;
-	font-family: var(--font-family);
-	font-size: var(--font-size-base);
-	font-weight: var(--font-weight-base);
-	line-height: var(--line-height-base);
-	position: relative;
+    background: #f0f0f1;
+    color: var(--color-black);
+    display: grid;
+    grid-template-rows: 65px max-content;
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-base);
+    line-height: var(--line-height-base);
+    position: relative;
 }
 .App .is-disabled {
-		cursor: default;
-		opacity: 0.5;
-		-webkit-user-select: none;
-		   -moz-user-select: none;
-		        user-select: none;
-	}
+        cursor: default;
+        opacity: 0.5;
+        -webkit-user-select: none;
+           -moz-user-select: none;
+                user-select: none;
+    }
 
 
 

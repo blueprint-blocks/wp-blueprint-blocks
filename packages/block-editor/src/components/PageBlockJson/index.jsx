@@ -38,14 +38,6 @@ function PageBlockJson() {
 
   const blockJson = useSelector((state) => state.blockJson || {});
 
-  const setBlockAllowedBlocks = (allowedBlocks) => {
-    dispatch(setAllowedBlocks(allowedBlocks));
-  };
-
-  const setBlockAncestor = (ancestor) => {
-    dispatch(setAncestor(ancestor));
-  };
-
   const setBlockDescription = (description) => {
     dispatch(setDescription(description));
   };
@@ -60,10 +52,6 @@ function PageBlockJson() {
 
   const setBlockKeywords = (keywords) => {
     dispatch(setKeywords(keywords));
-  };
-
-  const setBlockParent = (parent) => {
-    dispatch(setParent(parent));
   };
 
   const setBlockTextdomain = (textdomain) => {
@@ -153,60 +141,6 @@ function PageBlockJson() {
 
           <div className="PageBlockJson-fieldset">
             <div className="PageBlockJson-header">
-              <div>{"Inner Blocks"}</div>
-              {env.PRO_VERSION !== true && <ProFlag />}
-            </div>
-            <ListField
-              label="What blocks can this block be inserted in?"
-              placeholder="Start typing to choose a block..."
-              tooltip="Keywords are used to find your block when searching in the editor."
-              value={(env.PRO_VERSION === true && blockJson?.parent) || []}
-              setValue={(value) => {
-                if (env.PRO_VERSION === true) {
-                  dispatch(setBlockParent(value));
-                } else if (value && !(value.length === 1 && value[0] === "")) {
-                  dispatch(showUpsellPrompt());
-                }
-              }}
-              onFocus={(index) => onFocus("parent", index)}
-              onBlur={(index) => onBlur("parent", index)}
-            />
-            <ListField
-              label="What blocks can this block be inserted in, anywhere in the ancestry tree?"
-              placeholder="Start typing to choose a block..."
-              tooltip="Keywords are used to find your block when searching in the editor."
-              value={(env.PRO_VERSION === true && blockJson?.ancestor) || []}
-              setValue={(value) => {
-                if (env.PRO_VERSION === true) {
-                  dispatch(setBlockAncestor(value));
-                } else if (!(value.length === 1 && value[0] === "")) {
-                  dispatch(showUpsellPrompt());
-                }
-              }}
-              onFocus={(index) => onFocus("ancestor", index)}
-              onBlur={(index) => onBlur("ancestor", index)}
-            />
-            <ListField
-              label="What blocks can be inserted into this block?"
-              placeholder="Start typing to choose a block..."
-              tooltip="Keywords are used to find your block when searching in the editor."
-              value={
-                (env.PRO_VERSION === true && blockJson?.allowedBlocks) || []
-              }
-              setValue={(value) => {
-                if (env.PRO_VERSION === true) {
-                  dispatch(setBlockAllowedBlocks(value));
-                } else if (value && !(value.length === 1 && value[0] === "")) {
-                  dispatch(showUpsellPrompt());
-                }
-              }}
-              onFocus={(index) => onFocus("allowedBlocks", index)}
-              onBlur={(index) => onBlur("allowedBlocks", index)}
-            />
-          </div>
-
-          <div className="PageBlockJson-fieldset">
-            <div className="PageBlockJson-header">
               <div>{"Block Supports"}</div>
             </div>
             <CheckboxField label={"Anchor"} value={false}>
@@ -237,72 +171,6 @@ function PageBlockJson() {
               <p>
                 {
                   "If wide alignment is enabled for the active theme, unchecking this flag will disable wide alignment for this block."
-                }
-                <br />
-                <a href="#">{"Learn more"}</a>
-              </p>
-            </CheckboxField>
-            <CheckboxField
-              setValue={(value) => {
-                if (env.PRO_VERSION === true) {
-                  //dispatch( setBlockAncestor( value ) )
-                } else {
-                  dispatch(showUpsellPrompt());
-                }
-              }}
-              value={false}
-            >
-              <div className="CheckboxField-label">
-                <span>{"Aria Label"}</span>
-                <ProFlag />
-              </div>
-              <p>
-                {
-                  "This flag allows enabling the definition of an aria-label for the block, without exposing block controls."
-                }
-                <br />
-                <a href="#">{"Learn more"}</a>
-              </p>
-            </CheckboxField>
-            <CheckboxField
-              setValue={(value) => {
-                if (env.PRO_VERSION === true) {
-                  //dispatch( setBlockAncestor( value ) )
-                } else {
-                  dispatch(showUpsellPrompt());
-                }
-              }}
-              value={true}
-            >
-              <div className="CheckboxField-label">
-                <span>{"Class Name"}</span>
-                <ProFlag />
-              </div>
-              <p>
-                {
-                  "By default, the class .wp-block-your-block-name is added to the root element of your saved markup. Unchecking this flag will disable this functionality."
-                }
-                <br />
-                <a href="#">{"Learn more"}</a>
-              </p>
-            </CheckboxField>
-            <CheckboxField
-              setValue={(value) => {
-                if (env.PRO_VERSION === true) {
-                  //dispatch( setBlockAncestor( value ) )
-                } else {
-                  dispatch(showUpsellPrompt());
-                }
-              }}
-              value={true}
-            >
-              <div className="CheckboxField-label">
-                <span>{"Custom Class Name"}</span>
-                <ProFlag />
-              </div>
-              <p>
-                {
-                  "This flag adds block controls to define a custom class name for the block’s wrapper."
                 }
                 <br />
                 <a href="#">{"Learn more"}</a>
