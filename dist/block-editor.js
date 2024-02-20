@@ -4874,9 +4874,6 @@
 	    setName: function setName(state, action) {
 	      state.name = action.payload;
 	    },
-	    setTextdomain: function setTextdomain(state, action) {
-	      state.textdomain = action.payload;
-	    },
 	    setTitle: function setTitle(state, action) {
 	      state.title = action.payload;
 	    }
@@ -4891,9 +4888,8 @@
 	  setDescription = actions$6.setDescription,
 	  setIcon = actions$6.setIcon,
 	  setKeywords = actions$6.setKeywords,
-	  setName = actions$6.setName;
-	  actions$6.setTextdomain;
-	  var setTitle = actions$6.setTitle;
+	  setName = actions$6.setName,
+	  setTitle = actions$6.setTitle;
 
 	var _blueprintBlocksEdito$6 = blueprintBlocksEditorSettings,
 	  _blueprintBlocksEdito2$4 = _blueprintBlocksEdito$6.blockMetadata,

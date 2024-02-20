@@ -7,7 +7,6 @@ import {
   setDescription,
   setIcon,
   setKeywords,
-  setTextdomain,
   setTitle,
 } from "../../store/block-json";
 
@@ -46,10 +45,6 @@ function PageBlockJson() {
 
   const setBlockKeywords = (keywords) => {
     dispatch(setKeywords(keywords));
-  };
-
-  const setBlockTextdomain = (textdomain) => {
-    dispatch(setTextdomain(textdomain));
   };
 
   const setBlockTitle = (title) => {

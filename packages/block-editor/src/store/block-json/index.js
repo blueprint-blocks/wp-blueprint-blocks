@@ -91,9 +91,6 @@ const slice = createSlice({
     setName(state, action) {
       state.name = action.payload;
     },
-    setTextdomain(state, action) {
-      state.textdomain = action.payload;
-    },
     setTitle(state, action) {
       state.title = action.payload;
     },
@@ -111,7 +108,6 @@ export const {
   setIcon,
   setKeywords,
   setName,
-  setTextdomain,
   setTitle,
 } = actions;
 
