@@ -4067,7 +4067,6 @@
 			allowsChildren: false,
 			description: "Text based input with options for complex formatting. If no value is input to this field in the editor, it will not be displayed on the front end.",
 			shortDescription: "Text based input with options for complex formatting.",
-			pro: false,
 			attributes: {
 				allowedFormats: {
 					type: "array"
@@ -4103,7 +4102,6 @@
 			label: "Plain Text",
 			allowsChildren: false,
 			shortDescription: "Plain text based input without options for formatting.",
-			pro: false,
 			defaultAttributes: {
 				placeholder: "Enter some text..."
 			}
@@ -4113,7 +4111,6 @@
 			label: "Link",
 			allowsChildren: false,
 			shortDescription: "Inputs for an embedded link accepting a label, href, and target.",
-			pro: false,
 			defaultAttributes: {
 				placeholder: "Enter a label...",
 				tagName: "a"
@@ -4124,7 +4121,6 @@
 			label: "Image",
 			allowsChildren: false,
 			shortDescription: "Upload dialog for all image formats.",
-			pro: false,
 			defaultAttributes: {
 				label: "Image",
 				tagName: "img"
