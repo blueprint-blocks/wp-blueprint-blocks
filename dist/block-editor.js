@@ -4265,7 +4265,6 @@
 			type: "boolean",
 			name: "multiple",
 			label: "Multiple",
-			defaultValue: false,
 			description: "Multiple...",
 			learnMoreLink: "#"
 		},
@@ -4273,7 +4272,6 @@
 			type: "boolean",
 			name: "reusable",
 			label: "Reusable",
-			defaultValue: false,
 			description: "Reusable...",
 			learnMoreLink: "#"
 		},
@@ -4281,27 +4279,28 @@
 			type: "object",
 			name: "spacing",
 			label: "Spacing",
-			defaultValue: false,
+			defaultValueWhenChecked: {
+				margin: true,
+				padding: true,
+				blockGap: false
+			},
 			description: "Spacing...",
 			learnMoreLink: "#",
 			subProperties: [
 				{
 					type: "boolean",
 					name: "margin",
-					label: "Margin",
-					defaultValue: true
+					label: "Margin"
 				},
 				{
 					type: "boolean",
 					name: "padding",
-					label: "Padding",
-					defaultValue: true
+					label: "Padding"
 				},
 				{
 					type: "boolean",
 					name: "blockGap",
-					label: "Block Gap",
-					defaultValue: false
+					label: "Block Gap"
 				}
 			]
 		},
@@ -4309,7 +4308,10 @@
 			type: "object",
 			name: "typography",
 			label: "Typography",
-			defaultValue: false,
+			defaultValueWhenChecked: {
+				fontSize: true,
+				lineHeight: true
+			},
 			description: "Typography...",
 			learnMoreLink: "#",
 			subProperties: [
@@ -4317,7 +4319,6 @@
 					type: "boolean",
 					name: "fontSize",
 					label: "Font Size",
-					defaultValue: true,
 					attributes: {
 						fontSize: {
 							type: "string",
@@ -4328,8 +4329,7 @@
 				{
 					type: "boolean",
 					name: "lineHeight",
-					label: "Line Height",
-					defaultValue: true
+					label: "Line Height"
 				}
 			]
 		}
