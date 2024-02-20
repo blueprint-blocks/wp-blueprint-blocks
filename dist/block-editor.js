@@ -8114,9 +8114,9 @@
 	var BlockSupportsFieldItem = function BlockSupportsFieldItem(_ref) {
 	  var _ref$defaultValueWhen = _ref.defaultValueWhenChecked,
 	    defaultValueWhenChecked = _ref$defaultValueWhen === void 0 ? true : _ref$defaultValueWhen,
-	    description = _ref.description,
-	    name = _ref.name,
-	    label = _ref.label,
+	    description = _ref.description;
+	    _ref.name;
+	    var label = _ref.label,
 	    learnMoreLink = _ref.learnMoreLink,
 	    setValue = _ref.setValue,
 	    subProperties = _ref.subProperties,
@@ -8135,6 +8135,14 @@
 	      return ((_Object$values = Object.values(value)) === null || _Object$values === void 0 ? void 0 : _Object$values.length) > 0;
 	    }
 	  }, [type, value]);
+	  var isSubPropertyChecked = React$2.useCallback(function (subProperty) {
+	    if (type === "array") {
+	      return (value === null || value === void 0 ? void 0 : value.includes) && value.includes(subProperty === null || subProperty === void 0 ? void 0 : subProperty.name);
+	    } else if (type === "object") {
+	      return (value === null || value === void 0 ? void 0 : value[subProperty === null || subProperty === void 0 ? void 0 : subProperty.name]) !== false;
+	    }
+	    return false;
+	  }, [type, value]);
 	  var setPropertyValue = function setPropertyValue(newPropertyValue) {
 	    if (newPropertyValue === false) {
 	      setValue(false);
@@ -8145,12 +8153,14 @@
 	    }
 	  };
 	  var setSubPropertyValue = function setSubPropertyValue(subProperty, newSubPropertyValue) {
-	    if (newSubPropertyValue === false && type === "array") {
-	      setValue(_toConsumableArray(value).filter(function (subPropertyValue) {
-	        return subPropertyValue !== subProperty.name;
-	      }));
+	    if (type === "object") {
+	      setValue(_objectSpread2(_objectSpread2({}, value), {}, _defineProperty$1({}, subProperty === null || subProperty === void 0 ? void 0 : subProperty.name, newSubPropertyValue)));
 	    } else if (newSubPropertyValue === true && type === "array") {
-	      setValue([].concat(_toConsumableArray(value), [subProperty.name]));
+	      setValue([].concat(_toConsumableArray(value), [subProperty === null || subProperty === void 0 ? void 0 : subProperty.name]));
+	    } else if (newSubPropertyValue === false && type === "array") {
+	      setValue(_toConsumableArray(value).filter(function (subPropertyValue) {
+	        return subPropertyValue !== (subProperty === null || subProperty === void 0 ? void 0 : subProperty.name);
+	      }));
 	    }
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs(CheckboxField, {
@@ -8165,13 +8175,13 @@
 	    }), learnMoreLink && /*#__PURE__*/jsxRuntimeExports.jsx("a", {
 	      href: learnMoreLink,
 	      children: "Learn more"
-	    }), (subProperties === null || subProperties === void 0 ? void 0 : subProperties.length) > 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	    }), isChecked && (subProperties === null || subProperties === void 0 ? void 0 : subProperties.length) > 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "CheckboxField-list",
 	      children: subProperties.map(function (subProperty, index) {
 	        return /*#__PURE__*/React$2.createElement(BlockSupportsFieldItem, _objectSpread2(_objectSpread2({}, subProperty), {}, {
 	          key: index,
 	          size: "small",
-	          value: type === "array" && (value === null || value === void 0 ? void 0 : value.includes(subProperty.name)) || type === "object" && (value === null || value === void 0 ? void 0 : value[name]),
+	          value: isSubPropertyChecked(subProperty),
 	          setValue: function setValue(value) {
 	            return setSubPropertyValue(subProperty, value);
 	          }

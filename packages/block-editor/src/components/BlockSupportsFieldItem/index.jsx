@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 import CheckboxField from "../CheckboxField";
 
@@ -26,6 +26,18 @@ const BlockSupportsFieldItem = ({
     }
   }, [type, value]);
 
+  const isSubPropertyChecked = useCallback(
+    (subProperty) => {
+      if (type === "array") {
+        return value?.includes && value.includes(subProperty?.name);
+      } else if (type === "object") {
+        return value?.[subProperty?.name] !== false;
+      }
+      return false;
+    },
+    [type, value],
+  );
+
   const setPropertyValue = (newPropertyValue) => {
     if (newPropertyValue === false) {
       setValue(false);
@@ -37,14 +49,16 @@ const BlockSupportsFieldItem = ({
   };
 
   const setSubPropertyValue = (subProperty, newSubPropertyValue) => {
-    if (newSubPropertyValue === false && type === "array") {
+    if (type === "object") {
+      setValue({ ...value, [subProperty?.name]: newSubPropertyValue });
+    } else if (newSubPropertyValue === true && type === "array") {
+      setValue([...value, subProperty?.name]);
+    } else if (newSubPropertyValue === false && type === "array") {
       setValue(
         [...value].filter(
-          (subPropertyValue) => subPropertyValue !== subProperty.name,
+          (subPropertyValue) => subPropertyValue !== subProperty?.name,
         ),
       );
-    } else if (newSubPropertyValue === true && type === "array") {
-      setValue([...value, subProperty.name]);
     }
   };
 
@@ -62,17 +76,14 @@ const BlockSupportsFieldItem = ({
         </>
       )}
       {learnMoreLink && <a href={learnMoreLink}>{"Learn more"}</a>}
-      {subProperties?.length > 0 && (
+      {isChecked && subProperties?.length > 0 && (
         <div className="CheckboxField-list">
           {subProperties.map((subProperty, index) => (
             <BlockSupportsFieldItem
               {...subProperty}
               key={index}
               size={"small"}
-              value={
-                (type === "array" && value?.includes(subProperty.name)) ||
-                (type === "object" && value?.[name])
-              }
+              value={isSubPropertyChecked(subProperty)}
               setValue={(value) => setSubPropertyValue(subProperty, value)}
             />
           ))}
