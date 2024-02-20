@@ -96,6 +96,9 @@ class Admin
                 'name' => blueprint_blocks()::OBJECT_PREFIX . 'block',
                 'restBase' => blueprint_blocks()::OBJECT_PREFIX . 'blocks',
             ],
+            'pluginMetadata' => [
+                'url' => blueprint_blocks()->url,
+            ],
             'themeMetadata' => [
                 'themeName' => $current_theme ? $current_theme->get_stylesheet() : null,
                 'cssVariables' => blueprint_blocks_get_css_variables(),

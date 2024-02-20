@@ -1391,81 +1391,73 @@
 
 
 .BlueprintSidebarItem {
-	margin: 0 0 var(--1x);
-	position: relative;
+    background: var(--color-white);
+    background-clip: border-box;
+    border: 2px solid var(--color-black);
+    border-radius: 7px;
+    box-shadow: var(--box-shadow-low);
+    cursor: grab;
+    font-size: var(--font-size-small);
+    padding: calc(var(--2x) + 2px);
+    position: relative;
 }
 
-.BlueprintSidebarItem > div {
-		background: var(--color-white);
-		background-clip: border-box;
-		border: 2px solid var(--color-black);
-		border-radius: 7px;
-		box-shadow: var(--box-shadow-low);
-		cursor: grab;
-		font-size: var(--font-size-small);
-		padding: calc(var(--2x) + 2px);
-		position: relative;
-	}
-
-.BlueprintSidebarItem > div > div {
-		position: relative;
-		z-index: 2;
-	}
-
-.BlueprintSidebarItem:last-child {
-		margin-bottom: 0;
-	}
-
-.BlueprintSidebarItem .ProFlag {
-		margin-top: var(--1x);
-	}
-
-.BlueprintSidebarItem.is-pro > div {
-		background: var(--gradient-teal-blue);
-		border: 0;
-	}
-
-.BlueprintSidebarItem.is-pro > div::before {
-		background: var(--color-white);
-		border-radius: 5px;
-		bottom: 2px;
-		content: '';
-		display: block;
-		left: 2px;
-		position: absolute;
-		right: 2px;
-		top: 2px;
-		z-index: 1;
-	}
+.BlueprintSidebarItem::after {
+        bottom: 0;
+        content: "";
+        display: block;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 9;
+    }
 
 .BlueprintSidebarItem.is-clone {
-	bottom: 0;
-	left: 0;
-	opacity: 0;
-	position: absolute;
-	right: 0;
-	top: 0;
-	z-index: 10;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 10;
 }
 
 .BlueprintSidebarItem.is-clone.react-draggable-dragging {
-	cursor: grabbing;
-	opacity: 0.6;
+    cursor: grabbing;
+    opacity: 0.6;
 }
 
 .BlueprintSidebarItem-label {
-	color: var(--color-darkest-gray);
-	font-weight: var(--font-weight-medium);
+    color: var(--color-darkest-black);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semi-bold);
+    text-align: center;
 }
 
 .BlueprintSidebarItem.is-html .BlueprintSidebarItem-label {
-	font-family: var(--font-family-monospace);
-	font-size: var(--font-size-x-small);
-	font-weight: var(--font-weight-bold);
+    font-family: var(--font-family-monospace);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
 }
 
 .BlueprintSidebarItem-description {
-	color: var(--color-darker-gray);
+    color: var(--color-darker-gray);
+    text-align: center;
+}
+
+.BlueprintSidebarItem-icon {
+    display: block;
+    height: var(--4x);
+    margin: 0 auto var(--1x);
+    -o-object-fit: contain;
+       object-fit: contain;
+    -o-object-position: center;
+       object-position: center;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+    width: var(--4x);
 }
 
 .BlueprintSidebarComponentsPanel {
@@ -1567,39 +1559,45 @@
 	}
 
 .BlueprintSidebar {
-	display: grid;
-	grid-template-columns: 100%;
-	grid-template-rows: 100%;
-	overflow: hidden;
-	position: relative;
-	z-index: 2;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
 }
 
 .BlueprintSidebar > div {
-		box-sizing: border-box;
-		grid-column: 1;
-		grid-row: 1;
-		height: 100%;
-		overflow: auto;
-		padding: 0 3px 0 var(--3x);
-		width: 100%;
-	}
+        box-sizing: border-box;
+        grid-column: 1;
+        grid-row: 1;
+        height: 100%;
+        overflow: auto;
+        padding: 0 3px 0 var(--3x);
+        width: 100%;
+    }
 
 .BlueprintSidebar.is-dragging,
 .BlueprintSidebar.is-dragging > div {
-	overflow: visible;
+    overflow: visible;
 }
 
 .BlueprintSidebar-heading {
-	color: var(--color-black);
-	font-size: var(--font-size-large);
-	font-weight: var(--font-weight-bold);
-	margin: var(--5x) 0 var(--1x);
+    color: var(--color-black);
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-bold);
+    margin: var(--5x) 0 var(--1x);
 }
 
 .BlueprintSidebar-heading:first-child {
-		margin-top: 0;
-	}
+        margin-top: 0;
+    }
+
+.BlueprintSidebar-grid {
+    display: grid;
+    gap: var(--2x);
+    grid-template-columns: repeat(var(--columns, 1), minmax(0, 1fr));
+}
 
 .PageBlueprint {
 	box-sizing: border-box;

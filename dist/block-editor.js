@@ -4054,16 +4054,17 @@
 
 	var attributes$1 = {
 		className: {
-			type: "string"
+			type: "object"
 		},
 		style: {
-			type: "string"
+			type: "object"
 		}
 	};
 	var fields = [
 		{
 			type: "rich-text",
 			label: "Rich Text",
+			icon: "paragraph-sharp-regular",
 			allowsChildren: false,
 			description: "Text based input with options for complex formatting. If no value is input to this field in the editor, it will not be displayed on the front end.",
 			shortDescription: "Text based input with options for complex formatting.",
@@ -4100,6 +4101,7 @@
 		{
 			type: "text",
 			label: "Plain Text",
+			icon: "input-text-sharp-regular",
 			allowsChildren: false,
 			shortDescription: "Plain text based input without options for formatting.",
 			defaultAttributes: {
@@ -4109,6 +4111,7 @@
 		{
 			type: "link",
 			label: "Link",
+			icon: "link-sharp-regular",
 			allowsChildren: false,
 			shortDescription: "Inputs for an embedded link accepting a label, href, and target.",
 			defaultAttributes: {
@@ -4119,6 +4122,7 @@
 		{
 			type: "image",
 			label: "Image",
+			icon: "image-sharp-regular",
 			allowsChildren: false,
 			shortDescription: "Upload dialog for all image formats.",
 			defaultAttributes: {
@@ -4325,25 +4329,6 @@
 	  return !isStringNullValue(value) && !isAttributeArrayValue(value) && !isAttributeNumberValue(value) && !isAttributeObjectValue(value);
 	}
 
-	function isProComponent() {
-	  var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'html';
-	  var _iterator = _createForOfIteratorHelper(blockComponents$1.fields),
-	    _step;
-	  try {
-	    for (_iterator.s(); !(_step = _iterator.n()).done;) {
-	      var component = _step.value;
-	      if ((component === null || component === void 0 ? void 0 : component.type) === type) {
-	        return (component === null || component === void 0 ? void 0 : component.pro) || false;
-	      }
-	    }
-	  } catch (err) {
-	    _iterator.e(err);
-	  } finally {
-	    _iterator.f();
-	  }
-	  return false;
-	}
-
 	function normalizeClasslistAsObject() {
 	  var classList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 	  if (classList === null) {
@@ -4405,7 +4390,7 @@
 	  };
 	}
 
-	var _blueprintBlocksEdito$7;
+	var _blueprintBlocksEdito$8;
 	var _excluded$a = ["children"];
 	var blockComponents = {};
 	function parseComponentTree() {
@@ -4431,7 +4416,7 @@
 	  });
 	  return clientIds;
 	}
-	var _ref2 = ((_blueprintBlocksEdito$7 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$7 === void 0 ? void 0 : _blueprintBlocksEdito$7.blockMetadata) || {},
+	var _ref2 = ((_blueprintBlocksEdito$8 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$8 === void 0 ? void 0 : _blueprintBlocksEdito$8.blockMetadata) || {},
 	  _ref2$blockBlueprint = _ref2.blockBlueprint,
 	  blockBlueprint = _ref2$blockBlueprint === void 0 ? {} : _ref2$blockBlueprint;
 	var blockEdit = parseComponentTree((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockEdit) || []);
@@ -4839,7 +4824,7 @@
 	  return "wp-block-".concat(delimiterize(name));
 	};
 
-	var _blueprintBlocksEdito$6;
+	var _blueprintBlocksEdito$7;
 	function getUniqueAttributeName() {
 	  var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'attribute';
 	  var allNames = arguments.length > 1 ? arguments[1] : undefined;
@@ -4852,7 +4837,7 @@
 	  return indexedName;
 	}
 	var ALLOWED_ATTRIBUTE_TYPES = ['array', 'number', 'string', 'object'];
-	var _ref$2 = ((_blueprintBlocksEdito$6 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$6 === void 0 ? void 0 : _blueprintBlocksEdito$6.blockMetadata) || {},
+	var _ref$2 = ((_blueprintBlocksEdito$7 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$7 === void 0 ? void 0 : _blueprintBlocksEdito$7.blockMetadata) || {},
 	  _ref$blockJson = _ref$2.blockJson,
 	  blockJson = _ref$blockJson === void 0 ? {} : _ref$blockJson;
 	var slice$6 = createSlice({
@@ -4948,9 +4933,9 @@
 	  actions$6.setTextdomain;
 	  var setTitle = actions$6.setTitle;
 
-	var _blueprintBlocksEdito$5 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$3 = _blueprintBlocksEdito$5.blockMetadata,
-	  blockMetadata$1 = _blueprintBlocksEdito2$3 === void 0 ? {} : _blueprintBlocksEdito2$3;
+	var _blueprintBlocksEdito$6 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$4 = _blueprintBlocksEdito$6.blockMetadata,
+	  blockMetadata$1 = _blueprintBlocksEdito2$4 === void 0 ? {} : _blueprintBlocksEdito2$4;
 	var slice$5 = createSlice({
 	  name: 'blockEditorCss',
 	  initialState: {
@@ -4966,9 +4951,9 @@
 	  reducer$5 = slice$5.reducer;
 	var setEditorCss = actions$5.setEditorCss;
 
-	var _blueprintBlocksEdito$4 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$2 = _blueprintBlocksEdito$4.blockMetadata,
-	  blockMetadata = _blueprintBlocksEdito2$2 === void 0 ? {} : _blueprintBlocksEdito2$2;
+	var _blueprintBlocksEdito$5 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$3 = _blueprintBlocksEdito$5.blockMetadata,
+	  blockMetadata = _blueprintBlocksEdito2$3 === void 0 ? {} : _blueprintBlocksEdito2$3;
 	var slice$4 = createSlice({
 	  name: 'blockViewCss',
 	  initialState: {
@@ -5023,9 +5008,9 @@
 	  setSize = actions$3.setSize,
 	  unsetFocus = actions$3.unsetFocus;
 
-	var _blueprintBlocksEdito$3 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$1 = _blueprintBlocksEdito$3.postMetadata,
-	  postMetadata = _blueprintBlocksEdito2$1 === void 0 ? {} : _blueprintBlocksEdito2$1;
+	var _blueprintBlocksEdito$4 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$2 = _blueprintBlocksEdito$4.postMetadata,
+	  postMetadata = _blueprintBlocksEdito2$2 === void 0 ? {} : _blueprintBlocksEdito2$2;
 	var slice$2 = createSlice({
 	  name: 'postMetadata',
 	  initialState: _objectSpread2(_objectSpread2({}, postMetadata), {}, {
@@ -5041,9 +5026,9 @@
 	  reducer$2 = slice$2.reducer;
 	var setPostId = actions$2.setPostId;
 
-	var _blueprintBlocksEdito$2 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2 = _blueprintBlocksEdito$2.postType,
-	  postType = _blueprintBlocksEdito2 === void 0 ? {} : _blueprintBlocksEdito2;
+	var _blueprintBlocksEdito$3 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$1 = _blueprintBlocksEdito$3.postType,
+	  postType = _blueprintBlocksEdito2$1 === void 0 ? {} : _blueprintBlocksEdito2$1;
 	var slice$1 = createSlice({
 	  name: 'postType',
 	  initialState: _objectSpread2(_objectSpread2({}, postType), {}, {
@@ -8366,8 +8351,8 @@
 	  });
 	}
 
-	var _blueprintBlocksEdito$1;
-	var _ref$1 = ((_blueprintBlocksEdito$1 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$1 === void 0 ? void 0 : _blueprintBlocksEdito$1.blockMetadata) || {};
+	var _blueprintBlocksEdito$2;
+	var _ref$1 = ((_blueprintBlocksEdito$2 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$2 === void 0 ? void 0 : _blueprintBlocksEdito$2.blockMetadata) || {};
 	  _ref$1.blockNamespace;
 	function PageBlockJson() {
 	  var dispatch = useDispatch();
@@ -11004,22 +10989,14 @@
 	  var editorRef = _ref.editorRef;
 	  var dispatch = useDispatch();
 	  var components = useSelector(function (state) {
-	    return getComponentList(state.blockBlueprint, 'edit');
-	  });
-	  var newDraggingComponent = useSelector(function (state) {
-	    var _state$blockBlueprint;
-	    return ((_state$blockBlueprint = state.blockBlueprint) === null || _state$blockBlueprint === void 0 || (_state$blockBlueprint = _state$blockBlueprint.newDraggingComponent) === null || _state$blockBlueprint === void 0 ? void 0 : _state$blockBlueprint.type) || null;
+	    return getComponentList(state.blockBlueprint, "edit");
 	  });
 	  var onDrop = function onDrop(_ref2) {
 	    var ancestry = _ref2.ancestry;
-	    if (env.PRO_VERSION !== true && newDraggingComponent && isProComponent(newDraggingComponent)) {
-	      dispatch(showUpsellPrompt());
-	    } else {
-	      dispatch(insertDraggingComponentAtPosition({
-	        context: 'edit',
-	        position: ancestry
-	      }));
-	    }
+	    dispatch(insertDraggingComponentAtPosition({
+	      context: "edit",
+	      position: ancestry
+	    }));
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentList, {
 	    isRoot: true,
@@ -11035,31 +11012,25 @@
 	  var editorRef = _ref.editorRef;
 	  var dispatch = useDispatch();
 	  var components = useSelector(function (state) {
-	    return getComponentList(state.blockBlueprint, 'save');
-	  });
-	  var newDraggingComponent = useSelector(function (state) {
-	    var _state$blockBlueprint;
-	    return ((_state$blockBlueprint = state.blockBlueprint) === null || _state$blockBlueprint === void 0 || (_state$blockBlueprint = _state$blockBlueprint.newDraggingComponent) === null || _state$blockBlueprint === void 0 ? void 0 : _state$blockBlueprint.type) || null;
+	    return getComponentList(state.blockBlueprint, "save");
 	  });
 	  var onDrop = function onDrop(_ref2) {
 	    var ancestry = _ref2.ancestry;
-	    if (env.PRO_VERSION !== true && newDraggingComponent && isProComponent(newDraggingComponent)) {
-	      dispatch(showUpsellPrompt());
-	    } else if (Array.isArray(components) && components.length === 0) {
+	    if (Array.isArray(components) && components.length === 0) {
 	      dispatch(insertNewComponentAtPosition({
-	        context: 'save',
+	        context: "save",
 	        component: {
-	          tagName: 'div'
+	          tagName: "div"
 	        },
 	        position: [0]
 	      }));
 	      dispatch(insertDraggingComponentAtPosition({
-	        context: 'save',
+	        context: "save",
 	        position: [0, 0]
 	      }));
 	    } else {
 	      dispatch(insertDraggingComponentAtPosition({
-	        context: 'save',
+	        context: "save",
 	        position: ancestry
 	      }));
 	    }
@@ -11078,22 +11049,14 @@
 	  var editorRef = _ref.editorRef;
 	  var dispatch = useDispatch();
 	  var components = useSelector(function (state) {
-	    return getComponentList(state.blockBlueprint, 'sidebar');
-	  });
-	  var newDraggingComponent = useSelector(function (state) {
-	    var _state$blockBlueprint;
-	    return ((_state$blockBlueprint = state.blockBlueprint) === null || _state$blockBlueprint === void 0 || (_state$blockBlueprint = _state$blockBlueprint.newDraggingComponent) === null || _state$blockBlueprint === void 0 ? void 0 : _state$blockBlueprint.type) || null;
+	    return getComponentList(state.blockBlueprint, "sidebar");
 	  });
 	  var onDrop = function onDrop(_ref2) {
 	    var ancestry = _ref2.ancestry;
-	    if (env.PRO_VERSION !== true && newDraggingComponent && isProComponent(newDraggingComponent)) {
-	      dispatch(showUpsellPrompt());
-	    } else {
-	      dispatch(insertDraggingComponentAtPosition({
-	        context: 'sidebar',
-	        position: ancestry
-	      }));
-	    }
+	    dispatch(insertDraggingComponentAtPosition({
+	      context: "sidebar",
+	      position: ancestry
+	    }));
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentList, {
 	    isRoot: true,
@@ -11109,22 +11072,14 @@
 	  var editorRef = _ref.editorRef;
 	  var dispatch = useDispatch();
 	  var components = useSelector(function (state) {
-	    return getComponentList(state.blockBlueprint, 'toolbar');
-	  });
-	  var newDraggingComponent = useSelector(function (state) {
-	    var _state$blockBlueprint;
-	    return ((_state$blockBlueprint = state.blockBlueprint) === null || _state$blockBlueprint === void 0 || (_state$blockBlueprint = _state$blockBlueprint.newDraggingComponent) === null || _state$blockBlueprint === void 0 ? void 0 : _state$blockBlueprint.type) || null;
+	    return getComponentList(state.blockBlueprint, "toolbar");
 	  });
 	  var onDrop = function onDrop(_ref2) {
 	    var ancestry = _ref2.ancestry;
-	    if (env.PRO_VERSION !== true && newDraggingComponent && isProComponent(newDraggingComponent)) {
-	      dispatch(showUpsellPrompt());
-	    } else {
-	      dispatch(insertDraggingComponentAtPosition({
-	        context: 'toolbar',
-	        position: ancestry
-	      }));
-	    }
+	    dispatch(insertDraggingComponentAtPosition({
+	      context: "toolbar",
+	      position: ancestry
+	    }));
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentList, {
 	    isRoot: true,
@@ -11321,9 +11276,12 @@
 	  });
 	}
 
+	var _blueprintBlocksEdito$1 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2 = _blueprintBlocksEdito$1.pluginMetadata,
+	  pluginMetadata = _blueprintBlocksEdito2 === void 0 ? {} : _blueprintBlocksEdito2;
 	function BlueprintSidebarItem(_ref) {
-	  var label = _ref.label,
-	    shortDescription = _ref.shortDescription,
+	  var icon = _ref.icon,
+	    label = _ref.label,
 	    _ref$editorRef = _ref.editorRef,
 	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef,
 	    _ref$type = _ref.type,
@@ -11359,49 +11317,45 @@
 	      dispatch(unsetDraggingComponent());
 	    }, 0);
 	  };
-	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: classNames("BlueprintSidebarItem", {
 	      "is-html": type === "html"
 	    }),
-	    children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	    children: [icon && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	      className: "BlueprintSidebarItem-icon",
+	      children: /*#__PURE__*/jsxRuntimeExports.jsx("img", {
+	        src: "".concat(pluginMetadata === null || pluginMetadata === void 0 ? void 0 : pluginMetadata.url, "/assets/images/font-awesome/").concat(icon, ".svg")
+	      })
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	      className: "BlueprintSidebarItem-label",
+	      children: label
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(Draggable$1, {
+	      axis: "both",
+	      bounds: {
+	        bottom: editorRect.bottom - rect.bottom,
+	        left: editorRect.left - rect.left,
+	        right: editorRect.right - rect.right,
+	        top: editorRect.top - rect.top
+	      },
+	      position: position,
+	      onStart: onStartDrag,
+	      onStop: onStopDrag,
 	      children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	        children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	        className: classNames("BlueprintSidebarItem", "is-clone", {
+	          "is-html": type === "html"
+	        }),
+	        children: [icon && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	          className: "BlueprintSidebarItem-icon",
+	          children: /*#__PURE__*/jsxRuntimeExports.jsx("img", {
+	            src: "".concat(pluginMetadata === null || pluginMetadata === void 0 ? void 0 : pluginMetadata.url, "/assets/images/font-awesome/").concat(icon, ".svg")
+	          })
+	        }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	          className: "BlueprintSidebarItem-label",
 	          children: label
-	        }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	          className: "BlueprintSidebarItem-description",
-	          children: shortDescription
-	        }), /*#__PURE__*/jsxRuntimeExports.jsx(Draggable$1, {
-	          axis: "both",
-	          bounds: {
-	            bottom: editorRect.bottom - rect.bottom,
-	            left: editorRect.left - rect.left,
-	            right: editorRect.right - rect.right,
-	            top: editorRect.top - rect.top
-	          },
-	          position: position,
-	          onStart: onStartDrag,
-	          onStop: onStopDrag,
-	          children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	            className: classNames("BlueprintSidebarItem", "is-clone", {
-	              "is-html": type === "html"
-	            }),
-	            children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	              children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	                children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	                  className: "BlueprintSidebarItem-label",
-	                  children: label
-	                }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	                  className: "BlueprintSidebarItem-description",
-	                  children: shortDescription
-	                })]
-	              })
-	            })
-	          })
 	        })]
 	      })
-	    })
+	    })]
 	  });
 	}
 
@@ -11413,20 +11367,32 @@
 	    className: "BlueprintSidebarComponentsPanel",
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintSidebar-heading",
-	      children: 'Components'
-	    }), blockComponents$1.fields.map(function (props, index) {
-	      return /*#__PURE__*/React$2.createElement(BlueprintSidebarItem, _objectSpread2(_objectSpread2({}, props), {}, {
-	        key: index,
-	        editorRef: editorRef
-	      }));
+	      children: "Components"
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	      className: "BlueprintSidebar-grid",
+	      style: {
+	        "--columns": 2
+	      },
+	      children: blockComponents$1.fields.map(function (props, index) {
+	        return /*#__PURE__*/React$2.createElement(BlueprintSidebarItem, _objectSpread2(_objectSpread2({}, props), {}, {
+	          key: index,
+	          editorRef: editorRef
+	        }));
+	      })
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintSidebar-heading",
-	      children: 'HTML'
-	    }), blockComponents$1.html.map(function (props, index) {
-	      return /*#__PURE__*/React$2.createElement(BlueprintSidebarItem, _objectSpread2(_objectSpread2({}, props), {}, {
-	        key: index,
-	        editorRef: editorRef
-	      }));
+	      children: "HTML"
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	      className: "BlueprintSidebar-grid",
+	      style: {
+	        "--columns": 2
+	      },
+	      children: blockComponents$1.html.map(function (props, index) {
+	        return /*#__PURE__*/React$2.createElement(BlueprintSidebarItem, _objectSpread2(_objectSpread2({}, props), {}, {
+	          key: index,
+	          editorRef: editorRef
+	        }));
+	      })
 	    })]
 	  });
 	});

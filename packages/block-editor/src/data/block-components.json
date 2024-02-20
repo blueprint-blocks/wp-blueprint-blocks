@@ -1,16 +1,17 @@
 {
   "attributes": {
     "className": {
-      "type": "string"
+      "type": "object"
     },
     "style": {
-      "type": "string"
+      "type": "object"
     }
   },
   "fields": [
     {
       "type": "rich-text",
       "label": "Rich Text",
+      "icon": "paragraph-sharp-regular",
       "allowsChildren": false,
       "description": "Text based input with options for complex formatting. If no value is input to this field in the editor, it will not be displayed on the front end.",
       "shortDescription": "Text based input with options for complex formatting.",
@@ -42,6 +43,7 @@
     {
       "type": "text",
       "label": "Plain Text",
+      "icon": "input-text-sharp-regular",
       "allowsChildren": false,
       "shortDescription": "Plain text based input without options for formatting.",
       "defaultAttributes": {
@@ -51,6 +53,7 @@
     {
       "type": "link",
       "label": "Link",
+      "icon": "link-sharp-regular",
       "allowsChildren": false,
       "shortDescription": "Inputs for an embedded link accepting a label, href, and target.",
       "defaultAttributes": {
@@ -61,6 +64,7 @@
     {
       "type": "image",
       "label": "Image",
+      "icon": "image-sharp-regular",
       "allowsChildren": false,
       "shortDescription": "Upload dialog for all image formats.",
       "defaultAttributes": {

@@ -12,9 +12,11 @@ import {
 
 import "./style.css";
 
+const { pluginMetadata = {} } = blueprintBlocksEditorSettings;
+
 function BlueprintSidebarItem({
+  icon,
   label,
-  shortDescription,
   editorRef = null,
   type = "html",
   defaultAttributes = {},
@@ -58,41 +60,41 @@ function BlueprintSidebarItem({
         "is-html": type === "html",
       })}
     >
-      <div>
-        <div>
-          <div className="BlueprintSidebarItem-label">{label}</div>
-          <div className="BlueprintSidebarItem-description">
-            {shortDescription}
-          </div>
-          <Draggable
-            axis="both"
-            bounds={{
-              bottom: editorRect.bottom - rect.bottom,
-              left: editorRect.left - rect.left,
-              right: editorRect.right - rect.right,
-              top: editorRect.top - rect.top,
-            }}
-            position={position}
-            onStart={onStartDrag}
-            onStop={onStopDrag}
-          >
-            <div
-              className={classNames("BlueprintSidebarItem", "is-clone", {
-                "is-html": type === "html",
-              })}
-            >
-              <div>
-                <div>
-                  <div className="BlueprintSidebarItem-label">{label}</div>
-                  <div className="BlueprintSidebarItem-description">
-                    {shortDescription}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Draggable>
+      {icon && (
+        <div className="BlueprintSidebarItem-icon">
+          <img
+            src={`${pluginMetadata?.url}/assets/images/font-awesome/${icon}.svg`}
+          />
         </div>
-      </div>
+      )}
+      <div className="BlueprintSidebarItem-label">{label}</div>
+      <Draggable
+        axis="both"
+        bounds={{
+          bottom: editorRect.bottom - rect.bottom,
+          left: editorRect.left - rect.left,
+          right: editorRect.right - rect.right,
+          top: editorRect.top - rect.top,
+        }}
+        position={position}
+        onStart={onStartDrag}
+        onStop={onStopDrag}
+      >
+        <div
+          className={classNames("BlueprintSidebarItem", "is-clone", {
+            "is-html": type === "html",
+          })}
+        >
+          {icon && (
+            <div className="BlueprintSidebarItem-icon">
+              <img
+                src={`${pluginMetadata?.url}/assets/images/font-awesome/${icon}.svg`}
+              />
+            </div>
+          )}
+          <div className="BlueprintSidebarItem-label">{label}</div>
+        </div>
+      </Draggable>
     </div>
   );
 }
