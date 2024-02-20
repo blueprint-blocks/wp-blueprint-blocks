@@ -1,0 +1,175 @@
+[
+  {
+    "type": "boolean",
+    "name": "anchor",
+    "label": "Anchor",
+    "description": "Anchors let you link directly to a specific block on a page. This property adds a field to define an id for the block and a button to copy the direct link.",
+    "learnMoreLink": "#"
+  },
+  {
+    "type": "array",
+    "name": "align",
+    "label": "Align",
+    "defaultValueWhenChecked": ["left", "center", "right", "wide", "full"],
+    "description": "Alignment adds block controls which allow changing the block’s alignment.",
+    "learnMoreLink": "#",
+    "attributes": {
+      "align": {
+        "type": "string",
+        "default": ""
+      }
+    },
+    "subProperties": [
+      {
+        "type": "boolean",
+        "name": "left",
+        "label": "Left"
+      },
+      {
+        "type": "boolean",
+        "name": "center",
+        "label": "Center"
+      },
+      {
+        "type": "boolean",
+        "name": "right",
+        "label": "Right"
+      },
+      {
+        "type": "boolean",
+        "name": "wide",
+        "label": "Wide"
+      },
+      {
+        "type": "boolean",
+        "name": "full",
+        "label": "Full"
+      }
+    ]
+  },
+  {
+    "type": "object",
+    "name": "color",
+    "label": "Color",
+    "defaultValueWhenChecked": {
+      "background": true,
+      "gradients": false,
+      "link": false,
+      "text": true
+    },
+    "description": "Color adds block controls which allow changing the block’s color.",
+    "learnMoreLink": "#",
+    "subProperties": [
+      {
+        "type": "boolean",
+        "name": "background",
+        "label": "Background",
+        "attributes": {
+          "backgroundColor": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      {
+        "type": "boolean",
+        "name": "gradients",
+        "label": "Gradients",
+        "attributes": {
+          "gradient": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      {
+        "type": "boolean",
+        "name": "link",
+        "label": "Link"
+      },
+      {
+        "type": "boolean",
+        "name": "text",
+        "label": "Text",
+        "attributes": {
+          "textColor": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "boolean",
+    "name": "multiple",
+    "label": "Multiple",
+    "defaultValue": false,
+    "description": "Multiple...",
+    "learnMoreLink": "#"
+  },
+  {
+    "type": "boolean",
+    "name": "reusable",
+    "label": "Reusable",
+    "defaultValue": false,
+    "description": "Reusable...",
+    "learnMoreLink": "#"
+  },
+  {
+    "type": "object",
+    "name": "spacing",
+    "label": "Spacing",
+    "defaultValue": false,
+    "description": "Spacing...",
+    "learnMoreLink": "#",
+    "subProperties": [
+      {
+        "type": "boolean",
+        "name": "margin",
+        "label": "Margin",
+        "defaultValue": true
+      },
+      {
+        "type": "boolean",
+        "name": "padding",
+        "label": "Padding",
+        "defaultValue": true
+      },
+      {
+        "type": "boolean",
+        "name": "blockGap",
+        "label": "Block Gap",
+        "defaultValue": false
+      }
+    ]
+  },
+  {
+    "type": "object",
+    "name": "typography",
+    "label": "Typography",
+    "defaultValue": false,
+    "description": "Typography...",
+    "learnMoreLink": "#",
+    "subProperties": [
+      {
+        "type": "boolean",
+        "name": "fontSize",
+        "label": "Font Size",
+        "defaultValue": true,
+        "attributes": {
+          "fontSize": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      {
+        "type": "boolean",
+        "name": "lineHeight",
+        "label": "Line Height",
+        "defaultValue": true
+      }
+    ]
+  }
+]

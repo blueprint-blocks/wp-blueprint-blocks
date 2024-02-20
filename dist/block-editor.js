@@ -4153,6 +4153,188 @@
 		html: html$1
 	};
 
+	var blockSupportsProperties = [
+		{
+			type: "boolean",
+			name: "anchor",
+			label: "Anchor",
+			description: "Anchors let you link directly to a specific block on a page. This property adds a field to define an id for the block and a button to copy the direct link.",
+			learnMoreLink: "#"
+		},
+		{
+			type: "array",
+			name: "align",
+			label: "Align",
+			defaultValueWhenChecked: [
+				"left",
+				"center",
+				"right",
+				"wide",
+				"full"
+			],
+			description: "Alignment adds block controls which allow changing the block’s alignment.",
+			learnMoreLink: "#",
+			attributes: {
+				align: {
+					type: "string",
+					"default": ""
+				}
+			},
+			subProperties: [
+				{
+					type: "boolean",
+					name: "left",
+					label: "Left"
+				},
+				{
+					type: "boolean",
+					name: "center",
+					label: "Center"
+				},
+				{
+					type: "boolean",
+					name: "right",
+					label: "Right"
+				},
+				{
+					type: "boolean",
+					name: "wide",
+					label: "Wide"
+				},
+				{
+					type: "boolean",
+					name: "full",
+					label: "Full"
+				}
+			]
+		},
+		{
+			type: "object",
+			name: "color",
+			label: "Color",
+			defaultValueWhenChecked: {
+				background: true,
+				gradients: false,
+				link: false,
+				text: true
+			},
+			description: "Color adds block controls which allow changing the block’s color.",
+			learnMoreLink: "#",
+			subProperties: [
+				{
+					type: "boolean",
+					name: "background",
+					label: "Background",
+					attributes: {
+						backgroundColor: {
+							type: "string",
+							"default": ""
+						}
+					}
+				},
+				{
+					type: "boolean",
+					name: "gradients",
+					label: "Gradients",
+					attributes: {
+						gradient: {
+							type: "string",
+							"default": ""
+						}
+					}
+				},
+				{
+					type: "boolean",
+					name: "link",
+					label: "Link"
+				},
+				{
+					type: "boolean",
+					name: "text",
+					label: "Text",
+					attributes: {
+						textColor: {
+							type: "string",
+							"default": ""
+						}
+					}
+				}
+			]
+		},
+		{
+			type: "boolean",
+			name: "multiple",
+			label: "Multiple",
+			defaultValue: false,
+			description: "Multiple...",
+			learnMoreLink: "#"
+		},
+		{
+			type: "boolean",
+			name: "reusable",
+			label: "Reusable",
+			defaultValue: false,
+			description: "Reusable...",
+			learnMoreLink: "#"
+		},
+		{
+			type: "object",
+			name: "spacing",
+			label: "Spacing",
+			defaultValue: false,
+			description: "Spacing...",
+			learnMoreLink: "#",
+			subProperties: [
+				{
+					type: "boolean",
+					name: "margin",
+					label: "Margin",
+					defaultValue: true
+				},
+				{
+					type: "boolean",
+					name: "padding",
+					label: "Padding",
+					defaultValue: true
+				},
+				{
+					type: "boolean",
+					name: "blockGap",
+					label: "Block Gap",
+					defaultValue: false
+				}
+			]
+		},
+		{
+			type: "object",
+			name: "typography",
+			label: "Typography",
+			defaultValue: false,
+			description: "Typography...",
+			learnMoreLink: "#",
+			subProperties: [
+				{
+					type: "boolean",
+					name: "fontSize",
+					label: "Font Size",
+					defaultValue: true,
+					attributes: {
+						fontSize: {
+							type: "string",
+							"default": ""
+						}
+					}
+				},
+				{
+					type: "boolean",
+					name: "lineHeight",
+					label: "Line Height",
+					defaultValue: true
+				}
+			]
+		}
+	];
+
 	var navItems = [
 		{
 			label: "1. Block.json"
@@ -4874,6 +5056,15 @@
 	    setName: function setName(state, action) {
 	      state.name = action.payload;
 	    },
+	    setSupportsProperty: function setSupportsProperty(state, action) {
+	      var _action$payload3 = action.payload,
+	        property = _action$payload3.property,
+	        value = _action$payload3.value;
+	      if (!(property !== null && property !== void 0 && property.name)) {
+	        return;
+	      }
+	      state.supports = _objectSpread2(_objectSpread2({}, state.supports), {}, _defineProperty$1({}, property.name, value));
+	    },
 	    setTitle: function setTitle(state, action) {
 	      state.title = action.payload;
 	    }
@@ -4889,6 +5080,7 @@
 	  setIcon = actions$6.setIcon,
 	  setKeywords = actions$6.setKeywords,
 	  setName = actions$6.setName,
+	  setSupportsProperty = actions$6.setSupportsProperty,
 	  setTitle = actions$6.setTitle;
 
 	var _blueprintBlocksEdito$6 = blueprintBlocksEditorSettings,
@@ -7883,26 +8075,6 @@
 	  });
 	};
 
-	function BlockVersionField(_ref) {
-	  _ref.name;
-	    _ref.placeholder;
-	    _ref.onBlur;
-	    _ref.onFocus;
-	    _ref.tooltip;
-	    _ref.value;
-	    _ref.setValue;
-	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	    className: "BlockVersionField",
-	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	      className: "BlockVersionField-label",
-	      children: 'Version:'
-	    }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
-	      className: "BlockVersionField-value",
-	      value: '1.0.0'
-	    })]
-	  });
-	}
-
 	function CheckboxField(_ref) {
 	  var children = _ref.children,
 	    label = _ref.label,
@@ -7935,6 +8107,121 @@
 	        className: classNames('CheckboxField-label'),
 	        children: label
 	      }), children]
+	    })]
+	  });
+	}
+
+	var BlockSupportsFieldItem = function BlockSupportsFieldItem(_ref) {
+	  var _ref$defaultValueWhen = _ref.defaultValueWhenChecked,
+	    defaultValueWhenChecked = _ref$defaultValueWhen === void 0 ? true : _ref$defaultValueWhen,
+	    description = _ref.description,
+	    name = _ref.name,
+	    label = _ref.label,
+	    learnMoreLink = _ref.learnMoreLink,
+	    setValue = _ref.setValue,
+	    subProperties = _ref.subProperties,
+	    size = _ref.size,
+	    _ref$type = _ref.type,
+	    type = _ref$type === void 0 ? "boolean" : _ref$type,
+	    _ref$value = _ref.value,
+	    value = _ref$value === void 0 ? false : _ref$value;
+	  var isChecked = React$2.useMemo(function () {
+	    if (type === "boolean") {
+	      return value;
+	    } else if (type === "array") {
+	      return (value === null || value === void 0 ? void 0 : value.length) > 0;
+	    } else if (type === "object") {
+	      var _Object$values;
+	      return ((_Object$values = Object.values(value)) === null || _Object$values === void 0 ? void 0 : _Object$values.length) > 0;
+	    }
+	  }, [type, value]);
+	  var setPropertyValue = function setPropertyValue(newPropertyValue) {
+	    if (newPropertyValue === false) {
+	      setValue(false);
+	    } else if (type === "boolean") {
+	      setValue(true);
+	    } else {
+	      setValue(defaultValueWhenChecked);
+	    }
+	  };
+	  var setSubPropertyValue = function setSubPropertyValue(subProperty, newSubPropertyValue) {
+	    if (newSubPropertyValue === false && type === "array") {
+	      setValue(_toConsumableArray(value).filter(function (subPropertyValue) {
+	        return subPropertyValue !== subProperty.name;
+	      }));
+	    } else if (newSubPropertyValue === true && type === "array") {
+	      setValue([].concat(_toConsumableArray(value), [subProperty.name]));
+	    }
+	  };
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs(CheckboxField, {
+	    label: label,
+	    size: size,
+	    value: isChecked,
+	    setValue: setPropertyValue,
+	    children: [description && /*#__PURE__*/jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, {
+	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("p", {
+	        children: description
+	      }), /*#__PURE__*/jsxRuntimeExports.jsx("br", {})]
+	    }), learnMoreLink && /*#__PURE__*/jsxRuntimeExports.jsx("a", {
+	      href: learnMoreLink,
+	      children: "Learn more"
+	    }), (subProperties === null || subProperties === void 0 ? void 0 : subProperties.length) > 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	      className: "CheckboxField-list",
+	      children: subProperties.map(function (subProperty, index) {
+	        return /*#__PURE__*/React$2.createElement(BlockSupportsFieldItem, _objectSpread2(_objectSpread2({}, subProperty), {}, {
+	          key: index,
+	          size: "small",
+	          value: type === "array" && (value === null || value === void 0 ? void 0 : value.includes(subProperty.name)) || type === "object" && (value === null || value === void 0 ? void 0 : value[name]),
+	          setValue: function setValue(value) {
+	            return setSubPropertyValue(subProperty, value);
+	          }
+	        }));
+	      })
+	    })]
+	  });
+	};
+
+	var BlockSupportsField = function BlockSupportsField() {
+	  var dispatch = useDispatch();
+	  var blockSupports = useSelector(function (state) {
+	    var _state$blockJson;
+	    return ((_state$blockJson = state.blockJson) === null || _state$blockJson === void 0 ? void 0 : _state$blockJson.supports) || {};
+	  });
+	  var setPropertyValue = function setPropertyValue(property, value) {
+	    dispatch(setSupportsProperty({
+	      property: property,
+	      value: value
+	    }));
+	  };
+	  return /*#__PURE__*/jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, {
+	    children: blockSupportsProperties.map(function (property, index) {
+	      return /*#__PURE__*/React$2.createElement(BlockSupportsFieldItem, _objectSpread2(_objectSpread2({}, property), {}, {
+	        key: index,
+	        value: blockSupports === null || blockSupports === void 0 ? void 0 : blockSupports[property.name],
+	        setValue: function setValue(value) {
+	          return setPropertyValue(property, value);
+	        }
+	      }));
+	    })
+	  });
+	};
+
+	function BlockVersionField(_ref) {
+	  _ref.name;
+	    _ref.placeholder;
+	    _ref.onBlur;
+	    _ref.onFocus;
+	    _ref.tooltip;
+	    _ref.value;
+	    _ref.setValue;
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    className: "BlockVersionField",
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	      className: "BlockVersionField-label",
+	      children: 'Version:'
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
+	      className: "BlockVersionField-value",
+	      value: '1.0.0'
 	    })]
 	  });
 	}
@@ -8420,81 +8707,7 @@
 	            children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	              children: "Block Supports"
 	            })
-	          }), /*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
-	            label: "Anchor",
-	            value: false,
-	            children: /*#__PURE__*/jsxRuntimeExports.jsxs("p", {
-	              children: ["Anchors let you link directly to a specific block on a page. This property adds a field to define an id for the block and a button to copy the direct link.", /*#__PURE__*/jsxRuntimeExports.jsx("br", {}), /*#__PURE__*/jsxRuntimeExports.jsx("a", {
-	                href: "#",
-	                children: "Learn more"
-	              })]
-	            })
-	          }), /*#__PURE__*/jsxRuntimeExports.jsxs(CheckboxField, {
-	            label: "Align",
-	            value: true,
-	            children: [/*#__PURE__*/jsxRuntimeExports.jsxs("p", {
-	              children: ["Alignment adds block controls which allow changing the block’s alignment.", /*#__PURE__*/jsxRuntimeExports.jsx("br", {}), /*#__PURE__*/jsxRuntimeExports.jsx("a", {
-	                href: "#",
-	                children: "Learn more"
-	              })]
-	            }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	              className: "CheckboxField-list",
-	              children: [/*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
-	                label: "Left",
-	                size: "small",
-	                value: true
-	              }), /*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
-	                label: "Right",
-	                size: "small",
-	                value: true
-	              }), /*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
-	                label: "Full",
-	                size: "small",
-	                value: true
-	              }), /*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
-	                label: "Wide",
-	                size: "small",
-	                value: true
-	              })]
-	            })]
-	          }), /*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
-	            label: "Align Wide",
-	            value: true,
-	            children: /*#__PURE__*/jsxRuntimeExports.jsxs("p", {
-	              children: ["If wide alignment is enabled for the active theme, unchecking this flag will disable wide alignment for this block.", /*#__PURE__*/jsxRuntimeExports.jsx("br", {}), /*#__PURE__*/jsxRuntimeExports.jsx("a", {
-	                href: "#",
-	                children: "Learn more"
-	              })]
-	            })
-	          }), /*#__PURE__*/jsxRuntimeExports.jsxs(CheckboxField, {
-	            label: "Color",
-	            value: true,
-	            children: [/*#__PURE__*/jsxRuntimeExports.jsxs("p", {
-	              children: ["Color adds block controls which allow changing the block’s color.", /*#__PURE__*/jsxRuntimeExports.jsx("br", {}), /*#__PURE__*/jsxRuntimeExports.jsx("a", {
-	                href: "#",
-	                children: "Learn more"
-	              })]
-	            }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	              className: "CheckboxField-list",
-	              children: [/*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
-	                label: "Background",
-	                size: "small",
-	                value: true
-	              }), /*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
-	                label: "Gradients",
-	                size: "small",
-	                value: false
-	              }), /*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
-	                label: "Link",
-	                size: "small",
-	                value: true
-	              }), /*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
-	                label: "Text",
-	                size: "small",
-	                value: true
-	              })]
-	            })]
-	          })]
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx(BlockSupportsField, {})]
 	        })]
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	        className: "PageBlockJson-json",

@@ -13,8 +13,8 @@ import {
 import { useFocus } from "../../hooks";
 
 import BlockNameField from "../BlockNameField";
+import BlockSupportsField from "../BlockSupportsField";
 import BlockVersionField from "../BlockVersionField";
-import CheckboxField from "../CheckboxField";
 import JsonEditor from "../JsonEditor";
 import ListField from "../ListField";
 import DashiconsField from "../DashiconsField";
@@ -122,54 +122,7 @@ function PageBlockJson() {
             <div className="PageBlockJson-header">
               <div>{"Block Supports"}</div>
             </div>
-            <CheckboxField label={"Anchor"} value={false}>
-              <p>
-                {
-                  "Anchors let you link directly to a specific block on a page. This property adds a field to define an id for the block and a button to copy the direct link."
-                }
-                <br />
-                <a href="#">{"Learn more"}</a>
-              </p>
-            </CheckboxField>
-            <CheckboxField label={"Align"} value={true}>
-              <p>
-                {
-                  "Alignment adds block controls which allow changing the block’s alignment."
-                }
-                <br />
-                <a href="#">{"Learn more"}</a>
-              </p>
-              <div className="CheckboxField-list">
-                <CheckboxField label={"Left"} size="small" value={true} />
-                <CheckboxField label={"Right"} size="small" value={true} />
-                <CheckboxField label={"Full"} size="small" value={true} />
-                <CheckboxField label={"Wide"} size="small" value={true} />
-              </div>
-            </CheckboxField>
-            <CheckboxField label={"Align Wide"} value={true}>
-              <p>
-                {
-                  "If wide alignment is enabled for the active theme, unchecking this flag will disable wide alignment for this block."
-                }
-                <br />
-                <a href="#">{"Learn more"}</a>
-              </p>
-            </CheckboxField>
-            <CheckboxField label={"Color"} value={true}>
-              <p>
-                {
-                  "Color adds block controls which allow changing the block’s color."
-                }
-                <br />
-                <a href="#">{"Learn more"}</a>
-              </p>
-              <div className="CheckboxField-list">
-                <CheckboxField label={"Background"} size="small" value={true} />
-                <CheckboxField label={"Gradients"} size="small" value={false} />
-                <CheckboxField label={"Link"} size="small" value={true} />
-                <CheckboxField label={"Text"} size="small" value={true} />
-              </div>
-            </CheckboxField>
+            <BlockSupportsField />
           </div>
         </div>
         <div className="PageBlockJson-json">

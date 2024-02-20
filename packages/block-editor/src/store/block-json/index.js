@@ -91,6 +91,16 @@ const slice = createSlice({
     setName(state, action) {
       state.name = action.payload;
     },
+    setSupportsProperty(state, action) {
+      const { property, value } = action.payload;
+      if (!property?.name) {
+        return;
+      }
+      state.supports = {
+        ...state.supports,
+        [property.name]: value,
+      };
+    },
     setTitle(state, action) {
       state.title = action.payload;
     },
@@ -108,6 +118,7 @@ export const {
   setIcon,
   setKeywords,
   setName,
+  setSupportsProperty,
   setTitle,
 } = actions;
 
