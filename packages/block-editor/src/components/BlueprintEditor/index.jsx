@@ -8,9 +8,6 @@ import { showUpsellPrompt } from "../../store/upsell-prompt";
 
 import BlueprintAttributeList from "../BlueprintAttributeList";
 import BlueprintBlockEdit from "../BlueprintBlockEdit";
-import BlueprintBlockSave from "../BlueprintBlockSave";
-import BlueprintBlockSidebar from "../BlueprintBlockSidebar";
-import BlueprintBlockToolbar from "../BlueprintBlockToolbar";
 import BlueprintConnections from "../BlueprintConnections";
 import BlueprintColumn from "../BlueprintColumn";
 
@@ -22,18 +19,6 @@ function BlueprintEditor() {
 
   const column2Depth = useSelector((state) =>
     getComponentListDepth(state.blockBlueprint, "edit"),
-  );
-
-  const column3Depth = useSelector((state) =>
-    getComponentListDepth(state.blockBlueprint, "toolbar"),
-  );
-
-  const column4Depth = useSelector((state) =>
-    getComponentListDepth(state.blockBlueprint, "sidebar"),
-  );
-
-  const column5Depth = useSelector((state) =>
-    getComponentListDepth(state.blockBlueprint, "save"),
   );
 
   const ref = useRef(null);
@@ -57,10 +42,7 @@ function BlueprintEditor() {
 
   useLayoutEffect(() => {
     ref.current.style.setProperty("--column-2-depth", column2Depth);
-    ref.current.style.setProperty("--column-3-depth", column3Depth);
-    ref.current.style.setProperty("--column-4-depth", column4Depth);
-    ref.current.style.setProperty("--column-5-depth", column5Depth);
-  }, [column2Depth, column3Depth, column4Depth, column5Depth]);
+  }, [column2Depth]);
 
   if (process.env.NODE_ENV === "development") {
     useDebugRenderCount("BlueprintEditor");
@@ -81,18 +63,6 @@ function BlueprintEditor() {
 
             <BlueprintColumn label="Block Edit">
               <BlueprintBlockEdit editorRef={scrollRef} />
-            </BlueprintColumn>
-
-            <BlueprintColumn label="Block Toolbar">
-              <BlueprintBlockToolbar editorRef={scrollRef} />
-            </BlueprintColumn>
-
-            <BlueprintColumn label="Block Sidebar">
-              <BlueprintBlockSidebar editorRef={scrollRef} />
-            </BlueprintColumn>
-
-            <BlueprintColumn label="Block Save">
-              <BlueprintBlockSave editorRef={scrollRef} />
             </BlueprintColumn>
           </div>
         </div>

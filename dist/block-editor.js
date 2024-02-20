@@ -4604,7 +4604,7 @@
 	    return;
 	  }
 	  if (!!state.newDraggingComponent) {
-	    insertNewComponentAtPosition$1(state, {
+	    insertNewComponentAtPosition(state, {
 	      payload: {
 	        component: state.newDraggingComponent,
 	        context: context,
@@ -4685,7 +4685,7 @@
 	    }
 	  }
 	};
-	var insertNewComponentAtPosition$1 = function insertNewComponentAtPosition(state, action) {
+	var insertNewComponentAtPosition = function insertNewComponentAtPosition(state, action) {
 	  var _ref8 = action.payload || {},
 	    _ref8$context = _ref8.context,
 	    context = _ref8$context === void 0 ? 'edit' : _ref8$context,
@@ -4765,7 +4765,7 @@
 	  state.newDraggingComponent = null;
 	};
 	var reducers = {
-	  insertNewComponentAtPosition: insertNewComponentAtPosition$1,
+	  insertNewComponentAtPosition: insertNewComponentAtPosition,
 	  insertDraggingComponentAtPosition: insertDraggingComponentAtPosition$1,
 	  setComponentAttribute: setComponentAttribute$1,
 	  setComponentList: setComponentList,
@@ -4783,8 +4783,8 @@
 	});
 	var actions$7 = slice$7.actions,
 	  reducer$7 = slice$7.reducer;
-	var insertNewComponentAtPosition = actions$7.insertNewComponentAtPosition,
-	  insertDraggingComponentAtPosition = actions$7.insertDraggingComponentAtPosition,
+	actions$7.insertNewComponentAtPosition;
+	  var insertDraggingComponentAtPosition = actions$7.insertDraggingComponentAtPosition,
 	  setComponentAttribute = actions$7.setComponentAttribute,
 	  startDraggingExistingComponent = actions$7.startDraggingExistingComponent,
 	  startDraggingNewComponent = actions$7.startDraggingNewComponent,
@@ -10982,89 +10982,6 @@
 	  });
 	}
 
-	function BlueprintBlockSidebar$1(_ref) {
-	  var editorRef = _ref.editorRef;
-	  var dispatch = useDispatch();
-	  var components = useSelector(function (state) {
-	    return getComponentList(state.blockBlueprint, "save");
-	  });
-	  var onDrop = function onDrop(_ref2) {
-	    var ancestry = _ref2.ancestry;
-	    if (Array.isArray(components) && components.length === 0) {
-	      dispatch(insertNewComponentAtPosition({
-	        context: "save",
-	        component: {
-	          tagName: "div"
-	        },
-	        position: [0]
-	      }));
-	      dispatch(insertDraggingComponentAtPosition({
-	        context: "save",
-	        position: [0, 0]
-	      }));
-	    } else {
-	      dispatch(insertDraggingComponentAtPosition({
-	        context: "save",
-	        position: ancestry
-	      }));
-	    }
-	  };
-	  return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentList, {
-	    isRoot: true,
-	    allowMultiple: false,
-	    hintText: "Drag components here if you'd like your block to save markup differently from the edit context.",
-	    components: components,
-	    editorRef: editorRef,
-	    onDrop: onDrop
-	  });
-	}
-
-	function BlueprintBlockSidebar(_ref) {
-	  var editorRef = _ref.editorRef;
-	  var dispatch = useDispatch();
-	  var components = useSelector(function (state) {
-	    return getComponentList(state.blockBlueprint, "sidebar");
-	  });
-	  var onDrop = function onDrop(_ref2) {
-	    var ancestry = _ref2.ancestry;
-	    dispatch(insertDraggingComponentAtPosition({
-	      context: "sidebar",
-	      position: ancestry
-	    }));
-	  };
-	  return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentList, {
-	    isRoot: true,
-	    allowMultiple: false,
-	    hintText: "Drag components here that you'd like to display in the block sidebar.",
-	    components: components,
-	    editorRef: editorRef,
-	    onDrop: onDrop
-	  });
-	}
-
-	function BlueprintBlockToolbar(_ref) {
-	  var editorRef = _ref.editorRef;
-	  var dispatch = useDispatch();
-	  var components = useSelector(function (state) {
-	    return getComponentList(state.blockBlueprint, "toolbar");
-	  });
-	  var onDrop = function onDrop(_ref2) {
-	    var ancestry = _ref2.ancestry;
-	    dispatch(insertDraggingComponentAtPosition({
-	      context: "toolbar",
-	      position: ancestry
-	    }));
-	  };
-	  return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentList, {
-	    isRoot: true,
-	    allowMultiple: false,
-	    hintText: "Drag components here that you'd like to display in the block toolbar.",
-	    components: components,
-	    editorRef: editorRef,
-	    onDrop: onDrop
-	  });
-	}
-
 	var BlueprintConnection = /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
 	  var _allHandles$to, _allHandles$from, _allHandles$from2, _allHandles$to2, _allHandles$to3;
 	  var from = _ref.from,
@@ -11168,15 +11085,6 @@
 	  var column2Depth = useSelector(function (state) {
 	    return getComponentListDepth(state.blockBlueprint, "edit");
 	  });
-	  var column3Depth = useSelector(function (state) {
-	    return getComponentListDepth(state.blockBlueprint, "toolbar");
-	  });
-	  var column4Depth = useSelector(function (state) {
-	    return getComponentListDepth(state.blockBlueprint, "sidebar");
-	  });
-	  var column5Depth = useSelector(function (state) {
-	    return getComponentListDepth(state.blockBlueprint, "save");
-	  });
 	  var ref = React$2.useRef(null);
 	  var scrollRef = React$2.useRef(null);
 	  var wrapRef = React$2.useRef(null);
@@ -11192,10 +11100,7 @@
 	  }, [wrapRect]);
 	  React$2.useLayoutEffect(function () {
 	    ref.current.style.setProperty("--column-2-depth", column2Depth);
-	    ref.current.style.setProperty("--column-3-depth", column3Depth);
-	    ref.current.style.setProperty("--column-4-depth", column4Depth);
-	    ref.current.style.setProperty("--column-5-depth", column5Depth);
-	  }, [column2Depth, column3Depth, column4Depth, column5Depth]);
+	  }, [column2Depth]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: "BlueprintEditor",
@@ -11217,21 +11122,6 @@
 	          }), /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintColumn, {
 	            label: "Block Edit",
 	            children: /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintBlockEdit, {
-	              editorRef: scrollRef
-	            })
-	          }), /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintColumn, {
-	            label: "Block Toolbar",
-	            children: /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintBlockToolbar, {
-	              editorRef: scrollRef
-	            })
-	          }), /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintColumn, {
-	            label: "Block Sidebar",
-	            children: /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintBlockSidebar, {
-	              editorRef: scrollRef
-	            })
-	          }), /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintColumn, {
-	            label: "Block Save",
-	            children: /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintBlockSidebar$1, {
 	              editorRef: scrollRef
 	            })
 	          })]
