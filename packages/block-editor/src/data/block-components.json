@@ -1,10 +1,10 @@
 {
   "attributes": {
     "className": {
-      "type": "object"
+      "type": "string"
     },
     "style": {
-      "type": "object"
+      "type": "string"
     }
   },
   "fields": [

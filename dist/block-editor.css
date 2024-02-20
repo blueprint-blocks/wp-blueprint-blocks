@@ -903,103 +903,6 @@
 		background: var(--color-white);
 	}
 
-.InsertButton {
-	--color: var(--color-gray);
-	align-items: center;
-	border: 1px solid var(--color);
-	border-radius: 3px;
-	box-sizing: border-box;
-	cursor: pointer;
-	display: inline-grid;
-	height: 16px;
-	justify-items: center;
-	position: relative;
-	transition: var(--transition);
-	width: 16px;
-	z-index: 20;
-}
-
-.InsertButton:hover {
-	--color: var(--color-black);
-}
-
-.InsertButton::before,
-.InsertButton::after {
-	background: var(--color);
-	content: "";
-	display: block;
-	grid-column: 1;
-	grid-row: 1;
-	transition: var(--transition);
-}
-
-.InsertButton::before {
-	height: 8px;
-	width: 1px;
-}
-
-.InsertButton::after {
-	height: 1px;
-	width: 8px;
-}
-
-.EditableObject {
-	--color: var(--color-darkest-gray);
-	--focus-color: var(--color-light-gray);
-	--hover-color: var(--color-black);
-	--placeholder-color: var(--color-dark-gray);
-	--placeholder-focus-color: var(--color-darker-gray);
-	color: var(--color);
-	cursor: text;
-	display: inline-grid;
-	position: relative;
-	transition: var(--transition);
-}
-
-.EditableObject::before {
-		border-radius: 0.2em;
-		bottom: 0;
-		content: '';
-		display: block;
-		left: 0;
-		position: absolute;
-		right: 0;
-		top: 0;
-		transition: var(--transition);
-		z-index: -1;
-	}
-
-.EditableObject.has-value:hover,
-	.EditableObject.has-value.has-focus {
-		color: var(--hover-color);
-	}
-
-.EditableObject .placeholder {
-		color: var(--placeholder-color);
-		transition: var(--transition);
-	}
-
-.EditableObject-open {
-	grid-column: 1;
-	grid-row: 1;
-}
-
-.EditableObject-properties {
-	grid-column: 1;
-	grid-row: 2;
-}
-
-.EditableObject-property {
-	display: grid;
-	grid-auto-columns: max-content;
-	grid-auto-flow: column;
-}
-
-.EditableObject-close {
-	grid-column: 1;
-	grid-row: 3;
-}
-
 .BlueprintComponentAttribute {
 	color: var(--color-dark-gray);
 	display: grid;
@@ -1052,6 +955,46 @@
 
 .is-multi-line > .BlueprintComponentAttribute {
 	margin-left: var(--2x);
+}
+
+.InsertButton {
+	--color: var(--color-gray);
+	align-items: center;
+	border: 1px solid var(--color);
+	border-radius: 3px;
+	box-sizing: border-box;
+	cursor: pointer;
+	display: inline-grid;
+	height: 16px;
+	justify-items: center;
+	position: relative;
+	transition: var(--transition);
+	width: 16px;
+	z-index: 20;
+}
+
+.InsertButton:hover {
+	--color: var(--color-black);
+}
+
+.InsertButton::before,
+.InsertButton::after {
+	background: var(--color);
+	content: "";
+	display: block;
+	grid-column: 1;
+	grid-row: 1;
+	transition: var(--transition);
+}
+
+.InsertButton::before {
+	height: 8px;
+	width: 1px;
+}
+
+.InsertButton::after {
+	height: 1px;
+	width: 8px;
 }
 
 .is-multi-line > .BlueprintComponentInsert {

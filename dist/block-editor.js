@@ -4054,10 +4054,10 @@
 
 	var attributes$1 = {
 		className: {
-			type: "object"
+			type: "string"
 		},
 		style: {
-			type: "object"
+			type: "string"
 		}
 	};
 	var fields = [
@@ -10438,15 +10438,6 @@
 	  });
 	});
 
-	var InsertButton = function InsertButton(_ref) {
-	  var className = _ref.className,
-	    onClick = _ref.onClick;
-	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	    className: classNames('InsertButton', className),
-	    onClick: onClick
-	  });
-	};
-
 	var _excluded$5 = ["clientId", "children", "attributeName", "attributeValue"];
 	function BlueprintComponentAttribute(_ref) {
 	  var clientId = _ref.clientId,
@@ -10589,6 +10580,15 @@
 	    }), children]
 	  });
 	}
+
+	var InsertButton = function InsertButton(_ref) {
+	  var className = _ref.className,
+	    onClick = _ref.onClick;
+	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	    className: classNames('InsertButton', className),
+	    onClick: onClick
+	  });
+	};
 
 	var BlueprintComponentInsert = /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
 	  var clientId = _ref.clientId;

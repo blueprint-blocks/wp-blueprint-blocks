@@ -15,7 +15,6 @@ import {
 } from "../../store/block-blueprint";
 import { setFocus, unsetFocus } from "../../store/editor";
 
-import EditableObject from "../EditableObject";
 import EditableString from "../EditableString";
 
 import "./style.css";
