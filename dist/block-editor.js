@@ -4800,7 +4800,7 @@
 
 	var _blueprintBlocksEdito$7;
 	function getUniqueAttributeName() {
-	  var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'attribute';
+	  var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "attribute";
 	  var allNames = arguments.length > 1 ? arguments[1] : undefined;
 	  var index = 1;
 	  var indexedName = "".concat(name).concat(index);
@@ -4810,12 +4810,12 @@
 	  }
 	  return indexedName;
 	}
-	var ALLOWED_ATTRIBUTE_TYPES = ['array', 'number', 'string', 'object'];
+	var ALLOWED_ATTRIBUTE_TYPES = ["array", "number", "string", "object"];
 	var _ref$2 = ((_blueprintBlocksEdito$7 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$7 === void 0 ? void 0 : _blueprintBlocksEdito$7.blockMetadata) || {},
 	  _ref$blockJson = _ref$2.blockJson,
 	  blockJson = _ref$blockJson === void 0 ? {} : _ref$blockJson;
 	var slice$6 = createSlice({
-	  name: 'blockJson',
+	  name: "blockJson",
 	  initialState: _objectSpread2(_objectSpread2({}, blockJson), {}, {
 	    keywords: _toConsumableArray((blockJson === null || blockJson === void 0 ? void 0 : blockJson.keywords) || []),
 	    attributes: _objectSpread2({}, (blockJson === null || blockJson === void 0 ? void 0 : blockJson.attributes) || {})
@@ -4824,29 +4824,29 @@
 	    addAttribute: function addAttribute(state, action) {
 	      var _action$payload = action.payload,
 	        _action$payload$name = _action$payload.name,
-	        name = _action$payload$name === void 0 ? '' : _action$payload$name,
+	        name = _action$payload$name === void 0 ? "" : _action$payload$name,
 	        _action$payload$type = _action$payload.type,
-	        type = _action$payload$type === void 0 ? 'string' : _action$payload$type,
+	        type = _action$payload$type === void 0 ? "string" : _action$payload$type,
 	        _action$payload$defau = _action$payload.defaultValue,
 	        defaultValue = _action$payload$defau === void 0 ? null : _action$payload$defau;
-	      if (name === '') {
-	        name = getUniqueAttributeName('attribute', Object.keys(state.attributes));
+	      if (name === "") {
+	        name = getUniqueAttributeName("attribute", Object.keys(state.attributes));
 	      }
 	      state.attributes = _objectSpread2(_objectSpread2({}, state.attributes), {}, _defineProperty$1({}, name, {
-	        type: ALLOWED_ATTRIBUTE_TYPES.includes(type) && type || 'string',
+	        type: ALLOWED_ATTRIBUTE_TYPES.includes(type) && type || "string",
 	        "default": defaultValue || null
 	      }));
 	    },
 	    editAttribute: function editAttribute(state, action) {
 	      var _action$payload2 = action.payload,
 	        _action$payload2$name = _action$payload2.name,
-	        name = _action$payload2$name === void 0 ? '' : _action$payload2$name,
+	        name = _action$payload2$name === void 0 ? "" : _action$payload2$name,
 	        _action$payload2$type = _action$payload2.type,
-	        type = _action$payload2$type === void 0 ? 'string' : _action$payload2$type,
+	        type = _action$payload2$type === void 0 ? "string" : _action$payload2$type,
 	        _action$payload2$defa = _action$payload2.defaultValue,
 	        defaultValue = _action$payload2$defa === void 0 ? null : _action$payload2$defa;
 	      state.attributes = _objectSpread2(_objectSpread2({}, state.attributes), {}, _defineProperty$1({}, name, {
-	        type: ALLOWED_ATTRIBUTE_TYPES.includes(type) && type || 'string',
+	        type: ALLOWED_ATTRIBUTE_TYPES.includes(type) && type || "string",
 	        "default": defaultValue || null
 	      }));
 	    },
@@ -4858,12 +4858,6 @@
 	          _ref3[1];
 	        return key !== name;
 	      }));
-	    },
-	    setAllowedBlocks: function setAllowedBlocks(state, action) {
-	      state.allowedBlocks = Array.isArray(action.payload) && action.payload || [action.payload];
-	    },
-	    setAncestor: function setAncestor(state, action) {
-	      state.ancestor = Array.isArray(action.payload) && action.payload || [action.payload];
 	    },
 	    setCategory: function setCategory(state, action) {
 	      state.category = action.payload;
@@ -4880,9 +4874,6 @@
 	    setName: function setName(state, action) {
 	      state.name = action.payload;
 	    },
-	    setParent: function setParent(state, action) {
-	      state.parent = Array.isArray(action.payload) && action.payload || [action.payload];
-	    },
 	    setTextdomain: function setTextdomain(state, action) {
 	      state.textdomain = action.payload;
 	    },
@@ -4895,15 +4886,12 @@
 	  reducer$6 = slice$6.reducer;
 	var addAttribute = actions$6.addAttribute,
 	  editAttribute = actions$6.editAttribute,
-	  removeAttribute = actions$6.removeAttribute;
-	  actions$6.setAllowedBlocks;
-	  actions$6.setAncestor;
-	  var setCategory = actions$6.setCategory,
+	  removeAttribute = actions$6.removeAttribute,
+	  setCategory = actions$6.setCategory,
 	  setDescription = actions$6.setDescription,
 	  setIcon = actions$6.setIcon,
 	  setKeywords = actions$6.setKeywords,
 	  setName = actions$6.setName;
-	  actions$6.setParent;
 	  actions$6.setTextdomain;
 	  var setTitle = actions$6.setTitle;
 

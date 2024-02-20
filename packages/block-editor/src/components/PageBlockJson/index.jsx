@@ -3,18 +3,13 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  setAllowedBlocks,
-  setAncestor,
   setCategory,
   setDescription,
   setIcon,
   setKeywords,
-  setParent,
   setTextdomain,
   setTitle,
 } from "../../store/block-json";
-
-import { showUpsellPrompt } from "../../store/upsell-prompt";
 
 import { useFocus } from "../../hooks";
 
