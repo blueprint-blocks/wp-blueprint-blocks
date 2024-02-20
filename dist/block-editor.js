@@ -4054,10 +4054,10 @@
 
 	var attributes$1 = {
 		className: {
-			type: "object"
+			type: "string"
 		},
 		style: {
-			type: "object"
+			type: "string"
 		}
 	};
 	var fields = [
@@ -4220,44 +4220,6 @@
 
 	function isObject(value) {
 	  return _typeof(value) === 'object' && !Array.isArray(value) && value !== null;
-	}
-
-	function convertObjectToStylePropertiesString(object) {
-	  if (!isObject(object)) {
-	    return '';
-	  }
-	  return Object.entries(object).map(function (_ref) {
-	    var _ref2 = _slicedToArray(_ref, 2),
-	      name = _ref2[0],
-	      value = _ref2[1];
-	    return "".concat(name, ": ").concat(value, ";");
-	  }).join(' ');
-	}
-
-	function isStringifiedObject(string) {
-	  var object = null;
-	  try {
-	    object = JSON.parse(string);
-	  } catch (_unused) {}
-	  return isObject(object);
-	}
-
-	function convertStylePropertiesStringToObject(string) {
-	  if (isStringifiedObject(string)) {
-	    return JSON.parse(string);
-	  }
-	  if (typeof string !== 'string') {
-	    return {};
-	  }
-	  return Object.fromEntries(string.split(';').map(function (a) {
-	    return a.trim();
-	  }).filter(function (b) {
-	    return b.length > 0;
-	  }).map(function (c) {
-	    return c.split(':').map(function (d) {
-	      return d.trim();
-	    });
-	  }));
 	}
 
 	document.createElement('textarea');
@@ -10520,133 +10482,15 @@
 	  });
 	};
 
-	var EditableObject = /*#__PURE__*/React$2.memo(function (_ref) {
-	  var _ref$className = _ref.className,
-	    className = _ref$className === void 0 ? '' : _ref$className,
-	    _ref$keyPlaceholder = _ref.keyPlaceholder,
-	    keyPlaceholder = _ref$keyPlaceholder === void 0 ? 'key' : _ref$keyPlaceholder,
-	    _ref$keyValueSeperato = _ref.keyValueSeperator,
-	    keyValueSeperator = _ref$keyValueSeperato === void 0 ? ':' : _ref$keyValueSeperato,
-	    onChange = _ref.onChange,
-	    onFocus = _ref.onFocus,
-	    onBlur = _ref.onBlur,
-	    _ref$propertySeperato = _ref.propertySeperator,
-	    propertySeperator = _ref$propertySeperato === void 0 ? ',' : _ref$propertySeperato,
-	    _ref$value = _ref.value,
-	    value = _ref$value === void 0 ? {} : _ref$value,
-	    _ref$valuePlaceholder = _ref.valuePlaceholder,
-	    valuePlaceholder = _ref$valuePlaceholder === void 0 ? 'value' : _ref$valuePlaceholder;
-	  var ref = React$2.useRef(null);
-	  React$2.useRef(null);
-	  var _useState = React$2.useState(false),
-	    _useState2 = _slicedToArray(_useState, 2),
-	    hasFocus = _useState2[0],
-	    setHasFocus = _useState2[1];
-	  var _value = React$2.useMemo(function () {
-	    if (isObject(value)) {
-	      return value;
-	    }
-	    if (isStringifiedObject(value)) {
-	      return JSON.parse(value);
-	    }
-	    return {};
-	  }, [value]);
-	  var onChangePropertyName = React$2.useCallback(function (propertyName, newPropertyName) {
-	    var propertyValue = _value === null || _value === void 0 ? void 0 : _value[propertyName];
-	    var newValue = _objectSpread2({}, _value);
-	    newValue === null || newValue === void 0 || delete newValue[propertyName];
-	    newValue[newPropertyName] = propertyValue;
-	    onChange && onChange(newValue);
-	  }, [_value]);
-	  var onChangePropertyValue = React$2.useCallback(function (propertyName, newPropertyValue) {
-	    var newValue = _objectSpread2({}, _value);
-	    newValue[propertyName] = newPropertyValue;
-	    onChange && onChange(newValue);
-	  }, [_value]);
-	  var onDeleteProperty = React$2.useCallback(function (propertyName) {
-	    if (String(_value === null || _value === void 0 ? void 0 : _value[propertyName]).length > 0) {
-	      return;
-	    }
-	    var newValue = _objectSpread2({}, _value);
-	    newValue === null || newValue === void 0 || delete newValue[propertyName];
-	    onChange && onChange(newValue);
-	  }, [_value]);
-	  var onInsert = React$2.useCallback(function () {
-	    var newValue = _objectSpread2({}, _value);
-	    newValue[''] = '';
-	    onChange && onChange(newValue);
-	  }, [_value]);
-	  var _onBlur = function _onBlur() {
-	    setHasFocus(false);
-	    onBlur && onBlur();
-	  };
-	  var _onFocus = function _onFocus() {
-	    setHasFocus(true);
-	    onFocus && onFocus();
-	  };
-	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	    ref: ref,
-	    className: classNames('EditableObject', className, {
-	      'has-focus': hasFocus,
-	      'has-value': Object.entries(_value).length > 0
-	    }),
-	    children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	      className: "EditableObject-properties",
-	      children: [Object.entries(value).map(function (_ref2, index) {
-	        var _ref3 = _slicedToArray(_ref2, 2),
-	          propertyName = _ref3[0],
-	          propertyValue = _ref3[1];
-	        return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	          className: "EditableObject-property",
-	          children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	            className: "EditableObject-value",
-	            children: /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
-	              placeholder: keyPlaceholder,
-	              value: String(propertyName),
-	              onBlur: _onBlur,
-	              onChange: function onChange(newPropertyName) {
-	                return onChangePropertyName(propertyName, newPropertyName);
-	              },
-	              onFocus: _onFocus,
-	              onDelete: function onDelete() {
-	                return onDeleteProperty(propertyName);
-	              }
-	            })
-	          }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	            className: "EditableObject-seperator",
-	            children: "".concat(keyValueSeperator, " ")
-	          }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	            className: "EditableObject-value",
-	            children: /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
-	              placeholder: valuePlaceholder,
-	              value: String(propertyValue),
-	              onBlur: _onBlur,
-	              onChange: function onChange(newPropertyValue) {
-	                return onChangePropertyValue(propertyName, newPropertyValue);
-	              },
-	              onFocus: _onFocus
-	            })
-	          }), (propertySeperator !== ',' || index < Object.entries(_value).length - 1) && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	            className: "EditableObject-seperator",
-	            children: propertySeperator
-	          })]
-	        });
-	      }), !_value.hasOwnProperty('') && /*#__PURE__*/jsxRuntimeExports.jsx(InsertButton, {
-	        onClick: onInsert
-	      })]
-	    })
-	  });
-	});
-
 	var _excluded$5 = ["clientId", "children", "attributeName", "attributeValue"];
 	function BlueprintComponentAttribute(_ref) {
 	  var clientId = _ref.clientId,
 	    _ref$children = _ref.children,
 	    children = _ref$children === void 0 ? {} : _ref$children,
 	    _ref$attributeName = _ref.attributeName,
-	    attributeName = _ref$attributeName === void 0 ? '' : _ref$attributeName,
+	    attributeName = _ref$attributeName === void 0 ? "" : _ref$attributeName,
 	    _ref$attributeValue = _ref.attributeValue,
-	    attributeValue = _ref$attributeValue === void 0 ? '' : _ref$attributeValue;
+	    attributeValue = _ref$attributeValue === void 0 ? "" : _ref$attributeValue;
 	    _objectWithoutProperties(_ref, _excluded$5);
 	  var dispatch = useDispatch();
 	  var component = useSelector(function (state) {
@@ -10655,10 +10499,10 @@
 	  var ref = React$2.useRef(null);
 	  var attributeNameRef = React$2.useRef(null);
 	  var _attributeName = React$2.useMemo(function () {
-	    return attributeName || '';
+	    return attributeName || "";
 	  }, [attributeName]);
 	  var _attributeValue = React$2.useMemo(function () {
-	    return attributeValue || '';
+	    return attributeValue || "";
 	  }, [attributeValue]);
 	  var _useState = React$2.useState(true),
 	    _useState2 = _slicedToArray(_useState, 2);
@@ -10685,13 +10529,6 @@
 	    //}, 150 )
 	  }
 	  var onChangeAttributeName = React$2.useCallback(function (newAttributeName) {
-	    var newAttributeValue = structuredClone(_attributeValue);
-	    if (_attributeName === 'style') {
-	      newAttributeValue = convertObjectToStylePropertiesString(newAttributeValue);
-	    }
-	    if (newAttributeName === 'style') {
-	      newAttributeValue = convertStylePropertiesStringToObject(newAttributeValue);
-	    }
 	    dispatch(unsetComponentAttribute({
 	      clientId: clientId,
 	      attribute: _attributeName
@@ -10703,8 +10540,8 @@
 	    }));
 	    dispatch(setFocus({
 	      clientId: clientId,
-	      context: 'component',
-	      property: 'attributeName',
+	      context: "component",
+	      property: "attributeName",
 	      attributeName: newAttributeName,
 	      attributeValue: newAttributeValue
 	    }));
@@ -10717,8 +10554,8 @@
 	    }));
 	    dispatch(setFocus({
 	      clientId: clientId,
-	      context: 'component',
-	      property: 'attributeValue',
+	      context: "component",
+	      property: "attributeValue",
 	      attributeName: _attributeName,
 	      attributeValue: newAttributeValue
 	    }));
@@ -10736,8 +10573,8 @@
 	  var onFocusAttributeName = React$2.useCallback(function () {
 	    dispatch(setFocus({
 	      clientId: clientId,
-	      context: 'component',
-	      property: 'attributeName',
+	      context: "component",
+	      property: "attributeName",
 	      attributeName: _attributeName,
 	      attributeValue: _attributeValue
 	    }));
@@ -10745,16 +10582,16 @@
 	  var onFocusAttributeValue = React$2.useCallback(function () {
 	    dispatch(setFocus({
 	      clientId: clientId,
-	      context: 'component',
-	      property: 'attributeValue',
+	      context: "component",
+	      property: "attributeValue",
 	      attributeName: _attributeName,
 	      attributeValue: _attributeValue
 	    }));
 	  }, [_attributeName, _attributeValue]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
-	    className: classNames('BlueprintComponentAttribute', "is-".concat(attributeType), {
-	      'is-invalid': !attributeNameValid
+	    className: classNames("BlueprintComponentAttribute", "is-".concat(attributeType), {
+	      "is-invalid": !attributeNameValid
 	    }),
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	      ref: attributeNameRef,
@@ -10769,63 +10606,21 @@
 	      })
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	      className: "BlueprintComponentAttribute-seperator",
-	      children: '='
-	    }), _attributeName === 'style' && /*#__PURE__*/jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, {
-	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	        className: "BlueprintComponentAttribute-open",
-	        children: '"'
-	      }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	        className: "BlueprintComponentAttribute-value",
-	        children: /*#__PURE__*/jsxRuntimeExports.jsx(EditableObject, {
-	          value: _attributeValue,
-	          onBlur: onBlurAwait,
-	          onChange: onChangeAttributeValue,
-	          onFocus: onFocusAttributeValue,
-	          keyPlaceholder: "property",
-	          keyValueSeperator: ":",
-	          propertySeperator: ";",
-	          valuePlaceholder: "style"
-	        })
-	      }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	        className: "BlueprintComponentAttribute-close",
-	        children: '"'
-	      })]
-	    }), _attributeName !== 'style' && attributeType === 'object' && /*#__PURE__*/jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, {
-	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	        className: "BlueprintComponentAttribute-open",
-	        children: '{'
-	      }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	        className: "BlueprintComponentAttribute-value",
-	        children: /*#__PURE__*/jsxRuntimeExports.jsx(EditableObject, {
-	          value: attributeValue,
-	          onBlur: onBlurAwait,
-	          onChange: onChangeAttributeValue,
-	          onFocus: onFocusAttributeValue,
-	          keyPlaceholder: "property",
-	          keyValueSeperator: ":",
-	          propertySeperator: ",",
-	          valuePlaceholder: "style"
-	        })
-	      }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	        className: "BlueprintComponentAttribute-close",
-	        children: '}'
-	      })]
-	    }), attributeType !== 'object' && /*#__PURE__*/jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, {
-	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	        className: "BlueprintComponentAttribute-quote",
-	        children: '"'
-	      }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	        className: "BlueprintComponentAttribute-value",
-	        children: /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
-	          value: String(attributeValue),
-	          onBlur: onBlurAwait,
-	          onChange: onChangeAttributeValue,
-	          onFocus: onFocusAttributeValue
-	        })
-	      }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	        className: "BlueprintComponentAttribute-quote",
-	        children: '"'
-	      })]
+	      children: "="
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	      className: "BlueprintComponentAttribute-quote",
+	      children: '"'
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	      className: "BlueprintComponentAttribute-value",
+	      children: /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
+	        value: String(attributeValue),
+	        onBlur: onBlurAwait,
+	        onChange: onChangeAttributeValue,
+	        onFocus: onFocusAttributeValue
+	      })
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	      className: "BlueprintComponentAttribute-quote",
+	      children: '"'
 	    }), children]
 	  });
 	}
