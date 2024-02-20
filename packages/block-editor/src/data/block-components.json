@@ -41,16 +41,6 @@
       }
     },
     {
-      "type": "text",
-      "label": "Plain Text",
-      "icon": "input-text-sharp-regular",
-      "allowsChildren": false,
-      "shortDescription": "Plain text based input without options for formatting.",
-      "defaultAttributes": {
-        "placeholder": "Enter some text..."
-      }
-    },
-    {
       "type": "link",
       "label": "Link",
       "icon": "link-sharp-regular",
