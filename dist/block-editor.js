@@ -4142,34 +4142,18 @@
 		},
 		{
 			type: "html",
+			label: "<span>",
+			allowsChildren: true,
+			defaultAttributes: {
+				tagName: "span"
+			}
+		},
+		{
+			type: "html",
 			label: "<img>",
 			allowsChildren: false,
 			defaultAttributes: {
 				tagName: "img"
-			}
-		},
-		{
-			type: "html",
-			label: "<ul>",
-			allowsChildren: true,
-			defaultAttributes: {
-				tagName: "ul"
-			}
-		},
-		{
-			type: "html",
-			label: "<ol>",
-			allowsChildren: true,
-			defaultAttributes: {
-				tagName: "ol"
-			}
-		},
-		{
-			type: "html",
-			label: "<li>",
-			allowsChildren: true,
-			defaultAttributes: {
-				tagName: "li"
 			}
 		}
 	];
