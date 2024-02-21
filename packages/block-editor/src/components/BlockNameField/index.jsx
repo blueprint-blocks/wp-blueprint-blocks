@@ -41,11 +41,7 @@ const BlockNameField = () => {
         placeholder={"enter-a-block-name..."}
         value={blockName}
       />
-      <Tooltip
-        text={
-          "The name for a block is a unique string that identifies a block. Names have to be structured as namespace/block-name, where namespace is the name of your plugin or theme."
-        }
-      />
+      <Tooltip data="blockJson.name" position="below" />
     </div>
   );
 };

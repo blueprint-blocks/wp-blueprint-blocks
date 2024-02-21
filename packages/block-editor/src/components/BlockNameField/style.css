@@ -1,27 +1,27 @@
 .BlockNameField {
-	align-items: center;
-	border-bottom: 2px solid var(--color-light-gray);
-	display: grid;
-	font-size: var(--font-size-x-large);
-	font-weight: var(--font-weight-medium);
-	gap: var(--2x);
-	grid-template-columns: repeat(3, max-content);
-	padding: var(--1x) 0;
+    align-items: center;
+    border-bottom: 2px solid var(--color-light-gray);
+    display: grid;
+    font-size: var(--font-size-x-large);
+    font-weight: var(--font-weight-medium);
+    gap: var(--2x);
+    grid-template-columns: repeat(2, max-content) 1fr max-content;
+    padding: var(--1x) 0;
 
-	.EditableString {
-		--focus-margin: 0;
-		--focus-padding: 0;
-	}
+    .EditableString {
+        --focus-margin: 0;
+        --focus-padding: 0;
+    }
 }
 
 .BlockNameField-namespace {
-	--color: var(--color-dark-gray);
+    --color: var(--color-dark-gray);
 }
 
 .BlockNameField-name {
-	--color: var(--color-black);
+    --color: var(--color-black);
 }
 
 .BlockNameField-seperator {
-	color: var(--color-light-gray);
+    color: var(--color-light-gray);
 }

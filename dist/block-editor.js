@@ -3728,6 +3728,56 @@
 	// src/index.ts
 	F();
 
+	var slice$a = createSlice({
+	  name: "app",
+	  initialState: {
+	    navRect: {
+	      bottom: 0,
+	      height: 0,
+	      left: 0,
+	      right: 0,
+	      top: 0,
+	      width: 0
+	    },
+	    rect: {
+	      bottom: 0,
+	      height: 0,
+	      left: 0,
+	      right: 0,
+	      top: 0,
+	      width: 0
+	    }
+	  },
+	  reducers: {
+	    setNavRect: function setNavRect(state, action) {
+	      var _action$payload, _action$payload2, _action$payload3, _action$payload4, _action$payload5, _action$payload6;
+	      state.navRect = {
+	        bottom: ((_action$payload = action.payload) === null || _action$payload === void 0 ? void 0 : _action$payload.bottom) || 0,
+	        height: ((_action$payload2 = action.payload) === null || _action$payload2 === void 0 ? void 0 : _action$payload2.height) || 0,
+	        left: ((_action$payload3 = action.payload) === null || _action$payload3 === void 0 ? void 0 : _action$payload3.left) || 0,
+	        right: ((_action$payload4 = action.payload) === null || _action$payload4 === void 0 ? void 0 : _action$payload4.right) || 0,
+	        top: ((_action$payload5 = action.payload) === null || _action$payload5 === void 0 ? void 0 : _action$payload5.top) || 0,
+	        width: ((_action$payload6 = action.payload) === null || _action$payload6 === void 0 ? void 0 : _action$payload6.width) || 0
+	      };
+	    },
+	    setRect: function setRect(state, action) {
+	      var _action$payload7, _action$payload8, _action$payload9, _action$payload10, _action$payload11, _action$payload12;
+	      state.rect = {
+	        bottom: ((_action$payload7 = action.payload) === null || _action$payload7 === void 0 ? void 0 : _action$payload7.bottom) || 0,
+	        height: ((_action$payload8 = action.payload) === null || _action$payload8 === void 0 ? void 0 : _action$payload8.height) || 0,
+	        left: ((_action$payload9 = action.payload) === null || _action$payload9 === void 0 ? void 0 : _action$payload9.left) || 0,
+	        right: ((_action$payload10 = action.payload) === null || _action$payload10 === void 0 ? void 0 : _action$payload10.right) || 0,
+	        top: ((_action$payload11 = action.payload) === null || _action$payload11 === void 0 ? void 0 : _action$payload11.top) || 0,
+	        width: ((_action$payload12 = action.payload) === null || _action$payload12 === void 0 ? void 0 : _action$payload12.width) || 0
+	      };
+	    }
+	  }
+	});
+	var actions$a = slice$a.actions,
+	  reducer$a = slice$a.reducer;
+	var setNavRect = actions$a.setNavRect,
+	  setRect = actions$a.setRect;
+
 	function _iterableToArrayLimit(r, l) {
 	  var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
 	  if (null != t) {
@@ -4367,6 +4417,26 @@
 		}
 	];
 
+	var blockJson$1 = {
+		name: {
+			label: "Block Name",
+			required: true,
+			text: "The name for a block is a unique string that identifies a block. Names have to be structured as namespace/block-name, where namespace is the name of your plugin or theme.",
+			url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#name",
+			width: 360
+		},
+		title: {
+			label: "Block Title",
+			required: true,
+			text: "This is the display title for your block, which can be translated with WordPress translation functions. The title will display in the Inserter and in other areas of the editor.",
+			url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#title",
+			width: 360
+		}
+	};
+	var tooltips = {
+		blockJson: blockJson$1
+	};
+
 	function componentAllowsChildren() {
 	  var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'html';
 	  var tagName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'div';
@@ -4446,6 +4516,19 @@
 	  }
 	  return 'string';
 	}
+
+	var getObjectProperty = function getObjectProperty(object, identifier) {
+	  if (identifier.indexOf(".") === -1) {
+	    return (object === null || object === void 0 ? void 0 : object[identifier]) || null;
+	  }
+	  var index = identifier.indexOf(".");
+	  var propertyName = identifier.substring(0, index);
+	  var subIdentifier = identifier.substring(index + 1);
+	  if (!(propertyName in object)) {
+	    return null;
+	  }
+	  return getObjectProperty(object[propertyName], subIdentifier);
+	};
 
 	var ALL_CLIENT_IDS = [];
 	function getRandomClientId() {
@@ -5319,6 +5402,7 @@
 
 	var store = configureStore({
 	  reducer: combineReducers({
+	    app: reducer$a,
 	    attributeHandles: reducer$9,
 	    blockBlueprint: reducer$8,
 	    blockJson: reducer$7,
@@ -6842,7 +6926,9 @@
 	    setActiveNavItem = _ref.setActiveNavItem,
 	    onUpdate = _ref.onUpdate,
 	    onPreview = _ref.onPreview;
+	  var dispatch = useDispatch();
 	  var ref = React$2.useRef(null);
+	  var rect = useRect(ref, null);
 	  var navItemRefs = navItems.map(function () {
 	    return React$2.useRef(null);
 	  });
@@ -6852,6 +6938,9 @@
 	  var activeIndicatorRect = React$2.useMemo(function () {
 	    return navItemRects[activeNavItem];
 	  }, [navItemRects]);
+	  React$2.useLayoutEffect(function () {
+	    dispatch(setNavRect(rect));
+	  }, [rect]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: "Navigator",
@@ -8181,10 +8270,89 @@
 	});
 
 	function Tooltip(_ref) {
-	  _ref.text;
-	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	  var _ref$data = _ref.data,
+	    data = _ref$data === void 0 ? "" : _ref$data,
+	    _ref$direction = _ref.direction,
+	    direction = _ref$direction === void 0 ? "left" : _ref$direction,
+	    label = _ref.label,
+	    _ref$position = _ref.position,
+	    position = _ref$position === void 0 ? "above" : _ref$position,
+	    _ref$required = _ref.required,
+	    required = _ref$required === void 0 ? false : _ref$required,
+	    text = _ref.text,
+	    url = _ref.url,
+	    _ref$width = _ref.width,
+	    width = _ref$width === void 0 ? 240 : _ref$width;
+	  var ref = React$2.useRef(null);
+	  var messageRef = React$2.useRef(null);
+	  var rect = useRect(ref, null, ["bottom", "top"]);
+	  var messageRect = useRect(messageRef, null, ["height"]);
+	  var appRect = useSelector(function (state) {
+	    return state.app.rect;
+	  });
+	  var navRect = useSelector(function (state) {
+	    return state.app.navRect;
+	  });
+	  var _position = React$2.useMemo(function () {
+	    if (rect.top - messageRect.height < navRect.bottom) {
+	      return "below";
+	    } else if (rect.bottom + messageRect.height > appRect.bottom) {
+	      return "above";
+	    }
+	    return position;
+	  }, [position, rect, appRect, navRect]);
+	  var _label = React$2.useMemo(function () {
+	    return getObjectProperty(tooltips, "".concat(data, ".label")) || label;
+	  }, [data, label]);
+	  var _required = React$2.useMemo(function () {
+	    return getObjectProperty(tooltips, "".concat(data, ".required")) || required;
+	  }, [data, required]);
+	  var _text = React$2.useMemo(function () {
+	    return getObjectProperty(tooltips, "".concat(data, ".text")) || text;
+	  }, [data, text]);
+	  var _url = React$2.useMemo(function () {
+	    return getObjectProperty(tooltips, "".concat(data, ".url")) || url;
+	  }, [data, url]);
+	  var _width = React$2.useMemo(function () {
+	    return getObjectProperty(tooltips, "".concat(data, ".width")) || width;
+	  }, [data, width]);
+	  if (_label === "Block Name") {
+	    console.log(rect, _position);
+	  }
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    ref: ref,
 	    className: "Tooltip",
-	    children: "?"
+	    style: {
+	      "--width": _width
+	    },
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	      children: "?"
+	    }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	      ref: messageRef,
+	      className: classNames("Tooltip-message", "is-".concat(direction), "is-".concat(_position), {
+	        "has-label": _label
+	      }),
+	      children: [_label && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	        className: "Tooltip-label",
+	        children: _label
+	      }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	        className: "Tooltip-text",
+	        children: [/*#__PURE__*/jsxRuntimeExports.jsx("p", {
+	          children: _text
+	        }), _required && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	          className: "Tooltip-required",
+	          children: "Required"
+	        })]
+	      }), _url && /*#__PURE__*/jsxRuntimeExports.jsx("a", {
+	        className: "Tooltip-link",
+	        href: _url,
+	        target: "_blank"
+	      })]
+	    }), _url && /*#__PURE__*/jsxRuntimeExports.jsx("a", {
+	      className: "Tooltip-link",
+	      href: _url,
+	      target: "_blank"
+	    })]
 	  });
 	}
 
@@ -8224,7 +8392,8 @@
 	      placeholder: "enter-a-block-name...",
 	      value: blockName
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx(Tooltip, {
-	      text: "The name for a block is a unique string that identifies a block. Names have to be structured as namespace/block-name, where namespace is the name of your plugin or theme."
+	      data: "blockJson.name",
+	      position: "below"
 	    })]
 	  });
 	};
@@ -8517,6 +8686,7 @@
 	    className: "FieldLabel",
 	    htmlFor: htmlFor,
 	    children: [label, tooltip && /*#__PURE__*/jsxRuntimeExports.jsx(Tooltip, {
+	      data: tooltip,
 	      text: tooltip
 	    })]
 	  });
@@ -8803,7 +8973,7 @@
 	            setValue: setBlockIcon
 	          }), /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
 	            label: "Enter a title...",
-	            tooltip: "Hello...",
+	            tooltip: "blockJson.title",
 	            value: blockJson === null || blockJson === void 0 ? void 0 : blockJson.title,
 	            setValue: setBlockTitle,
 	            onFocus: function onFocus() {
@@ -41863,6 +42033,7 @@
 	function App() {
 	  var dispatch = useDispatch();
 	  var ref = React$2.useRef(null);
+	  var appRect = useRect(ref, null);
 	  var _useState = React$2.useState(0),
 	    _useState2 = _slicedToArray(_useState, 2),
 	    activeNavItem = _useState2[0],
@@ -41919,6 +42090,9 @@
 	      });
 	    }
 	  };
+	  React$2.useLayoutEffect(function () {
+	    dispatch(setRect(appRect));
+	  }, [appRect]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: "App",

@@ -92,6 +92,7 @@
 
     --line-height-base: 1.5;
 
+    --box-shadow-medium: 0 3px 15px #27243233;
     --box-shadow-low: 3px 3px 0 #27243233;
     --box-shadow-x-low: 2px 2px 0 #27243233;
 
@@ -118,5 +119,10 @@
         cursor: default;
         opacity: 0.5;
         user-select: none;
+    }
+
+    p {
+        font-size: inherit;
+        line-height: inherit;
     }
 }

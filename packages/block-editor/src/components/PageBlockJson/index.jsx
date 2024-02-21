@@ -71,7 +71,7 @@ function PageBlockJson() {
             />
             <TextField
               label="Enter a title..."
-              tooltip="Hello..."
+              tooltip="blockJson.title"
               value={blockJson?.title}
               setValue={setBlockTitle}
               onFocus={() => onFocus("title")}

@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
+import app from "./app";
 import attributeHandles from "./attribute-handles";
 import blockBlueprint from "./block-blueprint";
 import blockJson from "./block-json";
@@ -13,6 +14,7 @@ import upsellDialog from "./upsell-dialog";
 
 const store = configureStore({
   reducer: combineReducers({
+    app,
     attributeHandles,
     blockBlueprint,
     blockJson,

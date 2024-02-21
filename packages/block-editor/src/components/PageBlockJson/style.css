@@ -1,39 +1,41 @@
 .PageBlockJson {
-	padding: var(--5x);
+    padding: var(--5x);
 }
 
 .PageBlockJson-grid {
-	align-items: start;
-	display: grid;
-	grid-gap: var(--5x);
-	grid-template-columns: 1fr 1fr;
+    align-items: start;
+    display: grid;
+    grid-gap: var(--5x);
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
 }
 
 .PageBlockJson-fields {
-	display: grid;
-	gap: var(--8x);
-	grid-auto-flow: row;
+    display: grid;
+    gap: var(--8x);
+    grid-auto-flow: row;
 }
 
 .PageBlockJson-fieldset {
-	display: grid;
-	gap: var(--3x);
-	grid-auto-flow: row;
+    display: grid;
+    gap: var(--3x);
+    grid-auto-flow: row;
 }
 
 .PageBlockJson-header {
-	align-items: center;
-	color: var(--color-black);
-	display: grid;
-	gap: var(--2x);
-	grid-auto-columns: max-content;
-	grid-auto-flow: column;
-	font-size: var(--font-size-large);
-	font-weight: var(--font-weight-medium);
-	user-select: none;
+    align-items: center;
+    color: var(--color-black);
+    display: grid;
+    gap: var(--2x);
+    grid-auto-columns: max-content;
+    grid-auto-flow: column;
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-medium);
+    user-select: none;
 }
 
 .PageBlockJson-json {
-	position: sticky;
-	top: calc(var(--wp-admin--admin-bar--height) + var(--navigator-height) + var(--5x));
+    position: sticky;
+    top: calc(
+        var(--wp-admin--admin-bar--height) + var(--navigator-height) + var(--5x)
+    );
 }

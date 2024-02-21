@@ -8,6 +8,7 @@ import escapeHtml from "./escape-html";
 import escapeObjectHtml from "./escape-object-html";
 import getComponentAttributeType from "./get-component-attribute-type";
 import getComponentProperties from "./get-component-properties";
+import getObjectProperty from "./get-object-property";
 import getUniqueClientId from "./get-unique-client-id";
 import isArray from "./is-array";
 import isAttributeArrayValue from "./is-attribute-array-value";
@@ -36,6 +37,7 @@ export {
   escapeObjectHtml,
   getComponentAttributeType,
   getComponentProperties,
+  getObjectProperty,
   getUniqueClientId,
   isArray,
   isAttributeArrayValue,

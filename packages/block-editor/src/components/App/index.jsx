@@ -2,6 +2,8 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { saveNewBlock, updateBlock } from "../../api";
+import { useRect } from "../../hooks";
+import { setRect as setAppRect } from "../../store/app";
 import { showSaveDialog } from "../../store/save-dialog";
 import { getRawJson as getRawBlueprintJson } from "../../store/block-blueprint";
 import { setPostId } from "../../store/post-metadata";
@@ -21,6 +23,7 @@ function App() {
   const dispatch = useDispatch();
 
   const ref = useRef(null);
+  const appRect = useRect(ref, null);
 
   const [activeNavItem, setActiveNavItem] = useState(0);
 
@@ -73,6 +76,10 @@ function App() {
       });
     }
   };
+
+  useLayoutEffect(() => {
+    dispatch(setAppRect(appRect));
+  }, [appRect]);
 
   if (process.env.NODE_ENV === "development") {
     useLayoutEffect(() => {
