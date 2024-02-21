@@ -1,0 +1,201 @@
+.SaveDialog {
+    background: #ffffff40;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    transition: var(--transition);
+    z-index: 100;
+}
+
+.SaveDialog.is-visible {
+    backdrop-filter: blur(4px);
+    opacity: 1;
+}
+
+.SaveDialog-wrap {
+    align-items: center;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 100%;
+    height: var(--app-height);
+    justify-items: center;
+    padding: var(--8x);
+    position: sticky;
+    top: var(--wp-admin--admin-bar--height);
+    width: 100%;
+}
+
+.SaveDialog-window {
+    background: var(--color-white);
+    border-radius: 9px;
+    box-shadow: var(--box-shadow-low);
+    box-sizing: border-box;
+    display: grid;
+    gap: var(--8x);
+    grid-auto-flow: row;
+    max-width: 960px;
+    padding: var(--5x) var(--8x);
+    transform: scale(0.8);
+    transform-origin: center;
+    transition: var(--transition);
+    width: 100%;
+}
+
+.SaveDialog.is-visible .SaveDialog-window {
+    transform: scale(1);
+}
+
+.SaveDialog-close {
+    --color: var(--color-dark-gray);
+    --background-color: var(--color-lighter-gray);
+    align-items: center;
+    background: var(--background-color);
+    border-radius: var(--4x);
+    cursor: pointer;
+    display: grid;
+    height: var(--4x);
+    justify-items: center;
+    position: absolute;
+    right: var(--2x);
+    top: var(--2x);
+    transition: var(--transition);
+    width: var(--4x);
+
+    &::before,
+    &::after {
+        background: var(--color);
+        content: "";
+        display: block;
+        grid-column: 1;
+        grid-row: 1;
+        height: var(--2x);
+        transition: var(--transition);
+        width: 3px;
+    }
+
+    &::before {
+        transform: rotate(-45deg);
+    }
+
+    &::after {
+        transform: rotate(45deg);
+    }
+}
+
+.SaveDialog-close:hover {
+    --color: var(--color-white);
+    --background-color: var(--color-darker-gray);
+}
+
+.SaveDialog-content {
+    display: grid;
+    gap: var(--3x);
+    grid-auto-flow: row;
+    width: 100%;
+
+    p {
+        color: var(--color-dark-gray);
+        font-size: var(--font-size-large);
+        font-weight: var(--font-weight-medium);
+        margin: 0;
+    }
+}
+
+.SaveDialog-try {
+    align-items: center;
+    border: 2px solid var(--color-lighter-gray);
+    border-radius: 7px;
+    display: grid;
+    gap: var(--2x);
+    grid-template-columns: max-content 1fr;
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-bold);
+    padding: var(--1x) var(--2x);
+    width: fit-content;
+
+    &::before {
+        background: url("../assets/images/icon-badge.png") no-repeat center;
+        background-size: contain;
+        content: "";
+        display: block;
+        height: var(--3x);
+        width: var(--3x);
+    }
+}
+
+.SaveDialog-tiles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.SaveDialog-tile {
+    display: grid;
+    gap: var(--3x);
+    grid-auto-flow: row;
+
+    &:nth-child(1) {
+        border-right: 1px solid var(--color-lighter-gray);
+        padding-right: var(--3x);
+    }
+
+    &:nth-child(2) {
+        border-left: 1px solid var(--color-lighter-gray);
+        padding-left: var(--3x);
+    }
+
+    h3 {
+        color: var(--color-black);
+        font-size: var(--font-size-large);
+        margin: 0;
+    }
+
+    p {
+        color: var(--color-gray);
+        font-size: var(--font-size-base);
+        margin: 0;
+    }
+}
+
+.SaveDialog-pricing {
+    color: var(--color-black);
+    font-size: var(--font-size-xx-large);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: -0.05em;
+    vertical-align: baseline;
+
+    span {
+        color: var(--color-gray);
+        font-size: var(--font-size-base);
+        font-weight: var(--font-weight-medium);
+        letter-spacing: 0;
+    }
+}
+
+.SaveDialog-primaryButton {
+    background: var(--gradient-teal-blue);
+    border-radius: var(--7x);
+    color: var(--color-white);
+    cursor: pointer;
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-semi-bold);
+    height: var(--7x);
+    line-height: var(--7x);
+    padding: 0 var(--3x);
+    text-align: center;
+}
+
+.SaveDialog-secondaryButton {
+    background: var(--gradient-light-gray);
+    border-radius: var(--7x);
+    color: var(--color-black);
+    cursor: pointer;
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-semi-bold);
+    height: var(--7x);
+    line-height: var(--7x);
+    padding: 0 var(--3x);
+    text-align: center;
+}

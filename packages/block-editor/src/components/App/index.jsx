@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { saveNewBlock, updateBlock } from "../../api";
+import { showSaveDialog } from "../../store/save-dialog";
 import { getRawJson as getRawBlueprintJson } from "../../store/block-blueprint";
 import { setPostId } from "../../store/post-metadata";
 
@@ -10,6 +11,7 @@ import PageBlockJson from "../PageBlockJson";
 import PageBlueprint from "../PageBlueprint";
 import PageEditorCss from "../PageEditorCss";
 import PageViewCss from "../PageViewCss";
+import SaveDialog from "../SaveDialog";
 import UpsellDialog from "../UpsellDialog";
 
 import "./style.css";
@@ -34,6 +36,8 @@ function App() {
 
   const blockViewCss = useSelector((state) => state.blockViewCss.raw);
 
+  const saveDialogIsVisible = useSelector((state) => state.saveDialog.visible);
+
   const upsellDialogIsVisible = useSelector(
     (state) => state.upsellDialog.visible,
   );
@@ -41,6 +45,8 @@ function App() {
   const onPreview = () => {};
 
   const onUpdate = () => {
+    dispatch(showSaveDialog());
+
     if (postId === null) {
       saveNewBlock({
         postType,
@@ -89,6 +95,7 @@ function App() {
       {activeNavItem === 1 && <PageBlueprint />}
       {activeNavItem === 2 && <PageViewCss />}
       {activeNavItem === 3 && <PageEditorCss />}
+      {saveDialogIsVisible && <SaveDialog />}
       {upsellDialogIsVisible && <UpsellDialog />}
     </div>
   );

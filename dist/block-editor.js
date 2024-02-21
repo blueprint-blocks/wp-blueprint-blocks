@@ -3943,7 +3943,7 @@
 	  };
 	}
 
-	var slice$8 = createSlice({
+	var slice$9 = createSlice({
 	  name: 'attributeHandles',
 	  initialState: {
 	    allHandles: {},
@@ -4015,10 +4015,10 @@
 	    }
 	  }
 	});
-	var actions$8 = slice$8.actions,
-	  reducer$8 = slice$8.reducer;
-	var removePosition = actions$8.removePosition,
-	  setPosition = actions$8.setPosition;
+	var actions$9 = slice$9.actions,
+	  reducer$9 = slice$9.reducer;
+	var removePosition = actions$9.removePosition,
+	  setPosition = actions$9.setPosition;
 
 	function delimiterize(string) {
 	  return string.replace(/([a-z])([A-Z])/g, function (match, p1, p2) {
@@ -4152,6 +4152,19 @@
 		fields: fields,
 		html: html$1
 	};
+
+	var blockJsonValidation = [
+		{
+			propertyName: "name",
+			validationFunction: "validateNameClash",
+			warningMessage: "A block with this name already exists. Block names must be unique and should be prefixed with a plugin or theme namespace."
+		},
+		{
+			propertyName: "name",
+			validationFunction: "validateNameFormat",
+			warningMessage: "A block name can only contain lowercase alphanumeric characters, dashes, and at most one forward slash to designate the plugin or theme unique namespace prefix. It must begin with a letter."
+		}
+	];
 
 	var blockSupportsProperties = [
 		{
@@ -4549,6 +4562,73 @@
 	    setTimeout(attemptCall, delay);
 	  };
 	}
+
+	var validateNameClash = function validateNameClash(value) {
+	  return true;
+	  //return value.match(/[a-z][a-z0-9]+\/[a-z0-9]+/);
+	};
+	var validateNameFormat = function validateNameFormat(value) {
+	  return !!value.match(/[a-z][a-z0-9]*\/[a-z0-9]+/);
+	};
+
+	var blockJsonValidationFunctions = /*#__PURE__*/Object.freeze({
+		__proto__: null,
+		validateNameClash: validateNameClash,
+		validateNameFormat: validateNameFormat
+	});
+
+	console.log(blockJsonValidationFunctions);
+	var validateBlockJsonProperty = function validateBlockJsonProperty(_ref) {
+	  var propertyName = _ref.propertyName,
+	    propertyValue = _ref.propertyValue,
+	    validationFunction = _ref.validationFunction,
+	    warningMessage = _ref.warningMessage;
+	  var isValid = true;
+	  if (validationFunction in blockJsonValidationFunctions) {
+	    isValid = blockJsonValidationFunctions[validationFunction](propertyValue);
+	  }
+	  return {
+	    propertyName: propertyName,
+	    warningMessage: !isValid && warningMessage || "",
+	    isValid: isValid
+	  };
+	};
+
+	var _excluded$b = ["isValid"];
+	var validateBlockJson = function validateBlockJson(blockJson) {
+	  var validations = blockJsonValidation.map(function (_ref) {
+	    var propertyName = _ref.propertyName,
+	      validationFunction = _ref.validationFunction,
+	      warningMessage = _ref.warningMessage;
+	    return validateBlockJsonProperty({
+	      propertyName: propertyName,
+	      propertyValue: blockJson === null || blockJson === void 0 ? void 0 : blockJson[propertyName],
+	      validationFunction: validationFunction,
+	      warningMessage: warningMessage
+	    });
+	  });
+	  console.log(validations);
+	  var isValid = validations.reduce(function (isValid, validation) {
+	    return isValid === true && validation.isValid || false;
+	  }, true);
+	  var errors = validations.filter(function (_ref2) {
+	    var isValid = _ref2.isValid;
+	      _objectWithoutProperties(_ref2, _excluded$b);
+	    return isValid === false;
+	  });
+	  return {
+	    isValid: isValid,
+	    errors: errors
+	  };
+	};
+
+	var validateBlock = function validateBlock(_ref) {
+	  var _ref$blockJson = _ref.blockJson,
+	    blockJson = _ref$blockJson === void 0 ? {} : _ref$blockJson;
+	  return {
+	    blockJson: validateBlockJson(blockJson)
+	  };
+	};
 
 	var _blueprintBlocksEdito$9;
 	var _excluded$a = ["children"];
@@ -4962,21 +5042,21 @@
 	  unsetDraggingComponent: unsetDraggingComponent$1
 	};
 
-	var slice$7 = createSlice({
+	var slice$8 = createSlice({
 	  name: 'blockBlueprint',
 	  initialState: initialState,
 	  reducers: reducers
 	});
-	var actions$7 = slice$7.actions,
-	  reducer$7 = slice$7.reducer;
-	actions$7.insertNewComponentAtPosition;
-	  var insertDraggingComponentAtPosition = actions$7.insertDraggingComponentAtPosition,
-	  setComponentAttribute = actions$7.setComponentAttribute,
-	  startDraggingExistingComponent = actions$7.startDraggingExistingComponent,
-	  startDraggingNewComponent = actions$7.startDraggingNewComponent,
-	  stopDragging = actions$7.stopDragging,
-	  unsetComponentAttribute = actions$7.unsetComponentAttribute,
-	  unsetDraggingComponent = actions$7.unsetDraggingComponent;
+	var actions$8 = slice$8.actions,
+	  reducer$8 = slice$8.reducer;
+	actions$8.insertNewComponentAtPosition;
+	  var insertDraggingComponentAtPosition = actions$8.insertDraggingComponentAtPosition,
+	  setComponentAttribute = actions$8.setComponentAttribute,
+	  startDraggingExistingComponent = actions$8.startDraggingExistingComponent,
+	  startDraggingNewComponent = actions$8.startDraggingNewComponent,
+	  stopDragging = actions$8.stopDragging,
+	  unsetComponentAttribute = actions$8.unsetComponentAttribute,
+	  unsetDraggingComponent = actions$8.unsetDraggingComponent;
 
 	var getBlockClassName = function getBlockClassName(state, context) {
 	  var _state$name = state.name,
@@ -5000,7 +5080,7 @@
 	var _ref$2 = ((_blueprintBlocksEdito$8 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$8 === void 0 ? void 0 : _blueprintBlocksEdito$8.blockMetadata) || {},
 	  _ref$blockJson = _ref$2.blockJson,
 	  blockJson = _ref$blockJson === void 0 ? {} : _ref$blockJson;
-	var slice$6 = createSlice({
+	var slice$7 = createSlice({
 	  name: "blockJson",
 	  initialState: _objectSpread2(_objectSpread2({}, blockJson), {}, {
 	    keywords: _toConsumableArray((blockJson === null || blockJson === void 0 ? void 0 : blockJson.keywords) || []),
@@ -5074,23 +5154,23 @@
 	    }
 	  }
 	});
-	var actions$6 = slice$6.actions,
-	  reducer$6 = slice$6.reducer;
-	var addAttribute = actions$6.addAttribute,
-	  editAttribute = actions$6.editAttribute,
-	  removeAttribute = actions$6.removeAttribute,
-	  setCategory = actions$6.setCategory,
-	  setDescription = actions$6.setDescription,
-	  setIcon = actions$6.setIcon,
-	  setKeywords = actions$6.setKeywords,
-	  setName = actions$6.setName,
-	  setSupportsProperty = actions$6.setSupportsProperty,
-	  setTitle = actions$6.setTitle;
+	var actions$7 = slice$7.actions,
+	  reducer$7 = slice$7.reducer;
+	var addAttribute = actions$7.addAttribute,
+	  editAttribute = actions$7.editAttribute,
+	  removeAttribute = actions$7.removeAttribute,
+	  setCategory = actions$7.setCategory,
+	  setDescription = actions$7.setDescription,
+	  setIcon = actions$7.setIcon,
+	  setKeywords = actions$7.setKeywords,
+	  setName = actions$7.setName,
+	  setSupportsProperty = actions$7.setSupportsProperty,
+	  setTitle = actions$7.setTitle;
 
 	var _blueprintBlocksEdito$7 = blueprintBlocksEditorSettings,
 	  _blueprintBlocksEdito2$5 = _blueprintBlocksEdito$7.blockMetadata,
 	  blockMetadata$1 = _blueprintBlocksEdito2$5 === void 0 ? {} : _blueprintBlocksEdito2$5;
-	var slice$5 = createSlice({
+	var slice$6 = createSlice({
 	  name: 'blockEditorCss',
 	  initialState: {
 	    raw: (blockMetadata$1 === null || blockMetadata$1 === void 0 ? void 0 : blockMetadata$1.editorCss) || ''
@@ -5101,14 +5181,14 @@
 	    }
 	  }
 	});
-	var actions$5 = slice$5.actions,
-	  reducer$5 = slice$5.reducer;
-	var setEditorCss = actions$5.setEditorCss;
+	var actions$6 = slice$6.actions,
+	  reducer$6 = slice$6.reducer;
+	var setEditorCss = actions$6.setEditorCss;
 
 	var _blueprintBlocksEdito$6 = blueprintBlocksEditorSettings,
 	  _blueprintBlocksEdito2$4 = _blueprintBlocksEdito$6.blockMetadata,
 	  blockMetadata = _blueprintBlocksEdito2$4 === void 0 ? {} : _blueprintBlocksEdito2$4;
-	var slice$4 = createSlice({
+	var slice$5 = createSlice({
 	  name: 'blockViewCss',
 	  initialState: {
 	    raw: (blockMetadata === null || blockMetadata === void 0 ? void 0 : blockMetadata.viewCss) || ''
@@ -5119,12 +5199,12 @@
 	    }
 	  }
 	});
-	var actions$4 = slice$4.actions,
-	  reducer$4 = slice$4.reducer;
-	var setViewCss = actions$4.setViewCss;
+	var actions$5 = slice$5.actions,
+	  reducer$5 = slice$5.reducer;
+	var setViewCss = actions$5.setViewCss;
 
 	var _excluded$9 = ["context"];
-	var slice$3 = createSlice({
+	var slice$4 = createSlice({
 	  name: 'editor',
 	  initialState: {
 	    currentFocus: null,
@@ -5156,16 +5236,16 @@
 	    }
 	  }
 	});
-	var actions$3 = slice$3.actions,
-	  reducer$3 = slice$3.reducer;
-	var setFocus = actions$3.setFocus,
-	  setSize = actions$3.setSize,
-	  unsetFocus = actions$3.unsetFocus;
+	var actions$4 = slice$4.actions,
+	  reducer$4 = slice$4.reducer;
+	var setFocus = actions$4.setFocus,
+	  setSize = actions$4.setSize,
+	  unsetFocus = actions$4.unsetFocus;
 
 	var _blueprintBlocksEdito$5 = blueprintBlocksEditorSettings,
 	  _blueprintBlocksEdito2$3 = _blueprintBlocksEdito$5.postMetadata,
 	  postMetadata = _blueprintBlocksEdito2$3 === void 0 ? {} : _blueprintBlocksEdito2$3;
-	var slice$2 = createSlice({
+	var slice$3 = createSlice({
 	  name: 'postMetadata',
 	  initialState: _objectSpread2(_objectSpread2({}, postMetadata), {}, {
 	    postId: (postMetadata === null || postMetadata === void 0 ? void 0 : postMetadata.postId) || null
@@ -5176,14 +5256,14 @@
 	    }
 	  }
 	});
-	var actions$2 = slice$2.actions,
-	  reducer$2 = slice$2.reducer;
-	var setPostId = actions$2.setPostId;
+	var actions$3 = slice$3.actions,
+	  reducer$3 = slice$3.reducer;
+	var setPostId = actions$3.setPostId;
 
 	var _blueprintBlocksEdito$4 = blueprintBlocksEditorSettings,
 	  _blueprintBlocksEdito2$2 = _blueprintBlocksEdito$4.postType,
 	  postType = _blueprintBlocksEdito2$2 === void 0 ? {} : _blueprintBlocksEdito2$2;
-	var slice$1 = createSlice({
+	var slice$2 = createSlice({
 	  name: 'postType',
 	  initialState: _objectSpread2(_objectSpread2({}, postType), {}, {
 	    name: (postType === null || postType === void 0 ? void 0 : postType.name) || null,
@@ -5195,9 +5275,28 @@
 	    }
 	  }
 	});
+	var actions$2 = slice$2.actions,
+	  reducer$2 = slice$2.reducer;
+	actions$2.setPostId;
+
+	var slice$1 = createSlice({
+	  name: "saveDialog",
+	  initialState: {
+	    visible: false
+	  },
+	  reducers: {
+	    hideSaveDialog: function hideSaveDialog(state, action) {
+	      state.visible = false;
+	    },
+	    showSaveDialog: function showSaveDialog(state, action) {
+	      state.visible = true;
+	    }
+	  }
+	});
 	var actions$1 = slice$1.actions,
 	  reducer$1 = slice$1.reducer;
-	actions$1.setPostId;
+	var hideSaveDialog = actions$1.hideSaveDialog,
+	  showSaveDialog = actions$1.showSaveDialog;
 
 	var slice = createSlice({
 	  name: "upsellDialog",
@@ -5220,14 +5319,15 @@
 
 	var store = configureStore({
 	  reducer: combineReducers({
-	    attributeHandles: reducer$8,
-	    blockBlueprint: reducer$7,
-	    blockJson: reducer$6,
-	    blockEditorCss: reducer$5,
-	    blockViewCss: reducer$4,
-	    editor: reducer$3,
-	    postMetadata: reducer$2,
-	    postType: reducer$1,
+	    attributeHandles: reducer$9,
+	    blockBlueprint: reducer$8,
+	    blockJson: reducer$7,
+	    blockEditorCss: reducer$6,
+	    blockViewCss: reducer$5,
+	    editor: reducer$4,
+	    postMetadata: reducer$3,
+	    postType: reducer$2,
+	    saveDialog: reducer$1,
 	    upsellDialog: reducer
 	  })
 	});
@@ -8080,22 +8180,30 @@
 	  });
 	});
 
+	function Tooltip(_ref) {
+	  _ref.text;
+	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	    className: "Tooltip",
+	    children: "?"
+	  });
+	}
+
 	var BlockNameField = function BlockNameField() {
 	  var dispatch = useDispatch();
 	  var _useSelector = useSelector(function (state) {
 	      var _state$blockJson;
-	      return (((_state$blockJson = state.blockJson) === null || _state$blockJson === void 0 ? void 0 : _state$blockJson.name) || '').split('/');
+	      return (((_state$blockJson = state.blockJson) === null || _state$blockJson === void 0 ? void 0 : _state$blockJson.name) || "").split("/");
 	    }),
 	    _useSelector2 = _slicedToArray(_useSelector, 2),
 	    _useSelector2$ = _useSelector2[0],
-	    blockNamespace = _useSelector2$ === void 0 ? '' : _useSelector2$,
+	    blockNamespace = _useSelector2$ === void 0 ? "" : _useSelector2$,
 	    _useSelector2$2 = _useSelector2[1],
-	    blockName = _useSelector2$2 === void 0 ? '' : _useSelector2$2;
+	    blockName = _useSelector2$2 === void 0 ? "" : _useSelector2$2;
 	  var setBlockName = function setBlockName(newBlockName) {
 	    dispatch(setName("".concat(blockNamespace, "/").concat(delimiterize(newBlockName))));
 	  };
 	  var setBlockNamespace = function setBlockNamespace(newBlockNamespace) {
-	    if (newBlockNamespace === '') {
+	    if (newBlockNamespace === "") {
 	      dispatch(setName("blueprint-block/".concat(blockName)));
 	    } else {
 	      dispatch(setName("".concat(delimiterize(newBlockNamespace), "/").concat(blockName)));
@@ -8109,12 +8217,14 @@
 	      value: blockNamespace
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      "class": "BlockNameField-seperator",
-	      children: '/'
+	      children: "/"
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
 	      className: "BlockNameField-name",
 	      onChange: setBlockName,
-	      placeholder: 'enter-a-block-name...',
+	      placeholder: "enter-a-block-name...",
 	      value: blockName
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(Tooltip, {
+	      text: "The name for a block is a unique string that identifies a block. Names have to be structured as namespace/block-name, where namespace is the name of your plugin or theme."
 	    })]
 	  });
 	};
@@ -8396,14 +8506,6 @@
 	      focus: focus,
 	      placeholders: placeholders
 	    })
-	  });
-	}
-
-	function Tooltip(_ref) {
-	  _ref.text;
-	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	    className: "Tooltip",
-	    children: '?'
 	  });
 	}
 
@@ -41588,6 +41690,87 @@
 	  });
 	}
 
+	function LoadingIcon() {
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    className: "LoadingIcon",
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {}), /*#__PURE__*/jsxRuntimeExports.jsx("div", {}), /*#__PURE__*/jsxRuntimeExports.jsx("div", {}), /*#__PURE__*/jsxRuntimeExports.jsx("div", {})]
+	  });
+	}
+
+	function SaveDialog() {
+	  var dispatch = useDispatch();
+	  var ref = React$2.useRef(null);
+	  var _useState = React$2.useState(false),
+	    _useState2 = _slicedToArray(_useState, 2),
+	    isLoading = _useState2[0];
+	    _useState2[1];
+	  var _useState3 = React$2.useState("Saving..."),
+	    _useState4 = _slicedToArray(_useState3, 2);
+	    _useState4[0];
+	    _useState4[1];
+	  var blockJson = useSelector(function (state) {
+	    return state.blockJson;
+	  });
+	  var validationResults = React$2.useMemo(function () {
+	    return validateBlock({
+	      blockJson: blockJson
+	    });
+	  }, [blockJson]);
+	  var isValid = React$2.useMemo(function () {
+	    return validationResults.blockJson.isValid;
+	  }, [validationResults]);
+	  var onClose = function onClose() {
+	    var _ref$current;
+	    ref === null || ref === void 0 || (_ref$current = ref.current) === null || _ref$current === void 0 || _ref$current.classList.remove("is-visible");
+	    setTimeout(function () {
+	      dispatch(hideSaveDialog());
+	    }, 300);
+	  };
+	  React$2.useEffect(function () {
+	    setTimeout(function () {
+	      var _ref$current2;
+	      ref === null || ref === void 0 || (_ref$current2 = ref.current) === null || _ref$current2 === void 0 || _ref$current2.classList.add("is-visible");
+	    }, 50);
+	  }, []);
+	  React$2.useEffect(function () {
+	    if (isValid === true) {
+	      setTimeout(function () {
+	        var _ref$current3;
+	        ref === null || ref === void 0 || (_ref$current3 = ref.current) === null || _ref$current3 === void 0 || _ref$current3.classList.remove("is-visible");
+	      }, 2000);
+	      setTimeout(function () {
+	        dispatch(hideSaveDialog());
+	      }, 2300);
+	    }
+	  }, [isValid]);
+	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	    ref: ref,
+	    className: "SaveDialog",
+	    children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	      className: "SaveDialog-wrap",
+	      children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	        className: "SaveDialog-window",
+	        children: [!isValid && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	          className: "SaveDialog-close",
+	          onClick: onClose
+	        }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	          className: "SaveDialog-content",
+	          children: [isLoading && /*#__PURE__*/jsxRuntimeExports.jsx(LoadingIcon, {}), !isLoading && isValid && /*#__PURE__*/jsxRuntimeExports.jsx("p", {
+	            children: "Successfully saved."
+	          }), validationResults && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	            children: validationResults.blockJson.errors.map(function (_ref) {
+	              var warningMessage = _ref.warningMessage;
+	              return /*#__PURE__*/jsxRuntimeExports.jsx("p", {
+	                children: warningMessage
+	              });
+	            })
+	          })]
+	        })]
+	      })
+	    })
+	  });
+	}
+
 	function Logo() {
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    className: "Logo",
@@ -41702,11 +41885,15 @@
 	  var blockViewCss = useSelector(function (state) {
 	    return state.blockViewCss.raw;
 	  });
+	  var saveDialogIsVisible = useSelector(function (state) {
+	    return state.saveDialog.visible;
+	  });
 	  var upsellDialogIsVisible = useSelector(function (state) {
 	    return state.upsellDialog.visible;
 	  });
 	  var onPreview = function onPreview() {};
 	  var onUpdate = function onUpdate() {
+	    dispatch(showSaveDialog());
 	    if (postId === null) {
 	      saveNewBlock({
 	        postType: postType,
@@ -41740,7 +41927,7 @@
 	      setActiveNavItem: setActiveNavItem,
 	      onPreview: onPreview,
 	      onUpdate: onUpdate
-	    }), activeNavItem === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlockJson, {}), activeNavItem === 1 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlueprint, {}), activeNavItem === 2 && /*#__PURE__*/jsxRuntimeExports.jsx(PageViewCss, {}), activeNavItem === 3 && /*#__PURE__*/jsxRuntimeExports.jsx(PageEditorCss, {}), upsellDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(UpsellDialog, {})]
+	    }), activeNavItem === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlockJson, {}), activeNavItem === 1 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlueprint, {}), activeNavItem === 2 && /*#__PURE__*/jsxRuntimeExports.jsx(PageViewCss, {}), activeNavItem === 3 && /*#__PURE__*/jsxRuntimeExports.jsx(PageEditorCss, {}), saveDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(SaveDialog, {}), upsellDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(UpsellDialog, {})]
 	  });
 	}
 

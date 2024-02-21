@@ -21,6 +21,9 @@ import normalizeClasslistAsObject from "./normalize-classlist-as-object";
 import pascalize from "./pascalize";
 import throttle from "./throttle";
 import tokenizeObject from "./tokenize-object";
+import validateBlock from "./validate-block";
+import validateBlockJson from "./validate-block-json";
+import validateBlockJsonProperty from "./validate-block-json-property";
 
 export {
   camelize,
@@ -46,4 +49,7 @@ export {
   pascalize,
   throttle,
   tokenizeObject,
+  validateBlock,
+  validateBlockJson,
+  validateBlockJsonProperty,
 };

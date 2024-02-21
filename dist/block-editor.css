@@ -263,6 +263,32 @@
 	color: var(--placeholder-focus-color);
 }
 
+.Tooltip {
+	background: var(--color-lighter-gray);
+	border-radius: var(--1x);
+	color: var(--color-dark-gray);
+	cursor: pointer;
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-bold);
+	height: var(--2x);
+	line-height: var(--2x);
+	position: relative;
+	text-align: center;
+	transition: var(--transition);
+	width: var(--2x);
+}
+
+.Tooltip:hover {
+	background: var(--color-accent-teal-blue);
+	color: var(--color-white);
+}
+
+.is-disabled .Tooltip:hover {
+	background: var(--color-lighter-gray);
+	color: var(--color-dark-gray);
+	cursor: default;
+}
+
 .BlockNameField {
 	align-items: center;
 	border-bottom: 2px solid var(--color-light-gray);
@@ -473,32 +499,6 @@
 		--placeholder-color: var(--color-gray);
 		--placeholder-focus-color: var(--color-gray);
 	}
-
-.Tooltip {
-	background: var(--color-lighter-gray);
-	border-radius: var(--1x);
-	color: var(--color-dark-gray);
-	cursor: pointer;
-	font-size: var(--font-size-small);
-	font-weight: var(--font-weight-bold);
-	height: var(--2x);
-	line-height: var(--2x);
-	position: relative;
-	text-align: center;
-	transition: var(--transition);
-	width: var(--2x);
-}
-
-.Tooltip:hover {
-	background: var(--color-accent-teal-blue);
-	color: var(--color-white);
-}
-
-.is-disabled .Tooltip:hover {
-	background: var(--color-lighter-gray);
-	color: var(--color-dark-gray);
-	cursor: default;
-}
 
 .FieldLabel {
 	align-items: center;
@@ -1787,6 +1787,275 @@
 	-webkit-user-select: none;
 	   -moz-user-select: none;
 	        user-select: none;
+}
+
+.LoadingIcon {
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    width: var(--9x);
+    height: var(--2x);
+}
+
+.LoadingIcon div {
+        position: absolute;
+        top: 0;
+        width: var(--2x);
+        height: var(--2x);
+        border-radius: 100%;
+        background: var(--color-gray);
+        animation-timing-function: cubic-bezier(0, 1, 1, 0);
+    }
+
+.LoadingIcon div:nth-child(1) {
+        left: var(--1x);
+        animation: blueprint-blocks-block-editor-loading-icon-1 0.6s infinite;
+    }
+
+.LoadingIcon div:nth-child(2) {
+        left: var(--1x);
+        animation: blueprint-blocks-block-editor-loading-icon-2 0.6s infinite;
+    }
+
+.LoadingIcon div:nth-child(3) {
+        left: var(--4x);
+        animation: blueprint-blocks-block-editor-loading-icon-2 0.6s infinite;
+    }
+
+.LoadingIcon div:nth-child(4) {
+        left: var(--7x);
+        animation: blueprint-blocks-block-editor-loading-icon-3 0.6s infinite;
+    }
+
+@keyframes blueprint-blocks-block-editor-loading-icon-1 {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes blueprint-blocks-block-editor-loading-icon-2 {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(var(--3x), 0);
+    }
+}
+
+@keyframes blueprint-blocks-block-editor-loading-icon-3 {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0);
+    }
+}
+
+.SaveDialog {
+    background: #ffffff40;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    transition: var(--transition);
+    z-index: 100;
+}
+
+.SaveDialog.is-visible {
+    -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+    opacity: 1;
+}
+
+.SaveDialog-wrap {
+    align-items: center;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 100%;
+    height: var(--app-height);
+    justify-items: center;
+    padding: var(--8x);
+    position: sticky;
+    top: var(--wp-admin--admin-bar--height);
+    width: 100%;
+}
+
+.SaveDialog-window {
+    background: var(--color-white);
+    border-radius: 9px;
+    box-shadow: var(--box-shadow-low);
+    box-sizing: border-box;
+    display: grid;
+    gap: var(--8x);
+    grid-auto-flow: row;
+    max-width: 960px;
+    padding: var(--5x) var(--8x);
+    transform: scale(0.8);
+    transform-origin: center;
+    transition: var(--transition);
+    width: 100%;
+}
+
+.SaveDialog.is-visible .SaveDialog-window {
+    transform: scale(1);
+}
+
+.SaveDialog-close {
+    --color: var(--color-dark-gray);
+    --background-color: var(--color-lighter-gray);
+    align-items: center;
+    background: var(--background-color);
+    border-radius: var(--4x);
+    cursor: pointer;
+    display: grid;
+    height: var(--4x);
+    justify-items: center;
+    position: absolute;
+    right: var(--2x);
+    top: var(--2x);
+    transition: var(--transition);
+    width: var(--4x);
+}
+
+.SaveDialog-close::before,
+    .SaveDialog-close::after {
+        background: var(--color);
+        content: "";
+        display: block;
+        grid-column: 1;
+        grid-row: 1;
+        height: var(--2x);
+        transition: var(--transition);
+        width: 3px;
+    }
+
+.SaveDialog-close::before {
+        transform: rotate(-45deg);
+    }
+
+.SaveDialog-close::after {
+        transform: rotate(45deg);
+    }
+
+.SaveDialog-close:hover {
+    --color: var(--color-white);
+    --background-color: var(--color-darker-gray);
+}
+
+.SaveDialog-content {
+    display: grid;
+    gap: var(--3x);
+    grid-auto-flow: row;
+    width: 100%;
+}
+
+.SaveDialog-content p {
+        color: var(--color-dark-gray);
+        font-size: var(--font-size-large);
+        font-weight: var(--font-weight-medium);
+        margin: 0;
+    }
+
+.SaveDialog-try {
+    align-items: center;
+    border: 2px solid var(--color-lighter-gray);
+    border-radius: 7px;
+    display: grid;
+    gap: var(--2x);
+    grid-template-columns: max-content 1fr;
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-bold);
+    padding: var(--1x) var(--2x);
+    width: -moz-fit-content;
+    width: fit-content;
+}
+
+.SaveDialog-try::before {
+        background: url("../assets/images/icon-badge.png") no-repeat center;
+        background-size: contain;
+        content: "";
+        display: block;
+        height: var(--3x);
+        width: var(--3x);
+    }
+
+.SaveDialog-tiles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.SaveDialog-tile {
+    display: grid;
+    gap: var(--3x);
+    grid-auto-flow: row;
+}
+
+.SaveDialog-tile:nth-child(1) {
+        border-right: 1px solid var(--color-lighter-gray);
+        padding-right: var(--3x);
+    }
+
+.SaveDialog-tile:nth-child(2) {
+        border-left: 1px solid var(--color-lighter-gray);
+        padding-left: var(--3x);
+    }
+
+.SaveDialog-tile h3 {
+        color: var(--color-black);
+        font-size: var(--font-size-large);
+        margin: 0;
+    }
+
+.SaveDialog-tile p {
+        color: var(--color-gray);
+        font-size: var(--font-size-base);
+        margin: 0;
+    }
+
+.SaveDialog-pricing {
+    color: var(--color-black);
+    font-size: var(--font-size-xx-large);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: -0.05em;
+    vertical-align: baseline;
+}
+
+.SaveDialog-pricing span {
+        color: var(--color-gray);
+        font-size: var(--font-size-base);
+        font-weight: var(--font-weight-medium);
+        letter-spacing: 0;
+    }
+
+.SaveDialog-primaryButton {
+    background: var(--gradient-teal-blue);
+    border-radius: var(--7x);
+    color: var(--color-white);
+    cursor: pointer;
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-semi-bold);
+    height: var(--7x);
+    line-height: var(--7x);
+    padding: 0 var(--3x);
+    text-align: center;
+}
+
+.SaveDialog-secondaryButton {
+    background: var(--gradient-light-gray);
+    border-radius: var(--7x);
+    color: var(--color-black);
+    cursor: pointer;
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-semi-bold);
+    height: var(--7x);
+    line-height: var(--7x);
+    padding: 0 var(--3x);
+    text-align: center;
 }
 
 .Logo {

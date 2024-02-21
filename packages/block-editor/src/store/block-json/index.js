@@ -6,6 +6,8 @@ import {
   getBlockNamespace,
 } from "./selectors";
 
+import { validateNameClash, validateNameFormat } from "./validation";
+
 function getUniqueAttributeName(name = "attribute", allNames) {
   let index = 1;
   let indexedName = `${name}${index}`;
@@ -123,5 +125,7 @@ export const {
 } = actions;
 
 export { getBlockClassName, getBlockName, getBlockNamespace };
+
+export { validateNameClash, validateNameFormat };
 
 export default reducer;

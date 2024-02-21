@@ -8,6 +8,7 @@ import blockViewCss from "./block-view-css";
 import editor from "./editor";
 import postMetadata from "./post-metadata";
 import postType from "./post-type";
+import saveDialog from "./save-dialog";
 import upsellDialog from "./upsell-dialog";
 
 const store = configureStore({
@@ -20,6 +21,7 @@ const store = configureStore({
     editor,
     postMetadata,
     postType,
+    saveDialog,
     upsellDialog,
   }),
 });
