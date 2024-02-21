@@ -4337,16 +4337,20 @@
 
 	var navItems = [
 		{
-			label: "1. Block.json"
+			label: "Block.json",
+			icon: "cube-sharp-regular"
 		},
 		{
-			label: "2. Blueprint.json"
+			label: "Blueprint.json",
+			icon: "layer-group-sharp-regular"
 		},
 		{
-			label: "3. Style.css"
+			label: "Style.css",
+			icon: "brackets-curly-sharp-regular"
 		},
 		{
-			label: "4. Editor.css"
+			label: "Editor.css",
+			icon: "brackets-curly-sharp-regular"
 		}
 	];
 
@@ -4546,7 +4550,7 @@
 	  };
 	}
 
-	var _blueprintBlocksEdito$8;
+	var _blueprintBlocksEdito$9;
 	var _excluded$a = ["children"];
 	var blockComponents = {};
 	function parseComponentTree() {
@@ -4572,7 +4576,7 @@
 	  });
 	  return clientIds;
 	}
-	var _ref2 = ((_blueprintBlocksEdito$8 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$8 === void 0 ? void 0 : _blueprintBlocksEdito$8.blockMetadata) || {},
+	var _ref2 = ((_blueprintBlocksEdito$9 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$9 === void 0 ? void 0 : _blueprintBlocksEdito$9.blockMetadata) || {},
 	  _ref2$blockBlueprint = _ref2.blockBlueprint,
 	  blockBlueprint = _ref2$blockBlueprint === void 0 ? {} : _ref2$blockBlueprint;
 	var blockEdit = parseComponentTree((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockEdit) || []);
@@ -4980,7 +4984,7 @@
 	  return "wp-block-".concat(delimiterize(name));
 	};
 
-	var _blueprintBlocksEdito$7;
+	var _blueprintBlocksEdito$8;
 	function getUniqueAttributeName() {
 	  var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "attribute";
 	  var allNames = arguments.length > 1 ? arguments[1] : undefined;
@@ -4993,7 +4997,7 @@
 	  return indexedName;
 	}
 	var ALLOWED_ATTRIBUTE_TYPES = ["array", "number", "string", "object"];
-	var _ref$2 = ((_blueprintBlocksEdito$7 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$7 === void 0 ? void 0 : _blueprintBlocksEdito$7.blockMetadata) || {},
+	var _ref$2 = ((_blueprintBlocksEdito$8 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$8 === void 0 ? void 0 : _blueprintBlocksEdito$8.blockMetadata) || {},
 	  _ref$blockJson = _ref$2.blockJson,
 	  blockJson = _ref$blockJson === void 0 ? {} : _ref$blockJson;
 	var slice$6 = createSlice({
@@ -5083,9 +5087,9 @@
 	  setSupportsProperty = actions$6.setSupportsProperty,
 	  setTitle = actions$6.setTitle;
 
-	var _blueprintBlocksEdito$6 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$4 = _blueprintBlocksEdito$6.blockMetadata,
-	  blockMetadata$1 = _blueprintBlocksEdito2$4 === void 0 ? {} : _blueprintBlocksEdito2$4;
+	var _blueprintBlocksEdito$7 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$5 = _blueprintBlocksEdito$7.blockMetadata,
+	  blockMetadata$1 = _blueprintBlocksEdito2$5 === void 0 ? {} : _blueprintBlocksEdito2$5;
 	var slice$5 = createSlice({
 	  name: 'blockEditorCss',
 	  initialState: {
@@ -5101,9 +5105,9 @@
 	  reducer$5 = slice$5.reducer;
 	var setEditorCss = actions$5.setEditorCss;
 
-	var _blueprintBlocksEdito$5 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$3 = _blueprintBlocksEdito$5.blockMetadata,
-	  blockMetadata = _blueprintBlocksEdito2$3 === void 0 ? {} : _blueprintBlocksEdito2$3;
+	var _blueprintBlocksEdito$6 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$4 = _blueprintBlocksEdito$6.blockMetadata,
+	  blockMetadata = _blueprintBlocksEdito2$4 === void 0 ? {} : _blueprintBlocksEdito2$4;
 	var slice$4 = createSlice({
 	  name: 'blockViewCss',
 	  initialState: {
@@ -5158,9 +5162,9 @@
 	  setSize = actions$3.setSize,
 	  unsetFocus = actions$3.unsetFocus;
 
-	var _blueprintBlocksEdito$4 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$2 = _blueprintBlocksEdito$4.postMetadata,
-	  postMetadata = _blueprintBlocksEdito2$2 === void 0 ? {} : _blueprintBlocksEdito2$2;
+	var _blueprintBlocksEdito$5 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$3 = _blueprintBlocksEdito$5.postMetadata,
+	  postMetadata = _blueprintBlocksEdito2$3 === void 0 ? {} : _blueprintBlocksEdito2$3;
 	var slice$2 = createSlice({
 	  name: 'postMetadata',
 	  initialState: _objectSpread2(_objectSpread2({}, postMetadata), {}, {
@@ -5176,9 +5180,9 @@
 	  reducer$2 = slice$2.reducer;
 	var setPostId = actions$2.setPostId;
 
-	var _blueprintBlocksEdito$3 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$1 = _blueprintBlocksEdito$3.postType,
-	  postType = _blueprintBlocksEdito2$1 === void 0 ? {} : _blueprintBlocksEdito2$1;
+	var _blueprintBlocksEdito$4 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$2 = _blueprintBlocksEdito$4.postType,
+	  postType = _blueprintBlocksEdito2$2 === void 0 ? {} : _blueprintBlocksEdito2$2;
 	var slice$1 = createSlice({
 	  name: 'postType',
 	  initialState: _objectSpread2(_objectSpread2({}, postType), {}, {
@@ -6730,6 +6734,9 @@
 	  });
 	};
 
+	var _blueprintBlocksEdito$3 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$1 = _blueprintBlocksEdito$3.pluginMetadata,
+	  pluginMetadata$1 = _blueprintBlocksEdito2$1 === void 0 ? {} : _blueprintBlocksEdito2$1;
 	function Navigator(_ref) {
 	  var activeNavItem = _ref.activeNavItem,
 	    setActiveNavItem = _ref.setActiveNavItem,
@@ -6750,15 +6757,18 @@
 	    className: "Navigator",
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsxs("ul", {
 	      children: [navItems.map(function (_ref2, index) {
-	        var label = _ref2.label;
+	        var label = _ref2.label,
+	          icon = _ref2.icon;
 	        return /*#__PURE__*/jsxRuntimeExports.jsx("li", {
 	          ref: navItemRefs[index],
 	          className: index === activeNavItem && "is-active" || "",
 	          onClick: function onClick() {
 	            return setActiveNavItem(index);
 	          },
-	          children: /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	            children: label
+	          children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	            children: [icon && /*#__PURE__*/jsxRuntimeExports.jsx("img", {
+	              src: "".concat(pluginMetadata$1 === null || pluginMetadata$1 === void 0 ? void 0 : pluginMetadata$1.url, "/assets/images/font-awesome/").concat(icon, ".svg")
+	            }), label]
 	          })
 	        }, index);
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {

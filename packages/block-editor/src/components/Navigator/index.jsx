@@ -7,6 +7,8 @@ import Button from "../Button";
 
 import "./style.css";
 
+const { pluginMetadata = {} } = blueprintBlocksEditorSettings;
+
 function Navigator({ activeNavItem, setActiveNavItem, onUpdate, onPreview }) {
   const ref = useRef(null);
 
@@ -23,14 +25,21 @@ function Navigator({ activeNavItem, setActiveNavItem, onUpdate, onPreview }) {
   return (
     <div ref={ref} className="Navigator">
       <ul>
-        {navItems.map(({ label }, index) => (
+        {navItems.map(({ label, icon }, index) => (
           <li
             ref={navItemRefs[index]}
             key={index}
             className={(index === activeNavItem && "is-active") || ""}
             onClick={() => setActiveNavItem(index)}
           >
-            <span>{label}</span>
+            <div>
+              {icon && (
+                <img
+                  src={`${pluginMetadata?.url}/assets/images/font-awesome/${icon}.svg`}
+                />
+              )}
+              {label}
+            </div>
           </li>
         ))}
         <div

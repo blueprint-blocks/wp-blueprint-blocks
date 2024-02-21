@@ -109,10 +109,14 @@
         transition: var(--transition);
     }
 
-.Navigator li span {
+.Navigator li > div {
+        align-items: center;
         background: var(--color-white);
         color: var(--color-darkest-gray);
-        display: block;
+        display: grid;
+        gap: var(--2x);
+        grid-auto-columns: max-content;
+        grid-auto-flow: column;
         height: var(--3x);
         line-height: var(--3x);
         mix-blend-mode: lighten;
@@ -143,6 +147,16 @@
 
 .Navigator li.is-active::before {
         opacity: 1;
+    }
+
+.Navigator img {
+        display: block;
+        height: var(--3x);
+        -o-object-fit: contain;
+           object-fit: contain;
+        -o-object-position: center;
+           object-position: center;
+        width: var(--3x);
     }
 
 .Navigator::after {

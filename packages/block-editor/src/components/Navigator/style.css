@@ -33,10 +33,14 @@
         transition: var(--transition);
     }
 
-    li span {
+    li > div {
+        align-items: center;
         background: var(--color-white);
         color: var(--color-darkest-gray);
-        display: block;
+        display: grid;
+        gap: var(--2x);
+        grid-auto-columns: max-content;
+        grid-auto-flow: column;
         height: var(--3x);
         line-height: var(--3x);
         mix-blend-mode: lighten;
@@ -67,6 +71,14 @@
 
     li.is-active::before {
         opacity: 1;
+    }
+
+    img {
+        display: block;
+        height: var(--3x);
+        object-fit: contain;
+        object-position: center;
+        width: var(--3x);
     }
 }
 
