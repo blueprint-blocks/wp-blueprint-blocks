@@ -4213,6 +4213,11 @@
 			propertyName: "name",
 			validationFunction: "validateNameFormat",
 			warningMessage: "A block name can only contain lowercase alphanumeric characters, dashes, and at most one forward slash to designate the plugin or theme unique namespace prefix. It must begin with a letter."
+		},
+		{
+			propertyName: "title",
+			validationFunction: "validateTitle",
+			warningMessage: "A block title is required for display in the UI. (max 80 characters)"
 		}
 	];
 
@@ -4653,11 +4658,19 @@
 	var validateNameFormat = function validateNameFormat(value) {
 	  return !!value.match(/[a-z][a-z0-9]*\/[a-z0-9]+/);
 	};
+	var validateRequired = function validateRequired(value) {
+	  return !!value.match(/[a-z][a-z0-9]*\/[a-z0-9]+/);
+	};
+	var validateTitle = function validateTitle(value) {
+	  return value.length > 0 && value.length < 80;
+	};
 
 	var blockJsonValidationFunctions = /*#__PURE__*/Object.freeze({
 		__proto__: null,
 		validateNameClash: validateNameClash,
-		validateNameFormat: validateNameFormat
+		validateNameFormat: validateNameFormat,
+		validateRequired: validateRequired,
+		validateTitle: validateTitle
 	});
 
 	console.log(blockJsonValidationFunctions);

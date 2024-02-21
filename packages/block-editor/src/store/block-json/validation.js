@@ -7,4 +7,17 @@ const validateNameFormat = (value) => {
   return !!value.match(/[a-z][a-z0-9]*\/[a-z0-9]+/);
 };
 
-export { validateNameClash, validateNameFormat };
+const validateRequired = (value) => {
+  return !!value.match(/[a-z][a-z0-9]*\/[a-z0-9]+/);
+};
+
+const validateTitle = (value) => {
+  return value.length > 0 && value.length < 80;
+};
+
+export {
+  validateNameClash,
+  validateNameFormat,
+  validateRequired,
+  validateTitle,
+};
