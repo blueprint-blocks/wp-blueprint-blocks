@@ -63,33 +63,35 @@ const BlockSupportsFieldItem = ({
   };
 
   return (
-    <CheckboxField
-      label={label}
-      size={size}
-      value={isChecked}
-      setValue={setPropertyValue}
-    >
-      {description && (
-        <>
-          <p>{description}</p>
-          <br />
-        </>
-      )}
-      {learnMoreLink && <a href={learnMoreLink}>{"Learn more"}</a>}
-      {isChecked && subProperties?.length > 0 && (
-        <div className="CheckboxField-list">
-          {subProperties.map((subProperty, index) => (
-            <BlockSupportsFieldItem
-              {...subProperty}
-              key={index}
-              size={"small"}
-              value={isSubPropertyChecked(subProperty)}
-              setValue={(value) => setSubPropertyValue(subProperty, value)}
-            />
-          ))}
-        </div>
-      )}
-    </CheckboxField>
+    <div className="BlockSupportsFieldItem">
+      <CheckboxField
+        label={label}
+        size={size}
+        value={isChecked}
+        setValue={setPropertyValue}
+      >
+        {(description || learnMoreLink) && (
+          <p>
+            {description}
+            {description && learnMoreLink && <br />}
+            {learnMoreLink && <a href={learnMoreLink}>{"Learn more"}</a>}
+          </p>
+        )}
+        {isChecked && subProperties?.length > 0 && (
+          <div className="BlockSupportsFieldItem-list">
+            {subProperties.map((subProperty, index) => (
+              <BlockSupportsFieldItem
+                {...subProperty}
+                key={index}
+                size={"small"}
+                value={isSubPropertyChecked(subProperty)}
+                setValue={(value) => setSubPropertyValue(subProperty, value)}
+              />
+            ))}
+          </div>
+        )}
+      </CheckboxField>
+    </div>
   );
 };
 

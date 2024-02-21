@@ -347,10 +347,24 @@
     grid-auto-flow: row;
 }
 
-.BlockSupportsFieldItem {
+
+    .BlockSupportsFieldItem p {
+        margin: 0 0 var(--1x);
+    }
+
+.BlockSupportsFieldItem p:last-child {
+        margin-bottom: 0;
+    }
+
+.BlockSupportsFieldItem-list {
+    display: grid;
+    gap: var(--1x);
+    margin-top: var(--2x);
 }
 
 .BlockSupportsField {
+    display: grid;
+    gap: var(--3x);
 }
 
 .BlockVersionField {

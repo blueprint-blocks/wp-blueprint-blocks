@@ -8163,31 +8163,32 @@
 	      }));
 	    }
 	  };
-	  return /*#__PURE__*/jsxRuntimeExports.jsxs(CheckboxField, {
-	    label: label,
-	    size: size,
-	    value: isChecked,
-	    setValue: setPropertyValue,
-	    children: [description && /*#__PURE__*/jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, {
-	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("p", {
-	        children: description
-	      }), /*#__PURE__*/jsxRuntimeExports.jsx("br", {})]
-	    }), learnMoreLink && /*#__PURE__*/jsxRuntimeExports.jsx("a", {
-	      href: learnMoreLink,
-	      children: "Learn more"
-	    }), isChecked && (subProperties === null || subProperties === void 0 ? void 0 : subProperties.length) > 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	      className: "CheckboxField-list",
-	      children: subProperties.map(function (subProperty, index) {
-	        return /*#__PURE__*/React$2.createElement(BlockSupportsFieldItem, _objectSpread2(_objectSpread2({}, subProperty), {}, {
-	          key: index,
-	          size: "small",
-	          value: isSubPropertyChecked(subProperty),
-	          setValue: function setValue(value) {
-	            return setSubPropertyValue(subProperty, value);
-	          }
-	        }));
-	      })
-	    })]
+	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	    className: "BlockSupportsFieldItem",
+	    children: /*#__PURE__*/jsxRuntimeExports.jsxs(CheckboxField, {
+	      label: label,
+	      size: size,
+	      value: isChecked,
+	      setValue: setPropertyValue,
+	      children: [(description || learnMoreLink) && /*#__PURE__*/jsxRuntimeExports.jsxs("p", {
+	        children: [description, description && learnMoreLink && /*#__PURE__*/jsxRuntimeExports.jsx("br", {}), learnMoreLink && /*#__PURE__*/jsxRuntimeExports.jsx("a", {
+	          href: learnMoreLink,
+	          children: "Learn more"
+	        })]
+	      }), isChecked && (subProperties === null || subProperties === void 0 ? void 0 : subProperties.length) > 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	        className: "BlockSupportsFieldItem-list",
+	        children: subProperties.map(function (subProperty, index) {
+	          return /*#__PURE__*/React$2.createElement(BlockSupportsFieldItem, _objectSpread2(_objectSpread2({}, subProperty), {}, {
+	            key: index,
+	            size: "small",
+	            value: isSubPropertyChecked(subProperty),
+	            setValue: function setValue(value) {
+	              return setSubPropertyValue(subProperty, value);
+	            }
+	          }));
+	        })
+	      })]
+	    })
 	  });
 	};
 
@@ -8203,7 +8204,8 @@
 	      value: value
 	    }));
 	  };
-	  return /*#__PURE__*/jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, {
+	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	    className: "BlockSupportsField",
 	    children: blockSupportsProperties.map(function (property, index) {
 	      return /*#__PURE__*/React$2.createElement(BlockSupportsFieldItem, _objectSpread2(_objectSpread2({}, property), {}, {
 	        key: index,

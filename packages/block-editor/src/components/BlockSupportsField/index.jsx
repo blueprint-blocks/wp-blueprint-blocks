@@ -17,7 +17,7 @@ const BlockSupportsField = () => {
   };
 
   return (
-    <>
+    <div className="BlockSupportsField">
       {blockSupportsProperties.map((property, index) => (
         <BlockSupportsFieldItem
           {...property}
@@ -26,7 +26,7 @@ const BlockSupportsField = () => {
           setValue={(value) => setPropertyValue(property, value)}
         />
       ))}
-    </>
+    </div>
   );
 };
 

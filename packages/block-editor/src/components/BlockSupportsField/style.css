@@ -1,2 +1,4 @@
 .BlockSupportsField {
+    display: grid;
+    gap: var(--3x);
 }
