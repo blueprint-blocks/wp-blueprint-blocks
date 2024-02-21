@@ -1,144 +1,183 @@
+.Button {
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    background: var(--color-white);
+    border: 1px solid var(--color-light-gray);
+    border-radius: 5px;
+    color: var(--color-black);
+    cursor: pointer;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: max-content;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semi-bold);
+    height: var(--5x);
+    line-height: calc(var(--5x) - 2px);
+    overflow: hidden;
+    padding: 0 var(--3x);
+    position: relative;
+    transition: var(--transition);
+}
+
+.Button:hover {
+        border-color: var(--color-dark-gray);
+    }
+
+.Button.is-primary {
+    background: transparent;
+    border-color: transparent;
+    color: var(--color-white);
+}
+
+.Button.is-primary::before,
+    .Button.is-primary::after {
+        background: var(--gradient-teal-blue);
+        content: "";
+        display: block;
+        left: 50%;
+        padding-bottom: 100%;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transform-origin: center;
+        transition: var(--transition-slow);
+        width: 100%;
+        z-index: -1;
+    }
+
+.Button.is-primary::after {
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-name: blueprint-blocks-block-editor-button-primary-background-rotate;
+        animation-timing-function: linear;
+        opacity: 0;
+    }
+
+.Button.is-primary:hover::before {
+        opacity: 0;
+    }
+
+.Button.is-primary:hover::after {
+        opacity: 1;
+    }
+
+@keyframes blueprint-blocks-block-editor-button-primary-background-rotate {
+    from {
+        transform: translate(-50%, -50%) scale3d(1.1, 1.1, 1) rotateZ(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) scale3d(1.1, 1.1, 1) rotateZ(360deg);
+    }
+}
+
 .Navigator {
-	align-items: center;
-	background: var(--color-white);
-	display: grid;
-	grid-template-columns: 1fr max-content;
-	height: calc(var(--navigator-height) + 3px);
-	padding-right: var(--5x);
-	position: sticky;
-	top: var(--wp-admin--admin-bar--height);
-	-webkit-user-select: none;
-	   -moz-user-select: none;
-	        user-select: none;
-	z-index: 50;
+    align-items: center;
+    background: var(--color-white);
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    height: calc(var(--navigator-height) + 3px);
+    padding-right: var(--5x);
+    position: sticky;
+    top: var(--wp-admin--admin-bar--height);
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+    z-index: 50;
 }
 
 .Navigator ul {
-		display: grid;
-		grid-auto-flow: column;
-		height: calc(var(--navigator-height) + 3px);
-		justify-content: start;
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		position: relative;
-		z-index: 2;
-	}
+        display: grid;
+        grid-auto-flow: column;
+        height: calc(var(--navigator-height) + 3px);
+        justify-content: start;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        z-index: 2;
+    }
 
 .Navigator li {
-		cursor: pointer;
-		font-size: var(--font-size-base);
-		font-weight: var(--font-weight-semi-bold);
-		height: var(--3x);
-		margin: 0;
-		padding: var(--2x) var(--4x) calc(var(--2x) + 3px);
-		position: relative;
-		transition: var(--transition);
-	}
+        cursor: pointer;
+        font-size: var(--font-size-base);
+        font-weight: var(--font-weight-semi-bold);
+        height: var(--3x);
+        margin: 0;
+        padding: var(--2x) var(--4x) calc(var(--2x) + 3px);
+        position: relative;
+        transition: var(--transition);
+    }
 
 .Navigator li span {
-		background: var(--color-white);
-		color: var(--color-darkest-gray);
-		display: block;
-		height: var(--3x);
-		line-height: var(--3x);
-		mix-blend-mode: luminosity;
-		padding: 0 var(--1x);
-	}
+        background: var(--color-white);
+        color: var(--color-darkest-gray);
+        display: block;
+        height: var(--3x);
+        line-height: var(--3x);
+        mix-blend-mode: luminosity;
+        padding: 0 var(--1x);
+    }
 
 .Navigator li::before {
-		background: var(--gradient-teal-blue);
-		bottom: calc(var(--2x) + 3px);
-		content: '';
-		display: block;
-		left: var(--4x);
-		opacity: 0;
-		position: absolute;
-		right: var(--4x);
-		top: var(--2x);
-		transition: var(--transition);
-		z-index: -1;
-	}
+        background: var(--gradient-teal-blue);
+        bottom: calc(var(--2x) + 3px);
+        content: "";
+        display: block;
+        left: var(--4x);
+        opacity: 0;
+        position: absolute;
+        right: var(--4x);
+        top: var(--2x);
+        transition: var(--transition);
+        z-index: -1;
+    }
 
 .Navigator li::after {
-		background: var(--gradient-teal-blue);
-		bottom: 0;
-		content: '';
-		display: block;
-		height: 3px;
-		left: 0;
-		opacity: 0;
-		position: absolute;
-		transition: var(--transition);
-		width: 100%;
-	}
+        background: var(--gradient-teal-blue);
+        bottom: 0;
+        content: "";
+        display: block;
+        height: 3px;
+        left: 0;
+        opacity: 0;
+        position: absolute;
+        transition: var(--transition);
+        width: 100%;
+    }
 
 .Navigator li:hover {
-		text-decoration-color: currentColor;
-	}
+        text-decoration-color: currentColor;
+    }
 
 .Navigator li.is-active {
-		cursor: default;
-	}
+        cursor: default;
+    }
 
 .Navigator li.is-active::before,
-	.Navigator li.is-active::after {
-		opacity: 1;
-	}
+    .Navigator li.is-active::after {
+        opacity: 1;
+    }
 
 .Navigator::after {
-	background: var(--color-light-gray);
-	bottom: 0;
-	content: '';
-	display: block;
-	height: 3px;
-	left: 0;
-	position: absolute;
-	width: 100%;
-	z-index: 1;
+    background: var(--color-light-gray);
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 3px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
 }
 
 .Navigator-actions {
-	display: grid;
-	gap: var(--2x);
-	grid-auto-flow: column;
-	grid-template-columns: max-content;
-	position: relative;
-	z-index: 2;
-}
-
-.Navigator-preview {
-	-webkit-appearance: none;
-	   -moz-appearance: none;
-	        appearance: none;
-	background: var(--color-white);
-	border: 1px solid var(--color-gray);
-	border-radius: 3px;
-	box-shadow: 0 1px 9px rgba(0, 0, 0, 0.1);
-	color: var(--color-black);
-	cursor: pointer;
-	font-size: var(--font-size-base);
-	font-weight: var(--font-weight-medium);
-	height: var(--5x);
-	line-height: calc(var(--5x) - 2px);
-	padding: 0 var(--3x);
-}
-
-.Navigator-update {
-	-webkit-appearance: none;
-	   -moz-appearance: none;
-	        appearance: none;
-	background: radial-gradient(circle at right bottom, var(--color-accent-blue) 0%, var(--color-accent-teal) 100%);
-	border: 0;
-	border-radius: 3px;
-	box-shadow: 0 1px 9px rgba(0, 0, 0, 0.1);
-	color: var(--color-white);
-	cursor: pointer;
-	font-size: var(--font-size-base);
-	font-weight: var(--font-weight-medium);
-	height: var(--5x);
-	line-height: var(--5x);
-	padding: 0 var(--3x);
+    display: grid;
+    gap: var(--2x);
+    grid-auto-flow: column;
+    grid-template-columns: max-content;
+    position: relative;
+    z-index: 2;
 }
 
 .EditableString {
@@ -2032,6 +2071,11 @@
         var(--color-lighter-gray),
         var(--color-light-gray)
     );
+    --gradient-white: linear-gradient(
+        150deg,
+        var(--color-white),
+        var(--color-lighter-gray)
+    );
     --gradient-purple-pink: radial-gradient(
         ellipse at bottom,
         #9e05e6,
@@ -2060,6 +2104,7 @@
     --box-shadow-x-low: 2px 2px 0 #27243233;
 
     --transition: all 0.15s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    --transition-slow: all 0.9s cubic-bezier(0.55, 0.055, 0.675, 0.19);
 
     --app-height: max(
         680px,

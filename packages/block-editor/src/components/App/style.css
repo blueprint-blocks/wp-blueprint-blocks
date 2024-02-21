@@ -54,6 +54,11 @@
         var(--color-lighter-gray),
         var(--color-light-gray)
     );
+    --gradient-white: linear-gradient(
+        150deg,
+        var(--color-white),
+        var(--color-lighter-gray)
+    );
     --gradient-purple-pink: radial-gradient(
         ellipse at bottom,
         #9e05e6,
@@ -82,6 +87,7 @@
     --box-shadow-x-low: 2px 2px 0 #27243233;
 
     --transition: all 0.15s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    --transition-slow: all 0.9s cubic-bezier(0.55, 0.055, 0.675, 0.19);
 
     --app-height: max(
         680px,

@@ -5291,6 +5291,72 @@
 	  });
 	}
 
+	var classnames = {exports: {}};
+
+	/*!
+		Copyright (c) 2018 Jed Watson.
+		Licensed under the MIT License (MIT), see
+		http://jedwatson.github.io/classnames
+	*/
+
+	(function (module) {
+		/* global define */
+
+		(function () {
+
+		  var hasOwn = {}.hasOwnProperty;
+		  function classNames() {
+		    var classes = '';
+		    for (var i = 0; i < arguments.length; i++) {
+		      var arg = arguments[i];
+		      if (arg) {
+		        classes = appendClass(classes, parseValue(arg));
+		      }
+		    }
+		    return classes;
+		  }
+		  function parseValue(arg) {
+		    if (typeof arg === 'string' || typeof arg === 'number') {
+		      return arg;
+		    }
+		    if (typeof arg !== 'object') {
+		      return '';
+		    }
+		    if (Array.isArray(arg)) {
+		      return classNames.apply(null, arg);
+		    }
+		    if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
+		      return arg.toString();
+		    }
+		    var classes = '';
+		    for (var key in arg) {
+		      if (hasOwn.call(arg, key) && arg[key]) {
+		        classes = appendClass(classes, key);
+		      }
+		    }
+		    return classes;
+		  }
+		  function appendClass(value, newClass) {
+		    if (!newClass) {
+		      return value;
+		    }
+		    if (value) {
+		      return value + ' ' + newClass;
+		    }
+		    return value + newClass;
+		  }
+		  if (module.exports) {
+		    classNames.default = classNames;
+		    module.exports = classNames;
+		  } else {
+		    window.classNames = classNames;
+		  }
+		})(); 
+	} (classnames));
+
+	var classnamesExports = classnames.exports;
+	var classNames = /*@__PURE__*/getDefaultExportFromCjs(classnamesExports);
+
 	var jsxRuntime = {exports: {}};
 
 	var reactJsxRuntime_development = {};
@@ -6436,6 +6502,23 @@
 
 	var jsxRuntimeExports = jsxRuntime.exports;
 
+	var Button = function Button(_ref) {
+	  var children = _ref.children,
+	    label = _ref.label,
+	    onClick = _ref.onClick,
+	    _ref$style = _ref.style,
+	    style = _ref$style === void 0 ? "secondary" : _ref$style;
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("button", {
+	    className: classNames("Button", "is-".concat(style)),
+	    onClick: onClick,
+	    children: [children && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	      children: children
+	    }), label && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	      children: label
+	    })]
+	  });
+	};
+
 	function Navigator(_ref) {
 	  var activeNavItem = _ref.activeNavItem,
 	    setActiveNavItem = _ref.setActiveNavItem,
@@ -6447,7 +6530,7 @@
 	      children: navItems.map(function (_ref2, index) {
 	        var label = _ref2.label;
 	        return /*#__PURE__*/jsxRuntimeExports.jsx("li", {
-	          className: index === activeNavItem && 'is-active' || '',
+	          className: index === activeNavItem && "is-active" || "",
 	          onClick: function onClick() {
 	            return setActiveNavItem(index);
 	          },
@@ -6458,84 +6541,17 @@
 	      })
 	    }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	      className: "Navigator-actions",
-	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("button", {
-	        className: "Navigator-preview",
+	      children: [/*#__PURE__*/jsxRuntimeExports.jsx(Button, {
 	        onClick: onPreview,
-	        children: 'Preview'
-	      }), /*#__PURE__*/jsxRuntimeExports.jsx("button", {
-	        className: "Navigator-update",
+	        label: "Preview"
+	      }), /*#__PURE__*/jsxRuntimeExports.jsx(Button, {
 	        onClick: onUpdate,
-	        children: 'Update'
+	        label: "Update",
+	        style: "primary"
 	      })]
 	    })]
 	  });
 	}
-
-	var classnames = {exports: {}};
-
-	/*!
-		Copyright (c) 2018 Jed Watson.
-		Licensed under the MIT License (MIT), see
-		http://jedwatson.github.io/classnames
-	*/
-
-	(function (module) {
-		/* global define */
-
-		(function () {
-
-		  var hasOwn = {}.hasOwnProperty;
-		  function classNames() {
-		    var classes = '';
-		    for (var i = 0; i < arguments.length; i++) {
-		      var arg = arguments[i];
-		      if (arg) {
-		        classes = appendClass(classes, parseValue(arg));
-		      }
-		    }
-		    return classes;
-		  }
-		  function parseValue(arg) {
-		    if (typeof arg === 'string' || typeof arg === 'number') {
-		      return arg;
-		    }
-		    if (typeof arg !== 'object') {
-		      return '';
-		    }
-		    if (Array.isArray(arg)) {
-		      return classNames.apply(null, arg);
-		    }
-		    if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
-		      return arg.toString();
-		    }
-		    var classes = '';
-		    for (var key in arg) {
-		      if (hasOwn.call(arg, key) && arg[key]) {
-		        classes = appendClass(classes, key);
-		      }
-		    }
-		    return classes;
-		  }
-		  function appendClass(value, newClass) {
-		    if (!newClass) {
-		      return value;
-		    }
-		    if (value) {
-		      return value + ' ' + newClass;
-		    }
-		    return value + newClass;
-		  }
-		  if (module.exports) {
-		    classNames.default = classNames;
-		    module.exports = classNames;
-		  } else {
-		    window.classNames = classNames;
-		  }
-		})(); 
-	} (classnames));
-
-	var classnamesExports = classnames.exports;
-	var classNames = /*@__PURE__*/getDefaultExportFromCjs(classnamesExports);
 
 	function useBlockNamespace() {
 	  var _useSelector = useSelector(function (state) {

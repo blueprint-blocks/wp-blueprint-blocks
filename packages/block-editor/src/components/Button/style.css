@@ -1,0 +1,70 @@
+.Button {
+    appearance: none;
+    background: var(--color-white);
+    border: 1px solid var(--color-light-gray);
+    border-radius: 5px;
+    color: var(--color-black);
+    cursor: pointer;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: max-content;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semi-bold);
+    height: var(--5x);
+    line-height: calc(var(--5x) - 2px);
+    overflow: hidden;
+    padding: 0 var(--3x);
+    position: relative;
+    transition: var(--transition);
+
+    &:hover {
+        border-color: var(--color-dark-gray);
+    }
+}
+
+.Button.is-primary {
+    background: transparent;
+    border-color: transparent;
+    color: var(--color-white);
+
+    &::before,
+    &::after {
+        background: var(--gradient-teal-blue);
+        content: "";
+        display: block;
+        left: 50%;
+        padding-bottom: 100%;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transform-origin: center;
+        transition: var(--transition-slow);
+        width: 100%;
+        z-index: -1;
+    }
+
+    &::after {
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        animation-name: blueprint-blocks-block-editor-button-primary-background-rotate;
+        animation-timing-function: linear;
+        opacity: 0;
+    }
+
+    &:hover::before {
+        opacity: 0;
+    }
+
+    &:hover::after {
+        opacity: 1;
+    }
+}
+
+@keyframes blueprint-blocks-block-editor-button-primary-background-rotate {
+    from {
+        transform: translate(-50%, -50%) scale3d(1.1, 1.1, 1) rotateZ(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) scale3d(1.1, 1.1, 1) rotateZ(360deg);
+    }
+}
