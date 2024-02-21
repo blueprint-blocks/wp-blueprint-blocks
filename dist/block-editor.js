@@ -5291,6 +5291,217 @@
 	  });
 	}
 
+	function useBlockNamespace() {
+	  var _useSelector = useSelector(function (state) {
+	      return state.blockJson || {};
+	    }),
+	    name = _useSelector.name;
+	  return "wp-block-".concat(name.split('/')[0], "-").concat(name.split('/')[0]);
+	}
+
+	function useFocus() {
+	  var initialState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	  var _useState = React$2.useState(initialState),
+	    _useState2 = _slicedToArray(_useState, 2),
+	    hasFocus = _useState2[0],
+	    toggleFocus = _useState2[1];
+	  var _useMemo = React$2.useMemo(function () {
+	      return {
+	        onFocus: function onFocus() {
+	          for (var _len = arguments.length, names = new Array(_len), _key = 0; _key < _len; _key++) {
+	            names[_key] = arguments[_key];
+	          }
+	          toggleFocus([].concat(_toConsumableArray(hasFocus), names));
+	        },
+	        onBlur: function onBlur() {
+	          for (var _len2 = arguments.length, names = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+	            names[_key2] = arguments[_key2];
+	          }
+	          toggleFocus(hasFocus.filter(function (focus) {
+	            return !names.includes(focus);
+	          }));
+	        }
+	      };
+	    }, []),
+	    onFocus = _useMemo.onFocus,
+	    onBlur = _useMemo.onBlur;
+	  return [hasFocus, onBlur, onFocus];
+	}
+
+	function isEqual(rect1, rect2) {
+	  return rect1.x === rect2.x && rect1.y === rect2.y && rect1.top === rect2.top && rect1.right === rect2.right && rect1.bottom === rect2.bottom && rect1.left === rect2.left && rect1.height === rect2.height && rect1.width === rect2.width;
+	}
+	function getRect() {
+	  var rect = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var parentRect = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+	  var parentScroll = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+	  var _rect$x = rect.x,
+	    x = _rect$x === void 0 ? 0 : _rect$x,
+	    _rect$y = rect.y,
+	    y = _rect$y === void 0 ? 0 : _rect$y,
+	    _rect$top = rect.top,
+	    top = _rect$top === void 0 ? 0 : _rect$top,
+	    _rect$right = rect.right,
+	    right = _rect$right === void 0 ? 0 : _rect$right,
+	    _rect$bottom = rect.bottom,
+	    bottom = _rect$bottom === void 0 ? 0 : _rect$bottom,
+	    _rect$left = rect.left,
+	    left = _rect$left === void 0 ? 0 : _rect$left,
+	    _rect$width = rect.width,
+	    width = _rect$width === void 0 ? 0 : _rect$width,
+	    _rect$height = rect.height,
+	    height = _rect$height === void 0 ? 0 : _rect$height;
+	  if (parentRect) {
+	    x -= parentRect.x - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.x) || 0;
+	    y -= parentRect.y - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.y) || 0;
+	    top -= parentRect.top - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.y) || 0;
+	    right -= parentRect.left - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.x) || 0;
+	    bottom -= parentRect.top - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.y) || 0;
+	    left -= parentRect.left - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.x) || 0;
+	  }
+	  return {
+	    x: Math.round((x + Number.EPSILON) * 100) / 100,
+	    y: Math.round((y + Number.EPSILON) * 100) / 100,
+	    top: Math.round((top + Number.EPSILON) * 100) / 100,
+	    right: Math.round((right + Number.EPSILON) * 100) / 100,
+	    bottom: Math.round((bottom + Number.EPSILON) * 100) / 100,
+	    left: Math.round((left + Number.EPSILON) * 100) / 100,
+	    width: Math.round((width + Number.EPSILON) * 100) / 100,
+	    height: Math.round((height + Number.EPSILON) * 100) / 100
+	  };
+	}
+	function reduceRect(rect) {
+	  var reduceProps = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+	  if (reduceProps === null) {
+	    return rect;
+	  }
+	  return Object.fromEntries(Object.entries(rect).filter(function (_ref) {
+	    var _ref2 = _slicedToArray(_ref, 2),
+	      key = _ref2[0];
+	      _ref2[1];
+	    return reduceProps.includes(key);
+	  }));
+	}
+	function useRect(ref, parentRef) {
+	  var reduceProps = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+	  var timeout = null;
+	  var _useState = React$2.useState({}),
+	    _useState2 = _slicedToArray(_useState, 2),
+	    rect = _useState2[0],
+	    setRect = _useState2[1];
+	  function handleResize() {
+	    throttle(function () {
+	      if (timeout) {
+	        clearTimeout(timeout);
+	      }
+	      timeout = setTimeout(function () {
+	        var _ref$current, _parentRef$current, _parentRef$current2, _parentRef$current3;
+	        var newRect = getRect((_ref$current = ref.current) === null || _ref$current === void 0 ? void 0 : _ref$current.getBoundingClientRect(), parentRef === null || parentRef === void 0 || (_parentRef$current = parentRef.current) === null || _parentRef$current === void 0 ? void 0 : _parentRef$current.getBoundingClientRect(), {
+	          x: (parentRef === null || parentRef === void 0 || (_parentRef$current2 = parentRef.current) === null || _parentRef$current2 === void 0 ? void 0 : _parentRef$current2.scrollLeft) || 0,
+	          y: (parentRef === null || parentRef === void 0 || (_parentRef$current3 = parentRef.current) === null || _parentRef$current3 === void 0 ? void 0 : _parentRef$current3.scrollTop) || 0
+	        });
+	        newRect = reduceRect(newRect, reduceProps);
+	        if (!isEqual(rect, newRect)) {
+	          setRect(newRect);
+	        }
+	      }, 100);
+	    }, 50)();
+	  }
+	  React$2.useEffect(function () {
+	    if (!(ref !== null && ref !== void 0 && ref.current)) {
+	      return;
+	    }
+	    var observer = new IntersectionObserver(function (_ref3) {
+	      var _parentEntry$target, _parentEntry$target2;
+	      var _ref4 = _slicedToArray(_ref3, 2),
+	        entry = _ref4[0],
+	        _ref4$ = _ref4[1],
+	        parentEntry = _ref4$ === void 0 ? null : _ref4$;
+	      if (parentRef !== null && parentRef !== void 0 && parentRef.current && !parentEntry) {
+	        return;
+	      }
+	      var newRect = getRect(entry === null || entry === void 0 ? void 0 : entry.boundingClientRect, parentEntry === null || parentEntry === void 0 ? void 0 : parentEntry.boundingClientRect, {
+	        x: (parentEntry === null || parentEntry === void 0 || (_parentEntry$target = parentEntry.target) === null || _parentEntry$target === void 0 ? void 0 : _parentEntry$target.scrollLeft) || 0,
+	        y: (parentEntry === null || parentEntry === void 0 || (_parentEntry$target2 = parentEntry.target) === null || _parentEntry$target2 === void 0 ? void 0 : _parentEntry$target2.scrollTop) || 0
+	      });
+	      newRect = reduceRect(newRect, reduceProps);
+	      if (!isEqual(rect, newRect)) {
+	        setRect(newRect);
+	      }
+	    });
+	    observer.observe(ref.current);
+	    if (parentRef !== null && parentRef !== void 0 && parentRef.current) {
+	      observer.observe(parentRef.current);
+	    }
+	    return function () {
+	      observer.disconnect();
+	    };
+	  }, [ref, parentRef, rect]);
+	  React$2.useLayoutEffect(function () {
+	    window.addEventListener('mousedown', handleResize, true);
+	    window.addEventListener('resize', handleResize);
+	    window.addEventListener('orientationchange', handleResize);
+	    window.addEventListener('scroll', handleResize, true);
+	    return function () {
+	      window.removeEventListener('mousedown', handleResize, true);
+	      window.removeEventListener('resize', handleResize);
+	      window.removeEventListener('orientationchange', handleResize);
+	      window.removeEventListener('scroll', handleResize, true);
+	    };
+	  }, [ref, parentRef, rect]);
+	  return rect;
+	}
+
+	function useMouseFocus(ref) {
+	  var _useState = React$2.useState(false),
+	    _useState2 = _slicedToArray(_useState, 2),
+	    hasMouseFocus = _useState2[0],
+	    setHasMouseFocus = _useState2[1];
+	  var rect = useRect(ref);
+	  React$2.useLayoutEffect(function () {
+	    function handleMouseMove(_ref) {
+	      var clientX = _ref.clientX,
+	        clientY = _ref.clientY;
+	      var isInsideBounds = clientX >= (rect === null || rect === void 0 ? void 0 : rect.left) && clientX <= (rect === null || rect === void 0 ? void 0 : rect.right) && clientY >= (rect === null || rect === void 0 ? void 0 : rect.top) && clientY <= (rect === null || rect === void 0 ? void 0 : rect.bottom);
+	      if (isInsideBounds === true && hasMouseFocus === false) {
+	        setHasMouseFocus(true);
+	      } else if (isInsideBounds === false && hasMouseFocus === true) {
+	        setHasMouseFocus(false);
+	      }
+	    }
+	    window.addEventListener('mousemove', handleMouseMove);
+	    return function () {
+	      window.removeEventListener('mousemove', handleMouseMove);
+	    };
+	  }, [hasMouseFocus, rect]);
+	  return hasMouseFocus;
+	}
+
+	// Add ref and handler to effect dependencies
+	// It's worth noting that because passed in handler is a new ...
+	// ... function on every render that will cause this effect ...
+	// ... callback/cleanup to run every render. It's not a big deal ...
+	// ... but to optimize you can wrap handler in useCallback before ...
+	// ... passing it into this hook.
+
+	function useOnClickOutside(ref, handler) {
+	  React$2.useEffect(function () {
+	    var listener = function listener(event) {
+	      // Do nothing if clicking ref's element or descendent elements
+	      if (!ref.current || ref.current.contains(event.target)) {
+	        return;
+	      }
+	      handler(event);
+	    };
+	    document.addEventListener('mousedown', listener);
+	    document.addEventListener('touchstart', listener);
+	    return function () {
+	      document.removeEventListener('mousedown', listener);
+	      document.removeEventListener('touchstart', listener);
+	    };
+	  }, [ref, handler]);
+	}
+
 	var classnames = {exports: {}};
 
 	/*!
@@ -6524,12 +6735,24 @@
 	    setActiveNavItem = _ref.setActiveNavItem,
 	    onUpdate = _ref.onUpdate,
 	    onPreview = _ref.onPreview;
+	  var ref = React$2.useRef(null);
+	  var navItemRefs = navItems.map(function () {
+	    return React$2.useRef(null);
+	  });
+	  var navItemRects = navItems.map(function (_, index) {
+	    return useRect(navItemRefs[index], ref, ["left", "width"]);
+	  });
+	  var activeIndicatorRect = React$2.useMemo(function () {
+	    return navItemRects[activeNavItem];
+	  }, [navItemRects]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    ref: ref,
 	    className: "Navigator",
-	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("ul", {
-	      children: navItems.map(function (_ref2, index) {
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsxs("ul", {
+	      children: [navItems.map(function (_ref2, index) {
 	        var label = _ref2.label;
 	        return /*#__PURE__*/jsxRuntimeExports.jsx("li", {
+	          ref: navItemRefs[index],
 	          className: index === activeNavItem && "is-active" || "",
 	          onClick: function onClick() {
 	            return setActiveNavItem(index);
@@ -6538,7 +6761,13 @@
 	            children: label
 	          })
 	        }, index);
-	      })
+	      }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	        className: "Navigator-activeIndicator",
+	        style: {
+	          "--left": activeIndicatorRect.left,
+	          "--width": activeIndicatorRect.width
+	        }
+	      })]
 	    }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	      className: "Navigator-actions",
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsx(Button, {
@@ -6551,217 +6780,6 @@
 	      })]
 	    })]
 	  });
-	}
-
-	function useBlockNamespace() {
-	  var _useSelector = useSelector(function (state) {
-	      return state.blockJson || {};
-	    }),
-	    name = _useSelector.name;
-	  return "wp-block-".concat(name.split('/')[0], "-").concat(name.split('/')[0]);
-	}
-
-	function useFocus() {
-	  var initialState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-	  var _useState = React$2.useState(initialState),
-	    _useState2 = _slicedToArray(_useState, 2),
-	    hasFocus = _useState2[0],
-	    toggleFocus = _useState2[1];
-	  var _useMemo = React$2.useMemo(function () {
-	      return {
-	        onFocus: function onFocus() {
-	          for (var _len = arguments.length, names = new Array(_len), _key = 0; _key < _len; _key++) {
-	            names[_key] = arguments[_key];
-	          }
-	          toggleFocus([].concat(_toConsumableArray(hasFocus), names));
-	        },
-	        onBlur: function onBlur() {
-	          for (var _len2 = arguments.length, names = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-	            names[_key2] = arguments[_key2];
-	          }
-	          toggleFocus(hasFocus.filter(function (focus) {
-	            return !names.includes(focus);
-	          }));
-	        }
-	      };
-	    }, []),
-	    onFocus = _useMemo.onFocus,
-	    onBlur = _useMemo.onBlur;
-	  return [hasFocus, onBlur, onFocus];
-	}
-
-	function isEqual(rect1, rect2) {
-	  return rect1.x === rect2.x && rect1.y === rect2.y && rect1.top === rect2.top && rect1.right === rect2.right && rect1.bottom === rect2.bottom && rect1.left === rect2.left && rect1.height === rect2.height && rect1.width === rect2.width;
-	}
-	function getRect() {
-	  var rect = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-	  var parentRect = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-	  var parentScroll = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-	  var _rect$x = rect.x,
-	    x = _rect$x === void 0 ? 0 : _rect$x,
-	    _rect$y = rect.y,
-	    y = _rect$y === void 0 ? 0 : _rect$y,
-	    _rect$top = rect.top,
-	    top = _rect$top === void 0 ? 0 : _rect$top,
-	    _rect$right = rect.right,
-	    right = _rect$right === void 0 ? 0 : _rect$right,
-	    _rect$bottom = rect.bottom,
-	    bottom = _rect$bottom === void 0 ? 0 : _rect$bottom,
-	    _rect$left = rect.left,
-	    left = _rect$left === void 0 ? 0 : _rect$left,
-	    _rect$width = rect.width,
-	    width = _rect$width === void 0 ? 0 : _rect$width,
-	    _rect$height = rect.height,
-	    height = _rect$height === void 0 ? 0 : _rect$height;
-	  if (parentRect) {
-	    x -= parentRect.x - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.x) || 0;
-	    y -= parentRect.y - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.y) || 0;
-	    top -= parentRect.top - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.y) || 0;
-	    right -= parentRect.left - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.x) || 0;
-	    bottom -= parentRect.top - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.y) || 0;
-	    left -= parentRect.left - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.x) || 0;
-	  }
-	  return {
-	    x: Math.round((x + Number.EPSILON) * 100) / 100,
-	    y: Math.round((y + Number.EPSILON) * 100) / 100,
-	    top: Math.round((top + Number.EPSILON) * 100) / 100,
-	    right: Math.round((right + Number.EPSILON) * 100) / 100,
-	    bottom: Math.round((bottom + Number.EPSILON) * 100) / 100,
-	    left: Math.round((left + Number.EPSILON) * 100) / 100,
-	    width: Math.round((width + Number.EPSILON) * 100) / 100,
-	    height: Math.round((height + Number.EPSILON) * 100) / 100
-	  };
-	}
-	function reduceRect(rect) {
-	  var reduceProps = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-	  if (reduceProps === null) {
-	    return rect;
-	  }
-	  return Object.fromEntries(Object.entries(rect).filter(function (_ref) {
-	    var _ref2 = _slicedToArray(_ref, 2),
-	      key = _ref2[0];
-	      _ref2[1];
-	    return reduceProps.includes(key);
-	  }));
-	}
-	function useRect(ref, parentRef) {
-	  var reduceProps = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-	  var timeout = null;
-	  var _useState = React$2.useState({}),
-	    _useState2 = _slicedToArray(_useState, 2),
-	    rect = _useState2[0],
-	    setRect = _useState2[1];
-	  function handleResize() {
-	    throttle(function () {
-	      if (timeout) {
-	        clearTimeout(timeout);
-	      }
-	      timeout = setTimeout(function () {
-	        var _ref$current, _parentRef$current, _parentRef$current2, _parentRef$current3;
-	        var newRect = getRect((_ref$current = ref.current) === null || _ref$current === void 0 ? void 0 : _ref$current.getBoundingClientRect(), parentRef === null || parentRef === void 0 || (_parentRef$current = parentRef.current) === null || _parentRef$current === void 0 ? void 0 : _parentRef$current.getBoundingClientRect(), {
-	          x: (parentRef === null || parentRef === void 0 || (_parentRef$current2 = parentRef.current) === null || _parentRef$current2 === void 0 ? void 0 : _parentRef$current2.scrollLeft) || 0,
-	          y: (parentRef === null || parentRef === void 0 || (_parentRef$current3 = parentRef.current) === null || _parentRef$current3 === void 0 ? void 0 : _parentRef$current3.scrollTop) || 0
-	        });
-	        newRect = reduceRect(newRect, reduceProps);
-	        if (!isEqual(rect, newRect)) {
-	          setRect(newRect);
-	        }
-	      }, 100);
-	    }, 50)();
-	  }
-	  React$2.useEffect(function () {
-	    if (!(ref !== null && ref !== void 0 && ref.current)) {
-	      return;
-	    }
-	    var observer = new IntersectionObserver(function (_ref3) {
-	      var _parentEntry$target, _parentEntry$target2;
-	      var _ref4 = _slicedToArray(_ref3, 2),
-	        entry = _ref4[0],
-	        _ref4$ = _ref4[1],
-	        parentEntry = _ref4$ === void 0 ? null : _ref4$;
-	      if (parentRef !== null && parentRef !== void 0 && parentRef.current && !parentEntry) {
-	        return;
-	      }
-	      var newRect = getRect(entry === null || entry === void 0 ? void 0 : entry.boundingClientRect, parentEntry === null || parentEntry === void 0 ? void 0 : parentEntry.boundingClientRect, {
-	        x: (parentEntry === null || parentEntry === void 0 || (_parentEntry$target = parentEntry.target) === null || _parentEntry$target === void 0 ? void 0 : _parentEntry$target.scrollLeft) || 0,
-	        y: (parentEntry === null || parentEntry === void 0 || (_parentEntry$target2 = parentEntry.target) === null || _parentEntry$target2 === void 0 ? void 0 : _parentEntry$target2.scrollTop) || 0
-	      });
-	      newRect = reduceRect(newRect, reduceProps);
-	      if (!isEqual(rect, newRect)) {
-	        setRect(newRect);
-	      }
-	    });
-	    observer.observe(ref.current);
-	    if (parentRef !== null && parentRef !== void 0 && parentRef.current) {
-	      observer.observe(parentRef.current);
-	    }
-	    return function () {
-	      observer.disconnect();
-	    };
-	  }, [ref, parentRef, rect]);
-	  React$2.useLayoutEffect(function () {
-	    window.addEventListener('mousedown', handleResize, true);
-	    window.addEventListener('resize', handleResize);
-	    window.addEventListener('orientationchange', handleResize);
-	    window.addEventListener('scroll', handleResize, true);
-	    return function () {
-	      window.removeEventListener('mousedown', handleResize, true);
-	      window.removeEventListener('resize', handleResize);
-	      window.removeEventListener('orientationchange', handleResize);
-	      window.removeEventListener('scroll', handleResize, true);
-	    };
-	  }, [ref, parentRef, rect]);
-	  return rect;
-	}
-
-	function useMouseFocus(ref) {
-	  var _useState = React$2.useState(false),
-	    _useState2 = _slicedToArray(_useState, 2),
-	    hasMouseFocus = _useState2[0],
-	    setHasMouseFocus = _useState2[1];
-	  var rect = useRect(ref);
-	  React$2.useLayoutEffect(function () {
-	    function handleMouseMove(_ref) {
-	      var clientX = _ref.clientX,
-	        clientY = _ref.clientY;
-	      var isInsideBounds = clientX >= (rect === null || rect === void 0 ? void 0 : rect.left) && clientX <= (rect === null || rect === void 0 ? void 0 : rect.right) && clientY >= (rect === null || rect === void 0 ? void 0 : rect.top) && clientY <= (rect === null || rect === void 0 ? void 0 : rect.bottom);
-	      if (isInsideBounds === true && hasMouseFocus === false) {
-	        setHasMouseFocus(true);
-	      } else if (isInsideBounds === false && hasMouseFocus === true) {
-	        setHasMouseFocus(false);
-	      }
-	    }
-	    window.addEventListener('mousemove', handleMouseMove);
-	    return function () {
-	      window.removeEventListener('mousemove', handleMouseMove);
-	    };
-	  }, [hasMouseFocus, rect]);
-	  return hasMouseFocus;
-	}
-
-	// Add ref and handler to effect dependencies
-	// It's worth noting that because passed in handler is a new ...
-	// ... function on every render that will cause this effect ...
-	// ... callback/cleanup to run every render. It's not a big deal ...
-	// ... but to optimize you can wrap handler in useCallback before ...
-	// ... passing it into this hook.
-
-	function useOnClickOutside(ref, handler) {
-	  React$2.useEffect(function () {
-	    var listener = function listener(event) {
-	      // Do nothing if clicking ref's element or descendent elements
-	      if (!ref.current || ref.current.contains(event.target)) {
-	        return;
-	      }
-	      handler(event);
-	    };
-	    document.addEventListener('mousedown', listener);
-	    document.addEventListener('touchstart', listener);
-	    return function () {
-	      document.removeEventListener('mousedown', listener);
-	      document.removeEventListener('touchstart', listener);
-	    };
-	  }, [ref, handler]);
 	}
 
 	var reactContenteditable = {};

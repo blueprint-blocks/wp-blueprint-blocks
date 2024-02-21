@@ -28,8 +28,10 @@
     --color-darker-slate: #5d7382;
 
     --color-accent-teal: #00ffba;
+    --color-accent-teal-00: #00ffba00;
     --color-accent-teal-blue: #00b2d0;
     --color-accent-blue: #006be5;
+    --color-accent-blue-00: #006be500;
     --color-accent-purple: #7f1192;
     --color-accent-pink: #b10a50;
     --color-accent-red: #e6255d;
@@ -48,6 +50,13 @@
         150deg,
         var(--color-accent-teal),
         var(--color-accent-blue)
+    );
+    --gradient-teal-blue-transparent: linear-gradient(
+        90deg,
+        var(--color-accent-teal-00) 0%,
+        var(--color-accent-teal) 20%,
+        var(--color-accent-blue) 80%,
+        var(--color-accent-blue-00) 100%
     );
     --gradient-light-gray: radial-gradient(
         ellipse at right,

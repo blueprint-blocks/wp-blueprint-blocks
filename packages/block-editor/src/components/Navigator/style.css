@@ -10,7 +10,7 @@
     user-select: none;
     z-index: 50;
 
-    & ul {
+    ul {
         display: grid;
         grid-auto-flow: column;
         height: calc(var(--navigator-height) + 3px);
@@ -22,7 +22,7 @@
         z-index: 2;
     }
 
-    & li {
+    li {
         cursor: pointer;
         font-size: var(--font-size-base);
         font-weight: var(--font-weight-semi-bold);
@@ -33,17 +33,17 @@
         transition: var(--transition);
     }
 
-    & li span {
+    li span {
         background: var(--color-white);
         color: var(--color-darkest-gray);
         display: block;
         height: var(--3x);
         line-height: var(--3x);
-        mix-blend-mode: luminosity;
+        mix-blend-mode: lighten;
         padding: 0 var(--1x);
     }
 
-    & li::before {
+    li::before {
         background: var(--gradient-teal-blue);
         bottom: calc(var(--2x) + 3px);
         content: "";
@@ -57,29 +57,15 @@
         z-index: -1;
     }
 
-    & li::after {
-        background: var(--gradient-teal-blue);
-        bottom: 0;
-        content: "";
-        display: block;
-        height: 3px;
-        left: 0;
-        opacity: 0;
-        position: absolute;
-        transition: var(--transition);
-        width: 100%;
-    }
-
-    & li:hover {
+    li:hover {
         text-decoration-color: currentColor;
     }
 
-    & li.is-active {
+    li.is-active {
         cursor: default;
     }
 
-    & li.is-active::before,
-    & li.is-active::after {
+    li.is-active::before {
         opacity: 1;
     }
 }
@@ -94,6 +80,17 @@
     position: absolute;
     width: 100%;
     z-index: 1;
+}
+
+.Navigator-activeIndicator {
+    background: var(--gradient-teal-blue-transparent);
+    bottom: 0;
+    display: block;
+    height: 3px;
+    left: calc(1px * var(--left, 0));
+    position: absolute;
+    transition: var(--transition);
+    width: calc(1px * var(--width, 0));
 }
 
 .Navigator-actions {

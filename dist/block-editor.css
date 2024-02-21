@@ -115,7 +115,7 @@
         display: block;
         height: var(--3x);
         line-height: var(--3x);
-        mix-blend-mode: luminosity;
+        mix-blend-mode: lighten;
         padding: 0 var(--1x);
     }
 
@@ -133,19 +133,6 @@
         z-index: -1;
     }
 
-.Navigator li::after {
-        background: var(--gradient-teal-blue);
-        bottom: 0;
-        content: "";
-        display: block;
-        height: 3px;
-        left: 0;
-        opacity: 0;
-        position: absolute;
-        transition: var(--transition);
-        width: 100%;
-    }
-
 .Navigator li:hover {
         text-decoration-color: currentColor;
     }
@@ -154,8 +141,7 @@
         cursor: default;
     }
 
-.Navigator li.is-active::before,
-    .Navigator li.is-active::after {
+.Navigator li.is-active::before {
         opacity: 1;
     }
 
@@ -169,6 +155,17 @@
     position: absolute;
     width: 100%;
     z-index: 1;
+}
+
+.Navigator-activeIndicator {
+    background: var(--gradient-teal-blue-transparent);
+    bottom: 0;
+    display: block;
+    height: 3px;
+    left: calc(1px * var(--left, 0));
+    position: absolute;
+    transition: var(--transition);
+    width: calc(1px * var(--width, 0));
 }
 
 .Navigator-actions {
@@ -2045,8 +2042,10 @@
     --color-darker-slate: #5d7382;
 
     --color-accent-teal: #00ffba;
+    --color-accent-teal-00: #00ffba00;
     --color-accent-teal-blue: #00b2d0;
     --color-accent-blue: #006be5;
+    --color-accent-blue-00: #006be500;
     --color-accent-purple: #7f1192;
     --color-accent-pink: #b10a50;
     --color-accent-red: #e6255d;
@@ -2065,6 +2064,13 @@
         150deg,
         var(--color-accent-teal),
         var(--color-accent-blue)
+    );
+    --gradient-teal-blue-transparent: linear-gradient(
+        90deg,
+        var(--color-accent-teal-00) 0%,
+        var(--color-accent-teal) 20%,
+        var(--color-accent-blue) 80%,
+        var(--color-accent-blue-00) 100%
     );
     --gradient-light-gray: radial-gradient(
         ellipse at right,
