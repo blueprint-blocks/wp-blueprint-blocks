@@ -1822,7 +1822,7 @@
     width: fit-content;
 }
 
-.UpsellPrompt {
+.UpsellDialog {
     background: #ffffff40;
     height: 100%;
     opacity: 0;
@@ -1833,13 +1833,13 @@
     z-index: 100;
 }
 
-.UpsellPrompt.is-visible {
+.UpsellDialog.is-visible {
     -webkit-backdrop-filter: blur(4px);
             backdrop-filter: blur(4px);
     opacity: 1;
 }
 
-.UpsellPrompt-wrap {
+.UpsellDialog-wrap {
     align-items: center;
     box-sizing: border-box;
     display: grid;
@@ -1853,7 +1853,7 @@
     width: 100%;
 }
 
-.UpsellPrompt-window {
+.UpsellDialog-window {
     background: var(--color-white);
     border-radius: 9px;
     box-shadow: var(--box-shadow-low);
@@ -1869,11 +1869,11 @@
     width: 100%;
 }
 
-.UpsellPrompt.is-visible .UpsellPrompt-window {
+.UpsellDialog.is-visible .UpsellDialog-window {
     transform: scale(1);
 }
 
-.UpsellPrompt-close {
+.UpsellDialog-close {
     --color: var(--color-dark-gray);
     --background-color: var(--color-lighter-gray);
     align-items: center;
@@ -1890,8 +1890,8 @@
     width: var(--4x);
 }
 
-.UpsellPrompt-close::before,
-    .UpsellPrompt-close::after {
+.UpsellDialog-close::before,
+    .UpsellDialog-close::after {
         background: var(--color);
         content: "";
         display: block;
@@ -1902,34 +1902,34 @@
         width: 3px;
     }
 
-.UpsellPrompt-close::before {
+.UpsellDialog-close::before {
         transform: rotate(-45deg);
     }
 
-.UpsellPrompt-close::after {
+.UpsellDialog-close::after {
         transform: rotate(45deg);
     }
 
-.UpsellPrompt-close:hover {
+.UpsellDialog-close:hover {
     --color: var(--color-white);
     --background-color: var(--color-darker-gray);
 }
 
-.UpsellPrompt-content {
+.UpsellDialog-content {
     display: grid;
     gap: var(--3x);
     grid-auto-flow: row;
     width: 100%;
 }
 
-.UpsellPrompt-content p {
+.UpsellDialog-content p {
         color: var(--color-dark-gray);
         font-size: var(--font-size-large);
         font-weight: var(--font-weight-medium);
         margin: 0;
     }
 
-.UpsellPrompt-try {
+.UpsellDialog-try {
     align-items: center;
     border: 2px solid var(--color-lighter-gray);
     border-radius: 7px;
@@ -1943,7 +1943,7 @@
     width: fit-content;
 }
 
-.UpsellPrompt-try::before {
+.UpsellDialog-try::before {
         background: url("../assets/images/icon-badge.png") no-repeat center;
         background-size: contain;
         content: "";
@@ -1952,40 +1952,40 @@
         width: var(--3x);
     }
 
-.UpsellPrompt-tiles {
+.UpsellDialog-tiles {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.UpsellPrompt-tile {
+.UpsellDialog-tile {
     display: grid;
     gap: var(--3x);
     grid-auto-flow: row;
 }
 
-.UpsellPrompt-tile:nth-child(1) {
+.UpsellDialog-tile:nth-child(1) {
         border-right: 1px solid var(--color-lighter-gray);
         padding-right: var(--3x);
     }
 
-.UpsellPrompt-tile:nth-child(2) {
+.UpsellDialog-tile:nth-child(2) {
         border-left: 1px solid var(--color-lighter-gray);
         padding-left: var(--3x);
     }
 
-.UpsellPrompt-tile h3 {
+.UpsellDialog-tile h3 {
         color: var(--color-black);
         font-size: var(--font-size-large);
         margin: 0;
     }
 
-.UpsellPrompt-tile p {
+.UpsellDialog-tile p {
         color: var(--color-gray);
         font-size: var(--font-size-base);
         margin: 0;
     }
 
-.UpsellPrompt-pricing {
+.UpsellDialog-pricing {
     color: var(--color-black);
     font-size: var(--font-size-xx-large);
     font-weight: var(--font-weight-bold);
@@ -1993,14 +1993,14 @@
     vertical-align: baseline;
 }
 
-.UpsellPrompt-pricing span {
+.UpsellDialog-pricing span {
         color: var(--color-gray);
         font-size: var(--font-size-base);
         font-weight: var(--font-weight-medium);
         letter-spacing: 0;
     }
 
-.UpsellPrompt-primaryButton {
+.UpsellDialog-primaryButton {
     background: var(--gradient-teal-blue);
     border-radius: var(--7x);
     color: var(--color-white);
@@ -2013,7 +2013,7 @@
     text-align: center;
 }
 
-.UpsellPrompt-secondaryButton {
+.UpsellDialog-secondaryButton {
     background: var(--gradient-light-gray);
     border-radius: var(--7x);
     color: var(--color-black);

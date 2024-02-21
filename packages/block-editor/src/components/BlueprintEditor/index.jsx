@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useDebugRenderCount, useRect } from "../../hooks";
 import { setSize as setEditorSize } from "../../store/editor";
 import { getComponentListDepth } from "../../store/block-blueprint";
-import { showUpsellPrompt } from "../../store/upsell-prompt";
+import { showUpsellDialog } from "../../store/upsell-dialog";
 
 import BlueprintAttributeList from "../BlueprintAttributeList";
 import BlueprintBlockEdit from "../BlueprintBlockEdit";
@@ -28,7 +28,7 @@ function BlueprintEditor() {
   const wrapRect = useRect(wrapRef, null, ["height", "width"]);
 
   const onClickUpsellBanner = () => {
-    dispatch(showUpsellPrompt());
+    dispatch(showUpsellDialog());
   };
 
   useLayoutEffect(() => {

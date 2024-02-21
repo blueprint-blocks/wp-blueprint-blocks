@@ -1,29 +1,29 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
-import attributeHandles from './attribute-handles'
-import blockBlueprint from './block-blueprint'
-import blockJson from './block-json'
-import blockEditorCss from './block-editor-css'
-import blockViewCss from './block-view-css'
-import editor from './editor'
-import postMetadata from './post-metadata'
-import postType from './post-type'
-import upsellPrompt from './upsell-prompt'
+import attributeHandles from "./attribute-handles";
+import blockBlueprint from "./block-blueprint";
+import blockJson from "./block-json";
+import blockEditorCss from "./block-editor-css";
+import blockViewCss from "./block-view-css";
+import editor from "./editor";
+import postMetadata from "./post-metadata";
+import postType from "./post-type";
+import upsellDialog from "./upsell-dialog";
 
-const store = configureStore( {
-	reducer: combineReducers( {
-		attributeHandles,
-		blockBlueprint,
-		blockJson,
-		blockEditorCss,
-		blockViewCss,
-		editor,
-		postMetadata,
-		postType,
-		upsellPrompt,
-	} ),
-} )
+const store = configureStore({
+  reducer: combineReducers({
+    attributeHandles,
+    blockBlueprint,
+    blockJson,
+    blockEditorCss,
+    blockViewCss,
+    editor,
+    postMetadata,
+    postType,
+    upsellDialog,
+  }),
+});
 
-window.blueprintBlocksStore = store
+window.blueprintBlocksStore = store;
 
-export default store
+export default store;

@@ -5200,23 +5200,23 @@
 	actions$1.setPostId;
 
 	var slice = createSlice({
-	  name: 'upsellPrompt',
+	  name: "upsellDialog",
 	  initialState: {
 	    visible: false
 	  },
 	  reducers: {
-	    hideUpsellPrompt: function hideUpsellPrompt(state, action) {
+	    hideUpsellDialog: function hideUpsellDialog(state, action) {
 	      state.visible = false;
 	    },
-	    showUpsellPrompt: function showUpsellPrompt(state, action) {
+	    showUpsellDialog: function showUpsellDialog(state, action) {
 	      state.visible = true;
 	    }
 	  }
 	});
 	var actions = slice.actions,
 	  reducer = slice.reducer;
-	var hideUpsellPrompt = actions.hideUpsellPrompt,
-	  showUpsellPrompt = actions.showUpsellPrompt;
+	var hideUpsellDialog = actions.hideUpsellDialog,
+	  showUpsellDialog = actions.showUpsellDialog;
 
 	var store = configureStore({
 	  reducer: combineReducers({
@@ -5228,7 +5228,7 @@
 	    editor: reducer$3,
 	    postMetadata: reducer$2,
 	    postType: reducer$1,
-	    upsellPrompt: reducer
+	    upsellDialog: reducer
 	  })
 	});
 	window.blueprintBlocksStore = store;
@@ -11343,7 +11343,7 @@
 	  var wrapRef = React$2.useRef(null);
 	  var wrapRect = useRect(wrapRef, null, ["height", "width"]);
 	  var onClickUpsellBanner = function onClickUpsellBanner() {
-	    dispatch(showUpsellPrompt());
+	    dispatch(showUpsellDialog());
 	  };
 	  React$2.useLayoutEffect(function () {
 	    dispatch(setSize({
@@ -41600,44 +41600,44 @@
 	  });
 	}
 
-	function UpsellPrompt() {
+	function UpsellDialog() {
 	  var dispatch = useDispatch();
 	  var ref = React$2.useRef(null);
 	  var onClose = function onClose() {
 	    var _ref$current;
-	    ref === null || ref === void 0 || (_ref$current = ref.current) === null || _ref$current === void 0 || _ref$current.classList.remove('is-visible');
+	    ref === null || ref === void 0 || (_ref$current = ref.current) === null || _ref$current === void 0 || _ref$current.classList.remove("is-visible");
 	    setTimeout(function () {
-	      dispatch(hideUpsellPrompt());
+	      dispatch(hideUpsellDialog());
 	    }, 300);
 	  };
 	  React$2.useEffect(function () {
 	    setTimeout(function () {
 	      var _ref$current2;
-	      ref === null || ref === void 0 || (_ref$current2 = ref.current) === null || _ref$current2 === void 0 || _ref$current2.classList.add('is-visible');
+	      ref === null || ref === void 0 || (_ref$current2 = ref.current) === null || _ref$current2 === void 0 || _ref$current2.classList.add("is-visible");
 	    }, 50);
 	  }, []);
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    ref: ref,
-	    className: "UpsellPrompt",
+	    className: "UpsellDialog",
 	    children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	      className: "UpsellPrompt-wrap",
+	      className: "UpsellDialog-wrap",
 	      children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	        className: "UpsellPrompt-window",
+	        className: "UpsellDialog-window",
 	        children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	          className: "UpsellPrompt-close",
+	          className: "UpsellDialog-close",
 	          onClick: onClose
 	        }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	          className: "UpsellPrompt-content",
+	          className: "UpsellDialog-content",
 	          children: [/*#__PURE__*/jsxRuntimeExports.jsx(Logo, {}), /*#__PURE__*/jsxRuntimeExports.jsx("p", {
-	            children: 'Ready to level up you block building game? Blueprint Blocks is the native Gutenberg platform for web professionals that has near-zero learning curve but is extremely powerful. Transparent annual pricing with ongoing updates and support.'
+	            children: "Ready to level up you block building game? Blueprint Blocks is the native Gutenberg platform for web professionals that has near-zero learning curve but is extremely powerful. Transparent annual pricing with ongoing updates and support."
 	          }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	            className: "UpsellPrompt-try",
-	            children: 'Try Blueprint Blocks Pro risk-free for 30 days. Switch plans at any time.'
+	            className: "UpsellDialog-try",
+	            children: "Try Blueprint Blocks Pro risk-free for 30 days. Switch plans at any time."
 	          })]
 	        }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	          className: "UpsellPrompt-tiles",
+	          className: "UpsellDialog-tiles",
 	          children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	            className: "UpsellPrompt-tile",
+	            className: "UpsellDialog-tile",
 	            children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	              children: [/*#__PURE__*/jsxRuntimeExports.jsx("h3", {
 	                children: "Single Site"
@@ -41645,16 +41645,16 @@
 	                children: "Utilize all pro features on a single site."
 	              })]
 	            }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	              className: "UpsellPrompt-pricing",
+	              className: "UpsellDialog-pricing",
 	              children: ["$149 ", /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	                children: "per year"
 	              })]
 	            }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	              className: "UpsellPrompt-secondaryButton",
+	              className: "UpsellDialog-secondaryButton",
 	              children: "Upgrade Now"
 	            })]
 	          }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	            className: "UpsellPrompt-tile",
+	            className: "UpsellDialog-tile",
 	            children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	              children: [/*#__PURE__*/jsxRuntimeExports.jsx("h3", {
 	                children: "Unlimited Sites"
@@ -41662,12 +41662,12 @@
 	                children: "Utilize all pro features on unlimited sites."
 	              })]
 	            }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	              className: "UpsellPrompt-pricing",
+	              className: "UpsellDialog-pricing",
 	              children: ["$299 ", /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	                children: "per year"
 	              })]
 	            }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	              className: "UpsellPrompt-primaryButton",
+	              className: "UpsellDialog-primaryButton",
 	              children: "Upgrade Now"
 	            })]
 	          })]
@@ -41702,8 +41702,8 @@
 	  var blockViewCss = useSelector(function (state) {
 	    return state.blockViewCss.raw;
 	  });
-	  var upsellPromptIsVisible = useSelector(function (state) {
-	    return state.upsellPrompt.visible;
+	  var upsellDialogIsVisible = useSelector(function (state) {
+	    return state.upsellDialog.visible;
 	  });
 	  var onPreview = function onPreview() {};
 	  var onUpdate = function onUpdate() {
@@ -41740,7 +41740,7 @@
 	      setActiveNavItem: setActiveNavItem,
 	      onPreview: onPreview,
 	      onUpdate: onUpdate
-	    }), activeNavItem === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlockJson, {}), activeNavItem === 1 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlueprint, {}), activeNavItem === 2 && /*#__PURE__*/jsxRuntimeExports.jsx(PageViewCss, {}), activeNavItem === 3 && /*#__PURE__*/jsxRuntimeExports.jsx(PageEditorCss, {}), upsellPromptIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(UpsellPrompt, {})]
+	    }), activeNavItem === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlockJson, {}), activeNavItem === 1 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlueprint, {}), activeNavItem === 2 && /*#__PURE__*/jsxRuntimeExports.jsx(PageViewCss, {}), activeNavItem === 3 && /*#__PURE__*/jsxRuntimeExports.jsx(PageEditorCss, {}), upsellDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(UpsellDialog, {})]
 	  });
 	}
 
