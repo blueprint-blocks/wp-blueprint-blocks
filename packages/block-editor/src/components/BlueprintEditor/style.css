@@ -41,17 +41,6 @@
     }
 }
 
-.BlueprintEditor-bannerCta {
-    background: var(--gradient-teal-blue);
-    border-radius: var(--6x);
-    color: var(--color-white);
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-bold);
-    height: var(--6x);
-    line-height: var(--6x);
-    padding: 0 var(--3x);
-}
-
 .BlueprintEditor-scroll {
     height: 100%;
     overflow: auto;

@@ -1,9 +1,10 @@
 .Button {
+    --size: var(--5x);
     -webkit-appearance: none;
        -moz-appearance: none;
             appearance: none;
-    background: var(--color-white);
-    border: 1px solid var(--color-light-gray);
+    background: var(--gradient-light-gray);
+    border: 0;
     border-radius: 5px;
     color: var(--color-black);
     cursor: pointer;
@@ -12,8 +13,9 @@
     grid-template-columns: max-content;
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-semi-bold);
-    height: var(--5x);
-    line-height: calc(var(--5x) - 2px);
+    height: var(--size);
+    justify-content: center;
+    line-height: var(--size);
     overflow: hidden;
     padding: 0 var(--3x);
     position: relative;
@@ -24,10 +26,32 @@
         border-color: var(--color-dark-gray);
     }
 
+.Button.is-rounded {
+    border-radius: var(--size);
+}
+
+.Button.is-large {
+    --size: var(--6x);
+    font-weight: var(--font-weight-bold);
+}
+
+.Button.is-x-large {
+    --size: var(--7x);
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-semi-bold);
+}
+
+.Button.is-outline {
+    background: var(--color-white);
+    border: 1px solid var(--color-light-gray);
+    color: var(--color-black);
+    line-height: calc(var(--size) - 2px);
+}
+
 .Button.is-primary {
     background: transparent;
-    border-color: transparent;
     color: var(--color-white);
+    transition: var(--transition);
 }
 
 .Button.is-primary::before,
@@ -41,7 +65,7 @@
         top: 50%;
         transform: translate(-50%, -50%);
         transform-origin: center;
-        transition: var(--transition-slow);
+        transition: var(--transition);
         width: 100%;
         z-index: -1;
     }
@@ -52,10 +76,7 @@
         animation-name: blueprint-blocks-block-editor-button-primary-background-rotate;
         animation-timing-function: linear;
         opacity: 0;
-    }
-
-.Button.is-primary:hover::before {
-        opacity: 0;
+        transition: var(--transition-slow);
     }
 
 .Button.is-primary:hover::after {
@@ -63,14 +84,13 @@
     }
 
 .Button.is-primary.is-disabled {
-    background: var(--gradient-light-gray);
-    border-color: var(--color-gray);
+    background: var(--gradient-gray);
     color: var(--color-black);
 }
 
 .Button.is-primary.is-disabled::before,
     .Button.is-primary.is-disabled::after {
-        display: none;
+        opacity: 0;
     }
 
 @keyframes blueprint-blocks-block-editor-button-primary-background-rotate {
@@ -1432,17 +1452,6 @@
         background: #ffffff;
     }
 
-.BlueprintEditor-bannerCta {
-    background: var(--gradient-teal-blue);
-    border-radius: var(--6x);
-    color: var(--color-white);
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-bold);
-    height: var(--6x);
-    line-height: var(--6x);
-    padding: 0 var(--3x);
-}
-
 .BlueprintEditor-scroll {
     height: 100%;
     overflow: auto;
@@ -2370,32 +2379,6 @@
         letter-spacing: 0;
     }
 
-.UpsellDialog-primaryButton {
-    background: var(--gradient-teal-blue);
-    border-radius: var(--7x);
-    color: var(--color-white);
-    cursor: pointer;
-    font-size: var(--font-size-large);
-    font-weight: var(--font-weight-semi-bold);
-    height: var(--7x);
-    line-height: var(--7x);
-    padding: 0 var(--3x);
-    text-align: center;
-}
-
-.UpsellDialog-secondaryButton {
-    background: var(--gradient-light-gray);
-    border-radius: var(--7x);
-    color: var(--color-black);
-    cursor: pointer;
-    font-size: var(--font-size-large);
-    font-weight: var(--font-weight-semi-bold);
-    height: var(--7x);
-    line-height: var(--7x);
-    padding: 0 var(--3x);
-    text-align: center;
-}
-
 .App {
     --1x: 8px;
     --2x: 16px;
@@ -2456,10 +2439,15 @@
         var(--color-accent-blue) 80%,
         var(--color-accent-blue-00) 100%
     );
-    --gradient-light-gray: linear-gradient(
+    --gradient-gray: linear-gradient(
         150deg,
         var(--color-lighter-gray),
         var(--color-gray)
+    );
+    --gradient-light-gray: linear-gradient(
+        150deg,
+        var(--color-lighter-gray),
+        var(--color-light-gray)
     );
     --gradient-white: linear-gradient(
         150deg,

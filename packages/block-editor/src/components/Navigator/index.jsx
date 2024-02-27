@@ -67,7 +67,7 @@ function Navigator({ activeNavItem, setActiveNavItem, onUpdate }) {
       <div className="Navigator-actions">
         <Button
           disabled={isUpdateDisabled}
-          label={"Update"}
+          label={"Save Changes"}
           onClick={onUpdate}
           style="primary"
         />

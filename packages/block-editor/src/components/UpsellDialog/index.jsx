@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import Button from "../Button";
 import Logo from "../Logo";
 
 import { hideUpsellDialog } from "../../store/upsell-dialog";
@@ -58,7 +59,7 @@ function UpsellDialog() {
                 $149 <span>per year</span>
               </div>
 
-              <div className="UpsellDialog-secondaryButton">Upgrade Now</div>
+              <Button label={"Upgrade Now"} style={["x-large", "rounded"]} />
             </div>
             <div className="UpsellDialog-tile">
               <div>
@@ -70,7 +71,10 @@ function UpsellDialog() {
                 $299 <span>per year</span>
               </div>
 
-              <div className="UpsellDialog-primaryButton">Upgrade Now</div>
+              <Button
+                label={"Upgrade Now"}
+                style={["x-large", "primary", "rounded"]}
+              />
             </div>
           </div>
         </div>

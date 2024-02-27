@@ -58,10 +58,15 @@
         var(--color-accent-blue) 80%,
         var(--color-accent-blue-00) 100%
     );
-    --gradient-light-gray: linear-gradient(
+    --gradient-gray: linear-gradient(
         150deg,
         var(--color-lighter-gray),
         var(--color-gray)
+    );
+    --gradient-light-gray: linear-gradient(
+        150deg,
+        var(--color-lighter-gray),
+        var(--color-light-gray)
     );
     --gradient-white: linear-gradient(
         150deg,

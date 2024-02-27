@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { useMemo } from "react";
 
 import "./style.css";
 
@@ -9,9 +10,17 @@ const Button = ({
   onClick,
   style = "secondary",
 }) => {
+  const styles = useMemo(
+    () =>
+      ((Array.isArray(style) && style) || [style]).map(
+        (style) => `is-${style}`,
+      ),
+    [style],
+  );
+
   return (
     <button
-      className={classNames("Button", `is-${style}`, {
+      className={classNames("Button", styles, {
         "is-disabled": disabled,
       })}
       onClick={(event) => !disabled && onClick(event)}

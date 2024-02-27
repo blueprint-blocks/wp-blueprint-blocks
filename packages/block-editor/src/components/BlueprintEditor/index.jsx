@@ -10,6 +10,7 @@ import BlueprintAttributeList from "../BlueprintAttributeList";
 import BlueprintBlockEdit from "../BlueprintBlockEdit";
 import BlueprintConnections from "../BlueprintConnections";
 import BlueprintColumn from "../BlueprintColumn";
+import Button from "../Button";
 
 import "./style.css";
 import "./style-debug.css";
@@ -69,7 +70,7 @@ function BlueprintEditor() {
       </div>
       <div className="BlueprintEditor-banner" onClick={onClickUpsellBanner}>
         <p>Ready to level up with advanced features?</p>
-        <div className="BlueprintEditor-bannerCta">{"Learn More"}</div>
+        <Button label={"Learn More"} style={["large", "primary", "rounded"]} />
       </div>
     </div>
   );

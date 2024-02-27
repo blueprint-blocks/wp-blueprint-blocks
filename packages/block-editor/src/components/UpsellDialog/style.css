@@ -173,29 +173,3 @@
         letter-spacing: 0;
     }
 }
-
-.UpsellDialog-primaryButton {
-    background: var(--gradient-teal-blue);
-    border-radius: var(--7x);
-    color: var(--color-white);
-    cursor: pointer;
-    font-size: var(--font-size-large);
-    font-weight: var(--font-weight-semi-bold);
-    height: var(--7x);
-    line-height: var(--7x);
-    padding: 0 var(--3x);
-    text-align: center;
-}
-
-.UpsellDialog-secondaryButton {
-    background: var(--gradient-light-gray);
-    border-radius: var(--7x);
-    color: var(--color-black);
-    cursor: pointer;
-    font-size: var(--font-size-large);
-    font-weight: var(--font-weight-semi-bold);
-    height: var(--7x);
-    line-height: var(--7x);
-    padding: 0 var(--3x);
-    text-align: center;
-}

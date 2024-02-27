@@ -6931,8 +6931,13 @@
 	    _onClick = _ref.onClick,
 	    _ref$style = _ref.style,
 	    style = _ref$style === void 0 ? "secondary" : _ref$style;
+	  var styles = React$2.useMemo(function () {
+	    return (Array.isArray(style) && style || [style]).map(function (style) {
+	      return "is-".concat(style);
+	    });
+	  }, [style]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("button", {
-	    className: classNames("Button", "is-".concat(style), {
+	    className: classNames("Button", styles, {
 	      "is-disabled": disabled
 	    }),
 	    onClick: function onClick(event) {
@@ -7001,7 +7006,7 @@
 	      className: "Navigator-actions",
 	      children: /*#__PURE__*/jsxRuntimeExports.jsx(Button, {
 	        disabled: isUpdateDisabled,
-	        label: "Update",
+	        label: "Save Changes",
 	        onClick: onUpdate,
 	        style: "primary"
 	      })
@@ -11690,9 +11695,9 @@
 	      onClick: onClickUpsellBanner,
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("p", {
 	        children: "Ready to level up with advanced features?"
-	      }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	        className: "BlueprintEditor-bannerCta",
-	        children: "Learn More"
+	      }), /*#__PURE__*/jsxRuntimeExports.jsx(Button, {
+	        label: "Learn More",
+	        style: ["large", "primary", "rounded"]
 	      })]
 	    })]
 	  });
@@ -42056,9 +42061,9 @@
 	              children: ["$149 ", /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	                children: "per year"
 	              })]
-	            }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	              className: "UpsellDialog-secondaryButton",
-	              children: "Upgrade Now"
+	            }), /*#__PURE__*/jsxRuntimeExports.jsx(Button, {
+	              label: "Upgrade Now",
+	              style: ["x-large", "rounded"]
 	            })]
 	          }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	            className: "UpsellDialog-tile",
@@ -42073,9 +42078,9 @@
 	              children: ["$299 ", /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	                children: "per year"
 	              })]
-	            }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	              className: "UpsellDialog-primaryButton",
-	              children: "Upgrade Now"
+	            }), /*#__PURE__*/jsxRuntimeExports.jsx(Button, {
+	              label: "Upgrade Now",
+	              style: ["x-large", "primary", "rounded"]
 	            })]
 	          })]
 	        })]
