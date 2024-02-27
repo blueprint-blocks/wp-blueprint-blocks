@@ -5338,6 +5338,10 @@
 	  setSize = actions$4.setSize,
 	  unsetFocus = actions$4.unsetFocus;
 
+	var hasUnsavedChanges = function hasUnsavedChanges(state, context) {
+	  return state.changed === true;
+	};
+
 	var _blueprintBlocksEdito$6 = blueprintBlocksEditorSettings,
 	  _blueprintBlocksEdito2$4 = _blueprintBlocksEdito$6.postMetadata,
 	  postMetadata = _blueprintBlocksEdito2$4 === void 0 ? {} : _blueprintBlocksEdito2$4;
@@ -6961,8 +6965,8 @@
 	  var activeIndicatorRect = React$2.useMemo(function () {
 	    return navItemRects[activeNavItem];
 	  }, [navItemRects]);
-	  var hasUnsavedChanges = useSelector(function (state) {
-	    return hasUnsavedChanges(state.postMetadata);
+	  var isUpdateDisabled = useSelector(function (state) {
+	    return !hasUnsavedChanges(state.postMetadata);
 	  });
 	  React$2.useLayoutEffect(function () {
 	    dispatch(setNavRect(rect));
@@ -6996,7 +7000,7 @@
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "Navigator-actions",
 	      children: /*#__PURE__*/jsxRuntimeExports.jsx(Button, {
-	        disabled: !hasUnsavedChanges,
+	        disabled: isUpdateDisabled,
 	        label: "Update",
 	        onClick: onUpdate,
 	        style: "primary"

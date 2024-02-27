@@ -28,8 +28,8 @@ function Navigator({ activeNavItem, setActiveNavItem, onUpdate }) {
     [navItemRects],
   );
 
-  const hasUnsavedChanges = useSelector((state) =>
-    hasUnsavedChanges(state.postMetadata),
+  const isUpdateDisabled = useSelector(
+    (state) => !hasUnsavedChanges(state.postMetadata),
   );
 
   useLayoutEffect(() => {
@@ -66,7 +66,7 @@ function Navigator({ activeNavItem, setActiveNavItem, onUpdate }) {
       </ul>
       <div className="Navigator-actions">
         <Button
-          disabled={!hasUnsavedChanges}
+          disabled={isUpdateDisabled}
           label={"Update"}
           onClick={onUpdate}
           style="primary"
