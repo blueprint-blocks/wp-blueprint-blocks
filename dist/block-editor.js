@@ -4726,7 +4726,7 @@
 	  };
 	};
 
-	var _blueprintBlocksEdito$9;
+	var _blueprintBlocksEdito$a;
 	var _excluded$a = ["children"];
 	var blockComponents = {};
 	function parseComponentTree() {
@@ -4752,7 +4752,7 @@
 	  });
 	  return clientIds;
 	}
-	var _ref2 = ((_blueprintBlocksEdito$9 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$9 === void 0 ? void 0 : _blueprintBlocksEdito$9.blockMetadata) || {},
+	var _ref2 = ((_blueprintBlocksEdito$a = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$a === void 0 ? void 0 : _blueprintBlocksEdito$a.blockMetadata) || {},
 	  _ref2$blockBlueprint = _ref2.blockBlueprint,
 	  blockBlueprint = _ref2$blockBlueprint === void 0 ? {} : _ref2$blockBlueprint;
 	var blockEdit = parseComponentTree((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockEdit) || []);
@@ -5160,7 +5160,7 @@
 	  return "wp-block-".concat(delimiterize(name));
 	};
 
-	var _blueprintBlocksEdito$8;
+	var _blueprintBlocksEdito$9;
 	function getUniqueAttributeName() {
 	  var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "attribute";
 	  var allNames = arguments.length > 1 ? arguments[1] : undefined;
@@ -5173,7 +5173,7 @@
 	  return indexedName;
 	}
 	var ALLOWED_ATTRIBUTE_TYPES = ["array", "number", "string", "object"];
-	var _ref$2 = ((_blueprintBlocksEdito$8 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$8 === void 0 ? void 0 : _blueprintBlocksEdito$8.blockMetadata) || {},
+	var _ref$2 = ((_blueprintBlocksEdito$9 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$9 === void 0 ? void 0 : _blueprintBlocksEdito$9.blockMetadata) || {},
 	  _ref$blockJson = _ref$2.blockJson,
 	  blockJson = _ref$blockJson === void 0 ? {} : _ref$blockJson;
 	var slice$7 = createSlice({
@@ -5263,9 +5263,9 @@
 	  setSupportsProperty = actions$7.setSupportsProperty,
 	  setTitle = actions$7.setTitle;
 
-	var _blueprintBlocksEdito$7 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$5 = _blueprintBlocksEdito$7.blockMetadata,
-	  blockMetadata$1 = _blueprintBlocksEdito2$5 === void 0 ? {} : _blueprintBlocksEdito2$5;
+	var _blueprintBlocksEdito$8 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$6 = _blueprintBlocksEdito$8.blockMetadata,
+	  blockMetadata$1 = _blueprintBlocksEdito2$6 === void 0 ? {} : _blueprintBlocksEdito2$6;
 	var slice$6 = createSlice({
 	  name: 'blockEditorCss',
 	  initialState: {
@@ -5281,9 +5281,9 @@
 	  reducer$6 = slice$6.reducer;
 	var setEditorCss = actions$6.setEditorCss;
 
-	var _blueprintBlocksEdito$6 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$4 = _blueprintBlocksEdito$6.blockMetadata,
-	  blockMetadata = _blueprintBlocksEdito2$4 === void 0 ? {} : _blueprintBlocksEdito2$4;
+	var _blueprintBlocksEdito$7 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$5 = _blueprintBlocksEdito$7.blockMetadata,
+	  blockMetadata = _blueprintBlocksEdito2$5 === void 0 ? {} : _blueprintBlocksEdito2$5;
 	var slice$5 = createSlice({
 	  name: 'blockViewCss',
 	  initialState: {
@@ -5338,15 +5338,19 @@
 	  setSize = actions$4.setSize,
 	  unsetFocus = actions$4.unsetFocus;
 
-	var _blueprintBlocksEdito$5 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$3 = _blueprintBlocksEdito$5.postMetadata,
-	  postMetadata = _blueprintBlocksEdito2$3 === void 0 ? {} : _blueprintBlocksEdito2$3;
+	var _blueprintBlocksEdito$6 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$4 = _blueprintBlocksEdito$6.postMetadata,
+	  postMetadata = _blueprintBlocksEdito2$4 === void 0 ? {} : _blueprintBlocksEdito2$4;
 	var slice$3 = createSlice({
-	  name: 'postMetadata',
+	  name: "postMetadata",
 	  initialState: _objectSpread2(_objectSpread2({}, postMetadata), {}, {
-	    postId: (postMetadata === null || postMetadata === void 0 ? void 0 : postMetadata.postId) || null
+	    postId: (postMetadata === null || postMetadata === void 0 ? void 0 : postMetadata.postId) || null,
+	    changed: false
 	  }),
 	  reducers: {
+	    setChanged: function setChanged(state, action) {
+	      state.changed = !!(action !== null && action !== void 0 && action.payload) || false;
+	    },
 	    setPostId: function setPostId(state, action) {
 	      state.postId = (action === null || action === void 0 ? void 0 : action.payload) || null;
 	    }
@@ -5354,11 +5358,12 @@
 	});
 	var actions$3 = slice$3.actions,
 	  reducer$3 = slice$3.reducer;
-	var setPostId = actions$3.setPostId;
+	var setChanged = actions$3.setChanged,
+	  setPostId = actions$3.setPostId;
 
-	var _blueprintBlocksEdito$4 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$2 = _blueprintBlocksEdito$4.postType,
-	  postType = _blueprintBlocksEdito2$2 === void 0 ? {} : _blueprintBlocksEdito2$2;
+	var _blueprintBlocksEdito$5 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$3 = _blueprintBlocksEdito$5.postType,
+	  postType = _blueprintBlocksEdito2$3 === void 0 ? {} : _blueprintBlocksEdito2$3;
 	var slice$2 = createSlice({
 	  name: 'postType',
 	  initialState: _objectSpread2(_objectSpread2({}, postType), {}, {
@@ -5429,6 +5434,72 @@
 	  })
 	});
 	window.blueprintBlocksStore = store;
+
+	var classnames = {exports: {}};
+
+	/*!
+		Copyright (c) 2018 Jed Watson.
+		Licensed under the MIT License (MIT), see
+		http://jedwatson.github.io/classnames
+	*/
+
+	(function (module) {
+		/* global define */
+
+		(function () {
+
+		  var hasOwn = {}.hasOwnProperty;
+		  function classNames() {
+		    var classes = '';
+		    for (var i = 0; i < arguments.length; i++) {
+		      var arg = arguments[i];
+		      if (arg) {
+		        classes = appendClass(classes, parseValue(arg));
+		      }
+		    }
+		    return classes;
+		  }
+		  function parseValue(arg) {
+		    if (typeof arg === 'string' || typeof arg === 'number') {
+		      return arg;
+		    }
+		    if (typeof arg !== 'object') {
+		      return '';
+		    }
+		    if (Array.isArray(arg)) {
+		      return classNames.apply(null, arg);
+		    }
+		    if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
+		      return arg.toString();
+		    }
+		    var classes = '';
+		    for (var key in arg) {
+		      if (hasOwn.call(arg, key) && arg[key]) {
+		        classes = appendClass(classes, key);
+		      }
+		    }
+		    return classes;
+		  }
+		  function appendClass(value, newClass) {
+		    if (!newClass) {
+		      return value;
+		    }
+		    if (value) {
+		      return value + ' ' + newClass;
+		    }
+		    return value + newClass;
+		  }
+		  if (module.exports) {
+		    classNames.default = classNames;
+		    module.exports = classNames;
+		  } else {
+		    window.classNames = classNames;
+		  }
+		})(); 
+	} (classnames));
+
+	var classnamesExports = classnames.exports;
+	var classNames = /*@__PURE__*/getDefaultExportFromCjs(classnamesExports);
 
 	var _excluded$8 = ["id"],
 	  _excluded2$1 = ["id"];
@@ -5702,72 +5773,6 @@
 	    };
 	  }, [ref, handler]);
 	}
-
-	var classnames = {exports: {}};
-
-	/*!
-		Copyright (c) 2018 Jed Watson.
-		Licensed under the MIT License (MIT), see
-		http://jedwatson.github.io/classnames
-	*/
-
-	(function (module) {
-		/* global define */
-
-		(function () {
-
-		  var hasOwn = {}.hasOwnProperty;
-		  function classNames() {
-		    var classes = '';
-		    for (var i = 0; i < arguments.length; i++) {
-		      var arg = arguments[i];
-		      if (arg) {
-		        classes = appendClass(classes, parseValue(arg));
-		      }
-		    }
-		    return classes;
-		  }
-		  function parseValue(arg) {
-		    if (typeof arg === 'string' || typeof arg === 'number') {
-		      return arg;
-		    }
-		    if (typeof arg !== 'object') {
-		      return '';
-		    }
-		    if (Array.isArray(arg)) {
-		      return classNames.apply(null, arg);
-		    }
-		    if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
-		      return arg.toString();
-		    }
-		    var classes = '';
-		    for (var key in arg) {
-		      if (hasOwn.call(arg, key) && arg[key]) {
-		        classes = appendClass(classes, key);
-		      }
-		    }
-		    return classes;
-		  }
-		  function appendClass(value, newClass) {
-		    if (!newClass) {
-		      return value;
-		    }
-		    if (value) {
-		      return value + ' ' + newClass;
-		    }
-		    return value + newClass;
-		  }
-		  if (module.exports) {
-		    classNames.default = classNames;
-		    module.exports = classNames;
-		  } else {
-		    window.classNames = classNames;
-		  }
-		})(); 
-	} (classnames));
-
-	var classnamesExports = classnames.exports;
-	var classNames = /*@__PURE__*/getDefaultExportFromCjs(classnamesExports);
 
 	var jsxRuntime = {exports: {}};
 
@@ -6916,13 +6921,19 @@
 
 	var Button = function Button(_ref) {
 	  var children = _ref.children,
+	    _ref$disabled = _ref.disabled,
+	    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
 	    label = _ref.label,
-	    onClick = _ref.onClick,
+	    _onClick = _ref.onClick,
 	    _ref$style = _ref.style,
 	    style = _ref$style === void 0 ? "secondary" : _ref$style;
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("button", {
-	    className: classNames("Button", "is-".concat(style)),
-	    onClick: onClick,
+	    className: classNames("Button", "is-".concat(style), {
+	      "is-disabled": disabled
+	    }),
+	    onClick: function onClick(event) {
+	      return !disabled && _onClick(event);
+	    },
 	    children: [children && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	      children: children
 	    }), label && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
@@ -6931,9 +6942,9 @@
 	  });
 	};
 
-	var _blueprintBlocksEdito$3 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$1 = _blueprintBlocksEdito$3.pluginMetadata,
-	  pluginMetadata$1 = _blueprintBlocksEdito2$1 === void 0 ? {} : _blueprintBlocksEdito2$1;
+	var _blueprintBlocksEdito$4 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$2 = _blueprintBlocksEdito$4.pluginMetadata,
+	  pluginMetadata$2 = _blueprintBlocksEdito2$2 === void 0 ? {} : _blueprintBlocksEdito2$2;
 	function Navigator(_ref) {
 	  var activeNavItem = _ref.activeNavItem,
 	    setActiveNavItem = _ref.setActiveNavItem,
@@ -6951,6 +6962,9 @@
 	  var activeIndicatorRect = React$2.useMemo(function () {
 	    return navItemRects[activeNavItem];
 	  }, [navItemRects]);
+	  var hasUnsavedChanges = useSelector(function (state) {
+	    return state.postMetadata.changed;
+	  });
 	  React$2.useLayoutEffect(function () {
 	    dispatch(setNavRect(rect));
 	  }, [rect]);
@@ -6969,7 +6983,7 @@
 	          },
 	          children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	            children: [icon && /*#__PURE__*/jsxRuntimeExports.jsx("img", {
-	              src: "".concat(pluginMetadata$1 === null || pluginMetadata$1 === void 0 ? void 0 : pluginMetadata$1.url, "/assets/images/font-awesome/").concat(icon, ".svg")
+	              src: "".concat(pluginMetadata$2 === null || pluginMetadata$2 === void 0 ? void 0 : pluginMetadata$2.url, "/assets/images/font-awesome/").concat(icon, ".svg")
 	            }), label]
 	          })
 	        }, index);
@@ -6983,11 +6997,12 @@
 	    }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	      className: "Navigator-actions",
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsx(Button, {
-	        onClick: onPreview,
-	        label: "Preview"
+	        label: "Preview",
+	        onClick: onPreview
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx(Button, {
-	        onClick: onUpdate,
+	        disabled: !hasUnsavedChanges,
 	        label: "Update",
+	        onClick: onUpdate,
 	        style: "primary"
 	      })]
 	    })]
@@ -8329,9 +8344,6 @@
 	  var _width = React$2.useMemo(function () {
 	    return getObjectProperty(tooltips, "".concat(data, ".width")) || width;
 	  }, [data, width]);
-	  if (_label === "Block Name") {
-	    console.log(rect, _position);
-	  }
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: "Tooltip",
@@ -8382,6 +8394,7 @@
 	    blockName = _useSelector2$2 === void 0 ? "" : _useSelector2$2;
 	  var setBlockName = function setBlockName(newBlockName) {
 	    dispatch(setName("".concat(blockNamespace, "/").concat(delimiterize(newBlockName))));
+	    dispatch(setChanged(true));
 	  };
 	  var setBlockNamespace = function setBlockNamespace(newBlockNamespace) {
 	    if (newBlockNamespace === "") {
@@ -8389,6 +8402,7 @@
 	    } else {
 	      dispatch(setName("".concat(delimiterize(newBlockNamespace), "/").concat(blockName)));
 	    }
+	    dispatch(setChanged(true));
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    className: "BlockNameField",
@@ -8539,6 +8553,7 @@
 	      property: property,
 	      value: value
 	    }));
+	    dispatch(setChanged(true));
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    className: "BlockSupportsField",
@@ -8937,8 +8952,8 @@
 	  });
 	}
 
-	var _blueprintBlocksEdito$2;
-	var _ref$1 = ((_blueprintBlocksEdito$2 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$2 === void 0 ? void 0 : _blueprintBlocksEdito$2.blockMetadata) || {};
+	var _blueprintBlocksEdito$3;
+	var _ref$1 = ((_blueprintBlocksEdito$3 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$3 === void 0 ? void 0 : _blueprintBlocksEdito$3.blockMetadata) || {};
 	  _ref$1.blockNamespace;
 	function PageBlockJson() {
 	  var dispatch = useDispatch();
@@ -8947,18 +8962,23 @@
 	  });
 	  var setBlockDescription = function setBlockDescription(description) {
 	    dispatch(setDescription(description));
+	    dispatch(setChanged(true));
 	  };
 	  var setBlockCategory = function setBlockCategory(category) {
 	    dispatch(setCategory(category));
+	    dispatch(setChanged(true));
 	  };
 	  var setBlockIcon = function setBlockIcon(icon) {
 	    dispatch(setIcon(icon));
+	    dispatch(setChanged(true));
 	  };
 	  var setBlockKeywords = function setBlockKeywords(keywords) {
 	    dispatch(setKeywords(keywords));
+	    dispatch(setChanged(true));
 	  };
 	  var setBlockTitle = function setBlockTitle(title) {
 	    dispatch(setTitle(title));
+	    dispatch(setChanged(true));
 	  };
 	  var _useFocus = useFocus([]),
 	    _useFocus2 = _slicedToArray(_useFocus, 3),
@@ -11678,9 +11698,9 @@
 	  });
 	}
 
-	var _blueprintBlocksEdito$1 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2 = _blueprintBlocksEdito$1.pluginMetadata,
-	  pluginMetadata = _blueprintBlocksEdito2 === void 0 ? {} : _blueprintBlocksEdito2;
+	var _blueprintBlocksEdito$2 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$1 = _blueprintBlocksEdito$2.pluginMetadata,
+	  pluginMetadata$1 = _blueprintBlocksEdito2$1 === void 0 ? {} : _blueprintBlocksEdito2$1;
 	function BlueprintSidebarItem(_ref) {
 	  var icon = _ref.icon,
 	    label = _ref.label,
@@ -11727,7 +11747,7 @@
 	    children: [icon && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintSidebarItem-icon",
 	      children: /*#__PURE__*/jsxRuntimeExports.jsx("img", {
-	        src: "".concat(pluginMetadata === null || pluginMetadata === void 0 ? void 0 : pluginMetadata.url, "/assets/images/font-awesome/").concat(icon, ".svg")
+	        src: "".concat(pluginMetadata$1 === null || pluginMetadata$1 === void 0 ? void 0 : pluginMetadata$1.url, "/assets/images/font-awesome/").concat(icon, ".svg")
 	      })
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintSidebarItem-label",
@@ -11750,7 +11770,7 @@
 	        children: [icon && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	          className: "BlueprintSidebarItem-icon",
 	          children: /*#__PURE__*/jsxRuntimeExports.jsx("img", {
-	            src: "".concat(pluginMetadata === null || pluginMetadata === void 0 ? void 0 : pluginMetadata.url, "/assets/images/font-awesome/").concat(icon, ".svg")
+	            src: "".concat(pluginMetadata$1 === null || pluginMetadata$1 === void 0 ? void 0 : pluginMetadata$1.url, "/assets/images/font-awesome/").concat(icon, ".svg")
 	          })
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	          className: "BlueprintSidebarItem-label",
@@ -41681,8 +41701,8 @@
 	  });
 	});
 
-	var _blueprintBlocksEdito;
-	var _ref = ((_blueprintBlocksEdito = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito === void 0 ? void 0 : _blueprintBlocksEdito.themeMetadata) || {},
+	var _blueprintBlocksEdito$1;
+	var _ref = ((_blueprintBlocksEdito$1 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$1 === void 0 ? void 0 : _blueprintBlocksEdito$1.themeMetadata) || {},
 	  _ref$cssVariables = _ref.cssVariables,
 	  cssVariables = _ref$cssVariables === void 0 ? {} : _ref$cssVariables;
 	var VARIABLE_GROUPS = [{
@@ -41880,7 +41900,11 @@
 	  });
 	}
 
+	var _blueprintBlocksEdito = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2 = _blueprintBlocksEdito.pluginMetadata,
+	  pluginMetadata = _blueprintBlocksEdito2 === void 0 ? {} : _blueprintBlocksEdito2;
 	function SaveDialog() {
+	  var _validationResults$bl, _validationResults$bl2;
 	  var dispatch = useDispatch();
 	  var ref = React$2.useRef(null);
 	  var _useState = React$2.useState(false),
@@ -41940,13 +41964,28 @@
 	          className: "SaveDialog-content",
 	          children: [isLoading && /*#__PURE__*/jsxRuntimeExports.jsx(LoadingIcon, {}), !isLoading && isValid && /*#__PURE__*/jsxRuntimeExports.jsx("p", {
 	            children: "Successfully saved."
-	          }), validationResults && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	            children: validationResults.blockJson.errors.map(function (_ref) {
-	              var warningMessage = _ref.warningMessage;
-	              return /*#__PURE__*/jsxRuntimeExports.jsx("p", {
-	                children: warningMessage
-	              });
-	            })
+	          }), !isValid && validationResults && /*#__PURE__*/jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, {
+	            children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	              children: [/*#__PURE__*/jsxRuntimeExports.jsx("img", {
+	                className: "SaveDialog-icon",
+	                src: "".concat(pluginMetadata === null || pluginMetadata === void 0 ? void 0 : pluginMetadata.url, "/assets/images/icon-warning.svg")
+	              }), /*#__PURE__*/jsxRuntimeExports.jsx("h1", {
+	                children: "Error while saving"
+	              }), /*#__PURE__*/jsxRuntimeExports.jsx("p", {
+	                children: "There are a few problems to address before this block can be saved."
+	              })]
+	            }), /*#__PURE__*/jsxRuntimeExports.jsx("hr", {}), (validationResults === null || validationResults === void 0 || (_validationResults$bl = validationResults.blockJson) === null || _validationResults$bl === void 0 || (_validationResults$bl = _validationResults$bl.errors) === null || _validationResults$bl === void 0 ? void 0 : _validationResults$bl.length) > 0 && /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	              children: [/*#__PURE__*/jsxRuntimeExports.jsx("h3", {
+	                children: "Block.json"
+	              }), /*#__PURE__*/jsxRuntimeExports.jsx("ul", {
+	                children: validationResults === null || validationResults === void 0 || (_validationResults$bl2 = validationResults.blockJson) === null || _validationResults$bl2 === void 0 ? void 0 : _validationResults$bl2.errors.map(function (_ref) {
+	                  var warningMessage = _ref.warningMessage;
+	                  return /*#__PURE__*/jsxRuntimeExports.jsx("li", {
+	                    children: warningMessage
+	                  });
+	                })
+	              })]
+	            })]
 	          })]
 	        })]
 	      })
@@ -42108,7 +42147,9 @@
 	  }, [appRect]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
-	    className: "App",
+	    className: classNames("App", {
+	      "is-debug": undefined === "development"
+	    }),
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(Navigator, {
 	      activeNavItem: activeNavItem,
 	      setActiveNavItem: setActiveNavItem,

@@ -1,12 +1,13 @@
+import classNames from "classnames";
 import { useLayoutEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { saveNewBlock, updateBlock } from "../../api";
 import { useRect } from "../../hooks";
 import { setRect as setAppRect } from "../../store/app";
-import { showSaveDialog } from "../../store/save-dialog";
 import { getRawJson as getRawBlueprintJson } from "../../store/block-blueprint";
 import { setPostId } from "../../store/post-metadata";
+import { showSaveDialog } from "../../store/save-dialog";
 
 import Navigator from "../Navigator";
 import PageBlockJson from "../PageBlockJson";
@@ -81,17 +82,13 @@ function App() {
     dispatch(setAppRect(appRect));
   }, [appRect]);
 
-  if (process.env.NODE_ENV === "development") {
-    useLayoutEffect(() => {
-      ref.current.classList.toggle(
-        "is-debug",
-        process.env.NODE_ENV === "development",
-      );
-    }, [process.env.NODE_ENV]);
-  }
-
   return (
-    <div ref={ref} className="App">
+    <div
+      ref={ref}
+      className={classNames("App", {
+        "is-debug": process.env.NODE_ENV === "development",
+      })}
+    >
       <Navigator
         activeNavItem={activeNavItem}
         setActiveNavItem={setActiveNavItem}

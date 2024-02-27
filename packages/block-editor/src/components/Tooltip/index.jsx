@@ -56,10 +56,6 @@ function Tooltip({
     [data, width],
   );
 
-  if (_label === "Block Name") {
-    console.log(rect, _position);
-  }
-
   return (
     <div ref={ref} className="Tooltip" style={{ "--width": _width }}>
       <span>{"?"}</span>

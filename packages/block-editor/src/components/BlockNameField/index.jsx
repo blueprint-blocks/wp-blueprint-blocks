@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { delimiterize } from "../../functions";
 import { setName } from "../../store/block-json";
+import { setChanged } from "../../store/post-metadata";
 
 import EditableString from "../EditableString";
 import Tooltip from "../Tooltip";
@@ -17,6 +18,7 @@ const BlockNameField = () => {
 
   const setBlockName = (newBlockName) => {
     dispatch(setName(`${blockNamespace}/${delimiterize(newBlockName)}`));
+    dispatch(setChanged(true));
   };
 
   const setBlockNamespace = (newBlockNamespace) => {
@@ -25,6 +27,7 @@ const BlockNameField = () => {
     } else {
       dispatch(setName(`${delimiterize(newBlockNamespace)}/${blockName}`));
     }
+    dispatch(setChanged(true));
   };
 
   return (

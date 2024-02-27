@@ -10,6 +10,8 @@ import {
   setTitle,
 } from "../../store/block-json";
 
+import { setChanged } from "../../store/post-metadata";
+
 import { useFocus } from "../../hooks";
 
 import BlockNameField from "../BlockNameField";
@@ -33,22 +35,27 @@ function PageBlockJson() {
 
   const setBlockDescription = (description) => {
     dispatch(setDescription(description));
+    dispatch(setChanged(true));
   };
 
   const setBlockCategory = (category) => {
     dispatch(setCategory(category));
+    dispatch(setChanged(true));
   };
 
   const setBlockIcon = (icon) => {
     dispatch(setIcon(icon));
+    dispatch(setChanged(true));
   };
 
   const setBlockKeywords = (keywords) => {
     dispatch(setKeywords(keywords));
+    dispatch(setChanged(true));
   };
 
   const setBlockTitle = (title) => {
     dispatch(setTitle(title));
+    dispatch(setChanged(true));
   };
 
   const [hasFocus, onBlur, onFocus] = useFocus([]);

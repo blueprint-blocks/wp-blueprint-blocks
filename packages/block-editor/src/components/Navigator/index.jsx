@@ -1,9 +1,10 @@
 import { useLayoutEffect, useMemo, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { navItems } from "../../data";
 import { useRect } from "../../hooks";
 import { setNavRect } from "../../store/app";
+import { hasUnsavedChanges } from "../../store/post-metadata";
 
 import Button from "../Button";
 
@@ -26,6 +27,8 @@ function Navigator({ activeNavItem, setActiveNavItem, onUpdate, onPreview }) {
     () => navItemRects[activeNavItem],
     [navItemRects],
   );
+
+  const hasUnsavedChanges = useSelector((state) => state.postMetadata.changed);
 
   useLayoutEffect(() => {
     dispatch(setNavRect(rect));
@@ -60,8 +63,13 @@ function Navigator({ activeNavItem, setActiveNavItem, onUpdate, onPreview }) {
         />
       </ul>
       <div className="Navigator-actions">
-        <Button onClick={onPreview} label={"Preview"} />
-        <Button onClick={onUpdate} label={"Update"} style="primary" />
+        <Button label={"Preview"} onClick={onPreview} />
+        <Button
+          disabled={!hasUnsavedChanges}
+          label={"Update"}
+          onClick={onUpdate}
+          style="primary"
+        />
       </div>
     </div>
   );

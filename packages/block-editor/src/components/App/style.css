@@ -58,10 +58,10 @@
         var(--color-accent-blue) 80%,
         var(--color-accent-blue-00) 100%
     );
-    --gradient-light-gray: radial-gradient(
-        ellipse at right,
+    --gradient-light-gray: linear-gradient(
+        150deg,
         var(--color-lighter-gray),
-        var(--color-light-gray)
+        var(--color-gray)
     );
     --gradient-white: linear-gradient(
         150deg,

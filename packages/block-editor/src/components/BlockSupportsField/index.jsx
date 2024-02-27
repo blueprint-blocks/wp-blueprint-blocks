@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { blockSupports as blockSupportsProperties } from "../../data";
 import { setSupportsProperty } from "../../store/block-json";
+import { setChanged } from "../../store/post-metadata";
 
 import BlockSupportsFieldItem from "../BlockSupportsFieldItem";
 
@@ -14,6 +15,7 @@ const BlockSupportsField = () => {
 
   const setPropertyValue = (property, value) => {
     dispatch(setSupportsProperty({ property, value }));
+    dispatch(setChanged(true));
   };
 
   return (

@@ -91,111 +91,83 @@
 }
 
 .SaveDialog-content {
+    color: var(--color-black);
     display: grid;
-    gap: var(--3x);
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-base);
+    gap: var(--5x);
     grid-auto-flow: row;
     width: 100%;
 
-    p {
-        color: var(--color-dark-gray);
-        font-size: var(--font-size-large);
-        font-weight: var(--font-weight-medium);
-        margin: 0;
-    }
-}
+    h1 {
+        color: var(--color-black);
+        font-size: var(--font-size-xx-large);
+        font-weight: var(--font-weight-bold);
+        line-height: 1;
+        margin: 0 0 var(--1x);
 
-.SaveDialog-try {
-    align-items: center;
-    border: 2px solid var(--color-lighter-gray);
-    border-radius: 7px;
-    display: grid;
-    gap: var(--2x);
-    grid-template-columns: max-content 1fr;
-    font-size: var(--font-size-large);
-    font-weight: var(--font-weight-bold);
-    padding: var(--1x) var(--2x);
-    width: fit-content;
-
-    &::before {
-        background: url("../assets/images/icon-badge.png") no-repeat center;
-        background-size: contain;
-        content: "";
-        display: block;
-        height: var(--3x);
-        width: var(--3x);
-    }
-}
-
-.SaveDialog-tiles {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.SaveDialog-tile {
-    display: grid;
-    gap: var(--3x);
-    grid-auto-flow: row;
-
-    &:nth-child(1) {
-        border-right: 1px solid var(--color-lighter-gray);
-        padding-right: var(--3x);
-    }
-
-    &:nth-child(2) {
-        border-left: 1px solid var(--color-lighter-gray);
-        padding-left: var(--3x);
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
 
     h3 {
         color: var(--color-black);
         font-size: var(--font-size-large);
-        margin: 0;
+        font-weight: var(--font-weight-bold);
+        line-height: 1;
+        margin: 0 0 var(--2x);
+
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
 
     p {
-        color: var(--color-gray);
-        font-size: var(--font-size-base);
-        margin: 0;
+        margin: 0 0 var(--2x);
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    li {
+        display: grid;
+        gap: var(--1x);
+        grid-template-columns: var(--1x) 1fr;
+        position: relative;
+
+        &:before {
+            background: var(--color-lighter-gray);
+            border-radius: 100%;
+            content: "";
+            display: block;
+            height: var(--1x);
+            position: relative;
+            top: 11px;
+            width: var(--1x);
+        }
+    }
+
+    hr {
+        background: var(--color-lighter-gray);
+        border: 0;
+        display: block;
+        height: 2px;
+        overflow: hidden;
+        width: 100%;
     }
 }
 
-.SaveDialog-pricing {
-    color: var(--color-black);
-    font-size: var(--font-size-xx-large);
-    font-weight: var(--font-weight-bold);
-    letter-spacing: -0.05em;
-    vertical-align: baseline;
-
-    span {
-        color: var(--color-gray);
-        font-size: var(--font-size-base);
-        font-weight: var(--font-weight-medium);
-        letter-spacing: 0;
-    }
-}
-
-.SaveDialog-primaryButton {
-    background: var(--gradient-teal-blue);
-    border-radius: var(--7x);
-    color: var(--color-white);
-    cursor: pointer;
-    font-size: var(--font-size-large);
-    font-weight: var(--font-weight-semi-bold);
-    height: var(--7x);
-    line-height: var(--7x);
-    padding: 0 var(--3x);
-    text-align: center;
-}
-
-.SaveDialog-secondaryButton {
-    background: var(--gradient-light-gray);
-    border-radius: var(--7x);
-    color: var(--color-black);
-    cursor: pointer;
-    font-size: var(--font-size-large);
-    font-weight: var(--font-weight-semi-bold);
-    height: var(--7x);
-    line-height: var(--7x);
-    padding: 0 var(--3x);
-    text-align: center;
+.SaveDialog-icon {
+    display: block;
+    height: 35px;
+    margin-bottom: var(--3x);
+    object-fit: contain;
+    object-position: center;
+    width: 40px;
 }

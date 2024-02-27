@@ -60,6 +60,17 @@
     }
 }
 
+.Button.is-primary.is-disabled {
+    background: var(--gradient-light-gray);
+    border-color: var(--color-gray);
+    color: var(--color-black);
+
+    &::before,
+    &::after {
+        display: none;
+    }
+}
+
 @keyframes blueprint-blocks-block-editor-button-primary-background-rotate {
     from {
         transform: translate(-50%, -50%) scale3d(1.1, 1.1, 1) rotateZ(0deg);

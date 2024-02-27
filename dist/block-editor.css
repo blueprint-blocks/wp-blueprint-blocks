@@ -62,6 +62,17 @@
         opacity: 1;
     }
 
+.Button.is-primary.is-disabled {
+    background: var(--gradient-light-gray);
+    border-color: var(--color-gray);
+    color: var(--color-black);
+}
+
+.Button.is-primary.is-disabled::before,
+    .Button.is-primary.is-disabled::after {
+        display: none;
+    }
+
 @keyframes blueprint-blocks-block-editor-button-primary-background-rotate {
     from {
         transform: translate(-50%, -50%) scale3d(1.1, 1.1, 1) rotateZ(0deg);
@@ -2065,114 +2076,87 @@
 }
 
 .SaveDialog-content {
+    color: var(--color-black);
     display: grid;
-    gap: var(--3x);
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-base);
+    gap: var(--5x);
     grid-auto-flow: row;
     width: 100%;
 }
 
-.SaveDialog-content p {
-        color: var(--color-dark-gray);
-        font-size: var(--font-size-large);
-        font-weight: var(--font-weight-medium);
-        margin: 0;
+.SaveDialog-content h1 {
+        color: var(--color-black);
+        font-size: var(--font-size-xx-large);
+        font-weight: var(--font-weight-bold);
+        line-height: 1;
+        margin: 0 0 var(--1x);
     }
 
-.SaveDialog-try {
-    align-items: center;
-    border: 2px solid var(--color-lighter-gray);
-    border-radius: 7px;
-    display: grid;
-    gap: var(--2x);
-    grid-template-columns: max-content 1fr;
-    font-size: var(--font-size-large);
-    font-weight: var(--font-weight-bold);
-    padding: var(--1x) var(--2x);
-    width: -moz-fit-content;
-    width: fit-content;
-}
+.SaveDialog-content h1:last-child {
+            margin-bottom: 0;
+        }
 
-.SaveDialog-try::before {
-        background: url("../assets/images/icon-badge.png") no-repeat center;
-        background-size: contain;
-        content: "";
-        display: block;
-        height: var(--3x);
-        width: var(--3x);
-    }
-
-.SaveDialog-tiles {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.SaveDialog-tile {
-    display: grid;
-    gap: var(--3x);
-    grid-auto-flow: row;
-}
-
-.SaveDialog-tile:nth-child(1) {
-        border-right: 1px solid var(--color-lighter-gray);
-        padding-right: var(--3x);
-    }
-
-.SaveDialog-tile:nth-child(2) {
-        border-left: 1px solid var(--color-lighter-gray);
-        padding-left: var(--3x);
-    }
-
-.SaveDialog-tile h3 {
+.SaveDialog-content h3 {
         color: var(--color-black);
         font-size: var(--font-size-large);
-        margin: 0;
+        font-weight: var(--font-weight-bold);
+        line-height: 1;
+        margin: 0 0 var(--2x);
     }
 
-.SaveDialog-tile p {
-        color: var(--color-gray);
-        font-size: var(--font-size-base);
-        margin: 0;
+.SaveDialog-content h3:last-child {
+            margin-bottom: 0;
+        }
+
+.SaveDialog-content p {
+        margin: 0 0 var(--2x);
     }
 
-.SaveDialog-pricing {
-    color: var(--color-black);
-    font-size: var(--font-size-xx-large);
-    font-weight: var(--font-weight-bold);
-    letter-spacing: -0.05em;
-    vertical-align: baseline;
-}
+.SaveDialog-content p:last-child {
+            margin-bottom: 0;
+        }
 
-.SaveDialog-pricing span {
-        color: var(--color-gray);
-        font-size: var(--font-size-base);
-        font-weight: var(--font-weight-medium);
-        letter-spacing: 0;
+.SaveDialog-content ul {
+        list-style: none;
     }
 
-.SaveDialog-primaryButton {
-    background: var(--gradient-teal-blue);
-    border-radius: var(--7x);
-    color: var(--color-white);
-    cursor: pointer;
-    font-size: var(--font-size-large);
-    font-weight: var(--font-weight-semi-bold);
-    height: var(--7x);
-    line-height: var(--7x);
-    padding: 0 var(--3x);
-    text-align: center;
-}
+.SaveDialog-content li {
+        display: grid;
+        gap: var(--1x);
+        grid-template-columns: var(--1x) 1fr;
+        position: relative;
+    }
 
-.SaveDialog-secondaryButton {
-    background: var(--gradient-light-gray);
-    border-radius: var(--7x);
-    color: var(--color-black);
-    cursor: pointer;
-    font-size: var(--font-size-large);
-    font-weight: var(--font-weight-semi-bold);
-    height: var(--7x);
-    line-height: var(--7x);
-    padding: 0 var(--3x);
-    text-align: center;
+.SaveDialog-content li:before {
+            background: var(--color-lighter-gray);
+            border-radius: 100%;
+            content: "";
+            display: block;
+            height: var(--1x);
+            position: relative;
+            top: 11px;
+            width: var(--1x);
+        }
+
+.SaveDialog-content hr {
+        background: var(--color-lighter-gray);
+        border: 0;
+        display: block;
+        height: 2px;
+        overflow: hidden;
+        width: 100%;
+    }
+
+.SaveDialog-icon {
+    display: block;
+    height: 35px;
+    margin-bottom: var(--3x);
+    -o-object-fit: contain;
+       object-fit: contain;
+    -o-object-position: center;
+       object-position: center;
+    width: 40px;
 }
 
 .Logo {
@@ -2472,10 +2456,10 @@
         var(--color-accent-blue) 80%,
         var(--color-accent-blue-00) 100%
     );
-    --gradient-light-gray: radial-gradient(
-        ellipse at right,
+    --gradient-light-gray: linear-gradient(
+        150deg,
         var(--color-lighter-gray),
-        var(--color-light-gray)
+        var(--color-gray)
     );
     --gradient-white: linear-gradient(
         150deg,

@@ -9,6 +9,8 @@ import LoadingIcon from "../LoadingIcon";
 
 import "./style.css";
 
+const { pluginMetadata = {} } = blueprintBlocksEditorSettings;
+
 function SaveDialog() {
   const dispatch = useDispatch();
   const ref = useRef(null);
@@ -61,14 +63,34 @@ function SaveDialog() {
           <div className="SaveDialog-content">
             {isLoading && <LoadingIcon />}
             {!isLoading && isValid && <p>{"Successfully saved."}</p>}
-            {validationResults && (
-              <div>
-                {validationResults.blockJson.errors.map(
-                  ({ warningMessage }) => (
-                    <p>{warningMessage}</p>
-                  ),
+            {!isValid && validationResults && (
+              <>
+                <div>
+                  <img
+                    className="SaveDialog-icon"
+                    src={`${pluginMetadata?.url}/assets/images/icon-warning.svg`}
+                  />
+                  <h1>{"Error while saving"}</h1>
+                  <p>
+                    {
+                      "There are a few problems to address before this block can be saved."
+                    }
+                  </p>
+                </div>
+                <hr />
+                {validationResults?.blockJson?.errors?.length > 0 && (
+                  <div>
+                    <h3>{"Block.json"}</h3>
+                    <ul>
+                      {validationResults?.blockJson?.errors.map(
+                        ({ warningMessage }) => (
+                          <li>{warningMessage}</li>
+                        ),
+                      )}
+                    </ul>
+                  </div>
                 )}
-              </div>
+              </>
             )}
           </div>
         </div>
