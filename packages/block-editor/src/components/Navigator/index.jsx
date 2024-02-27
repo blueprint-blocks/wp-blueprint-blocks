@@ -12,7 +12,7 @@ import "./style.css";
 
 const { pluginMetadata = {} } = blueprintBlocksEditorSettings;
 
-function Navigator({ activeNavItem, setActiveNavItem, onUpdate, onPreview }) {
+function Navigator({ activeNavItem, setActiveNavItem, onUpdate }) {
   const dispatch = useDispatch();
 
   const ref = useRef(null);
@@ -28,7 +28,9 @@ function Navigator({ activeNavItem, setActiveNavItem, onUpdate, onPreview }) {
     [navItemRects],
   );
 
-  const hasUnsavedChanges = useSelector((state) => state.postMetadata.changed);
+  const hasUnsavedChanges = useSelector((state) =>
+    hasUnsavedChanges(state.postMetadata),
+  );
 
   useLayoutEffect(() => {
     dispatch(setNavRect(rect));
@@ -63,7 +65,6 @@ function Navigator({ activeNavItem, setActiveNavItem, onUpdate, onPreview }) {
         />
       </ul>
       <div className="Navigator-actions">
-        <Button label={"Preview"} onClick={onPreview} />
         <Button
           disabled={!hasUnsavedChanges}
           label={"Update"}

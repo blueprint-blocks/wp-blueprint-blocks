@@ -6948,8 +6948,7 @@
 	function Navigator(_ref) {
 	  var activeNavItem = _ref.activeNavItem,
 	    setActiveNavItem = _ref.setActiveNavItem,
-	    onUpdate = _ref.onUpdate,
-	    onPreview = _ref.onPreview;
+	    onUpdate = _ref.onUpdate;
 	  var dispatch = useDispatch();
 	  var ref = React$2.useRef(null);
 	  var rect = useRect(ref, null);
@@ -6963,7 +6962,7 @@
 	    return navItemRects[activeNavItem];
 	  }, [navItemRects]);
 	  var hasUnsavedChanges = useSelector(function (state) {
-	    return state.postMetadata.changed;
+	    return hasUnsavedChanges(state.postMetadata);
 	  });
 	  React$2.useLayoutEffect(function () {
 	    dispatch(setNavRect(rect));
@@ -6994,17 +6993,14 @@
 	          "--width": activeIndicatorRect.width
 	        }
 	      })]
-	    }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "Navigator-actions",
-	      children: [/*#__PURE__*/jsxRuntimeExports.jsx(Button, {
-	        label: "Preview",
-	        onClick: onPreview
-	      }), /*#__PURE__*/jsxRuntimeExports.jsx(Button, {
+	      children: /*#__PURE__*/jsxRuntimeExports.jsx(Button, {
 	        disabled: !hasUnsavedChanges,
 	        label: "Update",
 	        onClick: onUpdate,
 	        style: "primary"
-	      })]
+	      })
 	    })]
 	  });
 	}
@@ -41797,6 +41793,7 @@
 	  var defaultValue = ".".concat(className, " {\n\t// Add styles here that should by used wherever the block is displayed\n}");
 	  var onChange = function onChange(value) {
 	    dispatch(setEditorCss(value));
+	    dispatch(setChanged(true));
 	  };
 	  var onSelectionChange = function onSelectionChange(range) {
 	    setSelectionRange(range);
@@ -41855,6 +41852,7 @@
 	  var defaultValue = ".".concat(className, " {\n\t// Add styles here that should by used wherever the block is displayed\n}");
 	  var onChange = function onChange(value) {
 	    dispatch(setViewCss(value));
+	    dispatch(setChanged(true));
 	  };
 	  var onSelectionChange = function onSelectionChange(range) {
 	    setSelectionRange(range);
@@ -42114,7 +42112,6 @@
 	  var upsellDialogIsVisible = useSelector(function (state) {
 	    return state.upsellDialog.visible;
 	  });
-	  var onPreview = function onPreview() {};
 	  var onUpdate = function onUpdate() {
 	    dispatch(showSaveDialog());
 	    if (postId === null) {
@@ -42153,7 +42150,6 @@
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(Navigator, {
 	      activeNavItem: activeNavItem,
 	      setActiveNavItem: setActiveNavItem,
-	      onPreview: onPreview,
 	      onUpdate: onUpdate
 	    }), activeNavItem === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlockJson, {}), activeNavItem === 1 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlueprint, {}), activeNavItem === 2 && /*#__PURE__*/jsxRuntimeExports.jsx(PageViewCss, {}), activeNavItem === 3 && /*#__PURE__*/jsxRuntimeExports.jsx(PageEditorCss, {}), saveDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(SaveDialog, {}), upsellDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(UpsellDialog, {})]
 	  });

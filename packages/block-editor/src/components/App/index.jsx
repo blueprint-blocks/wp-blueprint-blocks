@@ -46,8 +46,6 @@ function App() {
     (state) => state.upsellDialog.visible,
   );
 
-  const onPreview = () => {};
-
   const onUpdate = () => {
     dispatch(showSaveDialog());
 
@@ -92,7 +90,6 @@ function App() {
       <Navigator
         activeNavItem={activeNavItem}
         setActiveNavItem={setActiveNavItem}
-        onPreview={onPreview}
         onUpdate={onUpdate}
       />
       {activeNavItem === 0 && <PageBlockJson />}
