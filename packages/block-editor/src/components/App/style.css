@@ -38,6 +38,8 @@
     --color-accent-orange: #ef3e23;
     --color-accent-yellow: #ea971a;
 
+    --color-error: #ed00631a;
+
     --color-code-property: #b10a50;
     --color-code-value: #ea971a;
 
@@ -119,6 +121,7 @@
     font-weight: var(--font-weight-base);
     line-height: var(--line-height-base);
     position: relative;
+    z-index: 10;
 
     .is-disabled {
         cursor: default;

@@ -6,8 +6,8 @@
   },
   {
     "propertyName": "name",
-    "validationFunction": "validateNameFormat",
-    "warningMessage": "A block name can only contain lowercase alphanumeric characters, dashes, and at most one forward slash to designate the plugin or theme unique namespace prefix. It must begin with a letter."
+    "validationFunction": "validateFullNameFormat",
+    "warningMessage": "A block name is required and can only contain lowercase alphanumeric characters, dashes, and at most one forward slash to designate the plugin or theme unique namespace prefix. It must begin with a letter."
   },
   {
     "propertyName": "title",

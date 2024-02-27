@@ -2,16 +2,26 @@
     align-items: center;
     border-bottom: 2px solid var(--color-light-gray);
     display: grid;
-    font-size: var(--font-size-x-large);
-    font-weight: var(--font-weight-medium);
     gap: var(--2x);
-    grid-template-columns: repeat(2, max-content) 1fr max-content;
+    grid-template-columns: 1fr max-content;
     padding: var(--1x) 0;
 
     .EditableString {
+        --focus-color: transparent;
         --focus-margin: 0;
         --focus-padding: 0;
+        --highlight-padding: 0.3em;
+        --line-height: 1em;
     }
+}
+
+.BlockNameField-input {
+    align-items: center;
+    display: grid;
+    font-size: var(--font-size-x-large);
+    font-weight: var(--font-weight-medium);
+    gap: var(--2x);
+    grid-template-columns: repeat(3, max-content);
 }
 
 .BlockNameField-namespace {

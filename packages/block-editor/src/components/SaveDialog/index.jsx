@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { validateBlock } from "../../functions";
+import { setValid } from "../../store/post-metadata";
 import { hideSaveDialog } from "../../store/save-dialog";
 
 import LoadingIcon from "../LoadingIcon";
@@ -38,6 +39,7 @@ function SaveDialog() {
   };
 
   useEffect(() => {
+    dispatch(setValid(isValid));
     setTimeout(() => {
       ref?.current?.classList.add("is-visible");
     }, 50);

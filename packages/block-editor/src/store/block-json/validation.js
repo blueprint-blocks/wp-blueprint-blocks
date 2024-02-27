@@ -1,10 +1,18 @@
+const validateFullNameFormat = (value) => {
+  return !!value.match(/[a-z][a-z0-9]*\/[a-z0-9]+/);
+};
+
 const validateNameClash = (value) => {
   return true;
   //return value.match(/[a-z][a-z0-9]+\/[a-z0-9]+/);
 };
 
-const validateNameFormat = (value) => {
-  return !!value.match(/[a-z][a-z0-9]*\/[a-z0-9]+/);
+const validateName = (value) => {
+  return !!value.match(/[a-z0-9]+/);
+};
+
+const validateNamespace = (value) => {
+  return !!value.match(/[a-z][a-z0-9]+/);
 };
 
 const validateRequired = (value) => {
@@ -16,8 +24,10 @@ const validateTitle = (value) => {
 };
 
 export {
+  validateFullNameFormat,
+  validateName,
+  validateNamespace,
   validateNameClash,
-  validateNameFormat,
   validateRequired,
   validateTitle,
 };

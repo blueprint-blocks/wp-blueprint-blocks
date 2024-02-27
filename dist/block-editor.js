@@ -4211,8 +4211,8 @@
 		},
 		{
 			propertyName: "name",
-			validationFunction: "validateNameFormat",
-			warningMessage: "A block name can only contain lowercase alphanumeric characters, dashes, and at most one forward slash to designate the plugin or theme unique namespace prefix. It must begin with a letter."
+			validationFunction: "validateFullNameFormat",
+			warningMessage: "A block name is required and can only contain lowercase alphanumeric characters, dashes, and at most one forward slash to designate the plugin or theme unique namespace prefix. It must begin with a letter."
 		},
 		{
 			propertyName: "title",
@@ -4651,12 +4651,18 @@
 	  };
 	}
 
+	var validateFullNameFormat = function validateFullNameFormat(value) {
+	  return !!value.match(/[a-z][a-z0-9]*\/[a-z0-9]+/);
+	};
 	var validateNameClash = function validateNameClash(value) {
 	  return true;
 	  //return value.match(/[a-z][a-z0-9]+\/[a-z0-9]+/);
 	};
-	var validateNameFormat = function validateNameFormat(value) {
-	  return !!value.match(/[a-z][a-z0-9]*\/[a-z0-9]+/);
+	var validateName = function validateName(value) {
+	  return !!value.match(/[a-z0-9]+/);
+	};
+	var validateNamespace = function validateNamespace(value) {
+	  return !!value.match(/[a-z][a-z0-9]+/);
 	};
 	var validateRequired = function validateRequired(value) {
 	  return !!value.match(/[a-z][a-z0-9]*\/[a-z0-9]+/);
@@ -4667,8 +4673,10 @@
 
 	var blockJsonValidationFunctions = /*#__PURE__*/Object.freeze({
 		__proto__: null,
+		validateFullNameFormat: validateFullNameFormat,
+		validateName: validateName,
 		validateNameClash: validateNameClash,
-		validateNameFormat: validateNameFormat,
+		validateNamespace: validateNamespace,
 		validateRequired: validateRequired,
 		validateTitle: validateTitle
 	});
@@ -4703,7 +4711,6 @@
 	      warningMessage: warningMessage
 	    });
 	  });
-	  console.log(validations);
 	  var isValid = validations.reduce(function (isValid, validation) {
 	    return isValid === true && validation.isValid || false;
 	  }, true);
@@ -5159,6 +5166,18 @@
 	    name = _state$name === void 0 ? '' : _state$name;
 	  return "wp-block-".concat(delimiterize(name));
 	};
+	var getBlockName = function getBlockName(state, context) {
+	  var _name$split;
+	  var _state$name2 = state.name,
+	    name = _state$name2 === void 0 ? '' : _state$name2;
+	  return ((_name$split = name.split('/')) === null || _name$split === void 0 ? void 0 : _name$split[1]) || '';
+	};
+	var getBlockNamespace = function getBlockNamespace(state, context) {
+	  var _name$split2;
+	  var _state$name3 = state.name,
+	    name = _state$name3 === void 0 ? '' : _state$name3;
+	  return ((_name$split2 = name.split('/')) === null || _name$split2 === void 0 ? void 0 : _name$split2[0]) || '';
+	};
 
 	var _blueprintBlocksEdito$9;
 	function getUniqueAttributeName() {
@@ -5338,8 +5357,14 @@
 	  setSize = actions$4.setSize,
 	  unsetFocus = actions$4.unsetFocus;
 
+	var isNewPost = function isNewPost(state, context) {
+	  return state.postId === null;
+	};
 	var hasUnsavedChanges = function hasUnsavedChanges(state, context) {
 	  return state.changed === true;
+	};
+	var hasValidationErrors = function hasValidationErrors(state, context) {
+	  return state.valid === false;
 	};
 
 	var _blueprintBlocksEdito$6 = blueprintBlocksEditorSettings,
@@ -5349,7 +5374,8 @@
 	  name: "postMetadata",
 	  initialState: _objectSpread2(_objectSpread2({}, postMetadata), {}, {
 	    postId: (postMetadata === null || postMetadata === void 0 ? void 0 : postMetadata.postId) || null,
-	    changed: false
+	    changed: false,
+	    valid: true
 	  }),
 	  reducers: {
 	    setChanged: function setChanged(state, action) {
@@ -5357,13 +5383,17 @@
 	    },
 	    setPostId: function setPostId(state, action) {
 	      state.postId = (action === null || action === void 0 ? void 0 : action.payload) || null;
+	    },
+	    setValid: function setValid(state, action) {
+	      state.valid = !!(action !== null && action !== void 0 && action.payload) || false;
 	    }
 	  }
 	});
 	var actions$3 = slice$3.actions,
 	  reducer$3 = slice$3.reducer;
 	var setChanged = actions$3.setChanged,
-	  setPostId = actions$3.setPostId;
+	  setPostId = actions$3.setPostId,
+	  setValid = actions$3.setValid;
 
 	var _blueprintBlocksEdito$5 = blueprintBlocksEditorSettings,
 	  _blueprintBlocksEdito2$3 = _blueprintBlocksEdito$5.postType,
@@ -8220,7 +8250,9 @@
 	  var _ref$allowEnter = _ref.allowEnter,
 	    allowEnter = _ref$allowEnter === void 0 ? false : _ref$allowEnter,
 	    _ref$className = _ref.className,
-	    className = _ref$className === void 0 ? '' : _ref$className,
+	    className = _ref$className === void 0 ? "" : _ref$className,
+	    _ref$invalid = _ref.invalid,
+	    invalid = _ref$invalid === void 0 ? false : _ref$invalid,
 	    _ref$multiLine = _ref.multiLine,
 	    multiLine = _ref$multiLine === void 0 ? false : _ref$multiLine,
 	    onChange = _ref.onChange,
@@ -8228,11 +8260,11 @@
 	    onFocus = _ref.onFocus,
 	    onBlur = _ref.onBlur,
 	    _ref$placeholder = _ref.placeholder,
-	    placeholder = _ref$placeholder === void 0 ? '' : _ref$placeholder,
+	    placeholder = _ref$placeholder === void 0 ? "" : _ref$placeholder,
 	    _ref$rows = _ref.rows,
 	    rows = _ref$rows === void 0 ? 1 : _ref$rows,
 	    _ref$value = _ref.value,
-	    value = _ref$value === void 0 ? '' : _ref$value,
+	    value = _ref$value === void 0 ? "" : _ref$value,
 	    _ref$allowTransforms = _ref.allowTransforms,
 	    allowTransforms = _ref$allowTransforms === void 0 ? true : _ref$allowTransforms;
 	  var ref = React$2.useRef(null);
@@ -8242,11 +8274,11 @@
 	    hasFocus = _useState2[0],
 	    setHasFocus = _useState2[1];
 	  var _value = React$2.useMemo(function () {
-	    return String(value || '');
+	    return String(value || "");
 	  }, [value]);
 	  var html = _value;
 	  if (allowTransforms) {
-	    html = hooks$3.applyFilters('blueprint-blocks.editable-string.value.before-render', _value);
+	    html = hooks$3.applyFilters("blueprint-blocks.editable-string.value.before-render", _value);
 	  }
 	  var _onBlur = function _onBlur() {
 	    setHasFocus(false);
@@ -8254,9 +8286,9 @@
 	  };
 	  var _onChange = function _onChange(_ref2) {
 	    var target = _ref2.target;
-	    var newValue = String((target === null || target === void 0 ? void 0 : target.value) || '').replace(/\n/g, ' ');
+	    var newValue = String((target === null || target === void 0 ? void 0 : target.value) || "").replace(/\n/g, " ");
 	    if (allowTransforms) {
-	      newValue = hooks$3.applyFilters('blueprint-blocks.editable-string.value.before-on-change', newValue);
+	      newValue = hooks$3.applyFilters("blueprint-blocks.editable-string.value.before-on-change", newValue);
 	    }
 	    onChange && onChange(newValue);
 	  };
@@ -8265,21 +8297,22 @@
 	    onFocus && onFocus();
 	  };
 	  var onKeyDown = React$2.useCallback(function (event) {
-	    if (event.key === 'Backspace' && _value.length === 0) {
+	    if (event.key === "Backspace" && _value.length === 0) {
 	      onDelete && onDelete();
 	    }
 	  }, [_value]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    "data-testid": "editable-string",
-	    className: classNames('EditableString', className, {
-	      'has-focus': hasFocus,
-	      'has-value': _value.length > 0,
-	      'is-multiline': multiLine
+	    className: classNames("EditableString", className, {
+	      "has-focus": hasFocus,
+	      "has-value": _value.length > 0,
+	      "is-invalid": invalid,
+	      "is-multiline": multiLine
 	    }),
 	    onKeyDown: onKeyDown,
 	    style: {
-	      '--rows': multiLine && rows || 1
+	      "--rows": multiLine && rows || 1
 	    },
 	    children: [_value.length === 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "placeholder",
@@ -8293,7 +8326,7 @@
 	      onBlur: _onBlur,
 	      onFocus: _onFocus,
 	      onKeyDown: function onKeyDown(event) {
-	        if (event.key === 'Enter' && allowEnter === false) {
+	        if (event.key === "Enter" && allowEnter === false) {
 	          event.preventDefault();
 	          event.stopPropagation();
 	        }
@@ -8388,15 +8421,15 @@
 
 	var BlockNameField = function BlockNameField() {
 	  var dispatch = useDispatch();
-	  var _useSelector = useSelector(function (state) {
-	      var _state$blockJson;
-	      return (((_state$blockJson = state.blockJson) === null || _state$blockJson === void 0 ? void 0 : _state$blockJson.name) || "").split("/");
-	    }),
-	    _useSelector2 = _slicedToArray(_useSelector, 2),
-	    _useSelector2$ = _useSelector2[0],
-	    blockNamespace = _useSelector2$ === void 0 ? "" : _useSelector2$,
-	    _useSelector2$2 = _useSelector2[1],
-	    blockName = _useSelector2$2 === void 0 ? "" : _useSelector2$2;
+	  var blockName = useSelector(function (state) {
+	    return getBlockName(state.blockJson);
+	  });
+	  var blockNamespace = useSelector(function (state) {
+	    return getBlockNamespace(state.blockJson);
+	  });
+	  var showValidationErrors = useSelector(function (state) {
+	    return hasValidationErrors(state.postMetadata) || !isNewPost(state.postMetadata);
+	  });
 	  var setBlockName = function setBlockName(newBlockName) {
 	    dispatch(setName("".concat(blockNamespace, "/").concat(delimiterize(newBlockName))));
 	    dispatch(setChanged(true));
@@ -8409,20 +8442,31 @@
 	    }
 	    dispatch(setChanged(true));
 	  };
+	  var showNameInvalid = React$2.useMemo(function () {
+	    return showValidationErrors && !validateName(blockName);
+	  }, [showValidationErrors, blockName]);
+	  var showNamespaceInvalid = React$2.useMemo(function () {
+	    return showValidationErrors && !validateNamespace(blockNamespace);
+	  }, [showValidationErrors, blockNamespace]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    className: "BlockNameField",
-	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
-	      className: "BlockNameField-namespace",
-	      onChange: setBlockNamespace,
-	      value: blockNamespace
-	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	      "class": "BlockNameField-seperator",
-	      children: "/"
-	    }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
-	      className: "BlockNameField-name",
-	      onChange: setBlockName,
-	      placeholder: "enter-a-block-name...",
-	      value: blockName
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	      className: "BlockNameField-input",
+	      children: [/*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
+	        className: "BlockNameField-namespace",
+	        invalid: showNamespaceInvalid,
+	        onChange: setBlockNamespace,
+	        value: blockNamespace
+	      }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	        "class": "BlockNameField-seperator",
+	        children: "/"
+	      }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
+	        className: "BlockNameField-name",
+	        invalid: showNameInvalid,
+	        onChange: setBlockName,
+	        placeholder: "enter-a-block-name...",
+	        value: blockName
+	      })]
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx(Tooltip, {
 	      data: "blockJson.name",
 	      position: "below"
@@ -41941,6 +41985,7 @@
 	    }, 300);
 	  };
 	  React$2.useEffect(function () {
+	    dispatch(setValid(isValid));
 	    setTimeout(function () {
 	      var _ref$current2;
 	      ref === null || ref === void 0 || (_ref$current2 = ref.current) === null || _ref$current2 === void 0 || _ref$current2.classList.add("is-visible");

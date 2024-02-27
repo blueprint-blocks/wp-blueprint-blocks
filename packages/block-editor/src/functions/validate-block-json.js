@@ -12,8 +12,6 @@ const validateBlockJson = (blockJson) => {
       }),
   );
 
-  console.log(validations);
-
   const isValid = validations.reduce(
     (isValid, validation) => (isValid === true && validation.isValid) || false,
     true,

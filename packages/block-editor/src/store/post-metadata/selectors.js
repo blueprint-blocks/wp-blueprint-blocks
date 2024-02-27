@@ -1,9 +1,13 @@
 const isNewPost = (state, context) => {
-  return state.postId !== null;
+  return state.postId === null;
 };
 
 const hasUnsavedChanges = (state, context) => {
   return state.changed === true;
 };
 
-export { hasUnsavedChanges, isNewPost };
+const hasValidationErrors = (state, context) => {
+  return state.valid === false;
+};
+
+export { hasUnsavedChanges, hasValidationErrors, isNewPost };

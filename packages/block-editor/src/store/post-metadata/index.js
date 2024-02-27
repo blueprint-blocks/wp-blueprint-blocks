@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { hasUnsavedChanges, isNewPost } from "./selectors";
+import { hasUnsavedChanges, hasValidationErrors, isNewPost } from "./selectors";
 
 const { postMetadata = {} } = blueprintBlocksEditorSettings;
 
@@ -11,6 +11,7 @@ const slice = createSlice({
     ...postMetadata,
     postId: postMetadata?.postId || null,
     changed: false,
+    valid: true,
   },
 
   reducers: {
@@ -20,13 +21,16 @@ const slice = createSlice({
     setPostId(state, action) {
       state.postId = action?.payload || null;
     },
+    setValid(state, action) {
+      state.valid = !!action?.payload || false;
+    },
   },
 });
 
 const { actions, reducer } = slice;
 
-export const { setChanged, setPostId } = actions;
+export const { setChanged, setPostId, setValid } = actions;
 
-export { hasUnsavedChanges, isNewPost };
+export { hasUnsavedChanges, hasValidationErrors, isNewPost };
 
 export default reducer;

@@ -7,8 +7,10 @@ import {
 } from "./selectors";
 
 import {
+  validateFullNameFormat,
+  validateName,
+  validateNamespace,
   validateNameClash,
-  validateNameFormat,
   validateRequired,
   validateTitle,
 } from "./validation";
@@ -132,8 +134,10 @@ export const {
 export { getBlockClassName, getBlockName, getBlockNamespace };
 
 export {
+  validateFullNameFormat,
+  validateName,
+  validateNamespace,
   validateNameClash,
-  validateNameFormat,
   validateRequired,
   validateTitle,
 };
