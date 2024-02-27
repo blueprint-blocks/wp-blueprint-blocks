@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import { memo, useCallback, useMemo, useRef, useState } from "react";
 import ContentEditable from "react-contenteditable";
-import { applyFilters } from "@wordpress/hooks";
 
 import "./style.css";
 
@@ -18,22 +17,12 @@ const EditableString = memo(
     placeholder = "",
     rows = 1,
     value = "",
-    allowTransforms = true,
   }) => {
     const ref = useRef(null);
     const contentRef = useRef(null);
     const [hasFocus, setHasFocus] = useState(false);
 
     const _value = useMemo(() => String(value || ""), [value]);
-
-    let html = _value;
-
-    if (allowTransforms) {
-      html = applyFilters(
-        "blueprint-blocks.editable-string.value.before-render",
-        _value,
-      );
-    }
 
     const _onBlur = () => {
       setHasFocus(false);
@@ -42,12 +31,6 @@ const EditableString = memo(
 
     const _onChange = ({ target }) => {
       let newValue = String(target?.value || "").replace(/\n/g, " ");
-      if (allowTransforms) {
-        newValue = applyFilters(
-          "blueprint-blocks.editable-string.value.before-on-change",
-          newValue,
-        );
-      }
       onChange && onChange(newValue);
     };
 

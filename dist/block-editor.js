@@ -1,4 +1,4 @@
-(function (React$2, require$$2, apiFetch, hooks$3) {
+(function (React$2, require$$2, apiFetch) {
 	'use strict';
 
 	function _interopNamespaceDefault(e) {
@@ -4171,7 +4171,7 @@
 			}
 		}
 	];
-	var html$1 = [
+	var html$2 = [
 		{
 			type: "html",
 			label: "<div>",
@@ -4200,7 +4200,7 @@
 	var blockComponents$1 = {
 		attributes: attributes$1,
 		fields: fields,
-		html: html$1
+		html: html$2
 	};
 
 	var blockJsonValidation = [
@@ -8264,9 +8264,7 @@
 	    _ref$rows = _ref.rows,
 	    rows = _ref$rows === void 0 ? 1 : _ref$rows,
 	    _ref$value = _ref.value,
-	    value = _ref$value === void 0 ? "" : _ref$value,
-	    _ref$allowTransforms = _ref.allowTransforms,
-	    allowTransforms = _ref$allowTransforms === void 0 ? true : _ref$allowTransforms;
+	    value = _ref$value === void 0 ? "" : _ref$value;
 	  var ref = React$2.useRef(null);
 	  var contentRef = React$2.useRef(null);
 	  var _useState = React$2.useState(false),
@@ -8276,10 +8274,6 @@
 	  var _value = React$2.useMemo(function () {
 	    return String(value || "");
 	  }, [value]);
-	  var html = _value;
-	  if (allowTransforms) {
-	    html = hooks$3.applyFilters("blueprint-blocks.editable-string.value.before-render", _value);
-	  }
 	  var _onBlur = function _onBlur() {
 	    setHasFocus(false);
 	    onBlur && onBlur();
@@ -8287,9 +8281,6 @@
 	  var _onChange = function _onChange(_ref2) {
 	    var target = _ref2.target;
 	    var newValue = String((target === null || target === void 0 ? void 0 : target.value) || "").replace(/\n/g, " ");
-	    if (allowTransforms) {
-	      newValue = hooks$3.applyFilters("blueprint-blocks.editable-string.value.before-on-change", newValue);
-	    }
 	    onChange && onChange(newValue);
 	  };
 	  var _onFocus = function _onFocus() {
@@ -45411,7 +45402,7 @@
 	[`htmlCompletion`](https://codemirror.net/6/docs/ref/#lang-html.htmlCompletion) and JavaScript and
 	CSS support extensions.
 	*/
-	function html(config = {}) {
+	function html$1(config = {}) {
 	  let dialect = "",
 	    wrap;
 	  if (config.matchClosingTags === false) dialect = "noMatch";
@@ -45490,7 +45481,7 @@
 	var index$d = /*#__PURE__*/Object.freeze({
 		__proto__: null,
 		autoCloseTags: autoCloseTags,
-		html: html,
+		html: html$1,
 		htmlCompletionSource: htmlCompletionSource,
 		htmlCompletionSourceWith: htmlCompletionSourceWith,
 		htmlLanguage: htmlLanguage,
@@ -46342,7 +46333,7 @@
 	    indentOnInput: /^\s*{%-?\s*(?:end|elsif|else|when|)$/
 	  }
 	});
-	const baseHTML$2 = /*@__PURE__*/html();
+	const baseHTML$2 = /*@__PURE__*/html$1();
 	function makeLiquid(base) {
 	  return tagLanguage.configure({
 	    wrap: parseMixed(node => node.type.isTop ? {
@@ -48746,7 +48737,7 @@
 	  key: "Backspace",
 	  run: deleteMarkupBackward
 	}];
-	const htmlNoMatch = /*@__PURE__*/html({
+	const htmlNoMatch = /*@__PURE__*/html$1({
 	  matchClosingTags: false
 	});
 	/**
@@ -49240,7 +49231,7 @@
 	  if (config.baseLanguage === null) ;else if (config.baseLanguage) {
 	    base = config.baseLanguage;
 	  } else {
-	    let htmlSupport = html({
+	    let htmlSupport = html$1({
 	      matchClosingTags: false
 	    });
 	    support.push(htmlSupport.support);
@@ -72046,7 +72037,7 @@
 	  attrMixed$1 = {
 	    parser: attrParser$1
 	  };
-	const baseHTML$1 = /*@__PURE__*/html();
+	const baseHTML$1 = /*@__PURE__*/html$1();
 	function makeVue(base) {
 	  return base.configure({
 	    dialect: "selfClosing",
@@ -72181,7 +72172,7 @@
 	  attrMixed = {
 	    parser: attrParser
 	  };
-	const baseHTML = /*@__PURE__*/html();
+	const baseHTML = /*@__PURE__*/html$1();
 	function mkAngular(language) {
 	  return language.configure({
 	    wrap: parseMixed(mixAngular)
@@ -72223,4 +72214,4 @@
 		angularLanguage: angularLanguage
 	});
 
-})(React, ReactDOM, wp.apiFetch, wp.hooks);
+})(React, ReactDOM, wp.apiFetch);
