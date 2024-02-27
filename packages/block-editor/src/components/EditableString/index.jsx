@@ -22,7 +22,7 @@ const EditableString = memo(
     const contentRef = useRef(null);
     const [hasFocus, setHasFocus] = useState(false);
 
-    const _value = useMemo(() => String(value || ""), [value]);
+    const html = useMemo(() => String(value || ""), [value]);
 
     const _onBlur = () => {
       setHasFocus(false);
@@ -41,11 +41,11 @@ const EditableString = memo(
 
     const onKeyDown = useCallback(
       (event) => {
-        if (event.key === "Backspace" && _value.length === 0) {
+        if (event.key === "Backspace" && html.length === 0) {
           onDelete && onDelete();
         }
       },
-      [_value],
+      [html],
     );
 
     return (
@@ -54,7 +54,7 @@ const EditableString = memo(
         data-testid="editable-string"
         className={classNames("EditableString", className, {
           "has-focus": hasFocus,
-          "has-value": _value.length > 0,
+          "has-value": html.length > 0,
           "is-invalid": invalid,
           "is-multiline": multiLine,
         })}
@@ -63,7 +63,7 @@ const EditableString = memo(
           "--rows": (multiLine && rows) || 1,
         }}
       >
-        {_value.length === 0 && (
+        {html.length === 0 && (
           <div
             className="placeholder"
             data-testid="editable-string/placeholder"

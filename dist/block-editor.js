@@ -4171,7 +4171,7 @@
 			}
 		}
 	];
-	var html$2 = [
+	var html$1 = [
 		{
 			type: "html",
 			label: "<div>",
@@ -4200,7 +4200,7 @@
 	var blockComponents$1 = {
 		attributes: attributes$1,
 		fields: fields,
-		html: html$2
+		html: html$1
 	};
 
 	var blockJsonValidation = [
@@ -8271,7 +8271,7 @@
 	    _useState2 = _slicedToArray(_useState, 2),
 	    hasFocus = _useState2[0],
 	    setHasFocus = _useState2[1];
-	  var _value = React$2.useMemo(function () {
+	  var html = React$2.useMemo(function () {
 	    return String(value || "");
 	  }, [value]);
 	  var _onBlur = function _onBlur() {
@@ -8288,16 +8288,16 @@
 	    onFocus && onFocus();
 	  };
 	  var onKeyDown = React$2.useCallback(function (event) {
-	    if (event.key === "Backspace" && _value.length === 0) {
+	    if (event.key === "Backspace" && html.length === 0) {
 	      onDelete && onDelete();
 	    }
-	  }, [_value]);
+	  }, [html]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    "data-testid": "editable-string",
 	    className: classNames("EditableString", className, {
 	      "has-focus": hasFocus,
-	      "has-value": _value.length > 0,
+	      "has-value": html.length > 0,
 	      "is-invalid": invalid,
 	      "is-multiline": multiLine
 	    }),
@@ -8305,7 +8305,7 @@
 	    style: {
 	      "--rows": multiLine && rows || 1
 	    },
-	    children: [_value.length === 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	    children: [html.length === 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "placeholder",
 	      "data-testid": "editable-string/placeholder",
 	      children: placeholder
@@ -45402,7 +45402,7 @@
 	[`htmlCompletion`](https://codemirror.net/6/docs/ref/#lang-html.htmlCompletion) and JavaScript and
 	CSS support extensions.
 	*/
-	function html$1(config = {}) {
+	function html(config = {}) {
 	  let dialect = "",
 	    wrap;
 	  if (config.matchClosingTags === false) dialect = "noMatch";
@@ -45481,7 +45481,7 @@
 	var index$d = /*#__PURE__*/Object.freeze({
 		__proto__: null,
 		autoCloseTags: autoCloseTags,
-		html: html$1,
+		html: html,
 		htmlCompletionSource: htmlCompletionSource,
 		htmlCompletionSourceWith: htmlCompletionSourceWith,
 		htmlLanguage: htmlLanguage,
@@ -46333,7 +46333,7 @@
 	    indentOnInput: /^\s*{%-?\s*(?:end|elsif|else|when|)$/
 	  }
 	});
-	const baseHTML$2 = /*@__PURE__*/html$1();
+	const baseHTML$2 = /*@__PURE__*/html();
 	function makeLiquid(base) {
 	  return tagLanguage.configure({
 	    wrap: parseMixed(node => node.type.isTop ? {
@@ -48737,7 +48737,7 @@
 	  key: "Backspace",
 	  run: deleteMarkupBackward
 	}];
-	const htmlNoMatch = /*@__PURE__*/html$1({
+	const htmlNoMatch = /*@__PURE__*/html({
 	  matchClosingTags: false
 	});
 	/**
@@ -49231,7 +49231,7 @@
 	  if (config.baseLanguage === null) ;else if (config.baseLanguage) {
 	    base = config.baseLanguage;
 	  } else {
-	    let htmlSupport = html$1({
+	    let htmlSupport = html({
 	      matchClosingTags: false
 	    });
 	    support.push(htmlSupport.support);
@@ -72037,7 +72037,7 @@
 	  attrMixed$1 = {
 	    parser: attrParser$1
 	  };
-	const baseHTML$1 = /*@__PURE__*/html$1();
+	const baseHTML$1 = /*@__PURE__*/html();
 	function makeVue(base) {
 	  return base.configure({
 	    dialect: "selfClosing",
@@ -72172,7 +72172,7 @@
 	  attrMixed = {
 	    parser: attrParser
 	  };
-	const baseHTML = /*@__PURE__*/html$1();
+	const baseHTML = /*@__PURE__*/html();
 	function mkAngular(language) {
 	  return language.configure({
 	    wrap: parseMixed(mixAngular)
