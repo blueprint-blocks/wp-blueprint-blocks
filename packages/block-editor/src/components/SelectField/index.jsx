@@ -1,73 +1,73 @@
-import { useLayoutEffect, useRef, useState } from 'react'
-import { useOnClickOutside } from '../../hooks'
+import classNames from "classnames";
+import { useMemo, useRef, useState } from "react";
+import { useOnClickOutside } from "../../hooks";
 
-import FieldLabel from '../FieldLabel'
+import FieldLabel from "../FieldLabel";
 
-import './style.css'
+import "./style.css";
 
-function SelectField( {
-	name,
-	label,
-	onBlur,
-	onFocus,
-	options,
-	tooltip,
-	value,
-	setValue,
-} ) {
+function SelectField({
+  name,
+  label,
+  onBlur,
+  onFocus,
+  options,
+  tooltip,
+  value,
+  setValue,
+}) {
+  const ref = useRef(null);
 
-	const ref = useRef()
-	const valueRef = useRef()
+  // State for our select dropdown
+  const [isSelectOpen, setSelectOpen] = useState(false);
 
-	// State for our select dropdown
-	const [ isSelectOpen, setSelectOpen ] = useState( false )
+  const selectedLabel = useMemo(() => {
+    for (let option of options) {
+      if (option.value === value) {
+        return option.label;
+      }
+    }
+    return null;
+  }, [value]);
 
-	const onClick = () => {
-		setSelectOpen( true )
-		onFocus()
-	}
+  const onClick = () => {
+    setSelectOpen(true);
+    onFocus();
+  };
 
-	const onSelectOption = ( event ) => {
-		event.stopPropagation()
-		setValue( event.target.dataset?.value )
-		setSelectOpen( false )
-		onBlur()
-	}
+  // Call hook passing in the ref and a function to call on outside click
+  useOnClickOutside(ref, () => {
+    if (isSelectOpen === true) {
+      setSelectOpen(false);
+      onBlur();
+    }
+  });
 
-	useLayoutEffect( () => {
-		valueRef.current.innerText = value
-	}, [ value ] )
-
-	useLayoutEffect( () => {
-		ref.current.classList.toggle( 'is-open', isSelectOpen )
-	}, [ isSelectOpen ] )
-
-	// Call hook passing in the ref and a function to call on outside click
-	useOnClickOutside( ref, () => {
-		if ( isSelectOpen === true ) {
-			setSelectOpen( false )
-			onBlur()
-		}
-	} )
-
-	return (
-		<div
-			ref={ ref }
-			className="SelectField"
-			onClick={ onClick }
-		>
-			{ label && <FieldLabel htmlFor={ name } label={ label } tooltip={ tooltip } /> }
-			<div className="SelectField-value" ref={ valueRef }/>
-			<div className="SelectField-options">
-				{ options.map( ( { label, value }, index ) => (
-					<div key={ index } data-value={ value } onClick={ onSelectOption }>
-						{ label }
-					</div>
-				) ) }
-			</div>
-		</div>
-	)
-
+  return (
+    <div
+      ref={ref}
+      className={classNames("SelectField", { "is-open": isSelectOpen })}
+      onClick={onClick}
+    >
+      {label && <FieldLabel htmlFor={name} label={label} tooltip={tooltip} />}
+      <div className="SelectField-value">{selectedLabel}</div>
+      <div className="SelectField-options">
+        {options.map(({ label, value }, index) => (
+          <div
+            key={index}
+            onClick={(event) => {
+              event.stopPropagation();
+              setValue(value);
+              setSelectOpen(false);
+              onBlur();
+            }}
+          >
+            {label}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
-export default SelectField
+export default SelectField;

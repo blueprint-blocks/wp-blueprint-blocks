@@ -8890,31 +8890,34 @@
 	    tooltip = _ref.tooltip,
 	    value = _ref.value,
 	    setValue = _ref.setValue;
-	  var ref = React$2.useRef();
-	  var valueRef = React$2.useRef();
+	  var ref = React$2.useRef(null);
 
 	  // State for our select dropdown
 	  var _useState = React$2.useState(false),
 	    _useState2 = _slicedToArray(_useState, 2),
 	    isSelectOpen = _useState2[0],
 	    setSelectOpen = _useState2[1];
+	  var selectedLabel = React$2.useMemo(function () {
+	    var _iterator = _createForOfIteratorHelper(options),
+	      _step;
+	    try {
+	      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+	        var option = _step.value;
+	        if (option.value === value) {
+	          return option.label;
+	        }
+	      }
+	    } catch (err) {
+	      _iterator.e(err);
+	    } finally {
+	      _iterator.f();
+	    }
+	    return null;
+	  }, [value]);
 	  var onClick = function onClick() {
 	    setSelectOpen(true);
 	    onFocus();
 	  };
-	  var onSelectOption = function onSelectOption(event) {
-	    var _event$target$dataset;
-	    event.stopPropagation();
-	    setValue((_event$target$dataset = event.target.dataset) === null || _event$target$dataset === void 0 ? void 0 : _event$target$dataset.value);
-	    setSelectOpen(false);
-	    onBlur();
-	  };
-	  React$2.useLayoutEffect(function () {
-	    valueRef.current.innerText = value;
-	  }, [value]);
-	  React$2.useLayoutEffect(function () {
-	    ref.current.classList.toggle('is-open', isSelectOpen);
-	  }, [isSelectOpen]);
 
 	  // Call hook passing in the ref and a function to call on outside click
 	  useOnClickOutside(ref, function () {
@@ -8925,7 +8928,9 @@
 	  });
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
-	    className: "SelectField",
+	    className: classNames("SelectField", {
+	      "is-open": isSelectOpen
+	    }),
 	    onClick: onClick,
 	    children: [label && /*#__PURE__*/jsxRuntimeExports.jsx(FieldLabel, {
 	      htmlFor: name,
@@ -8933,15 +8938,19 @@
 	      tooltip: tooltip
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "SelectField-value",
-	      ref: valueRef
+	      children: selectedLabel
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "SelectField-options",
 	      children: options.map(function (_ref2, index) {
 	        var label = _ref2.label,
 	          value = _ref2.value;
 	        return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	          "data-value": value,
-	          onClick: onSelectOption,
+	          onClick: function onClick(event) {
+	            event.stopPropagation();
+	            setValue(value);
+	            setSelectOpen(false);
+	            onBlur();
+	          },
 	          children: label
 	        }, index);
 	      })
