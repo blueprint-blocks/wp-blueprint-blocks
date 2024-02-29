@@ -5597,6 +5597,16 @@
 	  });
 	}
 
+	function useBeforeUnload(callback) {
+	  React$2.useEffect(function () {
+	    window.addEventListener("beforeunload", callback);
+	    return function () {
+	      console.log("removed event listener");
+	      window.removeEventListener("beforeunload", callback);
+	    };
+	  }, [callback]);
+	}
+
 	function useBlockNamespace() {
 	  var _useSelector = useSelector(function (state) {
 	      return state.blockJson || {};
@@ -5806,6 +5816,14 @@
 	      document.removeEventListener('touchstart', listener);
 	    };
 	  }, [ref, handler]);
+	}
+
+	function usePreventClose(shouldPreventClose) {
+	  useBeforeUnload(React$2.useCallback(function (event) {
+	    if (shouldPreventClose) {
+	      event.preventDefault();
+	    }
+	  }, [shouldPreventClose]));
 	}
 
 	var jsxRuntime = {exports: {}};
@@ -42178,6 +42196,7 @@
 	      }).then(function (_ref) {
 	        var id = _ref.id;
 	        dispatch(setPostId(id));
+	        dispatch(setChanged(false));
 	        window.history.pushState({
 	          id: id
 	        }, "Edit Block < Flickerbox - WordPress", "/wp-admin/post.php?post=".concat(id, "&action=edit"));
@@ -42190,9 +42209,14 @@
 	        blockJson: blockJson,
 	        blockEditorCss: blockEditorCss,
 	        blockViewCss: blockViewCss
+	      }).then(function () {
+	        dispatch(setChanged(false));
 	      });
 	    }
 	  };
+	  usePreventClose(useSelector(function (state) {
+	    return hasUnsavedChanges(state.postMetadata);
+	  }));
 	  React$2.useLayoutEffect(function () {
 	    dispatch(setRect(appRect));
 	  }, [appRect]);

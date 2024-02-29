@@ -3,10 +3,14 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { saveNewBlock, updateBlock } from "../../api";
-import { useRect } from "../../hooks";
+import { usePreventClose, useRect } from "../../hooks";
 import { setRect as setAppRect } from "../../store/app";
 import { getRawJson as getRawBlueprintJson } from "../../store/block-blueprint";
-import { setPostId } from "../../store/post-metadata";
+import {
+  hasUnsavedChanges,
+  setChanged,
+  setPostId,
+} from "../../store/post-metadata";
 import { showSaveDialog } from "../../store/save-dialog";
 
 import Navigator from "../Navigator";
@@ -58,6 +62,7 @@ function App() {
         blockViewCss,
       }).then(({ id }) => {
         dispatch(setPostId(id));
+        dispatch(setChanged(false));
         window.history.pushState(
           { id },
           `Edit Block < Flickerbox - WordPress`,
@@ -72,9 +77,15 @@ function App() {
         blockJson,
         blockEditorCss,
         blockViewCss,
+      }).then(() => {
+        dispatch(setChanged(false));
       });
     }
   };
+
+  usePreventClose(
+    useSelector((state) => hasUnsavedChanges(state.postMetadata)),
+  );
 
   useLayoutEffect(() => {
     dispatch(setAppRect(appRect));
