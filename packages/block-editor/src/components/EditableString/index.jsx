@@ -30,7 +30,9 @@ const EditableString = memo(
     };
 
     const _onChange = ({ target }) => {
-      let newValue = String(target?.value || "").replace(/\n/g, " ");
+      let newValue = String(target?.value || "");
+      newValue = newValue.replace(/\n/g, " ");
+      newValue = newValue.replace("&nbsp;", " ");
       onChange && onChange(newValue);
     };
 

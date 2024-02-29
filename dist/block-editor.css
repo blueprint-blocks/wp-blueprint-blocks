@@ -490,6 +490,65 @@
     color: var(--color-light-gray);
 }
 
+.FieldLabel {
+	align-items: center;
+	color: var(--color-dark-gray);
+	cursor: default;
+	display: grid;
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-medium);
+	gap: var(--1x);
+	grid-template-columns: 1fr max-content;
+	line-height: 1;
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
+}
+.FieldLabel .Tooltip {
+		margin: -1px 0;
+	}
+
+.TextField {
+    background: var(--color-white);
+    border: 2px solid var(--color-black);
+    border-radius: 7px;
+    box-shadow: var(--box-shadow-low);
+    display: grid;
+    gap: var(--1x);
+    grid-auto-flow: row;
+    grid-template-columns: 100%;
+    max-width: 640px;
+    padding: var(--1x);
+    position: relative;
+}
+.TextField :is(.EditableString, .TextField-placeholder, .TextField-value) {
+        --focus-margin: 0;
+        --focus-padding: 0;
+        --color: var(--color-black);
+        --placeholder-color: var(--color-gray);
+        --placeholder-focus-color: var(--color-gray);
+        font-size: var(--font-size-large);
+        font-weight: var(--font-weight-semi-bold);
+        line-height: 1.5;
+    }
+.TextField .EditableString {
+        display: grid;
+        overflow: auto;
+        width: 100%;
+    }
+.TextField .TextField-placeholder {
+        color: var(--color-gray);
+        -webkit-user-select: none;
+           -moz-user-select: none;
+                user-select: none;
+    }
+.TextField .TextField-value {
+        color: var(--color-black);
+        -webkit-user-select: none;
+           -moz-user-select: none;
+                user-select: none;
+    }
+
 .CheckboxField {
     --size: var(--3x);
     align-items: start;
@@ -671,24 +730,6 @@
 		--hover-color: var(--color-white);
 		--placeholder-color: var(--color-gray);
 		--placeholder-focus-color: var(--color-gray);
-	}
-
-.FieldLabel {
-	align-items: center;
-	color: var(--color-dark-gray);
-	cursor: default;
-	display: grid;
-	font-size: var(--font-size-small);
-	font-weight: var(--font-weight-medium);
-	gap: var(--1x);
-	grid-template-columns: 1fr max-content;
-	line-height: 1;
-	-webkit-user-select: none;
-	   -moz-user-select: none;
-	        user-select: none;
-}
-.FieldLabel .Tooltip {
-		margin: -1px 0;
 	}
 
 .ListField {
@@ -888,47 +929,6 @@
 .SelectField.is-open .SelectField-options {
     display: grid;
 }
-
-.TextField {
-    background: var(--color-white);
-    border: 2px solid var(--color-black);
-    border-radius: 7px;
-    box-shadow: var(--box-shadow-low);
-    display: grid;
-    gap: var(--1x);
-    grid-auto-flow: row;
-    grid-template-columns: 100%;
-    max-width: 640px;
-    padding: var(--1x);
-    position: relative;
-}
-.TextField :is(.EditableString, .TextField-placeholder, .TextField-value) {
-        --focus-margin: 0;
-        --focus-padding: 0;
-        --color: var(--color-black);
-        --placeholder-color: var(--color-gray);
-        --placeholder-focus-color: var(--color-gray);
-        font-size: var(--font-size-large);
-        font-weight: var(--font-weight-semi-bold);
-        line-height: 1.5;
-    }
-.TextField .EditableString {
-        display: grid;
-        overflow: auto;
-        width: 100%;
-    }
-.TextField .TextField-placeholder {
-        color: var(--color-gray);
-        -webkit-user-select: none;
-           -moz-user-select: none;
-                user-select: none;
-    }
-.TextField .TextField-value {
-        color: var(--color-black);
-        -webkit-user-select: none;
-           -moz-user-select: none;
-                user-select: none;
-    }
 
 .PageBlockJson {
     padding: var(--5x);

@@ -5601,7 +5601,6 @@
 	  React$2.useEffect(function () {
 	    window.addEventListener("beforeunload", callback);
 	    return function () {
-	      console.log("removed event listener");
 	      window.removeEventListener("beforeunload", callback);
 	    };
 	  }, [callback]);
@@ -8298,7 +8297,9 @@
 	  };
 	  var _onChange = function _onChange(_ref2) {
 	    var target = _ref2.target;
-	    var newValue = String((target === null || target === void 0 ? void 0 : target.value) || "").replace(/\n/g, " ");
+	    var newValue = String((target === null || target === void 0 ? void 0 : target.value) || "");
+	    newValue = newValue.replace(/\n/g, " ");
+	    newValue = newValue.replace("&nbsp;", " ");
 	    onChange && onChange(newValue);
 	  };
 	  var _onFocus = function _onFocus() {
@@ -8436,6 +8437,9 @@
 	  var blockNamespace = useSelector(function (state) {
 	    return getBlockNamespace(state.blockJson);
 	  });
+	  useSelector(function (state) {
+	    return delimiterize(state.blockJson.title);
+	  });
 	  var showValidationErrors = useSelector(function (state) {
 	    return hasValidationErrors(state.postMetadata) || !isNewPost(state.postMetadata);
 	  });
@@ -8480,6 +8484,94 @@
 	      data: "blockJson.name",
 	      position: "below"
 	    })]
+	  });
+	};
+
+	function FieldLabel(_ref) {
+	  var htmlFor = _ref.htmlFor,
+	    label = _ref.label,
+	    tooltip = _ref.tooltip;
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("label", {
+	    className: "FieldLabel",
+	    htmlFor: htmlFor,
+	    children: [label, tooltip && /*#__PURE__*/jsxRuntimeExports.jsx(Tooltip, {
+	      data: tooltip,
+	      text: tooltip
+	    })]
+	  });
+	}
+
+	function TextField(_ref) {
+	  var _ref$allowEnter = _ref.allowEnter,
+	    allowEnter = _ref$allowEnter === void 0 ? false : _ref$allowEnter,
+	    _ref$disabled = _ref.disabled,
+	    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
+	    label = _ref.label,
+	    _ref$multiLine = _ref.multiLine,
+	    multiLine = _ref$multiLine === void 0 ? false : _ref$multiLine,
+	    onBlur = _ref.onBlur,
+	    onFocus = _ref.onFocus,
+	    placeholder = _ref.placeholder,
+	    _ref$rows = _ref.rows,
+	    rows = _ref$rows === void 0 ? 1 : _ref$rows,
+	    tooltip = _ref.tooltip,
+	    _ref$value = _ref.value,
+	    value = _ref$value === void 0 ? '' : _ref$value,
+	    setValue = _ref.setValue;
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    className: classNames('TextField', {
+	      'is-disabled': disabled
+	    }),
+	    children: [label && /*#__PURE__*/jsxRuntimeExports.jsx(FieldLabel, {
+	      label: label,
+	      tooltip: tooltip
+	    }), disabled && value.length === 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	      "class": "TextField-placeholder",
+	      children: placeholder
+	    }), disabled && value.length > 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	      "class": "TextField-value",
+	      children: value
+	    }), !disabled && /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
+	      allowEnter: allowEnter,
+	      multiLine: multiLine,
+	      onBlur: onBlur,
+	      onChange: setValue,
+	      onFocus: onFocus,
+	      placeholder: placeholder,
+	      rows: rows,
+	      value: value
+	    })]
+	  });
+	}
+
+	var BlockTitleField = function BlockTitleField(_ref) {
+	  var onBlur = _ref.onBlur,
+	    onFocus = _ref.onFocus;
+	  var dispatch = useDispatch();
+	  var blockName = useSelector(function (state) {
+	    return getBlockName(state.blockJson);
+	  });
+	  var blockNamespace = useSelector(function (state) {
+	    return getBlockNamespace(state.blockJson);
+	  });
+	  var blockTitle = useSelector(function (state) {
+	    return state.blockJson.title;
+	  });
+	  var setBlockTitle = function setBlockTitle(newBlockTitle) {
+	    if (blockName === delimiterize(blockTitle)) {
+	      var newBlockName = delimiterize(newBlockTitle);
+	      dispatch(setName("".concat(blockNamespace, "/").concat(newBlockName)));
+	    }
+	    dispatch(setTitle(newBlockTitle));
+	    dispatch(setChanged(true));
+	  };
+	  return /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
+	    label: "Enter a title...",
+	    tooltip: "blockJson.title",
+	    value: blockTitle,
+	    setValue: setBlockTitle,
+	    onFocus: onFocus,
+	    onBlur: onBlur
 	  });
 	};
 
@@ -8764,20 +8856,6 @@
 	  });
 	}
 
-	function FieldLabel(_ref) {
-	  var htmlFor = _ref.htmlFor,
-	    label = _ref.label,
-	    tooltip = _ref.tooltip;
-	  return /*#__PURE__*/jsxRuntimeExports.jsxs("label", {
-	    className: "FieldLabel",
-	    htmlFor: htmlFor,
-	    children: [label, tooltip && /*#__PURE__*/jsxRuntimeExports.jsx(Tooltip, {
-	      data: tooltip,
-	      text: tooltip
-	    })]
-	  });
-	}
-
 	function ListField(_ref) {
 	  var _ref$disabled = _ref.disabled,
 	    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
@@ -8976,49 +9054,6 @@
 	  });
 	}
 
-	function TextField(_ref) {
-	  var _ref$allowEnter = _ref.allowEnter,
-	    allowEnter = _ref$allowEnter === void 0 ? false : _ref$allowEnter,
-	    _ref$disabled = _ref.disabled,
-	    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
-	    label = _ref.label,
-	    _ref$multiLine = _ref.multiLine,
-	    multiLine = _ref$multiLine === void 0 ? false : _ref$multiLine,
-	    onBlur = _ref.onBlur,
-	    onFocus = _ref.onFocus,
-	    placeholder = _ref.placeholder,
-	    _ref$rows = _ref.rows,
-	    rows = _ref$rows === void 0 ? 1 : _ref$rows,
-	    tooltip = _ref.tooltip,
-	    _ref$value = _ref.value,
-	    value = _ref$value === void 0 ? '' : _ref$value,
-	    setValue = _ref.setValue;
-	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	    className: classNames('TextField', {
-	      'is-disabled': disabled
-	    }),
-	    children: [label && /*#__PURE__*/jsxRuntimeExports.jsx(FieldLabel, {
-	      label: label,
-	      tooltip: tooltip
-	    }), disabled && value.length === 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	      "class": "TextField-placeholder",
-	      children: placeholder
-	    }), disabled && value.length > 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	      "class": "TextField-value",
-	      children: value
-	    }), !disabled && /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
-	      allowEnter: allowEnter,
-	      multiLine: multiLine,
-	      onBlur: onBlur,
-	      onChange: setValue,
-	      onFocus: onFocus,
-	      placeholder: placeholder,
-	      rows: rows,
-	      value: value
-	    })]
-	  });
-	}
-
 	var _blueprintBlocksEdito$3;
 	var _ref$1 = ((_blueprintBlocksEdito$3 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$3 === void 0 ? void 0 : _blueprintBlocksEdito$3.blockMetadata) || {};
 	  _ref$1.blockNamespace;
@@ -9041,10 +9076,6 @@
 	  };
 	  var setBlockKeywords = function setBlockKeywords(keywords) {
 	    dispatch(setKeywords(keywords));
-	    dispatch(setChanged(true));
-	  };
-	  var setBlockTitle = function setBlockTitle(title) {
-	    dispatch(setTitle(title));
 	    dispatch(setChanged(true));
 	  };
 	  var _useFocus = useFocus([]),
@@ -9071,16 +9102,12 @@
 	            label: "Block icon",
 	            value: blockJson === null || blockJson === void 0 ? void 0 : blockJson.icon,
 	            setValue: setBlockIcon
-	          }), /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
-	            label: "Enter a title...",
-	            tooltip: "blockJson.title",
-	            value: blockJson === null || blockJson === void 0 ? void 0 : blockJson.title,
-	            setValue: setBlockTitle,
-	            onFocus: function onFocus() {
-	              return _onFocus("title");
-	            },
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx(BlockTitleField, {
 	            onBlur: function onBlur() {
 	              return _onBlur("title");
+	            },
+	            onFocus: function onFocus() {
+	              return _onFocus("title");
 	            }
 	          }), /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
 	            label: "Enter a description...",

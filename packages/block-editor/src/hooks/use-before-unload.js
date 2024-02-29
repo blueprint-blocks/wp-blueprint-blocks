@@ -5,7 +5,6 @@ function useBeforeUnload(callback) {
     window.addEventListener("beforeunload", callback);
 
     return () => {
-      console.log("removed event listener");
       window.removeEventListener("beforeunload", callback);
     };
   }, [callback]);

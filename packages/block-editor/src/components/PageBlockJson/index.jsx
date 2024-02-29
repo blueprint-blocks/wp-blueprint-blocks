@@ -7,7 +7,6 @@ import {
   setDescription,
   setIcon,
   setKeywords,
-  setTitle,
 } from "../../store/block-json";
 
 import { setChanged } from "../../store/post-metadata";
@@ -15,6 +14,7 @@ import { setChanged } from "../../store/post-metadata";
 import { useFocus } from "../../hooks";
 
 import BlockNameField from "../BlockNameField";
+import BlockTitleField from "../BlockTitleField";
 import BlockSupportsField from "../BlockSupportsField";
 import BlockVersionField from "../BlockVersionField";
 import JsonEditor from "../JsonEditor";
@@ -53,11 +53,6 @@ function PageBlockJson() {
     dispatch(setChanged(true));
   };
 
-  const setBlockTitle = (title) => {
-    dispatch(setTitle(title));
-    dispatch(setChanged(true));
-  };
-
   const [hasFocus, onBlur, onFocus] = useFocus([]);
 
   return (
@@ -76,13 +71,9 @@ function PageBlockJson() {
               value={blockJson?.icon}
               setValue={setBlockIcon}
             />
-            <TextField
-              label="Enter a title..."
-              tooltip="blockJson.title"
-              value={blockJson?.title}
-              setValue={setBlockTitle}
-              onFocus={() => onFocus("title")}
+            <BlockTitleField
               onBlur={() => onBlur("title")}
+              onFocus={() => onFocus("title")}
             />
             <TextField
               label="Enter a description..."
