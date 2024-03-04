@@ -18,7 +18,6 @@ function SelectField({
 }) {
   const ref = useRef(null);
 
-  // State for our select dropdown
   const [isSelectOpen, setSelectOpen] = useState(false);
 
   const selectedLabel = useMemo(() => {

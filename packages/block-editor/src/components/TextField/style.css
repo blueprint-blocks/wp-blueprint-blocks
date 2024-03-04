@@ -10,6 +10,7 @@
     max-width: 640px;
     padding: var(--1x);
     position: relative;
+    transition: var(--transition);
 
     :is(.EditableString, .TextField-placeholder, .TextField-value) {
         --focus-margin: 0;

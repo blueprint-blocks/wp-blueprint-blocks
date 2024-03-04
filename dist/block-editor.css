@@ -311,6 +311,154 @@
     color: var(--placeholder-focus-color);
 }
 
+.BlockIconField {
+    align-items: center;
+    aspect-ratio: 1 / 1;
+    background: var(--color-white);
+    border: 2px solid var(--color-black);
+    border-radius: 7px;
+    box-shadow: var(--box-shadow-low);
+    box-sizing: border-box;
+    display: grid;
+    height: 64px;
+    justify-items: center;
+    padding: var(--1x);
+    padding-right: calc(12px + var(--1x));
+    position: relative;
+    width: 84px;
+    z-index: 20;
+}
+
+.BlockIconField span {
+        --size: 32px;
+        display: block;
+        font-size: var(--size);
+        height: var(--size);
+        text-align: center;
+        width: var(--size);
+    }
+
+.BlockIconField::before {
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid var(--color-black);
+        content: "";
+        display: block;
+        height: 0;
+        position: absolute;
+        right: var(--1x);
+        top: 27px;
+        width: 0;
+    }
+
+.BlockIconField.is-open {
+    z-index: 20;
+}
+
+.BlockIconField.is-open::before {
+        transform: rotate(180deg);
+    }
+
+.BlockIconField-dropdown {
+    background: var(--color-white);
+    border: solid var(--color-black);
+    border-width: 2px;
+    border-radius: 0 7px 7px 7px;
+    box-shadow: 3px 3px 0 #27243233;
+    box-sizing: border-box;
+    display: none;
+    grid-template-rows: max-content 1fr;
+    height: 260px;
+    left: -2px;
+    max-width: 100vw;
+    position: absolute;
+    top: calc(100% - 7px);
+    width: 540px;
+}
+
+.BlockIconField-dropdown::after {
+        background: var(--color-white);
+        border-right: 2px solid var(--color-black);
+        content: "";
+        display: block;
+        height: 3px;
+        left: 0;
+        position: absolute;
+        top: -3px;
+        width: 80px;
+    }
+
+.BlockIconField.is-open .BlockIconField-dropdown {
+    display: grid;
+}
+
+.BlockIconField.is-open ~ :is(.TextField) {
+    opacity: 0.4;
+}
+
+.BlockIconField-filter {
+    --focus-margin: 0;
+    --focus-padding: var(--2x);
+    --line-height: var(--6x);
+    --padding: var(--2x);
+    border-bottom: 1px solid var(--color-lighter-gray);
+    font-size: var(--font-size-large);
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-semi-bold);
+}
+
+.BlockIconField-options {
+    align-items: start;
+    display: grid;
+    gap: var(--1x);
+    grid-auto-rows: max-content;
+    overflow: auto;
+}
+
+.BlockIconField-heading {
+    color: var(--color-black);
+    font-size: var(--font-size-large);
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-semi-bold);
+    line-height: 1;
+    padding: var(--2x) var(--2x) 0;
+}
+
+.BlockIconField-icons {
+    align-items: start;
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    padding: var(--1x);
+}
+
+.BlockIconField-icons > div {
+        align-items: center;
+        aspect-ratio: 1 / 1;
+        border-radius: 7px;
+        cursor: pointer;
+        display: grid;
+        font-size: var(--font-size-small);
+        font-weight: var(--font-weight-semi-bold);
+        justify-items: center;
+        padding: var(--1x);
+        text-align: center;
+        transition: var(--transition);
+    }
+
+.BlockIconField-icons > div:hover {
+        background: var(--color-lighter-gray);
+    }
+
+.BlockIconField-icons > div > div {
+        display: grid;
+        gap: var(--1x);
+        justify-items: center;
+    }
+
+.BlockIconField-icons span {
+        --size: 24px;
+    }
+
 .Tooltip {
     background: var(--color-lighter-gray);
     border-radius: var(--1x);
@@ -520,6 +668,7 @@
     max-width: 640px;
     padding: var(--1x);
     position: relative;
+    transition: var(--transition);
 }
 .TextField :is(.EditableString, .TextField-placeholder, .TextField-value) {
         --focus-margin: 0;
@@ -733,112 +882,56 @@
 	}
 
 .ListField {
-	background: var(--color-white);
-	border: 2px solid var(--color-black);
-	border-radius: 7px;
-	box-shadow: var(--box-shadow-low);
-	display: grid;
-	gap: var(--1x);
-	grid-auto-flow: row;
-	grid-template-columns: 100%;
-	max-width: 640px;
-	padding: var(--1x);
-	position: relative;
+    background: var(--color-white);
+    border: 2px solid var(--color-black);
+    border-radius: 7px;
+    box-shadow: var(--box-shadow-low);
+    display: grid;
+    gap: var(--1x);
+    grid-auto-flow: row;
+    grid-template-columns: 100%;
+    max-width: 640px;
+    padding: var(--1x);
+    position: relative;
+    transition: var(--transition);
 }
 
 .ListField-list {
-	align-items: center;
-	display: flex;
-	font-size: var(--font-size-large);
-	font-weight: var(--font-weight-medium);
-	gap: var(--1x);
-	width: 100%;
+    align-items: center;
+    display: flex;
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-medium);
+    gap: var(--1x);
+    width: 100%;
 }
 
 .ListField-list :is(.EditableString, .ListField-value, .ListField-placeholder) {
-		--focus-margin: 0;
-		--focus-padding: 0;
-		--placeholder-color: var(--color-light-gray);
-		--placeholder-focus-color: var(--color-light-gray);
-		--line-height: var(--3x);
-		border-radius: var(--3x);
-	}
+        --focus-margin: 0;
+        --focus-padding: 0;
+        --placeholder-color: var(--color-light-gray);
+        --placeholder-focus-color: var(--color-light-gray);
+        --line-height: var(--3x);
+        border-radius: var(--3x);
+    }
 
 .ListField-list :is(.EditableString.has-value, .ListField-value) {
-		--focus-padding: var(--2x);
-		--padding: var(--2x);
-		background: var(--color-lighter-gray);
-		font-weight: var(--font-weight-semi-bold);
-	}
+        --focus-padding: var(--2x);
+        --padding: var(--2x);
+        background: var(--color-lighter-gray);
+        font-weight: var(--font-weight-semi-bold);
+    }
 
 .ListField-list :is(.EditableString:not(.has-value), .ListField-placeholder) {
-		font-size: var(--font-size-base);
-	}
+        font-size: var(--font-size-base);
+    }
 
 .ListField-placeholder {
-	color: var(--color-dark-gray);
+    color: var(--color-dark-gray);
 }
 
 .ListField-value {
-	padding: 0 var(--2x);
+    padding: 0 var(--2x);
 }
-
-.SearchSelectField {
-	margin-bottom: var(--3x);
-	max-width: 520px;
-	position: relative;
-}
-
-.SearchSelectField:last-child {
-		margin-bottom: 0;
-	}
-
-.SearchSelectField-value {
-	border: 1px solid var(--color-gray);
-	border-radius: 5px;
-	box-sizing: border-box;
-	display: block;
-	font-size: var(--font-size);
-	font-weight: var(--font-weight-base);
-	height: var(--6x);
-	line-height: calc(var(--6x) - 2px);
-	padding: 0 var(--2x);
-	width: 100%;
-}
-
-.SearchSelectField-options {
-	display: none;
-	left: 0;
-	position: absolute;
-	top: 100%;
-	width: 100%;
-}
-
-.SearchSelectField.is-open .SearchSelectField-options {
-	display: block;
-}
-
-.DashiconsField {
-	align-items: center;
-	aspect-ratio: 1 / 1;
-	background: var(--color-white);
-	border: 2px solid var(--color-black);
-	border-radius: 7px;
-	box-shadow: var(--box-shadow-low);
-	box-sizing: border-box;
-	display: grid;
-	height: 64px;
-	justify-items: center;
-	padding: var(--1x);
-	position: relative;
-	width: 64px;
-}
-.DashiconsField span {
-		font-size: 36px;
-		height: 36px;
-		width: 36px;
-	}
-
 
 .SelectField {
     background: var(--color-white);
@@ -852,6 +945,10 @@
     max-width: 640px;
     padding: var(--1x);
     position: relative;
+    transition: var(--transition);
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
 }
 
 .SelectField::before {
@@ -867,9 +964,13 @@
         width: 0;
     }
 
-.SelectField.is-open::before {
-    transform: rotate(180deg);
+.SelectField.is-open {
+    z-index: 20;
 }
+
+.SelectField.is-open::before {
+        transform: rotate(180deg);
+    }
 
 .SelectField-value {
     font-size: var(--font-size-large);

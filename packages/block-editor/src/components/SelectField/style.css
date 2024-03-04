@@ -10,6 +10,8 @@
     max-width: 640px;
     padding: var(--1x);
     position: relative;
+    transition: var(--transition);
+    user-select: none;
 
     &::before {
         border-left: 6px solid transparent;
@@ -25,8 +27,12 @@
     }
 }
 
-.SelectField.is-open::before {
-    transform: rotate(180deg);
+.SelectField.is-open {
+    z-index: 20;
+
+    &::before {
+        transform: rotate(180deg);
+    }
 }
 
 .SelectField-value {

@@ -1,25 +1,35 @@
 import classNames from "classnames";
-import { memo, useCallback, useMemo, useRef, useState } from "react";
+import {
+  forwardRef,
+  memo,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import ContentEditable from "react-contenteditable";
 
 import "./style.css";
 
-const EditableString = memo(
-  ({
-    allowEnter = false,
-    className = "",
-    invalid = false,
-    multiLine = false,
-    onChange,
-    onDelete,
-    onFocus,
-    onBlur,
-    placeholder = "",
-    rows = 1,
-    value = "",
-  }) => {
+const EditableString = forwardRef(
+  (
+    {
+      allowEnter = false,
+      className = "",
+      invalid = false,
+      multiLine = false,
+      onChange,
+      onDelete,
+      onFocus,
+      onBlur,
+      placeholder = "",
+      rows = 1,
+      value = "",
+    },
+    contentRef,
+  ) => {
     const ref = useRef(null);
-    const contentRef = useRef(null);
+    const _contentRef = contentRef || useRef(null);
     const [hasFocus, setHasFocus] = useState(false);
 
     const html = useMemo(() => String(value || ""), [value]);
@@ -75,7 +85,7 @@ const EditableString = memo(
         )}
         <ContentEditable
           data-testid="editable-string/content-editable"
-          innerRef={contentRef}
+          innerRef={_contentRef}
           html={html}
           onChange={_onChange}
           onBlur={_onBlur}
@@ -91,5 +101,4 @@ const EditableString = memo(
     );
   },
 );
-
 export default EditableString;

@@ -1,7 +1,5 @@
 import * as blockJsonValidationFunctions from "../store/block-json/validation";
 
-console.log(blockJsonValidationFunctions);
-
 const validateBlockJsonProperty = ({
   propertyName,
   propertyValue,

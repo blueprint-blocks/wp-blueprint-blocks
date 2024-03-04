@@ -1,11 +1,9 @@
 import classNames from "classnames";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
   setCategory,
   setDescription,
-  setIcon,
   setKeywords,
 } from "../../store/block-json";
 
@@ -13,20 +11,17 @@ import { setChanged } from "../../store/post-metadata";
 
 import { useFocus } from "../../hooks";
 
+import BlockIconField from "../BlockIconField";
 import BlockNameField from "../BlockNameField";
 import BlockTitleField from "../BlockTitleField";
 import BlockSupportsField from "../BlockSupportsField";
 import BlockVersionField from "../BlockVersionField";
 import JsonEditor from "../JsonEditor";
 import ListField from "../ListField";
-import DashiconsField from "../DashiconsField";
 import SelectField from "../SelectField";
 import TextField from "../TextField";
 
 import "./style.css";
-
-const { blockNamespace = "blueprint-blocks" } =
-  blueprintBlocksEditorSettings?.blockMetadata || {};
 
 function PageBlockJson() {
   const dispatch = useDispatch();
@@ -43,11 +38,6 @@ function PageBlockJson() {
     dispatch(setChanged(true));
   };
 
-  const setBlockIcon = (icon) => {
-    dispatch(setIcon(icon));
-    dispatch(setChanged(true));
-  };
-
   const setBlockKeywords = (keywords) => {
     dispatch(setKeywords(keywords));
     dispatch(setChanged(true));
@@ -56,20 +46,29 @@ function PageBlockJson() {
   const [hasFocus, onBlur, onFocus] = useFocus([]);
 
   return (
-    <div className="PageBlockJson">
+    <div
+      className={classNames(
+        "PageBlockJson",
+        hasFocus.map((focus) => `focus-${focus}`),
+      )}
+    >
       <div className="PageBlockJson-grid">
         <div className="PageBlockJson-fields">
           <div className="PageBlockJson-fieldset" style={{ gap: "var(--1x)" }}>
-            <BlockNameField />
-            <BlockVersionField />
+            <BlockNameField
+              onBlur={() => onBlur("name")}
+              onFocus={() => onFocus("name")}
+            />
+            <BlockVersionField
+              onBlur={() => onBlur("version")}
+              onFocus={() => onFocus("version")}
+            />
           </div>
 
           <div className="PageBlockJson-fieldset">
-            <DashiconsField
-              name="icon"
-              label="Block icon"
-              value={blockJson?.icon}
-              setValue={setBlockIcon}
+            <BlockIconField
+              onBlur={() => onBlur("icon")}
+              onFocus={() => onFocus("icon")}
             />
             <BlockTitleField
               onBlur={() => onBlur("title")}

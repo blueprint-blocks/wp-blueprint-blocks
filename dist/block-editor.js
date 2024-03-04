@@ -4403,6 +4403,2616 @@
 		}
 	];
 
+	var dashicons = [
+		{
+			label: "Admin",
+			icons: [
+				{
+					icon: "dashicons dashicons-menu",
+					label: "Menu",
+					value: "menu",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-menu-alt",
+					label: "Menu (Alt)",
+					value: "menu-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-menu-alt2",
+					label: "Menu (Alt 2)",
+					value: "menu-alt2",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-menu-alt3",
+					label: "Menu (Alt 3)",
+					value: "menu-alt3",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-admin-site",
+					label: "Site",
+					value: "admin-site",
+					keywords: [
+						"globe",
+						"world"
+					]
+				},
+				{
+					icon: "dashicons dashicons-admin-site-alt",
+					label: "Site (Alt)",
+					value: "admin-site-alt",
+					keywords: [
+						"globe",
+						"world"
+					]
+				},
+				{
+					icon: "dashicons dashicons-admin-site-alt2",
+					label: "Site (Alt 2)",
+					value: "admin-site-alt2",
+					keywords: [
+						"globe",
+						"world"
+					]
+				},
+				{
+					icon: "dashicons dashicons-admin-site-alt3",
+					label: "Site (Alt 3)",
+					value: "admin-site-alt3",
+					keywords: [
+						"globe",
+						"world"
+					]
+				},
+				{
+					icon: "dashicons dashicons-dashboard",
+					label: "Dashboard",
+					value: "dashboard",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-admin-post",
+					label: "Post",
+					value: "admin-post",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-admin-media",
+					label: "Media",
+					value: "admin-media",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-admin-links",
+					label: "Links",
+					value: "admin-links",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-admin-page",
+					label: "Page",
+					value: "admin-page",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-admin-comments",
+					label: "Comments",
+					value: "admin-comments",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-admin-appearance",
+					label: "Appearance",
+					value: "admin-appearance",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-admin-plugins",
+					label: "Plugins",
+					value: "admin-plugins",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-plugins-checked",
+					label: "Plugins Checked",
+					value: "plugins-checked",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-admin-users",
+					label: "Users",
+					value: "admin-users",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-admin-tools",
+					label: "Tools",
+					value: "admin-tools",
+					keywords: [
+						"wrench"
+					]
+				},
+				{
+					icon: "dashicons dashicons-admin-settings",
+					label: "Settings",
+					value: "admin-settings",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-admin-network",
+					label: "Network",
+					value: "admin-network",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-admin-home",
+					label: "Home",
+					value: "admin-home",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-admin-generic",
+					label: "Generic",
+					value: "admin-generic",
+					keywords: [
+						"gear"
+					]
+				},
+				{
+					icon: "dashicons dashicons-admin-collapse",
+					label: "Collapse",
+					value: "admin-collapse",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-filter",
+					label: "Filter",
+					value: "filter",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-admin-customizer",
+					label: "Customizer",
+					value: "admin-customizer",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-admin-multisite",
+					label: "Multisite",
+					value: "admin-multisite",
+					keywords: [
+					]
+				}
+			]
+		},
+		{
+			label: "Welcome Screen",
+			icons: [
+				{
+					icon: "dashicons dashicons-welcome-write-blog",
+					label: "Write Blog",
+					value: "welcome-write-blog",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-welcome-add-page",
+					label: "Add Page",
+					value: "welcome-add-page",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-welcome-view-site",
+					label: "View Site",
+					value: "welcome-view-site",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-welcome-widgets-menus",
+					label: "Widgets Menu",
+					value: "welcome-widgets-menus",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-welcome-comments",
+					label: "Comments",
+					value: "welcome-comments",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-welcome-learn-more",
+					label: "Learn More",
+					value: "welcome-learn-more",
+					keywords: [
+						"hat"
+					]
+				}
+			]
+		},
+		{
+			label: "Post Formats",
+			icons: [
+				{
+					icon: "dashicons dashicons-format-aside",
+					label: "Aside",
+					value: "format-aside",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-format-image",
+					label: "Image",
+					value: "format-image",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-format-gallery",
+					label: "Gallery",
+					value: "format-gallery",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-format-video",
+					label: "Video",
+					value: "format-video",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-format-status",
+					label: "Status",
+					value: "format-status",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-format-links",
+					label: "Link",
+					value: "format-links",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-format-standard",
+					label: "Standard",
+					value: "format-standard",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-format-quote",
+					label: "Quote",
+					value: "format-quote",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-format-chat",
+					label: "Chat",
+					value: "format-chat",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-format-audio",
+					label: "Audio",
+					value: "format-audio",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-camera",
+					label: "Camera",
+					value: "camera",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-camera-alt",
+					label: "Camera (Alt)",
+					value: "camera-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-images-alt",
+					label: "Images (Alt)",
+					value: "images-alt",
+					keywords: [
+						"gif",
+						"jpeg",
+						"jpg",
+						"png"
+					]
+				},
+				{
+					icon: "dashicons dashicons-images-alt2",
+					label: "Images (Alt 2)",
+					value: "images-alt2",
+					keywords: [
+						"gif",
+						"jpeg",
+						"jpg",
+						"png"
+					]
+				},
+				{
+					icon: "dashicons dashicons-video-alt",
+					label: "Video (Alt)",
+					value: "video-alt1",
+					keywords: [
+						"film",
+						"mp4"
+					]
+				},
+				{
+					icon: "dashicons dashicons-video-alt2",
+					label: "Video (Alt 2)",
+					value: "video-alt2",
+					keywords: [
+						"film",
+						"mp4"
+					]
+				},
+				{
+					icon: "dashicons dashicons-video-alt3",
+					label: "Video (Alt 3)",
+					value: "video-alt3",
+					keywords: [
+						"film",
+						"mp4"
+					]
+				}
+			]
+		},
+		{
+			label: "Media",
+			icons: [
+				{
+					icon: "dashicons dashicons-media-archive",
+					label: "Archive",
+					value: "media-archive",
+					keywords: [
+						"file",
+						"zip"
+					]
+				},
+				{
+					icon: "dashicons dashicons-media-audio",
+					label: "Audio",
+					value: "media-audio",
+					keywords: [
+						"file",
+						"mp3",
+						"song"
+					]
+				},
+				{
+					icon: "dashicons dashicons-media-code",
+					label: "Code",
+					value: "media-code",
+					keywords: [
+						"file"
+					]
+				},
+				{
+					icon: "dashicons dashicons-media-default",
+					label: "Default",
+					value: "media-default",
+					keywords: [
+						"file"
+					]
+				},
+				{
+					icon: "dashicons dashicons-media-document",
+					label: "Document",
+					value: "media-document",
+					keywords: [
+						"file"
+					]
+				},
+				{
+					icon: "dashicons dashicons-media-interactive",
+					label: "Interactive",
+					value: "media-interactive",
+					keywords: [
+						"file",
+						"presentation"
+					]
+				},
+				{
+					icon: "dashicons dashicons-media-spreadsheet",
+					label: "Spreadsheet",
+					value: "media-spreadsheet",
+					keywords: [
+						"file"
+					]
+				},
+				{
+					icon: "dashicons dashicons-media-text",
+					label: "Text",
+					value: "media-text",
+					keywords: [
+						"file"
+					]
+				},
+				{
+					icon: "dashicons dashicons-media-video",
+					label: "Video",
+					value: "media-video",
+					keywords: [
+						"file",
+						"mp4"
+					]
+				},
+				{
+					icon: "dashicons dashicons-playlist-audio",
+					label: "Playlist Audio",
+					value: "playlist-audio",
+					keywords: [
+						"file",
+						"mp3",
+						"song"
+					]
+				},
+				{
+					icon: "dashicons dashicons-playlist-video",
+					label: "Playlist Video",
+					value: "playlist-video",
+					keywords: [
+						"file",
+						"mp4"
+					]
+				},
+				{
+					icon: "dashicons dashicons-controls-play",
+					label: "Play",
+					value: "controls-play",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-controls-pause",
+					label: "Pause",
+					value: "controls-pause",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-controls-forward",
+					label: "Forward",
+					value: "controls-forward",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-controls-skipforward",
+					label: "Skip Forward",
+					value: "controls-skipforward",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-controls-back",
+					label: "Back",
+					value: "controls-back",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-controls-skipback",
+					label: "Skip Back",
+					value: "controls-skipback",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-controls-repeat",
+					label: "Repeat",
+					value: "controls-repeat",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-controls-volumeon",
+					label: "Volume On",
+					value: "controls-volumeon",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-controls-volumeoff",
+					label: "Volume Off",
+					value: "controls-volumeoff",
+					keywords: [
+					]
+				}
+			]
+		},
+		{
+			label: "Image Editing",
+			icons: [
+				{
+					icon: "dashicons dashicons-image-crop",
+					label: "Crop",
+					value: "image-crop",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-image-rotate",
+					label: "Rotate",
+					value: "image-rotate",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-image-rotate-left",
+					label: "Rotate Left",
+					value: "image-rotate-left",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-image-rotate-right",
+					label: "Rotate Right",
+					value: "image-rotate-right",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-image-flip-vertical",
+					label: "Flip Vertical",
+					value: "image-flip-vertical",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-image-flip-horizontal",
+					label: "Flip Horizontal",
+					value: "image-flip-horizontal",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-image-filter",
+					label: "Filter",
+					value: "image-filter",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-undo",
+					label: "Undo",
+					value: "undo",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-redo",
+					label: "Redo",
+					value: "redo",
+					keywords: [
+					]
+				}
+			]
+		},
+		{
+			label: "Database",
+			icons: [
+				{
+					icon: "dashicons dashicons-database-add",
+					label: "Database Add",
+					value: "database-add",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-database",
+					label: "Database",
+					value: "database",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-database-export",
+					label: "Database Export",
+					value: "database-export",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-database-import",
+					label: "Database Import",
+					value: "database-import",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-database-remove",
+					label: "Database Remove",
+					value: "database-remove",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-database-view",
+					label: "Database View",
+					value: "database-view",
+					keywords: [
+					]
+				}
+			]
+		},
+		{
+			label: "Block Editor",
+			icons: [
+				{
+					icon: "dashicons dashicons-align-full-width",
+					label: "Align Full-width",
+					value: "align-full-width",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-align-pull-left",
+					label: "Align Pull-left",
+					value: "align-pull-left",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-align-pull-right",
+					label: "Align Pull-right",
+					value: "align-pull-right",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-align-wide",
+					label: "Align Wide",
+					value: "align-wide",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-block-default",
+					label: "Block Default",
+					value: "block-default",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-button",
+					label: "Button",
+					value: "button",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-cloud-saved",
+					label: "Cloud Saved",
+					value: "cloud-saved",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-cloud-upload",
+					label: "Cloud Upload",
+					value: "cloud-upload",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-columns",
+					label: "Columns",
+					value: "columns",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-cover-image",
+					label: "Cover Image",
+					value: "cover-image",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-distractionfree",
+					label: "Distrction Free",
+					value: "editor-distractionfree",
+					keywords: [
+						"expand"
+					]
+				},
+				{
+					icon: "dashicons dashicons-ellipsis",
+					label: "Ellipsis",
+					value: "ellipsis",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-embed-audio",
+					label: "Embed Audio",
+					value: "embed-audio",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-embed-generic",
+					label: "Embed Generic",
+					value: "embed-generic",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-embed-photo",
+					label: "Embed Photo",
+					value: "embed-photo",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-embed-post",
+					label: "Embed Post",
+					value: "embed-post",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-embed-video",
+					label: "Embed Video",
+					value: "embed-video",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-exit",
+					label: "Exit",
+					value: "exit",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-heading",
+					label: "Heading",
+					value: "heading",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-html",
+					label: "HTML",
+					value: "html",
+					keywords: [
+						"code",
+						"tag"
+					]
+				},
+				{
+					icon: "dashicons dashicons-info-outline",
+					label: "Info Outline",
+					value: "info-outline",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-insert",
+					label: "Insert",
+					value: "insert",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-insert-after",
+					label: "Insert After",
+					value: "insert-after",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-insert-before",
+					label: "Insert Before",
+					value: "insert-before",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-remove",
+					label: "Remove",
+					value: "remove",
+					keywords: [
+						"delete"
+					]
+				},
+				{
+					icon: "dashicons dashicons-saved",
+					label: "Saved",
+					value: "saved",
+					keywords: [
+						"checkmark"
+					]
+				},
+				{
+					icon: "dashicons dashicons-shortcode",
+					label: "Shortcode",
+					value: "shortcode",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-table-col-after",
+					label: "Table Column After",
+					value: "table-col-after",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-table-col-before",
+					label: "Table Column Before",
+					value: "table-col-before",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-table-col-delete",
+					label: "Table Column Delete",
+					value: "table-col-delete",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-table-row-after",
+					label: "Table Row After",
+					value: "table-row-after",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-table-row-before",
+					label: "Table Row Before",
+					value: "table-row-before",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-table-row-delete",
+					label: "Table Row Delete",
+					value: "table-row-delete",
+					keywords: [
+					]
+				}
+			]
+		},
+		{
+			label: "TinyMCE",
+			icons: [
+				{
+					icon: "dashicons dashicons-editor-bold",
+					label: "Bold",
+					value: "editor-bold",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-italic",
+					label: "Italic",
+					value: "editor-italic",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-ul",
+					label: "Unordered List",
+					value: "editor-ul",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-ol",
+					label: "Ordered List",
+					value: "editor-ol",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-ol-rtl",
+					label: "Ordered List RTL",
+					value: "editor-ol-rtl",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-quote",
+					label: "Quote",
+					value: "editor-quote",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-alignleft",
+					label: "Align Left",
+					value: "editor-alignleft",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-aligncenter",
+					label: "Align Center",
+					value: "editor-aligncenter",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-alignright",
+					label: "Align Right",
+					value: "editor-alignright",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-insertmore",
+					label: "Insert More",
+					value: "editor-insertmore",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-spellcheck",
+					label: "Spell Check",
+					value: "editor-spellcheck",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-expand",
+					label: "Expand",
+					value: "editor-expand",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-contract",
+					label: "Contract",
+					value: "editor-contract",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-kitchensink",
+					label: "Kitchen Sink",
+					value: "editor-kitchensink",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-underline",
+					label: "Underline",
+					value: "editor-underline",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-justify",
+					label: "Justify",
+					value: "editor-justify",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-textcolor",
+					label: "Text Color",
+					value: "editor-textcolor",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-paste-word",
+					label: "Paste Word",
+					value: "editor-paste-word",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-paste-text",
+					label: "Paste Text",
+					value: "editor-paste-text",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-removeformatting",
+					label: "Remove Formatting",
+					value: "editor-removeformatting",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-video",
+					label: "Video",
+					value: "editor-video",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-customchar",
+					label: "Custom Character",
+					value: "editor-customchar",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-outdent",
+					label: "Outdent",
+					value: "editor-outdent",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-indent",
+					label: "Indent",
+					value: "editor-indent",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-help",
+					label: "Help",
+					value: "editor-help",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-strikethrough",
+					label: "Strikethrough",
+					value: "editor-strikethrough",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-unlink",
+					label: "Unlink",
+					value: "editor-unlink",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-rtl",
+					label: "RTL",
+					value: "editor-rtl",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-ltr",
+					label: "LTR",
+					value: "editor-ltr",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-break",
+					label: "Break",
+					value: "editor-break",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-code",
+					label: "Code",
+					value: "editor-code",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-paragraph",
+					label: "Paragraph",
+					value: "editor-paragraph",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-editor-table",
+					label: "Table",
+					value: "editor-table",
+					keywords: [
+					]
+				}
+			]
+		},
+		{
+			label: "Posts Screen",
+			icons: [
+				{
+					icon: "dashicons dashicons-align-left",
+					label: "Align Left",
+					value: "align-left",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-align-right",
+					label: "Align Right",
+					value: "align-right",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-align-center",
+					label: "Align Center",
+					value: "align-center",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-align-none",
+					label: "Align None",
+					value: "align-none",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-lock",
+					label: "Lock",
+					value: "lock",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-unlock",
+					label: "Unlock",
+					value: "unlock",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-calendar",
+					label: "Calendar",
+					value: "calendar",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-calendar-alt",
+					label: "Calendar (Alt)",
+					value: "calendar-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-visibility",
+					label: "Visibility",
+					value: "visibility",
+					keywords: [
+						"eye",
+						"look"
+					]
+				},
+				{
+					icon: "dashicons dashicons-hidden",
+					label: "Hidden",
+					value: "hidden",
+					keywords: [
+						"eye",
+						"look"
+					]
+				},
+				{
+					icon: "dashicons dashicons-post-status",
+					label: "Post Status",
+					value: "post-status",
+					keywords: [
+						"pin"
+					]
+				},
+				{
+					icon: "dashicons dashicons-edit",
+					label: "Edit",
+					value: "edit",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-trash",
+					label: "Trash",
+					value: "trash",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-sticky",
+					label: "Sticky",
+					value: "sticky",
+					keywords: [
+						"pin"
+					]
+				}
+			]
+		},
+		{
+			label: "Sorting",
+			icons: [
+				{
+					icon: "dashicons dashicons-external",
+					label: "External",
+					value: "external",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-arrow-up",
+					label: "Arrow Up",
+					value: "arrow-up",
+					keywords: [
+						"angle",
+						"caret",
+						"sort",
+						"triangle"
+					]
+				},
+				{
+					icon: "dashicons dashicons-arrow-down",
+					label: "Arrow Down",
+					value: "arrow-down",
+					keywords: [
+						"angle",
+						"caret",
+						"sort",
+						"triangle"
+					]
+				},
+				{
+					icon: "dashicons dashicons-arrow-right",
+					label: "Arrow Right",
+					value: "arrow-right",
+					keywords: [
+						"angle",
+						"caret",
+						"sort",
+						"triangle"
+					]
+				},
+				{
+					icon: "dashicons dashicons-arrow-left",
+					label: "Arrow Left",
+					value: "arrow-left",
+					keywords: [
+						"angle",
+						"caret",
+						"sort",
+						"triangle"
+					]
+				},
+				{
+					icon: "dashicons dashicons-arrow-up-alt",
+					label: "Arrow Up (Alt)",
+					value: "arrow-up-alt",
+					keywords: [
+						"sort"
+					]
+				},
+				{
+					icon: "dashicons dashicons-arrow-down-alt",
+					label: "Arrow Down (Alt)",
+					value: "arrow-down-alt",
+					keywords: [
+						"sort"
+					]
+				},
+				{
+					icon: "dashicons dashicons-arrow-right-alt",
+					label: "Arrow Right (Alt)",
+					value: "arrow-right-alt",
+					keywords: [
+						"sort"
+					]
+				},
+				{
+					icon: "dashicons dashicons-arrow-left-alt",
+					label: "Arrow Left (Alt)",
+					value: "arrow-left-alt",
+					keywords: [
+						"sort"
+					]
+				},
+				{
+					icon: "dashicons dashicons-arrow-up-alt2",
+					label: "Arrow Up (Alt 2)",
+					value: "arrow-up-alt2",
+					keywords: [
+						"angle",
+						"caret",
+						"sort",
+						"triangle"
+					]
+				},
+				{
+					icon: "dashicons dashicons-arrow-down-alt2",
+					label: "Arrow Down (Alt 2)",
+					value: "arrow-down-alt2",
+					keywords: [
+						"angle",
+						"caret",
+						"sort",
+						"triangle"
+					]
+				},
+				{
+					icon: "dashicons dashicons-arrow-right-alt2",
+					label: "Arrow Right (Alt 2)",
+					value: "arrow-right-alt2",
+					keywords: [
+						"angle",
+						"caret",
+						"sort",
+						"triangle"
+					]
+				},
+				{
+					icon: "dashicons dashicons-arrow-left-alt2",
+					label: "Arrow Left (Alt 2)",
+					value: "arrow-left-alt2",
+					keywords: [
+						"angle",
+						"caret",
+						"sort",
+						"triangle"
+					]
+				},
+				{
+					icon: "dashicons dashicons-sort",
+					label: "Sort",
+					value: "sort",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-leftright",
+					label: "Left / Right",
+					value: "leftright",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-randomize",
+					label: "Randomize",
+					value: "randomize",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-list-view",
+					label: "List View",
+					value: "list-view",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-excerpt-view",
+					label: "Excerpt View",
+					value: "excerpt-view",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-grid-view",
+					label: "Grid View",
+					value: "grid-view",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-move",
+					label: "Move",
+					value: "move",
+					keywords: [
+					]
+				}
+			]
+		},
+		{
+			label: "Social",
+			icons: [
+				{
+					icon: "dashicons dashicons-share",
+					label: "Share",
+					value: "share",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-share-alt",
+					label: "Share (Alt)",
+					value: "share-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-share-alt2",
+					label: "Share (Alt 2)",
+					value: "share-alt2",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-rss",
+					label: "RSS",
+					value: "rss",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-email",
+					label: "Email",
+					value: "email",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-email-alt",
+					label: "Email (Alt)",
+					value: "email-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-email-alt2",
+					label: "Email (Alt 2)",
+					value: "email-alt2",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-networking",
+					label: "Network",
+					value: "networking",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-amazon",
+					label: "Amazon",
+					value: "amazon",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-facebook",
+					label: "Facebook",
+					value: "facebook",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-facebook-alt",
+					label: "Facebook (Alt)",
+					value: "facebook-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-google",
+					label: "Google",
+					value: "google",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-instagram",
+					label: "Instagram",
+					value: "instagram",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-linkedin",
+					label: "LinkedIn",
+					value: "linkedin",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-pinterest",
+					label: "Pinterest",
+					value: "pinterest",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-podio",
+					label: "Podio",
+					value: "podio",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-reddit",
+					label: "Reddit",
+					value: "reddit",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-spotify",
+					label: "Spotify",
+					value: "spotify",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-twitch",
+					label: "Twitch",
+					value: "twitch",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-twitter",
+					label: "Twitter",
+					value: "twitter",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-twitter-alt",
+					label: "Twitter (Alt)",
+					value: "twitter-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-whatsapp",
+					label: "WhatsApp",
+					value: "whatsapp",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-xing",
+					label: "Xing",
+					value: "xing",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-youtube",
+					label: "YouTube",
+					value: "youtube",
+					keywords: [
+					]
+				}
+			]
+		},
+		{
+			label: "Wordpress.org",
+			icons: [
+				{
+					icon: "dashicons dashicons-hammer",
+					label: "Hammer",
+					value: "hammer",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-art",
+					label: "Art",
+					value: "art",
+					keywords: [
+						"paint",
+						"palette"
+					]
+				},
+				{
+					icon: "dashicons dashicons-migrate",
+					label: "Migrate",
+					value: "migrate",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-performance",
+					label: "Performance",
+					value: "performance",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-universal-access",
+					label: "Universal Access",
+					value: "universal-access",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-universal-access-alt",
+					label: "Universal Access (Alt)",
+					value: "universal-access-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-tickets",
+					label: "Tickets",
+					value: "tickets",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-nametag",
+					label: "Name Tag",
+					value: "nametag",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-clipboard",
+					label: "Clipboard",
+					value: "clipboard",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-heart",
+					label: "Heart",
+					value: "heart",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-megaphone",
+					label: "Megaphone",
+					value: "megaphone",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-schedule",
+					label: "Schedule",
+					value: "schedule",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-tide",
+					label: "Tide",
+					value: "tide",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-rest-api",
+					label: "REST API",
+					value: "rest-api",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-code-standards",
+					label: "Code Standards",
+					value: "code-standards",
+					keywords: [
+					]
+				}
+			]
+		},
+		{
+			label: "Buddicons",
+			icons: [
+				{
+					icon: "dashicons dashicons-buddicons-activity",
+					label: "Activity",
+					value: "buddicons-activity",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-buddicons-bbpress-logo",
+					label: "bbPress",
+					value: "buddicons-bbpress-logo",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-buddicons-buddypress-logo",
+					label: "BuddyPress",
+					value: "buddicons-buddypress-logo",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-buddicons-community",
+					label: "Community",
+					value: "buddicons-community",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-buddicons-forums",
+					label: "Forums",
+					value: "buddicons-forums",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-buddicons-friends",
+					label: "Friends",
+					value: "buddicons-friends",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-buddicons-groups",
+					label: "Groups",
+					value: "buddicons-groups",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-buddicons-pm",
+					label: "PM",
+					value: "buddicons-pm",
+					keywords: [
+						"letter",
+						"mail",
+						"message"
+					]
+				},
+				{
+					icon: "dashicons dashicons-buddicons-replies",
+					label: "Replies",
+					value: "buddicons-replies",
+					keywords: [
+						"bee"
+					]
+				},
+				{
+					icon: "dashicons dashicons-buddicons-topics",
+					label: "Topics",
+					value: "buddicons-topics",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-buddicons-tracking",
+					label: "Tracking",
+					value: "buddicons-tracking",
+					keywords: [
+					]
+				}
+			]
+		},
+		{
+			label: "Products",
+			icons: [
+				{
+					icon: "dashicons dashicons-wordpress",
+					label: "WordPress",
+					value: "wordpress",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-wordpress-alt",
+					label: "WordPress (Alt)",
+					value: "wordpress-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-pressthis",
+					label: "Pressthis",
+					value: "pressthis",
+					keywords: [
+						"pin"
+					]
+				},
+				{
+					icon: "dashicons dashicons-update",
+					label: "Update",
+					value: "update",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-update-alt",
+					label: "Update (Alt)",
+					value: "update-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-screenoptions",
+					label: "Screen Options",
+					value: "screenoptions",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-info",
+					label: "Info",
+					value: "info",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-cart",
+					label: "Cart",
+					value: "cart",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-feedback",
+					label: "Feedback",
+					value: "feedback",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-cloud",
+					label: "Cloud",
+					value: "cloud",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-translation",
+					label: "Translation",
+					value: "translation",
+					keywords: [
+					]
+				}
+			]
+		},
+		{
+			label: "Taxonomies",
+			icons: [
+				{
+					icon: "dashicons dashicons-tag",
+					label: "Tag",
+					value: "tag",
+					keywords: [
+						"category",
+						"taxonomy"
+					]
+				},
+				{
+					icon: "dashicons dashicons-category",
+					label: "Category",
+					value: "category",
+					keywords: [
+						"tag",
+						"taxonomy"
+					]
+				}
+			]
+		},
+		{
+			label: "Widgets",
+			icons: [
+				{
+					icon: "dashicons dashicons-archive",
+					label: "Archive",
+					value: "archive",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-tagcloud",
+					label: "Tag Cloud",
+					value: "tagcloud",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-text",
+					label: "Text",
+					value: "text",
+					keywords: [
+					]
+				}
+			]
+		},
+		{
+			label: "Notifications",
+			icons: [
+				{
+					icon: "dashicons dashicons-bell",
+					label: "Bell",
+					value: "bell",
+					keywords: [
+						"ding"
+					]
+				},
+				{
+					icon: "dashicons dashicons-yes",
+					label: "Yes",
+					value: "yes",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-yes-alt",
+					label: "Yes (Alt)",
+					value: "yes-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-no",
+					label: "No",
+					value: "no",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-no-alt",
+					label: "No (Alt)",
+					value: "no-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-plus",
+					label: "Plus",
+					value: "plus",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-plus-alt",
+					label: "Plus (Alt)",
+					value: "plus-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-plus-alt2",
+					label: "Plus (Alt 2)",
+					value: "plus-alt2",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-minus",
+					label: "Minus",
+					value: "minus",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-dismiss",
+					label: "Dismiss",
+					value: "dismiss",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-marker",
+					label: "Marker",
+					value: "marker",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-star-filled",
+					label: "Star Filled",
+					value: "star-filled",
+					keywords: [
+						"score",
+						"rate"
+					]
+				},
+				{
+					icon: "dashicons dashicons-star-half",
+					label: "Star Half",
+					value: "star-half",
+					keywords: [
+						"score",
+						"rate"
+					]
+				},
+				{
+					icon: "dashicons dashicons-star-empty",
+					label: "Star Empty",
+					value: "star-empty",
+					keywords: [
+						"score",
+						"rate"
+					]
+				},
+				{
+					icon: "dashicons dashicons-flag",
+					label: "Flag",
+					value: "flag",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-warning",
+					label: "Warning",
+					value: "warning",
+					keywords: [
+					]
+				}
+			]
+		},
+		{
+			label: "Miscellaneous",
+			icons: [
+				{
+					icon: "dashicons dashicons-location",
+					label: "Location",
+					value: "location",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-location-alt",
+					label: "Location (Alt)",
+					value: "location-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-vault",
+					label: "Vault",
+					value: "vault",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-shield",
+					label: "Shield",
+					value: "shield",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-shield-alt",
+					label: "Shield (Alt)",
+					value: "shield-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-sos",
+					label: "SOS",
+					value: "sos",
+					keywords: [
+						"help"
+					]
+				},
+				{
+					icon: "dashicons dashicons-search",
+					label: "Search",
+					value: "search",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-slides",
+					label: "Slides",
+					value: "slides",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-text-page",
+					label: "Text Page",
+					value: "text-page",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-analytics",
+					label: "Analytics",
+					value: "analytics",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-chart-pie",
+					label: "Pie Chart",
+					value: "chart-pie",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-chart-bar",
+					label: "Bar Chart",
+					value: "chart-bar",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-chart-line",
+					label: "Line Chart",
+					value: "chart-line",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-chart-area",
+					label: "Area Chart",
+					value: "chart-area",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-groups",
+					label: "Groups",
+					value: "groups",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-businessman",
+					label: "Business Man",
+					value: "businessman",
+					keywords: [
+						"woman",
+						"person"
+					]
+				},
+				{
+					icon: "dashicons dashicons-businesswoman",
+					label: "Business Woman",
+					value: "businesswoman",
+					keywords: [
+						"man",
+						"person"
+					]
+				},
+				{
+					icon: "dashicons dashicons-businessperson",
+					label: "Business Person",
+					value: "businessperson",
+					keywords: [
+						"man",
+						"woman"
+					]
+				},
+				{
+					icon: "dashicons dashicons-id",
+					label: "ID",
+					value: "id",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-id-alt",
+					label: "ID (Alt)",
+					value: "id-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-products",
+					label: "Products",
+					value: "products",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-awards",
+					label: "Awards",
+					value: "awards",
+					keywords: [
+						"Awards"
+					]
+				},
+				{
+					icon: "dashicons dashicons-forms",
+					label: "Forms",
+					value: "forms",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-testimonial",
+					label: "Testimonial",
+					value: "testimonial",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-portfolio",
+					label: "Portfolio",
+					value: "portfolio",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-book",
+					label: "Book",
+					value: "book",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-book-alt",
+					label: "Book (Alt)",
+					value: "book-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-download",
+					label: "Download",
+					value: "download",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-upload",
+					label: "Upload",
+					value: "upload",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-backup",
+					label: "Backup",
+					value: "backup",
+					keywords: [
+						"Backup"
+					]
+				},
+				{
+					icon: "dashicons dashicons-clock",
+					label: "Clock",
+					value: "clock",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-lightbulb",
+					label: "Lightbulb",
+					value: "lightbulb",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-microphone",
+					label: "Microphone",
+					value: "microphone",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-desktop",
+					label: "Desktop",
+					value: "desktop",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-laptop",
+					label: "Laptop",
+					value: "laptop",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-tablet",
+					label: "Tablet",
+					value: "tablet",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-smartphone",
+					label: "Smartphone",
+					value: "smartphone",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-phone",
+					label: "Phone",
+					value: "phone",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-index-card",
+					label: "Index Card",
+					value: "index-card",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-carrot",
+					label: "Carrot",
+					value: "carrot",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-building",
+					label: "Building",
+					value: "building",
+					keywords: [
+						"store"
+					]
+				},
+				{
+					icon: "dashicons dashicons-store",
+					label: "Store",
+					value: "store",
+					keywords: [
+						"building"
+					]
+				},
+				{
+					icon: "dashicons dashicons-album",
+					label: "Album",
+					value: "album",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-palmtree",
+					label: "Palm Tree",
+					value: "palmtree",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-tickets-alt",
+					label: "Tickets (Alt)",
+					value: "tickets-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-money",
+					label: "Money",
+					value: "money",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-money-alt",
+					label: "Money (Alt)",
+					value: "money-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-smiley",
+					label: "Smiley",
+					value: "smiley",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-thumbs-up",
+					label: "Thumbs Up",
+					value: "thumbs-up",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-thumbs-down",
+					label: "Thumbs Down",
+					value: "thumbs-down",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-layout",
+					label: "Layout",
+					value: "layout",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-paperclip",
+					label: "Paperclip",
+					value: "paperclip",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-color-picker",
+					label: "Color Picker",
+					value: "color-picker",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-edit-large",
+					label: "Edit Large",
+					value: "edit-large",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-edit-page",
+					label: "Edit Page",
+					value: "edit-page",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-airplane",
+					label: "Airplane",
+					value: "airplane",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-bank",
+					label: "Bank",
+					value: "bank",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-beer",
+					label: "Beer",
+					value: "beer",
+					keywords: [
+						"citra",
+						"hops",
+						"ipa",
+						"mug",
+						"stein",
+						"wheat"
+					]
+				},
+				{
+					icon: "dashicons dashicons-calculator",
+					label: "Calculator",
+					value: "calculator",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-car",
+					label: "Car",
+					value: "car",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-coffee",
+					label: "Coffee",
+					value: "coffee",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-drumstick",
+					label: "Drumstick",
+					value: "drumstick",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-food",
+					label: "Food",
+					value: "food",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-fullscreen-alt",
+					label: "Fullscreen (Alt)",
+					value: "fullscreen-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-fullscreen-exit-alt",
+					label: "Fullscreen Exit (Alt)",
+					value: "fullscreen-exit-alt",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-games",
+					label: "Games",
+					value: "games",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-hourglass",
+					label: "Hourglass",
+					value: "hourglass",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-open-folder",
+					label: "Folder",
+					value: "open-folder",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-pdf",
+					label: "PDF",
+					value: "pdf",
+					keywords: [
+						"file"
+					]
+				},
+				{
+					icon: "dashicons dashicons-pets",
+					label: "Pets",
+					value: "pets",
+					keywords: [
+						"dog",
+						"cat",
+						"paw"
+					]
+				},
+				{
+					icon: "dashicons dashicons-printer",
+					label: "Printer",
+					value: "printer",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-privacy",
+					label: "Privacy",
+					value: "privacy",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-superhero",
+					label: "Superhero",
+					value: "superhero",
+					keywords: [
+					]
+				},
+				{
+					icon: "dashicons dashicons-superhero-alt",
+					label: "Superhero (Alt)",
+					value: "superhero-alt",
+					keywords: [
+					]
+				}
+			]
+		}
+	];
+
 	var navItems = [
 		{
 			label: "Block.json",
@@ -4681,7 +7291,6 @@
 		validateTitle: validateTitle
 	});
 
-	console.log(blockJsonValidationFunctions);
 	var validateBlockJsonProperty = function validateBlockJsonProperty(_ref) {
 	  var propertyName = _ref.propertyName,
 	    propertyValue = _ref.propertyValue,
@@ -5192,8 +7801,8 @@
 	  return indexedName;
 	}
 	var ALLOWED_ATTRIBUTE_TYPES = ["array", "number", "string", "object"];
-	var _ref$2 = ((_blueprintBlocksEdito$9 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$9 === void 0 ? void 0 : _blueprintBlocksEdito$9.blockMetadata) || {},
-	  _ref$blockJson = _ref$2.blockJson,
+	var _ref$1 = ((_blueprintBlocksEdito$9 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$9 === void 0 ? void 0 : _blueprintBlocksEdito$9.blockMetadata) || {},
+	  _ref$blockJson = _ref$1.blockJson,
 	  blockJson = _ref$blockJson === void 0 ? {} : _ref$blockJson;
 	var slice$7 = createSlice({
 	  name: "blockJson",
@@ -8263,7 +10872,7 @@
 	}(React$1.Component);
 	var _default$1 = reactContenteditable.default = ContentEditable;
 
-	var EditableString = /*#__PURE__*/React$2.memo(function (_ref) {
+	var EditableString = /*#__PURE__*/React$2.forwardRef(function (_ref, contentRef) {
 	  var _ref$allowEnter = _ref.allowEnter,
 	    allowEnter = _ref$allowEnter === void 0 ? false : _ref$allowEnter,
 	    _ref$className = _ref.className,
@@ -8283,7 +10892,7 @@
 	    _ref$value = _ref.value,
 	    value = _ref$value === void 0 ? "" : _ref$value;
 	  var ref = React$2.useRef(null);
-	  var contentRef = React$2.useRef(null);
+	  var _contentRef = contentRef || React$2.useRef(null);
 	  var _useState = React$2.useState(false),
 	    _useState2 = _slicedToArray(_useState, 2),
 	    hasFocus = _useState2[0],
@@ -8330,7 +10939,7 @@
 	      children: placeholder
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx(_default$1, {
 	      "data-testid": "editable-string/content-editable",
-	      innerRef: contentRef,
+	      innerRef: _contentRef,
 	      html: html,
 	      onChange: _onChange,
 	      onBlur: _onBlur,
@@ -8344,6 +10953,129 @@
 	    })]
 	  });
 	});
+
+	function BlockIconField(_ref) {
+	  var onBlur = _ref.onBlur,
+	    onFocus = _ref.onFocus;
+	  var dispatch = useDispatch();
+	  var blockIcon = useSelector(function (state) {
+	    return state.blockJson.icon;
+	  });
+	  var ref = React$2.useRef(null);
+	  var inputRef = React$2.useRef(null);
+	  var _useState = React$2.useState(false),
+	    _useState2 = _slicedToArray(_useState, 2),
+	    isDropdownOpen = _useState2[0],
+	    setDropdownOpen = _useState2[1];
+	  var _useState3 = React$2.useState(""),
+	    _useState4 = _slicedToArray(_useState3, 2),
+	    searchFilter = _useState4[0],
+	    setSearchFilter = _useState4[1];
+	  var selectedIcon = React$2.useMemo(function () {
+	    var _iterator = _createForOfIteratorHelper(dashicons),
+	      _step;
+	    try {
+	      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+	        var dashicon = _step.value;
+	        if (dashicon.value === blockIcon) {
+	          return dashicon.icon;
+	        }
+	      }
+	    } catch (err) {
+	      _iterator.e(err);
+	    } finally {
+	      _iterator.f();
+	    }
+	    return "dashicons dashicons-star-filled";
+	  }, [blockIcon]);
+	  var filteredDashicons = React$2.useMemo(function () {
+	    return dashicons.map(function (group) {
+	      return {
+	        label: group.label,
+	        icons: group.icons.filter(function (_ref2) {
+	          var label = _ref2.label,
+	            keywords = _ref2.keywords;
+	          return group.label.toLowerCase().indexOf(searchFilter) !== -1 || label.toLowerCase().indexOf(searchFilter) !== -1 || keywords.join(" ").toLowerCase().indexOf(searchFilter) !== -1;
+	        })
+	      };
+	    }).filter(function (group) {
+	      return group.icons.length > 0;
+	    });
+	  }, [searchFilter]);
+	  var setBlockIcon = function setBlockIcon(event, newBlockIcon) {
+	    event.stopPropagation();
+	    dispatch(setIcon(newBlockIcon));
+	    dispatch(setChanged(true));
+	    setSearchFilter("");
+	    setDropdownOpen(false);
+	    onBlur();
+	  };
+	  var onClick = function onClick() {
+	    setDropdownOpen(true);
+	    onFocus();
+	    setTimeout(function () {
+	      inputRef === null || inputRef === void 0 || inputRef.current.focus();
+	    }, 0);
+	  };
+
+	  // Call hook passing in the ref and a function to call on outside click
+	  useOnClickOutside(ref, function () {
+	    if (isDropdownOpen === true) {
+	      setSearchFilter("");
+	      setDropdownOpen(false);
+	      onBlur();
+	    }
+	  });
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    ref: ref,
+	    className: classNames("BlockIconField", {
+	      "is-open": isDropdownOpen
+	    }),
+	    onClick: onClick,
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	      className: selectedIcon
+	    }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	      className: "BlockIconField-dropdown",
+	      children: [/*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
+	        ref: inputRef,
+	        className: "BlockIconField-filter",
+	        onChange: function onChange(value) {
+	          return setSearchFilter(value.toLowerCase());
+	        },
+	        placeholder: "Filter icons...",
+	        value: searchFilter
+	      }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	        className: "BlockIconField-options",
+	        children: filteredDashicons.map(function (group, index) {
+	          return /*#__PURE__*/jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, {
+	            children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	              className: "BlockIconField-heading",
+	              children: group.label
+	            }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	              className: "BlockIconField-icons",
+	              children: group.icons.map(function (_ref3) {
+	                var icon = _ref3.icon,
+	                  label = _ref3.label,
+	                  value = _ref3.value;
+	                return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	                  onClick: function onClick(event) {
+	                    return setBlockIcon(event, value);
+	                  },
+	                  title: label,
+	                  children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	                    children: /*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	                      className: icon
+	                    })
+	                  })
+	                }, index);
+	              })
+	            })]
+	          });
+	        })
+	      })]
+	    }), false ]
+	  });
+	}
 
 	function Tooltip(_ref) {
 	  var _ref$data = _ref.data,
@@ -8429,7 +11161,11 @@
 	  });
 	}
 
-	var BlockNameField = function BlockNameField() {
+	var _blueprintBlocksEdito$3;
+	var defaultBlockNamespace = ((_blueprintBlocksEdito$3 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$3 === void 0 || (_blueprintBlocksEdito$3 = _blueprintBlocksEdito$3.blockMetadata) === null || _blueprintBlocksEdito$3 === void 0 ? void 0 : _blueprintBlocksEdito$3.blockNamespace) || "blueprint-blocks";
+	var BlockNameField = function BlockNameField(_ref) {
+	  var onBlur = _ref.onBlur,
+	    onFocus = _ref.onFocus;
 	  var dispatch = useDispatch();
 	  var blockName = useSelector(function (state) {
 	    return getBlockName(state.blockJson);
@@ -8449,7 +11185,7 @@
 	  };
 	  var setBlockNamespace = function setBlockNamespace(newBlockNamespace) {
 	    if (newBlockNamespace === "") {
-	      dispatch(setName("blueprint-block/".concat(blockName)));
+	      dispatch(setName("".concat(defaultBlockNamespace, "/").concat(blockName)));
 	    } else {
 	      dispatch(setName("".concat(delimiterize(newBlockNamespace), "/").concat(blockName)));
 	    }
@@ -8468,7 +11204,9 @@
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
 	        className: "BlockNameField-namespace",
 	        invalid: showNamespaceInvalid,
+	        onBlur: onBlur,
 	        onChange: setBlockNamespace,
+	        onFocus: onFocus,
 	        value: blockNamespace
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	        "class": "BlockNameField-seperator",
@@ -8476,7 +11214,9 @@
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
 	        className: "BlockNameField-name",
 	        invalid: showNameInvalid,
+	        onBlur: onBlur,
 	        onChange: setBlockName,
+	        onFocus: onFocus,
 	        placeholder: "enter-a-block-name...",
 	        value: blockName
 	      })]
@@ -8961,22 +11701,6 @@
 	  });
 	}
 
-	function DashiconsField(_ref) {
-	  _ref.name;
-	    _ref.label;
-	    _ref.onBlur;
-	    _ref.onFocus;
-	    _ref.tooltip;
-	    _ref.value;
-	    _ref.setValue;
-	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	    className: "DashiconsField",
-	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	      className: "dashicons dashicons-hammer"
-	    }), false ]
-	  });
-	}
-
 	function SelectField(_ref) {
 	  var name = _ref.name,
 	    label = _ref.label,
@@ -8987,8 +11711,6 @@
 	    value = _ref.value,
 	    setValue = _ref.setValue;
 	  var ref = React$2.useRef(null);
-
-	  // State for our select dropdown
 	  var _useState = React$2.useState(false),
 	    _useState2 = _slicedToArray(_useState, 2),
 	    isSelectOpen = _useState2[0],
@@ -9054,9 +11776,6 @@
 	  });
 	}
 
-	var _blueprintBlocksEdito$3;
-	var _ref$1 = ((_blueprintBlocksEdito$3 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$3 === void 0 ? void 0 : _blueprintBlocksEdito$3.blockMetadata) || {};
-	  _ref$1.blockNamespace;
 	function PageBlockJson() {
 	  var dispatch = useDispatch();
 	  var blockJson = useSelector(function (state) {
@@ -9070,10 +11789,6 @@
 	    dispatch(setCategory(category));
 	    dispatch(setChanged(true));
 	  };
-	  var setBlockIcon = function setBlockIcon(icon) {
-	    dispatch(setIcon(icon));
-	    dispatch(setChanged(true));
-	  };
 	  var setBlockKeywords = function setBlockKeywords(keywords) {
 	    dispatch(setKeywords(keywords));
 	    dispatch(setChanged(true));
@@ -9084,7 +11799,9 @@
 	    _onBlur = _useFocus2[1],
 	    _onFocus = _useFocus2[2];
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	    className: "PageBlockJson",
+	    className: classNames("PageBlockJson", hasFocus.map(function (focus) {
+	      return "focus-".concat(focus);
+	    })),
 	    children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	      className: "PageBlockJson-grid",
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
@@ -9094,14 +11811,30 @@
 	          style: {
 	            gap: "var(--1x)"
 	          },
-	          children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlockNameField, {}), /*#__PURE__*/jsxRuntimeExports.jsx(BlockVersionField, {})]
+	          children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlockNameField, {
+	            onBlur: function onBlur() {
+	              return _onBlur("name");
+	            },
+	            onFocus: function onFocus() {
+	              return _onFocus("name");
+	            }
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx(BlockVersionField, {
+	            onBlur: function onBlur() {
+	              return _onBlur("version");
+	            },
+	            onFocus: function onFocus() {
+	              return _onFocus("version");
+	            }
+	          })]
 	        }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	          className: "PageBlockJson-fieldset",
-	          children: [/*#__PURE__*/jsxRuntimeExports.jsx(DashiconsField, {
-	            name: "icon",
-	            label: "Block icon",
-	            value: blockJson === null || blockJson === void 0 ? void 0 : blockJson.icon,
-	            setValue: setBlockIcon
+	          children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlockIconField, {
+	            onBlur: function onBlur() {
+	              return _onBlur("icon");
+	            },
+	            onFocus: function onFocus() {
+	              return _onFocus("icon");
+	            }
 	          }), /*#__PURE__*/jsxRuntimeExports.jsx(BlockTitleField, {
 	            onBlur: function onBlur() {
 	              return _onBlur("title");

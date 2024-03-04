@@ -23,7 +23,11 @@ import Tooltip from "../Tooltip";
 
 import "./style.css";
 
-const BlockNameField = () => {
+const defaultBlockNamespace =
+  blueprintBlocksEditorSettings?.blockMetadata?.blockNamespace ||
+  "blueprint-blocks";
+
+const BlockNameField = ({ onBlur, onFocus }) => {
   const dispatch = useDispatch();
 
   const blockName = useSelector((state) => getBlockName(state.blockJson));
@@ -51,7 +55,7 @@ const BlockNameField = () => {
 
   const setBlockNamespace = (newBlockNamespace) => {
     if (newBlockNamespace === "") {
-      dispatch(setName(`blueprint-block/${blockName}`));
+      dispatch(setName(`${defaultBlockNamespace}/${blockName}`));
     } else {
       dispatch(setName(`${delimiterize(newBlockNamespace)}/${blockName}`));
     }
@@ -74,14 +78,18 @@ const BlockNameField = () => {
         <EditableString
           className="BlockNameField-namespace"
           invalid={showNamespaceInvalid}
+          onBlur={onBlur}
           onChange={setBlockNamespace}
+          onFocus={onFocus}
           value={blockNamespace}
         />
         <div class="BlockNameField-seperator">{"/"}</div>
         <EditableString
           className="BlockNameField-name"
           invalid={showNameInvalid}
+          onBlur={onBlur}
           onChange={setBlockName}
+          onFocus={onFocus}
           placeholder={"enter-a-block-name..."}
           value={blockName}
         />
