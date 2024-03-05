@@ -2,11 +2,7 @@ import classNames from "classnames";
 import { memo, useCallback, useMemo, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  convertObjectToStylePropertiesString,
-  convertStylePropertiesStringToObject,
-  getComponentAttributeType,
-} from "../../functions";
+import { getComponentAttributeType } from "../../functions";
 
 import {
   getBlockComponent,

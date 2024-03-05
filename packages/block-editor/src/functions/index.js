@@ -1,8 +1,6 @@
 import camelize from "./camelize";
 import classNames from "./class-names";
 import componentAllowsChildren from "./component-allows-children";
-import convertObjectToStylePropertiesString from "./convert-object-to-style-properties-string";
-import convertStylePropertiesStringToObject from "./convert-style-properties-string-to-object";
 import delimiterize from "./delimiterize";
 import escapeHtml from "./escape-html";
 import escapeObjectHtml from "./escape-object-html";
@@ -30,8 +28,6 @@ export {
   camelize,
   classNames,
   componentAllowsChildren,
-  convertObjectToStylePropertiesString,
-  convertStylePropertiesStringToObject,
   delimiterize,
   escapeHtml,
   escapeObjectHtml,

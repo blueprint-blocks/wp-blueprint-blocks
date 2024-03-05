@@ -7076,10 +7076,6 @@
 	  return false;
 	}
 
-	function isObject(value) {
-	  return _typeof(value) === 'object' && !Array.isArray(value) && value !== null;
-	}
-
 	document.createElement('textarea');
 
 	function getComponentProperties() {
@@ -7198,6 +7194,10 @@
 
 	function isAttributeStringValue(value) {
 	  return !isStringNullValue(value) && !isAttributeArrayValue(value) && !isAttributeNumberValue(value) && !isAttributeObjectValue(value);
+	}
+
+	function isObject(value) {
+	  return _typeof(value) === 'object' && !Array.isArray(value) && value !== null;
 	}
 
 	function normalizeClasslistAsObject() {
