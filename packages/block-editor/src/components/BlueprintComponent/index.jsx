@@ -4,13 +4,26 @@ import { useDispatch, useSelector } from "react-redux";
 import Draggable from "react-draggable";
 
 import { componentAllowsChildren, pascalize } from "../../functions";
-import { useBlockClassName, useDebugRenderCount, useRect } from "../../hooks";
+
+import {
+  useBlockClassName,
+  useDebugRenderCount,
+  useOnClickOutside,
+  useRect,
+} from "../../hooks";
+
 import {
   getBlockComponent,
   startDraggingExistingComponent,
   stopDragging,
   unsetDraggingComponent,
 } from "../../store/block-blueprint";
+
+import {
+  componentHasFocus,
+  setFocus as setComponentFocus,
+  unsetFocus as unsetComponentFocus,
+} from "../../store/editor";
 
 import BlueprintAttributeHandle from "../BlueprintAttributeHandle";
 import BlueprintComponentClosingTag from "../BlueprintComponentClosingTag";
@@ -38,6 +51,10 @@ function BlueprintComponent({
     ...component
   } = useSelector((state) => getBlockComponent(state.blockBlueprint, clientId));
 
+  let _componentHasFocus = useSelector((state) =>
+    componentHasFocus(state.editor, clientId),
+  );
+
   const allowsChildren = componentAllowsChildren(type, tagName);
 
   const ref = useRef(null);
@@ -60,10 +77,26 @@ function BlueprintComponent({
 
   const [isDragging, setIsDragging] = useState(false);
 
-  const onStartDrag = () => {
-    setIsDragging(true);
-    dispatch(startDraggingExistingComponent(clientId));
+  const onClick = (event) => {
+    event.stopPropagation();
+    dispatch(setComponentFocus({ clientId, context: "component" }));
   };
+
+  const onClickOutside = () => {
+    if (_componentHasFocus) {
+      dispatch(unsetComponentFocus());
+    }
+  };
+
+  const onDrag = (event, { x, y }) => {
+    if (isDragging === false) {
+      setIsDragging(true);
+      dispatch(startDraggingExistingComponent(clientId));
+    }
+    setDraggingOffset({ x, y });
+  };
+
+  const onStartDrag = () => {};
 
   const onStopDrag = () => {
     setIsDragging(false);
@@ -77,19 +110,14 @@ function BlueprintComponent({
     }, 0);
   };
 
-  const onDrag = (event, { x, y }) => {
-    setDraggingOffset({ x, y });
-  };
-
-  useLayoutEffect(() => {
-    ref.current.classList.toggle("is-dragging", isDragging);
-  }, [isDragging]);
-
   const hasAttributeHandle = type !== "html";
 
   if (type !== "html") {
     tagName = pascalize(type);
   }
+
+  // Call hook passing in the ref and a function to call on outside click
+  useOnClickOutside(ref, onClickOutside);
 
   if (process.env.NODE_ENV === "development") {
     useDebugRenderCount("BlueprintComponent");
@@ -100,7 +128,10 @@ function BlueprintComponent({
       ref={ref}
       className={classNames("BlueprintComponent", {
         "is-draggable": draggable,
+        "is-dragging": isDragging,
+        "has-focus": _componentHasFocus,
       })}
+      onClick={onClick}
       style={{ "--indent": indent }}
     >
       <BlueprintComponentOpeningTag

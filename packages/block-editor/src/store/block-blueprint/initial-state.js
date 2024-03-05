@@ -1,70 +1,62 @@
-import { getUniqueClientId, normalizeClasslistAsObject } from '../../functions'
+import { getUniqueClientId, normalizeClasslistAsObject } from "../../functions";
 
-const blockComponents = {}
+const blockComponents = {};
 
-function parseComponentTree( components = [] ) {
+function parseComponentTree(components = []) {
+  if (!components) {
+    return [];
+  }
 
-	if ( !components ) {
-		return []
-	}
+  let clientIds = [];
 
-	let clientIds = []
+  components.forEach(({ children = [], ...component }) => {
+    const clientId = getUniqueClientId();
+    let childClientIds = [];
 
-	components.forEach( ( { children = [], ...component } ) => {
+    if (children.length > 0) {
+      childClientIds = parseComponentTree(children);
+    }
 
-		const clientId = getUniqueClientId()
-		let childClientIds = []
+    if (component?.className) {
+      component.className = normalizeClasslistAsObject(component?.className);
+    }
 
-		if ( children.length > 0 ) {
-			childClientIds = parseComponentTree( children )
-		}
+    blockComponents[clientId] = {
+      ...component,
+    };
 
-		if ( component?.className ) {
-			component.className = normalizeClasslistAsObject( component?.className )
-		}
+    clientIds.push([clientId, childClientIds]);
+  });
 
-		blockComponents[ clientId ] = {
-			...component,
-		}
-
-		clientIds.push( [
-			clientId,
-			childClientIds,
-		] )
-
-	} )
-
-	return clientIds
-
+  return clientIds;
 }
 
-const {
-	blockBlueprint = {},
-} = ( blueprintBlocksEditorSettings?.blockMetadata || {} )
+const { blockBlueprint = {} } =
+  blueprintBlocksEditorSettings?.blockMetadata || {};
 
-const blockEdit = parseComponentTree( blockBlueprint?.blockEdit || [] )
-const blockToolbar = parseComponentTree( blockBlueprint?.blockToolbar || [] )
-const blockSave = parseComponentTree( blockBlueprint?.blockSave || [] )
-const blockSidebar = parseComponentTree( blockBlueprint?.blockSidebar || [] )
+const blockEdit = parseComponentTree(blockBlueprint?.blockEdit || []);
+const blockToolbar = parseComponentTree(blockBlueprint?.blockToolbar || []);
+const blockSave = parseComponentTree(blockBlueprint?.blockSave || []);
+const blockSidebar = parseComponentTree(blockBlueprint?.blockSidebar || []);
 
 const initialState = {
+  blockComponents,
 
-	blockComponents,
+  blockEdit,
 
-	blockEdit,
+  blockToolbar,
 
-	blockToolbar,
+  blockSave,
 
-	blockSave,
+  blockSidebar,
 
-	blockSidebar,
+  existingDraggingComponent: null,
 
-	existingDraggingComponent: null,
+  newDraggingComponent: null,
 
-	newDraggingComponent: null,
+  isDragging: false,
 
-	isDragging: false,
+  focusedComponent: null,
+};
 
-}
-
-export default initialState
+export default initialState;

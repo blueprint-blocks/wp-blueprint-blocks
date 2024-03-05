@@ -1,88 +1,104 @@
 .BlueprintComponent {
-	align-items: start;
-	display: grid;
-	gap: var(--1x);
-	justify-items: start;
-	margin-left: calc(16px * var(--indent, 0));
-	padding: 2px 0;
-	position: relative;
-	width: calc(100% - (16px * var(--indent, 0)));
+    align-items: start;
+    display: grid;
+    gap: var(--1x);
+    justify-items: start;
+    margin-left: calc(16px * var(--indent, 0));
+    padding: 2px 0;
+    position: relative;
+    width: calc(100% - (16px * var(--indent, 0)));
 
-	@if $debug-rect == true {
-		gap: var(--5x);
-	}
+    @if $debug-rect == true {
+        gap: var(--5x);
+    }
 
-	.EditableString {
-		z-index: 20;
-	}
+    .EditableString {
+        z-index: 20;
+    }
 }
 
 .BlueprintComponent-markup {
-	display: grid;
-	font-family: var(--font-family-monospace);
-	font-size: var(--font-size-x-small);
-	font-weight: var(--font-weight-bold);
-	gap: 4px;
-	grid-auto-columns: max-content;
-	grid-auto-flow: column;
-	grid-auto-rows: max-content;
-	overflow: auto;
-	white-space: pre;
-	width: 100%;
+    display: grid;
+    font-family: var(--font-family-monospace);
+    font-size: var(--font-size-x-small);
+    font-weight: var(--font-weight-bold);
+    gap: 4px;
+    grid-auto-columns: max-content;
+    grid-auto-flow: column;
+    grid-auto-rows: max-content;
+    overflow: auto;
+    white-space: pre;
+    width: 100%;
 
-	&.is-multi-line {
-		align-items: start;
-		grid-auto-columns: 100%;
-		grid-auto-flow: row;
-		justify-items: start;
-	}
+    &.is-multi-line {
+        align-items: start;
+        grid-auto-columns: 100%;
+        grid-auto-flow: row;
+        justify-items: start;
+    }
 }
 
 .BlueprintComponent-tagName {
-	color: var(--color-accent-pink);
+    color: var(--color-accent-pink);
 }
 
 .BlueprintComponent-open,
 .BlueprintComponent-close {
-	background: var(--color-white);
-	border-radius: 5px;
-	box-sizing: border-box;
-	max-width: 512px;
-	min-height: 24px;
-	padding: var(--1x) var(--2x);
-	transition: var(--transition);
-	width: 100%;
+    background: var(--color-white);
+    border: 2px solid transparent;
+    border-radius: 5px;
+    box-sizing: border-box;
+    max-width: 512px;
+    min-height: 24px;
+    padding: var(--1x) var(--2x);
+    transition: var(--transition);
+    width: 100%;
+}
+
+.BlueprintComponent.has-focus
+    > :is(.BlueprintComponent-open, .BlueprintComponent-close) {
+    border-color: var(--color-accent-yellow);
+    box-shadow: 0 0 var(--3x) var(--color-accent-yellow);
 }
 
 .BlueprintComponent-body {
-	align-items: start;
-	display: grid;
-	gap: var(--1x);
-	justify-items: start;
-	padding: 2px 0;
-	position: relative;
-	transition: var(--transition);
-	width: 100%;
-	z-index: 20;
+    align-items: start;
+    display: grid;
+    gap: var(--1x);
+    justify-items: start;
+    padding: 2px 0;
+    position: relative;
+    transition: var(--transition);
+    width: 100%;
+    z-index: 20;
 }
 
 .BlueprintComponent.is-clone {
-	bottom: 0;
-	cursor: grab;
-	left: 0;
-	opacity: 0;
-	position: absolute;
-	right: 0;
-	top: 0;
-	z-index: 10;
+    bottom: 0;
+    cursor: grab;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 10;
 }
 
-.BlueprintComponent.is-dragging > :is(.BlueprintComponent-open, .BlueprintComponent-close, .BlueprintComponent-body) {
-	filter: blur(1px);
-	opacity: 0.6;
+.BlueprintComponent.is-dragging
+    > :is(
+        .BlueprintComponent-open,
+        .BlueprintComponent-close,
+        .BlueprintComponent-body
+    ) {
+    filter: blur(1px);
+    opacity: 0.6;
 }
 
 .BlueprintComponent.is-clone.react-draggable-dragging {
-	cursor: grabbing;
-	opacity: 0.6;
+    cursor: grabbing;
+}
+
+.BlueprintComponent.is-dragging
+    .BlueprintComponent.is-clone.react-draggable-dragging {
+    opacity: 0.6;
 }
