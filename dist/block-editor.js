@@ -14792,6 +14792,13 @@
 	  var onClickSuggestedValue = function onClickSuggestedValue(_ref3) {
 	    var attribute = _ref3.attribute,
 	      value = _ref3.value;
+	    if (attribute.indexOf(currentFocus === null || currentFocus === void 0 ? void 0 : currentFocus.attributeName) !== -1) {
+	      dispatch(unsetComponentAttribute({
+	        clientId: clientId,
+	        attribute: currentFocus === null || currentFocus === void 0 ? void 0 : currentFocus.attributeName
+	      }));
+	      debugger;
+	    }
 	    dispatch(setComponentAttribute({
 	      clientId: clientId,
 	      attribute: attribute,

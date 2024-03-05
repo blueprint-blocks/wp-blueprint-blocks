@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getBlockComponent,
   setComponentAttribute,
+  unsetComponentAttribute,
 } from "../../store/block-blueprint";
 
 import BlueprintContextualAttributeNameHelp from "../BlueprintContextualAttributeNameHelp";
@@ -26,6 +27,16 @@ const BlueprintSidebarContextPanel = forwardRef(({ editorRef = null }, ref) => {
     {};
 
   const onClickSuggestedValue = ({ attribute, value }) => {
+    if (attribute.indexOf(currentFocus?.attributeName) !== -1) {
+      dispatch(
+        unsetComponentAttribute({
+          clientId,
+          attribute: currentFocus?.attributeName,
+        }),
+      );
+      debugger;
+    }
+
     dispatch(
       setComponentAttribute({
         clientId,
