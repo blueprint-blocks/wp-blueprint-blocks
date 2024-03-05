@@ -89,7 +89,7 @@ function BlockIconField({ onBlur, onFocus }) {
         />
         <div className="BlockIconField-options">
           {filteredDashicons.map((group, index) => (
-            <>
+            <div key={index}>
               <div className="BlockIconField-heading">{group.label}</div>
               <div className="BlockIconField-icons">
                 {group.icons.map(({ icon, label, value }) => (
@@ -104,7 +104,7 @@ function BlockIconField({ onBlur, onFocus }) {
                   </div>
                 ))}
               </div>
-            </>
+            </div>
           ))}
         </div>
       </div>

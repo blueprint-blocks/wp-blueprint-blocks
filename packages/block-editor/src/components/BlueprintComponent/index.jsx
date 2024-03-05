@@ -179,7 +179,7 @@ function BlueprintComponent({
           onDrag={onDrag}
         >
           <div className="BlueprintComponent is-clone">
-            <BlueprintComponentOpeningTag clientId={clientId}>
+            <BlueprintComponentOpeningTag clientId={clientId} disabled={true}>
               {hasAttributeHandle && (
                 <BlueprintAttributeHandle
                   editorRef={editorRef}

@@ -9,17 +9,19 @@ import {
   setComponentAttribute,
   unsetComponentAttribute,
 } from "../../store/block-blueprint";
-import { setFocus, unsetFocus } from "../../store/editor";
+
+import { setFocus } from "../../store/editor";
 
 import EditableString from "../EditableString";
 
 import "./style.css";
 
 function BlueprintComponentAttribute({
-  clientId,
-  children = {},
   attributeName = "",
   attributeValue = "",
+  clientId,
+  children = {},
+  disabled = false,
   ...props
 }) {
   const dispatch = useDispatch();
@@ -51,14 +53,6 @@ function BlueprintComponentAttribute({
 
   const { currentFocus } = useSelector((state) => state.editor);
 
-  function onBlurAwait() {
-    // This is done to await any potential click events
-    // on other elements before blurring away
-    //setTimeout( () => {
-    dispatch(unsetFocus());
-    //}, 150 )
-  }
-
   const onChangeAttributeName = useCallback(
     (newAttributeName) => {
       dispatch(
@@ -72,7 +66,7 @@ function BlueprintComponentAttribute({
         setComponentAttribute({
           clientId,
           attribute: newAttributeName,
-          value: newAttributeValue,
+          value: _attributeValue,
         }),
       );
 
@@ -82,7 +76,7 @@ function BlueprintComponentAttribute({
           context: "component",
           property: "attributeName",
           attributeName: newAttributeName,
-          attributeValue: newAttributeValue,
+          attributeValue: _attributeValue,
         }),
       );
     },
@@ -123,7 +117,6 @@ function BlueprintComponentAttribute({
         attribute: _attributeName,
       }),
     );
-    dispatch(unsetFocus());
   }, [_attributeName, _attributeValue]);
 
   const onFocusAttributeName = useCallback(() => {
@@ -160,15 +153,24 @@ function BlueprintComponentAttribute({
           "is-invalid": !attributeNameValid,
         },
       )}
+      onClick={(event) => {
+        event.stopPropagation();
+      }}
+      onMouseDown={(event) => {
+        event.stopPropagation();
+      }}
+      onTouchStart={(event) => {
+        event.stopPropagation();
+      }}
     >
       <span ref={attributeNameRef} className="BlueprintComponentAttribute-name">
         <EditableString
+          disabled={disabled}
+          onChange={onChangeAttributeName}
+          onDelete={onDeleteAttributeName}
+          onFocus={onFocusAttributeName}
           placeholder="attribute"
           value={_attributeName}
-          onBlur={onBlurAwait}
-          onChange={onChangeAttributeName}
-          onFocus={onFocusAttributeName}
-          onDelete={onDeleteAttributeName}
         />
       </span>
 
@@ -177,10 +179,10 @@ function BlueprintComponentAttribute({
       <span className="BlueprintComponentAttribute-quote">{'"'}</span>
       <span className="BlueprintComponentAttribute-value">
         <EditableString
-          value={String(attributeValue)}
-          onBlur={onBlurAwait}
+          disabled={disabled}
           onChange={onChangeAttributeValue}
           onFocus={onFocusAttributeValue}
+          value={String(attributeValue)}
         />
       </span>
       <span className="BlueprintComponentAttribute-quote">{'"'}</span>

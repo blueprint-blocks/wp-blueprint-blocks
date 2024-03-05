@@ -26,8 +26,6 @@ const BlueprintSidebarContextPanel = forwardRef(({ editorRef = null }, ref) => {
     {};
 
   const onClickSuggestedValue = ({ attribute, value }) => {
-    console.log(clientId, attribute, value);
-
     dispatch(
       setComponentAttribute({
         clientId,

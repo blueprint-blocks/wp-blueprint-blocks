@@ -16,6 +16,7 @@ const EditableString = forwardRef(
     {
       allowEnter = false,
       className = "",
+      disabled = false,
       invalid = false,
       multiLine = false,
       onChange,
@@ -85,6 +86,7 @@ const EditableString = forwardRef(
         )}
         <ContentEditable
           data-testid="editable-string/content-editable"
+          disabled={disabled}
           innerRef={_contentRef}
           html={html}
           onChange={_onChange}

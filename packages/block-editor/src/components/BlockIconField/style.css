@@ -94,7 +94,8 @@
     font-weight: var(--font-weight-semi-bold);
 }
 
-.BlockIconField-options {
+.BlockIconField-options,
+.BlockIconField-options > div {
     align-items: start;
     display: grid;
     gap: var(--1x);

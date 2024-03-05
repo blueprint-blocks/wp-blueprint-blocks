@@ -10910,6 +10910,8 @@
 	    allowEnter = _ref$allowEnter === void 0 ? false : _ref$allowEnter,
 	    _ref$className = _ref.className,
 	    className = _ref$className === void 0 ? "" : _ref$className,
+	    _ref$disabled = _ref.disabled,
+	    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
 	    _ref$invalid = _ref.invalid,
 	    invalid = _ref$invalid === void 0 ? false : _ref$invalid,
 	    _ref$multiLine = _ref.multiLine,
@@ -10972,6 +10974,7 @@
 	      children: placeholder
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx(_default$1, {
 	      "data-testid": "editable-string/content-editable",
+	      disabled: disabled,
 	      innerRef: _contentRef,
 	      html: html,
 	      onChange: _onChange,
@@ -11080,7 +11083,7 @@
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	        className: "BlockIconField-options",
 	        children: filteredDashicons.map(function (group, index) {
-	          return /*#__PURE__*/jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, {
+	          return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	            children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	              className: "BlockIconField-heading",
 	              children: group.label
@@ -11103,7 +11106,7 @@
 	                }, index);
 	              })
 	            })]
-	          });
+	          }, index);
 	        })
 	      })]
 	    }), false ]
@@ -11658,8 +11661,8 @@
 	      onFocus(index);
 	    }
 	    if (index === (value === null || value === void 0 ? void 0 : value.length) || 0) {
-	      setValue([].concat(_toConsumableArray(value), ['']));
-	    } else if ((value === null || value === void 0 ? void 0 : value[((value === null || value === void 0 ? void 0 : value.length) || 0) - 1]) === '') {
+	      setValue([].concat(_toConsumableArray(value), [""]));
+	    } else if ((value === null || value === void 0 ? void 0 : value[((value === null || value === void 0 ? void 0 : value.length) || 0) - 1]) === "") {
 	      setValue(value.slice(0, -1));
 	    }
 	  }
@@ -11669,7 +11672,7 @@
 	      setCurrentIndex(0);
 	      onBlur(index);
 	    }
-	    if ((value === null || value === void 0 ? void 0 : value[((value === null || value === void 0 ? void 0 : value.length) || 0) - 1]) === '') {
+	    if ((value === null || value === void 0 ? void 0 : value[((value === null || value === void 0 ? void 0 : value.length) || 0) - 1]) === "") {
 	      setValue(value.slice(0, -1));
 	    }
 	  };
@@ -11685,16 +11688,16 @@
 	    }));
 	  };
 	  var itemList = value.slice(0, max);
-	  if ((itemList === null || itemList === void 0 ? void 0 : itemList[itemList.length - 1]) !== '') {
-	    itemList.push('');
+	  if ((itemList === null || itemList === void 0 ? void 0 : itemList[itemList.length - 1]) !== "") {
+	    itemList.push("");
 	  }
 	  useOnClickOutside(ref, function () {
 	    setBlur(currentIndex);
 	  });
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
-	    className: classNames('ListField', {
-	      'is-disabled': disabled
+	    className: classNames("ListField", {
+	      "is-disabled": disabled
 	    }),
 	    onClick: function onClick() {
 	      return setFocus(Math.min((value === null || value === void 0 ? void 0 : value.length) || 0, max));
@@ -11728,7 +11731,7 @@
 	              return _onChange(indexValue, index);
 	            }
 	          }, index)]
-	        });
+	        }, index);
 	      })
 	    })]
 	  });
@@ -13846,15 +13849,17 @@
 	  });
 	});
 
-	var _excluded$5 = ["clientId", "children", "attributeName", "attributeValue"];
+	var _excluded$5 = ["attributeName", "attributeValue", "clientId", "children", "disabled"];
 	function BlueprintComponentAttribute(_ref) {
-	  var clientId = _ref.clientId,
-	    _ref$children = _ref.children,
-	    children = _ref$children === void 0 ? {} : _ref$children,
-	    _ref$attributeName = _ref.attributeName,
+	  var _ref$attributeName = _ref.attributeName,
 	    attributeName = _ref$attributeName === void 0 ? "" : _ref$attributeName,
 	    _ref$attributeValue = _ref.attributeValue,
-	    attributeValue = _ref$attributeValue === void 0 ? "" : _ref$attributeValue;
+	    attributeValue = _ref$attributeValue === void 0 ? "" : _ref$attributeValue,
+	    clientId = _ref.clientId,
+	    _ref$children = _ref.children,
+	    children = _ref$children === void 0 ? {} : _ref$children,
+	    _ref$disabled = _ref.disabled,
+	    disabled = _ref$disabled === void 0 ? false : _ref$disabled;
 	    _objectWithoutProperties(_ref, _excluded$5);
 	  var dispatch = useDispatch();
 	  var component = useSelector(function (state) {
@@ -13885,13 +13890,6 @@
 	      return state.editor;
 	    });
 	    _useSelector.currentFocus;
-	  function onBlurAwait() {
-	    // This is done to await any potential click events
-	    // on other elements before blurring away
-	    //setTimeout( () => {
-	    dispatch(unsetFocus());
-	    //}, 150 )
-	  }
 	  var onChangeAttributeName = React$2.useCallback(function (newAttributeName) {
 	    dispatch(unsetComponentAttribute({
 	      clientId: clientId,
@@ -13900,14 +13898,14 @@
 	    dispatch(setComponentAttribute({
 	      clientId: clientId,
 	      attribute: newAttributeName,
-	      value: newAttributeValue
+	      value: _attributeValue
 	    }));
 	    dispatch(setFocus({
 	      clientId: clientId,
 	      context: "component",
 	      property: "attributeName",
 	      attributeName: newAttributeName,
-	      attributeValue: newAttributeValue
+	      attributeValue: _attributeValue
 	    }));
 	  }, [_attributeName, _attributeValue]);
 	  var onChangeAttributeValue = React$2.useCallback(function (newAttributeValue) {
@@ -13932,7 +13930,6 @@
 	      clientId: clientId,
 	      attribute: _attributeName
 	    }));
-	    dispatch(unsetFocus());
 	  }, [_attributeName, _attributeValue]);
 	  var onFocusAttributeName = React$2.useCallback(function () {
 	    dispatch(setFocus({
@@ -13957,16 +13954,25 @@
 	    className: classNames("BlueprintComponentAttribute", "is-".concat(attributeType), {
 	      "is-invalid": !attributeNameValid
 	    }),
+	    onClick: function onClick(event) {
+	      event.stopPropagation();
+	    },
+	    onMouseDown: function onMouseDown(event) {
+	      event.stopPropagation();
+	    },
+	    onTouchStart: function onTouchStart(event) {
+	      event.stopPropagation();
+	    },
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	      ref: attributeNameRef,
 	      className: "BlueprintComponentAttribute-name",
 	      children: /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
-	        placeholder: "attribute",
-	        value: _attributeName,
-	        onBlur: onBlurAwait,
+	        disabled: disabled,
 	        onChange: onChangeAttributeName,
+	        onDelete: onDeleteAttributeName,
 	        onFocus: onFocusAttributeName,
-	        onDelete: onDeleteAttributeName
+	        placeholder: "attribute",
+	        value: _attributeName
 	      })
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	      className: "BlueprintComponentAttribute-seperator",
@@ -13977,10 +13983,10 @@
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	      className: "BlueprintComponentAttribute-value",
 	      children: /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
-	        value: String(attributeValue),
-	        onBlur: onBlurAwait,
+	        disabled: disabled,
 	        onChange: onChangeAttributeValue,
-	        onFocus: onFocusAttributeValue
+	        onFocus: onFocusAttributeValue,
+	        value: String(attributeValue)
 	      })
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	      className: "BlueprintComponentAttribute-quote",
@@ -14016,19 +14022,21 @@
 
 	var _excluded$4 = ["type"];
 	var BlueprintComponentOpeningTag = /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
-	  var clientId = _ref.clientId;
+	  var _ref$children = _ref.children,
+	    children = _ref$children === void 0 ? [] : _ref$children,
+	    clientId = _ref.clientId,
+	    _ref$disabled = _ref.disabled,
+	    disabled = _ref$disabled === void 0 ? false : _ref$disabled;
 	    _ref.editorRef;
-	    var _ref$children = _ref.children,
-	    children = _ref$children === void 0 ? [] : _ref$children;
 	  var blockClassName = useBlockNamespace();
 	  var _useSelector = useSelector(function (state) {
 	      return getBlockComponent(state.blockBlueprint, clientId);
 	    }),
 	    _useSelector$type = _useSelector.type,
-	    type = _useSelector$type === void 0 ? 'html' : _useSelector$type,
+	    type = _useSelector$type === void 0 ? "html" : _useSelector$type,
 	    component = _objectWithoutProperties(_useSelector, _excluded$4);
-	  var tagName = (component === null || component === void 0 ? void 0 : component.tagName) || 'div';
-	  if (type !== 'html') {
+	  var tagName = (component === null || component === void 0 ? void 0 : component.tagName) || "div";
+	  if (type !== "html") {
 	    tagName = pascalize(type);
 	  } else if (component !== null && component !== void 0 && component.tagName) {
 	    delete component.tagName;
@@ -14038,9 +14046,9 @@
 	    var _ref3 = _slicedToArray(_ref2, 2),
 	      name = _ref3[0],
 	      value = _ref3[1];
-	    if (name === 'className' && value.hasOwnProperty('{{ block._className }}')) {
+	    if (name === "className" && value.hasOwnProperty("{{ block._className }}")) {
 	      var classNameValue = _objectSpread2({}, value);
-	      delete classNameValue['{{ block._className }}'];
+	      delete classNameValue["{{ block._className }}"];
 	      classNameValue[blockClassName] = true;
 	      componentAttributes.push([name, classNameValue]);
 	    } else {
@@ -14049,14 +14057,14 @@
 	  });
 	  var allowsChildren = componentAllowsChildren(type, tagName);
 	  var hasAttributes = componentAttributes.length > 0;
-	  var hasEmptyAttribute = ('' in component);
+	  var hasEmptyAttribute = ("" in component);
 	  var hasMultipleAttributes = componentAttributes.length > 1;
-	  var isMultiLine = type !== 'html' || hasMultipleAttributes;
+	  var isMultiLine = type !== "html" || hasMultipleAttributes;
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    className: "BlueprintComponent-open",
 	    ref: ref,
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	      className: "BlueprintComponent-markup ".concat(isMultiLine && 'is-multi-line' || ''),
+	      className: "BlueprintComponent-markup ".concat(isMultiLine && "is-multi-line" || ""),
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	        className: "BlueprintComponent-line",
 	        children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
@@ -14071,6 +14079,7 @@
 	          value = _ref5[1];
 	        return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentAttribute, {
 	          clientId: clientId,
+	          disabled: disabled,
 	          attributeName: name,
 	          attributeValue: value,
 	          children: !isMultiLine && index === componentAttributes.length - 1 && /*#__PURE__*/jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, {
@@ -14096,7 +14105,7 @@
 	          children: ">"
 	        })
 	      })]
-	    }), children, undefined === 'development'   ]
+	    }), children, undefined === "development"   ]
 	  });
 	});
 
@@ -14248,6 +14257,7 @@
 	        className: "BlueprintComponent is-clone",
 	        children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentOpeningTag, {
 	          clientId: clientId,
+	          disabled: true,
 	          children: hasAttributeHandle && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintAttributeHandle, {
 	            editorRef: editorRef,
 	            clientId: "".concat(clientId, "-2"),
@@ -14782,7 +14792,6 @@
 	  var onClickSuggestedValue = function onClickSuggestedValue(_ref3) {
 	    var attribute = _ref3.attribute,
 	      value = _ref3.value;
-	    console.log(clientId, attribute, value);
 	    dispatch(setComponentAttribute({
 	      clientId: clientId,
 	      attribute: attribute,
