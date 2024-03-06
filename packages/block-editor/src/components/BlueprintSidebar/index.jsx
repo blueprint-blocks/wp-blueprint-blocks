@@ -1,5 +1,8 @@
+import clsx from "clsx";
 import { useLayoutEffect, useRef } from "react";
 import { useSelector } from "react-redux";
+
+import { useEditorDrag } from "../../hooks";
 
 import BlueprintSidebarComponentsPanel from "../BlueprintSidebarComponentsPanel";
 import BlueprintSidebarContextPanel from "../BlueprintSidebarContextPanel";
@@ -13,11 +16,7 @@ function BlueprintSidebar({ editorRef = null }) {
 
 	const currentFocus = useSelector((state) => state.editor.currentFocus);
 
-	const isDragging = useSelector((state) => state.blockBlueprint.isDragging);
-
-	useLayoutEffect(() => {
-		ref.current.classList.toggle("is-dragging", isDragging);
-	}, [isDragging]);
+	const { isDragging } = useEditorDrag();
 
 	useLayoutEffect(() => {
 		contextPanelRef.current.classList.toggle(
@@ -31,7 +30,10 @@ function BlueprintSidebar({ editorRef = null }) {
 	}, [currentFocus]);
 
 	return (
-		<div ref={ref} className="BlueprintSidebar">
+		<div
+			ref={ref}
+			className={clsx("BlueprintSidebar", { "is-dragging": isDragging })}
+		>
 			<BlueprintSidebarContextPanel
 				ref={contextPanelRef}
 				editorRef={editorRef}

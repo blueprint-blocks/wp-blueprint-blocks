@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { useCallback, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Draggable from "react-draggable";
 
 import { componentAllowsChildren, pascalize } from "../../functions";
@@ -15,12 +15,6 @@ import {
 } from "../../hooks";
 
 import { getBlockComponent } from "../../store/block-blueprint";
-
-import {
-	resetDraggingContext,
-	startDragging,
-	stopDragging,
-} from "../../store/editor";
 
 import BlueprintConnectionHandle from "../BlueprintConnectionHandle";
 import BlueprintComponentClosingTag from "../BlueprintComponentClosingTag";
@@ -37,8 +31,6 @@ function BlueprintComponent({
 }) {
 	const blockClassName = useBlockClassName();
 
-	const dispatch = useDispatch();
-
 	let {
 		type = "html",
 		tagName = "div",
@@ -50,7 +42,7 @@ function BlueprintComponent({
 		getBlockComponent(state.blockBlueprint, clientId),
 	);
 
-	const { isDragging } = useEditorDrag();
+	const { isDragging, startDragging, stopDragging } = useEditorDrag();
 	const { hasFocus, setFocus, unsetFocus } = useEditorFocus(clientId);
 
 	const allowsChildren = componentAllowsChildren(type, tagName);
@@ -70,24 +62,14 @@ function BlueprintComponent({
 	);
 
 	const onStartDrag = useCallback(() => {
-		dispatch(
-			startDragging({
-				clientId,
-				context: "existingComponent",
-			}),
-		);
+		startDragging({
+			context: "existingComponent",
+			clientId,
+		});
 	}, [clientId]);
 
 	const onStopDrag = useCallback(() => {
-		// this is done at the end of the render to prevent click events
-		setTimeout(() => {
-			dispatch(stopDragging());
-			// this is done at the end of the next render to allow
-			// pickup by insert or hint components
-			setTimeout(() => {
-				dispatch(resetDraggingContext());
-			}, 0);
-		}, 0);
+		stopDragging();
 	}, []);
 
 	const {
@@ -125,9 +107,6 @@ function BlueprintComponent({
 				"has-focus": hasFocus,
 			})}
 			onClick={onClick}
-			onMouseUp={() => {
-				console.log("on mouse up:", isDraggingSelf, isDragging);
-			}}
 			style={{ "--indent": indent }}
 		>
 			<BlueprintComponentOpeningTag

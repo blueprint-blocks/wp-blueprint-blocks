@@ -7247,7 +7247,7 @@
 	  };
 	};
 
-	var _excluded$b = ["isValid"];
+	var _excluded$c = ["isValid"];
 	var validateBlockJson = function validateBlockJson(blockJson) {
 	  var validations = blockJsonValidation.map(function (_ref) {
 	    var propertyName = _ref.propertyName,
@@ -7265,7 +7265,7 @@
 	  }, true);
 	  var errors = validations.filter(function (_ref2) {
 	    var isValid = _ref2.isValid;
-	      _objectWithoutProperties(_ref2, _excluded$b);
+	      _objectWithoutProperties(_ref2, _excluded$c);
 	    return isValid === false;
 	  });
 	  return {
@@ -7283,7 +7283,7 @@
 	};
 
 	var _blueprintBlocksEdito$a;
-	var _excluded$a = ["children"];
+	var _excluded$b = ["children"];
 	var blockComponents = {};
 	function parseComponentTree() {
 	  var components = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -7294,7 +7294,7 @@
 	  components.forEach(function (_ref) {
 	    var _ref$children = _ref.children,
 	      children = _ref$children === void 0 ? [] : _ref$children,
-	      component = _objectWithoutProperties(_ref, _excluded$a);
+	      component = _objectWithoutProperties(_ref, _excluded$b);
 	    var clientId = getUniqueClientId();
 	    var childClientIds = [];
 	    if (children.length > 0) {
@@ -7585,7 +7585,7 @@
 	  }
 	};
 
-	var insertNewComponentAtPosition = function insertNewComponentAtPosition(state, action) {
+	var insertNewComponentAtPosition$1 = function insertNewComponentAtPosition(state, action) {
 	  var _ref = action.payload || {},
 	    _ref$context = _ref.context,
 	    context = _ref$context === void 0 ? "edit" : _ref$context,
@@ -7608,7 +7608,7 @@
 	  });
 	};
 
-	var unsetDraggingComponent$1 = function unsetDraggingComponent(state, action) {
+	var unsetDraggingComponent = function unsetDraggingComponent(state, action) {
 	  state.existingDraggingComponent = null;
 	  state.newDraggingComponent = null;
 	};
@@ -7623,7 +7623,7 @@
 	    return;
 	  }
 	  if (!!state.newDraggingComponent) {
-	    insertNewComponentAtPosition(state, {
+	    insertNewComponentAtPosition$1(state, {
 	      payload: {
 	        component: state.newDraggingComponent,
 	        context: context,
@@ -7650,7 +7650,7 @@
 	      }
 	    });
 	  }
-	  unsetDraggingComponent$1(state);
+	  unsetDraggingComponent(state);
 	};
 
 	var moveComponentToPosition$1 = function moveComponentToPosition(state, action) {
@@ -7701,13 +7701,13 @@
 	  state.isDragging = true;
 	};
 
-	var startDraggingNewComponent$1 = function startDraggingNewComponent(state, action) {
+	var startDraggingNewComponent = function startDraggingNewComponent(state, action) {
 	  state.existingDraggingComponent = null;
 	  state.newDraggingComponent = action.payload || {};
 	  state.isDragging = true;
 	};
 
-	var stopDragging$3 = function stopDragging(state, action) {
+	var stopDragging$2 = function stopDragging(state, action) {
 	  state.isDragging = false;
 	};
 
@@ -7730,17 +7730,17 @@
 	  getAtPosition: getAtPosition,
 	  insertAtPosition: insertAtPosition,
 	  insertExistingComponentAtPosition: insertExistingComponentAtPosition,
-	  insertNewComponentAtPosition: insertNewComponentAtPosition,
+	  insertNewComponentAtPosition: insertNewComponentAtPosition$1,
 	  insertDraggingComponentAtPosition: insertDraggingComponentAtPosition,
 	  moveComponentToPosition: moveComponentToPosition$1,
 	  removeAtPosition: removeAtPosition,
 	  setComponentAttribute: setComponentAttribute$1,
 	  setComponentList: setComponentList,
 	  startDraggingExistingComponent: startDraggingExistingComponent,
-	  startDraggingNewComponent: startDraggingNewComponent$1,
-	  stopDragging: stopDragging$3,
+	  startDraggingNewComponent: startDraggingNewComponent,
+	  stopDragging: stopDragging$2,
 	  unsetComponentAttribute: unsetComponentAttribute$1,
-	  unsetDraggingComponent: unsetDraggingComponent$1
+	  unsetDraggingComponent: unsetDraggingComponent
 	};
 
 	var slice$9 = createSlice({
@@ -7753,17 +7753,17 @@
 	actions$9.getAtPosition;
 	  actions$9.insertAtPosition;
 	  actions$9.insertExistingComponentAtPosition;
-	  actions$9.insertNewComponentAtPosition;
+	  var insertNewComponentAtPosition = actions$9.insertNewComponentAtPosition;
 	  actions$9.insertDraggingComponentAtPosition;
 	  var moveComponentToPosition = actions$9.moveComponentToPosition;
 	  actions$9.removeAtPosition;
 	  var setComponentAttribute = actions$9.setComponentAttribute;
 	  actions$9.setComponentList;
 	  actions$9.startDraggingExistingComponent;
-	  var startDraggingNewComponent = actions$9.startDraggingNewComponent,
-	  stopDragging$2 = actions$9.stopDragging,
-	  unsetComponentAttribute = actions$9.unsetComponentAttribute,
-	  unsetDraggingComponent = actions$9.unsetDraggingComponent;
+	  actions$9.startDraggingNewComponent;
+	  actions$9.stopDragging;
+	  var unsetComponentAttribute = actions$9.unsetComponentAttribute;
+	  actions$9.unsetDraggingComponent;
 
 	var getBlockClassName = function getBlockClassName(state, context) {
 	  var _state$name = state.name,
@@ -8004,12 +8004,12 @@
 	  state.currentDraggingContext = null;
 	};
 
-	var _excluded$9 = ["context"];
+	var _excluded$a = ["context"];
 	var setFocus$1 = function setFocus(state, action) {
 	  var _ref = action.payload || {},
 	    _ref$context = _ref.context,
 	    context = _ref$context === void 0 ? null : _ref$context,
-	    props = _objectWithoutProperties(_ref, _excluded$9);
+	    props = _objectWithoutProperties(_ref, _excluded$a);
 	  if (context === null) {
 	    return;
 	  }
@@ -8206,7 +8206,7 @@
 	  return n;
 	}
 
-	var _excluded$8 = ["id"],
+	var _excluded$9 = ["id"],
 	  _excluded2$2 = ["id"];
 	function saveNewBlock(_ref) {
 	  var postType = _ref.postType,
@@ -8230,7 +8230,7 @@
 	      }
 	    }).then(function (_ref2) {
 	      var id = _ref2.id;
-	        _objectWithoutProperties(_ref2, _excluded$8);
+	        _objectWithoutProperties(_ref2, _excluded$9);
 	      resolve({
 	        id: id
 	      });
@@ -8297,6 +8297,13 @@
 	    if ((draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.context) === "existingComponent") {
 	      dispatch(moveComponentToPosition({
 	        clientId: draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.clientId,
+	        context: context,
+	        position: position
+	      }));
+	      dispatch(resetDraggingContext());
+	    } else if ((draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.context) === "newComponent") {
+	      dispatch(insertNewComponentAtPosition({
+	        component: draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.component,
 	        context: context,
 	        position: position
 	      }));
@@ -8503,16 +8510,33 @@
 	};
 
 	var useEditorDrag = function useEditorDrag() {
+	  var dispatch = useDispatch();
 	  var isDragging = useSelector(function (state) {
 	    return state.editor.isDragging;
 	  });
 	  var draggingContext = useSelector(function (state) {
 	    return getDraggingContext(state.editor);
 	  });
+	  var _startDragging = function _startDragging(context) {
+	    dispatch(startDragging(context));
+	  };
+	  var _stopDragging = React$2.useCallback(function () {
+	    // this is done at the end of the render to prevent click events
+	    setTimeout(function () {
+	      dispatch(stopDragging());
+	      // this is done at the end of the next render to allow
+	      // pickup by insert or hint components
+	      setTimeout(function () {
+	        dispatch(resetDraggingContext());
+	      }, 0);
+	    }, 0);
+	  }, []);
 	  return React$2.useMemo(function () {
 	    return {
+	      context: draggingContext,
 	      isDragging: isDragging,
-	      context: draggingContext
+	      startDragging: _startDragging,
+	      stopDragging: _stopDragging
 	    };
 	  }, [draggingContext, isDragging]);
 	};
@@ -13662,7 +13686,7 @@
 	var cjsExports = cjs.exports;
 	var Draggable$1 = /*@__PURE__*/getDefaultExportFromCjs(cjsExports);
 
-	var _excluded$7 = ["attributeName", "clientId", "componentId", "context", "draggingOffset", "editorRef", "isClone", "isDragging"];
+	var _excluded$8 = ["attributeName", "clientId", "componentId", "context", "draggingOffset", "editorRef", "isClone", "isDragging"];
 	function BlueprintConnectionHandle(_ref) {
 	  _ref.attributeName;
 	    _ref.clientId;
@@ -13672,7 +13696,7 @@
 	    _ref.editorRef;
 	    _ref.isClone;
 	    _ref.isDragging;
-	    _objectWithoutProperties(_ref, _excluded$7);
+	    _objectWithoutProperties(_ref, _excluded$8);
 	  return;
 	}
 
@@ -13691,7 +13715,7 @@
 	  });
 	}
 
-	var _excluded$6 = ["attributeName", "attributeType", "editorRef"];
+	var _excluded$7 = ["attributeName", "attributeType", "editorRef"];
 	function BlueprintAttribute(_ref) {
 	  var _attributeTypes$attri;
 	  var _ref$attributeName = _ref.attributeName,
@@ -13700,7 +13724,7 @@
 	    attributeType = _ref$attributeType === void 0 ? "string" : _ref$attributeType,
 	    _ref$editorRef = _ref.editorRef,
 	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef,
-	    props = _objectWithoutProperties(_ref, _excluded$6);
+	    props = _objectWithoutProperties(_ref, _excluded$7);
 	  var attributeDefault;
 	  if (isObject(props === null || props === void 0 ? void 0 : props.attributeDefault) || isArray(props === null || props === void 0 ? void 0 : props.attributeDefault)) {
 	    attributeDefault = JSON.stringify(props === null || props === void 0 ? void 0 : props.attributeDefault);
@@ -13982,7 +14006,7 @@
 	  });
 	});
 
-	var _excluded$5 = ["attributeName", "attributeValue", "clientId", "children", "disabled"];
+	var _excluded$6 = ["attributeName", "attributeValue", "clientId", "children", "disabled"];
 	function BlueprintComponentAttribute(_ref) {
 	  var _ref$attributeName = _ref.attributeName,
 	    attributeName = _ref$attributeName === void 0 ? "" : _ref$attributeName,
@@ -13993,7 +14017,7 @@
 	    children = _ref$children === void 0 ? {} : _ref$children,
 	    _ref$disabled = _ref.disabled,
 	    disabled = _ref$disabled === void 0 ? false : _ref$disabled;
-	    _objectWithoutProperties(_ref, _excluded$5);
+	    _objectWithoutProperties(_ref, _excluded$6);
 	  var dispatch = useDispatch();
 	  var component = useSelector(function (state) {
 	    return getBlockComponent(state.blockBlueprint, clientId);
@@ -14153,7 +14177,7 @@
 	  });
 	});
 
-	var _excluded$4 = ["type"];
+	var _excluded$5 = ["type"];
 	var BlueprintComponentOpeningTag = /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
 	  var _ref$children = _ref.children,
 	    children = _ref$children === void 0 ? [] : _ref$children,
@@ -14167,7 +14191,7 @@
 	    }),
 	    _useSelector$type = _useSelector.type,
 	    type = _useSelector$type === void 0 ? "html" : _useSelector$type,
-	    component = _objectWithoutProperties(_useSelector, _excluded$4);
+	    component = _objectWithoutProperties(_useSelector, _excluded$5);
 	  var tagName = (component === null || component === void 0 ? void 0 : component.tagName) || "div";
 	  if (type !== "html") {
 	    tagName = pascalize(type);
@@ -14242,7 +14266,7 @@
 	  });
 	});
 
-	var _excluded$3 = ["type", "tagName", "attributeName", "className", "style"],
+	var _excluded$4 = ["type", "tagName", "attributeName", "className", "style"],
 	  _excluded2$1 = ["isDragging", "offset"];
 	function BlueprintComponent(_ref) {
 	  var clientId = _ref.clientId,
@@ -14255,7 +14279,6 @@
 	    _ref$draggable = _ref.draggable,
 	    draggable = _ref$draggable === void 0 ? true : _ref$draggable;
 	  useBlockNamespace();
-	  var dispatch = useDispatch();
 	  var _useSelector = useSelector(function (state) {
 	      return getBlockComponent(state.blockBlueprint, clientId);
 	    }),
@@ -14267,9 +14290,11 @@
 	    attributeName = _useSelector$attribut === void 0 ? "" : _useSelector$attribut;
 	    _useSelector.className;
 	    _useSelector.style;
-	    _objectWithoutProperties(_useSelector, _excluded$3);
+	    _objectWithoutProperties(_useSelector, _excluded$4);
 	  var _useEditorDrag = useEditorDrag(),
-	    isDragging = _useEditorDrag.isDragging;
+	    isDragging = _useEditorDrag.isDragging,
+	    startDragging = _useEditorDrag.startDragging,
+	    stopDragging = _useEditorDrag.stopDragging;
 	  var _useEditorFocus = useEditorFocus(clientId),
 	    hasFocus = _useEditorFocus.hasFocus,
 	    setFocus = _useEditorFocus.setFocus,
@@ -14288,21 +14313,13 @@
 	    }
 	  }, [clientId, isDragging]);
 	  var onStartDrag = React$2.useCallback(function () {
-	    dispatch(startDragging({
-	      clientId: clientId,
-	      context: "existingComponent"
-	    }));
+	    startDragging({
+	      context: "existingComponent",
+	      clientId: clientId
+	    });
 	  }, [clientId]);
 	  var onStopDrag = React$2.useCallback(function () {
-	    // this is done at the end of the render to prevent click events
-	    setTimeout(function () {
-	      dispatch(stopDragging());
-	      // this is done at the end of the next render to allow
-	      // pickup by insert or hint components
-	      setTimeout(function () {
-	        dispatch(resetDraggingContext());
-	      }, 0);
-	    }, 0);
+	    stopDragging();
 	  }, []);
 	  var _useDragWithinBounds = useDragWithinBounds({
 	      boundsRef: editorRef,
@@ -14330,9 +14347,6 @@
 	      "has-focus": hasFocus
 	    }),
 	    onClick: onClick,
-	    onMouseUp: function onMouseUp() {
-	      console.log("on mouse up:", isDraggingSelf, isDragging);
-	    },
 	    style: {
 	      "--indent": indent
 	    },
@@ -14640,6 +14654,7 @@
 	  });
 	}
 
+	var _excluded$3 = ["offset"];
 	var _blueprintBlocksEdito$2 = blueprintBlocksEditorSettings,
 	  _blueprintBlocksEdito2$1 = _blueprintBlocksEdito$2.pluginMetadata,
 	  pluginMetadata$1 = _blueprintBlocksEdito2$1 === void 0 ? {} : _blueprintBlocksEdito2$1;
@@ -14653,34 +14668,29 @@
 	    _ref$defaultAttribute = _ref.defaultAttributes,
 	    defaultAttributes = _ref$defaultAttribute === void 0 ? {} : _ref$defaultAttribute;
 	    _ref.pro;
-	  var dispatch = useDispatch();
 	  var ref = React$2.useRef(null);
-	  var rect = useRect(ref);
-	  var editorRect = React$2.useRef(editorRef);
-	  var _useState = React$2.useState({
-	      x: 0,
-	      y: 0
-	    }),
-	    _useState2 = _slicedToArray(_useState, 2),
-	    position = _useState2[0],
-	    setPosition = _useState2[1];
+	  var _useEditorDrag = useEditorDrag(),
+	    startDragging = _useEditorDrag.startDragging,
+	    stopDragging = _useEditorDrag.stopDragging;
 	  var onStartDrag = function onStartDrag() {
-	    dispatch(startDraggingNewComponent(_objectSpread2(_objectSpread2({}, defaultAttributes), {}, {
-	      type: type
-	    })));
+	    startDragging({
+	      context: "newComponent",
+	      component: _objectSpread2(_objectSpread2({}, defaultAttributes), {}, {
+	        type: type
+	      })
+	    });
 	  };
 	  var onStopDrag = function onStopDrag() {
-	    setPosition({
-	      x: 0,
-	      y: 0
-	    });
-	    dispatch(stopDragging$2());
-	    // this is done at the end of the browser render to
-	    // allow pickup by insert or hint components
-	    setTimeout(function () {
-	      dispatch(unsetDraggingComponent());
-	    }, 0);
+	    stopDragging();
 	  };
+	  var _useDragWithinBounds = useDragWithinBounds({
+	      boundsRef: editorRef,
+	      ref: ref,
+	      onStart: onStartDrag,
+	      onStop: onStopDrag
+	    });
+	    _useDragWithinBounds.offset;
+	    var draggableProps = _objectWithoutProperties(_useDragWithinBounds, _excluded$3);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: clsx$1("BlueprintSidebarItem", {
@@ -14694,17 +14704,7 @@
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintSidebarItem-label",
 	      children: label
-	    }), /*#__PURE__*/jsxRuntimeExports.jsx(Draggable$1, {
-	      axis: "both",
-	      bounds: {
-	        bottom: editorRect.bottom - rect.bottom,
-	        left: editorRect.left - rect.left,
-	        right: editorRect.right - rect.right,
-	        top: editorRect.top - rect.top
-	      },
-	      position: position,
-	      onStart: onStartDrag,
-	      onStop: onStopDrag,
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(Draggable$1, _objectSpread2(_objectSpread2({}, draggableProps), {}, {
 	      children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	        className: clsx$1("BlueprintSidebarItem", "is-clone", {
 	          "is-html": type === "html"
@@ -14719,7 +14719,7 @@
 	          children: label
 	        })]
 	      })
-	    })]
+	    }))]
 	  });
 	}
 
@@ -14887,19 +14887,17 @@
 	  var currentFocus = useSelector(function (state) {
 	    return state.editor.currentFocus;
 	  });
-	  var isDragging = useSelector(function (state) {
-	    return state.blockBlueprint.isDragging;
-	  });
-	  React$2.useLayoutEffect(function () {
-	    ref.current.classList.toggle("is-dragging", isDragging);
-	  }, [isDragging]);
+	  var _useEditorDrag = useEditorDrag(),
+	    isDragging = _useEditorDrag.isDragging;
 	  React$2.useLayoutEffect(function () {
 	    contextPanelRef.current.classList.toggle("is-active", !!(currentFocus !== null && currentFocus !== void 0 && currentFocus.context));
 	    componentsPanelRef.current.classList.toggle("is-active", !(currentFocus !== null && currentFocus !== void 0 && currentFocus.context));
 	  }, [currentFocus]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
-	    className: "BlueprintSidebar",
+	    className: clsx$1("BlueprintSidebar", {
+	      "is-dragging": isDragging
+	    }),
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintSidebarContextPanel, {
 	      ref: contextPanelRef,
 	      editorRef: editorRef

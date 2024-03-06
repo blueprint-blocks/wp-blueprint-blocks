@@ -1,7 +1,12 @@
 import { useDispatch } from "react-redux";
 
 import { useEditorDrag } from "../hooks";
-import { moveComponentToPosition } from "../store/block-blueprint";
+
+import {
+	insertNewComponentAtPosition,
+	moveComponentToPosition,
+} from "../store/block-blueprint";
+
 import { resetDraggingContext } from "../store/editor";
 
 const useBlueprintInsert = () => {
@@ -13,6 +18,15 @@ const useBlueprintInsert = () => {
 			dispatch(
 				moveComponentToPosition({
 					clientId: draggingContext?.clientId,
+					context,
+					position,
+				}),
+			);
+			dispatch(resetDraggingContext());
+		} else if (draggingContext?.context === "newComponent") {
+			dispatch(
+				insertNewComponentAtPosition({
+					component: draggingContext?.component,
 					context,
 					position,
 				}),

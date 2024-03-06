@@ -1,14 +1,8 @@
 import clsx from "clsx";
-import { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useRef } from "react";
 import Draggable from "react-draggable";
 
-import { useRect } from "../../hooks";
-import {
-	startDraggingNewComponent,
-	stopDragging,
-	unsetDraggingComponent,
-} from "../../store/block-blueprint";
+import { useDragWithinBounds, useEditorDrag } from "../../hooks";
 
 import "./style.css";
 
@@ -22,36 +16,30 @@ function BlueprintSidebarItem({
 	defaultAttributes = {},
 	pro = false,
 }) {
-	const dispatch = useDispatch();
-
 	const ref = useRef(null);
-	const rect = useRect(ref);
 
-	const editorRect = useRef(editorRef);
-
-	const [position, setPosition] = useState({
-		x: 0,
-		y: 0,
-	});
+	const { startDragging, stopDragging } = useEditorDrag();
 
 	const onStartDrag = () => {
-		dispatch(
-			startDraggingNewComponent({
+		startDragging({
+			context: "newComponent",
+			component: {
 				...defaultAttributes,
 				type,
-			}),
-		);
+			},
+		});
 	};
 
 	const onStopDrag = () => {
-		setPosition({ x: 0, y: 0 });
-		dispatch(stopDragging());
-		// this is done at the end of the browser render to
-		// allow pickup by insert or hint components
-		setTimeout(() => {
-			dispatch(unsetDraggingComponent());
-		}, 0);
+		stopDragging();
 	};
+
+	const { offset, ...draggableProps } = useDragWithinBounds({
+		boundsRef: editorRef,
+		ref,
+		onStart: onStartDrag,
+		onStop: onStopDrag,
+	});
 
 	return (
 		<div
@@ -68,18 +56,7 @@ function BlueprintSidebarItem({
 				</div>
 			)}
 			<div className="BlueprintSidebarItem-label">{label}</div>
-			<Draggable
-				axis="both"
-				bounds={{
-					bottom: editorRect.bottom - rect.bottom,
-					left: editorRect.left - rect.left,
-					right: editorRect.right - rect.right,
-					top: editorRect.top - rect.top,
-				}}
-				position={position}
-				onStart={onStartDrag}
-				onStop={onStopDrag}
-			>
+			<Draggable {...draggableProps}>
 				<div
 					className={clsx("BlueprintSidebarItem", "is-clone", {
 						"is-html": type === "html",
