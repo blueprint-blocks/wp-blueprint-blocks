@@ -25,7 +25,7 @@ import {
 	unsetFocus as unsetComponentFocus,
 } from "../../store/editor";
 
-import BlueprintAttributeHandle from "../BlueprintAttributeHandle";
+import BlueprintConnectionHandle from "../BlueprintConnectionHandle";
 import BlueprintComponentClosingTag from "../BlueprintComponentClosingTag";
 import BlueprintComponentOpeningTag from "../BlueprintComponentOpeningTag";
 
@@ -142,7 +142,7 @@ function BlueprintComponent({
 				editorRef={editorRef}
 			>
 				{hasAttributeHandle && (
-					<BlueprintAttributeHandle
+					<BlueprintConnectionHandle
 						editorRef={editorRef}
 						componentId={`${clientId}`}
 						clientId={`${clientId}-1`}
@@ -186,7 +186,7 @@ function BlueprintComponent({
 							disabled={true}
 						>
 							{hasAttributeHandle && (
-								<BlueprintAttributeHandle
+								<BlueprintConnectionHandle
 									editorRef={editorRef}
 									clientId={`${clientId}-2`}
 									attributeName={attributeName}

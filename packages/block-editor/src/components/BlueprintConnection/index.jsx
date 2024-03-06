@@ -7,11 +7,11 @@ const BlueprintConnection = forwardRef(({ from, to }, ref) => {
 	const dispatch = useDispatch();
 
 	const { allHandles } = useSelector((state) => {
-		return state.attributeHandles || {};
+		return state.connectionHandles || {};
 	});
 
 	const { handlesByName } = useSelector((state) => {
-		return state.attributeHandles || {};
+		return state.connectionHandles || {};
 	});
 
 	const componentId = allHandles[to]?.componentId || null;

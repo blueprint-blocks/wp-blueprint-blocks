@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const slice = createSlice({
-	name: "attributeHandles",
+	name: "connectionHandles",
 
 	initialState: {
 		allHandles: {},

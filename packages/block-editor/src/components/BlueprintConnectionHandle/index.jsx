@@ -3,11 +3,11 @@ import { useId, useLayoutEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { useRect } from "../../hooks";
-import { setPosition, removePosition } from "../../store/attribute-handles";
+import { setPosition, removePosition } from "../../store/connection-handles";
 
 import "./style.css";
 
-function BlueprintAttributeHandle({
+function BlueprintConnectionHandle({
 	attributeName,
 	clientId = null,
 	componentId = null,
@@ -20,7 +20,7 @@ function BlueprintAttributeHandle({
 }) {
 	const id = useId();
 	const ref = useRef(null);
-	const rect = useRect(ref, editorRef, ["x", "y", "height", "width"]);
+	const rect = useRect(ref, editorRef, ["height", "width", "x", "y"]);
 
 	const dispatch = useDispatch();
 
@@ -65,7 +65,7 @@ function BlueprintAttributeHandle({
 		<div
 			ref={ref}
 			className={clsx(
-				"BlueprintAttributeHandle",
+				"BlueprintConnectionHandle",
 				`is-${(props?.position === "right" && "right") || "left"}`,
 				{
 					hide: (isClone && !isDragging) || (!isClone && isDragging),
@@ -75,4 +75,4 @@ function BlueprintAttributeHandle({
 	);
 }
 
-export default BlueprintAttributeHandle;
+export default BlueprintConnectionHandle;

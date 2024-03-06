@@ -20,16 +20,16 @@ import {
 
 import { useDebugRenderCount } from "../../hooks";
 
-import BlueprintAttributeHandle from "../BlueprintAttributeHandle";
+import BlueprintConnectionHandle from "../BlueprintConnectionHandle";
 import BlueprintWarning from "../BlueprintWarning";
 import EditableString from "../EditableString";
 
 import "./style.css";
 
 function BlueprintAttribute({
-	editorRef = null,
 	attributeName = null,
 	attributeType = "string",
+	editorRef = null,
 	...props
 }) {
 	let attributeDefault;
@@ -163,10 +163,10 @@ function BlueprintAttribute({
 
 	return (
 		<div ref={ref} className="BlueprintAttribute">
-			<BlueprintAttributeHandle
-				editorRef={editorRef}
+			<BlueprintConnectionHandle
 				attributeName={attributeNameValue}
 				context="from"
+				editorRef={editorRef}
 				position="right"
 			/>
 			<div className="BlueprintAttribute-line">

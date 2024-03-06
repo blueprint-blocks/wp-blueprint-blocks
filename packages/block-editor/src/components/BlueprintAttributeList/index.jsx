@@ -31,11 +31,11 @@ const BlueprintAttributeList = forwardRef(({ editorRef = null }, ref) => {
 					{Object.entries(attributes).map(
 						([attributeName, attributeProps], index) => (
 							<BlueprintAttribute
-								key={index}
-								editorRef={editorRef}
 								attributeName={attributeName}
 								attributeType={attributeProps?.type}
 								attributeDefault={attributeProps?.default}
+								editorRef={editorRef}
+								key={index}
 							/>
 						),
 					)}

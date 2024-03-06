@@ -1,4 +1,4 @@
-.BlueprintAttributeHandle {
+.BlueprintConnectionHandle {
 	background: var(--color-darkest-gray);
 	border: 2px solid var(--color-white);
 	border-radius: 10px;
@@ -10,14 +10,14 @@
 	width: 10px;
 }
 
-.BlueprintAttributeHandle.hide {
+.BlueprintConnectionHandle.hide {
 	opacity: 0;
 }
 
-.BlueprintAttributeHandle.is-left {
+.BlueprintConnectionHandle.is-left {
 	left: -5px;
 }
 
-.BlueprintAttributeHandle.is-right {
+.BlueprintConnectionHandle.is-right {
 	right: 0;
 }

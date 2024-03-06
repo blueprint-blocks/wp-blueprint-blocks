@@ -9,11 +9,8 @@ const slice = createSlice({
 
 	initialState: {
 		currentFocus: null,
-
 		priorFocus: null,
-
 		height: 0,
-
 		width: 0,
 	},
 

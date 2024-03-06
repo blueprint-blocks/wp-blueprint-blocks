@@ -3993,83 +3993,6 @@
 	  };
 	}
 
-	var slice$9 = createSlice({
-	  name: "attributeHandles",
-	  initialState: {
-	    allHandles: {},
-	    handlesByName: {}
-	  },
-	  reducers: {
-	    setPosition: function setPosition(state, action) {
-	      var _action$payload = action.payload,
-	        id = _action$payload.id,
-	        name = _action$payload.name,
-	        componentId = _action$payload.componentId,
-	        _action$payload$conte = _action$payload.context,
-	        context = _action$payload$conte === void 0 ? "to" : _action$payload$conte,
-	        x = _action$payload.x,
-	        y = _action$payload.y;
-	      state.allHandles = _objectSpread2(_objectSpread2({}, state.allHandles), {}, _defineProperty$1({}, id, {
-	        name: name,
-	        componentId: context === "to" && componentId || null,
-	        context: context === "from" && "from" || "to",
-	        x: x && !Number.isNaN(x) && x || 0,
-	        y: y && !Number.isNaN(y) && y || 0
-	      }));
-	      if (!name) {
-	        return;
-	      }
-	      if (context === "from") {
-	        var _state$handlesByName;
-	        state.handlesByName = _objectSpread2(_objectSpread2({}, state.handlesByName), {}, _defineProperty$1({}, name, {
-	          from: id,
-	          to: ((_state$handlesByName = state.handlesByName) === null || _state$handlesByName === void 0 || (_state$handlesByName = _state$handlesByName[name]) === null || _state$handlesByName === void 0 ? void 0 : _state$handlesByName.to) || []
-	        }));
-	      } else {
-	        var _state$handlesByName2, _state$handlesByName3;
-	        state.handlesByName = _objectSpread2(_objectSpread2({}, state.handlesByName), {}, _defineProperty$1({}, name, {
-	          from: ((_state$handlesByName2 = state.handlesByName) === null || _state$handlesByName2 === void 0 || (_state$handlesByName2 = _state$handlesByName2[name]) === null || _state$handlesByName2 === void 0 ? void 0 : _state$handlesByName2.from) || null,
-	          to: _toConsumableArray(new Set([].concat(_toConsumableArray(((_state$handlesByName3 = state.handlesByName) === null || _state$handlesByName3 === void 0 || (_state$handlesByName3 = _state$handlesByName3[name]) === null || _state$handlesByName3 === void 0 ? void 0 : _state$handlesByName3.to) || []), [id])))
-	        }));
-	      }
-	    },
-	    removePosition: function removePosition(state, action) {
-	      var _state$handlesByName4, _state$handlesByName6;
-	      var _action$payload2 = action.payload,
-	        id = _action$payload2.id,
-	        name = _action$payload2.name;
-	      state.allHandles = Object.fromEntries(Object.entries(state.allHandles).filter(function (_ref) {
-	        var _ref2 = _slicedToArray(_ref, 2),
-	          key = _ref2[0];
-	          _ref2[1];
-	        return key !== id;
-	      }));
-	      if (!name) {
-	        return;
-	      }
-	      if (((_state$handlesByName4 = state.handlesByName) === null || _state$handlesByName4 === void 0 || (_state$handlesByName4 = _state$handlesByName4[name]) === null || _state$handlesByName4 === void 0 ? void 0 : _state$handlesByName4.from) === id) {
-	        var _state$handlesByName5;
-	        state.handlesByName = _objectSpread2(_objectSpread2({}, state.handlesByName), {}, _defineProperty$1({}, name, {
-	          from: null,
-	          to: ((_state$handlesByName5 = state.handlesByName) === null || _state$handlesByName5 === void 0 || (_state$handlesByName5 = _state$handlesByName5[name]) === null || _state$handlesByName5 === void 0 ? void 0 : _state$handlesByName5.to) || []
-	        }));
-	      } else if ((_state$handlesByName6 = state.handlesByName) !== null && _state$handlesByName6 !== void 0 && (_state$handlesByName6 = _state$handlesByName6[name]) !== null && _state$handlesByName6 !== void 0 && _state$handlesByName6.to.includes(id)) {
-	        var _state$handlesByName7, _state$handlesByName8;
-	        state.handlesByName = _objectSpread2(_objectSpread2({}, state.handlesByName), {}, _defineProperty$1({}, name, {
-	          from: ((_state$handlesByName7 = state.handlesByName) === null || _state$handlesByName7 === void 0 || (_state$handlesByName7 = _state$handlesByName7[name]) === null || _state$handlesByName7 === void 0 ? void 0 : _state$handlesByName7.from) || null,
-	          to: (((_state$handlesByName8 = state.handlesByName) === null || _state$handlesByName8 === void 0 || (_state$handlesByName8 = _state$handlesByName8[name]) === null || _state$handlesByName8 === void 0 ? void 0 : _state$handlesByName8.to) || []).filter(function (to) {
-	            return to !== id;
-	          })
-	        }));
-	      }
-	    }
-	  }
-	});
-	var actions$9 = slice$9.actions,
-	  reducer$9 = slice$9.reducer;
-	var removePosition = actions$9.removePosition,
-	  setPosition = actions$9.setPosition;
-
 	function delimiterize(string) {
 	  return string.replace(/([a-z])([A-Z])/g, function (match, p1, p2) {
 	    return "".concat(p1, "-").concat(p2);
@@ -7788,26 +7711,26 @@
 	  unsetDraggingComponent: unsetDraggingComponent$1
 	};
 
-	var slice$8 = createSlice({
+	var slice$9 = createSlice({
 	  name: "blockBlueprint",
 	  initialState: initialState,
 	  reducers: reducers$1
 	});
-	var actions$8 = slice$8.actions,
-	  reducer$8 = slice$8.reducer;
-	actions$8.getAtPosition;
-	  actions$8.insertAtPosition;
-	  actions$8.insertExistingComponentAtPosition;
-	  actions$8.insertNewComponentAtPosition;
-	  var insertDraggingComponentAtPosition = actions$8.insertDraggingComponentAtPosition;
-	  actions$8.removeAtPosition;
-	  var setComponentAttribute = actions$8.setComponentAttribute;
-	  actions$8.setComponentList;
-	  var startDraggingExistingComponent = actions$8.startDraggingExistingComponent,
-	  startDraggingNewComponent = actions$8.startDraggingNewComponent,
-	  stopDragging = actions$8.stopDragging,
-	  unsetComponentAttribute = actions$8.unsetComponentAttribute,
-	  unsetDraggingComponent = actions$8.unsetDraggingComponent;
+	var actions$9 = slice$9.actions,
+	  reducer$9 = slice$9.reducer;
+	actions$9.getAtPosition;
+	  actions$9.insertAtPosition;
+	  actions$9.insertExistingComponentAtPosition;
+	  actions$9.insertNewComponentAtPosition;
+	  var insertDraggingComponentAtPosition = actions$9.insertDraggingComponentAtPosition;
+	  actions$9.removeAtPosition;
+	  var setComponentAttribute = actions$9.setComponentAttribute;
+	  actions$9.setComponentList;
+	  var startDraggingExistingComponent = actions$9.startDraggingExistingComponent,
+	  startDraggingNewComponent = actions$9.startDraggingNewComponent,
+	  stopDragging = actions$9.stopDragging,
+	  unsetComponentAttribute = actions$9.unsetComponentAttribute,
+	  unsetDraggingComponent = actions$9.unsetDraggingComponent;
 
 	var getBlockClassName = function getBlockClassName(state, context) {
 	  var _state$name = state.name,
@@ -7843,7 +7766,7 @@
 	var _ref$1 = ((_blueprintBlocksEdito$9 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$9 === void 0 ? void 0 : _blueprintBlocksEdito$9.blockMetadata) || {},
 	  _ref$blockJson = _ref$1.blockJson,
 	  blockJson = _ref$blockJson === void 0 ? {} : _ref$blockJson;
-	var slice$7 = createSlice({
+	var slice$8 = createSlice({
 	  name: "blockJson",
 	  initialState: _objectSpread2(_objectSpread2({}, blockJson), {}, {
 	    keywords: _toConsumableArray((blockJson === null || blockJson === void 0 ? void 0 : blockJson.keywords) || []),
@@ -7917,23 +7840,23 @@
 	    }
 	  }
 	});
-	var actions$7 = slice$7.actions,
-	  reducer$7 = slice$7.reducer;
-	var addAttribute = actions$7.addAttribute,
-	  editAttribute = actions$7.editAttribute,
-	  removeAttribute = actions$7.removeAttribute,
-	  setCategory = actions$7.setCategory,
-	  setDescription = actions$7.setDescription,
-	  setIcon = actions$7.setIcon,
-	  setKeywords = actions$7.setKeywords,
-	  setName = actions$7.setName,
-	  setSupportsProperty = actions$7.setSupportsProperty,
-	  setTitle = actions$7.setTitle;
+	var actions$8 = slice$8.actions,
+	  reducer$8 = slice$8.reducer;
+	var addAttribute = actions$8.addAttribute,
+	  editAttribute = actions$8.editAttribute,
+	  removeAttribute = actions$8.removeAttribute,
+	  setCategory = actions$8.setCategory,
+	  setDescription = actions$8.setDescription,
+	  setIcon = actions$8.setIcon,
+	  setKeywords = actions$8.setKeywords,
+	  setName = actions$8.setName,
+	  setSupportsProperty = actions$8.setSupportsProperty,
+	  setTitle = actions$8.setTitle;
 
 	var _blueprintBlocksEdito$8 = blueprintBlocksEditorSettings,
 	  _blueprintBlocksEdito2$6 = _blueprintBlocksEdito$8.blockMetadata,
 	  blockMetadata$1 = _blueprintBlocksEdito2$6 === void 0 ? {} : _blueprintBlocksEdito2$6;
-	var slice$6 = createSlice({
+	var slice$7 = createSlice({
 	  name: "blockEditorCss",
 	  initialState: {
 	    raw: (blockMetadata$1 === null || blockMetadata$1 === void 0 ? void 0 : blockMetadata$1.editorCss) || ""
@@ -7944,14 +7867,14 @@
 	    }
 	  }
 	});
-	var actions$6 = slice$6.actions,
-	  reducer$6 = slice$6.reducer;
-	var setEditorCss = actions$6.setEditorCss;
+	var actions$7 = slice$7.actions,
+	  reducer$7 = slice$7.reducer;
+	var setEditorCss = actions$7.setEditorCss;
 
 	var _blueprintBlocksEdito$7 = blueprintBlocksEditorSettings,
 	  _blueprintBlocksEdito2$5 = _blueprintBlocksEdito$7.blockMetadata,
 	  blockMetadata = _blueprintBlocksEdito2$5 === void 0 ? {} : _blueprintBlocksEdito2$5;
-	var slice$5 = createSlice({
+	var slice$6 = createSlice({
 	  name: "blockViewCss",
 	  initialState: {
 	    raw: (blockMetadata === null || blockMetadata === void 0 ? void 0 : blockMetadata.viewCss) || ""
@@ -7962,9 +7885,86 @@
 	    }
 	  }
 	});
+	var actions$6 = slice$6.actions,
+	  reducer$6 = slice$6.reducer;
+	var setViewCss = actions$6.setViewCss;
+
+	var slice$5 = createSlice({
+	  name: "connectionHandles",
+	  initialState: {
+	    allHandles: {},
+	    handlesByName: {}
+	  },
+	  reducers: {
+	    setPosition: function setPosition(state, action) {
+	      var _action$payload = action.payload,
+	        id = _action$payload.id,
+	        name = _action$payload.name,
+	        componentId = _action$payload.componentId,
+	        _action$payload$conte = _action$payload.context,
+	        context = _action$payload$conte === void 0 ? "to" : _action$payload$conte,
+	        x = _action$payload.x,
+	        y = _action$payload.y;
+	      state.allHandles = _objectSpread2(_objectSpread2({}, state.allHandles), {}, _defineProperty$1({}, id, {
+	        name: name,
+	        componentId: context === "to" && componentId || null,
+	        context: context === "from" && "from" || "to",
+	        x: x && !Number.isNaN(x) && x || 0,
+	        y: y && !Number.isNaN(y) && y || 0
+	      }));
+	      if (!name) {
+	        return;
+	      }
+	      if (context === "from") {
+	        var _state$handlesByName;
+	        state.handlesByName = _objectSpread2(_objectSpread2({}, state.handlesByName), {}, _defineProperty$1({}, name, {
+	          from: id,
+	          to: ((_state$handlesByName = state.handlesByName) === null || _state$handlesByName === void 0 || (_state$handlesByName = _state$handlesByName[name]) === null || _state$handlesByName === void 0 ? void 0 : _state$handlesByName.to) || []
+	        }));
+	      } else {
+	        var _state$handlesByName2, _state$handlesByName3;
+	        state.handlesByName = _objectSpread2(_objectSpread2({}, state.handlesByName), {}, _defineProperty$1({}, name, {
+	          from: ((_state$handlesByName2 = state.handlesByName) === null || _state$handlesByName2 === void 0 || (_state$handlesByName2 = _state$handlesByName2[name]) === null || _state$handlesByName2 === void 0 ? void 0 : _state$handlesByName2.from) || null,
+	          to: _toConsumableArray(new Set([].concat(_toConsumableArray(((_state$handlesByName3 = state.handlesByName) === null || _state$handlesByName3 === void 0 || (_state$handlesByName3 = _state$handlesByName3[name]) === null || _state$handlesByName3 === void 0 ? void 0 : _state$handlesByName3.to) || []), [id])))
+	        }));
+	      }
+	    },
+	    removePosition: function removePosition(state, action) {
+	      var _state$handlesByName4, _state$handlesByName6;
+	      var _action$payload2 = action.payload,
+	        id = _action$payload2.id,
+	        name = _action$payload2.name;
+	      state.allHandles = Object.fromEntries(Object.entries(state.allHandles).filter(function (_ref) {
+	        var _ref2 = _slicedToArray(_ref, 2),
+	          key = _ref2[0];
+	          _ref2[1];
+	        return key !== id;
+	      }));
+	      if (!name) {
+	        return;
+	      }
+	      if (((_state$handlesByName4 = state.handlesByName) === null || _state$handlesByName4 === void 0 || (_state$handlesByName4 = _state$handlesByName4[name]) === null || _state$handlesByName4 === void 0 ? void 0 : _state$handlesByName4.from) === id) {
+	        var _state$handlesByName5;
+	        state.handlesByName = _objectSpread2(_objectSpread2({}, state.handlesByName), {}, _defineProperty$1({}, name, {
+	          from: null,
+	          to: ((_state$handlesByName5 = state.handlesByName) === null || _state$handlesByName5 === void 0 || (_state$handlesByName5 = _state$handlesByName5[name]) === null || _state$handlesByName5 === void 0 ? void 0 : _state$handlesByName5.to) || []
+	        }));
+	      } else if ((_state$handlesByName6 = state.handlesByName) !== null && _state$handlesByName6 !== void 0 && (_state$handlesByName6 = _state$handlesByName6[name]) !== null && _state$handlesByName6 !== void 0 && _state$handlesByName6.to.includes(id)) {
+	        var _state$handlesByName7, _state$handlesByName8;
+	        state.handlesByName = _objectSpread2(_objectSpread2({}, state.handlesByName), {}, _defineProperty$1({}, name, {
+	          from: ((_state$handlesByName7 = state.handlesByName) === null || _state$handlesByName7 === void 0 || (_state$handlesByName7 = _state$handlesByName7[name]) === null || _state$handlesByName7 === void 0 ? void 0 : _state$handlesByName7.from) || null,
+	          to: (((_state$handlesByName8 = state.handlesByName) === null || _state$handlesByName8 === void 0 || (_state$handlesByName8 = _state$handlesByName8[name]) === null || _state$handlesByName8 === void 0 ? void 0 : _state$handlesByName8.to) || []).filter(function (to) {
+	            return to !== id;
+	          })
+	        }));
+	      }
+	    }
+	  }
+	});
 	var actions$5 = slice$5.actions,
 	  reducer$5 = slice$5.reducer;
-	var setViewCss = actions$5.setViewCss;
+	var removePosition = actions$5.removePosition,
+	  setPosition = actions$5.setPosition;
 
 	var _excluded$9 = ["context"];
 	var setFocus$1 = function setFocus(state, action) {
@@ -8113,11 +8113,11 @@
 	var store = configureStore({
 	  reducer: combineReducers({
 	    app: reducer$a,
-	    attributeHandles: reducer$9,
-	    blockBlueprint: reducer$8,
-	    blockJson: reducer$7,
-	    blockEditorCss: reducer$6,
-	    blockViewCss: reducer$5,
+	    blockBlueprint: reducer$9,
+	    blockJson: reducer$8,
+	    blockEditorCss: reducer$7,
+	    blockViewCss: reducer$6,
+	    connectionHandles: reducer$5,
 	    editor: reducer$4,
 	    postMetadata: reducer$3,
 	    postType: reducer$2,
@@ -11922,7 +11922,7 @@
 	}
 
 	var _excluded$7 = ["attributeName", "clientId", "componentId", "context", "draggingOffset", "editorRef", "isClone", "isDragging"];
-	function BlueprintAttributeHandle(_ref) {
+	function BlueprintConnectionHandle(_ref) {
 	  var attributeName = _ref.attributeName,
 	    _ref$clientId = _ref.clientId,
 	    clientId = _ref$clientId === void 0 ? null : _ref$clientId,
@@ -11944,7 +11944,7 @@
 	    props = _objectWithoutProperties(_ref, _excluded$7);
 	  var id = React$2.useId();
 	  var ref = React$2.useRef(null);
-	  var rect = useRect(ref, editorRef, ["x", "y", "height", "width"]);
+	  var rect = useRect(ref, editorRef, ["height", "width", "x", "y"]);
 	  var dispatch = useDispatch();
 	  var _useState = React$2.useState(attributeName),
 	    _useState2 = _slicedToArray(_useState, 2),
@@ -11978,7 +11978,7 @@
 	  }, [attributeName]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    ref: ref,
-	    className: clsx$1("BlueprintAttributeHandle", "is-".concat((props === null || props === void 0 ? void 0 : props.position) === "right" && "right" || "left"), {
+	    className: clsx$1("BlueprintConnectionHandle", "is-".concat((props === null || props === void 0 ? void 0 : props.position) === "right" && "right" || "left"), {
 	      hide: isClone && !isDragging || !isClone && isDragging
 	    })
 	  });
@@ -11999,15 +11999,15 @@
 	  });
 	}
 
-	var _excluded$6 = ["editorRef", "attributeName", "attributeType"];
+	var _excluded$6 = ["attributeName", "attributeType", "editorRef"];
 	function BlueprintAttribute(_ref) {
 	  var _attributeTypes$attri;
-	  var _ref$editorRef = _ref.editorRef,
-	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef,
-	    _ref$attributeName = _ref.attributeName,
+	  var _ref$attributeName = _ref.attributeName,
 	    attributeName = _ref$attributeName === void 0 ? null : _ref$attributeName,
 	    _ref$attributeType = _ref.attributeType,
 	    attributeType = _ref$attributeType === void 0 ? "string" : _ref$attributeType,
+	    _ref$editorRef = _ref.editorRef,
+	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef,
 	    props = _objectWithoutProperties(_ref, _excluded$6);
 	  var attributeDefault;
 	  if (isObject(props === null || props === void 0 ? void 0 : props.attributeDefault) || isArray(props === null || props === void 0 ? void 0 : props.attributeDefault)) {
@@ -12107,10 +12107,10 @@
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: "BlueprintAttribute",
-	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintAttributeHandle, {
-	      editorRef: editorRef,
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionHandle, {
 	      attributeName: attributeNameValue,
 	      context: "from",
+	      editorRef: editorRef,
 	      position: "right"
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintAttribute-line",
@@ -12246,10 +12246,10 @@
 	          attributeName = _ref3[0],
 	          attributeProps = _ref3[1];
 	        return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintAttribute, {
-	          editorRef: editorRef,
 	          attributeName: attributeName,
 	          attributeType: attributeProps === null || attributeProps === void 0 ? void 0 : attributeProps.type,
-	          attributeDefault: attributeProps === null || attributeProps === void 0 ? void 0 : attributeProps["default"]
+	          attributeDefault: attributeProps === null || attributeProps === void 0 ? void 0 : attributeProps["default"],
+	          editorRef: editorRef
 	        }, index);
 	      })
 	    }), Object.entries(attributes).length === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintHint, {
@@ -14189,7 +14189,7 @@
 	      clientId: clientId,
 	      ref: openRef,
 	      editorRef: editorRef,
-	      children: hasAttributeHandle && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintAttributeHandle, {
+	      children: hasAttributeHandle && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionHandle, {
 	        editorRef: editorRef,
 	        componentId: "".concat(clientId),
 	        clientId: "".concat(clientId, "-1"),
@@ -14222,7 +14222,7 @@
 	        children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentOpeningTag, {
 	          clientId: clientId,
 	          disabled: true,
-	          children: hasAttributeHandle && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintAttributeHandle, {
+	          children: hasAttributeHandle && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionHandle, {
 	            editorRef: editorRef,
 	            clientId: "".concat(clientId, "-2"),
 	            attributeName: attributeName,
@@ -14399,11 +14399,11 @@
 	    to = _ref.to;
 	  var dispatch = useDispatch();
 	  var _useSelector = useSelector(function (state) {
-	      return state.attributeHandles || {};
+	      return state.connectionHandles || {};
 	    }),
 	    allHandles = _useSelector.allHandles;
 	  var _useSelector2 = useSelector(function (state) {
-	      return state.attributeHandles || {};
+	      return state.connectionHandles || {};
 	    });
 	    _useSelector2.handlesByName;
 	  var componentId = ((_allHandles$to = allHandles[to]) === null || _allHandles$to === void 0 ? void 0 : _allHandles$to.componentId) || null;
@@ -14446,7 +14446,7 @@
 	  _objectDestructuringEmpty(_ref);
 	  var ref = React$2.useRef(null);
 	  var _useSelector = useSelector(function (state) {
-	      return state.attributeHandles || {};
+	      return state.connectionHandles || {};
 	    }),
 	    handlesByName = _useSelector.handlesByName;
 	  var editor = useSelector(function (state) {

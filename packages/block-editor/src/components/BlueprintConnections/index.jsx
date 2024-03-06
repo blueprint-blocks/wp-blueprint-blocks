@@ -8,7 +8,7 @@ function BlueprintConnections({}) {
 	const ref = useRef(null);
 
 	const { handlesByName } = useSelector((state) => {
-		return state.attributeHandles || {};
+		return state.connectionHandles || {};
 	});
 
 	const editor = useSelector((state) => {
