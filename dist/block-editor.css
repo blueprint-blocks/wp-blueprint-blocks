@@ -1077,27 +1077,27 @@
 }
 
 .BlueprintAttributeHandle {
-	background: var(--color-darkest-gray);
-	border: 2px solid var(--color-lighter-gray);
-	border-radius: 10px;
-	box-sizing: border-box;
-	height: 10px;
-	position: absolute;
-	right: 0;
-	top: calc(50% - 5px);
-	width: 10px;
+    background: var(--color-darkest-gray);
+    border: 2px solid var(--color-white);
+    border-radius: 10px;
+    box-sizing: border-box;
+    height: 10px;
+    position: absolute;
+    right: 0;
+    top: calc(50% - 5px);
+    width: 10px;
 }
 
 .BlueprintAttributeHandle.hide {
-	opacity: 0;
+    opacity: 0;
 }
 
 .BlueprintAttributeHandle.is-left {
-	left: -5px;
+    left: -5px;
 }
 
 .BlueprintAttributeHandle.is-right {
-	right: 0;
+    right: 0;
 }
 
 .BlueprintWarning {

@@ -55,8 +55,6 @@ const initialState = {
   newDraggingComponent: null,
 
   isDragging: false,
-
-  focusedComponent: null,
 };
 
 export default initialState;

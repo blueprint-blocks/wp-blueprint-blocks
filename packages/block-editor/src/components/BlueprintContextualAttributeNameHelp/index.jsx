@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 
 import { getComponentProperties } from "../../functions";
 
@@ -11,7 +11,10 @@ function BlueprintContextualAttributeNameHelp({
 }) {
   const ref = useRef(null);
 
-  const componentProperties = getComponentProperties(componentType);
+  const componentProperties = useMemo(
+    () => getComponentProperties(componentType),
+    [componentType],
+  );
 
   const componentAttributes = Object.entries(
     componentProperties?.attributes || {},

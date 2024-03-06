@@ -4103,11 +4103,17 @@
 	};
 
 	var attributes$1 = {
+		attributeName: {
+			type: "string",
+			description: ""
+		},
 		className: {
-			type: "string"
+			type: "string",
+			description: "This is a class name."
 		},
 		style: {
-			type: "string"
+			type: "string",
+			description: "This is a style property string."
 		}
 	};
 	var fields = [
@@ -7078,9 +7084,9 @@
 
 	document.createElement('textarea');
 
-	function getComponentProperties() {
-	  var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'html';
-	  var tagName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'div';
+	function _getComponentProperties() {
+	  var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "html";
+	  var tagName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "div";
 	  var _iterator = _createForOfIteratorHelper(blockComponents$1.fields),
 	    _step;
 	  try {
@@ -7111,6 +7117,17 @@
 	    _iterator2.f();
 	  }
 	  return null;
+	}
+	function getComponentProperties() {
+	  var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "html";
+	  var tagName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "div";
+	  var component = _getComponentProperties(type, tagName);
+	  if (component) {
+	    return _objectSpread2(_objectSpread2({}, component), {}, {
+	      attributes: _objectSpread2(_objectSpread2({}, blockComponents$1.attributes), component.attributes)
+	    });
+	  }
+	  return component;
 	}
 
 	function getComponentAttributeType() {
@@ -7383,8 +7400,7 @@
 	  blockSidebar: blockSidebar,
 	  existingDraggingComponent: null,
 	  newDraggingComponent: null,
-	  isDragging: false,
-	  focusedComponent: null
+	  isDragging: false
 	};
 
 	var getAtPosition = function getAtPosition(_ref) {
@@ -11956,30 +11972,30 @@
 	  });
 	}
 
-	var _excluded$7 = ["editorRef", "clientId", "componentId", "attributeName", "context", "isClone", "isDragging", "draggingOffset"];
+	var _excluded$7 = ["attributeName", "clientId", "componentId", "context", "draggingOffset", "editorRef", "isClone", "isDragging"];
 	function BlueprintAttributeHandle(_ref) {
-	  var _ref$editorRef = _ref.editorRef,
-	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef,
+	  var attributeName = _ref.attributeName,
 	    _ref$clientId = _ref.clientId,
 	    clientId = _ref$clientId === void 0 ? null : _ref$clientId,
 	    _ref$componentId = _ref.componentId,
 	    componentId = _ref$componentId === void 0 ? null : _ref$componentId,
-	    attributeName = _ref.attributeName,
 	    _ref$context = _ref.context,
-	    context = _ref$context === void 0 ? 'to' : _ref$context,
-	    _ref$isClone = _ref.isClone,
-	    isClone = _ref$isClone === void 0 ? false : _ref$isClone,
-	    _ref$isDragging = _ref.isDragging,
-	    isDragging = _ref$isDragging === void 0 ? false : _ref$isDragging,
+	    context = _ref$context === void 0 ? "to" : _ref$context,
 	    _ref$draggingOffset = _ref.draggingOffset,
 	    draggingOffset = _ref$draggingOffset === void 0 ? {
 	      x: 0,
 	      y: 0
 	    } : _ref$draggingOffset,
+	    _ref$editorRef = _ref.editorRef,
+	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef,
+	    _ref$isClone = _ref.isClone,
+	    isClone = _ref$isClone === void 0 ? false : _ref$isClone,
+	    _ref$isDragging = _ref.isDragging,
+	    isDragging = _ref$isDragging === void 0 ? false : _ref$isDragging,
 	    props = _objectWithoutProperties(_ref, _excluded$7);
 	  var id = React$2.useId();
 	  var ref = React$2.useRef(null);
-	  var rect = useRect(ref, editorRef, ['x', 'y', 'height', 'width']);
+	  var rect = useRect(ref, editorRef, ["x", "y", "height", "width"]);
 	  var dispatch = useDispatch();
 	  var _useState = React$2.useState(attributeName),
 	    _useState2 = _slicedToArray(_useState, 2),
@@ -11996,7 +12012,7 @@
 	        name: name,
 	        id: clientId || id,
 	        componentId: componentId,
-	        context: context === 'from' && 'from' || 'to',
+	        context: context === "from" && "from" || "to",
 	        x: rect.x + rect.width / 2 + draggingOffset.x,
 	        y: rect.y + rect.height / 2 + draggingOffset.y
 	      }));
@@ -12011,12 +12027,11 @@
 	    }
 	    setName(attributeName);
 	  }, [attributeName]);
-	  React$2.useLayoutEffect(function () {
-	    ref.current.classList.toggle('hide', isClone && !isDragging || !isClone && isDragging);
-	  }, [isClone, isDragging]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    ref: ref,
-	    className: "BlueprintAttributeHandle is-".concat((props === null || props === void 0 ? void 0 : props.position) === 'right' && 'right' || 'left')
+	    className: classNames("BlueprintAttributeHandle", "is-".concat((props === null || props === void 0 ? void 0 : props.position) === "right" && "right" || "left"), {
+	      hide: isClone && !isDragging || !isClone && isDragging
+	    })
 	  });
 	}
 
@@ -12043,7 +12058,7 @@
 	    _ref$attributeName = _ref.attributeName,
 	    attributeName = _ref$attributeName === void 0 ? null : _ref$attributeName,
 	    _ref$attributeType = _ref.attributeType,
-	    attributeType = _ref$attributeType === void 0 ? 'string' : _ref$attributeType,
+	    attributeType = _ref$attributeType === void 0 ? "string" : _ref$attributeType,
 	    props = _objectWithoutProperties(_ref, _excluded$6);
 	  var attributeDefault;
 	  if (isObject(props === null || props === void 0 ? void 0 : props.attributeDefault) || isArray(props === null || props === void 0 ? void 0 : props.attributeDefault)) {
@@ -12121,9 +12136,9 @@
 	    }
 	  }, [attributeTypeValue]);
 	  React$2.useLayoutEffect(function () {
-	    if (attributeTypeValue === 'array' && !isAttributeArrayValue(attributeDefaultValue) && !isStringNullValue(attributeDefaultValue)) {
+	    if (attributeTypeValue === "array" && !isAttributeArrayValue(attributeDefaultValue) && !isStringNullValue(attributeDefaultValue)) {
 	      setAttributeDefaultValid(false);
-	    } else if (attributeTypeValue === 'object' && !isAttributeObjectValue(attributeDefaultValue) && !isStringNullValue(attributeDefaultValue)) {
+	    } else if (attributeTypeValue === "object" && !isAttributeObjectValue(attributeDefaultValue) && !isStringNullValue(attributeDefaultValue)) {
 	      setAttributeDefaultValid(false);
 	    } else if (attributeTypeValid && !allowsNullDefault && !(attributeDefaultValue !== null && attributeDefaultValue !== void 0 && attributeDefaultValue.length)) {
 	      setAttributeDefaultValid(false);
@@ -12132,13 +12147,13 @@
 	    }
 	  }, [attributeDefaultValue, attributeTypeValue, attributeTypeValid]);
 	  React$2.useLayoutEffect(function () {
-	    attributeNameRef.current.classList.toggle('is-invalid', !attributeNameValid);
+	    attributeNameRef.current.classList.toggle("is-invalid", !attributeNameValid);
 	  }, [attributeNameValid]);
 	  React$2.useLayoutEffect(function () {
-	    attributeTypeRef.current.classList.toggle('is-invalid', !attributeTypeValid);
+	    attributeTypeRef.current.classList.toggle("is-invalid", !attributeTypeValid);
 	  }, [attributeTypeValid]);
 	  React$2.useLayoutEffect(function () {
-	    attributeDefaultRef.current.classList.toggle('is-invalid', !attributeDefaultValid);
+	    attributeDefaultRef.current.classList.toggle("is-invalid", !attributeDefaultValid);
 	  }, [attributeDefaultValid]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
@@ -12200,20 +12215,20 @@
 	          children: "default"
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	          children: "\": "
-	        }), (attributeTypeValue === 'string' && !isStringNullValue(attributeDefaultValue) || isAttributeStringValue(attributeDefaultValue)) && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	        }), (attributeTypeValue === "string" && !isStringNullValue(attributeDefaultValue) || isAttributeStringValue(attributeDefaultValue)) && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	          children: "\""
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
 	          className: "BlueprintAttribute-default",
 	          placeholder: "null",
 	          value: attributeDefaultValue,
 	          onChange: onChangeAttributeDefault
-	        }), (attributeTypeValue === 'string' && !isStringNullValue(attributeDefaultValue) || isAttributeStringValue(attributeDefaultValue)) && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	        }), (attributeTypeValue === "string" && !isStringNullValue(attributeDefaultValue) || isAttributeStringValue(attributeDefaultValue)) && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	          children: "\""
 	        })]
 	      })
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      children: /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	        children: '}'
+	        children: "}"
 	      })
 	    })]
 	  });
@@ -14455,7 +14470,7 @@
 	    if (componentId) {
 	      dispatch(unsetComponentAttribute({
 	        clientId: componentId,
-	        attribute: 'attributeName'
+	        attribute: "attributeName"
 	      }));
 	    }
 	  };
@@ -14715,7 +14730,9 @@
 	    attributeName = _ref$attributeName === void 0 ? "" : _ref$attributeName,
 	    onClickSuggestedValue = _ref.onClickSuggestedValue;
 	  var ref = React$2.useRef(null);
-	  var componentProperties = getComponentProperties(componentType);
+	  var componentProperties = React$2.useMemo(function () {
+	    return getComponentProperties(componentType);
+	  }, [componentType]);
 	  var componentAttributes = Object.entries((componentProperties === null || componentProperties === void 0 ? void 0 : componentProperties.attributes) || {}).filter(function (_ref2) {
 	    var _ref3 = _slicedToArray(_ref2, 2),
 	      key = _ref3[0];

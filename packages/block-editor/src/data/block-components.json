@@ -1,10 +1,16 @@
 {
   "attributes": {
+    "attributeName": {
+      "type": "string",
+      "description": ""
+    },
     "className": {
-      "type": "string"
+      "type": "string",
+      "description": "This is a class name."
     },
     "style": {
-      "type": "string"
+      "type": "string",
+      "description": "This is a style property string."
     }
   },
   "fields": [
