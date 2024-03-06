@@ -1,19 +1,17 @@
 {
-  "name": "blueprint-blocks",
-  "private": true,
-  "version": "0.1.0",
-  "scripts": {
-	"prettier": "prettier"
-  },
-  "dependencies": {
-    "@blueprint-blocks/block-editor": "file:packages/block-editor",
-    "@blueprint-blocks/block-loader": "file:packages/block-loader"
-  },
-  "devDependencies": {
-    "lerna": "^6.4.1",
-    "prettier": "^3.2.5"
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+	"name": "blueprint-blocks",
+	"private": true,
+	"version": "0.1.0",
+	"scripts": {},
+	"dependencies": {
+		"@blueprint-blocks/block-editor": "file:packages/block-editor",
+		"@blueprint-blocks/block-loader": "file:packages/block-loader"
+	},
+	"devDependencies": {
+		"lerna": "^6.4.1",
+		"prettier": "^3.2.5"
+	},
+	"workspaces": [
+		"packages/*"
+	]
 }
