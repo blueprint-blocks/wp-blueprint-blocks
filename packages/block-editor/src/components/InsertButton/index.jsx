@@ -1,19 +1,11 @@
-import clsx from "clsx"
+import clsx from "clsx";
 
-import './style.css'
+import "./style.css";
 
-const InsertButton = ( {
-	className,
-	onClick,
-} ) => {
-
+const InsertButton = ({ className, onClick }) => {
 	return (
-		<div
-			className={ clsx( 'InsertButton', className ) }
-			onClick={ onClick }
-		/>
-	)
+		<div className={clsx("InsertButton", className)} onClick={onClick} />
+	);
+};
 
-}
-
-export default InsertButton
+export default InsertButton;

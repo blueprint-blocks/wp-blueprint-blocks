@@ -1,23 +1,21 @@
-import { useRef } from 'react'
+import { useRef } from "react";
 
-import BlueprintEditor from '../BlueprintEditor'
-import BlueprintSidebar from '../BlueprintSidebar'
+import BlueprintEditor from "../BlueprintEditor";
+import BlueprintSidebar from "../BlueprintSidebar";
 
-import './style.css'
+import "./style.css";
 
 function PageBlueprint() {
-
-	const ref = useRef( null )
+	const ref = useRef(null);
 
 	return (
-		<div ref={ ref } className="PageBlueprint">
+		<div ref={ref} className="PageBlueprint">
 			<div className="PageBlueprint-view">
 				<BlueprintEditor />
-				<BlueprintSidebar editorRef={ ref } />
+				<BlueprintSidebar editorRef={ref} />
 			</div>
 		</div>
-	)
-
+	);
 }
 
-export default PageBlueprint
+export default PageBlueprint;

@@ -1,34 +1,34 @@
-import { getUniqueClientId } from '../../../functions'
-import { getComponentList } from '../selectors'
-import insertAtPosition from './insert-at-position'
-import setComponentList from './set-component-list'
+import { getUniqueClientId } from "../../../functions";
+import { getComponentList } from "../selectors";
+import insertAtPosition from "./insert-at-position";
+import setComponentList from "./set-component-list";
 
-const insertNewComponentAtPosition = ( state, action ) => {
+const insertNewComponentAtPosition = (state, action) => {
 	const {
-		context = 'edit',
+		context = "edit",
 		component = {},
 		position = [],
-	} = action.payload || {}
+	} = action.payload || {};
 
-	const clientId = getUniqueClientId()
+	const clientId = getUniqueClientId();
 
-	let componentList = insertAtPosition( {
+	let componentList = insertAtPosition({
 		clientId,
-		componentList: getComponentList( state, context ),
+		componentList: getComponentList(state, context),
 		position,
-	} )
+	});
 
 	state.blockComponents = {
 		...state.blockComponents,
-		[ clientId ]: component,
-	}
+		[clientId]: component,
+	};
 
-	setComponentList( state, {
+	setComponentList(state, {
 		payload: {
 			context,
 			componentList,
 		},
-	} )
-}
+	});
+};
 
-export default insertNewComponentAtPosition
+export default insertNewComponentAtPosition;

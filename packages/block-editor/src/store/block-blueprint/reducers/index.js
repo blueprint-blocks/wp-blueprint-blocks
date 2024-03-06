@@ -13,19 +13,19 @@ import unsetComponentAttribute from "./unset-component-attribute";
 import unsetDraggingComponent from "./unset-dragging-component";
 
 const reducers = {
-  getAtPosition,
-  insertAtPosition,
-  insertExistingComponentAtPosition,
-  insertNewComponentAtPosition,
-  insertDraggingComponentAtPosition,
-  removeAtPosition,
-  setComponentAttribute,
-  setComponentList,
-  startDraggingExistingComponent,
-  startDraggingNewComponent,
-  stopDragging,
-  unsetComponentAttribute,
-  unsetDraggingComponent,
+	getAtPosition,
+	insertAtPosition,
+	insertExistingComponentAtPosition,
+	insertNewComponentAtPosition,
+	insertDraggingComponentAtPosition,
+	removeAtPosition,
+	setComponentAttribute,
+	setComponentList,
+	startDraggingExistingComponent,
+	startDraggingNewComponent,
+	stopDragging,
+	unsetComponentAttribute,
+	unsetDraggingComponent,
 };
 
 export default reducers;

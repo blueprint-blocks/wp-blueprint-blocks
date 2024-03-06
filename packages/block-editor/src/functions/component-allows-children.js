@@ -1,19 +1,17 @@
-import { blockComponents } from '../data'
+import { blockComponents } from "../data";
 
-function componentAllowsChildren( type = 'html', tagName = 'div' ) {
-
-	if ( type !== 'html' ) {
-		return false
+function componentAllowsChildren(type = "html", tagName = "div") {
+	if (type !== "html") {
+		return false;
 	}
 
-	for ( let component of blockComponents.html ) {
-		if ( component?.defaultAttributes?.tagName === tagName ) {
-			return component?.allowsChildren
+	for (let component of blockComponents.html) {
+		if (component?.defaultAttributes?.tagName === tagName) {
+			return component?.allowsChildren;
 		}
 	}
 
-	return false
-
+	return false;
 }
 
-export default componentAllowsChildren
+export default componentAllowsChildren;

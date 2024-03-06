@@ -3,30 +3,26 @@
  *
  * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
  */
-import { registerBlockType } from '@wordpress/blocks'
+import { registerBlockType } from "@wordpress/blocks";
 
 /**
  * Edit and save functionality rendered based on a provided blueprint.json schema.
  */
-import { BlockEdit, BlockSave } from '@blueprint-blocks/components'
+import { BlockEdit, BlockSave } from "@blueprint-blocks/components";
 
 /**
  * Every block starts by registering a new block type definition.
  *
  * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
  */
-const { blockTypes = {} } = blueprintBlocksLoaderSettings || {}
+const { blockTypes = {} } = blueprintBlocksLoaderSettings || {};
 
-Object.entries( blockTypes ).forEach( ( [ blockName, blockType ] ) => {
+Object.entries(blockTypes).forEach(([blockName, blockType]) => {
+	registerBlockType(blockName, {
+		...(blockType?.blockJson || {}),
 
-	registerBlockType( blockName, {
+		edit: BlockEdit(blockType?.blockBlueprint || null),
 
-		...( blockType?.blockJson || {} ),
-
-		edit: BlockEdit( blockType?.blockBlueprint || null ),
-
-		save: BlockSave( blockType?.blockBlueprint || null ),
-
-	} )
-
-} )
+		save: BlockSave(blockType?.blockBlueprint || null),
+	});
+});

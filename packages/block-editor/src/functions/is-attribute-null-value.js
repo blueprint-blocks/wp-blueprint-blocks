@@ -1,8 +1,5 @@
-function isStringNullValue( value ) {
-	return (
-		value === null ||
-		!value?.length
-	)
+function isStringNullValue(value) {
+	return value === null || !value?.length;
 }
 
-export default isStringNullValue
+export default isStringNullValue;

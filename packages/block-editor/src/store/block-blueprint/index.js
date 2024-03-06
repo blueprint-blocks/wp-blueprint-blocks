@@ -4,45 +4,45 @@ import initialState from "./initial-state";
 import reducers from "./reducers";
 
 import {
-  getBlockComponent,
-  getComponentContext,
-  getComponentList,
-  getComponentListDepth,
-  getRawJson,
+	getBlockComponent,
+	getComponentContext,
+	getComponentList,
+	getComponentListDepth,
+	getRawJson,
 } from "./selectors";
 
 const slice = createSlice({
-  name: "blockBlueprint",
+	name: "blockBlueprint",
 
-  initialState,
+	initialState,
 
-  reducers,
+	reducers,
 });
 
 const { actions, reducer } = slice;
 
 export const {
-  getAtPosition,
-  insertAtPosition,
-  insertExistingComponentAtPosition,
-  insertNewComponentAtPosition,
-  insertDraggingComponentAtPosition,
-  removeAtPosition,
-  setComponentAttribute,
-  setComponentList,
-  startDraggingExistingComponent,
-  startDraggingNewComponent,
-  stopDragging,
-  unsetComponentAttribute,
-  unsetDraggingComponent,
+	getAtPosition,
+	insertAtPosition,
+	insertExistingComponentAtPosition,
+	insertNewComponentAtPosition,
+	insertDraggingComponentAtPosition,
+	removeAtPosition,
+	setComponentAttribute,
+	setComponentList,
+	startDraggingExistingComponent,
+	startDraggingNewComponent,
+	stopDragging,
+	unsetComponentAttribute,
+	unsetDraggingComponent,
 } = actions;
 
 export {
-  getBlockComponent,
-  getComponentContext,
-  getComponentList,
-  getComponentListDepth,
-  getRawJson,
+	getBlockComponent,
+	getComponentContext,
+	getComponentList,
+	getComponentListDepth,
+	getRawJson,
 };
 
 export default reducer;

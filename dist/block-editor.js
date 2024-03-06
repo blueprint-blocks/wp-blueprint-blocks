@@ -3994,7 +3994,7 @@
 	}
 
 	var slice$9 = createSlice({
-	  name: 'attributeHandles',
+	  name: "attributeHandles",
 	  initialState: {
 	    allHandles: {},
 	    handlesByName: {}
@@ -4006,20 +4006,20 @@
 	        name = _action$payload.name,
 	        componentId = _action$payload.componentId,
 	        _action$payload$conte = _action$payload.context,
-	        context = _action$payload$conte === void 0 ? 'to' : _action$payload$conte,
+	        context = _action$payload$conte === void 0 ? "to" : _action$payload$conte,
 	        x = _action$payload.x,
 	        y = _action$payload.y;
 	      state.allHandles = _objectSpread2(_objectSpread2({}, state.allHandles), {}, _defineProperty$1({}, id, {
 	        name: name,
-	        componentId: context === 'to' && componentId || null,
-	        context: context === 'from' && 'from' || 'to',
+	        componentId: context === "to" && componentId || null,
+	        context: context === "from" && "from" || "to",
 	        x: x && !Number.isNaN(x) && x || 0,
 	        y: y && !Number.isNaN(y) && y || 0
 	      }));
 	      if (!name) {
 	        return;
 	      }
-	      if (context === 'from') {
+	      if (context === "from") {
 	        var _state$handlesByName;
 	        state.handlesByName = _objectSpread2(_objectSpread2({}, state.handlesByName), {}, _defineProperty$1({}, name, {
 	          from: id,
@@ -4073,11 +4073,11 @@
 	function delimiterize(string) {
 	  return string.replace(/([a-z])([A-Z])/g, function (match, p1, p2) {
 	    return "".concat(p1, "-").concat(p2);
-	  }).replace(/\//g, '-').replace(/_/g, '-').replace(/[^\w\s-]/g, '').replace(/(\s)/g, '-').toLowerCase();
+	  }).replace(/\//g, "-").replace(/_/g, "-").replace(/[^\w\s-]/g, "").replace(/(\s)/g, "-").toLowerCase();
 	}
 
 	function camelize() {
-	  var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+	  var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
 	  return delimiterize(string).replace(/\-(.)/g, function (match, p1) {
 	    return p1.toUpperCase();
 	  });
@@ -7059,9 +7059,9 @@
 	};
 
 	function componentAllowsChildren() {
-	  var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'html';
-	  var tagName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'div';
-	  if (type !== 'html') {
+	  var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "html";
+	  var tagName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "div";
+	  if (type !== "html") {
 	    return false;
 	  }
 	  var _iterator = _createForOfIteratorHelper(blockComponents$1.html),
@@ -7082,7 +7082,7 @@
 	  return false;
 	}
 
-	document.createElement('textarea');
+	document.createElement("textarea");
 
 	function _getComponentProperties() {
 	  var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "html";
@@ -7131,18 +7131,18 @@
 	}
 
 	function getComponentAttributeType() {
-	  var componentType = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'html';
+	  var componentType = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "html";
 	  var attributeName = arguments.length > 1 ? arguments[1] : undefined;
 	  var component = getComponentProperties(componentType);
 	  if (component && attributeName in Object.keys((component === null || component === void 0 ? void 0 : component.attributes) || {})) {
 	    var _component$attributes;
-	    return ((_component$attributes = component.attributes[attributeName]) === null || _component$attributes === void 0 ? void 0 : _component$attributes.type) || 'string';
+	    return ((_component$attributes = component.attributes[attributeName]) === null || _component$attributes === void 0 ? void 0 : _component$attributes.type) || "string";
 	  }
 	  if (attributeName in blockComponents$1.attributes) {
 	    var _blockComponents$attr;
-	    return ((_blockComponents$attr = blockComponents$1.attributes[attributeName]) === null || _blockComponents$attr === void 0 ? void 0 : _blockComponents$attr.type) || 'string';
+	    return ((_blockComponents$attr = blockComponents$1.attributes[attributeName]) === null || _blockComponents$attr === void 0 ? void 0 : _blockComponents$attr.type) || "string";
 	  }
-	  return 'string';
+	  return "string";
 	}
 
 	var getObjectProperty = function getObjectProperty(object, identifier) {
@@ -7180,7 +7180,7 @@
 	function isAttributeArrayValue(value) {
 	  try {
 	    var json = JSON.parse(value);
-	    if (_typeof(json) === 'object' && Array.isArray(json)) {
+	    if (_typeof(json) === "object" && Array.isArray(json)) {
 	      return true;
 	    }
 	  } catch (e) {
@@ -7194,13 +7194,13 @@
 	}
 
 	function isAttributeNumberValue(value) {
-	  return typeof Number(value) === 'number' && !Number.isNaN(Number(value));
+	  return typeof Number(value) === "number" && !Number.isNaN(Number(value));
 	}
 
 	function isAttributeObjectValue(value) {
 	  try {
 	    var json = JSON.parse(value);
-	    if (_typeof(json) === 'object' && !Array.isArray(json)) {
+	    if (_typeof(json) === "object" && !Array.isArray(json)) {
 	      return true;
 	    }
 	  } catch (e) {
@@ -7214,7 +7214,7 @@
 	}
 
 	function isObject(value) {
-	  return _typeof(value) === 'object' && !Array.isArray(value) && value !== null;
+	  return _typeof(value) === "object" && !Array.isArray(value) && value !== null;
 	}
 
 	function normalizeClasslistAsObject() {
@@ -7223,13 +7223,13 @@
 	    return {};
 	  }
 	  var newClassList = {};
-	  if (typeof classList === 'string') {
+	  if (typeof classList === "string") {
 	    newClassList[classList] = true;
 	  } else if (Array.isArray(classList)) {
 	    classList.forEach(function (classListItem) {
 	      newClassList = Object.assign({}, newClassList, normalizeClasslistAsObject(classListItem));
 	    });
-	  } else if (_typeof(classList) === 'object') {
+	  } else if (_typeof(classList) === "object") {
 	    Object.entries(classList).forEach(function (_ref) {
 	      var _ref2 = _slicedToArray(_ref, 2),
 	        name = _ref2[0],
@@ -7595,16 +7595,16 @@
 	var setComponentList = function setComponentList(state, action) {
 	  var _action$payload = action.payload,
 	    _action$payload$conte = _action$payload.context,
-	    context = _action$payload$conte === void 0 ? 'edit' : _action$payload$conte,
+	    context = _action$payload$conte === void 0 ? "edit" : _action$payload$conte,
 	    _action$payload$compo = _action$payload.componentList,
 	    componentList = _action$payload$compo === void 0 ? [] : _action$payload$compo;
-	  if (context === 'edit') {
+	  if (context === "edit") {
 	    return state.blockEdit = componentList;
-	  } else if (context === 'toolbar') {
+	  } else if (context === "toolbar") {
 	    return state.blockToolbar = componentList;
-	  } else if (context === 'save') {
+	  } else if (context === "save") {
 	    return state.blockSave = componentList;
-	  } else if (context === 'sidebar') {
+	  } else if (context === "sidebar") {
 	    return state.blockSidebar = componentList;
 	  }
 	};
@@ -7665,7 +7665,7 @@
 	var insertNewComponentAtPosition = function insertNewComponentAtPosition(state, action) {
 	  var _ref = action.payload || {},
 	    _ref$context = _ref.context,
-	    context = _ref$context === void 0 ? 'edit' : _ref$context,
+	    context = _ref$context === void 0 ? "edit" : _ref$context,
 	    _ref$component = _ref.component,
 	    component = _ref$component === void 0 ? {} : _ref$component,
 	    _ref$position = _ref.position,
@@ -7811,20 +7811,20 @@
 
 	var getBlockClassName = function getBlockClassName(state, context) {
 	  var _state$name = state.name,
-	    name = _state$name === void 0 ? '' : _state$name;
+	    name = _state$name === void 0 ? "" : _state$name;
 	  return "wp-block-".concat(delimiterize(name));
 	};
 	var getBlockName = function getBlockName(state, context) {
 	  var _name$split;
 	  var _state$name2 = state.name,
-	    name = _state$name2 === void 0 ? '' : _state$name2;
-	  return ((_name$split = name.split('/')) === null || _name$split === void 0 ? void 0 : _name$split[1]) || '';
+	    name = _state$name2 === void 0 ? "" : _state$name2;
+	  return ((_name$split = name.split("/")) === null || _name$split === void 0 ? void 0 : _name$split[1]) || "";
 	};
 	var getBlockNamespace = function getBlockNamespace(state, context) {
 	  var _name$split2;
 	  var _state$name3 = state.name,
-	    name = _state$name3 === void 0 ? '' : _state$name3;
-	  return ((_name$split2 = name.split('/')) === null || _name$split2 === void 0 ? void 0 : _name$split2[0]) || '';
+	    name = _state$name3 === void 0 ? "" : _state$name3;
+	  return ((_name$split2 = name.split("/")) === null || _name$split2 === void 0 ? void 0 : _name$split2[0]) || "";
 	};
 
 	var _blueprintBlocksEdito$9;
@@ -7934,9 +7934,9 @@
 	  _blueprintBlocksEdito2$6 = _blueprintBlocksEdito$8.blockMetadata,
 	  blockMetadata$1 = _blueprintBlocksEdito2$6 === void 0 ? {} : _blueprintBlocksEdito2$6;
 	var slice$6 = createSlice({
-	  name: 'blockEditorCss',
+	  name: "blockEditorCss",
 	  initialState: {
-	    raw: (blockMetadata$1 === null || blockMetadata$1 === void 0 ? void 0 : blockMetadata$1.editorCss) || ''
+	    raw: (blockMetadata$1 === null || blockMetadata$1 === void 0 ? void 0 : blockMetadata$1.editorCss) || ""
 	  },
 	  reducers: {
 	    setEditorCss: function setEditorCss(state, action) {
@@ -7952,9 +7952,9 @@
 	  _blueprintBlocksEdito2$5 = _blueprintBlocksEdito$7.blockMetadata,
 	  blockMetadata = _blueprintBlocksEdito2$5 === void 0 ? {} : _blueprintBlocksEdito2$5;
 	var slice$5 = createSlice({
-	  name: 'blockViewCss',
+	  name: "blockViewCss",
 	  initialState: {
-	    raw: (blockMetadata === null || blockMetadata === void 0 ? void 0 : blockMetadata.viewCss) || ''
+	    raw: (blockMetadata === null || blockMetadata === void 0 ? void 0 : blockMetadata.viewCss) || ""
 	  },
 	  reducers: {
 	    setViewCss: function setViewCss(state, action) {
@@ -8057,7 +8057,7 @@
 	  _blueprintBlocksEdito2$3 = _blueprintBlocksEdito$5.postType,
 	  postType = _blueprintBlocksEdito2$3 === void 0 ? {} : _blueprintBlocksEdito2$3;
 	var slice$2 = createSlice({
-	  name: 'postType',
+	  name: "postType",
 	  initialState: _objectSpread2(_objectSpread2({}, postType), {}, {
 	    name: (postType === null || postType === void 0 ? void 0 : postType.name) || null,
 	    restBase: (postType === null || postType === void 0 ? void 0 : postType.restBase) || null
@@ -8153,15 +8153,15 @@
 	  return new Promise(function (resolve, reject) {
 	    apiFetch({
 	      path: "/wp/v2/".concat(postType.restBase),
-	      method: 'POST',
+	      method: "POST",
 	      data: {
 	        title: blockJson.title,
-	        status: 'publish',
+	        status: "publish",
 	        meta: {
-	          'blueprint_blocks_block_json': blockJson,
-	          'blueprint_blocks_blueprint_json': blockBlueprint,
-	          'blueprint_blocks_editor_css': blockEditorCss,
-	          'blueprint_blocks_view_css': blockViewCss
+	          blueprint_blocks_block_json: blockJson,
+	          blueprint_blocks_blueprint_json: blockBlueprint,
+	          blueprint_blocks_editor_css: blockEditorCss,
+	          blueprint_blocks_view_css: blockViewCss
 	        }
 	      }
 	    }).then(function (_ref2) {
@@ -8183,15 +8183,15 @@
 	  return new Promise(function (resolve, reject) {
 	    apiFetch({
 	      path: "/wp/v2/".concat(postType.restBase, "/").concat(postId),
-	      method: 'POST',
+	      method: "POST",
 	      data: {
 	        title: blockJson.title,
-	        status: 'publish',
+	        status: "publish",
 	        meta: {
-	          'blueprint_blocks_block_json': blockJson,
-	          'blueprint_blocks_blueprint_json': blockBlueprint,
-	          'blueprint_blocks_editor_css': blockEditorCss,
-	          'blueprint_blocks_view_css': blockViewCss
+	          blueprint_blocks_block_json: blockJson,
+	          blueprint_blocks_blueprint_json: blockBlueprint,
+	          blueprint_blocks_editor_css: blockEditorCss,
+	          blueprint_blocks_view_css: blockViewCss
 	        }
 	      }
 	    }).then(function (_ref4) {
@@ -8218,7 +8218,7 @@
 	      return state.blockJson || {};
 	    }),
 	    name = _useSelector.name;
-	  return "wp-block-".concat(name.split('/')[0], "-").concat(name.split('/')[0]);
+	  return "wp-block-".concat(name.split("/")[0], "-").concat(name.split("/")[0]);
 	}
 
 	function useFocus() {
@@ -8360,15 +8360,15 @@
 	    };
 	  }, [ref, parentRef, rect]);
 	  React$2.useLayoutEffect(function () {
-	    window.addEventListener('mousedown', handleResize, true);
-	    window.addEventListener('resize', handleResize);
-	    window.addEventListener('orientationchange', handleResize);
-	    window.addEventListener('scroll', handleResize, true);
+	    window.addEventListener("mousedown", handleResize, true);
+	    window.addEventListener("resize", handleResize);
+	    window.addEventListener("orientationchange", handleResize);
+	    window.addEventListener("scroll", handleResize, true);
 	    return function () {
-	      window.removeEventListener('mousedown', handleResize, true);
-	      window.removeEventListener('resize', handleResize);
-	      window.removeEventListener('orientationchange', handleResize);
-	      window.removeEventListener('scroll', handleResize, true);
+	      window.removeEventListener("mousedown", handleResize, true);
+	      window.removeEventListener("resize", handleResize);
+	      window.removeEventListener("orientationchange", handleResize);
+	      window.removeEventListener("scroll", handleResize, true);
 	    };
 	  }, [ref, parentRef, rect]);
 	  return rect;
@@ -8391,9 +8391,9 @@
 	        setHasMouseFocus(false);
 	      }
 	    }
-	    window.addEventListener('mousemove', handleMouseMove);
+	    window.addEventListener("mousemove", handleMouseMove);
 	    return function () {
-	      window.removeEventListener('mousemove', handleMouseMove);
+	      window.removeEventListener("mousemove", handleMouseMove);
 	    };
 	  }, [hasMouseFocus, rect]);
 	  return hasMouseFocus;
@@ -11257,11 +11257,11 @@
 	    rows = _ref$rows === void 0 ? 1 : _ref$rows,
 	    tooltip = _ref.tooltip,
 	    _ref$value = _ref.value,
-	    value = _ref$value === void 0 ? '' : _ref$value,
+	    value = _ref$value === void 0 ? "" : _ref$value,
 	    setValue = _ref.setValue;
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	    className: clsx$1('TextField', {
-	      'is-disabled': disabled
+	    className: clsx$1("TextField", {
+	      "is-disabled": disabled
 	    }),
 	    children: [label && /*#__PURE__*/jsxRuntimeExports.jsx(FieldLabel, {
 	      label: label,
@@ -11320,7 +11320,7 @@
 	  var children = _ref.children,
 	    label = _ref.label,
 	    _ref$size = _ref.size,
-	    size = _ref$size === void 0 ? '' : _ref$size;
+	    size = _ref$size === void 0 ? "" : _ref$size;
 	    _ref.tooltip;
 	    var _ref$value = _ref.value,
 	    value = _ref$value === void 0 ? false : _ref$value,
@@ -11330,12 +11330,12 @@
 	    setValue(((_event$target = event.target) === null || _event$target === void 0 ? void 0 : _event$target.checked) || false);
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	    className: clsx$1('CheckboxField', {
-	      'is-checked': value === true,
-	      'is-small': size === 'small'
+	    className: clsx$1("CheckboxField", {
+	      "is-checked": value === true,
+	      "is-small": size === "small"
 	    }),
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	      className: clsx$1('CheckboxField-checkbox'),
+	      className: clsx$1("CheckboxField-checkbox"),
 	      children: /*#__PURE__*/jsxRuntimeExports.jsx("input", {
 	        type: "checkbox",
 	        value: "1",
@@ -11343,9 +11343,9 @@
 	        onChange: onChange
 	      })
 	    }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	      className: clsx$1('CheckboxField-content'),
+	      className: clsx$1("CheckboxField-content"),
 	      children: [label && /*#__PURE__*/jsxRuntimeExports.jsx("label", {
-	        className: clsx$1('CheckboxField-label'),
+	        className: clsx$1("CheckboxField-label"),
 	        children: label
 	      }), children]
 	    })]
@@ -11472,10 +11472,10 @@
 	    className: "BlockVersionField",
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlockVersionField-label",
-	      children: 'Version:'
+	      children: "Version:"
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
 	      className: "BlockVersionField-value",
-	      value: '1.0.0'
+	      value: "1.0.0"
 	    })]
 	  });
 	}
@@ -11496,10 +11496,10 @@
 	    _ref.values;
 	  var isNull = value === null;
 	  var isArray = Array.isArray(value);
-	  var isBoolean = typeof value === 'boolean';
-	  var isString = typeof value === 'string';
-	  var isNumber = typeof value === 'number';
-	  var isObject = _typeof(value) === 'object' && !isNull && !isArray;
+	  var isBoolean = typeof value === "boolean";
+	  var isString = typeof value === "string";
+	  var isNumber = typeof value === "number";
+	  var isObject = _typeof(value) === "object" && !isNull && !isArray;
 	  var currentFocus = false;
 	  var subFocus = focus;
 	  if (property !== null || index !== null) {
@@ -11519,20 +11519,20 @@
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	        children: '"'
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
-	        className: hasFocus && 'has-focus' || '',
-	        placeholder: typeof placeholders === 'string' && placeholders || null,
+	        className: hasFocus && "has-focus" || "",
+	        placeholder: typeof placeholders === "string" && placeholders || null,
 	        value: value
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	        children: '"'
 	      })]
 	    }), isNumber && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	      className: hasFocus && 'has-focus' || '',
+	      className: hasFocus && "has-focus" || "",
 	      children: value
 	    }), isBoolean && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	      className: hasFocus && 'has-focus' || '',
-	      children: value === true && 'true' || 'false'
+	      className: hasFocus && "has-focus" || "",
+	      children: value === true && "true" || "false"
 	    }), isNull && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	      className: hasFocus && 'has-focus' || '',
+	      className: hasFocus && "has-focus" || "",
 	      children: "null"
 	    }), isArray && /*#__PURE__*/jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, {
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
@@ -11576,7 +11576,7 @@
 	        children: "}"
 	      })]
 	    }), comma === true && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	      children: ','
+	      children: ","
 	    })]
 	  });
 	}
@@ -11986,15 +11986,15 @@
 
 	function BlueprintWarning(_ref) {
 	  var _ref$position = _ref.position,
-	    position = _ref$position === void 0 ? 'left' : _ref$position;
+	    position = _ref$position === void 0 ? "left" : _ref$position;
 	    _ref.text;
 	  var ref = React$2.useRef(null);
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    ref: ref,
-	    className: "BlueprintWarning is-".concat(position === 'right' && 'right' || 'left'),
+	    className: "BlueprintWarning is-".concat(position === "right" && "right" || "left"),
 	    children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintWarning-icon",
-	      children: '!'
+	      children: "!"
 	    })
 	  });
 	}
@@ -12185,7 +12185,7 @@
 
 	function BlueprintHint(_ref) {
 	  var _ref$text = _ref.text,
-	    text = _ref$text === void 0 ? '' : _ref$text;
+	    text = _ref$text === void 0 ? "" : _ref$text;
 	    _ref.editorRef;
 	    var _ref$indent = _ref.indent,
 	    indent = _ref$indent === void 0 ? 0 : _ref$indent,
@@ -12204,10 +12204,10 @@
 	    }
 	  }, [isDragging, hasFocus]);
 	  React$2.useLayoutEffect(function () {
-	    ref.current.classList.toggle('has-focus', isDragging && hasFocus);
+	    ref.current.classList.toggle("has-focus", isDragging && hasFocus);
 	  }, [isDragging, hasFocus]);
 	  React$2.useLayoutEffect(function () {
-	    ref.current.style.setProperty('--indent', indent);
+	    ref.current.style.setProperty("--indent", indent);
 	  }, [indent]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
@@ -12221,7 +12221,7 @@
 	        className: "BlueprintHint-insert",
 	        children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {})
 	      })]
-	    }), undefined === 'development' ]
+	    }), undefined === "development" ]
 	  });
 	}
 
@@ -12258,7 +12258,7 @@
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintAttributeList-add",
 	      onClick: onClickAdd,
-	      children: 'Add attribute'
+	      children: "Add attribute"
 	    })]
 	  });
 	});
@@ -13787,10 +13787,10 @@
 	      return getBlockComponent(state.blockBlueprint, clientId);
 	    }),
 	    _useSelector$type = _useSelector.type,
-	    type = _useSelector$type === void 0 ? 'html' : _useSelector$type,
+	    type = _useSelector$type === void 0 ? "html" : _useSelector$type,
 	    _useSelector$tagName = _useSelector.tagName,
-	    tagName = _useSelector$tagName === void 0 ? 'div' : _useSelector$tagName;
-	  if (type !== 'html') {
+	    tagName = _useSelector$tagName === void 0 ? "div" : _useSelector$tagName;
+	  if (type !== "html") {
 	    tagName = pascalize(type);
 	  }
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
@@ -13809,7 +13809,7 @@
 	          children: ">"
 	        })]
 	      })
-	    }), undefined === 'development'   ]
+	    }), undefined === "development"   ]
 	  });
 	});
 
@@ -13963,7 +13963,7 @@
 	  var className = _ref.className,
 	    onClick = _ref.onClick;
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	    className: clsx$1('InsertButton', className),
+	    className: clsx$1("InsertButton", className),
 	    onClick: onClick
 	  });
 	};
@@ -13974,7 +13974,7 @@
 	  var onClick = function onClick() {
 	    dispatch(setComponentAttribute({
 	      clientId: clientId,
-	      attribute: '',
+	      attribute: "",
 	      value: null
 	    }));
 	  };
@@ -14263,10 +14263,10 @@
 	    }
 	  }, [isDragging, hasFocus]);
 	  React$2.useLayoutEffect(function () {
-	    ref.current.classList.toggle('has-focus', isDragging && hasFocus);
+	    ref.current.classList.toggle("has-focus", isDragging && hasFocus);
 	  }, [isDragging, hasFocus]);
 	  React$2.useLayoutEffect(function () {
-	    ref.current.style.setProperty('--indent', indent);
+	    ref.current.style.setProperty("--indent", indent);
 	  }, [indent]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
@@ -14275,7 +14275,7 @@
 	      ref: focusRef,
 	      className: "BlueprintInsert-line",
 	      children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {})
-	    }), undefined === 'development' ]
+	    }), undefined === "development" ]
 	  });
 	}
 
@@ -14286,7 +14286,7 @@
 	    _ref$allowMultiple = _ref.allowMultiple,
 	    allowMultiple = _ref$allowMultiple === void 0 ? true : _ref$allowMultiple,
 	    _ref$hintText = _ref.hintText,
-	    hintText = _ref$hintText === void 0 ? '' : _ref$hintText,
+	    hintText = _ref$hintText === void 0 ? "" : _ref$hintText,
 	    _ref$ancestry = _ref.ancestry,
 	    ancestry = _ref$ancestry === void 0 ? [] : _ref$ancestry,
 	    _ref$components = _ref.components,
@@ -44498,9 +44498,9 @@
 	  var onChange = _ref.onChange,
 	    onSelectionChange = _ref.onSelectionChange,
 	    _ref$defaultValue = _ref.defaultValue,
-	    defaultValue = _ref$defaultValue === void 0 ? '' : _ref$defaultValue,
+	    defaultValue = _ref$defaultValue === void 0 ? "" : _ref$defaultValue,
 	    _ref$value = _ref.value,
-	    value = _ref$value === void 0 ? '' : _ref$value;
+	    value = _ref$value === void 0 ? "" : _ref$value;
 	    _objectWithoutProperties(_ref, _excluded);
 	  var _useState = React$2.useState(null),
 	    _useState2 = _slicedToArray(_useState, 2);
@@ -44547,7 +44547,7 @@
 	        indentWithTabs: true,
 	        tabSize: 4
 	      },
-	      theme: 'dark'
+	      theme: "dark"
 	    })
 	  });
 	});
@@ -44557,23 +44557,23 @@
 	  _ref$cssVariables = _ref.cssVariables,
 	  cssVariables = _ref$cssVariables === void 0 ? {} : _ref$cssVariables;
 	var VARIABLE_GROUPS = [{
-	  key: 'color',
-	  label: 'Colors'
+	  key: "color",
+	  label: "Colors"
 	}, {
-	  key: 'gradient',
-	  label: 'Gradients'
+	  key: "gradient",
+	  label: "Gradients"
 	}, {
-	  key: 'font-size',
-	  label: 'Font Sizes'
+	  key: "font-size",
+	  label: "Font Sizes"
 	}, {
-	  key: 'font-family',
-	  label: 'Font Families'
+	  key: "font-family",
+	  label: "Font Families"
 	}, {
-	  key: 'spacing',
-	  label: 'Spacing'
+	  key: "spacing",
+	  label: "Spacing"
 	}, {
-	  key: 'shadow',
-	  label: 'Shadows'
+	  key: "shadow",
+	  label: "Shadows"
 	}];
 	function CssSidebar(_ref2) {
 	  var props = _extends$1({}, (_objectDestructuringEmpty(_ref2), _ref2));
@@ -44583,9 +44583,9 @@
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	        className: "CssSidebar-heading",
 	        children: [/*#__PURE__*/jsxRuntimeExports.jsx("h3", {
-	          children: 'CSS Variables'
+	          children: "CSS Variables"
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("p", {
-	          children: 'These CSS variables are available to use via the active theme.'
+	          children: "These CSS variables are available to use via the active theme."
 	        })]
 	      }), VARIABLE_GROUPS.map(function (group, index) {
 	        return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
@@ -44603,7 +44603,7 @@
 	                name = _ref4$.name,
 	                value = _ref4$.value;
 	              return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	                className: ['CssSidebar-property', ['color', 'gradient'].includes(group.key) && 'has-preview' || ''].join(' '),
+	                className: ["CssSidebar-property", ["color", "gradient"].includes(group.key) && "has-preview" || ""].join(" "),
 	                onClick: function onClick() {
 	                  return props === null || props === void 0 ? void 0 : props.onInsertVariable(name);
 	                },
@@ -44613,10 +44613,10 @@
 	                }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	                  className: "CssSidebar-propertyValue",
 	                  children: value
-	                }), ['color', 'gradient'].includes(group.key) && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	                }), ["color", "gradient"].includes(group.key) && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	                  className: "CssSidebar-propertyPreview",
 	                  style: value && {
-	                    '--property-value': value
+	                    "--property-value": value
 	                  }
 	                })]
 	              }, key);
@@ -45017,7 +45017,7 @@
 	  });
 	}
 
-	client.createRoot(document.getElementById('wpbody')).render( /*#__PURE__*/jsxRuntimeExports.jsx(Provider, {
+	client.createRoot(document.getElementById("wpbody")).render( /*#__PURE__*/jsxRuntimeExports.jsx(Provider, {
 	  store: store,
 	  children: /*#__PURE__*/jsxRuntimeExports.jsx(App, {})
 	}));

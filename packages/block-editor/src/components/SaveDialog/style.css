@@ -1,173 +1,173 @@
 .SaveDialog {
-    background: #ffffff40;
-    height: 100%;
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    transition: var(--transition);
-    z-index: 100;
+	background: #ffffff40;
+	height: 100%;
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	transition: var(--transition);
+	z-index: 100;
 }
 
 .SaveDialog.is-visible {
-    backdrop-filter: blur(4px);
-    opacity: 1;
+	backdrop-filter: blur(4px);
+	opacity: 1;
 }
 
 .SaveDialog-wrap {
-    align-items: center;
-    box-sizing: border-box;
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 100%;
-    height: var(--app-height);
-    justify-items: center;
-    padding: var(--8x);
-    position: sticky;
-    top: var(--wp-admin--admin-bar--height);
-    width: 100%;
+	align-items: center;
+	box-sizing: border-box;
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: 100%;
+	height: var(--app-height);
+	justify-items: center;
+	padding: var(--8x);
+	position: sticky;
+	top: var(--wp-admin--admin-bar--height);
+	width: 100%;
 }
 
 .SaveDialog-window {
-    background: var(--color-white);
-    border-radius: 9px;
-    box-shadow: var(--box-shadow-low);
-    box-sizing: border-box;
-    display: grid;
-    gap: var(--8x);
-    grid-auto-flow: row;
-    max-width: 960px;
-    padding: var(--5x) var(--8x);
-    transform: scale(0.8);
-    transform-origin: center;
-    transition: var(--transition);
-    width: 100%;
+	background: var(--color-white);
+	border-radius: 9px;
+	box-shadow: var(--box-shadow-low);
+	box-sizing: border-box;
+	display: grid;
+	gap: var(--8x);
+	grid-auto-flow: row;
+	max-width: 960px;
+	padding: var(--5x) var(--8x);
+	transform: scale(0.8);
+	transform-origin: center;
+	transition: var(--transition);
+	width: 100%;
 }
 
 .SaveDialog.is-visible .SaveDialog-window {
-    transform: scale(1);
+	transform: scale(1);
 }
 
 .SaveDialog-close {
-    --color: var(--color-dark-gray);
-    --background-color: var(--color-lighter-gray);
-    align-items: center;
-    background: var(--background-color);
-    border-radius: var(--4x);
-    cursor: pointer;
-    display: grid;
-    height: var(--4x);
-    justify-items: center;
-    position: absolute;
-    right: var(--2x);
-    top: var(--2x);
-    transition: var(--transition);
-    width: var(--4x);
+	--color: var(--color-dark-gray);
+	--background-color: var(--color-lighter-gray);
+	align-items: center;
+	background: var(--background-color);
+	border-radius: var(--4x);
+	cursor: pointer;
+	display: grid;
+	height: var(--4x);
+	justify-items: center;
+	position: absolute;
+	right: var(--2x);
+	top: var(--2x);
+	transition: var(--transition);
+	width: var(--4x);
 
-    &::before,
-    &::after {
-        background: var(--color);
-        content: "";
-        display: block;
-        grid-column: 1;
-        grid-row: 1;
-        height: var(--2x);
-        transition: var(--transition);
-        width: 3px;
-    }
+	&::before,
+	&::after {
+		background: var(--color);
+		content: "";
+		display: block;
+		grid-column: 1;
+		grid-row: 1;
+		height: var(--2x);
+		transition: var(--transition);
+		width: 3px;
+	}
 
-    &::before {
-        transform: rotate(-45deg);
-    }
+	&::before {
+		transform: rotate(-45deg);
+	}
 
-    &::after {
-        transform: rotate(45deg);
-    }
+	&::after {
+		transform: rotate(45deg);
+	}
 }
 
 .SaveDialog-close:hover {
-    --color: var(--color-white);
-    --background-color: var(--color-darker-gray);
+	--color: var(--color-white);
+	--background-color: var(--color-darker-gray);
 }
 
 .SaveDialog-content {
-    color: var(--color-black);
-    display: grid;
-    font-size: var(--font-size-large);
-    font-weight: var(--font-weight-base);
-    gap: var(--5x);
-    grid-auto-flow: row;
-    width: 100%;
+	color: var(--color-black);
+	display: grid;
+	font-size: var(--font-size-large);
+	font-weight: var(--font-weight-base);
+	gap: var(--5x);
+	grid-auto-flow: row;
+	width: 100%;
 
-    h1 {
-        color: var(--color-black);
-        font-size: var(--font-size-xx-large);
-        font-weight: var(--font-weight-bold);
-        line-height: 1;
-        margin: 0 0 var(--1x);
+	h1 {
+		color: var(--color-black);
+		font-size: var(--font-size-xx-large);
+		font-weight: var(--font-weight-bold);
+		line-height: 1;
+		margin: 0 0 var(--1x);
 
-        &:last-child {
-            margin-bottom: 0;
-        }
-    }
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
 
-    h3 {
-        color: var(--color-black);
-        font-size: var(--font-size-large);
-        font-weight: var(--font-weight-bold);
-        line-height: 1;
-        margin: 0 0 var(--2x);
+	h3 {
+		color: var(--color-black);
+		font-size: var(--font-size-large);
+		font-weight: var(--font-weight-bold);
+		line-height: 1;
+		margin: 0 0 var(--2x);
 
-        &:last-child {
-            margin-bottom: 0;
-        }
-    }
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
 
-    p {
-        margin: 0 0 var(--2x);
+	p {
+		margin: 0 0 var(--2x);
 
-        &:last-child {
-            margin-bottom: 0;
-        }
-    }
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
 
-    ul {
-        list-style: none;
-    }
+	ul {
+		list-style: none;
+	}
 
-    li {
-        display: grid;
-        gap: var(--1x);
-        grid-template-columns: var(--1x) 1fr;
-        position: relative;
+	li {
+		display: grid;
+		gap: var(--1x);
+		grid-template-columns: var(--1x) 1fr;
+		position: relative;
 
-        &:before {
-            background: var(--color-lighter-gray);
-            border-radius: 100%;
-            content: "";
-            display: block;
-            height: var(--1x);
-            position: relative;
-            top: 11px;
-            width: var(--1x);
-        }
-    }
+		&:before {
+			background: var(--color-lighter-gray);
+			border-radius: 100%;
+			content: "";
+			display: block;
+			height: var(--1x);
+			position: relative;
+			top: 11px;
+			width: var(--1x);
+		}
+	}
 
-    hr {
-        background: var(--color-lighter-gray);
-        border: 0;
-        display: block;
-        height: 2px;
-        overflow: hidden;
-        width: 100%;
-    }
+	hr {
+		background: var(--color-lighter-gray);
+		border: 0;
+		display: block;
+		height: 2px;
+		overflow: hidden;
+		width: 100%;
+	}
 }
 
 .SaveDialog-icon {
-    display: block;
-    height: 35px;
-    margin-bottom: var(--3x);
-    object-fit: contain;
-    object-position: center;
-    width: 40px;
+	display: block;
+	height: 35px;
+	margin-bottom: var(--3x);
+	object-fit: contain;
+	object-position: center;
+	width: 40px;
 }

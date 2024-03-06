@@ -1,5 +1,5 @@
-const stopDragging = ( state, action ) => {
-	state.isDragging = false
-}
+const stopDragging = (state, action) => {
+	state.isDragging = false;
+};
 
-export default stopDragging
+export default stopDragging;

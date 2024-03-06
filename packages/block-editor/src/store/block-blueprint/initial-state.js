@@ -3,36 +3,38 @@ import { getUniqueClientId, normalizeClasslistAsObject } from "../../functions";
 const blockComponents = {};
 
 function parseComponentTree(components = []) {
-  if (!components) {
-    return [];
-  }
+	if (!components) {
+		return [];
+	}
 
-  let clientIds = [];
+	let clientIds = [];
 
-  components.forEach(({ children = [], ...component }) => {
-    const clientId = getUniqueClientId();
-    let childClientIds = [];
+	components.forEach(({ children = [], ...component }) => {
+		const clientId = getUniqueClientId();
+		let childClientIds = [];
 
-    if (children.length > 0) {
-      childClientIds = parseComponentTree(children);
-    }
+		if (children.length > 0) {
+			childClientIds = parseComponentTree(children);
+		}
 
-    if (component?.className) {
-      component.className = normalizeClasslistAsObject(component?.className);
-    }
+		if (component?.className) {
+			component.className = normalizeClasslistAsObject(
+				component?.className,
+			);
+		}
 
-    blockComponents[clientId] = {
-      ...component,
-    };
+		blockComponents[clientId] = {
+			...component,
+		};
 
-    clientIds.push([clientId, childClientIds]);
-  });
+		clientIds.push([clientId, childClientIds]);
+	});
 
-  return clientIds;
+	return clientIds;
 }
 
 const { blockBlueprint = {} } =
-  blueprintBlocksEditorSettings?.blockMetadata || {};
+	blueprintBlocksEditorSettings?.blockMetadata || {};
 
 const blockEdit = parseComponentTree(blockBlueprint?.blockEdit || []);
 const blockToolbar = parseComponentTree(blockBlueprint?.blockToolbar || []);
@@ -40,21 +42,21 @@ const blockSave = parseComponentTree(blockBlueprint?.blockSave || []);
 const blockSidebar = parseComponentTree(blockBlueprint?.blockSidebar || []);
 
 const initialState = {
-  blockComponents,
+	blockComponents,
 
-  blockEdit,
+	blockEdit,
 
-  blockToolbar,
+	blockToolbar,
 
-  blockSave,
+	blockSave,
 
-  blockSidebar,
+	blockSidebar,
 
-  existingDraggingComponent: null,
+	existingDraggingComponent: null,
 
-  newDraggingComponent: null,
+	newDraggingComponent: null,
 
-  isDragging: false,
+	isDragging: false,
 };
 
 export default initialState;

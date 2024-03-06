@@ -1,101 +1,101 @@
 .Button {
-    --size: var(--5x);
-    appearance: none;
-    background: var(--gradient-light-gray);
-    border: 0;
-    border-radius: 5px;
-    color: var(--color-black);
-    cursor: pointer;
-    display: grid;
-    grid-auto-flow: column;
-    grid-template-columns: max-content;
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-semi-bold);
-    height: var(--size);
-    justify-content: center;
-    line-height: var(--size);
-    overflow: hidden;
-    padding: 0 var(--3x);
-    position: relative;
-    transition: var(--transition);
+	--size: var(--5x);
+	appearance: none;
+	background: var(--gradient-light-gray);
+	border: 0;
+	border-radius: 5px;
+	color: var(--color-black);
+	cursor: pointer;
+	display: grid;
+	grid-auto-flow: column;
+	grid-template-columns: max-content;
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-semi-bold);
+	height: var(--size);
+	justify-content: center;
+	line-height: var(--size);
+	overflow: hidden;
+	padding: 0 var(--3x);
+	position: relative;
+	transition: var(--transition);
 
-    &:hover {
-        border-color: var(--color-dark-gray);
-    }
+	&:hover {
+		border-color: var(--color-dark-gray);
+	}
 }
 
 .Button.is-rounded {
-    border-radius: var(--size);
+	border-radius: var(--size);
 }
 
 .Button.is-large {
-    --size: var(--6x);
-    font-weight: var(--font-weight-bold);
+	--size: var(--6x);
+	font-weight: var(--font-weight-bold);
 }
 
 .Button.is-x-large {
-    --size: var(--7x);
-    font-size: var(--font-size-large);
-    font-weight: var(--font-weight-semi-bold);
+	--size: var(--7x);
+	font-size: var(--font-size-large);
+	font-weight: var(--font-weight-semi-bold);
 }
 
 .Button.is-outline {
-    background: var(--color-white);
-    border: 1px solid var(--color-light-gray);
-    color: var(--color-black);
-    line-height: calc(var(--size) - 2px);
+	background: var(--color-white);
+	border: 1px solid var(--color-light-gray);
+	color: var(--color-black);
+	line-height: calc(var(--size) - 2px);
 }
 
 .Button.is-primary {
-    background: transparent;
-    color: var(--color-white);
-    transition: var(--transition);
+	background: transparent;
+	color: var(--color-white);
+	transition: var(--transition);
 
-    &::before,
-    &::after {
-        background: var(--gradient-teal-blue);
-        content: "";
-        display: block;
-        left: 50%;
-        padding-bottom: 100%;
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        transform-origin: center;
-        transition: var(--transition);
-        width: 100%;
-        z-index: -1;
-    }
+	&::before,
+	&::after {
+		background: var(--gradient-teal-blue);
+		content: "";
+		display: block;
+		left: 50%;
+		padding-bottom: 100%;
+		position: absolute;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		transform-origin: center;
+		transition: var(--transition);
+		width: 100%;
+		z-index: -1;
+	}
 
-    &::after {
-        animation-duration: 3s;
-        animation-iteration-count: infinite;
-        animation-name: blueprint-blocks-block-editor-button-primary-background-rotate;
-        animation-timing-function: linear;
-        opacity: 0;
-        transition: var(--transition-slow);
-    }
+	&::after {
+		animation-duration: 3s;
+		animation-iteration-count: infinite;
+		animation-name: blueprint-blocks-block-editor-button-primary-background-rotate;
+		animation-timing-function: linear;
+		opacity: 0;
+		transition: var(--transition-slow);
+	}
 
-    &:hover::after {
-        opacity: 1;
-    }
+	&:hover::after {
+		opacity: 1;
+	}
 }
 
 .Button.is-primary.is-disabled {
-    background: var(--gradient-gray);
-    color: var(--color-black);
+	background: var(--gradient-gray);
+	color: var(--color-black);
 
-    &::before,
-    &::after {
-        opacity: 0;
-    }
+	&::before,
+	&::after {
+		opacity: 0;
+	}
 }
 
 @keyframes blueprint-blocks-block-editor-button-primary-background-rotate {
-    from {
-        transform: translate(-50%, -50%) scale3d(1.1, 1.1, 1) rotateZ(0deg);
-    }
-    to {
-        transform: translate(-50%, -50%) scale3d(1.1, 1.1, 1) rotateZ(360deg);
-    }
+	from {
+		transform: translate(-50%, -50%) scale3d(1.1, 1.1, 1) rotateZ(0deg);
+	}
+	to {
+		transform: translate(-50%, -50%) scale3d(1.1, 1.1, 1) rotateZ(360deg);
+	}
 }

@@ -1,39 +1,44 @@
-import clsx from "clsx"
+import clsx from "clsx";
 
-import './style.css'
+import "./style.css";
 
-function CheckboxField( {
+function CheckboxField({
 	children,
 	label,
-	size = '',
+	size = "",
 	tooltip,
 	value = false,
 	setValue,
-} ) {
-
-	const onChange = ( event ) => {
-		setValue( event.target?.checked || false )
-	}
+}) {
+	const onChange = (event) => {
+		setValue(event.target?.checked || false);
+	};
 
 	return (
-		<div className={ clsx( 'CheckboxField', {
-			'is-checked': ( value === true ),
-			'is-small': ( size === 'small' ),
-		} ) }>
-			<div className={ clsx( 'CheckboxField-checkbox' ) }>
-				<input type="checkbox" value="1" checked={ value } onChange={ onChange } />
+		<div
+			className={clsx("CheckboxField", {
+				"is-checked": value === true,
+				"is-small": size === "small",
+			})}
+		>
+			<div className={clsx("CheckboxField-checkbox")}>
+				<input
+					type="checkbox"
+					value="1"
+					checked={value}
+					onChange={onChange}
+				/>
 			</div>
-			<div className={ clsx( 'CheckboxField-content' ) }>
-				{ label && (
-					<label className={ clsx( 'CheckboxField-label' ) }>
-						{ label }
+			<div className={clsx("CheckboxField-content")}>
+				{label && (
+					<label className={clsx("CheckboxField-label")}>
+						{label}
 					</label>
-				) }
-				{ children }
+				)}
+				{children}
 			</div>
 		</div>
-	)
-
+	);
 }
 
-export default CheckboxField
+export default CheckboxField;

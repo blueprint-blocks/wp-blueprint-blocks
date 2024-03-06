@@ -1,29 +1,29 @@
 .Logo {
-    align-items: center;
-    display: grid;
-    gap: var(--1x);
-    grid-auto-columns: max-content;
-    grid-auto-flow: column;
+	align-items: center;
+	display: grid;
+	gap: var(--1x);
+	grid-auto-columns: max-content;
+	grid-auto-flow: column;
 
-    h1 {
-        color: var(--color-black);
-        font-size: 40px;
-        letter-spacing: -0.05em;
-        line-height: 1;
-        margin: 0;
-    }
+	h1 {
+		color: var(--color-black);
+		font-size: 40px;
+		letter-spacing: -0.05em;
+		line-height: 1;
+		margin: 0;
+	}
 }
 
 .Logo-pro {
-    background: var(--gradient-teal-blue);
-    border-radius: var(--3x);
-    color: var(--color-white);
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-bold);
-    height: var(--3x);
-    line-height: var(--3x);
-    padding: 0 12px;
-    text-transform: uppercase;
-    user-select: none;
-    width: fit-content;
+	background: var(--gradient-teal-blue);
+	border-radius: var(--3x);
+	color: var(--color-white);
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-bold);
+	height: var(--3x);
+	line-height: var(--3x);
+	padding: 0 12px;
+	text-transform: uppercase;
+	user-select: none;
+	width: fit-content;
 }

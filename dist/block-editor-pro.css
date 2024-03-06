@@ -1,13 +1,12 @@
-
-	.EditableString [data-type='token'] {
-		background: var(--gradient-teal-blue);
-		border-radius: 1em;
-		color: var(--color-white);
-		font-weight: var(--font-weight-bold);
-		display: inline-block;
-		padding: 0 0.9em 0 0.3em;
-	}
-.EditableString [data-type='cursor-end'],
-	.EditableString [data-type='cursor-start'] {
-		display: inline-block;
-	}
+.EditableString [data-type="token"] {
+	background: var(--gradient-teal-blue);
+	border-radius: 1em;
+	color: var(--color-white);
+	font-weight: var(--font-weight-bold);
+	display: inline-block;
+	padding: 0 0.9em 0 0.3em;
+}
+.EditableString [data-type="cursor-end"],
+.EditableString [data-type="cursor-start"] {
+	display: inline-block;
+}

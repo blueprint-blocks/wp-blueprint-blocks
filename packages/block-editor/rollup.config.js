@@ -11,67 +11,74 @@ import postcssNesting from "postcss-nesting";
 import postcssVariables from "postcss-advanced-variables";
 
 const env = config({
-  path: resolve("../../.env"),
+	path: resolve("../../.env"),
 });
 
 export default {
-  external: ["@wordpress/api-fetch", "@wordpress/hooks", "react", "react-dom"],
-  input: "src/main.jsx",
-  output: {
-    file: "../../dist/block-editor.js",
-    sourcemap: (process.env.NODE_ENV === "development" && "inline") || false,
-    format: "iife",
-    globals: {
-      "@wordpress/api-fetch": "wp.apiFetch",
-      "@wordpress/hooks": "wp.hooks",
-      react: "React",
-      "react-dom": "ReactDOM",
-    },
-    inlineDynamicImports: true,
-  },
-  onwarn(warning, warn) {
-    if (
-      warning.code === "THIS_IS_UNDEFINED" ||
-      warning.code === "SOURCEMAP_ERROR"
-    )
-      return;
-    warn(warning);
-  },
-  plugins: [
-    babel({
-      babelHelpers: "bundled",
-    }),
-    resolveCommonjs(),
-    resolveNode({
-      extensions: [".js", ".jsx"],
-    }),
-    replace({
-      preventAssignment: true,
-      values: {
-        "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
-        "env.DEBUG_RECT": env.parsed.DEBUG_RECT,
-        "env.DEBUG_RENDER_COUNT": env.parsed.DEBUG_RENDER_COUNT,
-      },
-    }),
-    json(),
-    postcss({
-      extract: "block-editor.css",
-      plugins: [
-        postcssVariables({
-          disable: "@mixin, @include, @content",
-          variables: {
-            assets: resolve("./assets"),
-            env: process.env.NODE_ENV,
-            "debug-rect":
-              process.env.NODE_ENV === "development" && env.DEBUG_RECT,
-          },
-          unresolved: "ignore",
-        }),
-        postcssNesting(),
-        postcssAutoprefixer(),
-      ],
-      minimize: process.env.NODE_ENV === "development",
-      sourceMap: process.env.NODE_ENV === "development",
-    }),
-  ],
+	external: [
+		"@wordpress/api-fetch",
+		"@wordpress/hooks",
+		"react",
+		"react-dom",
+	],
+	input: "src/main.jsx",
+	output: {
+		file: "../../dist/block-editor.js",
+		sourcemap:
+			(process.env.NODE_ENV === "development" && "inline") || false,
+		format: "iife",
+		globals: {
+			"@wordpress/api-fetch": "wp.apiFetch",
+			"@wordpress/hooks": "wp.hooks",
+			react: "React",
+			"react-dom": "ReactDOM",
+		},
+		inlineDynamicImports: true,
+	},
+	onwarn(warning, warn) {
+		if (
+			warning.code === "THIS_IS_UNDEFINED" ||
+			warning.code === "SOURCEMAP_ERROR"
+		)
+			return;
+		warn(warning);
+	},
+	plugins: [
+		babel({
+			babelHelpers: "bundled",
+		}),
+		resolveCommonjs(),
+		resolveNode({
+			extensions: [".js", ".jsx"],
+		}),
+		replace({
+			preventAssignment: true,
+			values: {
+				"process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+				"env.DEBUG_RECT": env.parsed.DEBUG_RECT,
+				"env.DEBUG_RENDER_COUNT": env.parsed.DEBUG_RENDER_COUNT,
+			},
+		}),
+		json(),
+		postcss({
+			extract: "block-editor.css",
+			plugins: [
+				postcssVariables({
+					disable: "@mixin, @include, @content",
+					variables: {
+						assets: resolve("./assets"),
+						env: process.env.NODE_ENV,
+						"debug-rect":
+							process.env.NODE_ENV === "development" &&
+							env.DEBUG_RECT,
+					},
+					unresolved: "ignore",
+				}),
+				postcssNesting(),
+				postcssAutoprefixer(),
+			],
+			minimize: process.env.NODE_ENV === "development",
+			sourceMap: process.env.NODE_ENV === "development",
+		}),
+	],
 };

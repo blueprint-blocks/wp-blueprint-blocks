@@ -1,98 +1,98 @@
 {
-  "attributes": {
-    "attributeName": {
-      "type": "string",
-      "description": ""
-    },
-    "className": {
-      "type": "string",
-      "description": "This is a class name."
-    },
-    "style": {
-      "type": "string",
-      "description": "This is a style property string."
-    }
-  },
-  "fields": [
-    {
-      "type": "rich-text",
-      "label": "Rich Text",
-      "icon": "paragraph-sharp-regular",
-      "allowsChildren": false,
-      "description": "Text based input with options for complex formatting. If no value is input to this field in the editor, it will not be displayed on the front end.",
-      "shortDescription": "Text based input with options for complex formatting.",
-      "attributes": {
-        "allowedFormats": {
-          "type": "array"
-        },
-        "placeholder": {
-          "type": "string",
-          "description": "Placeholder text will be displayed in the editor whenever the field is blank.",
-          "suggestedValues": [
-            "Enter a label...",
-            "Enter a description...",
-            "Enter a title...",
-            "Enter a subtitle..."
-          ]
-        },
-        "tagName": {
-          "type": "string",
-          "description": "Rich text fields display as a div tag by default. Any valid HTML tag name can be designated.",
-          "suggestedValues": ["h1", "h2", "h3", "p"]
-        }
-      },
-      "defaultAttributes": {
-        "placeholder": "Enter some text...",
-        "tagName": "p"
-      }
-    },
-    {
-      "type": "link",
-      "label": "Link",
-      "icon": "link-sharp-regular",
-      "allowsChildren": false,
-      "shortDescription": "Inputs for an embedded link accepting a label, href, and target.",
-      "defaultAttributes": {
-        "placeholder": "Enter a label...",
-        "tagName": "a"
-      }
-    },
-    {
-      "type": "image",
-      "label": "Image",
-      "icon": "image-sharp-regular",
-      "allowsChildren": false,
-      "shortDescription": "Upload dialog for all image formats.",
-      "defaultAttributes": {
-        "label": "Image",
-        "tagName": "img"
-      }
-    }
-  ],
-  "html": [
-    {
-      "type": "html",
-      "label": "<div>",
-      "allowsChildren": true,
-      "defaultAttributes": {
-        "tagName": "div"
-      }
-    },
-    {
-      "type": "html",
-      "label": "<span>",
-      "allowsChildren": true,
-      "defaultAttributes": {
-        "tagName": "span"
-      }
-    },
-    {
-      "type": "html",
-      "label": "<img>",
-      "allowsChildren": false,
-      "defaultAttributes": {
-        "tagName": "img"
-      }
-    }
-  ]
+	"attributes": {
+		"attributeName": {
+			"type": "string",
+			"description": ""
+		},
+		"className": {
+			"type": "string",
+			"description": "This is a class name."
+		},
+		"style": {
+			"type": "string",
+			"description": "This is a style property string."
+		}
+	},
+	"fields": [
+		{
+			"type": "rich-text",
+			"label": "Rich Text",
+			"icon": "paragraph-sharp-regular",
+			"allowsChildren": false,
+			"description": "Text based input with options for complex formatting. If no value is input to this field in the editor, it will not be displayed on the front end.",
+			"shortDescription": "Text based input with options for complex formatting.",
+			"attributes": {
+				"allowedFormats": {
+					"type": "array"
+				},
+				"placeholder": {
+					"type": "string",
+					"description": "Placeholder text will be displayed in the editor whenever the field is blank.",
+					"suggestedValues": [
+						"Enter a label...",
+						"Enter a description...",
+						"Enter a title...",
+						"Enter a subtitle..."
+					]
+				},
+				"tagName": {
+					"type": "string",
+					"description": "Rich text fields display as a div tag by default. Any valid HTML tag name can be designated.",
+					"suggestedValues": ["h1", "h2", "h3", "p"]
+				}
+			},
+			"defaultAttributes": {
+				"placeholder": "Enter some text...",
+				"tagName": "p"
+			}
+		},
+		{
+			"type": "link",
+			"label": "Link",
+			"icon": "link-sharp-regular",
+			"allowsChildren": false,
+			"shortDescription": "Inputs for an embedded link accepting a label, href, and target.",
+			"defaultAttributes": {
+				"placeholder": "Enter a label...",
+				"tagName": "a"
+			}
+		},
+		{
+			"type": "image",
+			"label": "Image",
+			"icon": "image-sharp-regular",
+			"allowsChildren": false,
+			"shortDescription": "Upload dialog for all image formats.",
+			"defaultAttributes": {
+				"label": "Image",
+				"tagName": "img"
+			}
+		}
+	],
+	"html": [
+		{
+			"type": "html",
+			"label": "<div>",
+			"allowsChildren": true,
+			"defaultAttributes": {
+				"tagName": "div"
+			}
+		},
+		{
+			"type": "html",
+			"label": "<span>",
+			"allowsChildren": true,
+			"defaultAttributes": {
+				"tagName": "span"
+			}
+		},
+		{
+			"type": "html",
+			"label": "<img>",
+			"allowsChildren": false,
+			"defaultAttributes": {
+				"tagName": "img"
+			}
+		}
+	]
 }

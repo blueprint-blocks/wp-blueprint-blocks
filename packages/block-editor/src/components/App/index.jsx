@@ -7,9 +7,9 @@ import { usePreventClose, useRect } from "../../hooks";
 import { setRect as setAppRect } from "../../store/app";
 import { getRawJson as getRawBlueprintJson } from "../../store/block-blueprint";
 import {
-  hasUnsavedChanges,
-  setChanged,
-  setPostId,
+	hasUnsavedChanges,
+	setChanged,
+	setPostId,
 } from "../../store/post-metadata";
 import { showSaveDialog } from "../../store/save-dialog";
 
@@ -25,92 +25,94 @@ import "./style.css";
 import "./style-debug.css";
 
 function App() {
-  const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-  const ref = useRef(null);
-  const appRect = useRect(ref, null);
+	const ref = useRef(null);
+	const appRect = useRect(ref, null);
 
-  const [activeNavItem, setActiveNavItem] = useState(0);
+	const [activeNavItem, setActiveNavItem] = useState(0);
 
-  const postId = useSelector((state) => state.postMetadata.postId);
+	const postId = useSelector((state) => state.postMetadata.postId);
 
-  const postType = useSelector((state) => state.postType);
+	const postType = useSelector((state) => state.postType);
 
-  const blockBlueprint = useSelector((state) => state.blockBlueprint);
+	const blockBlueprint = useSelector((state) => state.blockBlueprint);
 
-  const blockJson = useSelector((state) => state.blockJson);
+	const blockJson = useSelector((state) => state.blockJson);
 
-  const blockEditorCss = useSelector((state) => state.blockEditorCss.raw);
+	const blockEditorCss = useSelector((state) => state.blockEditorCss.raw);
 
-  const blockViewCss = useSelector((state) => state.blockViewCss.raw);
+	const blockViewCss = useSelector((state) => state.blockViewCss.raw);
 
-  const saveDialogIsVisible = useSelector((state) => state.saveDialog.visible);
+	const saveDialogIsVisible = useSelector(
+		(state) => state.saveDialog.visible,
+	);
 
-  const upsellDialogIsVisible = useSelector(
-    (state) => state.upsellDialog.visible,
-  );
+	const upsellDialogIsVisible = useSelector(
+		(state) => state.upsellDialog.visible,
+	);
 
-  const onUpdate = () => {
-    dispatch(showSaveDialog());
+	const onUpdate = () => {
+		dispatch(showSaveDialog());
 
-    if (postId === null) {
-      saveNewBlock({
-        postType,
-        blockBlueprint: getRawBlueprintJson(blockBlueprint),
-        blockJson,
-        blockEditorCss,
-        blockViewCss,
-      }).then(({ id }) => {
-        dispatch(setPostId(id));
-        dispatch(setChanged(false));
-        window.history.pushState(
-          { id },
-          `Edit Block < Flickerbox - WordPress`,
-          `/wp-admin/post.php?post=${id}&action=edit`,
-        );
-      });
-    } else {
-      updateBlock({
-        postId,
-        postType,
-        blockBlueprint: getRawBlueprintJson(blockBlueprint),
-        blockJson,
-        blockEditorCss,
-        blockViewCss,
-      }).then(() => {
-        dispatch(setChanged(false));
-      });
-    }
-  };
+		if (postId === null) {
+			saveNewBlock({
+				postType,
+				blockBlueprint: getRawBlueprintJson(blockBlueprint),
+				blockJson,
+				blockEditorCss,
+				blockViewCss,
+			}).then(({ id }) => {
+				dispatch(setPostId(id));
+				dispatch(setChanged(false));
+				window.history.pushState(
+					{ id },
+					`Edit Block < Flickerbox - WordPress`,
+					`/wp-admin/post.php?post=${id}&action=edit`,
+				);
+			});
+		} else {
+			updateBlock({
+				postId,
+				postType,
+				blockBlueprint: getRawBlueprintJson(blockBlueprint),
+				blockJson,
+				blockEditorCss,
+				blockViewCss,
+			}).then(() => {
+				dispatch(setChanged(false));
+			});
+		}
+	};
 
-  usePreventClose(
-    useSelector((state) => hasUnsavedChanges(state.postMetadata)),
-  );
+	usePreventClose(
+		useSelector((state) => hasUnsavedChanges(state.postMetadata)),
+	);
 
-  useLayoutEffect(() => {
-    dispatch(setAppRect(appRect));
-  }, [appRect]);
+	useLayoutEffect(() => {
+		dispatch(setAppRect(appRect));
+	}, [appRect]);
 
-  return (
-    <div
-      ref={ref}
-      className={clsx("App", {
-        "is-debug": process.env.NODE_ENV === "development",
-      })}
-    >
-      <Navigator
-        activeNavItem={activeNavItem}
-        setActiveNavItem={setActiveNavItem}
-        onUpdate={onUpdate}
-      />
-      {activeNavItem === 0 && <PageBlockJson />}
-      {activeNavItem === 1 && <PageBlueprint />}
-      {activeNavItem === 2 && <PageViewCss />}
-      {activeNavItem === 3 && <PageEditorCss />}
-      {saveDialogIsVisible && <SaveDialog />}
-      {upsellDialogIsVisible && <UpsellDialog />}
-    </div>
-  );
+	return (
+		<div
+			ref={ref}
+			className={clsx("App", {
+				"is-debug": process.env.NODE_ENV === "development",
+			})}
+		>
+			<Navigator
+				activeNavItem={activeNavItem}
+				setActiveNavItem={setActiveNavItem}
+				onUpdate={onUpdate}
+			/>
+			{activeNavItem === 0 && <PageBlockJson />}
+			{activeNavItem === 1 && <PageBlueprint />}
+			{activeNavItem === 2 && <PageViewCss />}
+			{activeNavItem === 3 && <PageEditorCss />}
+			{saveDialogIsVisible && <SaveDialog />}
+			{upsellDialogIsVisible && <UpsellDialog />}
+		</div>
+	);
 }
 
 export default App;

@@ -1,15 +1,13 @@
-import isObject from './is-object'
+import isObject from "./is-object";
 
-function isStringifiedObject( string ) {
-
-	let object = null
+function isStringifiedObject(string) {
+	let object = null;
 
 	try {
-		object = JSON.parse( string )
+		object = JSON.parse(string);
 	} catch {}
 
-	return isObject( object )
-
+	return isObject(object);
 }
 
-export default isStringifiedObject
+export default isStringifiedObject;

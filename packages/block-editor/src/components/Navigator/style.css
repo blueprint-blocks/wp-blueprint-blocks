@@ -1,115 +1,115 @@
 .Navigator {
-    align-items: center;
-    background: var(--color-white);
-    display: grid;
-    grid-template-columns: 1fr max-content;
-    height: calc(var(--navigator-height) + 3px);
-    padding-right: var(--5x);
-    position: sticky;
-    top: var(--wp-admin--admin-bar--height);
-    user-select: none;
-    z-index: 50;
+	align-items: center;
+	background: var(--color-white);
+	display: grid;
+	grid-template-columns: 1fr max-content;
+	height: calc(var(--navigator-height) + 3px);
+	padding-right: var(--5x);
+	position: sticky;
+	top: var(--wp-admin--admin-bar--height);
+	user-select: none;
+	z-index: 50;
 
-    ul {
-        display: grid;
-        grid-auto-flow: column;
-        height: calc(var(--navigator-height) + 3px);
-        justify-content: start;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        position: relative;
-        z-index: 2;
-    }
+	ul {
+		display: grid;
+		grid-auto-flow: column;
+		height: calc(var(--navigator-height) + 3px);
+		justify-content: start;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		position: relative;
+		z-index: 2;
+	}
 
-    li {
-        cursor: pointer;
-        font-size: var(--font-size-base);
-        font-weight: var(--font-weight-semi-bold);
-        height: var(--3x);
-        margin: 0;
-        padding: var(--2x) var(--4x) calc(var(--2x) + 3px);
-        position: relative;
-        transition: var(--transition);
-    }
+	li {
+		cursor: pointer;
+		font-size: var(--font-size-base);
+		font-weight: var(--font-weight-semi-bold);
+		height: var(--3x);
+		margin: 0;
+		padding: var(--2x) var(--4x) calc(var(--2x) + 3px);
+		position: relative;
+		transition: var(--transition);
+	}
 
-    li > div {
-        align-items: center;
-        background: var(--color-white);
-        color: var(--color-darkest-gray);
-        display: grid;
-        gap: var(--2x);
-        grid-auto-columns: max-content;
-        grid-auto-flow: column;
-        height: var(--3x);
-        line-height: var(--3x);
-        mix-blend-mode: lighten;
-        padding: 0 var(--1x);
-    }
+	li > div {
+		align-items: center;
+		background: var(--color-white);
+		color: var(--color-darkest-gray);
+		display: grid;
+		gap: var(--2x);
+		grid-auto-columns: max-content;
+		grid-auto-flow: column;
+		height: var(--3x);
+		line-height: var(--3x);
+		mix-blend-mode: lighten;
+		padding: 0 var(--1x);
+	}
 
-    li::before {
-        background: var(--gradient-teal-blue);
-        bottom: calc(var(--2x) + 3px);
-        content: "";
-        display: block;
-        left: var(--4x);
-        opacity: 0;
-        position: absolute;
-        right: var(--4x);
-        top: var(--2x);
-        transition: var(--transition);
-        z-index: -1;
-    }
+	li::before {
+		background: var(--gradient-teal-blue);
+		bottom: calc(var(--2x) + 3px);
+		content: "";
+		display: block;
+		left: var(--4x);
+		opacity: 0;
+		position: absolute;
+		right: var(--4x);
+		top: var(--2x);
+		transition: var(--transition);
+		z-index: -1;
+	}
 
-    li:hover {
-        text-decoration-color: currentColor;
-    }
+	li:hover {
+		text-decoration-color: currentColor;
+	}
 
-    li.is-active {
-        cursor: default;
-    }
+	li.is-active {
+		cursor: default;
+	}
 
-    li.is-active::before {
-        opacity: 1;
-    }
+	li.is-active::before {
+		opacity: 1;
+	}
 
-    img {
-        display: block;
-        height: var(--3x);
-        object-fit: contain;
-        object-position: center;
-        width: var(--3x);
-    }
+	img {
+		display: block;
+		height: var(--3x);
+		object-fit: contain;
+		object-position: center;
+		width: var(--3x);
+	}
 }
 
 .Navigator::after {
-    background: var(--color-light-gray);
-    bottom: 0;
-    content: "";
-    display: block;
-    height: 3px;
-    left: 0;
-    position: absolute;
-    width: 100%;
-    z-index: 1;
+	background: var(--color-light-gray);
+	bottom: 0;
+	content: "";
+	display: block;
+	height: 3px;
+	left: 0;
+	position: absolute;
+	width: 100%;
+	z-index: 1;
 }
 
 .Navigator-activeIndicator {
-    background: var(--gradient-teal-blue-transparent);
-    bottom: 0;
-    display: block;
-    height: 3px;
-    left: calc(1px * var(--left, 0));
-    position: absolute;
-    transition: var(--transition);
-    width: calc(1px * var(--width, 0));
+	background: var(--gradient-teal-blue-transparent);
+	bottom: 0;
+	display: block;
+	height: 3px;
+	left: calc(1px * var(--left, 0));
+	position: absolute;
+	transition: var(--transition);
+	width: calc(1px * var(--width, 0));
 }
 
 .Navigator-actions {
-    display: grid;
-    gap: var(--2x);
-    grid-auto-flow: column;
-    grid-template-columns: max-content;
-    position: relative;
-    z-index: 2;
+	display: grid;
+	gap: var(--2x);
+	grid-auto-flow: column;
+	grid-template-columns: max-content;
+	position: relative;
+	z-index: 2;
 }

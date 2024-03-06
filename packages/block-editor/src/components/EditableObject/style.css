@@ -13,7 +13,7 @@
 	&::before {
 		border-radius: 0.2em;
 		bottom: 0;
-		content: '';
+		content: "";
 		display: block;
 		left: 0;
 		position: absolute;

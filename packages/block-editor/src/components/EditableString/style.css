@@ -1,88 +1,88 @@
 .EditableString {
-    --background-color: transparent;
-    --color: var(--color-darkest-gray);
-    --focus-color: var(--color-light-gray);
-    --focus-margin: 0.2em;
-    --focus-padding: 0.4em;
-    --highlight-padding: 0.4em;
-    --hover-color: var(--color-black);
-    --line-height: 1.5em;
-    --margin: 0;
-    --padding: 0;
-    --placeholder-color: var(--color-dark-gray);
-    --placeholder-focus-color: var(--color-darker-gray);
-    --rows: 1;
-    color: var(--color);
-    cursor: text;
-    display: inline-grid;
-    line-height: var(--line-height);
-    margin: 0 var(--margin);
-    max-width: 100%;
-    min-height: calc(var(--line-height) * var(--rows));
-    overflow: visible;
-    padding: 0 var(--padding);
-    position: relative;
-    transition: var(--transition);
+	--background-color: transparent;
+	--color: var(--color-darkest-gray);
+	--focus-color: var(--color-light-gray);
+	--focus-margin: 0.2em;
+	--focus-padding: 0.4em;
+	--highlight-padding: 0.4em;
+	--hover-color: var(--color-black);
+	--line-height: 1.5em;
+	--margin: 0;
+	--padding: 0;
+	--placeholder-color: var(--color-dark-gray);
+	--placeholder-focus-color: var(--color-darker-gray);
+	--rows: 1;
+	color: var(--color);
+	cursor: text;
+	display: inline-grid;
+	line-height: var(--line-height);
+	margin: 0 var(--margin);
+	max-width: 100%;
+	min-height: calc(var(--line-height) * var(--rows));
+	overflow: visible;
+	padding: 0 var(--padding);
+	position: relative;
+	transition: var(--transition);
 
-    &::before {
-        background: var(--background-color);
-        border-radius: 0.2em;
-        bottom: 0;
-        content: "";
-        display: block;
-        left: 0;
-        position: absolute;
-        right: 0;
-        top: 0;
-        transition: var(--transition);
-        z-index: -1;
-    }
+	&::before {
+		background: var(--background-color);
+		border-radius: 0.2em;
+		bottom: 0;
+		content: "";
+		display: block;
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+		transition: var(--transition);
+		z-index: -1;
+	}
 
-    &.has-value:hover,
-    &.has-value.has-focus {
-        color: var(--hover-color);
-    }
+	&.has-value:hover,
+	&.has-value.has-focus {
+		color: var(--hover-color);
+	}
 
-    > div {
-        grid-column: 1;
-        grid-row: 1;
-        max-width: 100%;
-        overflow: auto;
-        white-space: nowrap;
-    }
+	> div {
+		grid-column: 1;
+		grid-row: 1;
+		max-width: 100%;
+		overflow: auto;
+		white-space: nowrap;
+	}
 
-    .placeholder {
-        color: var(--placeholder-color);
-        transition: var(--transition);
-    }
+	.placeholder {
+		color: var(--placeholder-color);
+		transition: var(--transition);
+	}
 }
 
 .EditableString.is-multiline > div {
-    white-space: initial;
+	white-space: initial;
 }
 
 .EditableString.has-focus {
-    --background-color: var(--focus-color);
-    margin: 0 var(--focus-margin);
-    padding: 0 var(--focus-padding);
+	--background-color: var(--focus-color);
+	margin: 0 var(--focus-margin);
+	padding: 0 var(--focus-padding);
 
-    &::before {
-        bottom: calc(-1 * var(--focus-margin));
-        top: calc(-1 * var(--focus-margin));
-    }
+	&::before {
+		bottom: calc(-1 * var(--focus-margin));
+		top: calc(-1 * var(--focus-margin));
+	}
 }
 
 .EditableString.is-invalid {
-    --background-color: var(--color-error);
+	--background-color: var(--color-error);
 
-    &::before {
-        bottom: calc(-1 * var(--highlight-padding));
-        left: calc(-1 * var(--highlight-padding));
-        right: calc(-1 * var(--highlight-padding));
-        top: calc(-1 * var(--highlight-padding));
-    }
+	&::before {
+		bottom: calc(-1 * var(--highlight-padding));
+		left: calc(-1 * var(--highlight-padding));
+		right: calc(-1 * var(--highlight-padding));
+		top: calc(-1 * var(--highlight-padding));
+	}
 }
 
 .EditableString.has-focus .placeholder {
-    color: var(--placeholder-focus-color);
+	color: var(--placeholder-focus-color);
 }

@@ -43,11 +43,17 @@
 	}
 
 	&::before {
-		background: linear-gradient(var(--color-accent-teal), var(--color-accent-teal-blue));
+		background: linear-gradient(
+			var(--color-accent-teal),
+			var(--color-accent-teal-blue)
+		);
 	}
 
 	&::after {
-		background: linear-gradient(var(--color-accent-teal-blue), var(--color-accent-blue));
+		background: linear-gradient(
+			var(--color-accent-teal-blue),
+			var(--color-accent-blue)
+		);
 	}
 
 	& > div {

@@ -1,8 +1,8 @@
-import EditableString from '../EditableString'
+import EditableString from "../EditableString";
 
-import './style.css'
+import "./style.css";
 
-function BlockVersionField( {
+function BlockVersionField({
 	name,
 	placeholder,
 	onBlur,
@@ -10,16 +10,16 @@ function BlockVersionField( {
 	tooltip,
 	value,
 	setValue,
-} ) {
+}) {
 	return (
 		<div className="BlockVersionField">
-			<div className="BlockVersionField-label">{ 'Version:' }</div>
+			<div className="BlockVersionField-label">{"Version:"}</div>
 			<EditableString
 				className="BlockVersionField-value"
-				value={ '1.0.0' }
+				value={"1.0.0"}
 			/>
 		</div>
-	)
+	);
 }
 
-export default BlockVersionField
+export default BlockVersionField;

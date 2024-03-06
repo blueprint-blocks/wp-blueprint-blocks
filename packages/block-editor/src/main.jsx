@@ -1,15 +1,15 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { Provider } from 'react-redux'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
 
-import store from './store'
+import store from "./store";
 
-import App from './components/App'
+import App from "./components/App";
 
-import './main.css'
+import "./main.css";
 
-ReactDOM.createRoot( document.getElementById( 'wpbody' ) ).render(
-	<Provider store={ store }>
+ReactDOM.createRoot(document.getElementById("wpbody")).render(
+	<Provider store={store}>
 		<App />
-	</Provider>
-)
+	</Provider>,
+);

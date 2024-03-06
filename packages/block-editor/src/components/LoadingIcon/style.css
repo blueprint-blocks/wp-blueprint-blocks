@@ -1,64 +1,64 @@
 .LoadingIcon {
-    display: block;
-    margin: 0 auto;
-    position: relative;
-    width: var(--9x);
-    height: var(--2x);
+	display: block;
+	margin: 0 auto;
+	position: relative;
+	width: var(--9x);
+	height: var(--2x);
 
-    div {
-        position: absolute;
-        top: 0;
-        width: var(--2x);
-        height: var(--2x);
-        border-radius: 100%;
-        background: var(--color-gray);
-        animation-timing-function: cubic-bezier(0, 1, 1, 0);
-    }
+	div {
+		position: absolute;
+		top: 0;
+		width: var(--2x);
+		height: var(--2x);
+		border-radius: 100%;
+		background: var(--color-gray);
+		animation-timing-function: cubic-bezier(0, 1, 1, 0);
+	}
 
-    div:nth-child(1) {
-        left: var(--1x);
-        animation: blueprint-blocks-block-editor-loading-icon-1 0.6s infinite;
-    }
+	div:nth-child(1) {
+		left: var(--1x);
+		animation: blueprint-blocks-block-editor-loading-icon-1 0.6s infinite;
+	}
 
-    div:nth-child(2) {
-        left: var(--1x);
-        animation: blueprint-blocks-block-editor-loading-icon-2 0.6s infinite;
-    }
+	div:nth-child(2) {
+		left: var(--1x);
+		animation: blueprint-blocks-block-editor-loading-icon-2 0.6s infinite;
+	}
 
-    div:nth-child(3) {
-        left: var(--4x);
-        animation: blueprint-blocks-block-editor-loading-icon-2 0.6s infinite;
-    }
+	div:nth-child(3) {
+		left: var(--4x);
+		animation: blueprint-blocks-block-editor-loading-icon-2 0.6s infinite;
+	}
 
-    div:nth-child(4) {
-        left: var(--7x);
-        animation: blueprint-blocks-block-editor-loading-icon-3 0.6s infinite;
-    }
+	div:nth-child(4) {
+		left: var(--7x);
+		animation: blueprint-blocks-block-editor-loading-icon-3 0.6s infinite;
+	}
 }
 
 @keyframes blueprint-blocks-block-editor-loading-icon-1 {
-    0% {
-        transform: scale(0);
-    }
-    100% {
-        transform: scale(1);
-    }
+	0% {
+		transform: scale(0);
+	}
+	100% {
+		transform: scale(1);
+	}
 }
 
 @keyframes blueprint-blocks-block-editor-loading-icon-2 {
-    0% {
-        transform: translate(0, 0);
-    }
-    100% {
-        transform: translate(var(--3x), 0);
-    }
+	0% {
+		transform: translate(0, 0);
+	}
+	100% {
+		transform: translate(var(--3x), 0);
+	}
 }
 
 @keyframes blueprint-blocks-block-editor-loading-icon-3 {
-    0% {
-        transform: scale(1);
-    }
-    100% {
-        transform: scale(0);
-    }
+	0% {
+		transform: scale(1);
+	}
+	100% {
+		transform: scale(0);
+	}
 }

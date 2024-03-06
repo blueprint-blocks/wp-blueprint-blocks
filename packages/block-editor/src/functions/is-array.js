@@ -1,9 +1,5 @@
-function isArray( value ) {
-
-	return ( Array.isArray( value ) && value !== null )
-
+function isArray(value) {
+	return Array.isArray(value) && value !== null;
 }
 
-export default isArray
-
-
+export default isArray;

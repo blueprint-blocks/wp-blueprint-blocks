@@ -5,19 +5,19 @@ import reducers from "./reducers";
 import { componentHasFocus, getFocus } from "./selectors";
 
 const slice = createSlice({
-  name: "editor",
+	name: "editor",
 
-  initialState: {
-    currentFocus: null,
+	initialState: {
+		currentFocus: null,
 
-    priorFocus: null,
+		priorFocus: null,
 
-    height: 0,
+		height: 0,
 
-    width: 0,
-  },
+		width: 0,
+	},
 
-  reducers,
+	reducers,
 });
 
 const { actions, reducer } = slice;

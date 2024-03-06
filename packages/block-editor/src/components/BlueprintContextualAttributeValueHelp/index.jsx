@@ -1,25 +1,21 @@
-import { useRef } from 'react'
+import { useRef } from "react";
 
-import { getComponentProperties } from '../../functions'
+import { getComponentProperties } from "../../functions";
 
-import './style.css'
+import "./style.css";
 
-function BlueprintContextualAttributeValueHelp( {
-	componentType = 'html',
+function BlueprintContextualAttributeValueHelp({
+	componentType = "html",
 	attributeName,
 	attributeValue,
-} ) {
+}) {
+	const ref = useRef(null);
 
-	const ref = useRef( null )
-
-	const componentProperties = getComponentProperties( componentType )
+	const componentProperties = getComponentProperties(componentType);
 
 	return (
-		<div ref={ ref } className="BlueprintContextualAttributeValueHelp">
-
-		</div>
-	)
-
+		<div ref={ref} className="BlueprintContextualAttributeValueHelp"></div>
+	);
 }
 
-export default BlueprintContextualAttributeValueHelp
+export default BlueprintContextualAttributeValueHelp;

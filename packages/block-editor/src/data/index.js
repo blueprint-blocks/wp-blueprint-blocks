@@ -7,11 +7,11 @@ import navItems from "./nav-items.json";
 import tooltips from "./tooltips.json";
 
 export {
-  attributeTypes,
-  blockComponents,
-  blockJsonValidation,
-  blockSupports,
-  dashicons,
-  navItems,
-  tooltips,
+	attributeTypes,
+	blockComponents,
+	blockJsonValidation,
+	blockSupports,
+	dashicons,
+	navItems,
+	tooltips,
 };

@@ -1,24 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
-const { blockMetadata = {} } = blueprintBlocksEditorSettings
+const { blockMetadata = {} } = blueprintBlocksEditorSettings;
 
-const slice = createSlice( {
-
-	name: 'blockViewCss',
+const slice = createSlice({
+	name: "blockViewCss",
 
 	initialState: {
-		raw: blockMetadata?.viewCss || '',
+		raw: blockMetadata?.viewCss || "",
 	},
 
 	reducers: {
-		setViewCss( state, action ) {
-			state.raw = action?.payload || null
+		setViewCss(state, action) {
+			state.raw = action?.payload || null;
 		},
 	},
+});
 
-} )
+const { actions, reducer } = slice;
 
-const { actions, reducer } = slice
-
-export const { setViewCss } = actions
-export default reducer
+export const { setViewCss } = actions;
+export default reducer;

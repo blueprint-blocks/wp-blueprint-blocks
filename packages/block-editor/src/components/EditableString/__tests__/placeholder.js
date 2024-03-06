@@ -1,40 +1,40 @@
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import EditableString from '../index'
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import EditableString from "../index";
 
-test( 'placeholder is displayed when value is empty', async () => {
+test("placeholder is displayed when value is empty", async () => {
+	const user = userEvent.setup();
 
-	const user = userEvent.setup()
+	let value = "world";
 
-	let value = 'world'
-
-	const onChange = ( newValue ) => {
-		value = newValue
-	}
+	const onChange = (newValue) => {
+		value = newValue;
+	};
 
 	const { rerender } = render(
 		<EditableString
-			onChange={ onChange }
+			onChange={onChange}
 			placeholder="hello"
-			value={ value }
-		/>
-	)
+			value={value}
+		/>,
+	);
 
-	expect( screen.queryByTestId( 'editable-string/placeholder' ) ).toBeNull()
-	expect( screen.getByTestId( 'editable-string' ).textContent ).toBe( 'world' )
+	expect(screen.queryByTestId("editable-string/placeholder")).toBeNull();
+	expect(screen.getByTestId("editable-string").textContent).toBe("world");
 
-	await user.click( screen.getByTestId( 'editable-string/content-editable' ) )
-	await user.keyboard( '[Backspace][Backspace][Backspace][Backspace][Backspace]' )
+	await user.click(screen.getByTestId("editable-string/content-editable"));
+	await user.keyboard(
+		"[Backspace][Backspace][Backspace][Backspace][Backspace]",
+	);
 
 	rerender(
 		<EditableString
-			onChange={ onChange }
+			onChange={onChange}
 			placeholder="hello"
-			value={ value }
-		/>
-	)
+			value={value}
+		/>,
+	);
 
-	expect( screen.queryByTestId( 'editable-string/placeholder' ) ).not.toBeNull()
-	expect( screen.getByTestId( 'editable-string' ).textContent ).toBe( 'hello' )
-
-} )
+	expect(screen.queryByTestId("editable-string/placeholder")).not.toBeNull();
+	expect(screen.getByTestId("editable-string").textContent).toBe("hello");
+});

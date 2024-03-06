@@ -10,7 +10,7 @@
 		& :is(.debug-tl, .debug-tr, .debug-bl, .debug-br)::before,
 		& :is(.debug-tl, .debug-tr, .debug-bl, .debug-br)::after {
 			background: var(--color-darker-gray);
-			content: '';
+			content: "";
 			display: block;
 			position: absolute;
 		}

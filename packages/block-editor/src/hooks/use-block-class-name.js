@@ -1,13 +1,11 @@
-import { useSelector } from 'react-redux'
+import { useSelector } from "react-redux";
 
 function useBlockNamespace() {
+	const { name } = useSelector((state) => {
+		return state.blockJson || {};
+	});
 
-	const { name } = useSelector( ( state ) => {
-		return state.blockJson || {}
-	} )
-
-	return `wp-block-${ name.split( '/' )[ 0 ] }-${ name.split( '/' )[ 0 ] }`
-
+	return `wp-block-${name.split("/")[0]}-${name.split("/")[0]}`;
 }
 
-export default useBlockNamespace
+export default useBlockNamespace;

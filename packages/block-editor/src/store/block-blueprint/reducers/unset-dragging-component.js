@@ -1,6 +1,6 @@
-const unsetDraggingComponent = ( state, action ) => {
-	state.existingDraggingComponent = null
-	state.newDraggingComponent = null
-}
+const unsetDraggingComponent = (state, action) => {
+	state.existingDraggingComponent = null;
+	state.newDraggingComponent = null;
+};
 
-export default unsetDraggingComponent
+export default unsetDraggingComponent;

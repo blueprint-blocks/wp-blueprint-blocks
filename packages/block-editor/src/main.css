@@ -1,13 +1,14 @@
 @font-face {
 	font-family: "Fira Mono";
 	font-weight: 300;
-	src: url('../assets/fonts/fira-mono/fira-mono-regular.woff2') format('woff2');
+	src: url("../assets/fonts/fira-mono/fira-mono-regular.woff2")
+		format("woff2");
 }
 
 @font-face {
 	font-family: "Fira Mono";
 	font-weight: 400;
-	src: url('../assets/fonts/fira-mono/fira-mono-medium.woff2') format('woff2');
+	src: url("../assets/fonts/fira-mono/fira-mono-medium.woff2") format("woff2");
 }
 
 #wpcontent {

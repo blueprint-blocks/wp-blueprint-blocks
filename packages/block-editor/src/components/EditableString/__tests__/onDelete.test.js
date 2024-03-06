@@ -1,55 +1,53 @@
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import EditableString from '../index'
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import EditableString from "../index";
 
-test( 'delete event called when backspace is pressed', async () => {
+test("delete event called when backspace is pressed", async () => {
+	const onDelete = jest.fn();
+	const user = userEvent.setup();
 
-	const onDelete = jest.fn()
-	const user = userEvent.setup()
+	let value = "";
 
-	let value = ''
-
-	const onChange = ( newValue ) => {
-		value = newValue
-	}
+	const onChange = (newValue) => {
+		value = newValue;
+	};
 
 	const { rerender } = render(
 		<EditableString
-			onChange={ onChange }
-			onDelete={ onDelete }
-			value={ value }
-		/>
-	)
+			onChange={onChange}
+			onDelete={onDelete}
+			value={value}
+		/>,
+	);
 
-	await user.click( screen.getByTestId( 'editable-string/content-editable' ) )
-	await user.keyboard( '[Backspace]' )
+	await user.click(screen.getByTestId("editable-string/content-editable"));
+	await user.keyboard("[Backspace]");
 
-	expect( onDelete ).toHaveBeenCalledTimes( 1 )
+	expect(onDelete).toHaveBeenCalledTimes(1);
 
-	await user.keyboard( 'abc' )
-
-	rerender(
-		<EditableString
-			onChange={ onChange }
-			onDelete={ onDelete }
-			value={ value }
-		/>
-	)
-
-	await user.keyboard( '[Backspace][Backspace][Backspace]' )
+	await user.keyboard("abc");
 
 	rerender(
 		<EditableString
-			onChange={ onChange }
-			onDelete={ onDelete }
-			value={ value }
-		/>
-	)
+			onChange={onChange}
+			onDelete={onDelete}
+			value={value}
+		/>,
+	);
 
-	expect( onDelete ).toHaveBeenCalledTimes( 1 )
+	await user.keyboard("[Backspace][Backspace][Backspace]");
 
-	await user.keyboard( '[Backspace]' )
+	rerender(
+		<EditableString
+			onChange={onChange}
+			onDelete={onDelete}
+			value={value}
+		/>,
+	);
 
-	expect( onDelete ).toHaveBeenCalledTimes( 2 )
+	expect(onDelete).toHaveBeenCalledTimes(1);
 
-} )
+	await user.keyboard("[Backspace]");
+
+	expect(onDelete).toHaveBeenCalledTimes(2);
+});

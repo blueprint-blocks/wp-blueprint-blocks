@@ -9470,18 +9470,14 @@
    */
   const { blockTypes = {} } = blueprintBlocksLoaderSettings || {};
 
-  Object.entries( blockTypes ).forEach( ( [ blockName, blockType ] ) => {
+  Object.entries(blockTypes).forEach(([blockName, blockType]) => {
+  	blocks.registerBlockType(blockName, {
+  		...(blockType?.blockJson || {}),
 
-  	blocks.registerBlockType( blockName, {
+  		edit: BlockEdit(blockType?.blockBlueprint || null),
 
-  		...( blockType?.blockJson || {} ),
-
-  		edit: BlockEdit( blockType?.blockBlueprint || null ),
-
-  		save: BlockSave( blockType?.blockBlueprint || null ),
-
-  	} );
-
-  } );
+  		save: BlockSave(blockType?.blockBlueprint || null),
+  	});
+  });
 
 })(wp.blocks);

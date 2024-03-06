@@ -1,36 +1,33 @@
-import { useLayoutEffect, useState } from 'react'
-import useRect from './use-rect'
+import { useLayoutEffect, useState } from "react";
+import useRect from "./use-rect";
 
-function useMouseFocus( ref ) {
+function useMouseFocus(ref) {
+	const [hasMouseFocus, setHasMouseFocus] = useState(false);
+	const rect = useRect(ref);
 
-	const [ hasMouseFocus, setHasMouseFocus ] = useState( false )
-	const rect = useRect( ref )
-
-	useLayoutEffect( () => {
-		function handleMouseMove( { clientX, clientY } ) {
-			const isInsideBounds = (
+	useLayoutEffect(() => {
+		function handleMouseMove({ clientX, clientY }) {
+			const isInsideBounds =
 				clientX >= rect?.left &&
 				clientX <= rect?.right &&
 				clientY >= rect?.top &&
-				clientY <= rect?.bottom
-			)
+				clientY <= rect?.bottom;
 
-			if ( isInsideBounds === true && hasMouseFocus === false ) {
-				setHasMouseFocus( true )
-			} else if ( isInsideBounds === false && hasMouseFocus === true ) {
-				setHasMouseFocus( false )
+			if (isInsideBounds === true && hasMouseFocus === false) {
+				setHasMouseFocus(true);
+			} else if (isInsideBounds === false && hasMouseFocus === true) {
+				setHasMouseFocus(false);
 			}
 		}
 
-		window.addEventListener( 'mousemove', handleMouseMove )
+		window.addEventListener("mousemove", handleMouseMove);
 
 		return () => {
-			window.removeEventListener( 'mousemove', handleMouseMove )
-		}
-	}, [ hasMouseFocus, rect ] )
+			window.removeEventListener("mousemove", handleMouseMove);
+		};
+	}, [hasMouseFocus, rect]);
 
-	return hasMouseFocus
-
+	return hasMouseFocus;
 }
 
-export default useMouseFocus
+export default useMouseFocus;

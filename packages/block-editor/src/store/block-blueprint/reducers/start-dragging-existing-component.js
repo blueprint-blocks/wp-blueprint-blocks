@@ -1,7 +1,7 @@
-const startDraggingExistingComponent = ( state, action ) => {
-	state.existingDraggingComponent = action.payload
-	state.newDraggingComponent = null
-	state.isDragging = true
-}
+const startDraggingExistingComponent = (state, action) => {
+	state.existingDraggingComponent = action.payload;
+	state.newDraggingComponent = null;
+	state.isDragging = true;
+};
 
-export default startDraggingExistingComponent
+export default startDraggingExistingComponent;

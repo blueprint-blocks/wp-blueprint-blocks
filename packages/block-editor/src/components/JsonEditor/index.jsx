@@ -1,7 +1,7 @@
-import EditableString from '../EditableString'
-import './style.css'
+import EditableString from "../EditableString";
+import "./style.css";
 
-function RenderJson( {
+function RenderJson({
 	index = null,
 	property = null,
 	value = null,
@@ -9,123 +9,120 @@ function RenderJson( {
 	focus = [],
 	placeholders = {},
 	values = {},
-} ) {
+}) {
+	const isNull = value === null;
+	const isArray = Array.isArray(value);
+	const isBoolean = typeof value === "boolean";
+	const isString = typeof value === "string";
+	const isNumber = typeof value === "number";
+	const isObject = typeof value === "object" && !isNull && !isArray;
 
-	const isNull = ( value === null )
-	const isArray = ( Array.isArray( value ) )
-	const isBoolean = ( typeof value === 'boolean' )
-	const isString = ( typeof value === 'string' )
-	const isNumber = ( typeof value === 'number' )
-	const isObject = ( typeof value === 'object' && !isNull && !isArray )
+	let currentFocus = false;
+	let subFocus = focus;
 
-	let currentFocus = false
-	let subFocus = focus
-
-	if ( property !== null || index !== null ) {
-		currentFocus = focus.slice( 0, 1 )?.[ 0 ]
-		subFocus = focus.slice( 1 )
+	if (property !== null || index !== null) {
+		currentFocus = focus.slice(0, 1)?.[0];
+		subFocus = focus.slice(1);
 	}
 
-	const hasFocus = ( property === currentFocus || index === currentFocus )
+	const hasFocus = property === currentFocus || index === currentFocus;
 
 	return (
 		<>
-			{ property !== null && (
+			{property !== null && (
 				<>
-					<span>{ `"${ property }"` }</span>
-					<span>{ `: ` }</span>
+					<span>{`"${property}"`}</span>
+					<span>{`: `}</span>
 				</>
-			) }
-			{ isString && (
+			)}
+			{isString && (
 				<>
-					<span>{ '"' }</span>
+					<span>{'"'}</span>
 					<EditableString
-						className={ hasFocus && 'has-focus' || '' }
-						placeholder={ typeof placeholders === 'string' && placeholders || null }
-						value={ value }
+						className={(hasFocus && "has-focus") || ""}
+						placeholder={
+							(typeof placeholders === "string" &&
+								placeholders) ||
+							null
+						}
+						value={value}
 					/>
-					<span>{ '"' }</span>
+					<span>{'"'}</span>
 				</>
-			) }
-			{ isNumber && (
-				<span className={ hasFocus && 'has-focus' || '' }>
-					{ value }
+			)}
+			{isNumber && (
+				<span className={(hasFocus && "has-focus") || ""}>{value}</span>
+			)}
+			{isBoolean && (
+				<span className={(hasFocus && "has-focus") || ""}>
+					{(value === true && "true") || "false"}
 				</span>
-			) }
-			{ isBoolean && (
-				<span className={ hasFocus && 'has-focus' || '' }>
-					{ ( value === true ) && 'true' || 'false' }
+			)}
+			{isNull && (
+				<span className={(hasFocus && "has-focus") || ""}>
+					{`null`}
 				</span>
-			) }
-			{ isNull && (
-				<span className={ hasFocus && 'has-focus' || '' }>
-					{ `null` }
-				</span>
-			) }
-			{ isArray && (
+			)}
+			{isArray && (
 				<>
-					<span>{ `[` }</span>
-					{ value.length > 0 && (
+					<span>{`[`}</span>
+					{value.length > 0 && (
 						<div className="indent">
-							{ value.map( ( v, index ) => (
-								<div key={ index }>
+							{value.map((v, index) => (
+								<div key={index}>
 									<RenderJson
-										index={ index }
-										value={ v }
-										comma={ index < value.length - 1 }
-										focus={ subFocus }
-										placeholders={ placeholders }
+										index={index}
+										value={v}
+										comma={index < value.length - 1}
+										focus={subFocus}
+										placeholders={placeholders}
 									/>
 								</div>
-							) ) }
+							))}
 						</div>
-					) }
-					<span>{ `]` }</span>
+					)}
+					<span>{`]`}</span>
 				</>
-			) }
-			{ isObject && (
+			)}
+			{isObject && (
 				<>
-					<span>{ `{` }</span>
-					{ Object.entries( value ).length > 0 && (
+					<span>{`{`}</span>
+					{Object.entries(value).length > 0 && (
 						<div className="indent">
-							{ Object.entries( value ).map( ( [ k, v ], index ) => (
-								<div key={ index }>
+							{Object.entries(value).map(([k, v], index) => (
+								<div key={index}>
 									<RenderJson
-										property={ k }
-										value={ v }
-										comma={ index < Object.entries( value ).length - 1 }
-										focus={ subFocus }
-										placeholders={ placeholders?.[ k ] || null }
+										property={k}
+										value={v}
+										comma={
+											index <
+											Object.entries(value).length - 1
+										}
+										focus={subFocus}
+										placeholders={placeholders?.[k] || null}
 									/>
 								</div>
-							) ) }
+							))}
 						</div>
-					) }
-					<span>{ `}` }</span>
+					)}
+					<span>{`}`}</span>
 				</>
-			) }
-			{ comma === true && (
-				<span>{ ',' }</span>
-			) }
+			)}
+			{comma === true && <span>{","}</span>}
 		</>
-	)
+	);
 }
 
-function JsonEditor( {
-	json,
-	focus = [],
-	placeholders = {},
-	values = {},
-} ) {
+function JsonEditor({ json, focus = [], placeholders = {}, values = {} }) {
 	return (
 		<div className="JsonEditor">
 			<RenderJson
-				value={ json }
-				focus={ focus }
-				placeholders={ placeholders }
+				value={json}
+				focus={focus}
+				placeholders={placeholders}
 			/>
 		</div>
-	)
+	);
 }
 
-export default JsonEditor
+export default JsonEditor;

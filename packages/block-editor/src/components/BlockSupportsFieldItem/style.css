@@ -1,15 +1,15 @@
 .BlockSupportsFieldItem {
-    p {
-        margin: 0 0 var(--1x);
-    }
+	p {
+		margin: 0 0 var(--1x);
+	}
 
-    p:last-child {
-        margin-bottom: 0;
-    }
+	p:last-child {
+		margin-bottom: 0;
+	}
 }
 
 .BlockSupportsFieldItem-list {
-    display: grid;
-    gap: var(--1x);
-    margin-top: var(--2x);
+	display: grid;
+	gap: var(--1x);
+	margin-top: var(--2x);
 }

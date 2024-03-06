@@ -1,103 +1,103 @@
 .CheckboxField {
-    --size: var(--3x);
-    align-items: start;
-    display: grid;
-    gap: var(--2x);
-    grid-template-columns: max-content 1fr;
-    max-width: 640px;
-    position: relative;
+	--size: var(--3x);
+	align-items: start;
+	display: grid;
+	gap: var(--2x);
+	grid-template-columns: max-content 1fr;
+	max-width: 640px;
+	position: relative;
 
-    p {
-        color: var(--color-dark-gray);
-        font-size: var(--font-size-base);
-        font-weight: var(--font-weight-medium);
-        margin: 0 0 var(--2x);
-    }
+	p {
+		color: var(--color-dark-gray);
+		font-size: var(--font-size-base);
+		font-weight: var(--font-weight-medium);
+		margin: 0 0 var(--2x);
+	}
 
-    a {
-        color: var(--color-black);
-        text-decoration: underline;
-    }
+	a {
+		color: var(--color-black);
+		text-decoration: underline;
+	}
 }
 
 .CheckboxField.is-small {
-    --size: var(--2x);
-    gap: var(--1x);
+	--size: var(--2x);
+	gap: var(--1x);
 }
 
 .CheckboxField-label {
-    align-items: center;
-    color: var(--color-black);
-    display: grid;
-    gap: var(--2x);
-    grid-auto-columns: max-content;
-    grid-auto-flow: column;
-    font-size: var(--font-size-large);
-    font-weight: var(--font-weight-semi-bold);
-    line-height: var(--size);
-    margin-bottom: var(--1x);
+	align-items: center;
+	color: var(--color-black);
+	display: grid;
+	gap: var(--2x);
+	grid-auto-columns: max-content;
+	grid-auto-flow: column;
+	font-size: var(--font-size-large);
+	font-weight: var(--font-weight-semi-bold);
+	line-height: var(--size);
+	margin-bottom: var(--1x);
 
-    &:last-child {
-        margin-bottom: 0;
-    }
+	&:last-child {
+		margin-bottom: 0;
+	}
 }
 
 .CheckboxField.is-small .CheckboxField-label {
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-medium);
 }
 
 .CheckboxField-checkbox {
-    background: var(--color-white);
-    border: 2px solid var(--color-black);
-    border-radius: 5px;
-    box-shadow: var(--box-shadow-x-low);
-    box-sizing: border-box;
-    display: block;
-    height: var(--size);
-    position: relative;
-    width: var(--size);
+	background: var(--color-white);
+	border: 2px solid var(--color-black);
+	border-radius: 5px;
+	box-shadow: var(--box-shadow-x-low);
+	box-sizing: border-box;
+	display: block;
+	height: var(--size);
+	position: relative;
+	width: var(--size);
 
-    input[type="checkbox"] {
-        appearance: none;
-        cursor: pointer;
-        display: block;
-        height: var(--size);
-        left: 0;
-        opacity: 0;
-        position: absolute;
-        top: 0;
-        width: var(--size);
-        z-index: 10;
-    }
+	input[type="checkbox"] {
+		appearance: none;
+		cursor: pointer;
+		display: block;
+		height: var(--size);
+		left: 0;
+		opacity: 0;
+		position: absolute;
+		top: 0;
+		width: var(--size);
+		z-index: 10;
+	}
 
-    &::after {
-        background: url("../assets/images/icon-check.png") no-repeat center;
-        background-size: contain;
-        content: "";
-        display: block;
-        height: calc((19 / 24) * var(--size));
-        left: calc((2 / 24) * var(--size));
-        opacity: 0;
-        position: absolute;
-        top: -2px;
-        transition: var(--transition);
-        width: calc((26 / 24) * var(--size));
-    }
+	&::after {
+		background: url("../assets/images/icon-check.png") no-repeat center;
+		background-size: contain;
+		content: "";
+		display: block;
+		height: calc((19 / 24) * var(--size));
+		left: calc((2 / 24) * var(--size));
+		opacity: 0;
+		position: absolute;
+		top: -2px;
+		transition: var(--transition);
+		width: calc((26 / 24) * var(--size));
+	}
 }
 
 .CheckboxField.is-checked > .CheckboxField-checkbox::after {
-    opacity: 1;
+	opacity: 1;
 }
 
 .CheckboxField-content {
-    display: grid;
-    gap: 0;
-    grid-auto-flow: row;
+	display: grid;
+	gap: 0;
+	grid-auto-flow: row;
 }
 
 .CheckboxField-list {
-    display: grid;
-    gap: var(--2x);
-    grid-auto-flow: row;
+	display: grid;
+	gap: var(--2x);
+	grid-auto-flow: row;
 }

@@ -1,10 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
-const { postType = {} } = blueprintBlocksEditorSettings
+const { postType = {} } = blueprintBlocksEditorSettings;
 
-const slice = createSlice( {
-
-	name: 'postType',
+const slice = createSlice({
+	name: "postType",
 
 	initialState: {
 		...postType,
@@ -13,14 +12,13 @@ const slice = createSlice( {
 	},
 
 	reducers: {
-		setPostId( state, action ) {
-			state.postId = action?.payload || null
+		setPostId(state, action) {
+			state.postId = action?.payload || null;
 		},
 	},
+});
 
-} )
+const { actions, reducer } = slice;
 
-const { actions, reducer } = slice
-
-export const { setPostId } = actions
-export default reducer
+export const { setPostId } = actions;
+export default reducer;

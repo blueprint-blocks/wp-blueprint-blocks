@@ -13,19 +13,19 @@ import saveDialog from "./save-dialog";
 import upsellDialog from "./upsell-dialog";
 
 const store = configureStore({
-  reducer: combineReducers({
-    app,
-    attributeHandles,
-    blockBlueprint,
-    blockJson,
-    blockEditorCss,
-    blockViewCss,
-    editor,
-    postMetadata,
-    postType,
-    saveDialog,
-    upsellDialog,
-  }),
+	reducer: combineReducers({
+		app,
+		attributeHandles,
+		blockBlueprint,
+		blockJson,
+		blockEditorCss,
+		blockViewCss,
+		editor,
+		postMetadata,
+		postType,
+		saveDialog,
+		upsellDialog,
+	}),
 });
 
 window.blueprintBlocksStore = store;

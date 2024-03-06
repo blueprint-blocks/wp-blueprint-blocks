@@ -1,95 +1,95 @@
 .SelectField {
-    background: var(--color-white);
-    border: 2px solid var(--color-black);
-    border-radius: 7px;
-    box-shadow: var(--box-shadow-low);
-    display: grid;
-    gap: var(--1x);
-    grid-auto-flow: row;
-    grid-template-columns: 100%;
-    max-width: 640px;
-    padding: var(--1x);
-    position: relative;
-    transition: var(--transition);
-    user-select: none;
+	background: var(--color-white);
+	border: 2px solid var(--color-black);
+	border-radius: 7px;
+	box-shadow: var(--box-shadow-low);
+	display: grid;
+	gap: var(--1x);
+	grid-auto-flow: row;
+	grid-template-columns: 100%;
+	max-width: 640px;
+	padding: var(--1x);
+	position: relative;
+	transition: var(--transition);
+	user-select: none;
 
-    &::before {
-        border-left: 6px solid transparent;
-        border-right: 6px solid transparent;
-        border-top: 6px solid var(--color-black);
-        content: "";
-        display: block;
-        height: 0;
-        position: absolute;
-        right: calc(var(--1x) + 2px);
-        top: calc(var(--2x) + 26px);
-        width: 0;
-    }
+	&::before {
+		border-left: 6px solid transparent;
+		border-right: 6px solid transparent;
+		border-top: 6px solid var(--color-black);
+		content: "";
+		display: block;
+		height: 0;
+		position: absolute;
+		right: calc(var(--1x) + 2px);
+		top: calc(var(--2x) + 26px);
+		width: 0;
+	}
 }
 
 .SelectField.is-open {
-    z-index: 20;
+	z-index: 20;
 
-    &::before {
-        transform: rotate(180deg);
-    }
+	&::before {
+		transform: rotate(180deg);
+	}
 }
 
 .SelectField-value {
-    font-size: var(--font-size-large);
-    font-weight: var(--font-weight-semi-bold);
+	font-size: var(--font-size-large);
+	font-weight: var(--font-weight-semi-bold);
 }
 
 .SelectField-options {
-    background: var(--color-white);
-    border: solid var(--color-black);
-    border-width: 0 2px 2px;
-    border-radius: 0 0 7px 7px;
-    box-shadow:
-        3px -3px 0 #c6cacd,
-        3px 3px 0 #27243233;
-    box-sizing: border-box;
-    display: none;
-    left: -2px;
-    padding: 9px 0 calc(var(--1x) / 2);
-    position: absolute;
-    top: calc(100% - 7px);
-    width: calc(100% + 4px);
+	background: var(--color-white);
+	border: solid var(--color-black);
+	border-width: 0 2px 2px;
+	border-radius: 0 0 7px 7px;
+	box-shadow:
+		3px -3px 0 #c6cacd,
+		3px 3px 0 #27243233;
+	box-sizing: border-box;
+	display: none;
+	left: -2px;
+	padding: 9px 0 calc(var(--1x) / 2);
+	position: absolute;
+	top: calc(100% - 7px);
+	width: calc(100% + 4px);
 
-    &::before {
-        background: var(--color-lighter-gray);
-        content: "";
-        display: block;
-        height: 1px;
-        margin: 0 0 var(--1x);
-        width: 100%;
-    }
+	&::before {
+		background: var(--color-lighter-gray);
+		content: "";
+		display: block;
+		height: 1px;
+		margin: 0 0 var(--1x);
+		width: 100%;
+	}
 
-    &::after {
-        background: var(--color-white);
-        border-right: 2px solid var(--color-black);
-        content: "";
-        display: block;
-        height: 3px;
-        left: 0;
-        position: absolute;
-        top: -3px;
-        width: 100%;
-    }
+	&::after {
+		background: var(--color-white);
+		border-right: 2px solid var(--color-black);
+		content: "";
+		display: block;
+		height: 3px;
+		left: 0;
+		position: absolute;
+		top: -3px;
+		width: 100%;
+	}
 
-    > div {
-        cursor: pointer;
-        font-size: var(--font-size-base);
-        font-weight: var(--font-weight-medium);
-        padding: calc(var(--1x) / 2) var(--1x);
-        transition: var(--transition);
-    }
+	> div {
+		cursor: pointer;
+		font-size: var(--font-size-base);
+		font-weight: var(--font-weight-medium);
+		padding: calc(var(--1x) / 2) var(--1x);
+		transition: var(--transition);
+	}
 
-    > div:hover {
-        background: var(--color-lighter-gray);
-    }
+	> div:hover {
+		background: var(--color-lighter-gray);
+	}
 }
 
 .SelectField.is-open .SelectField-options {
-    display: grid;
+	display: grid;
 }

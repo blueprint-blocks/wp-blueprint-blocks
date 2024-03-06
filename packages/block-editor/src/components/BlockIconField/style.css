@@ -1,148 +1,148 @@
 .BlockIconField {
-    align-items: center;
-    aspect-ratio: 1 / 1;
-    background: var(--color-white);
-    border: 2px solid var(--color-black);
-    border-radius: 7px;
-    box-shadow: var(--box-shadow-low);
-    box-sizing: border-box;
-    display: grid;
-    height: 64px;
-    justify-items: center;
-    padding: var(--1x);
-    padding-right: calc(12px + var(--1x));
-    position: relative;
-    width: 84px;
-    z-index: 20;
+	align-items: center;
+	aspect-ratio: 1 / 1;
+	background: var(--color-white);
+	border: 2px solid var(--color-black);
+	border-radius: 7px;
+	box-shadow: var(--box-shadow-low);
+	box-sizing: border-box;
+	display: grid;
+	height: 64px;
+	justify-items: center;
+	padding: var(--1x);
+	padding-right: calc(12px + var(--1x));
+	position: relative;
+	width: 84px;
+	z-index: 20;
 
-    span {
-        --size: 32px;
-        display: block;
-        font-size: var(--size);
-        height: var(--size);
-        text-align: center;
-        width: var(--size);
-    }
+	span {
+		--size: 32px;
+		display: block;
+		font-size: var(--size);
+		height: var(--size);
+		text-align: center;
+		width: var(--size);
+	}
 
-    &::before {
-        border-left: 6px solid transparent;
-        border-right: 6px solid transparent;
-        border-top: 6px solid var(--color-black);
-        content: "";
-        display: block;
-        height: 0;
-        position: absolute;
-        right: var(--1x);
-        top: 27px;
-        width: 0;
-    }
+	&::before {
+		border-left: 6px solid transparent;
+		border-right: 6px solid transparent;
+		border-top: 6px solid var(--color-black);
+		content: "";
+		display: block;
+		height: 0;
+		position: absolute;
+		right: var(--1x);
+		top: 27px;
+		width: 0;
+	}
 }
 
 .BlockIconField.is-open {
-    z-index: 20;
+	z-index: 20;
 
-    &::before {
-        transform: rotate(180deg);
-    }
+	&::before {
+		transform: rotate(180deg);
+	}
 }
 
 .BlockIconField-dropdown {
-    background: var(--color-white);
-    border: solid var(--color-black);
-    border-width: 2px;
-    border-radius: 0 7px 7px 7px;
-    box-shadow: 3px 3px 0 #27243233;
-    box-sizing: border-box;
-    display: none;
-    grid-template-rows: max-content 1fr;
-    height: 260px;
-    left: -2px;
-    max-width: 100vw;
-    position: absolute;
-    top: calc(100% - 7px);
-    width: 540px;
+	background: var(--color-white);
+	border: solid var(--color-black);
+	border-width: 2px;
+	border-radius: 0 7px 7px 7px;
+	box-shadow: 3px 3px 0 #27243233;
+	box-sizing: border-box;
+	display: none;
+	grid-template-rows: max-content 1fr;
+	height: 260px;
+	left: -2px;
+	max-width: 100vw;
+	position: absolute;
+	top: calc(100% - 7px);
+	width: 540px;
 
-    &::after {
-        background: var(--color-white);
-        border-right: 2px solid var(--color-black);
-        content: "";
-        display: block;
-        height: 3px;
-        left: 0;
-        position: absolute;
-        top: -3px;
-        width: 80px;
-    }
+	&::after {
+		background: var(--color-white);
+		border-right: 2px solid var(--color-black);
+		content: "";
+		display: block;
+		height: 3px;
+		left: 0;
+		position: absolute;
+		top: -3px;
+		width: 80px;
+	}
 }
 
 .BlockIconField.is-open .BlockIconField-dropdown {
-    display: grid;
+	display: grid;
 }
 
 .BlockIconField.is-open ~ :is(.TextField) {
-    opacity: 0.4;
+	opacity: 0.4;
 }
 
 .BlockIconField-filter {
-    --focus-margin: 0;
-    --focus-padding: var(--2x);
-    --line-height: var(--6x);
-    --padding: var(--2x);
-    border-bottom: 1px solid var(--color-lighter-gray);
-    font-size: var(--font-size-large);
-    font-size: var(--font-size-large);
-    font-weight: var(--font-weight-semi-bold);
+	--focus-margin: 0;
+	--focus-padding: var(--2x);
+	--line-height: var(--6x);
+	--padding: var(--2x);
+	border-bottom: 1px solid var(--color-lighter-gray);
+	font-size: var(--font-size-large);
+	font-size: var(--font-size-large);
+	font-weight: var(--font-weight-semi-bold);
 }
 
 .BlockIconField-options,
 .BlockIconField-options > div {
-    align-items: start;
-    display: grid;
-    gap: var(--1x);
-    grid-auto-rows: max-content;
-    overflow: auto;
+	align-items: start;
+	display: grid;
+	gap: var(--1x);
+	grid-auto-rows: max-content;
+	overflow: auto;
 }
 
 .BlockIconField-heading {
-    color: var(--color-black);
-    font-size: var(--font-size-large);
-    font-size: var(--font-size-large);
-    font-weight: var(--font-weight-semi-bold);
-    line-height: 1;
-    padding: var(--2x) var(--2x) 0;
+	color: var(--color-black);
+	font-size: var(--font-size-large);
+	font-size: var(--font-size-large);
+	font-weight: var(--font-weight-semi-bold);
+	line-height: 1;
+	padding: var(--2x) var(--2x) 0;
 }
 
 .BlockIconField-icons {
-    align-items: start;
-    display: grid;
-    grid-template-columns: repeat(8, minmax(0, 1fr));
-    padding: var(--1x);
+	align-items: start;
+	display: grid;
+	grid-template-columns: repeat(8, minmax(0, 1fr));
+	padding: var(--1x);
 
-    > div {
-        align-items: center;
-        aspect-ratio: 1 / 1;
-        border-radius: 7px;
-        cursor: pointer;
-        display: grid;
-        font-size: var(--font-size-small);
-        font-weight: var(--font-weight-semi-bold);
-        justify-items: center;
-        padding: var(--1x);
-        text-align: center;
-        transition: var(--transition);
-    }
+	> div {
+		align-items: center;
+		aspect-ratio: 1 / 1;
+		border-radius: 7px;
+		cursor: pointer;
+		display: grid;
+		font-size: var(--font-size-small);
+		font-weight: var(--font-weight-semi-bold);
+		justify-items: center;
+		padding: var(--1x);
+		text-align: center;
+		transition: var(--transition);
+	}
 
-    > div:hover {
-        background: var(--color-lighter-gray);
-    }
+	> div:hover {
+		background: var(--color-lighter-gray);
+	}
 
-    > div > div {
-        display: grid;
-        gap: var(--1x);
-        justify-items: center;
-    }
+	> div > div {
+		display: grid;
+		gap: var(--1x);
+		justify-items: center;
+	}
 
-    span {
-        --size: 24px;
-    }
+	span {
+		--size: 24px;
+	}
 }

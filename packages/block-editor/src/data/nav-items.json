@@ -1,18 +1,18 @@
 [
-  {
-    "label": "Block.json",
-    "icon": "cube-sharp-regular"
-  },
-  {
-    "label": "Blueprint.json",
-    "icon": "layer-group-sharp-regular"
-  },
-  {
-    "label": "Style.css",
-    "icon": "brackets-curly-sharp-regular"
-  },
-  {
-    "label": "Editor.css",
-    "icon": "brackets-curly-sharp-regular"
-  }
+	{
+		"label": "Block.json",
+		"icon": "cube-sharp-regular"
+	},
+	{
+		"label": "Blueprint.json",
+		"icon": "layer-group-sharp-regular"
+	},
+	{
+		"label": "Style.css",
+		"icon": "brackets-curly-sharp-regular"
+	},
+	{
+		"label": "Editor.css",
+		"icon": "brackets-curly-sharp-regular"
+	}
 ]

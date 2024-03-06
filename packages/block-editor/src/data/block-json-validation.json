@@ -1,17 +1,17 @@
 [
-  {
-    "propertyName": "name",
-    "validationFunction": "validateNameClash",
-    "warningMessage": "A block with this name already exists. Block names must be unique and should be prefixed with a plugin or theme namespace."
-  },
-  {
-    "propertyName": "name",
-    "validationFunction": "validateFullNameFormat",
-    "warningMessage": "A block name is required and can only contain lowercase alphanumeric characters, dashes, and at most one forward slash to designate the plugin or theme unique namespace prefix. It must begin with a letter."
-  },
-  {
-    "propertyName": "title",
-    "validationFunction": "validateTitle",
-    "warningMessage": "A block title is required for display in the UI. (max 80 characters)"
-  }
+	{
+		"propertyName": "name",
+		"validationFunction": "validateNameClash",
+		"warningMessage": "A block with this name already exists. Block names must be unique and should be prefixed with a plugin or theme namespace."
+	},
+	{
+		"propertyName": "name",
+		"validationFunction": "validateFullNameFormat",
+		"warningMessage": "A block name is required and can only contain lowercase alphanumeric characters, dashes, and at most one forward slash to designate the plugin or theme unique namespace prefix. It must begin with a letter."
+	},
+	{
+		"propertyName": "title",
+		"validationFunction": "validateTitle",
+		"warningMessage": "A block title is required for display in the UI. (max 80 characters)"
+	}
 ]
