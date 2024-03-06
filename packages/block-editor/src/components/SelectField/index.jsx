@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import { useMemo, useRef, useState } from "react";
 import { useOnClickOutside } from "../../hooks";
 
@@ -45,7 +45,7 @@ function SelectField({
   return (
     <div
       ref={ref}
-      className={classNames("SelectField", { "is-open": isSelectOpen })}
+      className={clsx("SelectField", { "is-open": isSelectOpen })}
       onClick={onClick}
     >
       {label && <FieldLabel htmlFor={name} label={label} tooltip={tooltip} />}

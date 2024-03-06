@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import { useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
 
@@ -61,7 +61,7 @@ function Tooltip({
       <span>{"?"}</span>
       <div
         ref={messageRef}
-        className={classNames(
+        className={clsx(
           "Tooltip-message",
           `is-${direction}`,
           `is-${_position}`,

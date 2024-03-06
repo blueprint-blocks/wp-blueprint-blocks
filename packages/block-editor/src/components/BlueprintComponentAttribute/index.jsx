@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import { memo, useCallback, useMemo, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -146,7 +146,7 @@ function BlueprintComponentAttribute({
   return (
     <div
       ref={ref}
-      className={classNames(
+      className={clsx(
         "BlueprintComponentAttribute",
         `is-${attributeType}`,
         {

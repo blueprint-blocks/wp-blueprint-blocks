@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import { useMemo } from "react";
 
 import "./style.css";
@@ -20,7 +20,7 @@ const Button = ({
 
   return (
     <button
-      className={classNames("Button", styles, {
+      className={clsx("Button", styles, {
         "is-disabled": disabled,
       })}
       onClick={(event) => !disabled && onClick(event)}

@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import { useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -75,7 +75,7 @@ function BlockIconField({ onBlur, onFocus }) {
   return (
     <div
       ref={ref}
-      className={classNames("BlockIconField", { "is-open": isDropdownOpen })}
+      className={clsx("BlockIconField", { "is-open": isDropdownOpen })}
       onClick={onClick}
     >
       <span className={selectedIcon} />

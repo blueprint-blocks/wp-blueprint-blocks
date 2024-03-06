@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import {
   forwardRef,
   memo,
@@ -65,7 +65,7 @@ const EditableString = forwardRef(
       <div
         ref={ref}
         data-testid="editable-string"
-        className={classNames("EditableString", className, {
+        className={clsx("EditableString", className, {
           "has-focus": hasFocus,
           "has-value": html.length > 0,
           "is-invalid": invalid,

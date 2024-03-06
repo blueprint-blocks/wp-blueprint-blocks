@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import { useLayoutEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -94,7 +94,7 @@ function App() {
   return (
     <div
       ref={ref}
-      className={classNames("App", {
+      className={clsx("App", {
         "is-debug": process.env.NODE_ENV === "development",
       })}
     >

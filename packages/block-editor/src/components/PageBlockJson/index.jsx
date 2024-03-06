@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -47,7 +47,7 @@ function PageBlockJson() {
 
   return (
     <div
-      className={classNames(
+      className={clsx(
         "PageBlockJson",
         hasFocus.map((focus) => `focus-${focus}`),
       )}

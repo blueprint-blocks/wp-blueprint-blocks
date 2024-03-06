@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import { useCallback, useRef, useState } from "react";
 
 import EditableString from "../EditableString";
@@ -73,7 +73,7 @@ function ListField({
   return (
     <div
       ref={ref}
-      className={classNames("ListField", { "is-disabled": disabled })}
+      className={clsx("ListField", { "is-disabled": disabled })}
       onClick={() => setFocus(Math.min(value?.length || 0, max))}
     >
       {label && <FieldLabel label={label} tooltip={tooltip} />}

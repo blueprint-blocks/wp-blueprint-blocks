@@ -1367,7 +1367,7 @@
 	    throw Error("[Immer] " + o);
 	  }
 	}
-	function r$4(n) {
+	function r$5(n) {
 	  return !!n && !!n[Q];
 	}
 	function t$1(n) {
@@ -1430,7 +1430,7 @@
 	  return Object.create(Object.getPrototypeOf(n), r);
 	}
 	function d$3(n, e) {
-	  return void 0 === e && (e = !1), y(n) || r$4(n) || !t$1(n) || (o(n) > 1 && (n.set = n.add = n.clear = n.delete = h), Object.freeze(n), e && i$2(n, function (n, r) {
+	  return void 0 === e && (e = !1), y(n) || r$5(n) || !t$1(n) || (o(n) > 1 && (n.set = n.add = n.clear = n.delete = h), Object.freeze(n), e && i$2(n, function (n, r) {
 	    return d$3(r, !0);
 	  }, !0)), n;
 	}
@@ -1498,9 +1498,9 @@
 	  return e.o;
 	}
 	function A$2(e, i, o, a, c, s, v) {
-	  if (c === o && n(5), r$4(c)) {
+	  if (c === o && n(5), r$5(c)) {
 	    var p = M(e, c, s && i && 3 !== i.i && !u$1(i.R, a) ? s.concat(a) : void 0);
-	    if (f(o, a, p), !r$4(p)) return;
+	    if (f(o, a, p), !r$5(p)) return;
 	    e.m = !1;
 	  } else v && o.add(c);
 	  if (t$1(c) && !y(c)) {
@@ -1555,7 +1555,7 @@
 	  return (t ? t.A : _()).p.push(e), e;
 	}
 	function R$1(e) {
-	  return r$4(e) || n(22, e), function n(r) {
+	  return r$5(e) || n(22, e), function n(r) {
 	    if (!t$1(r)) return r;
 	    var e,
 	      u = r[Q],
@@ -1667,7 +1667,7 @@
 	      }), i;
 	    },
 	    S: function (n, t, o) {
-	      o ? r$4(t) && t[Q].A === n && e(n.p) : (n.u && function n(r) {
+	      o ? r$5(t) && t[Q].A === n && e(n.p) : (n.u && function n(r) {
 	        if (r && "object" == typeof r) {
 	          var t = r[Q];
 	          if (t) {
@@ -1877,7 +1877,7 @@
 	    }
 	    var i = e.prototype;
 	    return i.createDraft = function (e) {
-	      t$1(e) || n(8), r$4(e) && (e = R$1(e));
+	      t$1(e) || n(8), r$5(e) && (e = R$1(e));
 	      var i = w(this),
 	        o = N(this, e, void 0);
 	      return o[Q].C = !0, O(i), o;
@@ -1901,7 +1901,7 @@
 	      }
 	      e > -1 && (t = t.slice(e + 1));
 	      var o = b("Patches").$;
-	      return r$4(n) ? o(n, t) : this.produce(n, function (n) {
+	      return r$5(n) ? o(n, t) : this.produce(n, function (n) {
 	        return o(n, t);
 	      });
 	    }, e;
@@ -3379,7 +3379,7 @@
 	    }
 	    return caseReducers.reduce(function (previousState, caseReducer) {
 	      if (caseReducer) {
-	        if (r$4(previousState)) {
+	        if (r$5(previousState)) {
 	          var draft = previousState;
 	          var result = caseReducer(draft, action);
 	          if (result === void 0) {
@@ -8127,71 +8127,20 @@
 	});
 	window.blueprintBlocksStore = store;
 
-	var classnames = {exports: {}};
-
-	/*!
-		Copyright (c) 2018 Jed Watson.
-		Licensed under the MIT License (MIT), see
-		http://jedwatson.github.io/classnames
-	*/
-
-	(function (module) {
-		/* global define */
-
-		(function () {
-
-		  var hasOwn = {}.hasOwnProperty;
-		  function classNames() {
-		    var classes = '';
-		    for (var i = 0; i < arguments.length; i++) {
-		      var arg = arguments[i];
-		      if (arg) {
-		        classes = appendClass(classes, parseValue(arg));
-		      }
-		    }
-		    return classes;
-		  }
-		  function parseValue(arg) {
-		    if (typeof arg === 'string' || typeof arg === 'number') {
-		      return arg;
-		    }
-		    if (typeof arg !== 'object') {
-		      return '';
-		    }
-		    if (Array.isArray(arg)) {
-		      return classNames.apply(null, arg);
-		    }
-		    if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
-		      return arg.toString();
-		    }
-		    var classes = '';
-		    for (var key in arg) {
-		      if (hasOwn.call(arg, key) && arg[key]) {
-		        classes = appendClass(classes, key);
-		      }
-		    }
-		    return classes;
-		  }
-		  function appendClass(value, newClass) {
-		    if (!newClass) {
-		      return value;
-		    }
-		    if (value) {
-		      return value + ' ' + newClass;
-		    }
-		    return value + newClass;
-		  }
-		  if (module.exports) {
-		    classNames.default = classNames;
-		    module.exports = classNames;
-		  } else {
-		    window.classNames = classNames;
-		  }
-		})(); 
-	} (classnames));
-
-	var classnamesExports = classnames.exports;
-	var classNames = /*@__PURE__*/getDefaultExportFromCjs(classnamesExports);
+	function r$4(e) {
+	  var t,
+	    f,
+	    n = "";
+	  if ("string" == typeof e || "number" == typeof e) n += e;else if ("object" == typeof e) if (Array.isArray(e)) {
+	    var o = e.length;
+	    for (t = 0; t < o; t++) e[t] && (f = r$4(e[t])) && (n && (n += " "), n += f);
+	  } else for (f in e) e[f] && (n && (n += " "), n += f);
+	  return n;
+	}
+	function clsx$1() {
+	  for (var e, t, f = 0, n = "", o = arguments.length; f < o; f++) (e = arguments[f]) && (t = r$4(e)) && (n && (n += " "), n += t);
+	  return n;
+	}
 
 	var _excluded$8 = ["id"],
 	  _excluded2$1 = ["id"];
@@ -9642,7 +9591,7 @@
 	    });
 	  }, [style]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("button", {
-	    className: classNames("Button", styles, {
+	    className: clsx$1("Button", styles, {
 	      "is-disabled": disabled
 	    }),
 	    onClick: function onClick(event) {
@@ -10974,7 +10923,7 @@
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    "data-testid": "editable-string",
-	    className: classNames("EditableString", className, {
+	    className: clsx$1("EditableString", className, {
 	      "has-focus": hasFocus,
 	      "has-value": html.length > 0,
 	      "is-invalid": invalid,
@@ -11080,7 +11029,7 @@
 	  });
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
-	    className: classNames("BlockIconField", {
+	    className: clsx$1("BlockIconField", {
 	      "is-open": isDropdownOpen
 	    }),
 	    onClick: onClick,
@@ -11186,7 +11135,7 @@
 	      children: "?"
 	    }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	      ref: messageRef,
-	      className: classNames("Tooltip-message", "is-".concat(direction), "is-".concat(_position), {
+	      className: clsx$1("Tooltip-message", "is-".concat(direction), "is-".concat(_position), {
 	        "has-label": _label
 	      }),
 	      children: [_label && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
@@ -11311,7 +11260,7 @@
 	    value = _ref$value === void 0 ? '' : _ref$value,
 	    setValue = _ref.setValue;
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	    className: classNames('TextField', {
+	    className: clsx$1('TextField', {
 	      'is-disabled': disabled
 	    }),
 	    children: [label && /*#__PURE__*/jsxRuntimeExports.jsx(FieldLabel, {
@@ -11381,12 +11330,12 @@
 	    setValue(((_event$target = event.target) === null || _event$target === void 0 ? void 0 : _event$target.checked) || false);
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	    className: classNames('CheckboxField', {
+	    className: clsx$1('CheckboxField', {
 	      'is-checked': value === true,
 	      'is-small': size === 'small'
 	    }),
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	      className: classNames('CheckboxField-checkbox'),
+	      className: clsx$1('CheckboxField-checkbox'),
 	      children: /*#__PURE__*/jsxRuntimeExports.jsx("input", {
 	        type: "checkbox",
 	        value: "1",
@@ -11394,9 +11343,9 @@
 	        onChange: onChange
 	      })
 	    }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	      className: classNames('CheckboxField-content'),
+	      className: clsx$1('CheckboxField-content'),
 	      children: [label && /*#__PURE__*/jsxRuntimeExports.jsx("label", {
-	        className: classNames('CheckboxField-label'),
+	        className: clsx$1('CheckboxField-label'),
 	        children: label
 	      }), children]
 	    })]
@@ -11712,7 +11661,7 @@
 	  });
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
-	    className: classNames("ListField", {
+	    className: clsx$1("ListField", {
 	      "is-disabled": disabled
 	    }),
 	    onClick: function onClick() {
@@ -11798,7 +11747,7 @@
 	  });
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
-	    className: classNames("SelectField", {
+	    className: clsx$1("SelectField", {
 	      "is-open": isSelectOpen
 	    }),
 	    onClick: onClick,
@@ -11851,7 +11800,7 @@
 	    _onBlur = _useFocus2[1],
 	    _onFocus = _useFocus2[2];
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	    className: classNames("PageBlockJson", hasFocus.map(function (focus) {
+	    className: clsx$1("PageBlockJson", hasFocus.map(function (focus) {
 	      return "focus-".concat(focus);
 	    })),
 	    children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
@@ -12029,7 +11978,7 @@
 	  }, [attributeName]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    ref: ref,
-	    className: classNames("BlueprintAttributeHandle", "is-".concat((props === null || props === void 0 ? void 0 : props.position) === "right" && "right" || "left"), {
+	    className: clsx$1("BlueprintAttributeHandle", "is-".concat((props === null || props === void 0 ? void 0 : props.position) === "right" && "right" || "left"), {
 	      hide: isClone && !isDragging || !isClone && isDragging
 	    })
 	  });
@@ -13966,7 +13915,7 @@
 	  }, [_attributeName, _attributeValue]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
-	    className: classNames("BlueprintComponentAttribute", "is-".concat(attributeType), {
+	    className: clsx$1("BlueprintComponentAttribute", "is-".concat(attributeType), {
 	      "is-invalid": !attributeNameValid
 	    }),
 	    onClick: function onClick(event) {
@@ -14014,7 +13963,7 @@
 	  var className = _ref.className,
 	    onClick = _ref.onClick;
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	    className: classNames('InsertButton', className),
+	    className: clsx$1('InsertButton', className),
 	    onClick: onClick
 	  });
 	};
@@ -14227,7 +14176,7 @@
 	  useOnClickOutside(ref, onClickOutside);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
-	    className: classNames("BlueprintComponent", {
+	    className: clsx$1("BlueprintComponent", {
 	      "is-draggable": draggable,
 	      "is-dragging": isDragging,
 	      "has-focus": _componentHasFocus
@@ -14645,7 +14594,7 @@
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
-	    className: classNames("BlueprintSidebarItem", {
+	    className: clsx$1("BlueprintSidebarItem", {
 	      "is-html": type === "html"
 	    }),
 	    children: [icon && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
@@ -14668,7 +14617,7 @@
 	      onStart: onStartDrag,
 	      onStop: onStopDrag,
 	      children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	        className: classNames("BlueprintSidebarItem", "is-clone", {
+	        className: clsx$1("BlueprintSidebarItem", "is-clone", {
 	          "is-html": type === "html"
 	        }),
 	        children: [icon && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
@@ -45057,7 +45006,7 @@
 	  }, [appRect]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
-	    className: classNames("App", {
+	    className: clsx$1("App", {
 	      "is-debug": undefined === "development"
 	    }),
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(Navigator, {

@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import clsx from "clsx"
 
 import './style.css'
 
@@ -16,16 +16,16 @@ function CheckboxField( {
 	}
 
 	return (
-		<div className={ classNames( 'CheckboxField', {
+		<div className={ clsx( 'CheckboxField', {
 			'is-checked': ( value === true ),
 			'is-small': ( size === 'small' ),
 		} ) }>
-			<div className={ classNames( 'CheckboxField-checkbox' ) }>
+			<div className={ clsx( 'CheckboxField-checkbox' ) }>
 				<input type="checkbox" value="1" checked={ value } onChange={ onChange } />
 			</div>
-			<div className={ classNames( 'CheckboxField-content' ) }>
+			<div className={ clsx( 'CheckboxField-content' ) }>
 				{ label && (
-					<label className={ classNames( 'CheckboxField-label' ) }>
+					<label className={ clsx( 'CheckboxField-label' ) }>
 						{ label }
 					</label>
 				) }

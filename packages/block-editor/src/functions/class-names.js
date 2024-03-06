@@ -3,7 +3,7 @@ function classNames(...args) {
 
 	args.forEach((arg) => {
 		if (arg && typeof arg === 'array' && arg.constructor === Array) {
-			filteredClassNames = Array.concat(filteredClassNames, classNames(arg))
+			filteredClassNames = Array.concat(filteredClassNames, clsx(arg))
 		} else if (arg && typeof arg === 'object' && arg.constructor === Object) {
 			filteredClassNames = filteredClassNames.concat(Object.entries(arg)
 				.filter(( [ className, conditional ] ) => conditional)

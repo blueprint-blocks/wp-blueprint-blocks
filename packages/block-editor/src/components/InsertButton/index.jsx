@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import clsx from "clsx"
 
 import './style.css'
 
@@ -9,7 +9,7 @@ const InsertButton = ( {
 
 	return (
 		<div
-			className={ classNames( 'InsertButton', className ) }
+			className={ clsx( 'InsertButton', className ) }
 			onClick={ onClick }
 		/>
 	)

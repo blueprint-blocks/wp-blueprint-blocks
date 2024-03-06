@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import clsx from "clsx"
 
 import EditableString from '../EditableString'
 import FieldLabel from '../FieldLabel'
@@ -20,7 +20,7 @@ function TextField( {
 } ) {
 
 	return (
-		<div className={ classNames( 'TextField', { 'is-disabled': disabled } ) }>
+		<div className={ clsx( 'TextField', { 'is-disabled': disabled } ) }>
 			{ label && (
 				<FieldLabel
 					label={ label }

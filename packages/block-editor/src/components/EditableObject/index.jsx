@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import clsx from "clsx"
 import { memo, useCallback, useMemo, useRef, useState } from 'react'
 
 import EditableString from '../EditableString'
@@ -77,7 +77,7 @@ const EditableObject = memo( ( {
 	return (
 		<div
 			ref={ ref }
-			className={ classNames( 'EditableObject', className, {
+			className={ clsx( 'EditableObject', className, {
 				'has-focus': hasFocus,
 				'has-value': ( Object.entries( _value ).length > 0 ),
 			} ) }

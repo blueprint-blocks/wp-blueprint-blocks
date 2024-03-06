@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import { useId, useLayoutEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -64,7 +64,7 @@ function BlueprintAttributeHandle({
   return (
     <div
       ref={ref}
-      className={classNames(
+      className={clsx(
         "BlueprintAttributeHandle",
         `is-${(props?.position === "right" && "right") || "left"}`,
         {

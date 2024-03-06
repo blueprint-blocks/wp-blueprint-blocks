@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import { useLayoutEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Draggable from "react-draggable";
@@ -126,7 +126,7 @@ function BlueprintComponent({
   return (
     <div
       ref={ref}
-      className={classNames("BlueprintComponent", {
+      className={clsx("BlueprintComponent", {
         "is-draggable": draggable,
         "is-dragging": isDragging,
         "has-focus": _componentHasFocus,

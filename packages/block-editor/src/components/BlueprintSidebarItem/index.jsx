@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import Draggable from "react-draggable";
@@ -56,7 +56,7 @@ function BlueprintSidebarItem({
   return (
     <div
       ref={ref}
-      className={classNames("BlueprintSidebarItem", {
+      className={clsx("BlueprintSidebarItem", {
         "is-html": type === "html",
       })}
     >
@@ -81,7 +81,7 @@ function BlueprintSidebarItem({
         onStop={onStopDrag}
       >
         <div
-          className={classNames("BlueprintSidebarItem", "is-clone", {
+          className={clsx("BlueprintSidebarItem", "is-clone", {
             "is-html": type === "html",
           })}
         >
