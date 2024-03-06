@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Draggable from "react-draggable";
 
@@ -7,22 +7,19 @@ import { componentAllowsChildren, pascalize } from "../../functions";
 
 import {
 	useBlockClassName,
+	useDragWithinBounds,
 	useDebugRenderCount,
+	useEditorDrag,
+	useEditorFocus,
 	useOnClickOutside,
-	useRect,
 } from "../../hooks";
 
-import {
-	getBlockComponent,
-	startDraggingExistingComponent,
-	stopDragging,
-	unsetDraggingComponent,
-} from "../../store/block-blueprint";
+import { getBlockComponent } from "../../store/block-blueprint";
 
 import {
-	componentHasFocus,
-	setFocus as setComponentFocus,
-	unsetFocus as unsetComponentFocus,
+	resetDraggingContext,
+	startDragging,
+	stopDragging,
 } from "../../store/editor";
 
 import BlueprintConnectionHandle from "../BlueprintConnectionHandle";
@@ -53,64 +50,56 @@ function BlueprintComponent({
 		getBlockComponent(state.blockBlueprint, clientId),
 	);
 
-	let _componentHasFocus = useSelector((state) =>
-		componentHasFocus(state.editor, clientId),
-	);
+	const { isDragging } = useEditorDrag();
+	const { hasFocus, setFocus, unsetFocus } = useEditorFocus(clientId);
 
 	const allowsChildren = componentAllowsChildren(type, tagName);
 
 	const ref = useRef(null);
-	const rect = useRect(ref);
-
-	const editorRect = useRef(editorRef);
-
 	const openRef = useRef(null);
 	const closeRef = useRef(null);
 
-	const [position, setPosition] = useState({
-		x: 0,
-		y: 0,
-	});
+	const onClick = useCallback(
+		(event) => {
+			if (!isDragging) {
+				event.stopPropagation();
+				setFocus({ clientId, context: "component" });
+			}
+		},
+		[clientId, isDragging],
+	);
 
-	const [draggingOffset, setDraggingOffset] = useState({
-		x: 0,
-		y: 0,
-	});
+	const onStartDrag = useCallback(() => {
+		dispatch(
+			startDragging({
+				clientId,
+				context: "existingComponent",
+			}),
+		);
+	}, [clientId]);
 
-	const [isDragging, setIsDragging] = useState(false);
-
-	const onClick = (event) => {
-		event.stopPropagation();
-		dispatch(setComponentFocus({ clientId, context: "component" }));
-	};
-
-	const onClickOutside = () => {
-		if (_componentHasFocus) {
-			dispatch(unsetComponentFocus());
-		}
-	};
-
-	const onDrag = (event, { x, y }) => {
-		if (isDragging === false) {
-			setIsDragging(true);
-			dispatch(startDraggingExistingComponent(clientId));
-		}
-		setDraggingOffset({ x, y });
-	};
-
-	const onStartDrag = () => {};
-
-	const onStopDrag = () => {
-		setIsDragging(false);
-		setPosition({ x: 0, y: 0 });
-		setDraggingOffset({ x: 0, y: 0 });
-		dispatch(stopDragging());
-		// this is done at the end of the browser render to
-		// allow pickup by insert or hint components
+	const onStopDrag = useCallback(() => {
+		// this is done at the end of the render to prevent click events
 		setTimeout(() => {
-			dispatch(unsetDraggingComponent());
+			dispatch(stopDragging());
+			// this is done at the end of the next render to allow
+			// pickup by insert or hint components
+			setTimeout(() => {
+				dispatch(resetDraggingContext());
+			}, 0);
 		}, 0);
-	};
+	}, [isDraggingSelf, isDragging]);
+
+	const {
+		isDragging: isDraggingSelf,
+		offset,
+		...draggableProps
+	} = useDragWithinBounds({
+		boundsRef: editorRef,
+		ref,
+		onStart: onStartDrag,
+		onStop: onStopDrag,
+	});
 
 	const hasAttributeHandle = type !== "html";
 
@@ -119,7 +108,9 @@ function BlueprintComponent({
 	}
 
 	// Call hook passing in the ref and a function to call on outside click
-	useOnClickOutside(ref, onClickOutside);
+	useOnClickOutside(ref, () => {
+		unsetFocus();
+	});
 
 	if (process.env.NODE_ENV === "development") {
 		useDebugRenderCount("BlueprintComponent");
@@ -130,10 +121,13 @@ function BlueprintComponent({
 			ref={ref}
 			className={clsx("BlueprintComponent", {
 				"is-draggable": draggable,
-				"is-dragging": isDragging,
-				"has-focus": _componentHasFocus,
+				"is-dragging": isDraggingSelf,
+				"has-focus": hasFocus,
 			})}
 			onClick={onClick}
+			onMouseUp={() => {
+				console.log("on mouse up:", isDraggingSelf, isDragging);
+			}}
 			style={{ "--indent": indent }}
 		>
 			<BlueprintComponentOpeningTag
@@ -147,7 +141,7 @@ function BlueprintComponent({
 						componentId={`${clientId}`}
 						clientId={`${clientId}-1`}
 						attributeName={attributeName}
-						isDragging={isDragging}
+						isDragging={isDraggingSelf}
 						context="to"
 						position="left"
 					/>
@@ -167,19 +161,7 @@ function BlueprintComponent({
 			)}
 
 			{draggable && (
-				<Draggable
-					axis="both"
-					bounds={{
-						bottom: editorRect.bottom - rect.bottom,
-						left: editorRect.left - rect.left,
-						right: editorRect.right - rect.right,
-						top: editorRect.top - rect.top,
-					}}
-					position={position}
-					onStart={onStartDrag}
-					onStop={onStopDrag}
-					onDrag={onDrag}
-				>
+				<Draggable {...draggableProps}>
 					<div className="BlueprintComponent is-clone">
 						<BlueprintComponentOpeningTag
 							clientId={clientId}
@@ -190,9 +172,9 @@ function BlueprintComponent({
 									editorRef={editorRef}
 									clientId={`${clientId}-2`}
 									attributeName={attributeName}
-									draggingOffset={draggingOffset}
+									draggingOffset={offset}
 									isClone={true}
-									isDragging={isDragging}
+									isDragging={isDraggingSelf}
 									context="to"
 									position="left"
 								/>

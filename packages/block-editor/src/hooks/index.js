@@ -1,7 +1,13 @@
 import useBeforeUnload from "./use-before-unload";
 import useBlockClassName from "./use-block-class-name";
 import useBlockNamespace from "./use-block-namespace";
+import useBlueprintInsert from "./use-blueprint-insert";
+import useCenterPoint from "./use-center-point";
 import useDebugRenderCount from "./use-debug-render-count";
+import useDragWithinBounds from "./use-drag-within-bounds";
+import useEditorDrag from "./use-editor-drag";
+import useEditorDrop from "./use-editor-drop";
+import useEditorFocus from "./use-editor-focus";
 import useFocus from "./use-focus";
 import useMouseFocus from "./use-mouse-focus";
 import useMouseUp from "./use-mouse-up";
@@ -14,7 +20,13 @@ export {
 	useBeforeUnload,
 	useBlockClassName,
 	useBlockNamespace,
+	useBlueprintInsert,
+	useCenterPoint,
 	useDebugRenderCount,
+	useDragWithinBounds,
+	useEditorDrag,
+	useEditorDrop,
+	useEditorFocus,
 	useFocus,
 	useMouseFocus,
 	useMouseUp,

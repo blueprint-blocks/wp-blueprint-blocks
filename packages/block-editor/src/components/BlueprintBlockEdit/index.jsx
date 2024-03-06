@@ -1,26 +1,22 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-import {
-	getComponentList,
-	insertDraggingComponentAtPosition,
-} from "../../store/block-blueprint";
+import { useBlueprintInsert } from "../../hooks";
+import { getComponentList } from "../../store/block-blueprint";
 
 import BlueprintComponentList from "../BlueprintComponentList";
 
 function BlueprintBlockEdit({ editorRef }) {
-	const dispatch = useDispatch();
+	const blueprintInsert = useBlueprintInsert();
 
 	const components = useSelector((state) =>
 		getComponentList(state.blockBlueprint, "edit"),
 	);
 
 	const onDrop = ({ ancestry }) => {
-		dispatch(
-			insertDraggingComponentAtPosition({
-				context: "edit",
-				position: ancestry,
-			}),
-		);
+		blueprintInsert({
+			context: "edit",
+			position: ancestry,
+		});
 	};
 
 	return (

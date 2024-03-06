@@ -27,6 +27,7 @@ export const {
 	insertExistingComponentAtPosition,
 	insertNewComponentAtPosition,
 	insertDraggingComponentAtPosition,
+	moveComponentToPosition,
 	removeAtPosition,
 	setComponentAttribute,
 	setComponentList,

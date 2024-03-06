@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { unsetComponentAttribute } from "../../store/block-blueprint";
 
 const BlueprintConnection = forwardRef(({ from, to }, ref) => {
+	return;
+
 	const dispatch = useDispatch();
 
 	const { allHandles } = useSelector((state) => {

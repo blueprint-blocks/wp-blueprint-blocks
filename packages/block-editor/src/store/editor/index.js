@@ -2,12 +2,15 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import reducers from "./reducers";
 
-import { componentHasFocus, getFocus } from "./selectors";
+import { componentHasFocus, getDraggingContext, getFocus } from "./selectors";
 
 const slice = createSlice({
 	name: "editor",
 
 	initialState: {
+		isDragging: false,
+		currentDraggingContext: null,
+		priorDraggingContext: null,
 		currentFocus: null,
 		priorFocus: null,
 		height: 0,
@@ -19,8 +22,15 @@ const slice = createSlice({
 
 const { actions, reducer } = slice;
 
-export const { setFocus, setSize, unsetFocus } = actions;
+export const {
+	resetDraggingContext,
+	setFocus,
+	setSize,
+	startDragging,
+	stopDragging,
+	unsetFocus,
+} = actions;
 
-export { componentHasFocus, getFocus };
+export { componentHasFocus, getDraggingContext, getFocus };
 
 export default reducer;
