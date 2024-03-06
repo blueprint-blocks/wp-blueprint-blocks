@@ -15,7 +15,7 @@ import "./style.css";
 function BlueprintInsert({ editorRef = null, indent = 0, onDrop }) {
 	const ref = useRef(null);
 	const hasFocus = useMouseFocus(ref);
-	const { isDragging, context } = useEditorDrag();
+	const { isDragging } = useEditorDrag();
 
 	useEditorDrop(
 		{ ref, context: ["existingComponent", "newComponent"] },

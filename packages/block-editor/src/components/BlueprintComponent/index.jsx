@@ -88,7 +88,7 @@ function BlueprintComponent({
 				dispatch(resetDraggingContext());
 			}, 0);
 		}, 0);
-	}, [isDraggingSelf, isDragging]);
+	}, []);
 
 	const {
 		isDragging: isDraggingSelf,

@@ -13884,26 +13884,20 @@
 	    onDrop = _ref.onDrop;
 	  var ref = React$2.useRef(null);
 	  var hasFocus = useMouseFocus(ref);
-	  var isDragging = useSelector(function (state) {
-	    return state.blockBlueprint.isDragging;
-	  });
-	  var wasDragging = useSelector(function (state) {
-	    return !!state.blockBlueprint.existingDraggingComponent || !!state.blockBlueprint.newDraggingComponent;
-	  });
-	  React$2.useEffect(function () {
-	    if (isDragging === false && wasDragging === true && hasFocus === true) {
-	      onDrop && onDrop();
-	    }
-	  }, [isDragging, hasFocus]);
-	  React$2.useLayoutEffect(function () {
-	    ref.current.classList.toggle("has-focus", isDragging && hasFocus);
-	  }, [isDragging, hasFocus]);
-	  React$2.useLayoutEffect(function () {
-	    ref.current.style.setProperty("--indent", indent);
-	  }, [indent]);
+	  var _useEditorDrag = useEditorDrag(),
+	    isDragging = _useEditorDrag.isDragging;
+	  useEditorDrop({
+	    ref: ref,
+	    context: ["existingComponent", "newComponent"]
+	  }, onDrop);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
-	    className: "BlueprintHint",
+	    className: clsx$1("BlueprintHint", {
+	      "has-focus": isDragging && hasFocus
+	    }),
+	    style: {
+	      "--indent": indent
+	    },
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	      className: "BlueprintHint-wrap",
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
@@ -14309,7 +14303,7 @@
 	        dispatch(resetDraggingContext());
 	      }, 0);
 	    }, 0);
-	  }, [isDraggingSelf, isDragging]);
+	  }, []);
 	  var _useDragWithinBounds = useDragWithinBounds({
 	      boundsRef: editorRef,
 	      ref: ref,
@@ -14398,7 +14392,6 @@
 	  var hasFocus = useMouseFocus(ref);
 	  var _useEditorDrag = useEditorDrag(),
 	    isDragging = _useEditorDrag.isDragging;
-	    _useEditorDrag.context;
 	  useEditorDrop({
 	    ref: ref,
 	    context: ["existingComponent", "newComponent"]
