@@ -1,6 +1,8 @@
 import useBeforeUnload from "./use-before-unload";
 import useBlockClassName from "./use-block-class-name";
 import useBlockNamespace from "./use-block-namespace";
+import useBlueprint from "./use-blueprint";
+import useBlueprintConnections from "./use-blueprint-connections";
 import useBlueprintInsert from "./use-blueprint-insert";
 import useCenterPoint from "./use-center-point";
 import useDebugRenderCount from "./use-debug-render-count";
@@ -20,6 +22,8 @@ export {
 	useBeforeUnload,
 	useBlockClassName,
 	useBlockNamespace,
+	useBlueprint,
+	useBlueprintConnections,
 	useBlueprintInsert,
 	useCenterPoint,
 	useDebugRenderCount,

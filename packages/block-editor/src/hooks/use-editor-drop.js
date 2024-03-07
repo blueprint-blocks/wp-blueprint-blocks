@@ -25,7 +25,7 @@ const useEditorDrop = (props = {}, onDrop = null) => {
 	);
 
 	const wasDragging = useMemo(
-		() => draggingContext !== null,
+		() => draggingContext?.context !== null,
 		[draggingContext],
 	);
 

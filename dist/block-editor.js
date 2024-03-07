@@ -7726,7 +7726,7 @@
 	  }))));
 	};
 
-	var reducers$1 = {
+	var reducers$2 = {
 	  getAtPosition: getAtPosition,
 	  insertAtPosition: insertAtPosition,
 	  insertExistingComponentAtPosition: insertExistingComponentAtPosition,
@@ -7746,7 +7746,7 @@
 	var slice$9 = createSlice({
 	  name: "blockBlueprint",
 	  initialState: initialState,
-	  reducers: reducers$1
+	  reducers: reducers$2
 	});
 	var actions$9 = slice$9.actions,
 	  reducer$9 = slice$9.reducer;
@@ -7922,77 +7922,70 @@
 	  reducer$6 = slice$6.reducer;
 	var setViewCss = actions$6.setViewCss;
 
+	var removePosition$1 = function removePosition(state, action) {
+	  /*const { id, name } = action.payload;
+	  	state.allHandles = Object.fromEntries(
+	  	Object.entries(state.allHandles).filter(([key, value]) => key !== id),
+	  );
+	  	if (!name) {
+	  	return;
+	  }
+	  	if (state.handlesByName?.[name]?.from === id) {
+	  	state.handlesByName = {
+	  		...state.handlesByName,
+	  		[name]: {
+	  			from: null,
+	  			to: state.handlesByName?.[name]?.to || [],
+	  		},
+	  	};
+	  } else if (state.handlesByName?.[name]?.to.includes(id)) {
+	  	state.handlesByName = {
+	  		...state.handlesByName,
+	  		[name]: {
+	  			from: state.handlesByName?.[name]?.from || null,
+	  			to: (state.handlesByName?.[name]?.to || []).filter(
+	  				(to) => to !== id,
+	  			),
+	  		},
+	  	};
+	  }*/
+	};
+
+	var setPosition$1 = function setPosition(state, action) {
+	  var _action$payload = action.payload,
+	    attributeName = _action$payload.attributeName,
+	    clientId = _action$payload.clientId,
+	    _action$payload$conte = _action$payload.context,
+	    context = _action$payload$conte === void 0 ? "to" : _action$payload$conte,
+	    _action$payload$x = _action$payload.x,
+	    x = _action$payload$x === void 0 ? 0 : _action$payload$x,
+	    _action$payload$y = _action$payload.y,
+	    y = _action$payload$y === void 0 ? 0 : _action$payload$y;
+	  if (context === "from") {
+	    state.handlesFrom = _objectSpread2(_objectSpread2({}, state.handlesFrom), {}, _defineProperty$1({}, attributeName, {
+	      x: x && !Number.isNaN(x) && x || 0,
+	      y: y && !Number.isNaN(y) && y || 0
+	    }));
+	  } else {
+	    state.handlesTo = _objectSpread2(_objectSpread2({}, state.handlesTo), {}, _defineProperty$1({}, clientId, {
+	      x: x && !Number.isNaN(x) && x || 0,
+	      y: y && !Number.isNaN(y) && y || 0
+	    }));
+	  }
+	};
+
+	var reducers$1 = {
+	  removePosition: removePosition$1,
+	  setPosition: setPosition$1
+	};
+
 	var slice$5 = createSlice({
 	  name: "connectionHandles",
 	  initialState: {
-	    allHandles: {},
-	    handlesByName: {}
+	    handlesFrom: {},
+	    handlesTo: {}
 	  },
-	  reducers: {
-	    setPosition: function setPosition(state, action) {
-	      var _action$payload = action.payload,
-	        id = _action$payload.id,
-	        name = _action$payload.name,
-	        componentId = _action$payload.componentId,
-	        _action$payload$conte = _action$payload.context,
-	        context = _action$payload$conte === void 0 ? "to" : _action$payload$conte,
-	        x = _action$payload.x,
-	        y = _action$payload.y;
-	      state.allHandles = _objectSpread2(_objectSpread2({}, state.allHandles), {}, _defineProperty$1({}, id, {
-	        name: name,
-	        componentId: context === "to" && componentId || null,
-	        context: context === "from" && "from" || "to",
-	        x: x && !Number.isNaN(x) && x || 0,
-	        y: y && !Number.isNaN(y) && y || 0
-	      }));
-	      if (!name) {
-	        return;
-	      }
-	      if (context === "from") {
-	        var _state$handlesByName;
-	        state.handlesByName = _objectSpread2(_objectSpread2({}, state.handlesByName), {}, _defineProperty$1({}, name, {
-	          from: id,
-	          to: ((_state$handlesByName = state.handlesByName) === null || _state$handlesByName === void 0 || (_state$handlesByName = _state$handlesByName[name]) === null || _state$handlesByName === void 0 ? void 0 : _state$handlesByName.to) || []
-	        }));
-	      } else {
-	        var _state$handlesByName2, _state$handlesByName3;
-	        state.handlesByName = _objectSpread2(_objectSpread2({}, state.handlesByName), {}, _defineProperty$1({}, name, {
-	          from: ((_state$handlesByName2 = state.handlesByName) === null || _state$handlesByName2 === void 0 || (_state$handlesByName2 = _state$handlesByName2[name]) === null || _state$handlesByName2 === void 0 ? void 0 : _state$handlesByName2.from) || null,
-	          to: _toConsumableArray(new Set([].concat(_toConsumableArray(((_state$handlesByName3 = state.handlesByName) === null || _state$handlesByName3 === void 0 || (_state$handlesByName3 = _state$handlesByName3[name]) === null || _state$handlesByName3 === void 0 ? void 0 : _state$handlesByName3.to) || []), [id])))
-	        }));
-	      }
-	    },
-	    removePosition: function removePosition(state, action) {
-	      var _state$handlesByName4, _state$handlesByName6;
-	      var _action$payload2 = action.payload,
-	        id = _action$payload2.id,
-	        name = _action$payload2.name;
-	      state.allHandles = Object.fromEntries(Object.entries(state.allHandles).filter(function (_ref) {
-	        var _ref2 = _slicedToArray(_ref, 2),
-	          key = _ref2[0];
-	          _ref2[1];
-	        return key !== id;
-	      }));
-	      if (!name) {
-	        return;
-	      }
-	      if (((_state$handlesByName4 = state.handlesByName) === null || _state$handlesByName4 === void 0 || (_state$handlesByName4 = _state$handlesByName4[name]) === null || _state$handlesByName4 === void 0 ? void 0 : _state$handlesByName4.from) === id) {
-	        var _state$handlesByName5;
-	        state.handlesByName = _objectSpread2(_objectSpread2({}, state.handlesByName), {}, _defineProperty$1({}, name, {
-	          from: null,
-	          to: ((_state$handlesByName5 = state.handlesByName) === null || _state$handlesByName5 === void 0 || (_state$handlesByName5 = _state$handlesByName5[name]) === null || _state$handlesByName5 === void 0 ? void 0 : _state$handlesByName5.to) || []
-	        }));
-	      } else if ((_state$handlesByName6 = state.handlesByName) !== null && _state$handlesByName6 !== void 0 && (_state$handlesByName6 = _state$handlesByName6[name]) !== null && _state$handlesByName6 !== void 0 && _state$handlesByName6.to.includes(id)) {
-	        var _state$handlesByName7, _state$handlesByName8;
-	        state.handlesByName = _objectSpread2(_objectSpread2({}, state.handlesByName), {}, _defineProperty$1({}, name, {
-	          from: ((_state$handlesByName7 = state.handlesByName) === null || _state$handlesByName7 === void 0 || (_state$handlesByName7 = _state$handlesByName7[name]) === null || _state$handlesByName7 === void 0 ? void 0 : _state$handlesByName7.from) || null,
-	          to: (((_state$handlesByName8 = state.handlesByName) === null || _state$handlesByName8 === void 0 || (_state$handlesByName8 = _state$handlesByName8[name]) === null || _state$handlesByName8 === void 0 ? void 0 : _state$handlesByName8.to) || []).filter(function (to) {
-	            return to !== id;
-	          })
-	        }));
-	      }
-	    }
-	  }
+	  reducers: reducers$1
 	});
 	var actions$5 = slice$5.actions,
 	  reducer$5 = slice$5.reducer;
@@ -8285,30 +8278,74 @@
 	  return "wp-block-".concat(name.split("/")[0], "-").concat(name.split("/")[0]);
 	}
 
-	var useBlueprintInsert = function useBlueprintInsert() {
+	var useBlueprint = function useBlueprint() {
+	  var _useSelector = useSelector(function (state) {
+	      return state.blockBlueprint;
+	    }),
+	    _useSelector$blockCom = _useSelector.blockComponents,
+	    blockComponents = _useSelector$blockCom === void 0 ? {} : _useSelector$blockCom;
+	  var getComponentById = React$2.useCallback(function (clientId) {
+	    return (blockComponents === null || blockComponents === void 0 ? void 0 : blockComponents[clientId]) || null;
+	  }, [blockComponents]);
+	  return {
+	    allComponents: blockComponents,
+	    getComponentById: getComponentById
+	  };
+	};
+
+	var useBlueprintConnections = function useBlueprintConnections() {
 	  var dispatch = useDispatch();
-	  var _useEditorDrag = useEditorDrag(),
-	    draggingContext = _useEditorDrag.context;
-	  return function (_ref) {
-	    var _ref$context = _ref.context,
-	      context = _ref$context === void 0 ? "edit" : _ref$context,
-	      _ref$position = _ref.position,
-	      position = _ref$position === void 0 ? [] : _ref$position;
-	    if ((draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.context) === "existingComponent") {
-	      dispatch(moveComponentToPosition({
-	        clientId: draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.clientId,
-	        context: context,
-	        position: position
-	      }));
-	      dispatch(resetDraggingContext());
-	    } else if ((draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.context) === "newComponent") {
-	      dispatch(insertNewComponentAtPosition({
-	        component: draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.component,
-	        context: context,
-	        position: position
-	      }));
-	      dispatch(resetDraggingContext());
-	    }
+	  var _useBlueprint = useBlueprint(),
+	    allComponents = _useBlueprint.allComponents;
+	  var blockAttributes = React$2.useMemo(function () {
+	    return Object.entries(allComponents).filter(function (_ref) {
+	      var _ref2 = _slicedToArray(_ref, 2);
+	        _ref2[0];
+	        var _ref2$1$attributeName = _ref2[1].attributeName,
+	        attributeName = _ref2$1$attributeName === void 0 ? null : _ref2$1$attributeName;
+	      return attributeName !== null;
+	    }).map(function (_ref3) {
+	      var _ref4 = _slicedToArray(_ref3, 2),
+	        clientId = _ref4[0],
+	        attributeName = _ref4[1].attributeName;
+	      return {
+	        attributeName: attributeName,
+	        clientId: clientId
+	      };
+	    });
+	  }, [allComponents]);
+	  var _useSelector = useSelector(function (state) {
+	      return state.connectionHandles || {};
+	    }),
+	    handlesFrom = _useSelector.handlesFrom,
+	    handlesTo = _useSelector.handlesTo;
+	  var allConnections = React$2.useMemo(function () {
+	    var allConnections = [];
+	    blockAttributes.forEach(function (_ref5) {
+	      var attributeName = _ref5.attributeName,
+	        clientId = _ref5.clientId;
+	      if (!(attributeName in handlesFrom) || !(clientId in handlesTo)) {
+	        return;
+	      }
+	      allConnections.push({
+	        from: {
+	          x: handlesFrom[attributeName].x || null,
+	          y: handlesFrom[attributeName].y || null
+	        },
+	        to: {
+	          x: handlesTo[clientId].x || null,
+	          y: handlesTo[clientId].y || null
+	        }
+	      });
+	    });
+	    return allConnections;
+	  }, [blockAttributes, handlesFrom, handlesTo]);
+	  var setHandlePosition = React$2.useCallback(function (handlePosition) {
+	    dispatch(setPosition(handlePosition));
+	  }, []);
+	  return {
+	    allConnections: allConnections || [],
+	    setHandlePosition: setHandlePosition
 	  };
 	};
 
@@ -8436,6 +8473,141 @@
 	  return rect;
 	}
 
+	function useMouseFocus(ref) {
+	  var _useState = React$2.useState(false),
+	    _useState2 = _slicedToArray(_useState, 2),
+	    hasMouseFocus = _useState2[0],
+	    setHasMouseFocus = _useState2[1];
+	  var rect = useRect(ref);
+	  React$2.useLayoutEffect(function () {
+	    function handleMouseMove(_ref) {
+	      var clientX = _ref.clientX,
+	        clientY = _ref.clientY;
+	      var isInsideBounds = clientX >= (rect === null || rect === void 0 ? void 0 : rect.left) && clientX <= (rect === null || rect === void 0 ? void 0 : rect.right) && clientY >= (rect === null || rect === void 0 ? void 0 : rect.top) && clientY <= (rect === null || rect === void 0 ? void 0 : rect.bottom);
+	      if (isInsideBounds === true && hasMouseFocus === false) {
+	        setHasMouseFocus(true);
+	      } else if (isInsideBounds === false && hasMouseFocus === true) {
+	        setHasMouseFocus(false);
+	      }
+	    }
+	    window.addEventListener("mousemove", handleMouseMove);
+	    return function () {
+	      window.removeEventListener("mousemove", handleMouseMove);
+	    };
+	  }, [hasMouseFocus, rect]);
+	  return hasMouseFocus;
+	}
+
+	var useEditorDrop = function useEditorDrop() {
+	  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var onDrop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+	  var _props$context = props.context,
+	    context = _props$context === void 0 ? null : _props$context,
+	    _props$ref = props.ref,
+	    ref = _props$ref === void 0 ? null : _props$ref;
+	  var hasFocus = useMouseFocus(ref);
+	  var draggingContext = useSelector(function (state) {
+	    return getDraggingContext(state.editor);
+	  });
+	  var isDragging = useSelector(function (state) {
+	    return state.editor.isDragging;
+	  });
+	  var contextArray = React$2.useMemo(function () {
+	    return Array.isArray(context) && context || [context];
+	  }, [context]);
+	  var isWatchingContext = React$2.useMemo(function () {
+	    return context === null || contextArray.includes(draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.context);
+	  }, [contextArray]);
+	  var wasDragging = React$2.useMemo(function () {
+	    return (draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.context) !== null;
+	  }, [draggingContext]);
+	  React$2.useEffect(function () {
+	    if (hasFocus === true && isDragging === false && isWatchingContext === true && wasDragging === true) {
+	      onDrop && onDrop();
+	    }
+	  }, [hasFocus, isDragging, isWatchingContext, wasDragging]);
+	};
+
+	var useEditorDrag = function useEditorDrag() {
+	  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var onDrop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+	  var _props$context = props.context,
+	    context = _props$context === void 0 ? null : _props$context,
+	    _props$ref = props.ref,
+	    ref = _props$ref === void 0 ? null : _props$ref;
+	  var dispatch = useDispatch();
+	  var contextArray = React$2.useMemo(function () {
+	    return Array.isArray(context) && context || [context];
+	  }, [context]);
+	  var draggingContext = useSelector(function (state) {
+	    return getDraggingContext(state.editor);
+	  });
+	  var isWatchingContext = React$2.useMemo(function () {
+	    return context === null || contextArray.includes(draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.context);
+	  }, [contextArray, draggingContext]);
+	  var isDragging = useSelector(function (state) {
+	    return state.editor.isDragging;
+	  });
+	  var _isDragging = React$2.useMemo(function () {
+	    return isDragging && isWatchingContext;
+	  }, [isDragging, isWatchingContext]);
+	  var _startDragging = React$2.useCallback(function (context) {
+	    dispatch(startDragging(context));
+	  }, []);
+	  var _stopDragging = React$2.useCallback(function () {
+	    // this is done at the end of the render to prevent click events
+	    setTimeout(function () {
+	      dispatch(stopDragging());
+	      // this is done at the end of the next render to allow
+	      // pickup by insert or hint components
+	      setTimeout(function () {
+	        dispatch(resetDraggingContext());
+	      }, 0);
+	    }, 0);
+	  }, []);
+	  if (onDrop !== null) {
+	    useEditorDrop({
+	      context: context,
+	      ref: ref
+	    }, onDrop);
+	  }
+	  return React$2.useMemo(function () {
+	    return {
+	      context: draggingContext,
+	      isDragging: _isDragging,
+	      startDragging: _startDragging,
+	      stopDragging: _stopDragging
+	    };
+	  }, [draggingContext, isDragging]);
+	};
+
+	var useBlueprintInsert = function useBlueprintInsert() {
+	  var dispatch = useDispatch();
+	  var _useEditorDrag = useEditorDrag(),
+	    draggingContext = _useEditorDrag.context;
+	  return function (_ref) {
+	    var _ref$context = _ref.context,
+	      context = _ref$context === void 0 ? "edit" : _ref$context,
+	      _ref$position = _ref.position,
+	      position = _ref$position === void 0 ? [] : _ref$position;
+	    if ((draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.context) === "existingComponent") {
+	      dispatch(moveComponentToPosition({
+	        clientId: draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.clientId,
+	        context: context,
+	        position: position
+	      }));
+	      dispatch(resetDraggingContext());
+	    } else if ((draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.context) === "newComponent") {
+	      dispatch(insertNewComponentAtPosition({
+	        component: draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.component,
+	        context: context,
+	        position: position
+	      }));
+	      dispatch(resetDraggingContext());
+	    }
+	  };
+	};
+
 	var useCenterPoint = function useCenterPoint() {
 	  var ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 	  var parentRef = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
@@ -8521,112 +8693,6 @@
 	  };
 	};
 
-	function useMouseFocus(ref) {
-	  var _useState = React$2.useState(false),
-	    _useState2 = _slicedToArray(_useState, 2),
-	    hasMouseFocus = _useState2[0],
-	    setHasMouseFocus = _useState2[1];
-	  var rect = useRect(ref);
-	  React$2.useLayoutEffect(function () {
-	    function handleMouseMove(_ref) {
-	      var clientX = _ref.clientX,
-	        clientY = _ref.clientY;
-	      var isInsideBounds = clientX >= (rect === null || rect === void 0 ? void 0 : rect.left) && clientX <= (rect === null || rect === void 0 ? void 0 : rect.right) && clientY >= (rect === null || rect === void 0 ? void 0 : rect.top) && clientY <= (rect === null || rect === void 0 ? void 0 : rect.bottom);
-	      if (isInsideBounds === true && hasMouseFocus === false) {
-	        setHasMouseFocus(true);
-	      } else if (isInsideBounds === false && hasMouseFocus === true) {
-	        setHasMouseFocus(false);
-	      }
-	    }
-	    window.addEventListener("mousemove", handleMouseMove);
-	    return function () {
-	      window.removeEventListener("mousemove", handleMouseMove);
-	    };
-	  }, [hasMouseFocus, rect]);
-	  return hasMouseFocus;
-	}
-
-	var useEditorDrop = function useEditorDrop() {
-	  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-	  var onDrop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-	  var _props$context = props.context,
-	    context = _props$context === void 0 ? null : _props$context,
-	    _props$ref = props.ref,
-	    ref = _props$ref === void 0 ? null : _props$ref;
-	  var hasFocus = useMouseFocus(ref);
-	  var draggingContext = useSelector(function (state) {
-	    return getDraggingContext(state.editor);
-	  });
-	  var isDragging = useSelector(function (state) {
-	    return state.editor.isDragging;
-	  });
-	  var contextArray = React$2.useMemo(function () {
-	    return Array.isArray(context) && context || [context];
-	  }, [context]);
-	  var isWatchingContext = React$2.useMemo(function () {
-	    return context === null || contextArray.includes(draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.context);
-	  }, [contextArray]);
-	  var wasDragging = React$2.useMemo(function () {
-	    return draggingContext !== null;
-	  }, [draggingContext]);
-	  React$2.useEffect(function () {
-	    if (hasFocus === true && isDragging === false && isWatchingContext === true && wasDragging === true) {
-	      onDrop && onDrop();
-	    }
-	  }, [hasFocus, isDragging, isWatchingContext, wasDragging]);
-	};
-
-	var useEditorDrag = function useEditorDrag() {
-	  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-	  var onDrop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-	  var _props$context = props.context,
-	    context = _props$context === void 0 ? null : _props$context,
-	    _props$ref = props.ref,
-	    ref = _props$ref === void 0 ? null : _props$ref;
-	  var dispatch = useDispatch();
-	  var contextArray = React$2.useMemo(function () {
-	    return Array.isArray(context) && context || [context];
-	  }, [context]);
-	  var draggingContext = useSelector(function (state) {
-	    return getDraggingContext(state.editor);
-	  });
-	  var isWatchingContext = React$2.useMemo(function () {
-	    return context === null || contextArray.includes(draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.context);
-	  }, [contextArray, draggingContext]);
-	  var isDragging = useSelector(function (state) {
-	    return state.editor.isDragging;
-	  });
-	  var _isDragging = React$2.useMemo(function () {
-	    return isDragging && isWatchingContext;
-	  }, [isDragging, isWatchingContext]);
-	  var _startDragging = React$2.useCallback(function (context) {
-	    dispatch(startDragging(context));
-	  }, []);
-	  var _stopDragging = React$2.useCallback(function () {
-	    // this is done at the end of the render to prevent click events
-	    setTimeout(function () {
-	      dispatch(stopDragging());
-	      // this is done at the end of the next render to allow
-	      // pickup by insert or hint components
-	      setTimeout(function () {
-	        //dispatch(resetDraggingContext());
-	      }, 1000);
-	    }, 0);
-	  }, []);
-	  useEditorDrop({
-	    context: context,
-	    ref: ref
-	  }, onDrop);
-	  return React$2.useMemo(function () {
-	    return {
-	      context: draggingContext,
-	      isDragging: _isDragging,
-	      startDragging: _startDragging,
-	      stopDragging: _stopDragging
-	    };
-	  }, [draggingContext, isDragging]);
-	};
-
 	var useEditorFocus = function useEditorFocus(clientId) {
 	  var dispatch = useDispatch();
 	  var _componentHasFocus = useSelector(function (state) {
@@ -8677,6 +8743,15 @@
 	    onFocus = _useMemo.onFocus,
 	    onBlur = _useMemo.onBlur;
 	  return [hasFocus, onBlur, onFocus];
+	}
+
+	function useMouseUp(onMouseUp) {
+	  React$2.useEffect(function () {
+	    window.addEventListener("mouseup", onMouseUp);
+	    return function () {
+	      window.removeEventListener("mouseup", onMouseUp);
+	    };
+	  }, [onMouseUp]);
 	}
 
 	// Add ref and handler to effect dependencies
@@ -13718,14 +13793,12 @@
 	var cjsExports = cjs.exports;
 	var Draggable$1 = /*@__PURE__*/getDefaultExportFromCjs(cjsExports);
 
-	var _excluded$8 = ["attributeName", "clientId", "componentId", "context", "draggingOffset", "editorRef", "isClone", "isDragging"],
+	var _excluded$8 = ["attributeName", "clientId", "context", "draggingOffset", "editorRef", "isClone", "isDragging"],
 	  _excluded2$2 = ["isDragging", "offset"];
 	function BlueprintConnectionHandle(_ref) {
 	  var attributeName = _ref.attributeName,
 	    _ref$clientId = _ref.clientId,
 	    clientId = _ref$clientId === void 0 ? null : _ref$clientId,
-	    _ref$componentId = _ref.componentId,
-	    componentId = _ref$componentId === void 0 ? null : _ref$componentId,
 	    _ref$context = _ref.context,
 	    context = _ref$context === void 0 ? "to" : _ref$context,
 	    _ref$draggingOffset = _ref.draggingOffset,
@@ -13741,55 +13814,20 @@
 	    isDragging = _ref$isDragging === void 0 ? false : _ref$isDragging,
 	    props = _objectWithoutProperties(_ref, _excluded$8);
 	  var dispatch = useDispatch();
-	  var id = React$2.useId();
+	  var id = clientId || React$2.useId();
 	  var ref = React$2.useRef(null);
 	  var centerPoint = useCenterPoint(ref, editorRef);
 	  var _useState = React$2.useState(attributeName),
 	    _useState2 = _slicedToArray(_useState, 2),
 	    name = _useState2[0],
 	    setName = _useState2[1];
-	  var editorDraggingContext = useSelector(function (state) {
-	    return getDraggingContext(state.editor);
-	  });
-	  var onStartDrag = function onStartDrag() {
-	    dispatch(startDragging({
-	      attributeName: attributeName,
-	      clientId: clientId,
-	      componentId: componentId,
-	      context: "connectionHandle",
-	      handleContext: context
-	    }));
-	  };
-	  var onStopDrag = function onStopDrag() {
-	    dispatch(setPosition({
-	      name: name,
-	      id: clientId || id,
-	      componentId: componentId,
-	      context: context === "from" && "from" || "to",
-	      x: centerPoint.x,
-	      y: centerPoint.y
-	    }));
-
-	    // this is done at the end of the render to prevent click events
-	    setTimeout(function () {
-	      dispatch(stopDragging());
-	      // this is done at the end of the next render to allow
-	      // pickup by other components
-	      setTimeout(function () {
-	        resetDraggingContext();
-	      }, 0);
-	    }, 0);
-	  };
-	  var _useDragWithinBounds = useDragWithinBounds({
-	      boundsRef: editorRef,
-	      ref: ref,
-	      onStart: onStartDrag,
-	      onStop: onStopDrag
-	    }),
-	    isDraggingSelf = _useDragWithinBounds.isDragging,
-	    selfDraggingOffset = _useDragWithinBounds.offset,
-	    draggableProps = _objectWithoutProperties(_useDragWithinBounds, _excluded2$2);
-	  var currentPosition = React$2.useMemo(function () {
+	  var _useState3 = React$2.useState(centerPoint),
+	    _useState4 = _slicedToArray(_useState3, 2),
+	    currentPosition = _useState4[0],
+	    setCurrentPosition = _useState4[1];
+	  var _useBlueprintConnecti = useBlueprintConnections(),
+	    setHandlePosition = _useBlueprintConnecti.setHandlePosition;
+	  var getCurrentPosition = function getCurrentPosition() {
 	    if (isDraggingSelf) {
 	      return {
 	        x: centerPoint.x + selfDraggingOffset.x,
@@ -13802,44 +13840,90 @@
 	      };
 	    }
 	    return centerPoint;
-	  }, [centerPoint, draggingOffset, isDragging, isDraggingSelf, selfDraggingOffset]);
+	  };
+	  var onStartDrag = function onStartDrag() {
+	    startDragging({
+	      attributeName: attributeName,
+	      clientId: clientId,
+	      componentId: componentId,
+	      context: "connectionHandle",
+	      handleContext: context
+	    });
+	  };
+	  var onStopDrag = function onStopDrag() {
+	    dispatchPosition(centerPoint);
+	    stopDragging();
+	  };
+	  var dispatchPosition = function dispatchPosition() {
+	    var position = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+	    var _ref2 = position || getCurrentPosition(),
+	      _ref2$x = _ref2.x,
+	      x = _ref2$x === void 0 ? 0 : _ref2$x,
+	      _ref2$y = _ref2.y,
+	      y = _ref2$y === void 0 ? 0 : _ref2$y;
+	    if (x !== currentPosition.x || y !== currentPosition.y) {
+	      setCurrentPosition({
+	        x: x,
+	        y: y
+	      });
+	      setHandlePosition({
+	        context: context,
+	        attributeName: attributeName,
+	        clientId: clientId,
+	        x: x,
+	        y: y
+	      });
+	    }
+	  };
+	  var _useDragWithinBounds = useDragWithinBounds({
+	      boundsRef: editorRef,
+	      ref: ref,
+	      onStart: onStartDrag,
+	      onStop: onStopDrag
+	    }),
+	    isDraggingSelf = _useDragWithinBounds.isDragging,
+	    selfDraggingOffset = _useDragWithinBounds.offset,
+	    draggableProps = _objectWithoutProperties(_useDragWithinBounds, _excluded2$2);
+	  var _useEditorDrag = useEditorDrag();
+	    _useEditorDrag.isDragging;
+	    _useEditorDrag.context;
+	    var startDragging = _useEditorDrag.startDragging,
+	    stopDragging = _useEditorDrag.stopDragging;
 	  useEditorDrop({
 	    ref: ref,
 	    context: ["connectionHandle"]
 	  }, function () {
-	    console.log("on drop:", editorDraggingContext);
+	    dispatchPosition();
 	  });
-	  React$2.useLayoutEffect(function () {
-	    if (isClone && !isDragging || !isClone && isDragging) {
-	      dispatch(removePosition({
-	        name: name,
-	        id: clientId || id
-	      }));
-	    } else {
-	      dispatch(setPosition({
-	        name: name,
-	        id: clientId || id,
-	        componentId: componentId,
-	        context: context === "from" && "from" || "to",
-	        x: currentPosition.x,
-	        y: currentPosition.y
-	      }));
-	    }
-	  }, [currentPosition, isDragging, isDraggingSelf]);
+
+	  /**
+	   * This is the primary mechanism by which locations of the
+	   * handles are reported back to the store for drawing
+	   * the connections between handles.
+	   */
+	  if (!isClone) {
+	    React$2.useLayoutEffect(function () {
+	      dispatchPosition();
+	    }, [centerPoint, draggingOffset, selfDraggingOffset]);
+	    useMouseUp(function () {
+	      setTimeout(function () {
+	        dispatchPosition();
+	      }, 0);
+	    });
+	  }
 	  React$2.useLayoutEffect(function () {
 	    if (attributeName !== name) {
 	      dispatch(removePosition({
 	        name: name,
-	        id: clientId || id
+	        id: id
 	      }));
+	      setName(attributeName);
+	      dispatchPosition();
 	    }
-	    setName(attributeName);
 	  }, [attributeName]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    ref: ref,
-	    className: clsx$1("BlueprintConnectionHandle", "is-".concat((props === null || props === void 0 ? void 0 : props.position) === "right" && "right" || "left"), {
-	      hide: isClone && !isDragging || !isClone && isDragging
-	    }),
+	    className: clsx$1("BlueprintConnectionHandle", "is-".concat((props === null || props === void 0 ? void 0 : props.position) === "right" && "right" || "left")),
 	    onClick: function onClick(event) {
 	      event.stopPropagation();
 	    },
@@ -14350,6 +14434,7 @@
 	    delete component.tagName;
 	  }
 	  var componentAttributes = [];
+	  componentAttributes.push(["clientId", clientId]);
 	  Object.entries(component).forEach(function (_ref2) {
 	    var _ref3 = _slicedToArray(_ref2, 2),
 	      name = _ref3[0],
@@ -14436,9 +14521,8 @@
 	    _useSelector$type = _useSelector.type,
 	    type = _useSelector$type === void 0 ? "html" : _useSelector$type,
 	    _useSelector$tagName = _useSelector.tagName,
-	    tagName = _useSelector$tagName === void 0 ? "div" : _useSelector$tagName,
-	    _useSelector$attribut = _useSelector.attributeName,
-	    attributeName = _useSelector$attribut === void 0 ? "" : _useSelector$attribut;
+	    tagName = _useSelector$tagName === void 0 ? "div" : _useSelector$tagName;
+	    _useSelector.attributeName;
 	    _useSelector.className;
 	    _useSelector.style;
 	    _objectWithoutProperties(_useSelector, _excluded$4);
@@ -14507,11 +14591,9 @@
 	      editorRef: editorRef,
 	      children: hasAttributeHandle && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionHandle, {
 	        editorRef: editorRef,
-	        componentId: "".concat(clientId),
-	        clientId: "".concat(clientId, "-1"),
-	        attributeName: attributeName,
-	        isDragging: isDraggingSelf,
+	        clientId: clientId,
 	        context: "to",
+	        isClone: true,
 	        position: "left"
 	      })
 	    }), allowsChildren && !!children && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
@@ -14529,12 +14611,11 @@
 	          disabled: true,
 	          children: hasAttributeHandle && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionHandle, {
 	            editorRef: editorRef,
-	            clientId: "".concat(clientId, "-2"),
-	            attributeName: attributeName,
-	            draggingOffset: offset,
-	            isClone: true,
-	            isDragging: isDraggingSelf,
+	            clientId: clientId,
 	            context: "to",
+	            draggingOffset: offset,
+	            isClone: false,
+	            isDragging: isDraggingSelf,
 	            position: "left"
 	          })
 	        }), allowsChildren && !!children && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
@@ -14690,47 +14771,25 @@
 	}
 
 	var BlueprintConnection = /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
-	  var _allHandles$to, _allHandles$from, _allHandles$from2, _allHandles$to2, _allHandles$to3;
 	  var from = _ref.from,
 	    to = _ref.to;
-	  var dispatch = useDispatch();
-	  var _useSelector = useSelector(function (state) {
-	      return state.connectionHandles || {};
-	    }),
-	    allHandles = _useSelector.allHandles;
-	  var _useSelector2 = useSelector(function (state) {
-	      return state.connectionHandles || {};
-	    });
-	    _useSelector2.handlesByName;
-	  var componentId = ((_allHandles$to = allHandles[to]) === null || _allHandles$to === void 0 ? void 0 : _allHandles$to.componentId) || null;
-	  var fromX = (_allHandles$from = allHandles[from]) === null || _allHandles$from === void 0 ? void 0 : _allHandles$from.x;
-	  var fromY = (_allHandles$from2 = allHandles[from]) === null || _allHandles$from2 === void 0 ? void 0 : _allHandles$from2.y;
-	  var toX = (_allHandles$to2 = allHandles[to]) === null || _allHandles$to2 === void 0 ? void 0 : _allHandles$to2.x;
-	  var toY = (_allHandles$to3 = allHandles[to]) === null || _allHandles$to3 === void 0 ? void 0 : _allHandles$to3.y;
-	  var height = Math.abs(toY - fromY);
-	  var width = Math.abs(toX - fromX);
+	  useDispatch();
+	  var height = Math.abs((to === null || to === void 0 ? void 0 : to.y) - (from === null || from === void 0 ? void 0 : from.y));
+	  var width = Math.abs((to === null || to === void 0 ? void 0 : to.x) - (from === null || from === void 0 ? void 0 : from.x));
 	  var handleOffsetX = Math.round(Math.min(height * 2, width * 0.75) * 100) / 100;
 	  var handleOffsetY = Math.round(height * 0.1 * 100) / 100;
 	  var onClick = function onClick() {
-	    if (componentId) {
-	      dispatch(unsetComponentAttribute({
-	        clientId: componentId,
-	        attribute: "attributeName"
-	      }));
-	    }
+	    if (componentId) ;
 	  };
-	  if (!fromX || !fromY || !toX || !toY) {
-	    return null;
-	  }
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("g", {
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("path", {
 	      ref: ref,
-	      d: "M".concat(fromX, " ").concat(fromY, "C").concat(fromX + handleOffsetX, " ").concat(fromY - handleOffsetY, " ").concat(toX - handleOffsetX, " ").concat(toY + handleOffsetY, " ").concat(toX, " ").concat(toY),
+	      d: "M".concat(from === null || from === void 0 ? void 0 : from.x, " ").concat(from === null || from === void 0 ? void 0 : from.y, "C").concat((from === null || from === void 0 ? void 0 : from.x) + handleOffsetX, " ").concat((from === null || from === void 0 ? void 0 : from.y) - handleOffsetY, " ").concat((to === null || to === void 0 ? void 0 : to.x) - handleOffsetX, " ").concat((to === null || to === void 0 ? void 0 : to.y) + handleOffsetY, " ").concat(to === null || to === void 0 ? void 0 : to.x, " ").concat(to === null || to === void 0 ? void 0 : to.y),
 	      stroke: "var(--color-white)",
 	      strokeWidth: "2"
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("path", {
 	      ref: ref,
-	      d: "M".concat(fromX, " ").concat(fromY, "C").concat(fromX + handleOffsetX, " ").concat(fromY - handleOffsetY, " ").concat(toX - handleOffsetX, " ").concat(toY + handleOffsetY, " ").concat(toX, " ").concat(toY),
+	      d: "M".concat(from === null || from === void 0 ? void 0 : from.x, " ").concat(from === null || from === void 0 ? void 0 : from.y, "C").concat((from === null || from === void 0 ? void 0 : from.x) + handleOffsetX, " ").concat((from === null || from === void 0 ? void 0 : from.y) - handleOffsetY, " ").concat((to === null || to === void 0 ? void 0 : to.x) - handleOffsetX, " ").concat((to === null || to === void 0 ? void 0 : to.y) + handleOffsetY, " ").concat(to === null || to === void 0 ? void 0 : to.x, " ").concat(to === null || to === void 0 ? void 0 : to.y),
 	      onClick: onClick,
 	      stroke: "transparent",
 	      strokeWidth: "10"
@@ -14741,10 +14800,8 @@
 	function BlueprintConnections(_ref) {
 	  _objectDestructuringEmpty(_ref);
 	  var ref = React$2.useRef(null);
-	  var _useSelector = useSelector(function (state) {
-	      return state.connectionHandles || {};
-	    }),
-	    handlesByName = _useSelector.handlesByName;
+	  var _useBlueprintConnecti = useBlueprintConnections(),
+	    allConnections = _useBlueprintConnecti.allConnections;
 	  var editor = useSelector(function (state) {
 	    return state.editor || {};
 	  });
@@ -14761,15 +14818,13 @@
 	      fill: "none",
 	      stroke: "none",
 	      strokeWidth: "0",
-	      children: Object.values(handlesByName).map(function (_ref2, i) {
+	      children: allConnections.map(function (_ref2, i) {
 	        var from = _ref2.from,
 	          to = _ref2.to;
-	        return to.map(function (to, j) {
-	          return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnection, {
-	            from: from,
-	            to: to
-	          }, "".concat(i).concat(j));
-	        });
+	        return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnection, {
+	          from: from,
+	          to: to
+	        }, i);
 	      })
 	    })
 	  });

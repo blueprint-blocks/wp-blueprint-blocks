@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 
-import { useEditorDrag } from "../hooks";
+import useEditorDrag from "./use-editor-drag";
 
 import {
 	insertNewComponentAtPosition,

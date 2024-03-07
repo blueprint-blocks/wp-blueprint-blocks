@@ -47,12 +47,14 @@ const useEditorDrag = (props = {}, onDrop = null) => {
 			// this is done at the end of the next render to allow
 			// pickup by insert or hint components
 			setTimeout(() => {
-				//dispatch(resetDraggingContext());
-			}, 1000);
+				dispatch(resetDraggingContext());
+			}, 0);
 		}, 0);
 	}, []);
 
-	useEditorDrop({ context, ref }, onDrop);
+	if (onDrop !== null) {
+		useEditorDrop({ context, ref }, onDrop);
+	}
 
 	return useMemo(
 		() => ({

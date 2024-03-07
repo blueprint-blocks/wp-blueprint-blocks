@@ -6,23 +6,8 @@ import { unsetComponentAttribute } from "../../store/block-blueprint";
 const BlueprintConnection = forwardRef(({ from, to }, ref) => {
 	const dispatch = useDispatch();
 
-	const { allHandles } = useSelector((state) => {
-		return state.connectionHandles || {};
-	});
-
-	const { handlesByName } = useSelector((state) => {
-		return state.connectionHandles || {};
-	});
-
-	const componentId = allHandles[to]?.componentId || null;
-
-	const fromX = allHandles[from]?.x;
-	const fromY = allHandles[from]?.y;
-	const toX = allHandles[to]?.x;
-	const toY = allHandles[to]?.y;
-
-	const height = Math.abs(toY - fromY);
-	const width = Math.abs(toX - fromX);
+	const height = Math.abs(to?.y - from?.y);
+	const width = Math.abs(to?.x - from?.x);
 
 	const handleOffsetX =
 		Math.round(Math.min(height * 2, width * 0.75) * 100) / 100;
@@ -30,30 +15,26 @@ const BlueprintConnection = forwardRef(({ from, to }, ref) => {
 
 	const onClick = () => {
 		if (componentId) {
-			dispatch(
+			/*dispatch(
 				unsetComponentAttribute({
 					clientId: componentId,
 					attribute: "attributeName",
 				}),
-			);
+			);*/
 		}
 	};
-
-	if (!fromX || !fromY || !toX || !toY) {
-		return null;
-	}
 
 	return (
 		<g>
 			<path
 				ref={ref}
-				d={`M${fromX} ${fromY}C${fromX + handleOffsetX} ${fromY - handleOffsetY} ${toX - handleOffsetX} ${toY + handleOffsetY} ${toX} ${toY}`}
+				d={`M${from?.x} ${from?.y}C${from?.x + handleOffsetX} ${from?.y - handleOffsetY} ${to?.x - handleOffsetX} ${to?.y + handleOffsetY} ${to?.x} ${to?.y}`}
 				stroke="var(--color-white)"
 				strokeWidth="2"
 			/>
 			<path
 				ref={ref}
-				d={`M${fromX} ${fromY}C${fromX + handleOffsetX} ${fromY - handleOffsetY} ${toX - handleOffsetX} ${toY + handleOffsetY} ${toX} ${toY}`}
+				d={`M${from?.x} ${from?.y}C${from?.x + handleOffsetX} ${from?.y - handleOffsetY} ${to?.x - handleOffsetX} ${to?.y + handleOffsetY} ${to?.x} ${to?.y}`}
 				onClick={onClick}
 				stroke="transparent"
 				strokeWidth="10"

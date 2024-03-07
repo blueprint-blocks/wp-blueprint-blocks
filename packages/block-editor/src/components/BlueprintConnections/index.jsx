@@ -1,15 +1,16 @@
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
 
-import "./style.css";
+import { useBlueprintConnections } from "../../hooks";
+
 import BlueprintConnection from "../BlueprintConnection";
+
+import "./style.css";
 
 function BlueprintConnections({}) {
 	const ref = useRef(null);
 
-	const { handlesByName } = useSelector((state) => {
-		return state.connectionHandles || {};
-	});
+	const { allConnections } = useBlueprintConnections();
 
 	const editor = useSelector((state) => {
 		return state.editor || {};
@@ -28,15 +29,9 @@ function BlueprintConnections({}) {
 				stroke="none"
 				strokeWidth="0"
 			>
-				{Object.values(handlesByName).map(({ from, to }, i) =>
-					to.map((to, j) => (
-						<BlueprintConnection
-							key={`${i}${j}`}
-							from={from}
-							to={to}
-						/>
-					)),
-				)}
+				{allConnections.map(({ from, to }, i) => (
+					<BlueprintConnection key={i} from={from} to={to} />
+				))}
 			</svg>
 		</div>
 	);

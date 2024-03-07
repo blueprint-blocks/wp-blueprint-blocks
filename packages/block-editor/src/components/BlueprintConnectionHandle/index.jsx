@@ -1,32 +1,31 @@
 import clsx from "clsx";
-import { useId, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {
+	useCallback,
+	useEffect,
+	useId,
+	useLayoutEffect,
+	useRef,
+	useState,
+} from "react";
+import { useDispatch } from "react-redux";
 import Draggable from "react-draggable";
 
 import {
+	useBlueprintConnections,
 	useCenterPoint,
 	useDragWithinBounds,
+	useEditorDrag,
 	useEditorDrop,
+	useMouseUp,
 } from "../../hooks";
 
-import {
-	setPosition as setConnectionHandlePosition,
-	removePosition as removeConnectionHandlePosition,
-} from "../../store/connection-handles";
-
-import {
-	getDraggingContext,
-	resetDraggingContext,
-	startDragging,
-	stopDragging,
-} from "../../store/editor";
+import { removePosition as removeConnectionHandlePosition } from "../../store/connection-handles";
 
 import "./style.css";
 
 function BlueprintConnectionHandle({
 	attributeName,
 	clientId = null,
-	componentId = null,
 	context = "to",
 	draggingOffset = { x: 0, y: 0 },
 	editorRef = null,
@@ -36,49 +35,52 @@ function BlueprintConnectionHandle({
 }) {
 	const dispatch = useDispatch();
 
-	const id = useId();
+	const id = clientId || useId();
 	const ref = useRef(null);
 	const centerPoint = useCenterPoint(ref, editorRef);
 
 	const [name, setName] = useState(attributeName);
+	const [currentPosition, setCurrentPosition] = useState(centerPoint);
 
-	const editorDraggingContext = useSelector((state) =>
-		getDraggingContext(state.editor),
-	);
+	const { setHandlePosition } = useBlueprintConnections();
+
+	const getCurrentPosition = () => {
+		if (isDraggingSelf) {
+			return {
+				x: centerPoint.x + selfDraggingOffset.x,
+				y: centerPoint.y + selfDraggingOffset.y,
+			};
+		} else if (isDragging) {
+			return {
+				x: centerPoint.x + draggingOffset.x,
+				y: centerPoint.y + draggingOffset.y,
+			};
+		}
+		return centerPoint;
+	};
 
 	const onStartDrag = () => {
-		dispatch(
-			startDragging({
-				attributeName,
-				clientId,
-				componentId,
-				context: "connectionHandle",
-				handleContext: context,
-			}),
-		);
+		startDragging({
+			attributeName,
+			clientId,
+			componentId,
+			context: "connectionHandle",
+			handleContext: context,
+		});
 	};
 
 	const onStopDrag = () => {
-		dispatch(
-			setConnectionHandlePosition({
-				name,
-				id: clientId || id,
-				componentId,
-				context: (context === "from" && "from") || "to",
-				x: centerPoint.x,
-				y: centerPoint.y,
-			}),
-		);
+		dispatchPosition(centerPoint);
+		stopDragging();
+	};
 
-		// this is done at the end of the render to prevent click events
-		setTimeout(() => {
-			dispatch(stopDragging());
-			// this is done at the end of the next render to allow
-			// pickup by other components
-			setTimeout(() => {
-				resetDraggingContext();
-			}, 0);
-		}, 0);
+	const dispatchPosition = (position = null) => {
+		const { x = 0, y = 0 } = position || getCurrentPosition();
+
+		if (x !== currentPosition.x || y !== currentPosition.y) {
+			setCurrentPosition({ x, y });
+			setHandlePosition({ context, attributeName, clientId, x, y });
+		}
 	};
 
 	const {
@@ -92,64 +94,39 @@ function BlueprintConnectionHandle({
 		onStop: onStopDrag,
 	});
 
-	const currentPosition = useMemo(() => {
-		if (isDraggingSelf) {
-			return {
-				x: centerPoint.x + selfDraggingOffset.x,
-				y: centerPoint.y + selfDraggingOffset.y,
-			};
-		} else if (isDragging) {
-			return {
-				x: centerPoint.x + draggingOffset.x,
-				y: centerPoint.y + draggingOffset.y,
-			};
-		}
-		return centerPoint;
-	}, [
-		centerPoint,
-		draggingOffset,
-		isDragging,
-		isDraggingSelf,
-		selfDraggingOffset,
-	]);
+	const {
+		isDragging: isEditorDragging,
+		context: draggingContext,
+		startDragging,
+		stopDragging,
+	} = useEditorDrag();
 
 	useEditorDrop({ ref, context: ["connectionHandle"] }, () => {
-		console.log("on drop:", editorDraggingContext);
+		dispatchPosition();
 	});
 
-	useLayoutEffect(() => {
-		if ((isClone && !isDragging) || (!isClone && isDragging)) {
-			dispatch(
-				removeConnectionHandlePosition({
-					name,
-					id: clientId || id,
-				}),
-			);
-		} else {
-			dispatch(
-				setConnectionHandlePosition({
-					name,
-					id: clientId || id,
-					componentId,
-					context: (context === "from" && "from") || "to",
-					x: currentPosition.x,
-					y: currentPosition.y,
-				}),
-			);
-		}
-	}, [currentPosition, isDragging, isDraggingSelf]);
+	/**
+	 * This is the primary mechanism by which locations of the
+	 * handles are reported back to the store for drawing
+	 * the connections between handles.
+	 */
+	if (!isClone) {
+		useLayoutEffect(() => {
+			dispatchPosition();
+		}, [centerPoint, draggingOffset, selfDraggingOffset]);
+		useMouseUp(() => {
+			setTimeout(() => {
+				dispatchPosition();
+			}, 0);
+		});
+	}
 
 	useLayoutEffect(() => {
 		if (attributeName !== name) {
-			dispatch(
-				removeConnectionHandlePosition({
-					name,
-					id: clientId || id,
-				}),
-			);
+			dispatch(removeConnectionHandlePosition({ name, id }));
+			setName(attributeName);
+			dispatchPosition();
 		}
-
-		setName(attributeName);
 	}, [attributeName]);
 
 	return (
@@ -158,9 +135,6 @@ function BlueprintConnectionHandle({
 			className={clsx(
 				"BlueprintConnectionHandle",
 				`is-${(props?.position === "right" && "right") || "left"}`,
-				{
-					hide: (isClone && !isDragging) || (!isClone && isDragging),
-				},
 			)}
 			onClick={(event) => {
 				event.stopPropagation();

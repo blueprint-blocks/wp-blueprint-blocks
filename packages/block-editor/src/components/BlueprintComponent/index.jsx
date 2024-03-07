@@ -117,11 +117,9 @@ function BlueprintComponent({
 				{hasAttributeHandle && (
 					<BlueprintConnectionHandle
 						editorRef={editorRef}
-						componentId={`${clientId}`}
-						clientId={`${clientId}-1`}
-						attributeName={attributeName}
-						isDragging={isDraggingSelf}
+						clientId={clientId}
 						context="to"
+						isClone={true}
 						position="left"
 					/>
 				)}
@@ -149,12 +147,11 @@ function BlueprintComponent({
 							{hasAttributeHandle && (
 								<BlueprintConnectionHandle
 									editorRef={editorRef}
-									clientId={`${clientId}-2`}
-									attributeName={attributeName}
-									draggingOffset={offset}
-									isClone={true}
-									isDragging={isDraggingSelf}
+									clientId={clientId}
 									context="to"
+									draggingOffset={offset}
+									isClone={false}
+									isDragging={isDraggingSelf}
 									position="left"
 								/>
 							)}

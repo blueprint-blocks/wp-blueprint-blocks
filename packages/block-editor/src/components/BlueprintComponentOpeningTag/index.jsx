@@ -27,6 +27,8 @@ const BlueprintComponentOpeningTag = forwardRef(
 
 		const componentAttributes = [];
 
+		componentAttributes.push(["clientId", clientId]);
+
 		Object.entries(component).forEach(([name, value]) => {
 			if (
 				name === "className" &&
