@@ -9,8 +9,8 @@ import {
 	stopDragging,
 } from "../store/editor";
 
-const useEditorDrag = (props = {}) => {
-	const { context = null, ref = null, onDrop } = props;
+const useEditorDrag = (props = {}, onDrop = null) => {
+	const { context = null, ref = null } = props;
 
 	const dispatch = useDispatch();
 
@@ -47,8 +47,8 @@ const useEditorDrag = (props = {}) => {
 			// this is done at the end of the next render to allow
 			// pickup by insert or hint components
 			setTimeout(() => {
-				dispatch(resetDraggingContext());
-			}, 0);
+				//dispatch(resetDraggingContext());
+			}, 1000);
 		}, 0);
 	}, []);
 

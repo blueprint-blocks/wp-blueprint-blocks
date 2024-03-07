@@ -8548,7 +8548,7 @@
 
 	var useEditorDrop = function useEditorDrop() {
 	  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-	  var onDrop = arguments.length > 1 ? arguments[1] : undefined;
+	  var onDrop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 	  var _props$context = props.context,
 	    context = _props$context === void 0 ? null : _props$context,
 	    _props$ref = props.ref,
@@ -8578,11 +8578,11 @@
 
 	var useEditorDrag = function useEditorDrag() {
 	  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var onDrop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 	  var _props$context = props.context,
 	    context = _props$context === void 0 ? null : _props$context,
 	    _props$ref = props.ref,
-	    ref = _props$ref === void 0 ? null : _props$ref,
-	    onDrop = props.onDrop;
+	    ref = _props$ref === void 0 ? null : _props$ref;
 	  var dispatch = useDispatch();
 	  var contextArray = React$2.useMemo(function () {
 	    return Array.isArray(context) && context || [context];
@@ -8609,8 +8609,8 @@
 	      // this is done at the end of the next render to allow
 	      // pickup by insert or hint components
 	      setTimeout(function () {
-	        dispatch(resetDraggingContext());
-	      }, 0);
+	        //dispatch(resetDraggingContext());
+	      }, 1000);
 	    }, 0);
 	  }, []);
 	  useEditorDrop({
@@ -8627,19 +8627,18 @@
 	  }, [draggingContext, isDragging]);
 	};
 
-	var _arguments = typeof arguments === "undefined" ? void 0 : arguments;
 	var useEditorFocus = function useEditorFocus(clientId) {
 	  var dispatch = useDispatch();
 	  var _componentHasFocus = useSelector(function (state) {
 	    return componentHasFocus(state.editor, clientId);
 	  });
-	  var _setFocus = function _setFocus() {
-	    dispatch(setFocus.apply(void 0, _toConsumableArray(_arguments)));
+	  var _setFocus = function _setFocus(context) {
+	    dispatch(setFocus(context));
 	  };
 	  var _unsetFocus = function _unsetFocus() {
 	    var unsetRegardlessOfCurrentFocus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 	    if (unsetRegardlessOfCurrentFocus || _componentHasFocus) {
-	      dispatch(unsetFocus.apply(void 0, _toConsumableArray(_arguments)));
+	      dispatch(unsetFocus());
 	    }
 	  };
 	  return React$2.useMemo(function () {
@@ -15046,7 +15045,6 @@
 	        clientId: clientId,
 	        attribute: currentFocus === null || currentFocus === void 0 ? void 0 : currentFocus.attributeName
 	      }));
-	      debugger;
 	    }
 	    dispatch(setComponentAttribute({
 	      clientId: clientId,

@@ -9,13 +9,13 @@ const useEditorFocus = (clientId) => {
 		componentHasFocus(state.editor, clientId),
 	);
 
-	const _setFocus = () => {
-		dispatch(setFocus(...arguments));
+	const _setFocus = (context) => {
+		dispatch(setFocus(context));
 	};
 
 	const _unsetFocus = (unsetRegardlessOfCurrentFocus = false) => {
 		if (unsetRegardlessOfCurrentFocus || _componentHasFocus) {
-			dispatch(unsetFocus(...arguments));
+			dispatch(unsetFocus());
 		}
 	};
 

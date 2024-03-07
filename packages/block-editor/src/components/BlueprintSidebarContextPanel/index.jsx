@@ -35,7 +35,6 @@ const BlueprintSidebarContextPanel = forwardRef(({ editorRef = null }, ref) => {
 					attribute: currentFocus?.attributeName,
 				}),
 			);
-			debugger;
 		}
 
 		dispatch(
