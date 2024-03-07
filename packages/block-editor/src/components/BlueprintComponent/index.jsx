@@ -1,20 +1,17 @@
 import clsx from "clsx";
-import { useCallback, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useCallback, useMemo, useRef } from "react";
 import Draggable from "react-draggable";
 
-import { componentAllowsChildren, pascalize } from "../../functions";
+import { componentAllowsChildren } from "../../functions";
+import { useBlueprint } from "../../hooks";
 
 import {
-	useBlockClassName,
 	useDragWithinBounds,
 	useDebugRenderCount,
 	useEditorDrag,
 	useEditorFocus,
 	useOnClickOutside,
 } from "../../hooks";
-
-import { getBlockComponent } from "../../store/block-blueprint";
 
 import BlueprintConnectionHandle from "../BlueprintConnectionHandle";
 import BlueprintComponentClosingTag from "../BlueprintComponentClosingTag";
@@ -29,27 +26,20 @@ function BlueprintComponent({
 	indent = 0,
 	draggable = true,
 }) {
-	const blockClassName = useBlockClassName();
-
-	let {
-		type = "html",
-		tagName = "div",
-		attributeName = "",
-		className = [],
-		style = {},
-		...component
-	} = useSelector((state) =>
-		getBlockComponent(state.blockBlueprint, clientId),
-	);
+	const ref = useRef(null);
 
 	const { isDragging, startDragging, stopDragging } = useEditorDrag();
 	const { hasFocus, setFocus, unsetFocus } = useEditorFocus(clientId);
 
-	const allowsChildren = componentAllowsChildren(type, tagName);
+	const { getComponentById } = useBlueprint();
+	const { tagName = null, type = "html" } = getComponentById(clientId);
 
-	const ref = useRef(null);
-	const openRef = useRef(null);
-	const closeRef = useRef(null);
+	const allowsChildren = useMemo(
+		() => componentAllowsChildren(type, tagName),
+		[tagName, type],
+	);
+
+	const hasAttributeHandle = useMemo(() => type !== "html", [type]);
 
 	const onClick = useCallback(
 		(event) => {
@@ -83,12 +73,6 @@ function BlueprintComponent({
 		onStop: onStopDrag,
 	});
 
-	const hasAttributeHandle = type !== "html";
-
-	if (type !== "html") {
-		tagName = pascalize(type);
-	}
-
 	// Call hook passing in the ref and a function to call on outside click
 	useOnClickOutside(ref, () => {
 		unsetFocus();
@@ -111,14 +95,13 @@ function BlueprintComponent({
 		>
 			<BlueprintComponentOpeningTag
 				clientId={clientId}
-				ref={openRef}
 				editorRef={editorRef}
 			>
 				{hasAttributeHandle && (
 					<BlueprintConnectionHandle
-						editorRef={editorRef}
 						clientId={clientId}
 						context="to"
+						editorRef={editorRef}
 						isClone={true}
 						position="left"
 					/>
@@ -132,7 +115,6 @@ function BlueprintComponent({
 			{allowsChildren && (
 				<BlueprintComponentClosingTag
 					clientId={clientId}
-					ref={closeRef}
 					editorRef={editorRef}
 				/>
 			)}

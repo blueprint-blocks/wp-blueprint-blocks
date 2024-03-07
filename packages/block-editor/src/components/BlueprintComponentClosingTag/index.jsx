@@ -1,39 +1,43 @@
-import { forwardRef } from "react";
+import { useMemo } from "react";
 import { useSelector } from "react-redux";
 
 import { pascalize } from "../../functions";
+import { useBlueprint } from "../../hooks";
 import { getBlockComponent } from "../../store/block-blueprint";
 
 import BlueprintDebugRect from "../BlueprintDebugRect";
 
-const BlueprintComponentClosingTag = forwardRef(
-	({ clientId, editorRef = null }, ref) => {
-		let { type = "html", tagName = "div" } = useSelector((state) =>
-			getBlockComponent(state.blockBlueprint, clientId),
-		);
+const BlueprintComponentClosingTag = ({ clientId, editorRef = null }) => {
+	const { getComponentById } = useBlueprint();
 
-		if (type !== "html") {
-			tagName = pascalize(type);
-		}
+	const {
+		tagName = null,
+		type = "html",
+		...component
+	} = getComponentById(clientId);
 
-		return (
-			<div className="BlueprintComponent-close" ref={ref}>
-				<div className="BlueprintComponent-markup">
-					<div className="BlueprintComponent-line">
-						<span>{`</`}</span>
-						<span className="BlueprintComponent-tagName">
-							{tagName}
-						</span>
-						<span>{`>`}</span>
-					</div>
+	const _tagName = useMemo(
+		() => (type === "html" && tagName) || pascalize(type),
+		[tagName, type],
+	);
+
+	return (
+		<div className="BlueprintComponent-close">
+			<div className="BlueprintComponent-markup">
+				<div className="BlueprintComponent-line">
+					<span>{`</`}</span>
+					<span className="BlueprintComponent-tagName">
+						{_tagName}
+					</span>
+					<span>{`>`}</span>
 				</div>
-
-				{process.env.NODE_ENV === "development" && ref && editorRef && (
-					<BlueprintDebugRect debugRef={ref} parentRef={editorRef} />
-				)}
 			</div>
-		);
-	},
-);
+
+			{process.env.NODE_ENV === "development" && ref && editorRef && (
+				<BlueprintDebugRect debugRef={ref} parentRef={editorRef} />
+			)}
+		</div>
+	);
+};
 
 export default BlueprintComponentClosingTag;

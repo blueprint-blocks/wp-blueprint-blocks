@@ -7247,7 +7247,7 @@
 	  };
 	};
 
-	var _excluded$c = ["isValid"];
+	var _excluded$d = ["isValid"];
 	var validateBlockJson = function validateBlockJson(blockJson) {
 	  var validations = blockJsonValidation.map(function (_ref) {
 	    var propertyName = _ref.propertyName,
@@ -7265,7 +7265,7 @@
 	  }, true);
 	  var errors = validations.filter(function (_ref2) {
 	    var isValid = _ref2.isValid;
-	      _objectWithoutProperties(_ref2, _excluded$c);
+	      _objectWithoutProperties(_ref2, _excluded$d);
 	    return isValid === false;
 	  });
 	  return {
@@ -7283,7 +7283,7 @@
 	};
 
 	var _blueprintBlocksEdito$a;
-	var _excluded$b = ["children"];
+	var _excluded$c = ["children"];
 	var blockComponents = {};
 	function parseComponentTree() {
 	  var components = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -7294,7 +7294,7 @@
 	  components.forEach(function (_ref) {
 	    var _ref$children = _ref.children,
 	      children = _ref$children === void 0 ? [] : _ref$children,
-	      component = _objectWithoutProperties(_ref, _excluded$b);
+	      component = _objectWithoutProperties(_ref, _excluded$c);
 	    var clientId = getUniqueClientId();
 	    var childClientIds = [];
 	    if (children.length > 0) {
@@ -7997,12 +7997,12 @@
 	  state.currentDraggingContext = null;
 	};
 
-	var _excluded$a = ["context"];
+	var _excluded$b = ["context"];
 	var setFocus$1 = function setFocus(state, action) {
 	  var _ref = action.payload || {},
 	    _ref$context = _ref.context,
 	    context = _ref$context === void 0 ? null : _ref$context,
-	    props = _objectWithoutProperties(_ref, _excluded$a);
+	    props = _objectWithoutProperties(_ref, _excluded$b);
 	  if (context === null) {
 	    return;
 	  }
@@ -8199,8 +8199,8 @@
 	  return n;
 	}
 
-	var _excluded$9 = ["id"],
-	  _excluded2$3 = ["id"];
+	var _excluded$a = ["id"],
+	  _excluded2$2 = ["id"];
 	function saveNewBlock(_ref) {
 	  var postType = _ref.postType,
 	    blockJson = _ref.blockJson,
@@ -8223,7 +8223,7 @@
 	      }
 	    }).then(function (_ref2) {
 	      var id = _ref2.id;
-	        _objectWithoutProperties(_ref2, _excluded$9);
+	        _objectWithoutProperties(_ref2, _excluded$a);
 	      resolve({
 	        id: id
 	      });
@@ -8253,7 +8253,7 @@
 	      }
 	    }).then(function (_ref4) {
 	      var id = _ref4.id;
-	        _objectWithoutProperties(_ref4, _excluded2$3);
+	        _objectWithoutProperties(_ref4, _excluded2$2);
 	      resolve({
 	        id: id
 	      });
@@ -13793,8 +13793,8 @@
 	var cjsExports = cjs.exports;
 	var Draggable$1 = /*@__PURE__*/getDefaultExportFromCjs(cjsExports);
 
-	var _excluded$8 = ["attributeName", "clientId", "context", "draggingOffset", "editorRef", "isClone", "isDragging"],
-	  _excluded2$2 = ["isDragging", "offset"];
+	var _excluded$9 = ["attributeName", "clientId", "context", "draggingOffset", "editorRef", "isClone", "isDragging"],
+	  _excluded2$1 = ["isDragging", "offset"];
 	function BlueprintConnectionHandle(_ref) {
 	  var attributeName = _ref.attributeName,
 	    _ref$clientId = _ref.clientId,
@@ -13812,7 +13812,7 @@
 	    isClone = _ref$isClone === void 0 ? false : _ref$isClone,
 	    _ref$isDragging = _ref.isDragging,
 	    isDragging = _ref$isDragging === void 0 ? false : _ref$isDragging,
-	    props = _objectWithoutProperties(_ref, _excluded$8);
+	    props = _objectWithoutProperties(_ref, _excluded$9);
 	  var dispatch = useDispatch();
 	  var id = clientId || React$2.useId();
 	  var ref = React$2.useRef(null);
@@ -13883,7 +13883,7 @@
 	    }),
 	    isDraggingSelf = _useDragWithinBounds.isDragging,
 	    selfDraggingOffset = _useDragWithinBounds.offset,
-	    draggableProps = _objectWithoutProperties(_useDragWithinBounds, _excluded2$2);
+	    draggableProps = _objectWithoutProperties(_useDragWithinBounds, _excluded2$1);
 	  var _useEditorDrag = useEditorDrag();
 	    _useEditorDrag.isDragging;
 	    _useEditorDrag.context;
@@ -13950,7 +13950,7 @@
 	  });
 	}
 
-	var _excluded$7 = ["attributeName", "attributeType", "editorRef"];
+	var _excluded$8 = ["attributeName", "attributeType", "editorRef"];
 	function BlueprintAttribute(_ref) {
 	  var _attributeTypes$attri;
 	  var _ref$attributeName = _ref.attributeName,
@@ -13959,7 +13959,7 @@
 	    attributeType = _ref$attributeType === void 0 ? "string" : _ref$attributeType,
 	    _ref$editorRef = _ref.editorRef,
 	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef,
-	    props = _objectWithoutProperties(_ref, _excluded$7);
+	    props = _objectWithoutProperties(_ref, _excluded$8);
 	  var attributeDefault;
 	  if (isObject(props === null || props === void 0 ? void 0 : props.attributeDefault) || isArray(props === null || props === void 0 ? void 0 : props.attributeDefault)) {
 	    attributeDefault = JSON.stringify(props === null || props === void 0 ? void 0 : props.attributeDefault);
@@ -14208,22 +14208,23 @@
 	  });
 	});
 
-	var BlueprintComponentClosingTag = /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
+	var _excluded$7 = ["tagName", "type"];
+	var BlueprintComponentClosingTag = function BlueprintComponentClosingTag(_ref) {
 	  var clientId = _ref.clientId;
 	    _ref.editorRef;
-	  var _useSelector = useSelector(function (state) {
-	      return getBlockComponent(state.blockBlueprint, clientId);
-	    }),
-	    _useSelector$type = _useSelector.type,
-	    type = _useSelector$type === void 0 ? "html" : _useSelector$type,
-	    _useSelector$tagName = _useSelector.tagName,
-	    tagName = _useSelector$tagName === void 0 ? "div" : _useSelector$tagName;
-	  if (type !== "html") {
-	    tagName = pascalize(type);
-	  }
+	  var _useBlueprint = useBlueprint(),
+	    getComponentById = _useBlueprint.getComponentById;
+	  var _getComponentById = getComponentById(clientId),
+	    _getComponentById$tag = _getComponentById.tagName,
+	    tagName = _getComponentById$tag === void 0 ? null : _getComponentById$tag,
+	    _getComponentById$typ = _getComponentById.type,
+	    type = _getComponentById$typ === void 0 ? "html" : _getComponentById$typ;
+	    _objectWithoutProperties(_getComponentById, _excluded$7);
+	  var _tagName = React$2.useMemo(function () {
+	    return type === "html" && tagName || pascalize(type);
+	  }, [tagName, type]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    className: "BlueprintComponent-close",
-	    ref: ref,
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintComponent-markup",
 	      children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
@@ -14232,14 +14233,14 @@
 	          children: "</"
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	          className: "BlueprintComponent-tagName",
-	          children: tagName
+	          children: _tagName
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	          children: ">"
 	        })]
 	      })
 	    }), undefined === "development"   ]
 	  });
-	});
+	};
 
 	var _excluded$6 = ["attributeName", "attributeValue", "clientId", "children", "disabled"];
 	function BlueprintComponentAttribute(_ref) {
@@ -14412,8 +14413,8 @@
 	  });
 	});
 
-	var _excluded$5 = ["type"];
-	var BlueprintComponentOpeningTag = /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
+	var _excluded$5 = ["tagName", "type"];
+	var BlueprintComponentOpeningTag = function BlueprintComponentOpeningTag(_ref) {
 	  var _ref$children = _ref.children,
 	    children = _ref$children === void 0 ? [] : _ref$children,
 	    clientId = _ref.clientId,
@@ -14421,41 +14422,59 @@
 	    disabled = _ref$disabled === void 0 ? false : _ref$disabled;
 	    _ref.editorRef;
 	  var blockClassName = useBlockNamespace();
-	  var _useSelector = useSelector(function (state) {
-	      return getBlockComponent(state.blockBlueprint, clientId);
-	    }),
-	    _useSelector$type = _useSelector.type,
-	    type = _useSelector$type === void 0 ? "html" : _useSelector$type,
-	    component = _objectWithoutProperties(_useSelector, _excluded$5);
-	  var tagName = (component === null || component === void 0 ? void 0 : component.tagName) || "div";
-	  if (type !== "html") {
-	    tagName = pascalize(type);
-	  } else if (component !== null && component !== void 0 && component.tagName) {
-	    delete component.tagName;
-	  }
-	  var componentAttributes = [];
-	  componentAttributes.push(["clientId", clientId]);
-	  Object.entries(component).forEach(function (_ref2) {
-	    var _ref3 = _slicedToArray(_ref2, 2),
-	      name = _ref3[0],
-	      value = _ref3[1];
-	    if (name === "className" && value.hasOwnProperty("{{ block._className }}")) {
-	      var classNameValue = _objectSpread2({}, value);
-	      delete classNameValue["{{ block._className }}"];
-	      classNameValue[blockClassName] = true;
-	      componentAttributes.push([name, classNameValue]);
-	    } else {
-	      componentAttributes.push([name, value]);
+	  var _useBlueprint = useBlueprint(),
+	    getComponentById = _useBlueprint.getComponentById;
+	  var _getComponentById = getComponentById(clientId),
+	    _getComponentById$tag = _getComponentById.tagName,
+	    tagName = _getComponentById$tag === void 0 ? null : _getComponentById$tag,
+	    _getComponentById$typ = _getComponentById.type,
+	    type = _getComponentById$typ === void 0 ? "html" : _getComponentById$typ,
+	    component = _objectWithoutProperties(_getComponentById, _excluded$5);
+	  var _component = React$2.useMemo(function () {
+	    var _component = _objectSpread2({}, component);
+	    if (type !== "html" && tagName !== null) {
+	      _component.tagName = tagName;
 	    }
-	  });
-	  var allowsChildren = componentAllowsChildren(type, tagName);
-	  var hasAttributes = componentAttributes.length > 0;
-	  var hasEmptyAttribute = ("" in component);
-	  var hasMultipleAttributes = componentAttributes.length > 1;
-	  var isMultiLine = type !== "html" || hasMultipleAttributes;
+	    return _component;
+	  }, [component, tagName, type]);
+	  var _tagName = React$2.useMemo(function () {
+	    return type === "html" && (tagName || "div") || pascalize(type);
+	  }, [tagName, type]);
+	  var componentAttributes = React$2.useMemo(function () {
+	    var componentAttributes = [];
+	    componentAttributes.push(["clientId", clientId]);
+	    Object.entries(_component).forEach(function (_ref2) {
+	      var _ref3 = _slicedToArray(_ref2, 2),
+	        name = _ref3[0],
+	        value = _ref3[1];
+	      if (name === "className" && value.hasOwnProperty("{{ block._className }}")) {
+	        var classNameValue = _objectSpread2({}, value);
+	        delete classNameValue["{{ block._className }}"];
+	        classNameValue[blockClassName] = true;
+	        componentAttributes.push([name, classNameValue]);
+	      } else {
+	        componentAttributes.push([name, value]);
+	      }
+	    });
+	    return componentAttributes;
+	  }, [blockClassName, clientId, component]);
+	  var allowsChildren = React$2.useMemo(function () {
+	    return componentAllowsChildren(type, tagName);
+	  }, [tagName, type]);
+	  var hasAttributes = React$2.useMemo(function () {
+	    return componentAttributes.length > 0;
+	  }, [componentAttributes]);
+	  var hasEmptyAttribute = React$2.useMemo(function () {
+	    return "" in componentAttributes;
+	  }, [componentAttributes]);
+	  var hasMultipleAttributes = React$2.useMemo(function () {
+	    return componentAttributes.length > 1;
+	  }, [componentAttributes]);
+	  var isMultiLine = React$2.useMemo(function () {
+	    return type !== "html" || hasMultipleAttributes;
+	  }, [hasMultipleAttributes, type]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    className: "BlueprintComponent-open",
-	    ref: ref,
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	      className: "BlueprintComponent-markup ".concat(isMultiLine && "is-multi-line" || ""),
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
@@ -14464,7 +14483,7 @@
 	          children: "<"
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	          className: "BlueprintComponent-tagName",
-	          children: tagName
+	          children: _tagName
 	        })]
 	      }), componentAttributes.map(function (_ref4, index) {
 	        var _ref5 = _slicedToArray(_ref4, 2),
@@ -14500,10 +14519,9 @@
 	      })]
 	    }), children, undefined === "development"   ]
 	  });
-	});
+	};
 
-	var _excluded$4 = ["type", "tagName", "attributeName", "className", "style"],
-	  _excluded2$1 = ["isDragging", "offset"];
+	var _excluded$4 = ["isDragging", "offset"];
 	function BlueprintComponent(_ref) {
 	  var clientId = _ref.clientId,
 	    _ref$editorRef = _ref.editorRef,
@@ -14514,18 +14532,7 @@
 	    indent = _ref$indent === void 0 ? 0 : _ref$indent,
 	    _ref$draggable = _ref.draggable,
 	    draggable = _ref$draggable === void 0 ? true : _ref$draggable;
-	  useBlockNamespace();
-	  var _useSelector = useSelector(function (state) {
-	      return getBlockComponent(state.blockBlueprint, clientId);
-	    }),
-	    _useSelector$type = _useSelector.type,
-	    type = _useSelector$type === void 0 ? "html" : _useSelector$type,
-	    _useSelector$tagName = _useSelector.tagName,
-	    tagName = _useSelector$tagName === void 0 ? "div" : _useSelector$tagName;
-	    _useSelector.attributeName;
-	    _useSelector.className;
-	    _useSelector.style;
-	    _objectWithoutProperties(_useSelector, _excluded$4);
+	  var ref = React$2.useRef(null);
 	  var _useEditorDrag = useEditorDrag(),
 	    isDragging = _useEditorDrag.isDragging,
 	    startDragging = _useEditorDrag.startDragging,
@@ -14534,10 +14541,19 @@
 	    hasFocus = _useEditorFocus.hasFocus,
 	    setFocus = _useEditorFocus.setFocus,
 	    unsetFocus = _useEditorFocus.unsetFocus;
-	  var allowsChildren = componentAllowsChildren(type, tagName);
-	  var ref = React$2.useRef(null);
-	  var openRef = React$2.useRef(null);
-	  var closeRef = React$2.useRef(null);
+	  var _useBlueprint = useBlueprint(),
+	    getComponentById = _useBlueprint.getComponentById;
+	  var _getComponentById = getComponentById(clientId),
+	    _getComponentById$tag = _getComponentById.tagName,
+	    tagName = _getComponentById$tag === void 0 ? null : _getComponentById$tag,
+	    _getComponentById$typ = _getComponentById.type,
+	    type = _getComponentById$typ === void 0 ? "html" : _getComponentById$typ;
+	  var allowsChildren = React$2.useMemo(function () {
+	    return componentAllowsChildren(type, tagName);
+	  }, [tagName, type]);
+	  var hasAttributeHandle = React$2.useMemo(function () {
+	    return type !== "html";
+	  }, [type]);
 	  var onClick = React$2.useCallback(function (event) {
 	    if (!isDragging) {
 	      event.stopPropagation();
@@ -14564,11 +14580,7 @@
 	    }),
 	    isDraggingSelf = _useDragWithinBounds.isDragging,
 	    offset = _useDragWithinBounds.offset,
-	    draggableProps = _objectWithoutProperties(_useDragWithinBounds, _excluded2$1);
-	  var hasAttributeHandle = type !== "html";
-	  if (type !== "html") {
-	    tagName = pascalize(type);
-	  }
+	    draggableProps = _objectWithoutProperties(_useDragWithinBounds, _excluded$4);
 
 	  // Call hook passing in the ref and a function to call on outside click
 	  useOnClickOutside(ref, function () {
@@ -14587,12 +14599,11 @@
 	    },
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentOpeningTag, {
 	      clientId: clientId,
-	      ref: openRef,
 	      editorRef: editorRef,
 	      children: hasAttributeHandle && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionHandle, {
-	        editorRef: editorRef,
 	        clientId: clientId,
 	        context: "to",
+	        editorRef: editorRef,
 	        isClone: true,
 	        position: "left"
 	      })
@@ -14601,7 +14612,6 @@
 	      children: children
 	    }), allowsChildren && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentClosingTag, {
 	      clientId: clientId,
-	      ref: closeRef,
 	      editorRef: editorRef
 	    }), draggable && /*#__PURE__*/jsxRuntimeExports.jsx(Draggable$1, _objectSpread2(_objectSpread2({}, draggableProps), {}, {
 	      children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
