@@ -71,7 +71,7 @@ function useRect(ref, parentRef, reduceProps = null) {
 
 			timeout = setTimeout(() => {
 				let newRect = getRect(
-					ref.current?.getBoundingClientRect(),
+					ref?.current?.getBoundingClientRect(),
 					parentRef?.current?.getBoundingClientRect(),
 					{
 						x: parentRef?.current?.scrollLeft || 0,

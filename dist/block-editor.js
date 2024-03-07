@@ -8380,7 +8380,7 @@
 	      }
 	      timeout = setTimeout(function () {
 	        var _ref$current, _parentRef$current, _parentRef$current2, _parentRef$current3;
-	        var newRect = getRect((_ref$current = ref.current) === null || _ref$current === void 0 ? void 0 : _ref$current.getBoundingClientRect(), parentRef === null || parentRef === void 0 || (_parentRef$current = parentRef.current) === null || _parentRef$current === void 0 ? void 0 : _parentRef$current.getBoundingClientRect(), {
+	        var newRect = getRect(ref === null || ref === void 0 || (_ref$current = ref.current) === null || _ref$current === void 0 ? void 0 : _ref$current.getBoundingClientRect(), parentRef === null || parentRef === void 0 || (_parentRef$current = parentRef.current) === null || _parentRef$current === void 0 ? void 0 : _parentRef$current.getBoundingClientRect(), {
 	          x: (parentRef === null || parentRef === void 0 || (_parentRef$current2 = parentRef.current) === null || _parentRef$current2 === void 0 ? void 0 : _parentRef$current2.scrollLeft) || 0,
 	          y: (parentRef === null || parentRef === void 0 || (_parentRef$current3 = parentRef.current) === null || _parentRef$current3 === void 0 ? void 0 : _parentRef$current3.scrollTop) || 0
 	        });
@@ -8546,11 +8546,13 @@
 	  return hasMouseFocus;
 	}
 
-	var useEditorDrop = function useEditorDrop(_ref, onDrop) {
-	  var _ref$ref = _ref.ref,
-	    ref = _ref$ref === void 0 ? null : _ref$ref,
-	    _ref$context = _ref.context,
-	    context = _ref$context === void 0 ? null : _ref$context;
+	var useEditorDrop = function useEditorDrop() {
+	  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var onDrop = arguments.length > 1 ? arguments[1] : undefined;
+	  var _props$context = props.context,
+	    context = _props$context === void 0 ? null : _props$context,
+	    _props$ref = props.ref,
+	    ref = _props$ref === void 0 ? null : _props$ref;
 	  var hasFocus = useMouseFocus(ref);
 	  var draggingContext = useSelector(function (state) {
 	    return getDraggingContext(state.editor);
@@ -8576,28 +8578,30 @@
 
 	var useEditorDrag = function useEditorDrag() {
 	  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-	  var context = props.context,
-	    ref = props.ref,
+	  var _props$context = props.context,
+	    context = _props$context === void 0 ? null : _props$context,
+	    _props$ref = props.ref,
+	    ref = _props$ref === void 0 ? null : _props$ref,
 	    onDrop = props.onDrop;
 	  var dispatch = useDispatch();
 	  var contextArray = React$2.useMemo(function () {
 	    return Array.isArray(context) && context || [context];
 	  }, [context]);
+	  var draggingContext = useSelector(function (state) {
+	    return getDraggingContext(state.editor);
+	  });
 	  var isWatchingContext = React$2.useMemo(function () {
 	    return context === null || contextArray.includes(draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.context);
-	  }, [contextArray]);
+	  }, [contextArray, draggingContext]);
 	  var isDragging = useSelector(function (state) {
 	    return state.editor.isDragging;
 	  });
 	  var _isDragging = React$2.useMemo(function () {
 	    return isDragging && isWatchingContext;
 	  }, [isDragging, isWatchingContext]);
-	  var draggingContext = useSelector(function (state) {
-	    return getDraggingContext(state.editor);
-	  });
-	  var _startDragging = function _startDragging(context) {
+	  var _startDragging = React$2.useCallback(function (context) {
 	    dispatch(startDragging(context));
-	  };
+	  }, []);
 	  var _stopDragging = React$2.useCallback(function () {
 	    // this is done at the end of the render to prevent click events
 	    setTimeout(function () {
@@ -13802,7 +13806,7 @@
 	  }, [centerPoint, draggingOffset, isDragging, isDraggingSelf, selfDraggingOffset]);
 	  useEditorDrop({
 	    ref: ref,
-	    context: "connectionHandle"
+	    context: ["connectionHandle"]
 	  }, function () {
 	    console.log("on drop:", editorDraggingContext);
 	  });
@@ -14554,9 +14558,8 @@
 	  var hasFocus = useMouseFocus(ref);
 	  var _useEditorDrag = useEditorDrag({
 	      context: ["existingComponent", "newComponent"],
-	      ref: ref,
-	      onDrop: onDrop
-	    }),
+	      ref: ref
+	    }, onDrop),
 	    isDragging = _useEditorDrag.isDragging;
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    className: clsx$1("BlueprintInsert", {

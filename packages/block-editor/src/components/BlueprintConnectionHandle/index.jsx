@@ -113,7 +113,7 @@ function BlueprintConnectionHandle({
 		selfDraggingOffset,
 	]);
 
-	useEditorDrop({ ref, context: "connectionHandle" }, () => {
+	useEditorDrop({ ref, context: ["connectionHandle"] }, () => {
 		console.log("on drop:", editorDraggingContext);
 	});
 

@@ -11,11 +11,10 @@ function BlueprintInsert({ editorRef = null, indent = 0, onDrop }) {
 	const ref = useRef(null);
 	const hasFocus = useMouseFocus(ref);
 
-	const { isDragging } = useEditorDrag({
-		context: ["existingComponent", "newComponent"],
-		ref,
+	const { isDragging } = useEditorDrag(
+		{ context: ["existingComponent", "newComponent"], ref },
 		onDrop,
-	});
+	);
 
 	if (process.env.NODE_ENV === "development") {
 		useDebugRenderCount("BlueprintInsert");

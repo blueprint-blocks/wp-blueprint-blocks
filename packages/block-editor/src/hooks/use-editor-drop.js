@@ -3,7 +3,8 @@ import { useSelector } from "react-redux";
 import useMouseFocus from "./use-mouse-focus";
 import { getDraggingContext } from "../store/editor";
 
-const useEditorDrop = ({ ref = null, context = null }, onDrop) => {
+const useEditorDrop = (props = {}, onDrop) => {
+	const { context = null, ref = null } = props;
 	const hasFocus = useMouseFocus(ref);
 
 	const draggingContext = useSelector((state) =>

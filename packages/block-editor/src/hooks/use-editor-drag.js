@@ -10,7 +10,7 @@ import {
 } from "../store/editor";
 
 const useEditorDrag = (props = {}) => {
-	const { context, ref, onDrop } = props;
+	const { context = null, ref = null, onDrop } = props;
 
 	const dispatch = useDispatch();
 
@@ -19,10 +19,14 @@ const useEditorDrag = (props = {}) => {
 		[context],
 	);
 
+	const draggingContext = useSelector((state) =>
+		getDraggingContext(state.editor),
+	);
+
 	const isWatchingContext = useMemo(
 		() =>
 			context === null || contextArray.includes(draggingContext?.context),
-		[contextArray],
+		[contextArray, draggingContext],
 	);
 
 	const isDragging = useSelector((state) => state.editor.isDragging);
@@ -32,13 +36,9 @@ const useEditorDrag = (props = {}) => {
 		[isDragging, isWatchingContext],
 	);
 
-	const draggingContext = useSelector((state) =>
-		getDraggingContext(state.editor),
-	);
-
-	const _startDragging = (context) => {
+	const _startDragging = useCallback((context) => {
 		dispatch(startDragging(context));
-	};
+	}, []);
 
 	const _stopDragging = useCallback(() => {
 		// this is done at the end of the render to prevent click events
