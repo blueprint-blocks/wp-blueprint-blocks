@@ -34,8 +34,6 @@ function BlueprintConnectionHandle({
 	isDragging = false,
 	...props
 }) {
-	return;
-
 	const dispatch = useDispatch();
 
 	const id = useId();
@@ -61,19 +59,20 @@ function BlueprintConnectionHandle({
 	};
 
 	const onStopDrag = () => {
+		dispatch(
+			setConnectionHandlePosition({
+				name,
+				id: clientId || id,
+				componentId,
+				context: (context === "from" && "from") || "to",
+				x: centerPoint.x,
+				y: centerPoint.y,
+			}),
+		);
+
 		// this is done at the end of the render to prevent click events
 		setTimeout(() => {
 			dispatch(stopDragging());
-			dispatch(
-				setConnectionHandlePosition({
-					name,
-					id: clientId || id,
-					componentId,
-					context: (context === "from" && "from") || "to",
-					x: centerPoint.x,
-					y: centerPoint.y,
-				}),
-			);
 			// this is done at the end of the next render to allow
 			// pickup by other components
 			setTimeout(() => {

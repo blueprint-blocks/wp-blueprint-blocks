@@ -1,12 +1,7 @@
 import clsx from "clsx";
 import { useRef } from "react";
 
-import {
-	useDebugRenderCount,
-	useEditorDrag,
-	useEditorDrop,
-	useMouseFocus,
-} from "../../hooks";
+import { useDebugRenderCount, useEditorDrag, useMouseFocus } from "../../hooks";
 
 import BlueprintDebugRect from "../BlueprintDebugRect";
 
@@ -15,12 +10,12 @@ import "./style.css";
 function BlueprintInsert({ editorRef = null, indent = 0, onDrop }) {
 	const ref = useRef(null);
 	const hasFocus = useMouseFocus(ref);
-	const { isDragging } = useEditorDrag();
 
-	useEditorDrop(
-		{ ref, context: ["existingComponent", "newComponent"] },
+	const { isDragging } = useEditorDrag({
+		context: ["existingComponent", "newComponent"],
+		ref,
 		onDrop,
-	);
+	});
 
 	if (process.env.NODE_ENV === "development") {
 		useDebugRenderCount("BlueprintInsert");

@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import useEditorDrop from "./use-editor-drop";
 
 import {
 	getDraggingContext,
@@ -8,10 +9,28 @@ import {
 	stopDragging,
 } from "../store/editor";
 
-const useEditorDrag = () => {
+const useEditorDrag = (props = {}) => {
+	const { context, ref, onDrop } = props;
+
 	const dispatch = useDispatch();
 
+	const contextArray = useMemo(
+		() => (Array.isArray(context) && context) || [context],
+		[context],
+	);
+
+	const isWatchingContext = useMemo(
+		() =>
+			context === null || contextArray.includes(draggingContext?.context),
+		[contextArray],
+	);
+
 	const isDragging = useSelector((state) => state.editor.isDragging);
+
+	const _isDragging = useMemo(
+		() => isDragging && isWatchingContext,
+		[isDragging, isWatchingContext],
+	);
 
 	const draggingContext = useSelector((state) =>
 		getDraggingContext(state.editor),
@@ -33,10 +52,12 @@ const useEditorDrag = () => {
 		}, 0);
 	}, []);
 
+	useEditorDrop({ context, ref }, onDrop);
+
 	return useMemo(
 		() => ({
 			context: draggingContext,
-			isDragging,
+			isDragging: _isDragging,
 			startDragging: _startDragging,
 			stopDragging: _stopDragging,
 		}),
