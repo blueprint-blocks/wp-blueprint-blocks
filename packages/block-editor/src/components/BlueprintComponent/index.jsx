@@ -3,13 +3,15 @@ import { useCallback, useMemo, useRef } from "react";
 import Draggable from "react-draggable";
 
 import { componentAllowsChildren } from "../../functions";
-import { useBlueprint } from "../../hooks";
 
 import {
+	useBlueprint,
+	useBlueprintConnections,
 	useDragWithinBounds,
 	useDebugRenderCount,
 	useEditorDrag,
 	useEditorFocus,
+	useMouseFocus,
 	useOnClickOutside,
 } from "../../hooks";
 
@@ -28,10 +30,12 @@ function BlueprintComponent({
 }) {
 	const ref = useRef(null);
 
-	const { isDragging, startDragging, stopDragging } = useEditorDrag();
+	const hasMouseFocus = useMouseFocus(ref);
 	const { hasFocus, setFocus, unsetFocus } = useEditorFocus(clientId);
+	const { isDragging, startDragging, stopDragging } = useEditorDrag();
+	const { draggingConnection } = useBlueprintConnections();
 
-	const { getComponentById } = useBlueprint();
+	const { getComponentById, setComponentAttribute } = useBlueprint();
 	const { tagName = null, type = "html" } = getComponentById(clientId);
 
 	const allowsChildren = useMemo(
@@ -73,6 +77,19 @@ function BlueprintComponent({
 		onStop: onStopDrag,
 	});
 
+	const { isDragging: isDraggingNewConnection } = useEditorDrag(
+		{ context: ["newConnectionHandle"], ref },
+		() => {
+			if (draggingConnection && hasAttributeHandle) {
+				setComponentAttribute(
+					clientId,
+					"attributeName",
+					draggingConnection?.attributeName,
+				);
+			}
+		},
+	);
+
 	// Call hook passing in the ref and a function to call on outside click
 	useOnClickOutside(ref, () => {
 		unsetFocus();
@@ -88,7 +105,11 @@ function BlueprintComponent({
 			className={clsx("BlueprintComponent", {
 				"is-draggable": draggable,
 				"is-dragging": isDraggingSelf,
-				"has-focus": hasFocus,
+				"has-focus":
+					hasFocus ||
+					(hasMouseFocus &&
+						hasAttributeHandle &&
+						isDraggingNewConnection),
 			})}
 			onClick={onClick}
 			style={{ "--indent": indent }}

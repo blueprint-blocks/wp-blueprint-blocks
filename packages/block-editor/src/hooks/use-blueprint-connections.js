@@ -4,7 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import useBlockJson from "./use-block-json";
 import useBlueprint from "./use-blueprint";
 
-import { setPosition } from "../store/connection-handles";
+import {
+	setDraggingConnection,
+	setPosition,
+	unsetDraggingConnection,
+} from "../store/connection-handles";
 
 const useBlueprintConnections = () => {
 	const dispatch = useDispatch();
@@ -33,9 +37,11 @@ const useBlueprintConnections = () => {
 		[componentAttributes, blockAttributes],
 	);
 
-	const { handlesFrom, handlesTo } = useSelector((state) => {
-		return state.connectionHandles || {};
-	});
+	const { draggingConnection, handlesFrom, handlesTo } = useSelector(
+		(state) => {
+			return state.connectionHandles || {};
+		},
+	);
 
 	const allConnections = useMemo(() => {
 		const allConnections = [];
@@ -78,6 +84,17 @@ const useBlueprintConnections = () => {
 		return connectionsById;
 	}, [_blockAttributes, handlesFrom, handlesTo]);
 
+	const _unsetDraggingConnection = useCallback(() => {
+		dispatch(unsetDraggingConnection());
+	}, []);
+
+	const _setDraggingConnection = useCallback(
+		({ attributeName, from, to }) => {
+			dispatch(setDraggingConnection({ attributeName, from, to }));
+		},
+		[],
+	);
+
 	const setHandlePosition = useCallback((handlePosition) => {
 		dispatch(setPosition(handlePosition));
 	}, []);
@@ -85,8 +102,11 @@ const useBlueprintConnections = () => {
 	return {
 		allConnections: allConnections || [],
 		connectionsById: connectionsById || {},
+		draggingConnection,
 		handlesFrom,
 		handlesTo,
+		unsetDraggingConnection: _unsetDraggingConnection,
+		setDraggingConnection: _setDraggingConnection,
 		setHandlePosition,
 	};
 };

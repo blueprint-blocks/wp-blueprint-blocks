@@ -1,4 +1,5 @@
 import clsx from "clsx";
+
 import {
 	useCallback,
 	useEffect,
@@ -7,6 +8,7 @@ import {
 	useRef,
 	useState,
 } from "react";
+
 import { useDispatch } from "react-redux";
 import Draggable from "react-draggable";
 
@@ -42,15 +44,19 @@ function BlueprintConnectionHandle({
 	const [name, setName] = useState(attributeName);
 	const [currentPosition, setCurrentPosition] = useState(centerPoint);
 
-	const { setHandlePosition } = useBlueprintConnections();
+	const {
+		setDraggingConnection,
+		setHandlePosition,
+		unsetDraggingConnection,
+	} = useBlueprintConnections();
 
 	const getCurrentPosition = () => {
-		if (isDraggingSelf) {
+		if (isDraggingSelf && context === "to") {
 			return {
 				x: centerPoint.x + selfDraggingOffset.x,
 				y: centerPoint.y + selfDraggingOffset.y,
 			};
-		} else if (isDragging) {
+		} else if (isDragging && context === "to") {
 			return {
 				x: centerPoint.x + draggingOffset.x,
 				y: centerPoint.y + draggingOffset.y,
@@ -59,19 +65,48 @@ function BlueprintConnectionHandle({
 		return centerPoint;
 	};
 
+	const onDrag = ({ x, y }) => {
+		if (context === "from") {
+			setDraggingConnection({
+				attributeName,
+				from: centerPoint,
+				to: {
+					x: centerPoint.x + x,
+					y: centerPoint.y + y,
+				},
+			});
+		}
+	};
+
 	const onStartDrag = () => {
-		startDragging({
-			attributeName,
-			clientId,
-			componentId,
-			context: "connectionHandle",
-			handleContext: context,
-		});
+		if (context === "from") {
+			startDragging({
+				attributeName,
+				clientId,
+				context: "newConnectionHandle",
+				handleContext: context,
+			});
+			setDraggingConnection({
+				attributeName,
+				from: centerPoint,
+				to: centerPoint,
+			});
+		} else {
+			startDragging({
+				attributeName,
+				clientId,
+				context: "connectionHandle",
+				handleContext: context,
+			});
+		}
 	};
 
 	const onStopDrag = () => {
 		dispatchPosition(centerPoint);
 		stopDragging();
+		setTimeout(() => {
+			unsetDraggingConnection();
+		}, 0);
 	};
 
 	const dispatchPosition = (position = null) => {
@@ -90,6 +125,7 @@ function BlueprintConnectionHandle({
 	} = useDragWithinBounds({
 		boundsRef: editorRef,
 		ref,
+		onDrag,
 		onStart: onStartDrag,
 		onStop: onStopDrag,
 	});

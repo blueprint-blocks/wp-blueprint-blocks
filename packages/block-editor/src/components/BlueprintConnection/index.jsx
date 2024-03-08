@@ -1,6 +1,11 @@
 import { useBlueprint } from "../../hooks";
 
-const BlueprintConnection = ({ attributeName, clientId, from, to }) => {
+const BlueprintConnection = ({
+	attributeName = null,
+	clientId = null,
+	from = null,
+	to = null,
+}) => {
 	const { unsetComponentAttribute } = useBlueprint();
 
 	const height = Math.abs(to?.y - from?.y);
@@ -11,7 +16,9 @@ const BlueprintConnection = ({ attributeName, clientId, from, to }) => {
 	const handleOffsetY = Math.round(height * 0.1 * 100) / 100;
 
 	const onClick = () => {
-		unsetComponentAttribute(clientId, "attributeName");
+		if (clientId) {
+			unsetComponentAttribute(clientId, "attributeName");
+		}
 	};
 
 	return (
