@@ -7247,7 +7247,7 @@
 	  };
 	};
 
-	var _excluded$d = ["isValid"];
+	var _excluded$c = ["isValid"];
 	var validateBlockJson = function validateBlockJson(blockJson) {
 	  var validations = blockJsonValidation.map(function (_ref) {
 	    var propertyName = _ref.propertyName,
@@ -7265,7 +7265,7 @@
 	  }, true);
 	  var errors = validations.filter(function (_ref2) {
 	    var isValid = _ref2.isValid;
-	      _objectWithoutProperties(_ref2, _excluded$d);
+	      _objectWithoutProperties(_ref2, _excluded$c);
 	    return isValid === false;
 	  });
 	  return {
@@ -7283,7 +7283,7 @@
 	};
 
 	var _blueprintBlocksEdito$a;
-	var _excluded$c = ["children"];
+	var _excluded$b = ["children"];
 	var blockComponents = {};
 	function parseComponentTree() {
 	  var components = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -7294,7 +7294,7 @@
 	  components.forEach(function (_ref) {
 	    var _ref$children = _ref.children,
 	      children = _ref$children === void 0 ? [] : _ref$children,
-	      component = _objectWithoutProperties(_ref, _excluded$c);
+	      component = _objectWithoutProperties(_ref, _excluded$b);
 	    var clientId = getUniqueClientId();
 	    var childClientIds = [];
 	    if (children.length > 0) {
@@ -7765,6 +7765,10 @@
 	  var unsetComponentAttribute = actions$9.unsetComponentAttribute;
 	  actions$9.unsetDraggingComponent;
 
+	var getAttribute = function getAttribute(state, attributeName) {
+	  var _state$attributes;
+	  return (state === null || state === void 0 || (_state$attributes = state.attributes) === null || _state$attributes === void 0 ? void 0 : _state$attributes[attributeName]) || null;
+	};
 	var getBlockClassName = function getBlockClassName(state, context) {
 	  var _state$name = state.name,
 	    name = _state$name === void 0 ? "" : _state$name;
@@ -7830,6 +7834,7 @@
 	        type = _action$payload2$type === void 0 ? "string" : _action$payload2$type,
 	        _action$payload2$defa = _action$payload2.defaultValue,
 	        defaultValue = _action$payload2$defa === void 0 ? null : _action$payload2$defa;
+	      console.log(name, type, defaultValue);
 	      state.attributes = _objectSpread2(_objectSpread2({}, state.attributes), {}, _defineProperty$1({}, name, {
 	        type: ALLOWED_ATTRIBUTE_TYPES.includes(type) && type || "string",
 	        "default": defaultValue || null
@@ -7997,12 +8002,12 @@
 	  state.currentDraggingContext = null;
 	};
 
-	var _excluded$b = ["context"];
+	var _excluded$a = ["context"];
 	var setFocus$1 = function setFocus(state, action) {
 	  var _ref = action.payload || {},
 	    _ref$context = _ref.context,
 	    context = _ref$context === void 0 ? null : _ref$context,
-	    props = _objectWithoutProperties(_ref, _excluded$b);
+	    props = _objectWithoutProperties(_ref, _excluded$a);
 	  if (context === null) {
 	    return;
 	  }
@@ -8199,7 +8204,7 @@
 	  return n;
 	}
 
-	var _excluded$a = ["id"],
+	var _excluded$9 = ["id"],
 	  _excluded2$2 = ["id"];
 	function saveNewBlock(_ref) {
 	  var postType = _ref.postType,
@@ -8223,7 +8228,7 @@
 	      }
 	    }).then(function (_ref2) {
 	      var id = _ref2.id;
-	        _objectWithoutProperties(_ref2, _excluded$a);
+	        _objectWithoutProperties(_ref2, _excluded$9);
 	      resolve({
 	        id: id
 	      });
@@ -8281,19 +8286,40 @@
 	var useBlockJson = function useBlockJson() {
 	  var dispatch = useDispatch();
 	  var _useSelector = useSelector(function (state) {
-	      return state.blockJson || {};
+	      return state.blockJson;
 	    }),
 	    attributes = _useSelector.attributes;
-	  var _addAttribute = function _addAttribute(attribute) {
-	    dispatch(addAttribute(attribute));
+	  var _addAttribute = function _addAttribute(attributeName, attributeProps) {
+	    dispatch(addAttribute(_objectSpread2(_objectSpread2({}, attributeProps), {}, {
+	      name: attributeName
+	    })));
 	  };
 	  var addEmptyAttribute = function addEmptyAttribute() {
 	    dispatch(addAttribute({}));
 	  };
+	  var _editAttribute = function _editAttribute(attributeName, attributeProps) {
+	    dispatch(editAttribute(_objectSpread2(_objectSpread2({}, attributeProps), {}, {
+	      name: attributeName
+	    })));
+	  };
+	  var _getAttribute = function _getAttribute(attributeName) {
+	    return useSelector(function (state) {
+	      return getAttribute(state.blockJson, attributeName);
+	    });
+	  };
+	  var renameAttribute = function renameAttribute(attributeName, newAttributeName, attributeProps) {
+	    dispatch(removeAttribute(attributeName));
+	    dispatch(editAttribute(_objectSpread2(_objectSpread2({}, attributeProps), {}, {
+	      name: newAttributeName
+	    })));
+	  };
 	  return {
 	    addAttribute: _addAttribute,
 	    addEmptyAttribute: addEmptyAttribute,
-	    blockAttributes: attributes
+	    blockAttributes: attributes,
+	    editAttribute: _editAttribute,
+	    getAttribute: _getAttribute,
+	    renameAttribute: renameAttribute
 	  };
 	};
 
@@ -13836,7 +13862,7 @@
 	var cjsExports = cjs.exports;
 	var Draggable$1 = /*@__PURE__*/getDefaultExportFromCjs(cjsExports);
 
-	var _excluded$9 = ["attributeName", "clientId", "context", "draggingOffset", "editorRef", "isClone", "isDragging"],
+	var _excluded$8 = ["attributeName", "clientId", "context", "draggingOffset", "editorRef", "isClone", "isDragging"],
 	  _excluded2$1 = ["isDragging", "offset"];
 	function BlueprintConnectionHandle(_ref) {
 	  var attributeName = _ref.attributeName,
@@ -13855,7 +13881,7 @@
 	    isClone = _ref$isClone === void 0 ? false : _ref$isClone,
 	    _ref$isDragging = _ref.isDragging,
 	    isDragging = _ref$isDragging === void 0 ? false : _ref$isDragging,
-	    props = _objectWithoutProperties(_ref, _excluded$9);
+	    props = _objectWithoutProperties(_ref, _excluded$8);
 	  var dispatch = useDispatch();
 	  var id = clientId || React$2.useId();
 	  var ref = React$2.useRef(null);
@@ -13993,123 +14019,84 @@
 	  });
 	}
 
-	var _excluded$8 = ["attributeName", "attributeType", "editorRef"];
 	function BlueprintAttribute(_ref) {
-	  var _attributeTypes$attri;
 	  var _ref$attributeName = _ref.attributeName,
 	    attributeName = _ref$attributeName === void 0 ? null : _ref$attributeName,
-	    _ref$attributeType = _ref.attributeType,
-	    attributeType = _ref$attributeType === void 0 ? "string" : _ref$attributeType,
 	    _ref$editorRef = _ref.editorRef,
-	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef,
-	    props = _objectWithoutProperties(_ref, _excluded$8);
-	  var attributeDefault;
-	  if (isObject(props === null || props === void 0 ? void 0 : props.attributeDefault) || isArray(props === null || props === void 0 ? void 0 : props.attributeDefault)) {
-	    attributeDefault = JSON.stringify(props === null || props === void 0 ? void 0 : props.attributeDefault);
-	  } else {
-	    attributeDefault = props === null || props === void 0 ? void 0 : props.attributeDefault;
-	  }
+	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef;
 	  var ref = React$2.useRef(null);
-	  var attributeNameRef = React$2.useRef(null);
-	  var attributeTypeRef = React$2.useRef(null);
-	  var attributeDefaultRef = React$2.useRef(null);
-	  var dispatch = useDispatch();
-	  var _useState = React$2.useState(attributeName),
+	  var _useBlockJson = useBlockJson(),
+	    editAttribute = _useBlockJson.editAttribute,
+	    getAttribute = _useBlockJson.getAttribute,
+	    renameAttribute = _useBlockJson.renameAttribute;
+	  var attribute = getAttribute(attributeName);
+	  var attributeDefault = React$2.useMemo(function () {
+	    if (isObject(attribute === null || attribute === void 0 ? void 0 : attribute["default"]) || isArray(attribute === null || attribute === void 0 ? void 0 : attribute["default"])) {
+	      return JSON.stringify(attribute["default"]);
+	    } else {
+	      return (attribute === null || attribute === void 0 ? void 0 : attribute["default"]) || null;
+	    }
+	  }, [attribute]);
+	  var attributeType = React$2.useMemo(function () {
+	    return (attribute === null || attribute === void 0 ? void 0 : attribute.type) || "string";
+	  }, [attribute]);
+	  var _useState = React$2.useState(attributeType),
 	    _useState2 = _slicedToArray(_useState, 2),
-	    attributeNameValue = _useState2[0],
-	    setAttributeNameValue = _useState2[1];
-	  var _useState3 = React$2.useState(attributeType),
-	    _useState4 = _slicedToArray(_useState3, 2),
-	    attributeTypeValue = _useState4[0],
-	    setAttributeTypeValue = _useState4[1];
-	  var _useState5 = React$2.useState(attributeDefault),
-	    _useState6 = _slicedToArray(_useState5, 2),
-	    attributeDefaultValue = _useState6[0],
-	    setAttributeDefaultValue = _useState6[1];
-	  var _useState7 = React$2.useState(true),
-	    _useState8 = _slicedToArray(_useState7, 2),
-	    attributeNameValid = _useState8[0],
-	    setAttributeNameValid = _useState8[1];
-	  var _useState9 = React$2.useState(true),
-	    _useState10 = _slicedToArray(_useState9, 2),
-	    attributeTypeValid = _useState10[0],
-	    setAttributeTypeValid = _useState10[1];
-	  var _useState11 = React$2.useState(true),
-	    _useState12 = _slicedToArray(_useState11, 2),
-	    attributeDefaultValid = _useState12[0],
-	    setAttributeDefaultValid = _useState12[1];
-	  var allowsNullDefault = attributeTypes === null || attributeTypes === void 0 || (_attributeTypes$attri = attributeTypes[attributeTypeValue]) === null || _attributeTypes$attri === void 0 ? void 0 : _attributeTypes$attri.allowsNull;
-	  function onChangeAttributeName(value) {
-	    dispatch(removeAttribute(attributeNameValue));
-	    dispatch(addAttribute({
-	      name: value,
-	      type: attributeTypeValue,
-	      "default": attributeDefaultValue
-	    }));
-	    setAttributeNameValue(value);
-	  }
-	  function onChangeAttributeType(value) {
-	    dispatch(editAttribute({
-	      name: attributeNameValue,
-	      type: value,
-	      "default": attributeDefaultValue
-	    }));
-	    setAttributeTypeValue(value);
-	  }
-	  function onChangeAttributeDefault(value) {
-	    dispatch(editAttribute({
-	      name: attributeNameValue,
-	      type: attributeTypeValue,
-	      "default": value
-	    }));
-	    setAttributeDefaultValue(value);
-	  }
-	  React$2.useLayoutEffect(function () {
-	    if (!(attributeNameValue !== null && attributeNameValue !== void 0 && attributeNameValue.length)) {
-	      setAttributeNameValid(false);
-	    } else {
-	      setAttributeNameValid(true);
+	    _attributeType = _useState2[0],
+	    setAttributeType = _useState2[1];
+	  var allowsNullDefault = React$2.useMemo(function () {
+	    var _attributeTypes$attri;
+	    return (attributeTypes === null || attributeTypes === void 0 || (_attributeTypes$attri = attributeTypes[attributeType]) === null || _attributeTypes$attri === void 0 ? void 0 : _attributeTypes$attri.allowsNull) === false && false || true;
+	  }, [attribute]);
+	  var attributeNameValid = React$2.useMemo(function () {
+	    return (attributeName === null || attributeName === void 0 ? void 0 : attributeName.length) > 0;
+	  }, [attributeName]);
+	  var attributeTypeValid = React$2.useMemo(function () {
+	    return attributeType in attributeTypes;
+	  }, [attributeType]);
+	  var attributeDefaultValid = React$2.useMemo(function () {
+	    if (attributeType === "array" && !isAttributeArrayValue(attributeDefault) && !isStringNullValue(attributeDefault)) {
+	      return false;
+	    } else if (attributeType === "object" && !isAttributeObjectValue(attributeDefault) && !isStringNullValue(attributeDefault)) {
+	      return false;
+	    } else if (attributeTypeValid && !allowsNullDefault && !(attributeDefault !== null && attributeDefault !== void 0 && attributeDefault.length)) {
+	      return false;
 	    }
-	  }, [attributeNameValue]);
-	  React$2.useLayoutEffect(function () {
-	    if (!(attributeTypeValue in attributeTypes)) {
-	      setAttributeTypeValid(false);
-	    } else {
-	      setAttributeTypeValid(true);
-	    }
-	  }, [attributeTypeValue]);
-	  React$2.useLayoutEffect(function () {
-	    if (attributeTypeValue === "array" && !isAttributeArrayValue(attributeDefaultValue) && !isStringNullValue(attributeDefaultValue)) {
-	      setAttributeDefaultValid(false);
-	    } else if (attributeTypeValue === "object" && !isAttributeObjectValue(attributeDefaultValue) && !isStringNullValue(attributeDefaultValue)) {
-	      setAttributeDefaultValid(false);
-	    } else if (attributeTypeValid && !allowsNullDefault && !(attributeDefaultValue !== null && attributeDefaultValue !== void 0 && attributeDefaultValue.length)) {
-	      setAttributeDefaultValid(false);
-	    } else {
-	      setAttributeDefaultValid(true);
-	    }
-	  }, [attributeDefaultValue, attributeTypeValue, attributeTypeValid]);
-	  React$2.useLayoutEffect(function () {
-	    attributeNameRef.current.classList.toggle("is-invalid", !attributeNameValid);
-	  }, [attributeNameValid]);
-	  React$2.useLayoutEffect(function () {
-	    attributeTypeRef.current.classList.toggle("is-invalid", !attributeTypeValid);
-	  }, [attributeTypeValid]);
-	  React$2.useLayoutEffect(function () {
-	    attributeDefaultRef.current.classList.toggle("is-invalid", !attributeDefaultValid);
-	  }, [attributeDefaultValid]);
+	    return true;
+	  }, [allowsNullDefault, attributeDefault, attributeType, attributeTypeValid]);
+	  function onChangeAttributeName(newAttributeName) {
+	    renameAttribute(attributeName, newAttributeName, {
+	      type: attributeType,
+	      defaultValue: attributeDefault
+	    });
+	  }
+	  function onChangeAttributeType(newAttributeType) {
+	    editAttribute(attributeName, {
+	      type: newAttributeType,
+	      defaultValue: attributeDefault
+	    });
+	    setAttributeType(newAttributeType);
+	  }
+	  function onChangeAttributeDefault(newAttributeDefault) {
+	    editAttribute(attributeName, {
+	      type: attributeType,
+	      defaultValue: newAttributeDefault
+	    });
+	  }
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: "BlueprintAttribute",
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionHandle, {
-	      attributeName: attributeNameValue,
+	      attributeName: attributeName,
 	      context: "from",
 	      editorRef: editorRef,
 	      position: "right"
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintAttribute-line",
 	      children: /*#__PURE__*/jsxRuntimeExports.jsxs("span", {
-	        ref: attributeNameRef,
+	        className: clsx$1({
+	          "is-invalid": !attributeNameValid
+	        }),
 	        children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintWarning, {
 	          position: "left"
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
@@ -14117,7 +14104,7 @@
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
 	          className: "BlueprintAttribute-name",
 	          placeholder: "attributeName",
-	          value: attributeNameValue,
+	          value: attributeName,
 	          onChange: onChangeAttributeName
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	          children: '": {'
@@ -14126,7 +14113,9 @@
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintAttribute-line indent",
 	      children: /*#__PURE__*/jsxRuntimeExports.jsxs("span", {
-	        ref: attributeTypeRef,
+	        className: clsx$1({
+	          "is-invalid": !attributeTypeValid
+	        }),
 	        children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintWarning, {
 	          position: "right"
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
@@ -14139,7 +14128,7 @@
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
 	          className: "BlueprintAttribute-type",
 	          placeholder: "string",
-	          value: attributeTypeValue,
+	          value: _attributeType,
 	          onChange: onChangeAttributeType
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	          children: '"'
@@ -14148,7 +14137,9 @@
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintAttribute-line indent",
 	      children: /*#__PURE__*/jsxRuntimeExports.jsxs("span", {
-	        ref: attributeDefaultRef,
+	        className: clsx$1({
+	          "is-invalid": !attributeDefaultValid
+	        }),
 	        children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintWarning, {
 	          position: "right"
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
@@ -14158,14 +14149,14 @@
 	          children: "default"
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	          children: "\": "
-	        }), (attributeTypeValue === "string" && !isStringNullValue(attributeDefaultValue) || isAttributeStringValue(attributeDefaultValue)) && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	        }), (attributeType === "string" && !isStringNullValue(attributeDefault) || isAttributeStringValue(attributeDefault)) && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	          children: "\""
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
 	          className: "BlueprintAttribute-default",
 	          placeholder: "null",
-	          value: attributeDefaultValue,
+	          value: attributeDefault,
 	          onChange: onChangeAttributeDefault
-	        }), (attributeTypeValue === "string" && !isStringNullValue(attributeDefaultValue) || isAttributeStringValue(attributeDefaultValue)) && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	        }), (attributeType === "string" && !isStringNullValue(attributeDefault) || isAttributeStringValue(attributeDefault)) && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	          children: "\""
 	        })]
 	      })
@@ -14222,20 +14213,15 @@
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: "BlueprintAttributeList",
-	    children: [Object.entries(blockAttributes).length > 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	    children: [Object.keys(blockAttributes).length > 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintAttributeList-list",
-	      children: Object.entries(blockAttributes).map(function (_ref2, index) {
-	        var _ref3 = _slicedToArray(_ref2, 2),
-	          attributeName = _ref3[0],
-	          attributeProps = _ref3[1];
+	      children: Object.keys(blockAttributes).map(function (attributeName, index) {
 	        return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintAttribute, {
 	          attributeName: attributeName,
-	          attributeType: attributeProps === null || attributeProps === void 0 ? void 0 : attributeProps.type,
-	          attributeDefault: attributeProps === null || attributeProps === void 0 ? void 0 : attributeProps["default"],
 	          editorRef: editorRef
 	        }, index);
 	      })
-	    }), Object.entries(blockAttributes).length === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintHint, {
+	    }), Object.keys(blockAttributes).length === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintHint, {
 	      text: "Add attributes for values that you'd like to be saved upon update.",
 	      editorRef: editorRef
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {

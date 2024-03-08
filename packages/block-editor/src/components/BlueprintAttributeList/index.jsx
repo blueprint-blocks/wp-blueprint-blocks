@@ -16,14 +16,12 @@ const BlueprintAttributeList = forwardRef(({ editorRef = null }, ref) => {
 
 	return (
 		<div ref={ref} className="BlueprintAttributeList">
-			{Object.entries(blockAttributes).length > 0 && (
+			{Object.keys(blockAttributes).length > 0 && (
 				<div className="BlueprintAttributeList-list">
-					{Object.entries(blockAttributes).map(
-						([attributeName, attributeProps], index) => (
+					{Object.keys(blockAttributes).map(
+						(attributeName, index) => (
 							<BlueprintAttribute
 								attributeName={attributeName}
-								attributeType={attributeProps?.type}
-								attributeDefault={attributeProps?.default}
 								editorRef={editorRef}
 								key={index}
 							/>
@@ -31,7 +29,7 @@ const BlueprintAttributeList = forwardRef(({ editorRef = null }, ref) => {
 					)}
 				</div>
 			)}
-			{Object.entries(blockAttributes).length === 0 && (
+			{Object.keys(blockAttributes).length === 0 && (
 				<BlueprintHint
 					text={`Add attributes for values that you'd like to be saved upon update.`}
 					editorRef={editorRef}

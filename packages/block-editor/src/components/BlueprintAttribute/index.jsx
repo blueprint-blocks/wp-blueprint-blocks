@@ -1,12 +1,7 @@
-import { useLayoutEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import clsx from "clsx";
+import { useMemo, useRef, useState } from "react";
 
 import { attributeTypes } from "../../data";
-import {
-	addAttribute,
-	editAttribute,
-	removeAttribute,
-} from "../../store/block-json";
 
 import {
 	isArray,
@@ -18,7 +13,7 @@ import {
 	isObject,
 } from "../../functions";
 
-import { useDebugRenderCount } from "../../hooks";
+import { useBlockJson, useDebugRenderCount } from "../../hooks";
 
 import BlueprintConnectionHandle from "../BlueprintConnectionHandle";
 import BlueprintWarning from "../BlueprintWarning";
@@ -26,136 +21,94 @@ import EditableString from "../EditableString";
 
 import "./style.css";
 
-function BlueprintAttribute({
-	attributeName = null,
-	attributeType = "string",
-	editorRef = null,
-	...props
-}) {
-	let attributeDefault;
-
-	if (isObject(props?.attributeDefault) || isArray(props?.attributeDefault)) {
-		attributeDefault = JSON.stringify(props?.attributeDefault);
-	} else {
-		attributeDefault = props?.attributeDefault;
-	}
-
+function BlueprintAttribute({ attributeName = null, editorRef = null }) {
 	const ref = useRef(null);
-	const attributeNameRef = useRef(null);
-	const attributeTypeRef = useRef(null);
-	const attributeDefaultRef = useRef(null);
 
-	const dispatch = useDispatch();
+	const { editAttribute, getAttribute, renameAttribute } = useBlockJson();
+	const attribute = getAttribute(attributeName);
 
-	const [attributeNameValue, setAttributeNameValue] = useState(attributeName);
-	const [attributeTypeValue, setAttributeTypeValue] = useState(attributeType);
-	const [attributeDefaultValue, setAttributeDefaultValue] =
-		useState(attributeDefault);
-
-	const [attributeNameValid, setAttributeNameValid] = useState(true);
-	const [attributeTypeValid, setAttributeTypeValid] = useState(true);
-	const [attributeDefaultValid, setAttributeDefaultValid] = useState(true);
-
-	const allowsNullDefault = attributeTypes?.[attributeTypeValue]?.allowsNull;
-
-	function onChangeAttributeName(value) {
-		dispatch(removeAttribute(attributeNameValue));
-
-		dispatch(
-			addAttribute({
-				name: value,
-				type: attributeTypeValue,
-				default: attributeDefaultValue,
-			}),
-		);
-
-		setAttributeNameValue(value);
-	}
-
-	function onChangeAttributeType(value) {
-		dispatch(
-			editAttribute({
-				name: attributeNameValue,
-				type: value,
-				default: attributeDefaultValue,
-			}),
-		);
-
-		setAttributeTypeValue(value);
-	}
-
-	function onChangeAttributeDefault(value) {
-		dispatch(
-			editAttribute({
-				name: attributeNameValue,
-				type: attributeTypeValue,
-				default: value,
-			}),
-		);
-
-		setAttributeDefaultValue(value);
-	}
-
-	useLayoutEffect(() => {
-		if (!attributeNameValue?.length) {
-			setAttributeNameValid(false);
+	const attributeDefault = useMemo(() => {
+		if (isObject(attribute?.default) || isArray(attribute?.default)) {
+			return JSON.stringify(attribute.default);
 		} else {
-			setAttributeNameValid(true);
+			return attribute?.default || null;
 		}
-	}, [attributeNameValue]);
+	}, [attribute]);
 
-	useLayoutEffect(() => {
-		if (!(attributeTypeValue in attributeTypes)) {
-			setAttributeTypeValid(false);
-		} else {
-			setAttributeTypeValid(true);
-		}
-	}, [attributeTypeValue]);
+	const attributeType = useMemo(
+		() => attribute?.type || "string",
+		[attribute],
+	);
 
-	useLayoutEffect(() => {
+	const [_attributeType, setAttributeType] = useState(attributeType);
+
+	const allowsNullDefault = useMemo(
+		() =>
+			(attributeTypes?.[attributeType]?.allowsNull === false && false) ||
+			true,
+		[attribute],
+	);
+
+	const attributeNameValid = useMemo(
+		() => attributeName?.length > 0,
+		[attributeName],
+	);
+
+	const attributeTypeValid = useMemo(
+		() => attributeType in attributeTypes,
+		[attributeType],
+	);
+
+	const attributeDefaultValid = useMemo(() => {
 		if (
-			attributeTypeValue === "array" &&
-			!isAttributeArrayValue(attributeDefaultValue) &&
-			!isAttributeNullValue(attributeDefaultValue)
+			attributeType === "array" &&
+			!isAttributeArrayValue(attributeDefault) &&
+			!isAttributeNullValue(attributeDefault)
 		) {
-			setAttributeDefaultValid(false);
+			return false;
 		} else if (
-			attributeTypeValue === "object" &&
-			!isAttributeObjectValue(attributeDefaultValue) &&
-			!isAttributeNullValue(attributeDefaultValue)
+			attributeType === "object" &&
+			!isAttributeObjectValue(attributeDefault) &&
+			!isAttributeNullValue(attributeDefault)
 		) {
-			setAttributeDefaultValid(false);
+			return false;
 		} else if (
 			attributeTypeValid &&
 			!allowsNullDefault &&
-			!attributeDefaultValue?.length
+			!attributeDefault?.length
 		) {
-			setAttributeDefaultValid(false);
-		} else {
-			setAttributeDefaultValid(true);
+			return false;
 		}
-	}, [attributeDefaultValue, attributeTypeValue, attributeTypeValid]);
 
-	useLayoutEffect(() => {
-		attributeNameRef.current.classList.toggle(
-			"is-invalid",
-			!attributeNameValid,
-		);
-	}, [attributeNameValid]);
+		return true;
+	}, [
+		allowsNullDefault,
+		attributeDefault,
+		attributeType,
+		attributeTypeValid,
+	]);
 
-	useLayoutEffect(() => {
-		attributeTypeRef.current.classList.toggle(
-			"is-invalid",
-			!attributeTypeValid,
-		);
-	}, [attributeTypeValid]);
+	function onChangeAttributeName(newAttributeName) {
+		renameAttribute(attributeName, newAttributeName, {
+			type: attributeType,
+			defaultValue: attributeDefault,
+		});
+	}
 
-	useLayoutEffect(() => {
-		attributeDefaultRef.current.classList.toggle(
-			"is-invalid",
-			!attributeDefaultValid,
-		);
-	}, [attributeDefaultValid]);
+	function onChangeAttributeType(newAttributeType) {
+		editAttribute(attributeName, {
+			type: newAttributeType,
+			defaultValue: attributeDefault,
+		});
+		setAttributeType(newAttributeType);
+	}
+
+	function onChangeAttributeDefault(newAttributeDefault) {
+		editAttribute(attributeName, {
+			type: attributeType,
+			defaultValue: newAttributeDefault,
+		});
+	}
 
 	if (process.env.NODE_ENV === "development") {
 		useDebugRenderCount("BlueprintAttribute");
@@ -164,26 +117,26 @@ function BlueprintAttribute({
 	return (
 		<div ref={ref} className="BlueprintAttribute">
 			<BlueprintConnectionHandle
-				attributeName={attributeNameValue}
+				attributeName={attributeName}
 				context="from"
 				editorRef={editorRef}
 				position="right"
 			/>
 			<div className="BlueprintAttribute-line">
-				<span ref={attributeNameRef}>
+				<span className={clsx({ "is-invalid": !attributeNameValid })}>
 					<BlueprintWarning position="left" />
 					<span>{'"'}</span>
 					<EditableString
 						className="BlueprintAttribute-name"
 						placeholder="attributeName"
-						value={attributeNameValue}
+						value={attributeName}
 						onChange={onChangeAttributeName}
 					/>
 					<span>{'": {'}</span>
 				</span>
 			</div>
 			<div className="BlueprintAttribute-line indent">
-				<span ref={attributeTypeRef}>
+				<span className={clsx({ "is-invalid": !attributeTypeValid })}>
 					<BlueprintWarning position="right" />
 					<span>{'"'}</span>
 					<span className="key">{`type`}</span>
@@ -191,32 +144,34 @@ function BlueprintAttribute({
 					<EditableString
 						className="BlueprintAttribute-type"
 						placeholder="string"
-						value={attributeTypeValue}
+						value={_attributeType}
 						onChange={onChangeAttributeType}
 					/>
 					<span>{'"'}</span>
 				</span>
 			</div>
 			<div className="BlueprintAttribute-line indent">
-				<span ref={attributeDefaultRef}>
+				<span
+					className={clsx({ "is-invalid": !attributeDefaultValid })}
+				>
 					<BlueprintWarning position="right" />
 					<span>{'"'}</span>
 					<span className="key">{`default`}</span>
 					<span>{`": `}</span>
-					{((attributeTypeValue === "string" &&
-						!isAttributeNullValue(attributeDefaultValue)) ||
-						isAttributeStringValue(attributeDefaultValue)) && (
+					{((attributeType === "string" &&
+						!isAttributeNullValue(attributeDefault)) ||
+						isAttributeStringValue(attributeDefault)) && (
 						<span>{`"`}</span>
 					)}
 					<EditableString
 						className="BlueprintAttribute-default"
 						placeholder="null"
-						value={attributeDefaultValue}
+						value={attributeDefault}
 						onChange={onChangeAttributeDefault}
 					/>
-					{((attributeTypeValue === "string" &&
-						!isAttributeNullValue(attributeDefaultValue)) ||
-						isAttributeStringValue(attributeDefaultValue)) && (
+					{((attributeType === "string" &&
+						!isAttributeNullValue(attributeDefault)) ||
+						isAttributeStringValue(attributeDefault)) && (
 						<span>{`"`}</span>
 					)}
 				</span>

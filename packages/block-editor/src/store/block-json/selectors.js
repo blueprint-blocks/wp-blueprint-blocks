@@ -1,5 +1,9 @@
 import { delimiterize } from "../../functions";
 
+const getAttribute = (state, attributeName) => {
+	return state?.attributes?.[attributeName] || null;
+};
+
 const getBlockClassName = (state, context) => {
 	const { name = "" } = state;
 	return `wp-block-${delimiterize(name)}`;
@@ -15,4 +19,4 @@ const getBlockNamespace = (state, context) => {
 	return name.split("/")?.[0] || "";
 };
 
-export { getBlockClassName, getBlockName, getBlockNamespace };
+export { getAttribute, getBlockClassName, getBlockName, getBlockNamespace };

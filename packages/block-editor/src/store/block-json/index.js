@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import {
+	getAttribute,
 	getBlockClassName,
 	getBlockName,
 	getBlockNamespace,
@@ -74,6 +75,8 @@ const slice = createSlice({
 				defaultValue = null,
 			} = action.payload;
 
+			console.log(name, type, defaultValue);
+
 			state.attributes = {
 				...state.attributes,
 				[name]: {
@@ -143,7 +146,7 @@ export const {
 	setTitle,
 } = actions;
 
-export { getBlockClassName, getBlockName, getBlockNamespace };
+export { getAttribute, getBlockClassName, getBlockName, getBlockNamespace };
 
 export {
 	validateFullNameFormat,
