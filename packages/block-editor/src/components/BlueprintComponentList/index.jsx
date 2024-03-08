@@ -74,7 +74,7 @@ const BlueprintComponentList = forwardRef(
 						/>
 					),
 					<BlueprintComponent
-						key={index}
+						key={clientId}
 						index={index}
 						indent={indent}
 						clientId={clientId}

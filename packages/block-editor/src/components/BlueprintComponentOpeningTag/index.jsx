@@ -40,7 +40,7 @@ const BlueprintComponentOpeningTag = ({
 	const componentAttributes = useMemo(() => {
 		const componentAttributes = [];
 
-		if (process.env.NODE_ENV === "development") {
+		if (process.env.NODE_ENV === "development" && env.DEBUG_CLIENT_ID) {
 			componentAttributes.push(["clientId", clientId]);
 		}
 

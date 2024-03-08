@@ -58,7 +58,7 @@ const useBlueprintConnections = () => {
 		});
 
 		return allConnections;
-	}, [_blockAttributes, handlesFrom, handlesTo]);
+	}, [blockAttributes, _blockAttributes, handlesFrom, handlesTo]);
 
 	const connectionsById = useMemo(() => {
 		const connectionsById = {};

@@ -23,7 +23,7 @@ const BlueprintAttributeList = forwardRef(({ editorRef = null }, ref) => {
 							<BlueprintAttribute
 								attributeName={attributeName}
 								editorRef={editorRef}
-								key={index}
+								key={attributeName}
 							/>
 						),
 					)}

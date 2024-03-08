@@ -8392,7 +8392,7 @@
 	      });
 	    });
 	    return allConnections;
-	  }, [_blockAttributes, handlesFrom, handlesTo]);
+	  }, [blockAttributes, _blockAttributes, handlesFrom, handlesTo]);
 	  var connectionsById = React$2.useMemo(function () {
 	    var connectionsById = {};
 	    _blockAttributes.forEach(function (_ref7) {
@@ -14219,7 +14219,7 @@
 	        return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintAttribute, {
 	          attributeName: attributeName,
 	          editorRef: editorRef
-	        }, index);
+	        }, attributeName);
 	      })
 	    }), Object.keys(blockAttributes).length === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintHint, {
 	      text: "Add attributes for values that you'd like to be saved upon update.",
@@ -14769,7 +14769,7 @@
 	          editorRef: editorRef,
 	          onDrop: _onDrop
 	        })]
-	      }, index)];
+	      }, clientId)];
 	    }), !hintText && ((_componentList = componentList) === null || _componentList === void 0 ? void 0 : _componentList.length) > 0 && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintInsert, {
 	      indent: indent,
 	      editorRef: editorRef,

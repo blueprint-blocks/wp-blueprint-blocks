@@ -1,4 +1,4 @@
-import { useMemo, useRef } from "react";
+import { useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { useBlueprintConnections } from "../../hooks";
