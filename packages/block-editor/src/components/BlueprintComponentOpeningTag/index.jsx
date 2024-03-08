@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo } from "react";
+import { useLayoutEffect, useMemo, useRef } from "react";
 
 import { componentAllowsChildren, pascalize } from "../../functions";
 import { useBlockClassName, useBlueprint } from "../../hooks";
@@ -13,6 +13,8 @@ const BlueprintComponentOpeningTag = ({
 	disabled = false,
 	editorRef = null,
 }) => {
+	const ref = useRef(null);
+
 	const blockClassName = useBlockClassName();
 	const { getComponentById } = useBlueprint();
 
@@ -38,7 +40,9 @@ const BlueprintComponentOpeningTag = ({
 	const componentAttributes = useMemo(() => {
 		const componentAttributes = [];
 
-		componentAttributes.push(["clientId", clientId]);
+		if (process.env.NODE_ENV === "development") {
+			componentAttributes.push(["clientId", clientId]);
+		}
 
 		Object.entries(_component).forEach(([name, value]) => {
 			if (

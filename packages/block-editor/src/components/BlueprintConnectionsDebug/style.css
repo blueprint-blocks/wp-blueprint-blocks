@@ -1,0 +1,27 @@
+@if $env == development {
+	.BlueprintConnectionsDebug {
+		backdrop-filter: blur(4px);
+		background: #ffffffbf;
+		border-radius: 5px;
+		box-shadow: 0 var(--1x) var(--3x) rgba(0, 0, 0, 0.1);
+		display: grid;
+		gap: var(--2x);
+		font-size: var(--font-size-small);
+		left: var(--3x);
+		padding: var(--1x) var(--2x);
+		position: absolute;
+		top: var(--3x);
+		width: 320px;
+		z-index: 20;
+	}
+
+	.BlueprintConnectionsDebug-title,
+	.BlueprintConnectionsDebug-attributeName {
+		font-weight: var(--font-weight-semi-bold);
+	}
+
+	.BlueprintConnectionsDebug-list {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+	}
+}

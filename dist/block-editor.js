@@ -8278,6 +8278,25 @@
 	  return "wp-block-".concat(name.split("/")[0], "-").concat(name.split("/")[0]);
 	}
 
+	var useBlockJson = function useBlockJson() {
+	  var dispatch = useDispatch();
+	  var _useSelector = useSelector(function (state) {
+	      return state.blockJson || {};
+	    }),
+	    attributes = _useSelector.attributes;
+	  var _addAttribute = function _addAttribute(attribute) {
+	    dispatch(addAttribute(attribute));
+	  };
+	  var addEmptyAttribute = function addEmptyAttribute() {
+	    dispatch(addAttribute({}));
+	  };
+	  return {
+	    addAttribute: _addAttribute,
+	    addEmptyAttribute: addEmptyAttribute,
+	    blockAttributes: attributes
+	  };
+	};
+
 	var useBlueprint = function useBlueprint() {
 	  var _useSelector = useSelector(function (state) {
 	      return state.blockBlueprint;
@@ -8295,9 +8314,11 @@
 
 	var useBlueprintConnections = function useBlueprintConnections() {
 	  var dispatch = useDispatch();
+	  var _useBlockJson = useBlockJson(),
+	    blockAttributes = _useBlockJson.blockAttributes;
 	  var _useBlueprint = useBlueprint(),
 	    allComponents = _useBlueprint.allComponents;
-	  var blockAttributes = React$2.useMemo(function () {
+	  var componentAttributes = React$2.useMemo(function () {
 	    return Object.entries(allComponents).filter(function (_ref) {
 	      var _ref2 = _slicedToArray(_ref, 2);
 	        _ref2[0];
@@ -8314,6 +8335,12 @@
 	      };
 	    });
 	  }, [allComponents]);
+	  var _blockAttributes = React$2.useMemo(function () {
+	    return componentAttributes.filter(function (_ref5) {
+	      var attributeName = _ref5.attributeName;
+	      return attributeName in blockAttributes;
+	    });
+	  }, [componentAttributes, blockAttributes]);
 	  var _useSelector = useSelector(function (state) {
 	      return state.connectionHandles || {};
 	    }),
@@ -8321,9 +8348,9 @@
 	    handlesTo = _useSelector.handlesTo;
 	  var allConnections = React$2.useMemo(function () {
 	    var allConnections = [];
-	    blockAttributes.forEach(function (_ref5) {
-	      var attributeName = _ref5.attributeName,
-	        clientId = _ref5.clientId;
+	    _blockAttributes.forEach(function (_ref6) {
+	      var attributeName = _ref6.attributeName,
+	        clientId = _ref6.clientId;
 	      if (!(attributeName in handlesFrom) || !(clientId in handlesTo)) {
 	        return;
 	      }
@@ -8339,12 +8366,28 @@
 	      });
 	    });
 	    return allConnections;
-	  }, [blockAttributes, handlesFrom, handlesTo]);
+	  }, [_blockAttributes, handlesFrom, handlesTo]);
+	  var connectionsById = React$2.useMemo(function () {
+	    var connectionsById = {};
+	    _blockAttributes.forEach(function (_ref7) {
+	      var attributeName = _ref7.attributeName,
+	        clientId = _ref7.clientId;
+	      if (!(attributeName in handlesFrom) || !(clientId in handlesTo)) {
+	        return;
+	      }
+	      connectionsById[attributeName] = connectionsById[attributeName] || [];
+	      connectionsById[attributeName].push(clientId);
+	    });
+	    return connectionsById;
+	  }, [_blockAttributes, handlesFrom, handlesTo]);
 	  var setHandlePosition = React$2.useCallback(function (handlePosition) {
 	    dispatch(setPosition(handlePosition));
 	  }, []);
 	  return {
 	    allConnections: allConnections || [],
+	    connectionsById: connectionsById || {},
+	    handlesFrom: handlesFrom,
+	    handlesTo: handlesTo,
 	    setHandlePosition: setHandlePosition
 	  };
 	};
@@ -14173,20 +14216,15 @@
 	var BlueprintAttributeList = /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
 	  var _ref$editorRef = _ref.editorRef,
 	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef;
-	  var dispatch = useDispatch();
-	  var _useSelector = useSelector(function (state) {
-	      return state.blockJson || {};
-	    }),
-	    attributes = _useSelector.attributes;
-	  function onClickAdd() {
-	    dispatch(addAttribute({}));
-	  }
+	  var _useBlockJson = useBlockJson(),
+	    addEmptyAttribute = _useBlockJson.addEmptyAttribute,
+	    blockAttributes = _useBlockJson.blockAttributes;
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: "BlueprintAttributeList",
-	    children: [Object.entries(attributes).length > 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	    children: [Object.entries(blockAttributes).length > 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintAttributeList-list",
-	      children: Object.entries(attributes).map(function (_ref2, index) {
+	      children: Object.entries(blockAttributes).map(function (_ref2, index) {
 	        var _ref3 = _slicedToArray(_ref2, 2),
 	          attributeName = _ref3[0],
 	          attributeProps = _ref3[1];
@@ -14197,12 +14235,12 @@
 	          editorRef: editorRef
 	        }, index);
 	      })
-	    }), Object.entries(attributes).length === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintHint, {
+	    }), Object.entries(blockAttributes).length === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintHint, {
 	      text: "Add attributes for values that you'd like to be saved upon update.",
 	      editorRef: editorRef
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintAttributeList-add",
-	      onClick: onClickAdd,
+	      onClick: addEmptyAttribute,
 	      children: "Add attribute"
 	    })]
 	  });
@@ -14212,6 +14250,7 @@
 	var BlueprintComponentClosingTag = function BlueprintComponentClosingTag(_ref) {
 	  var clientId = _ref.clientId;
 	    _ref.editorRef;
+	  React$2.useRef(null);
 	  var _useBlueprint = useBlueprint(),
 	    getComponentById = _useBlueprint.getComponentById;
 	  var _getComponentById = getComponentById(clientId),
@@ -14421,6 +14460,7 @@
 	    _ref$disabled = _ref.disabled,
 	    disabled = _ref$disabled === void 0 ? false : _ref$disabled;
 	    _ref.editorRef;
+	  React$2.useRef(null);
 	  var blockClassName = useBlockNamespace();
 	  var _useBlueprint = useBlueprint(),
 	    getComponentById = _useBlueprint.getComponentById;
@@ -14442,7 +14482,6 @@
 	  }, [tagName, type]);
 	  var componentAttributes = React$2.useMemo(function () {
 	    var componentAttributes = [];
-	    componentAttributes.push(["clientId", clientId]);
 	    Object.entries(_component).forEach(function (_ref2) {
 	      var _ref3 = _slicedToArray(_ref2, 2),
 	        name = _ref3[0],
@@ -14807,6 +14846,12 @@
 	  });
 	});
 
+	function BlueprintConnectionsDebug() {
+	  {
+	    return null;
+	  }
+	}
+
 	function BlueprintConnections(_ref) {
 	  _objectDestructuringEmpty(_ref);
 	  var ref = React$2.useRef(null);
@@ -14815,12 +14860,11 @@
 	  var editor = useSelector(function (state) {
 	    return state.editor || {};
 	  });
-	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: "BlueprintConnections",
-	    children: /*#__PURE__*/jsxRuntimeExports.jsx("svg", {
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionsDebug, {}), /*#__PURE__*/jsxRuntimeExports.jsx("svg", {
 	      ref: ref,
-	      className: "BlueprintConnection",
 	      width: editor.width,
 	      height: editor.height,
 	      viewBox: "0 0 ".concat(editor.width, " ").concat(editor.height),
@@ -14836,7 +14880,7 @@
 	          to: to
 	        }, i);
 	      })
-	    })
+	    })]
 	  });
 	}
 

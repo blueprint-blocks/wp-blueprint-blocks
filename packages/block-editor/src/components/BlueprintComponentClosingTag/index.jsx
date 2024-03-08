@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { pascalize } from "../../functions";
@@ -8,6 +8,8 @@ import { getBlockComponent } from "../../store/block-blueprint";
 import BlueprintDebugRect from "../BlueprintDebugRect";
 
 const BlueprintComponentClosingTag = ({ clientId, editorRef = null }) => {
+	const ref = useRef(null);
+
 	const { getComponentById } = useBlueprint();
 
 	const {

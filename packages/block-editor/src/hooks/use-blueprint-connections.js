@@ -1,15 +1,18 @@
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import useBlockJson from "./use-block-json";
 import useBlueprint from "./use-blueprint";
 
 import { setPosition } from "../store/connection-handles";
 
 const useBlueprintConnections = () => {
 	const dispatch = useDispatch();
+
+	const { blockAttributes } = useBlockJson();
 	const { allComponents } = useBlueprint();
 
-	const blockAttributes = useMemo(
+	const componentAttributes = useMemo(
 		() =>
 			Object.entries(allComponents)
 				.filter(
@@ -22,6 +25,14 @@ const useBlueprintConnections = () => {
 		[allComponents],
 	);
 
+	const _blockAttributes = useMemo(
+		() =>
+			componentAttributes.filter(
+				({ attributeName }) => attributeName in blockAttributes,
+			),
+		[componentAttributes, blockAttributes],
+	);
+
 	const { handlesFrom, handlesTo } = useSelector((state) => {
 		return state.connectionHandles || {};
 	});
@@ -29,7 +40,7 @@ const useBlueprintConnections = () => {
 	const allConnections = useMemo(() => {
 		const allConnections = [];
 
-		blockAttributes.forEach(({ attributeName, clientId }) => {
+		_blockAttributes.forEach(({ attributeName, clientId }) => {
 			if (!(attributeName in handlesFrom) || !(clientId in handlesTo)) {
 				return;
 			}
@@ -47,7 +58,23 @@ const useBlueprintConnections = () => {
 		});
 
 		return allConnections;
-	}, [blockAttributes, handlesFrom, handlesTo]);
+	}, [_blockAttributes, handlesFrom, handlesTo]);
+
+	const connectionsById = useMemo(() => {
+		const connectionsById = {};
+
+		_blockAttributes.forEach(({ attributeName, clientId }) => {
+			if (!(attributeName in handlesFrom) || !(clientId in handlesTo)) {
+				return;
+			}
+
+			connectionsById[attributeName] =
+				connectionsById[attributeName] || [];
+			connectionsById[attributeName].push(clientId);
+		});
+
+		return connectionsById;
+	}, [_blockAttributes, handlesFrom, handlesTo]);
 
 	const setHandlePosition = useCallback((handlePosition) => {
 		dispatch(setPosition(handlePosition));
@@ -55,6 +82,9 @@ const useBlueprintConnections = () => {
 
 	return {
 		allConnections: allConnections || [],
+		connectionsById: connectionsById || {},
+		handlesFrom,
+		handlesTo,
 		setHandlePosition,
 	};
 };

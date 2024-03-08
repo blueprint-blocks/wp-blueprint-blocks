@@ -55,6 +55,7 @@ export default {
 			preventAssignment: true,
 			values: {
 				"process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+				"env.DEBUG_CONNECTIONS": env.parsed.DEBUG_CONNECTIONS,
 				"env.DEBUG_RECT": env.parsed.DEBUG_RECT,
 				"env.DEBUG_RENDER_COUNT": env.parsed.DEBUG_RENDER_COUNT,
 			},

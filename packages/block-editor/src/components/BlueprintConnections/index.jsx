@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useBlueprintConnections } from "../../hooks";
 
 import BlueprintConnection from "../BlueprintConnection";
+import BlueprintConnectionsDebug from "../BlueprintConnectionsDebug";
 
 import "./style.css";
 
@@ -18,9 +19,9 @@ function BlueprintConnections({}) {
 
 	return (
 		<div ref={ref} className="BlueprintConnections">
+			<BlueprintConnectionsDebug />
 			<svg
 				ref={ref}
-				className="BlueprintConnection"
 				width={editor.width}
 				height={editor.height}
 				viewBox={`0 0 ${editor.width} ${editor.height}`}

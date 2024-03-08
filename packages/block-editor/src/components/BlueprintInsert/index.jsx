@@ -32,7 +32,7 @@ function BlueprintInsert({ editorRef = null, indent = 0, onDrop }) {
 			</div>
 
 			{process.env.NODE_ENV === "development" && (
-				<BlueprintDebugRect debugRef={focusRef} parentRef={editorRef} />
+				<BlueprintDebugRect debugRef={ref} parentRef={editorRef} />
 			)}
 		</div>
 	);
