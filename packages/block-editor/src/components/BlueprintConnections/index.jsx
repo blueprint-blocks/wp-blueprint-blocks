@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { useBlueprintConnections } from "../../hooks";
@@ -9,8 +8,6 @@ import BlueprintConnectionsDebug from "../BlueprintConnectionsDebug";
 import "./style.css";
 
 function BlueprintConnections({}) {
-	const ref = useRef(null);
-
 	const { allConnections } = useBlueprintConnections();
 
 	const editor = useSelector((state) => {
@@ -18,10 +15,9 @@ function BlueprintConnections({}) {
 	});
 
 	return (
-		<div ref={ref} className="BlueprintConnections">
+		<div className="BlueprintConnections">
 			<BlueprintConnectionsDebug />
 			<svg
-				ref={ref}
 				width={editor.width}
 				height={editor.height}
 				viewBox={`0 0 ${editor.width} ${editor.height}`}
@@ -30,9 +26,17 @@ function BlueprintConnections({}) {
 				stroke="none"
 				strokeWidth="0"
 			>
-				{allConnections.map(({ from, to }, i) => (
-					<BlueprintConnection key={i} from={from} to={to} />
-				))}
+				{allConnections.map(
+					({ attributeName, clientId, from, to }, i) => (
+						<BlueprintConnection
+							key={`${attributeName}-${clientId}`}
+							attributeName={attributeName}
+							clientId={clientId}
+							from={from}
+							to={to}
+						/>
+					),
+				)}
 			</svg>
 		</div>
 	);

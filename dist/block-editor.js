@@ -8324,6 +8324,7 @@
 	};
 
 	var useBlueprint = function useBlueprint() {
+	  var dispatch = useDispatch();
 	  var _useSelector = useSelector(function (state) {
 	      return state.blockBlueprint;
 	    }),
@@ -8332,9 +8333,16 @@
 	  var getComponentById = React$2.useCallback(function (clientId) {
 	    return (blockComponents === null || blockComponents === void 0 ? void 0 : blockComponents[clientId]) || null;
 	  }, [blockComponents]);
+	  var _unsetComponentAttribute = function _unsetComponentAttribute(clientId, attribute) {
+	    dispatch(unsetComponentAttribute({
+	      clientId: clientId,
+	      attribute: attribute
+	    }));
+	  };
 	  return {
 	    allComponents: blockComponents,
-	    getComponentById: getComponentById
+	    getComponentById: getComponentById,
+	    unsetComponentAttribute: _unsetComponentAttribute
 	  };
 	};
 
@@ -8381,6 +8389,8 @@
 	        return;
 	      }
 	      allConnections.push({
+	        attributeName: attributeName,
+	        clientId: clientId,
 	        from: {
 	          x: handlesFrom[attributeName].x || null,
 	          y: handlesFrom[attributeName].y || null
@@ -14805,32 +14815,33 @@
 	  });
 	}
 
-	var BlueprintConnection = /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
-	  var from = _ref.from,
+	var BlueprintConnection = function BlueprintConnection(_ref) {
+	  _ref.attributeName;
+	    var clientId = _ref.clientId,
+	    from = _ref.from,
 	    to = _ref.to;
-	  useDispatch();
+	  var _useBlueprint = useBlueprint(),
+	    unsetComponentAttribute = _useBlueprint.unsetComponentAttribute;
 	  var height = Math.abs((to === null || to === void 0 ? void 0 : to.y) - (from === null || from === void 0 ? void 0 : from.y));
 	  var width = Math.abs((to === null || to === void 0 ? void 0 : to.x) - (from === null || from === void 0 ? void 0 : from.x));
 	  var handleOffsetX = Math.round(Math.min(height * 2, width * 0.75) * 100) / 100;
 	  var handleOffsetY = Math.round(height * 0.1 * 100) / 100;
 	  var onClick = function onClick() {
-	    if (componentId) ;
+	    unsetComponentAttribute(clientId, "attributeName");
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("g", {
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("path", {
-	      ref: ref,
 	      d: "M".concat(from === null || from === void 0 ? void 0 : from.x, " ").concat(from === null || from === void 0 ? void 0 : from.y, "C").concat((from === null || from === void 0 ? void 0 : from.x) + handleOffsetX, " ").concat((from === null || from === void 0 ? void 0 : from.y) - handleOffsetY, " ").concat((to === null || to === void 0 ? void 0 : to.x) - handleOffsetX, " ").concat((to === null || to === void 0 ? void 0 : to.y) + handleOffsetY, " ").concat(to === null || to === void 0 ? void 0 : to.x, " ").concat(to === null || to === void 0 ? void 0 : to.y),
 	      stroke: "var(--color-white)",
 	      strokeWidth: "2"
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("path", {
-	      ref: ref,
 	      d: "M".concat(from === null || from === void 0 ? void 0 : from.x, " ").concat(from === null || from === void 0 ? void 0 : from.y, "C").concat((from === null || from === void 0 ? void 0 : from.x) + handleOffsetX, " ").concat((from === null || from === void 0 ? void 0 : from.y) - handleOffsetY, " ").concat((to === null || to === void 0 ? void 0 : to.x) - handleOffsetX, " ").concat((to === null || to === void 0 ? void 0 : to.y) + handleOffsetY, " ").concat(to === null || to === void 0 ? void 0 : to.x, " ").concat(to === null || to === void 0 ? void 0 : to.y),
 	      onClick: onClick,
 	      stroke: "transparent",
 	      strokeWidth: "10"
 	    })]
 	  });
-	});
+	};
 
 	function BlueprintConnectionsDebug() {
 	  {
@@ -14840,17 +14851,14 @@
 
 	function BlueprintConnections(_ref) {
 	  _objectDestructuringEmpty(_ref);
-	  var ref = React$2.useRef(null);
 	  var _useBlueprintConnecti = useBlueprintConnections(),
 	    allConnections = _useBlueprintConnecti.allConnections;
 	  var editor = useSelector(function (state) {
 	    return state.editor || {};
 	  });
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	    ref: ref,
 	    className: "BlueprintConnections",
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionsDebug, {}), /*#__PURE__*/jsxRuntimeExports.jsx("svg", {
-	      ref: ref,
 	      width: editor.width,
 	      height: editor.height,
 	      viewBox: "0 0 ".concat(editor.width, " ").concat(editor.height),
@@ -14859,12 +14867,16 @@
 	      stroke: "none",
 	      strokeWidth: "0",
 	      children: allConnections.map(function (_ref2, i) {
-	        var from = _ref2.from,
+	        var attributeName = _ref2.attributeName,
+	          clientId = _ref2.clientId,
+	          from = _ref2.from,
 	          to = _ref2.to;
 	        return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnection, {
+	          attributeName: attributeName,
+	          clientId: clientId,
 	          from: from,
 	          to: to
-	        }, i);
+	        }, "".concat(attributeName, "-").concat(clientId));
 	      })
 	    })]
 	  });

@@ -1,7 +1,11 @@
 import { useCallback } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import { unsetComponentAttribute } from "../store/block-blueprint";
 
 const useBlueprint = () => {
+	const dispatch = useDispatch();
+
 	const { blockComponents = {} } = useSelector(
 		(state) => state.blockBlueprint,
 	);
@@ -13,9 +17,14 @@ const useBlueprint = () => {
 		[blockComponents],
 	);
 
+	const _unsetComponentAttribute = (clientId, attribute) => {
+		dispatch(unsetComponentAttribute({ clientId, attribute }));
+	};
+
 	return {
 		allComponents: blockComponents,
 		getComponentById,
+		unsetComponentAttribute: _unsetComponentAttribute,
 	};
 };
 

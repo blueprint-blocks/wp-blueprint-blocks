@@ -46,6 +46,8 @@ const useBlueprintConnections = () => {
 			}
 
 			allConnections.push({
+				attributeName,
+				clientId,
 				from: {
 					x: handlesFrom[attributeName].x || null,
 					y: handlesFrom[attributeName].y || null,

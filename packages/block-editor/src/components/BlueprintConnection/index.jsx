@@ -1,10 +1,7 @@
-import { forwardRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useBlueprint } from "../../hooks";
 
-import { unsetComponentAttribute } from "../../store/block-blueprint";
-
-const BlueprintConnection = forwardRef(({ from, to }, ref) => {
-	const dispatch = useDispatch();
+const BlueprintConnection = ({ attributeName, clientId, from, to }) => {
+	const { unsetComponentAttribute } = useBlueprint();
 
 	const height = Math.abs(to?.y - from?.y);
 	const width = Math.abs(to?.x - from?.x);
@@ -14,26 +11,17 @@ const BlueprintConnection = forwardRef(({ from, to }, ref) => {
 	const handleOffsetY = Math.round(height * 0.1 * 100) / 100;
 
 	const onClick = () => {
-		if (componentId) {
-			/*dispatch(
-				unsetComponentAttribute({
-					clientId: componentId,
-					attribute: "attributeName",
-				}),
-			);*/
-		}
+		unsetComponentAttribute(clientId, "attributeName");
 	};
 
 	return (
 		<g>
 			<path
-				ref={ref}
 				d={`M${from?.x} ${from?.y}C${from?.x + handleOffsetX} ${from?.y - handleOffsetY} ${to?.x - handleOffsetX} ${to?.y + handleOffsetY} ${to?.x} ${to?.y}`}
 				stroke="var(--color-white)"
 				strokeWidth="2"
 			/>
 			<path
-				ref={ref}
 				d={`M${from?.x} ${from?.y}C${from?.x + handleOffsetX} ${from?.y - handleOffsetY} ${to?.x - handleOffsetX} ${to?.y + handleOffsetY} ${to?.x} ${to?.y}`}
 				onClick={onClick}
 				stroke="transparent"
@@ -41,6 +29,6 @@ const BlueprintConnection = forwardRef(({ from, to }, ref) => {
 			/>
 		</g>
 	);
-});
+};
 
 export default BlueprintConnection;
