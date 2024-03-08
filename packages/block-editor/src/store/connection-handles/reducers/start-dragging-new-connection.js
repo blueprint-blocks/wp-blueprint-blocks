@@ -1,7 +1,7 @@
-const setDraggingConnection = (state, action) => {
+const startDraggingNewConnection = (state, action) => {
 	const { attributeName, from, to } = action.payload;
 
-	state.draggingConnection = {
+	state.draggingNewConnection = {
 		attributeName,
 		from: {
 			x: from?.x || null,
@@ -14,4 +14,4 @@ const setDraggingConnection = (state, action) => {
 	};
 };
 
-export default setDraggingConnection;
+export default startDraggingNewConnection;

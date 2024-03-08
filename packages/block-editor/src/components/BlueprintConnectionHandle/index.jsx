@@ -1,13 +1,6 @@
 import clsx from "clsx";
 
-import {
-	useCallback,
-	useEffect,
-	useId,
-	useLayoutEffect,
-	useRef,
-	useState,
-} from "react";
+import { useId, useLayoutEffect, useRef, useState } from "react";
 
 import { useDispatch } from "react-redux";
 import Draggable from "react-draggable";
@@ -17,7 +10,6 @@ import {
 	useCenterPoint,
 	useDragWithinBounds,
 	useEditorDrag,
-	useEditorDrop,
 	useMouseUp,
 } from "../../hooks";
 
@@ -45,9 +37,11 @@ function BlueprintConnectionHandle({
 	const [currentPosition, setCurrentPosition] = useState(centerPoint);
 
 	const {
-		setDraggingConnection,
 		setHandlePosition,
-		unsetDraggingConnection,
+		startDraggingExistingConnection,
+		startDraggingNewConnection,
+		stopDraggingExistingConnection,
+		stopDraggingNewConnection,
 	} = useBlueprintConnections();
 
 	const getCurrentPosition = () => {
@@ -67,7 +61,7 @@ function BlueprintConnectionHandle({
 
 	const onDrag = ({ x, y }) => {
 		if (context === "from") {
-			setDraggingConnection({
+			startDraggingNewConnection({
 				attributeName,
 				from: centerPoint,
 				to: {
@@ -75,28 +69,28 @@ function BlueprintConnectionHandle({
 					y: centerPoint.y + y,
 				},
 			});
+		} else {
+			dispatchPosition();
 		}
 	};
 
 	const onStartDrag = () => {
+		startDragging({
+			attributeName,
+			clientId,
+			context: "connectionHandle",
+			handleContext: context,
+		});
 		if (context === "from") {
-			startDragging({
-				attributeName,
-				clientId,
-				context: "newConnectionHandle",
-				handleContext: context,
-			});
-			setDraggingConnection({
+			startDraggingNewConnection({
 				attributeName,
 				from: centerPoint,
 				to: centerPoint,
 			});
 		} else {
-			startDragging({
+			startDraggingExistingConnection({
 				attributeName,
 				clientId,
-				context: "connectionHandle",
-				handleContext: context,
 			});
 		}
 	};
@@ -105,7 +99,11 @@ function BlueprintConnectionHandle({
 		dispatchPosition(centerPoint);
 		stopDragging();
 		setTimeout(() => {
-			unsetDraggingConnection();
+			if (context === "from") {
+				stopDraggingNewConnection();
+			} else {
+				stopDraggingExistingConnection();
+			}
 		}, 0);
 	};
 
@@ -136,10 +134,6 @@ function BlueprintConnectionHandle({
 		startDragging,
 		stopDragging,
 	} = useEditorDrag();
-
-	useEditorDrop({ ref, context: ["connectionHandle"] }, () => {
-		dispatchPosition();
-	});
 
 	/**
 	 * This is the primary mechanism by which locations of the

@@ -6,7 +6,7 @@ import { componentAllowsChildren } from "../../functions";
 
 import {
 	useBlueprint,
-	useBlueprintConnections,
+	useBlueprintConnectionsDrag,
 	useDragWithinBounds,
 	useDebugRenderCount,
 	useEditorDrag,
@@ -33,10 +33,13 @@ function BlueprintComponent({
 	const hasMouseFocus = useMouseFocus(ref);
 	const { hasFocus, setFocus, unsetFocus } = useEditorFocus(clientId);
 	const { isDragging, startDragging, stopDragging } = useEditorDrag();
-	const { draggingConnection } = useBlueprintConnections();
 
-	const { getComponentById, setComponentAttribute } = useBlueprint();
-	const { tagName = null, type = "html" } = getComponentById(clientId);
+	const { getComponentById } = useBlueprint();
+	const {
+		tagName = null,
+		type = "html",
+		...component
+	} = getComponentById(clientId);
 
 	const allowsChildren = useMemo(
 		() => componentAllowsChildren(type, tagName),
@@ -77,18 +80,8 @@ function BlueprintComponent({
 		onStop: onStopDrag,
 	});
 
-	const { isDragging: isDraggingNewConnection } = useEditorDrag(
-		{ context: ["newConnectionHandle"], ref },
-		() => {
-			if (draggingConnection && hasAttributeHandle) {
-				setComponentAttribute(
-					clientId,
-					"attributeName",
-					draggingConnection?.attributeName,
-				);
-			}
-		},
-	);
+	const { hasFocus: hasDraggingConnectionFocus } =
+		useBlueprintConnectionsDrag(ref, clientId);
 
 	// Call hook passing in the ref and a function to call on outside click
 	useOnClickOutside(ref, () => {
@@ -105,11 +98,7 @@ function BlueprintComponent({
 			className={clsx("BlueprintComponent", {
 				"is-draggable": draggable,
 				"is-dragging": isDraggingSelf,
-				"has-focus":
-					hasFocus ||
-					(hasMouseFocus &&
-						hasAttributeHandle &&
-						isDraggingNewConnection),
+				"has-focus": hasFocus || hasDraggingConnectionFocus,
 			})}
 			onClick={onClick}
 			style={{ "--indent": indent }}
@@ -120,6 +109,7 @@ function BlueprintComponent({
 			>
 				{hasAttributeHandle && (
 					<BlueprintConnectionHandle
+						attributeName={component?.attributeName}
 						clientId={clientId}
 						context="to"
 						editorRef={editorRef}
@@ -149,10 +139,11 @@ function BlueprintComponent({
 						>
 							{hasAttributeHandle && (
 								<BlueprintConnectionHandle
-									editorRef={editorRef}
+									attributeName={component?.attributeName}
 									clientId={clientId}
 									context="to"
 									draggingOffset={offset}
+									editorRef={editorRef}
 									isClone={false}
 									isDragging={isDraggingSelf}
 									position="left"

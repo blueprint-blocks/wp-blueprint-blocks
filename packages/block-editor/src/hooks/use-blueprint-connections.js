@@ -5,9 +5,11 @@ import useBlockJson from "./use-block-json";
 import useBlueprint from "./use-blueprint";
 
 import {
-	setDraggingConnection,
+	startDraggingExistingConnection,
+	startDraggingNewConnection,
 	setPosition,
-	unsetDraggingConnection,
+	stopDraggingExistingConnection,
+	stopDraggingNewConnection,
 } from "../store/connection-handles";
 
 const useBlueprintConnections = () => {
@@ -37,11 +39,14 @@ const useBlueprintConnections = () => {
 		[componentAttributes, blockAttributes],
 	);
 
-	const { draggingConnection, handlesFrom, handlesTo } = useSelector(
-		(state) => {
-			return state.connectionHandles || {};
-		},
-	);
+	const {
+		draggingExistingConnection,
+		draggingNewConnection,
+		handlesFrom,
+		handlesTo,
+	} = useSelector((state) => {
+		return state.connectionHandles || {};
+	});
 
 	const allConnections = useMemo(() => {
 		const allConnections = [];
@@ -84,13 +89,27 @@ const useBlueprintConnections = () => {
 		return connectionsById;
 	}, [_blockAttributes, handlesFrom, handlesTo]);
 
-	const _unsetDraggingConnection = useCallback(() => {
-		dispatch(unsetDraggingConnection());
-	}, []);
+	const _startDraggingExistingConnection = useCallback(
+		({ attributeName, clientId }) => {
+			dispatch(
+				startDraggingExistingConnection({
+					attributeName,
+					clientId,
+				}),
+			);
+		},
+		[],
+	);
 
-	const _setDraggingConnection = useCallback(
+	const _startDraggingNewConnection = useCallback(
 		({ attributeName, from, to }) => {
-			dispatch(setDraggingConnection({ attributeName, from, to }));
+			dispatch(
+				startDraggingNewConnection({
+					attributeName,
+					from,
+					to,
+				}),
+			);
 		},
 		[],
 	);
@@ -99,15 +118,26 @@ const useBlueprintConnections = () => {
 		dispatch(setPosition(handlePosition));
 	}, []);
 
+	const _stopDraggingExistingConnection = useCallback(() => {
+		dispatch(stopDraggingExistingConnection());
+	}, []);
+
+	const _stopDraggingNewConnection = useCallback(() => {
+		dispatch(stopDraggingNewConnection());
+	}, []);
+
 	return {
 		allConnections: allConnections || [],
 		connectionsById: connectionsById || {},
-		draggingConnection,
+		draggingExistingConnection,
+		draggingNewConnection,
 		handlesFrom,
 		handlesTo,
-		unsetDraggingConnection: _unsetDraggingConnection,
-		setDraggingConnection: _setDraggingConnection,
 		setHandlePosition,
+		startDraggingExistingConnection: _startDraggingExistingConnection,
+		startDraggingNewConnection: _startDraggingNewConnection,
+		stopDraggingExistingConnection: _stopDraggingExistingConnection,
+		stopDraggingNewConnection: _stopDraggingNewConnection,
 	};
 };
 

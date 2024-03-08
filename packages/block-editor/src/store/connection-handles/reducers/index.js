@@ -1,13 +1,17 @@
 import removePosition from "./remove-position";
-import setDraggingConnection from "./set-dragging-connection";
 import setPosition from "./set-position";
-import unsetDraggingConnection from "./unset-dragging-connection";
+import startDraggingExistingConnection from "./start-dragging-existing-connection";
+import startDraggingNewConnection from "./start-dragging-new-connection";
+import stopDraggingExistingConnection from "./stop-dragging-existing-connection";
+import stopDraggingNewConnection from "./stop-dragging-new-connection";
 
 const reducers = {
 	removePosition,
-	setDraggingConnection,
 	setPosition,
-	unsetDraggingConnection,
+	startDraggingExistingConnection,
+	startDraggingNewConnection,
+	stopDraggingExistingConnection,
+	stopDraggingNewConnection,
 };
 
 export default reducers;

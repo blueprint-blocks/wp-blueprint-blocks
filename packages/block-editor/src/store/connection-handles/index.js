@@ -8,7 +8,8 @@ const slice = createSlice({
 	initialState: {
 		handlesFrom: {},
 		handlesTo: {},
-		draggingConnection: null,
+		draggingExistingConnection: null,
+		draggingNewConnection: null,
 	},
 
 	reducers,
@@ -18,8 +19,10 @@ const { actions, reducer } = slice;
 
 export const {
 	removePosition,
-	setDraggingConnection,
 	setPosition,
-	unsetDraggingConnection,
+	startDraggingExistingConnection,
+	startDraggingNewConnection,
+	stopDraggingExistingConnection,
+	stopDraggingNewConnection,
 } = actions;
 export default reducer;

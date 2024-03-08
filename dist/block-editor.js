@@ -7956,24 +7956,6 @@
 	  }*/
 	};
 
-	var setDraggingConnection$1 = function setDraggingConnection(state, action) {
-	  var _action$payload = action.payload,
-	    attributeName = _action$payload.attributeName,
-	    from = _action$payload.from,
-	    to = _action$payload.to;
-	  state.draggingConnection = {
-	    attributeName: attributeName,
-	    from: {
-	      x: (from === null || from === void 0 ? void 0 : from.x) || null,
-	      y: (from === null || from === void 0 ? void 0 : from.y) || null
-	    },
-	    to: {
-	      x: (to === null || to === void 0 ? void 0 : to.x) || null,
-	      y: (to === null || to === void 0 ? void 0 : to.y) || null
-	    }
-	  };
-	};
-
 	var setPosition$1 = function setPosition(state, action) {
 	  var _action$payload = action.payload,
 	    attributeName = _action$payload.attributeName,
@@ -7997,15 +7979,49 @@
 	  }
 	};
 
-	var unsetDraggingConnection$1 = function unsetDraggingConnection(state, action) {
-	  state.draggingConnection = null;
+	var startDraggingExistingConnection$1 = function startDraggingExistingConnection(state, action) {
+	  var _action$payload = action.payload,
+	    attributeName = _action$payload.attributeName,
+	    clientId = _action$payload.clientId;
+	  state.draggingExistingConnection = {
+	    attributeName: attributeName,
+	    clientId: clientId
+	  };
+	};
+
+	var startDraggingNewConnection$1 = function startDraggingNewConnection(state, action) {
+	  var _action$payload = action.payload,
+	    attributeName = _action$payload.attributeName,
+	    from = _action$payload.from,
+	    to = _action$payload.to;
+	  state.draggingNewConnection = {
+	    attributeName: attributeName,
+	    from: {
+	      x: (from === null || from === void 0 ? void 0 : from.x) || null,
+	      y: (from === null || from === void 0 ? void 0 : from.y) || null
+	    },
+	    to: {
+	      x: (to === null || to === void 0 ? void 0 : to.x) || null,
+	      y: (to === null || to === void 0 ? void 0 : to.y) || null
+	    }
+	  };
+	};
+
+	var stopDraggingExistingConnection$1 = function stopDraggingExistingConnection(state, action) {
+	  state.draggingExistingConnection = null;
+	};
+
+	var stopDraggingNewConnection$1 = function stopDraggingNewConnection(state, action) {
+	  state.draggingNewConnection = null;
 	};
 
 	var reducers$1 = {
 	  removePosition: removePosition$1,
-	  setDraggingConnection: setDraggingConnection$1,
 	  setPosition: setPosition$1,
-	  unsetDraggingConnection: unsetDraggingConnection$1
+	  startDraggingExistingConnection: startDraggingExistingConnection$1,
+	  startDraggingNewConnection: startDraggingNewConnection$1,
+	  stopDraggingExistingConnection: stopDraggingExistingConnection$1,
+	  stopDraggingNewConnection: stopDraggingNewConnection$1
 	};
 
 	var slice$5 = createSlice({
@@ -8013,16 +8029,19 @@
 	  initialState: {
 	    handlesFrom: {},
 	    handlesTo: {},
-	    draggingConnection: null
+	    draggingExistingConnection: null,
+	    draggingNewConnection: null
 	  },
 	  reducers: reducers$1
 	});
 	var actions$5 = slice$5.actions,
 	  reducer$5 = slice$5.reducer;
 	var removePosition = actions$5.removePosition,
-	  setDraggingConnection = actions$5.setDraggingConnection,
 	  setPosition = actions$5.setPosition,
-	  unsetDraggingConnection = actions$5.unsetDraggingConnection;
+	  startDraggingExistingConnection = actions$5.startDraggingExistingConnection,
+	  startDraggingNewConnection = actions$5.startDraggingNewConnection,
+	  stopDraggingExistingConnection = actions$5.stopDraggingExistingConnection,
+	  stopDraggingNewConnection = actions$5.stopDraggingNewConnection;
 
 	var resetDraggingContext$1 = function resetDraggingContext(state, action) {
 	  state.priorDraggingContext = state.currentDraggingContext;
@@ -8232,7 +8251,7 @@
 	}
 
 	var _excluded$9 = ["id"],
-	  _excluded2$2 = ["id"];
+	  _excluded2$3 = ["id"];
 	function saveNewBlock(_ref) {
 	  var postType = _ref.postType,
 	    blockJson = _ref.blockJson,
@@ -8285,7 +8304,7 @@
 	      }
 	    }).then(function (_ref4) {
 	      var id = _ref4.id;
-	        _objectWithoutProperties(_ref4, _excluded2$2);
+	        _objectWithoutProperties(_ref4, _excluded2$3);
 	      resolve({
 	        id: id
 	      });
@@ -8413,7 +8432,8 @@
 	  var _useSelector = useSelector(function (state) {
 	      return state.connectionHandles || {};
 	    }),
-	    draggingConnection = _useSelector.draggingConnection,
+	    draggingExistingConnection = _useSelector.draggingExistingConnection,
+	    draggingNewConnection = _useSelector.draggingNewConnection,
 	    handlesFrom = _useSelector.handlesFrom,
 	    handlesTo = _useSelector.handlesTo;
 	  var allConnections = React$2.useMemo(function () {
@@ -8452,14 +8472,19 @@
 	    });
 	    return connectionsById;
 	  }, [_blockAttributes, handlesFrom, handlesTo]);
-	  var _unsetDraggingConnection = React$2.useCallback(function () {
-	    dispatch(unsetDraggingConnection());
-	  }, []);
-	  var _setDraggingConnection = React$2.useCallback(function (_ref8) {
+	  var _startDraggingExistingConnection = React$2.useCallback(function (_ref8) {
 	    var attributeName = _ref8.attributeName,
-	      from = _ref8.from,
-	      to = _ref8.to;
-	    dispatch(setDraggingConnection({
+	      clientId = _ref8.clientId;
+	    dispatch(startDraggingExistingConnection({
+	      attributeName: attributeName,
+	      clientId: clientId
+	    }));
+	  }, []);
+	  var _startDraggingNewConnection = React$2.useCallback(function (_ref9) {
+	    var attributeName = _ref9.attributeName,
+	      from = _ref9.from,
+	      to = _ref9.to;
+	    dispatch(startDraggingNewConnection({
 	      attributeName: attributeName,
 	      from: from,
 	      to: to
@@ -8468,15 +8493,24 @@
 	  var setHandlePosition = React$2.useCallback(function (handlePosition) {
 	    dispatch(setPosition(handlePosition));
 	  }, []);
+	  var _stopDraggingExistingConnection = React$2.useCallback(function () {
+	    dispatch(stopDraggingExistingConnection());
+	  }, []);
+	  var _stopDraggingNewConnection = React$2.useCallback(function () {
+	    dispatch(stopDraggingNewConnection());
+	  }, []);
 	  return {
 	    allConnections: allConnections || [],
 	    connectionsById: connectionsById || {},
-	    draggingConnection: draggingConnection,
+	    draggingExistingConnection: draggingExistingConnection,
+	    draggingNewConnection: draggingNewConnection,
 	    handlesFrom: handlesFrom,
 	    handlesTo: handlesTo,
-	    unsetDraggingConnection: _unsetDraggingConnection,
-	    setDraggingConnection: _setDraggingConnection,
-	    setHandlePosition: setHandlePosition
+	    setHandlePosition: setHandlePosition,
+	    startDraggingExistingConnection: _startDraggingExistingConnection,
+	    startDraggingNewConnection: _startDraggingNewConnection,
+	    stopDraggingExistingConnection: _stopDraggingExistingConnection,
+	    stopDraggingNewConnection: _stopDraggingNewConnection
 	  };
 	};
 
@@ -8710,6 +8744,41 @@
 	      stopDragging: _stopDragging
 	    };
 	  }, [draggingContext, isDragging]);
+	};
+
+	var useBlueprintConnectionsDrag = function useBlueprintConnectionsDrag(ref, clientId) {
+	  var hasMouseFocus = useMouseFocus(ref);
+	  var _useBlueprint = useBlueprint(),
+	    getComponentById = _useBlueprint.getComponentById,
+	    setComponentAttribute = _useBlueprint.setComponentAttribute,
+	    unsetComponentAttribute = _useBlueprint.unsetComponentAttribute;
+	  var _getComponentById = getComponentById(clientId),
+	    _getComponentById$typ = _getComponentById.type,
+	    type = _getComponentById$typ === void 0 ? "html" : _getComponentById$typ;
+	  var hasAttributeHandle = React$2.useMemo(function () {
+	    return type !== "html";
+	  }, [type]);
+	  if (!hasAttributeHandle) {
+	    return {};
+	  }
+	  var _useBlueprintConnecti = useBlueprintConnections(),
+	    draggingExistingConnection = _useBlueprintConnecti.draggingExistingConnection,
+	    draggingNewConnection = _useBlueprintConnecti.draggingNewConnection;
+	  var _useEditorDrag = useEditorDrag({
+	      context: ["connectionHandle"],
+	      ref: ref
+	    }, function () {
+	      if (draggingExistingConnection) {
+	        unsetComponentAttribute(draggingExistingConnection === null || draggingExistingConnection === void 0 ? void 0 : draggingExistingConnection.clientId, "attributeName");
+	        setComponentAttribute(clientId, "attributeName", draggingExistingConnection === null || draggingExistingConnection === void 0 ? void 0 : draggingExistingConnection.attributeName);
+	      } else if (draggingNewConnection) {
+	        setComponentAttribute(clientId, "attributeName", draggingNewConnection === null || draggingNewConnection === void 0 ? void 0 : draggingNewConnection.attributeName);
+	      }
+	    }),
+	    isDragging = _useEditorDrag.isDragging;
+	  return {
+	    hasFocus: hasMouseFocus && isDragging
+	  };
 	};
 
 	var useBlueprintInsert = function useBlueprintInsert() {
@@ -13925,7 +13994,7 @@
 	var Draggable$1 = /*@__PURE__*/getDefaultExportFromCjs(cjsExports);
 
 	var _excluded$8 = ["attributeName", "clientId", "context", "draggingOffset", "editorRef", "isClone", "isDragging"],
-	  _excluded2$1 = ["isDragging", "offset"];
+	  _excluded2$2 = ["isDragging", "offset"];
 	function BlueprintConnectionHandle(_ref) {
 	  var attributeName = _ref.attributeName,
 	    _ref$clientId = _ref.clientId,
@@ -13957,9 +14026,11 @@
 	    currentPosition = _useState4[0],
 	    setCurrentPosition = _useState4[1];
 	  var _useBlueprintConnecti = useBlueprintConnections(),
-	    setDraggingConnection = _useBlueprintConnecti.setDraggingConnection,
 	    setHandlePosition = _useBlueprintConnecti.setHandlePosition,
-	    unsetDraggingConnection = _useBlueprintConnecti.unsetDraggingConnection;
+	    startDraggingExistingConnection = _useBlueprintConnecti.startDraggingExistingConnection,
+	    startDraggingNewConnection = _useBlueprintConnecti.startDraggingNewConnection,
+	    stopDraggingExistingConnection = _useBlueprintConnecti.stopDraggingExistingConnection,
+	    stopDraggingNewConnection = _useBlueprintConnecti.stopDraggingNewConnection;
 	  var getCurrentPosition = function getCurrentPosition() {
 	    if (isDraggingSelf && context === "to") {
 	      return {
@@ -13978,7 +14049,7 @@
 	    var x = _ref2.x,
 	      y = _ref2.y;
 	    if (context === "from") {
-	      setDraggingConnection({
+	      startDraggingNewConnection({
 	        attributeName: attributeName,
 	        from: centerPoint,
 	        to: {
@@ -13986,27 +14057,27 @@
 	          y: centerPoint.y + y
 	        }
 	      });
+	    } else {
+	      dispatchPosition();
 	    }
 	  };
 	  var onStartDrag = function onStartDrag() {
+	    startDragging({
+	      attributeName: attributeName,
+	      clientId: clientId,
+	      context: "connectionHandle",
+	      handleContext: context
+	    });
 	    if (context === "from") {
-	      startDragging({
-	        attributeName: attributeName,
-	        clientId: clientId,
-	        context: "newConnectionHandle",
-	        handleContext: context
-	      });
-	      setDraggingConnection({
+	      startDraggingNewConnection({
 	        attributeName: attributeName,
 	        from: centerPoint,
 	        to: centerPoint
 	      });
 	    } else {
-	      startDragging({
+	      startDraggingExistingConnection({
 	        attributeName: attributeName,
-	        clientId: clientId,
-	        context: "connectionHandle",
-	        handleContext: context
+	        clientId: clientId
 	      });
 	    }
 	  };
@@ -14014,7 +14085,11 @@
 	    dispatchPosition(centerPoint);
 	    stopDragging();
 	    setTimeout(function () {
-	      unsetDraggingConnection();
+	      if (context === "from") {
+	        stopDraggingNewConnection();
+	      } else {
+	        stopDraggingExistingConnection();
+	      }
 	    }, 0);
 	  };
 	  var dispatchPosition = function dispatchPosition() {
@@ -14047,18 +14122,12 @@
 	    }),
 	    isDraggingSelf = _useDragWithinBounds.isDragging,
 	    selfDraggingOffset = _useDragWithinBounds.offset,
-	    draggableProps = _objectWithoutProperties(_useDragWithinBounds, _excluded2$1);
+	    draggableProps = _objectWithoutProperties(_useDragWithinBounds, _excluded2$2);
 	  var _useEditorDrag = useEditorDrag();
 	    _useEditorDrag.isDragging;
 	    _useEditorDrag.context;
 	    var startDragging = _useEditorDrag.startDragging,
 	    stopDragging = _useEditorDrag.stopDragging;
-	  useEditorDrop({
-	    ref: ref,
-	    context: ["connectionHandle"]
-	  }, function () {
-	    dispatchPosition();
-	  });
 
 	  /**
 	   * This is the primary mechanism by which locations of the
@@ -14641,7 +14710,8 @@
 	  });
 	};
 
-	var _excluded$4 = ["isDragging", "offset"];
+	var _excluded$4 = ["tagName", "type"],
+	  _excluded2$1 = ["isDragging", "offset"];
 	function BlueprintComponent(_ref) {
 	  var clientId = _ref.clientId,
 	    _ref$editorRef = _ref.editorRef,
@@ -14653,7 +14723,7 @@
 	    _ref$draggable = _ref.draggable,
 	    draggable = _ref$draggable === void 0 ? true : _ref$draggable;
 	  var ref = React$2.useRef(null);
-	  var hasMouseFocus = useMouseFocus(ref);
+	  useMouseFocus(ref);
 	  var _useEditorFocus = useEditorFocus(clientId),
 	    hasFocus = _useEditorFocus.hasFocus,
 	    setFocus = _useEditorFocus.setFocus,
@@ -14662,16 +14732,14 @@
 	    isDragging = _useEditorDrag.isDragging,
 	    startDragging = _useEditorDrag.startDragging,
 	    stopDragging = _useEditorDrag.stopDragging;
-	  var _useBlueprintConnecti = useBlueprintConnections(),
-	    draggingConnection = _useBlueprintConnecti.draggingConnection;
 	  var _useBlueprint = useBlueprint(),
-	    getComponentById = _useBlueprint.getComponentById,
-	    setComponentAttribute = _useBlueprint.setComponentAttribute;
+	    getComponentById = _useBlueprint.getComponentById;
 	  var _getComponentById = getComponentById(clientId),
 	    _getComponentById$tag = _getComponentById.tagName,
 	    tagName = _getComponentById$tag === void 0 ? null : _getComponentById$tag,
 	    _getComponentById$typ = _getComponentById.type,
-	    type = _getComponentById$typ === void 0 ? "html" : _getComponentById$typ;
+	    type = _getComponentById$typ === void 0 ? "html" : _getComponentById$typ,
+	    component = _objectWithoutProperties(_getComponentById, _excluded$4);
 	  var allowsChildren = React$2.useMemo(function () {
 	    return componentAllowsChildren(type, tagName);
 	  }, [tagName, type]);
@@ -14704,16 +14772,9 @@
 	    }),
 	    isDraggingSelf = _useDragWithinBounds.isDragging,
 	    offset = _useDragWithinBounds.offset,
-	    draggableProps = _objectWithoutProperties(_useDragWithinBounds, _excluded$4);
-	  var _useEditorDrag2 = useEditorDrag({
-	      context: ["newConnectionHandle"],
-	      ref: ref
-	    }, function () {
-	      if (draggingConnection && hasAttributeHandle) {
-	        setComponentAttribute(clientId, "attributeName", draggingConnection === null || draggingConnection === void 0 ? void 0 : draggingConnection.attributeName);
-	      }
-	    }),
-	    isDraggingNewConnection = _useEditorDrag2.isDragging;
+	    draggableProps = _objectWithoutProperties(_useDragWithinBounds, _excluded2$1);
+	  var _useBlueprintConnecti = useBlueprintConnectionsDrag(ref, clientId),
+	    hasDraggingConnectionFocus = _useBlueprintConnecti.hasFocus;
 
 	  // Call hook passing in the ref and a function to call on outside click
 	  useOnClickOutside(ref, function () {
@@ -14724,7 +14785,7 @@
 	    className: clsx$1("BlueprintComponent", {
 	      "is-draggable": draggable,
 	      "is-dragging": isDraggingSelf,
-	      "has-focus": hasFocus || hasMouseFocus && hasAttributeHandle && isDraggingNewConnection
+	      "has-focus": hasFocus || hasDraggingConnectionFocus
 	    }),
 	    onClick: onClick,
 	    style: {
@@ -14734,6 +14795,7 @@
 	      clientId: clientId,
 	      editorRef: editorRef,
 	      children: hasAttributeHandle && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionHandle, {
+	        attributeName: component === null || component === void 0 ? void 0 : component.attributeName,
 	        clientId: clientId,
 	        context: "to",
 	        editorRef: editorRef,
@@ -14753,10 +14815,11 @@
 	          clientId: clientId,
 	          disabled: true,
 	          children: hasAttributeHandle && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionHandle, {
-	            editorRef: editorRef,
+	            attributeName: component === null || component === void 0 ? void 0 : component.attributeName,
 	            clientId: clientId,
 	            context: "to",
 	            draggingOffset: offset,
+	            editorRef: editorRef,
 	            isClone: false,
 	            isDragging: isDraggingSelf,
 	            position: "left"
@@ -14956,8 +15019,8 @@
 	  _objectDestructuringEmpty(_ref);
 	  var _useBlueprintConnecti = useBlueprintConnections(),
 	    allConnections = _useBlueprintConnecti.allConnections,
-	    _useBlueprintConnecti2 = _useBlueprintConnecti.draggingConnection,
-	    draggingConnection = _useBlueprintConnecti2 === void 0 ? {} : _useBlueprintConnecti2;
+	    _useBlueprintConnecti2 = _useBlueprintConnecti.draggingNewConnection,
+	    draggingNewConnection = _useBlueprintConnecti2 === void 0 ? {} : _useBlueprintConnecti2;
 	  var editor = useSelector(function (state) {
 	    return state.editor || {};
 	  });
@@ -14982,7 +15045,7 @@
 	          from: from,
 	          to: to
 	        }, "".concat(attributeName, "-").concat(clientId));
-	      }), draggingConnection && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnection, _objectSpread2({}, draggingConnection))]
+	      }), draggingNewConnection && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnection, _objectSpread2({}, draggingNewConnection))]
 	    })]
 	  });
 	}

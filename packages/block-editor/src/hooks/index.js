@@ -4,6 +4,7 @@ import useBlockJson from "./use-block-json";
 import useBlockNamespace from "./use-block-namespace";
 import useBlueprint from "./use-blueprint";
 import useBlueprintConnections from "./use-blueprint-connections";
+import useBlueprintConnectionsDrag from "./use-blueprint-connections-drag";
 import useBlueprintInsert from "./use-blueprint-insert";
 import useCenterPoint from "./use-center-point";
 import useDebugRenderCount from "./use-debug-render-count";
@@ -26,6 +27,7 @@ export {
 	useBlockNamespace,
 	useBlueprint,
 	useBlueprintConnections,
+	useBlueprintConnectionsDrag,
 	useBlueprintInsert,
 	useCenterPoint,
 	useDebugRenderCount,
