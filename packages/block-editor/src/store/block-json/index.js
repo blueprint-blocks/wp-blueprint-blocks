@@ -1,10 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import initialState from "./initial-state";
+import reducers from "./reducers";
+
 import {
 	getAttribute,
 	getBlockClassName,
 	getBlockName,
 	getBlockNamespace,
+	getUniqueAttributeName,
 } from "./selectors";
 
 import {
@@ -16,119 +20,10 @@ import {
 	validateTitle,
 } from "./validation";
 
-function getUniqueAttributeName(name = "attribute", allNames) {
-	let index = 1;
-	let indexedName = `${name}${index}`;
-
-	while (allNames.includes(indexedName)) {
-		index++;
-		indexedName = `${name}${index}`;
-	}
-
-	return indexedName;
-}
-
-const ALLOWED_ATTRIBUTE_TYPES = ["array", "number", "string", "object"];
-
-const { blockJson = {} } = blueprintBlocksEditorSettings?.blockMetadata || {};
-
 const slice = createSlice({
 	name: "blockJson",
-
-	initialState: {
-		...blockJson,
-		keywords: [...(blockJson?.keywords || [])],
-		attributes: {
-			...(blockJson?.attributes || {}),
-		},
-	},
-
-	reducers: {
-		addAttribute(state, action) {
-			let {
-				name = "",
-				type = "string",
-				defaultValue = null,
-			} = action.payload;
-
-			if (name === "") {
-				name = getUniqueAttributeName(
-					"attribute",
-					Object.keys(state.attributes),
-				);
-			}
-
-			state.attributes = {
-				...state.attributes,
-				[name]: {
-					type:
-						(ALLOWED_ATTRIBUTE_TYPES.includes(type) && type) ||
-						"string",
-					default: defaultValue || null,
-				},
-			};
-		},
-		editAttribute(state, action) {
-			const {
-				name = "",
-				type = "string",
-				defaultValue = null,
-			} = action.payload;
-
-			console.log(name, type, defaultValue);
-
-			state.attributes = {
-				...state.attributes,
-				[name]: {
-					type:
-						(ALLOWED_ATTRIBUTE_TYPES.includes(type) && type) ||
-						"string",
-					default: defaultValue || null,
-				},
-			};
-		},
-		removeAttribute(state, action) {
-			const name = action.payload;
-
-			state.attributes = Object.fromEntries(
-				Object.entries(state.attributes).filter(
-					([key, value]) => key !== name,
-				),
-			);
-		},
-		setCategory(state, action) {
-			state.category = action.payload;
-		},
-		setDescription(state, action) {
-			state.description = action.payload;
-		},
-		setIcon(state, action) {
-			state.icon = action.payload;
-		},
-		setKeywords(state, action) {
-			state.keywords = (
-				(Array.isArray(action.payload) && action.payload) || [
-					action.payload,
-				]
-			).slice(0, 3);
-		},
-		setName(state, action) {
-			state.name = action.payload;
-		},
-		setSupportsProperty(state, action) {
-			const { property, value } = action.payload;
-			if (!property?.name) {
-				return;
-			}
-			state.supports = {
-				...state.supports,
-				[property.name]: value,
-			};
-		},
-		setTitle(state, action) {
-			state.title = action.payload;
-		},
-	},
+	initialState,
+	reducers,
 });
 
 const { actions, reducer } = slice;
@@ -146,7 +41,13 @@ export const {
 	setTitle,
 } = actions;
 
-export { getAttribute, getBlockClassName, getBlockName, getBlockNamespace };
+export {
+	getAttribute,
+	getBlockClassName,
+	getBlockName,
+	getBlockNamespace,
+	getUniqueAttributeName,
+};
 
 export {
 	validateFullNameFormat,

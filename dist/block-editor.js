@@ -7315,7 +7315,7 @@
 	var blockToolbar = parseComponentTree((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockToolbar) || []);
 	var blockSave = parseComponentTree((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockSave) || []);
 	var blockSidebar = parseComponentTree((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockSidebar) || []);
-	var initialState = {
+	var initialState$1 = {
 	  blockComponents: blockComponents,
 	  blockEdit: blockEdit,
 	  blockToolbar: blockToolbar,
@@ -7726,7 +7726,7 @@
 	  }))));
 	};
 
-	var reducers$2 = {
+	var reducers$3 = {
 	  getAtPosition: getAtPosition,
 	  insertAtPosition: insertAtPosition,
 	  insertExistingComponentAtPosition: insertExistingComponentAtPosition,
@@ -7745,8 +7745,8 @@
 
 	var slice$9 = createSlice({
 	  name: "blockBlueprint",
-	  initialState: initialState,
-	  reducers: reducers$2
+	  initialState: initialState$1,
+	  reducers: reducers$3
 	});
 	var actions$9 = slice$9.actions,
 	  reducer$9 = slice$9.reducer;
@@ -7765,118 +7765,135 @@
 	  var unsetComponentAttribute = actions$9.unsetComponentAttribute;
 	  actions$9.unsetDraggingComponent;
 
+	var _blueprintBlocksEdito$9;
+	var _ref$1 = ((_blueprintBlocksEdito$9 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$9 === void 0 ? void 0 : _blueprintBlocksEdito$9.blockMetadata) || {},
+	  _ref$blockJson = _ref$1.blockJson,
+	  blockJson = _ref$blockJson === void 0 ? {} : _ref$blockJson;
+	var initialState = _objectSpread2(_objectSpread2({}, blockJson), {}, {
+	  keywords: _toConsumableArray((blockJson === null || blockJson === void 0 ? void 0 : blockJson.keywords) || []),
+	  attributes: _objectSpread2({}, (blockJson === null || blockJson === void 0 ? void 0 : blockJson.attributes) || {})
+	});
+
+	var ALLOWED_ATTRIBUTE_TYPES$1 = ["array", "number", "string", "object"];
+	var addAttribute$1 = function addAttribute(state, action) {
+	  var _action$payload = action.payload,
+	    _action$payload$name = _action$payload.name,
+	    name = _action$payload$name === void 0 ? "" : _action$payload$name,
+	    _action$payload$type = _action$payload.type,
+	    type = _action$payload$type === void 0 ? "string" : _action$payload$type,
+	    _action$payload$defau = _action$payload.defaultValue,
+	    defaultValue = _action$payload$defau === void 0 ? null : _action$payload$defau;
+	  if (name === "") {
+	    name = getUniqueAttributeName("attribute", Object.keys(state.attributes));
+	  }
+	  state.attributes = _objectSpread2(_objectSpread2({}, state.attributes), {}, _defineProperty$1({}, name, {
+	    type: ALLOWED_ATTRIBUTE_TYPES$1.includes(type) && type || "string",
+	    "default": defaultValue || null
+	  }));
+	};
+
+	var ALLOWED_ATTRIBUTE_TYPES = ["array", "number", "string", "object"];
+	var editAttribute$1 = function editAttribute(state, action) {
+	  var _action$payload = action.payload,
+	    _action$payload$name = _action$payload.name,
+	    name = _action$payload$name === void 0 ? "" : _action$payload$name,
+	    _action$payload$type = _action$payload.type,
+	    type = _action$payload$type === void 0 ? "string" : _action$payload$type,
+	    _action$payload$defau = _action$payload.defaultValue,
+	    defaultValue = _action$payload$defau === void 0 ? null : _action$payload$defau;
+	  console.log(name, type, defaultValue);
+	  state.attributes = _objectSpread2(_objectSpread2({}, state.attributes), {}, _defineProperty$1({}, name, {
+	    type: ALLOWED_ATTRIBUTE_TYPES.includes(type) && type || "string",
+	    "default": defaultValue || null
+	  }));
+	};
+
+	var removeAttribute$1 = function removeAttribute(state, action) {
+	  var name = action.payload;
+	  state.attributes = Object.fromEntries(Object.entries(state.attributes).filter(function (_ref) {
+	    var _ref2 = _slicedToArray(_ref, 2),
+	      key = _ref2[0];
+	      _ref2[1];
+	    return key !== name;
+	  }));
+	};
+
+	var setCategory$1 = function setCategory(state, action) {
+	  state.category = action.payload;
+	};
+
+	var setDescription$1 = function setDescription(state, action) {
+	  state.description = action.payload;
+	};
+
+	var setIcon$1 = function setIcon(state, action) {
+	  state.icon = action.payload;
+	};
+
+	var setKeywords$1 = function setKeywords(state, action) {
+	  state.keywords = (Array.isArray(action.payload) && action.payload || [action.payload]).slice(0, 3);
+	};
+
+	var setName$1 = function setName(state, action) {
+	  state.name = action.payload;
+	};
+
+	var setSupportsProperty$1 = function setSupportsProperty(state, action) {
+	  var _action$payload = action.payload,
+	    property = _action$payload.property,
+	    value = _action$payload.value;
+	  if (!(property !== null && property !== void 0 && property.name)) {
+	    return;
+	  }
+	  state.supports = _objectSpread2(_objectSpread2({}, state.supports), {}, _defineProperty$1({}, property.name, value));
+	};
+
+	var setTitle$1 = function setTitle(state, action) {
+	  state.title = action.payload;
+	};
+
+	var reducers$2 = {
+	  addAttribute: addAttribute$1,
+	  editAttribute: editAttribute$1,
+	  removeAttribute: removeAttribute$1,
+	  setCategory: setCategory$1,
+	  setDescription: setDescription$1,
+	  setIcon: setIcon$1,
+	  setKeywords: setKeywords$1,
+	  setName: setName$1,
+	  setSupportsProperty: setSupportsProperty$1,
+	  setTitle: setTitle$1
+	};
+
 	var getAttribute = function getAttribute(state, attributeName) {
 	  var _state$attributes;
 	  return (state === null || state === void 0 || (_state$attributes = state.attributes) === null || _state$attributes === void 0 ? void 0 : _state$attributes[attributeName]) || null;
 	};
+
 	var getBlockClassName = function getBlockClassName(state, context) {
 	  var _state$name = state.name,
 	    name = _state$name === void 0 ? "" : _state$name;
 	  return "wp-block-".concat(delimiterize(name));
 	};
+
 	var getBlockName = function getBlockName(state, context) {
 	  var _name$split;
-	  var _state$name2 = state.name,
-	    name = _state$name2 === void 0 ? "" : _state$name2;
+	  var _state$name = state.name,
+	    name = _state$name === void 0 ? "" : _state$name;
 	  return ((_name$split = name.split("/")) === null || _name$split === void 0 ? void 0 : _name$split[1]) || "";
 	};
+
 	var getBlockNamespace = function getBlockNamespace(state, context) {
-	  var _name$split2;
-	  var _state$name3 = state.name,
-	    name = _state$name3 === void 0 ? "" : _state$name3;
-	  return ((_name$split2 = name.split("/")) === null || _name$split2 === void 0 ? void 0 : _name$split2[0]) || "";
+	  var _name$split;
+	  var _state$name = state.name,
+	    name = _state$name === void 0 ? "" : _state$name;
+	  return ((_name$split = name.split("/")) === null || _name$split === void 0 ? void 0 : _name$split[0]) || "";
 	};
 
-	var _blueprintBlocksEdito$9;
-	function getUniqueAttributeName() {
-	  var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "attribute";
-	  var allNames = arguments.length > 1 ? arguments[1] : undefined;
-	  var index = 1;
-	  var indexedName = "".concat(name).concat(index);
-	  while (allNames.includes(indexedName)) {
-	    index++;
-	    indexedName = "".concat(name).concat(index);
-	  }
-	  return indexedName;
-	}
-	var ALLOWED_ATTRIBUTE_TYPES = ["array", "number", "string", "object"];
-	var _ref$1 = ((_blueprintBlocksEdito$9 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$9 === void 0 ? void 0 : _blueprintBlocksEdito$9.blockMetadata) || {},
-	  _ref$blockJson = _ref$1.blockJson,
-	  blockJson = _ref$blockJson === void 0 ? {} : _ref$blockJson;
 	var slice$8 = createSlice({
 	  name: "blockJson",
-	  initialState: _objectSpread2(_objectSpread2({}, blockJson), {}, {
-	    keywords: _toConsumableArray((blockJson === null || blockJson === void 0 ? void 0 : blockJson.keywords) || []),
-	    attributes: _objectSpread2({}, (blockJson === null || blockJson === void 0 ? void 0 : blockJson.attributes) || {})
-	  }),
-	  reducers: {
-	    addAttribute: function addAttribute(state, action) {
-	      var _action$payload = action.payload,
-	        _action$payload$name = _action$payload.name,
-	        name = _action$payload$name === void 0 ? "" : _action$payload$name,
-	        _action$payload$type = _action$payload.type,
-	        type = _action$payload$type === void 0 ? "string" : _action$payload$type,
-	        _action$payload$defau = _action$payload.defaultValue,
-	        defaultValue = _action$payload$defau === void 0 ? null : _action$payload$defau;
-	      if (name === "") {
-	        name = getUniqueAttributeName("attribute", Object.keys(state.attributes));
-	      }
-	      state.attributes = _objectSpread2(_objectSpread2({}, state.attributes), {}, _defineProperty$1({}, name, {
-	        type: ALLOWED_ATTRIBUTE_TYPES.includes(type) && type || "string",
-	        "default": defaultValue || null
-	      }));
-	    },
-	    editAttribute: function editAttribute(state, action) {
-	      var _action$payload2 = action.payload,
-	        _action$payload2$name = _action$payload2.name,
-	        name = _action$payload2$name === void 0 ? "" : _action$payload2$name,
-	        _action$payload2$type = _action$payload2.type,
-	        type = _action$payload2$type === void 0 ? "string" : _action$payload2$type,
-	        _action$payload2$defa = _action$payload2.defaultValue,
-	        defaultValue = _action$payload2$defa === void 0 ? null : _action$payload2$defa;
-	      console.log(name, type, defaultValue);
-	      state.attributes = _objectSpread2(_objectSpread2({}, state.attributes), {}, _defineProperty$1({}, name, {
-	        type: ALLOWED_ATTRIBUTE_TYPES.includes(type) && type || "string",
-	        "default": defaultValue || null
-	      }));
-	    },
-	    removeAttribute: function removeAttribute(state, action) {
-	      var name = action.payload;
-	      state.attributes = Object.fromEntries(Object.entries(state.attributes).filter(function (_ref2) {
-	        var _ref3 = _slicedToArray(_ref2, 2),
-	          key = _ref3[0];
-	          _ref3[1];
-	        return key !== name;
-	      }));
-	    },
-	    setCategory: function setCategory(state, action) {
-	      state.category = action.payload;
-	    },
-	    setDescription: function setDescription(state, action) {
-	      state.description = action.payload;
-	    },
-	    setIcon: function setIcon(state, action) {
-	      state.icon = action.payload;
-	    },
-	    setKeywords: function setKeywords(state, action) {
-	      state.keywords = (Array.isArray(action.payload) && action.payload || [action.payload]).slice(0, 3);
-	    },
-	    setName: function setName(state, action) {
-	      state.name = action.payload;
-	    },
-	    setSupportsProperty: function setSupportsProperty(state, action) {
-	      var _action$payload3 = action.payload,
-	        property = _action$payload3.property,
-	        value = _action$payload3.value;
-	      if (!(property !== null && property !== void 0 && property.name)) {
-	        return;
-	      }
-	      state.supports = _objectSpread2(_objectSpread2({}, state.supports), {}, _defineProperty$1({}, property.name, value));
-	    },
-	    setTitle: function setTitle(state, action) {
-	      state.title = action.payload;
-	    }
-	  }
+	  initialState: initialState,
+	  reducers: reducers$2
 	});
 	var actions$8 = slice$8.actions,
 	  reducer$8 = slice$8.reducer;

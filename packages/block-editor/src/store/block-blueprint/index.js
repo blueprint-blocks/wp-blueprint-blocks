@@ -13,9 +13,7 @@ import {
 
 const slice = createSlice({
 	name: "blockBlueprint",
-
 	initialState,
-
 	reducers,
 });
 

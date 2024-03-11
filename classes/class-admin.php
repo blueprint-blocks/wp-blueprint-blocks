@@ -122,7 +122,7 @@ class Admin
             'blueprint_blocks_start',
             array(&$this, 'display_home_page'),
             'dashicons-editor-code',
-            50
+            81
         );
 
         add_submenu_page(
