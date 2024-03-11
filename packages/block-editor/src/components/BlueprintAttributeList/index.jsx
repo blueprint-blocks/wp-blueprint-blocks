@@ -18,11 +18,11 @@ const BlueprintAttributeList = forwardRef(({ editorRef = null }, ref) => {
 		<div ref={ref} className="BlueprintAttributeList">
 			{blockAttributes?.length > 0 && (
 				<div className="BlueprintAttributeList-list">
-					{blockAttributes.map(({ name }) => (
+					{blockAttributes.map(({ clientId, name }) => (
 						<BlueprintAttribute
 							attributeName={name}
 							editorRef={editorRef}
-							key={name}
+							key={clientId}
 						/>
 					))}
 				</div>

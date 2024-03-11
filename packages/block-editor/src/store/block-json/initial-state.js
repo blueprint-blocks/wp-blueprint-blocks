@@ -1,7 +1,15 @@
+import { getUniqueClientId } from "../../functions";
+
 const { blockJson = {} } = blueprintBlocksEditorSettings?.blockMetadata || {};
 
 const attributes = Object.entries(blockJson?.attributes || {}).map(
-	([name, attribute]) => ({ ...attribute, name }),
+	([name, attribute]) => {
+		return {
+			...attribute,
+			name,
+			clientId: getUniqueClientId(),
+		};
+	},
 );
 
 const keywords = [...(blockJson?.keywords || [])];

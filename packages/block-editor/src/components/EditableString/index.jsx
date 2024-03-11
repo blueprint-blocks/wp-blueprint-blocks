@@ -1,12 +1,5 @@
 import clsx from "clsx";
-import {
-	forwardRef,
-	memo,
-	useCallback,
-	useMemo,
-	useRef,
-	useState,
-} from "react";
+import { forwardRef, useCallback, useMemo, useRef, useState } from "react";
 import ContentEditable from "react-contenteditable";
 
 import "./style.css";

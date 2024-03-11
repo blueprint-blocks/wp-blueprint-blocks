@@ -7774,7 +7774,8 @@
 	    name = _ref3[0],
 	    attribute = _ref3[1];
 	  return _objectSpread2(_objectSpread2({}, attribute), {}, {
-	    name: name
+	    name: name,
+	    clientId: getUniqueClientId()
 	  });
 	});
 	var keywords$J = _toConsumableArray((blockJson === null || blockJson === void 0 ? void 0 : blockJson.keywords) || []);
@@ -7845,13 +7846,17 @@
 	  return ((_name$split = name.split("/")) === null || _name$split === void 0 ? void 0 : _name$split[0]) || "";
 	};
 
-	var _excluded$b = ["name"];
+	var _excluded$b = ["name", "type"];
 	var getRawJson = function getRawJson(state) {
 	  return _objectSpread2(_objectSpread2({}, state), {}, {
 	    attributes: Object.fromEntries(_toConsumableArray(state.attributes || []).map(function (_ref) {
 	      var name = _ref.name,
+	        type = _ref.type,
 	        attribute = _objectWithoutProperties(_ref, _excluded$b);
-	      return [name, attribute];
+	      return [name, {
+	        type: type,
+	        "default": attribute["default"]
+	      }];
 	    }))
 	  });
 	};
@@ -7884,7 +7889,8 @@
 	  attributes.push({
 	    name: name,
 	    type: ALLOWED_ATTRIBUTE_TYPES$1.includes(type) && type || "string",
-	    "default": defaultValue || null
+	    "default": defaultValue || null,
+	    clientId: getUniqueClientId()
 	  });
 	  state.attributes = attributes;
 	};
@@ -14497,11 +14503,12 @@
 	    children: [(blockAttributes === null || blockAttributes === void 0 ? void 0 : blockAttributes.length) > 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintAttributeList-list",
 	      children: blockAttributes.map(function (_ref2) {
-	        var name = _ref2.name;
+	        var clientId = _ref2.clientId,
+	          name = _ref2.name;
 	        return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintAttribute, {
 	          attributeName: name,
 	          editorRef: editorRef
-	        }, name);
+	        }, clientId);
 	      })
 	    }), Object.keys(blockAttributes).length === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintHint, {
 	      text: "Add attributes for values that you'd like to be saved upon update.",

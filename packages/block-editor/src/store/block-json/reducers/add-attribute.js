@@ -1,3 +1,4 @@
+import { getUniqueClientId } from "../../../functions";
 import { getUniqueAttributeName } from "../selectors";
 
 const ALLOWED_ATTRIBUTE_TYPES = ["array", "number", "string", "object"];
@@ -15,6 +16,7 @@ const addAttribute = (state, action) => {
 		name,
 		type: (ALLOWED_ATTRIBUTE_TYPES.includes(type) && type) || "string",
 		default: defaultValue || null,
+		clientId: getUniqueClientId(),
 	});
 
 	state.attributes = attributes;
