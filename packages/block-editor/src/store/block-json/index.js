@@ -4,6 +4,7 @@ import initialState from "./initial-state";
 import reducers from "./reducers";
 
 import {
+	getAllAttributeNames,
 	getAttribute,
 	getBlockClassName,
 	getBlockName,
@@ -44,6 +45,7 @@ export const {
 } = actions;
 
 export {
+	getAllAttributeNames,
 	getAttribute,
 	getBlockClassName,
 	getBlockName,

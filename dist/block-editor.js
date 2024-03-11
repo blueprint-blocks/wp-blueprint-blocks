@@ -7785,10 +7785,10 @@
 
 	var getAllAttributeNames = function getAllAttributeNames(state) {
 	  var _state$attributes;
-	  return state === null || state === void 0 || (_state$attributes = state.attributes) === null || _state$attributes === void 0 ? void 0 : _state$attributes.map(function (_ref) {
+	  return (state === null || state === void 0 || (_state$attributes = state.attributes) === null || _state$attributes === void 0 ? void 0 : _state$attributes.map(function (_ref) {
 	    var name = _ref.name;
 	    return name;
-	  });
+	  })) || [];
 	};
 
 	var _excluded$c = ["name"];
@@ -7928,7 +7928,7 @@
 	  state.attributes = attributes;
 	};
 
-	var removeAttribute = function removeAttribute(state, action) {
+	var removeAttribute$1 = function removeAttribute(state, action) {
 	  var attributeName = action.payload;
 	  state.attributes = _toConsumableArray(state.attributes).filter(function (_ref) {
 	    var name = _ref.name;
@@ -7974,7 +7974,7 @@
 	  addAttribute: addAttribute$1,
 	  editAttribute: editAttribute$1,
 	  renameAttribute: renameAttribute$1,
-	  removeAttribute: removeAttribute,
+	  removeAttribute: removeAttribute$1,
 	  setCategory: setCategory$1,
 	  setDescription: setDescription$1,
 	  setIcon: setIcon$1,
@@ -7993,9 +7993,9 @@
 	  reducer$8 = slice$8.reducer;
 	var addAttribute = actions$8.addAttribute,
 	  editAttribute = actions$8.editAttribute,
-	  renameAttribute = actions$8.renameAttribute;
-	  actions$8.removeAttribute;
-	  var setCategory = actions$8.setCategory,
+	  renameAttribute = actions$8.renameAttribute,
+	  removeAttribute = actions$8.removeAttribute,
+	  setCategory = actions$8.setCategory,
 	  setDescription = actions$8.setDescription,
 	  setIcon = actions$8.setIcon,
 	  setKeywords = actions$8.setKeywords,
@@ -8447,6 +8447,9 @@
 	      return state.blockJson;
 	    }),
 	    attributes = _useSelector.attributes;
+	  var attributeNames = useSelector(function (state) {
+	    return getAllAttributeNames(state.blockJson);
+	  });
 	  var _addAttribute = function _addAttribute(attributeName, attributeProps) {
 	    dispatch(addAttribute(_objectSpread2(_objectSpread2({}, attributeProps), {}, {
 	      name: attributeName
@@ -8460,24 +8463,29 @@
 	      name: attributeName
 	    })));
 	  };
+	  var _getAttribute = function _getAttribute(attributeName) {
+	    return useSelector(function (state) {
+	      return getAttribute(state.blockJson, attributeName);
+	    });
+	  };
 	  var _renameAttribute = function _renameAttribute(attributeName, newAttributeName) {
 	    dispatch(renameAttribute({
 	      name: attributeName,
 	      newName: newAttributeName
 	    }));
 	  };
-	  var _getAttribute = function _getAttribute(attributeName) {
-	    return useSelector(function (state) {
-	      return getAttribute(state.blockJson, attributeName);
-	    });
+	  var _removeAttribute = function _removeAttribute(attributeName) {
+	    dispatch(removeAttribute(attributeName));
 	  };
 	  return {
 	    addAttribute: _addAttribute,
 	    addEmptyAttribute: addEmptyAttribute,
 	    blockAttributes: attributes,
+	    blockAttributeNames: attributeNames,
 	    editAttribute: _editAttribute,
 	    getAttribute: _getAttribute,
-	    renameAttribute: _renameAttribute
+	    renameAttribute: _renameAttribute,
+	    removeAttribute: _removeAttribute
 	  };
 	};
 
@@ -8515,7 +8523,7 @@
 	var useBlueprintConnections = function useBlueprintConnections() {
 	  var dispatch = useDispatch();
 	  var _useBlockJson = useBlockJson(),
-	    blockAttributes = _useBlockJson.blockAttributes;
+	    blockAttributeNames = _useBlockJson.blockAttributeNames;
 	  var _useBlueprint = useBlueprint(),
 	    allComponents = _useBlueprint.allComponents;
 	  var componentAttributes = React$2.useMemo(function () {
@@ -8535,12 +8543,12 @@
 	      };
 	    });
 	  }, [allComponents]);
-	  var _blockAttributes = React$2.useMemo(function () {
+	  var blockAttributes = React$2.useMemo(function () {
 	    return componentAttributes.filter(function (_ref5) {
 	      var attributeName = _ref5.attributeName;
-	      return attributeName in blockAttributes;
+	      return blockAttributeNames.includes(attributeName);
 	    });
-	  }, [componentAttributes, blockAttributes]);
+	  }, [blockAttributeNames, componentAttributes]);
 	  var _useSelector = useSelector(function (state) {
 	      return state.connectionHandles || {};
 	    }),
@@ -8550,7 +8558,7 @@
 	    handlesTo = _useSelector.handlesTo;
 	  var allConnections = React$2.useMemo(function () {
 	    var allConnections = [];
-	    _blockAttributes.forEach(function (_ref6) {
+	    blockAttributes.forEach(function (_ref6) {
 	      var attributeName = _ref6.attributeName,
 	        clientId = _ref6.clientId;
 	      if (!(attributeName in handlesFrom) || !(clientId in handlesTo)) {
@@ -8570,10 +8578,10 @@
 	      });
 	    });
 	    return allConnections;
-	  }, [blockAttributes, _blockAttributes, handlesFrom, handlesTo]);
+	  }, [blockAttributes, handlesFrom, handlesTo]);
 	  var connectionsById = React$2.useMemo(function () {
 	    var connectionsById = {};
-	    _blockAttributes.forEach(function (_ref7) {
+	    blockAttributes.forEach(function (_ref7) {
 	      var attributeName = _ref7.attributeName,
 	        clientId = _ref7.clientId;
 	      if (!(attributeName in handlesFrom) || !(clientId in handlesTo)) {
@@ -8583,7 +8591,7 @@
 	      connectionsById[attributeName].push(clientId);
 	    });
 	    return connectionsById;
-	  }, [_blockAttributes, handlesFrom, handlesTo]);
+	  }, [blockAttributes, handlesFrom, handlesTo]);
 	  var _startDraggingExistingConnection = React$2.useCallback(function (_ref8) {
 	    var attributeName = _ref8.attributeName,
 	      clientId = _ref8.clientId;

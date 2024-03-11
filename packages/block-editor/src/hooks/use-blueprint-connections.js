@@ -15,7 +15,7 @@ import {
 const useBlueprintConnections = () => {
 	const dispatch = useDispatch();
 
-	const { blockAttributes } = useBlockJson();
+	const { blockAttributeNames } = useBlockJson();
 	const { allComponents } = useBlueprint();
 
 	const componentAttributes = useMemo(
@@ -31,12 +31,12 @@ const useBlueprintConnections = () => {
 		[allComponents],
 	);
 
-	const _blockAttributes = useMemo(
+	const blockAttributes = useMemo(
 		() =>
-			componentAttributes.filter(
-				({ attributeName }) => attributeName in blockAttributes,
+			componentAttributes.filter(({ attributeName }) =>
+				blockAttributeNames.includes(attributeName),
 			),
-		[componentAttributes, blockAttributes],
+		[blockAttributeNames, componentAttributes],
 	);
 
 	const {
@@ -51,7 +51,7 @@ const useBlueprintConnections = () => {
 	const allConnections = useMemo(() => {
 		const allConnections = [];
 
-		_blockAttributes.forEach(({ attributeName, clientId }) => {
+		blockAttributes.forEach(({ attributeName, clientId }) => {
 			if (!(attributeName in handlesFrom) || !(clientId in handlesTo)) {
 				return;
 			}
@@ -71,12 +71,12 @@ const useBlueprintConnections = () => {
 		});
 
 		return allConnections;
-	}, [blockAttributes, _blockAttributes, handlesFrom, handlesTo]);
+	}, [blockAttributes, handlesFrom, handlesTo]);
 
 	const connectionsById = useMemo(() => {
 		const connectionsById = {};
 
-		_blockAttributes.forEach(({ attributeName, clientId }) => {
+		blockAttributes.forEach(({ attributeName, clientId }) => {
 			if (!(attributeName in handlesFrom) || !(clientId in handlesTo)) {
 				return;
 			}
@@ -87,7 +87,7 @@ const useBlueprintConnections = () => {
 		});
 
 		return connectionsById;
-	}, [_blockAttributes, handlesFrom, handlesTo]);
+	}, [blockAttributes, handlesFrom, handlesTo]);
 
 	const _startDraggingExistingConnection = useCallback(
 		({ attributeName, clientId }) => {
