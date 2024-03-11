@@ -4025,7 +4025,7 @@
 		string: string$2
 	};
 
-	var attributes$1 = {
+	var attributes$2 = {
 		attributeName: {
 			type: "string",
 			description: ""
@@ -4127,7 +4127,7 @@
 		}
 	];
 	var blockComponents$1 = {
-		attributes: attributes$1,
+		attributes: attributes$2,
 		fields: fields,
 		html: html$1
 	};
@@ -7247,7 +7247,7 @@
 	  };
 	};
 
-	var _excluded$c = ["isValid"];
+	var _excluded$e = ["isValid"];
 	var validateBlockJson = function validateBlockJson(blockJson) {
 	  var validations = blockJsonValidation.map(function (_ref) {
 	    var propertyName = _ref.propertyName,
@@ -7265,7 +7265,7 @@
 	  }, true);
 	  var errors = validations.filter(function (_ref2) {
 	    var isValid = _ref2.isValid;
-	      _objectWithoutProperties(_ref2, _excluded$c);
+	      _objectWithoutProperties(_ref2, _excluded$e);
 	    return isValid === false;
 	  });
 	  return {
@@ -7283,7 +7283,7 @@
 	};
 
 	var _blueprintBlocksEdito$a;
-	var _excluded$b = ["children"];
+	var _excluded$d = ["children"];
 	var blockComponents = {};
 	function parseComponentTree() {
 	  var components = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -7294,7 +7294,7 @@
 	  components.forEach(function (_ref) {
 	    var _ref$children = _ref.children,
 	      children = _ref$children === void 0 ? [] : _ref$children,
-	      component = _objectWithoutProperties(_ref, _excluded$b);
+	      component = _objectWithoutProperties(_ref, _excluded$d);
 	    var clientId = getUniqueClientId();
 	    var childClientIds = [];
 	    if (children.length > 0) {
@@ -7455,7 +7455,7 @@
 	  }
 	  return null;
 	};
-	var getRawJson = function getRawJson(_ref4) {
+	var getRawJson$1 = function getRawJson(_ref4) {
 	  var _ref4$blockComponents = _ref4.blockComponents,
 	    blockComponents = _ref4$blockComponents === void 0 ? {} : _ref4$blockComponents,
 	    _ref4$blockEdit = _ref4.blockEdit,
@@ -7769,10 +7769,104 @@
 	var _ref$1 = ((_blueprintBlocksEdito$9 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$9 === void 0 ? void 0 : _blueprintBlocksEdito$9.blockMetadata) || {},
 	  _ref$blockJson = _ref$1.blockJson,
 	  blockJson = _ref$blockJson === void 0 ? {} : _ref$blockJson;
-	var initialState = _objectSpread2(_objectSpread2({}, blockJson), {}, {
-	  keywords: _toConsumableArray((blockJson === null || blockJson === void 0 ? void 0 : blockJson.keywords) || []),
-	  attributes: _objectSpread2({}, (blockJson === null || blockJson === void 0 ? void 0 : blockJson.attributes) || {})
+	var attributes$1 = Object.entries((blockJson === null || blockJson === void 0 ? void 0 : blockJson.attributes) || {}).map(function (_ref2) {
+	  var _ref3 = _slicedToArray(_ref2, 2),
+	    name = _ref3[0],
+	    attribute = _ref3[1];
+	  return _objectSpread2(_objectSpread2({}, attribute), {}, {
+	    name: name
+	  });
 	});
+	var keywords$J = _toConsumableArray((blockJson === null || blockJson === void 0 ? void 0 : blockJson.keywords) || []);
+	var initialState = _objectSpread2(_objectSpread2({}, blockJson), {}, {
+	  keywords: keywords$J,
+	  attributes: attributes$1
+	});
+
+	var getAllAttributeNames = function getAllAttributeNames(state) {
+	  var _state$attributes;
+	  return state === null || state === void 0 || (_state$attributes = state.attributes) === null || _state$attributes === void 0 ? void 0 : _state$attributes.map(function (_ref) {
+	    var name = _ref.name;
+	    return name;
+	  });
+	};
+
+	var _excluded$c = ["name"];
+	var getAttribute = function getAttribute(state, attributeName) {
+	  var _iterator = _createForOfIteratorHelper((state === null || state === void 0 ? void 0 : state.attributes) || []),
+	    _step;
+	  try {
+	    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+	      var _ref = _step.value;
+	      var name = _ref.name,
+	        attribute = _objectWithoutProperties(_ref, _excluded$c);
+	      if (name === attributeName) {
+	        return attribute;
+	      }
+	    }
+	  } catch (err) {
+	    _iterator.e(err);
+	  } finally {
+	    _iterator.f();
+	  }
+	  return null;
+	};
+
+	var getAttributeIndex = function getAttributeIndex(state, attributeName) {
+	  var _state$attributes;
+	  if (!(state !== null && state !== void 0 && (_state$attributes = state.attributes) !== null && _state$attributes !== void 0 && _state$attributes.length)) {
+	    return null;
+	  }
+	  for (var i = 0; i < state.attributes.length; i++) {
+	    if (state.attributes[i].name === attributeName) {
+	      return i;
+	    }
+	  }
+	  return null;
+	};
+
+	var getBlockClassName = function getBlockClassName(state, context) {
+	  var _state$name = state.name,
+	    name = _state$name === void 0 ? "" : _state$name;
+	  return "wp-block-".concat(delimiterize(name));
+	};
+
+	var getBlockName = function getBlockName(state, context) {
+	  var _name$split;
+	  var _state$name = state.name,
+	    name = _state$name === void 0 ? "" : _state$name;
+	  return ((_name$split = name.split("/")) === null || _name$split === void 0 ? void 0 : _name$split[1]) || "";
+	};
+
+	var getBlockNamespace = function getBlockNamespace(state, context) {
+	  var _name$split;
+	  var _state$name = state.name,
+	    name = _state$name === void 0 ? "" : _state$name;
+	  return ((_name$split = name.split("/")) === null || _name$split === void 0 ? void 0 : _name$split[0]) || "";
+	};
+
+	var _excluded$b = ["name"];
+	var getRawJson = function getRawJson(state) {
+	  return _objectSpread2(_objectSpread2({}, state), {}, {
+	    attributes: Object.fromEntries(_toConsumableArray(state.attributes || []).map(function (_ref) {
+	      var name = _ref.name,
+	        attribute = _objectWithoutProperties(_ref, _excluded$b);
+	      return [name, attribute];
+	    }))
+	  });
+	};
+
+	var getUniqueAttributeName = function getUniqueAttributeName() {
+	  var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "attribute";
+	  var state = arguments.length > 1 ? arguments[1] : undefined;
+	  var index = 1;
+	  var indexedName = "".concat(name).concat(index);
+	  while (getAllAttributeNames(state).includes(indexedName)) {
+	    index++;
+	    indexedName = "".concat(name).concat(index);
+	  }
+	  return indexedName;
+	};
 
 	var ALLOWED_ATTRIBUTE_TYPES$1 = ["array", "number", "string", "object"];
 	var addAttribute$1 = function addAttribute(state, action) {
@@ -7784,12 +7878,15 @@
 	    _action$payload$defau = _action$payload.defaultValue,
 	    defaultValue = _action$payload$defau === void 0 ? null : _action$payload$defau;
 	  if (name === "") {
-	    name = getUniqueAttributeName("attribute", Object.keys(state.attributes));
+	    name = getUniqueAttributeName("attribute", state);
 	  }
-	  state.attributes = _objectSpread2(_objectSpread2({}, state.attributes), {}, _defineProperty$1({}, name, {
+	  var attributes = _toConsumableArray(state.attributes);
+	  attributes.push({
+	    name: name,
 	    type: ALLOWED_ATTRIBUTE_TYPES$1.includes(type) && type || "string",
 	    "default": defaultValue || null
-	  }));
+	  });
+	  state.attributes = attributes;
 	};
 
 	var ALLOWED_ATTRIBUTE_TYPES = ["array", "number", "string", "object"];
@@ -7801,21 +7898,42 @@
 	    type = _action$payload$type === void 0 ? "string" : _action$payload$type,
 	    _action$payload$defau = _action$payload.defaultValue,
 	    defaultValue = _action$payload$defau === void 0 ? null : _action$payload$defau;
-	  console.log(name, type, defaultValue);
-	  state.attributes = _objectSpread2(_objectSpread2({}, state.attributes), {}, _defineProperty$1({}, name, {
+	  var index = getAttributeIndex(state, name);
+	  if (index === null) {
+	    return;
+	  }
+	  var attributes = _toConsumableArray(state.attributes);
+	  attributes[index] = {
+	    name: name,
 	    type: ALLOWED_ATTRIBUTE_TYPES.includes(type) && type || "string",
 	    "default": defaultValue || null
-	  }));
+	  };
+	  state.attributes = attributes;
 	};
 
-	var removeAttribute$1 = function removeAttribute(state, action) {
-	  var name = action.payload;
-	  state.attributes = Object.fromEntries(Object.entries(state.attributes).filter(function (_ref) {
-	    var _ref2 = _slicedToArray(_ref, 2),
-	      key = _ref2[0];
-	      _ref2[1];
-	    return key !== name;
-	  }));
+	var renameAttribute$1 = function renameAttribute(state, action) {
+	  var _action$payload = action.payload,
+	    _action$payload$name = _action$payload.name,
+	    name = _action$payload$name === void 0 ? "" : _action$payload$name,
+	    _action$payload$newNa = _action$payload.newName,
+	    newName = _action$payload$newNa === void 0 ? "" : _action$payload$newNa;
+	  var index = getAttributeIndex(state, name);
+	  if (index === null) {
+	    return;
+	  }
+	  var attributes = _toConsumableArray(state.attributes);
+	  attributes[index] = _objectSpread2(_objectSpread2({}, attributes[index]), {}, {
+	    name: newName
+	  });
+	  state.attributes = attributes;
+	};
+
+	var removeAttribute = function removeAttribute(state, action) {
+	  var attributeName = action.payload;
+	  state.attributes = _toConsumableArray(state.attributes).filter(function (_ref) {
+	    var name = _ref.name;
+	    return name !== attributeName;
+	  });
 	};
 
 	var setCategory$1 = function setCategory(state, action) {
@@ -7855,7 +7973,8 @@
 	var reducers$2 = {
 	  addAttribute: addAttribute$1,
 	  editAttribute: editAttribute$1,
-	  removeAttribute: removeAttribute$1,
+	  renameAttribute: renameAttribute$1,
+	  removeAttribute: removeAttribute,
 	  setCategory: setCategory$1,
 	  setDescription: setDescription$1,
 	  setIcon: setIcon$1,
@@ -7863,31 +7982,6 @@
 	  setName: setName$1,
 	  setSupportsProperty: setSupportsProperty$1,
 	  setTitle: setTitle$1
-	};
-
-	var getAttribute = function getAttribute(state, attributeName) {
-	  var _state$attributes;
-	  return (state === null || state === void 0 || (_state$attributes = state.attributes) === null || _state$attributes === void 0 ? void 0 : _state$attributes[attributeName]) || null;
-	};
-
-	var getBlockClassName = function getBlockClassName(state, context) {
-	  var _state$name = state.name,
-	    name = _state$name === void 0 ? "" : _state$name;
-	  return "wp-block-".concat(delimiterize(name));
-	};
-
-	var getBlockName = function getBlockName(state, context) {
-	  var _name$split;
-	  var _state$name = state.name,
-	    name = _state$name === void 0 ? "" : _state$name;
-	  return ((_name$split = name.split("/")) === null || _name$split === void 0 ? void 0 : _name$split[1]) || "";
-	};
-
-	var getBlockNamespace = function getBlockNamespace(state, context) {
-	  var _name$split;
-	  var _state$name = state.name,
-	    name = _state$name === void 0 ? "" : _state$name;
-	  return ((_name$split = name.split("/")) === null || _name$split === void 0 ? void 0 : _name$split[0]) || "";
 	};
 
 	var slice$8 = createSlice({
@@ -7899,8 +7993,9 @@
 	  reducer$8 = slice$8.reducer;
 	var addAttribute = actions$8.addAttribute,
 	  editAttribute = actions$8.editAttribute,
-	  removeAttribute = actions$8.removeAttribute,
-	  setCategory = actions$8.setCategory,
+	  renameAttribute = actions$8.renameAttribute;
+	  actions$8.removeAttribute;
+	  var setCategory = actions$8.setCategory,
 	  setDescription = actions$8.setDescription,
 	  setIcon = actions$8.setIcon,
 	  setKeywords = actions$8.setKeywords,
@@ -8365,16 +8460,16 @@
 	      name: attributeName
 	    })));
 	  };
+	  var _renameAttribute = function _renameAttribute(attributeName, newAttributeName) {
+	    dispatch(renameAttribute({
+	      name: attributeName,
+	      newName: newAttributeName
+	    }));
+	  };
 	  var _getAttribute = function _getAttribute(attributeName) {
 	    return useSelector(function (state) {
 	      return getAttribute(state.blockJson, attributeName);
 	    });
-	  };
-	  var renameAttribute = function renameAttribute(attributeName, newAttributeName, attributeProps) {
-	    dispatch(removeAttribute(attributeName));
-	    dispatch(editAttribute(_objectSpread2(_objectSpread2({}, attributeProps), {}, {
-	      name: newAttributeName
-	    })));
 	  };
 	  return {
 	    addAttribute: _addAttribute,
@@ -8382,7 +8477,7 @@
 	    blockAttributes: attributes,
 	    editAttribute: _editAttribute,
 	    getAttribute: _getAttribute,
-	    renameAttribute: renameAttribute
+	    renameAttribute: _renameAttribute
 	  };
 	};
 
@@ -12352,7 +12447,7 @@
 	function PageBlockJson() {
 	  var dispatch = useDispatch();
 	  var blockJson = useSelector(function (state) {
-	    return state.blockJson || {};
+	    return getRawJson(state.blockJson);
 	  });
 	  var setBlockDescription = function setBlockDescription(description) {
 	    dispatch(setDescription(description));
@@ -14246,10 +14341,7 @@
 	    return true;
 	  }, [allowsNullDefault, attributeDefault, attributeType, attributeTypeValid]);
 	  function onChangeAttributeName(newAttributeName) {
-	    renameAttribute(attributeName, newAttributeName, {
-	      type: attributeType,
-	      defaultValue: attributeDefault
-	    });
+	    renameAttribute(attributeName, newAttributeName);
 	  }
 	  function onChangeAttributeType(newAttributeType) {
 	    editAttribute(attributeName, {
@@ -14394,13 +14486,14 @@
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: "BlueprintAttributeList",
-	    children: [Object.keys(blockAttributes).length > 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	    children: [(blockAttributes === null || blockAttributes === void 0 ? void 0 : blockAttributes.length) > 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintAttributeList-list",
-	      children: Object.keys(blockAttributes).map(function (attributeName, index) {
+	      children: blockAttributes.map(function (_ref2) {
+	        var name = _ref2.name;
 	        return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintAttribute, {
-	          attributeName: attributeName,
+	          attributeName: name,
 	          editorRef: editorRef
-	        }, attributeName);
+	        }, name);
 	      })
 	    }), Object.keys(blockAttributes).length === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintHint, {
 	      text: "Add attributes for values that you'd like to be saved upon update.",
@@ -45522,10 +45615,10 @@
 	    return state.postType;
 	  });
 	  var blockBlueprint = useSelector(function (state) {
-	    return state.blockBlueprint;
+	    return getRawJson$1(state.blockBlueprint);
 	  });
 	  var blockJson = useSelector(function (state) {
-	    return state.blockJson;
+	    return getRawJson(state.blockJson);
 	  });
 	  var blockEditorCss = useSelector(function (state) {
 	    return state.blockEditorCss.raw;
@@ -45544,7 +45637,7 @@
 	    if (postId === null) {
 	      saveNewBlock({
 	        postType: postType,
-	        blockBlueprint: getRawJson(blockBlueprint),
+	        blockBlueprint: blockBlueprint,
 	        blockJson: blockJson,
 	        blockEditorCss: blockEditorCss,
 	        blockViewCss: blockViewCss
@@ -45560,7 +45653,7 @@
 	      updateBlock({
 	        postId: postId,
 	        postType: postType,
-	        blockBlueprint: getRawJson(blockBlueprint),
+	        blockBlueprint: blockBlueprint,
 	        blockJson: blockJson,
 	        blockEditorCss: blockEditorCss,
 	        blockViewCss: blockViewCss

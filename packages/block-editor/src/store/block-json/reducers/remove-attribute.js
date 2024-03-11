@@ -1,8 +1,7 @@
 const removeAttribute = (state, action) => {
-	const name = action.payload;
-
-	state.attributes = Object.fromEntries(
-		Object.entries(state.attributes).filter(([key, value]) => key !== name),
+	const attributeName = action.payload;
+	state.attributes = [...state.attributes].filter(
+		({ name }) => name !== attributeName,
 	);
 };
 

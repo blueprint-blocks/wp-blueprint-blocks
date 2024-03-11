@@ -1,17 +1,24 @@
+import { getAttributeIndex } from "../selectors";
+
 const ALLOWED_ATTRIBUTE_TYPES = ["array", "number", "string", "object"];
 
 const editAttribute = (state, action) => {
 	const { name = "", type = "string", defaultValue = null } = action.payload;
+	const index = getAttributeIndex(state, name);
 
-	console.log(name, type, defaultValue);
+	if (index === null) {
+		return;
+	}
 
-	state.attributes = {
-		...state.attributes,
-		[name]: {
-			type: (ALLOWED_ATTRIBUTE_TYPES.includes(type) && type) || "string",
-			default: defaultValue || null,
-		},
+	const attributes = [...state.attributes];
+
+	attributes[index] = {
+		name,
+		type: (ALLOWED_ATTRIBUTE_TYPES.includes(type) && type) || "string",
+		default: defaultValue || null,
 	};
+
+	state.attributes = attributes;
 };
 
 export default editAttribute;

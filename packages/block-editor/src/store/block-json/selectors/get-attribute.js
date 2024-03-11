@@ -1,5 +1,10 @@
 const getAttribute = (state, attributeName) => {
-	return state?.attributes?.[attributeName] || null;
+	for (const { name, ...attribute } of state?.attributes || []) {
+		if (name === attributeName) {
+			return attribute;
+		}
+	}
+	return null;
 };
 
 export default getAttribute;

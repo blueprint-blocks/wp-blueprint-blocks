@@ -6,6 +6,7 @@ import { saveNewBlock, updateBlock } from "../../api";
 import { usePreventClose, useRect } from "../../hooks";
 import { setRect as setAppRect } from "../../store/app";
 import { getRawJson as getRawBlueprintJson } from "../../store/block-blueprint";
+import { getRawJson as getRawBlockJson } from "../../store/block-json";
 import {
 	hasUnsavedChanges,
 	setChanged,
@@ -36,9 +37,11 @@ function App() {
 
 	const postType = useSelector((state) => state.postType);
 
-	const blockBlueprint = useSelector((state) => state.blockBlueprint);
+	const blockBlueprint = useSelector((state) =>
+		getRawBlueprintJson(state.blockBlueprint),
+	);
 
-	const blockJson = useSelector((state) => state.blockJson);
+	const blockJson = useSelector((state) => getRawBlockJson(state.blockJson));
 
 	const blockEditorCss = useSelector((state) => state.blockEditorCss.raw);
 
@@ -58,7 +61,7 @@ function App() {
 		if (postId === null) {
 			saveNewBlock({
 				postType,
-				blockBlueprint: getRawBlueprintJson(blockBlueprint),
+				blockBlueprint,
 				blockJson,
 				blockEditorCss,
 				blockViewCss,
@@ -75,7 +78,7 @@ function App() {
 			updateBlock({
 				postId,
 				postType,
-				blockBlueprint: getRawBlueprintJson(blockBlueprint),
+				blockBlueprint,
 				blockJson,
 				blockEditorCss,
 				blockViewCss,

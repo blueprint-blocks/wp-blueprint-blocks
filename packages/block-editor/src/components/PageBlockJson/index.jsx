@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
+	getRawJson,
 	setCategory,
 	setDescription,
 	setKeywords,
@@ -26,7 +27,7 @@ import "./style.css";
 function PageBlockJson() {
 	const dispatch = useDispatch();
 
-	const blockJson = useSelector((state) => state.blockJson || {});
+	const blockJson = useSelector((state) => getRawJson(state.blockJson));
 
 	const setBlockDescription = (description) => {
 		dispatch(setDescription(description));

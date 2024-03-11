@@ -16,17 +16,15 @@ const BlueprintAttributeList = forwardRef(({ editorRef = null }, ref) => {
 
 	return (
 		<div ref={ref} className="BlueprintAttributeList">
-			{Object.keys(blockAttributes).length > 0 && (
+			{blockAttributes?.length > 0 && (
 				<div className="BlueprintAttributeList-list">
-					{Object.keys(blockAttributes).map(
-						(attributeName, index) => (
-							<BlueprintAttribute
-								attributeName={attributeName}
-								editorRef={editorRef}
-								key={attributeName}
-							/>
-						),
-					)}
+					{blockAttributes.map(({ name }) => (
+						<BlueprintAttribute
+							attributeName={name}
+							editorRef={editorRef}
+							key={name}
+						/>
+					))}
 				</div>
 			)}
 			{Object.keys(blockAttributes).length === 0 && (

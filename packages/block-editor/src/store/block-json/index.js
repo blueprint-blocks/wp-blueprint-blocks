@@ -8,6 +8,7 @@ import {
 	getBlockClassName,
 	getBlockName,
 	getBlockNamespace,
+	getRawJson,
 	getUniqueAttributeName,
 } from "./selectors";
 
@@ -31,6 +32,7 @@ const { actions, reducer } = slice;
 export const {
 	addAttribute,
 	editAttribute,
+	renameAttribute,
 	removeAttribute,
 	setCategory,
 	setDescription,
@@ -46,6 +48,7 @@ export {
 	getBlockClassName,
 	getBlockName,
 	getBlockNamespace,
+	getRawJson,
 	getUniqueAttributeName,
 };
 

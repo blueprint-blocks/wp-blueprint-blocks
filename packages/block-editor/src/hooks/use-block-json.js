@@ -4,6 +4,7 @@ import {
 	addAttribute,
 	editAttribute,
 	getAttribute,
+	renameAttribute,
 	removeAttribute,
 } from "../store/block-json";
 
@@ -36,24 +37,16 @@ const useBlockJson = () => {
 		);
 	};
 
+	const _renameAttribute = (attributeName, newAttributeName) => {
+		dispatch(
+			renameAttribute({ name: attributeName, newName: newAttributeName }),
+		);
+	};
+
 	const _getAttribute = (attributeName) =>
 		useSelector((state) => {
 			return getAttribute(state.blockJson, attributeName);
 		});
-
-	const renameAttribute = (
-		attributeName,
-		newAttributeName,
-		attributeProps,
-	) => {
-		dispatch(removeAttribute(attributeName));
-		dispatch(
-			editAttribute({
-				...attributeProps,
-				name: newAttributeName,
-			}),
-		);
-	};
 
 	return {
 		addAttribute: _addAttribute,
@@ -61,7 +54,7 @@ const useBlockJson = () => {
 		blockAttributes: attributes,
 		editAttribute: _editAttribute,
 		getAttribute: _getAttribute,
-		renameAttribute,
+		renameAttribute: _renameAttribute,
 	};
 };
 

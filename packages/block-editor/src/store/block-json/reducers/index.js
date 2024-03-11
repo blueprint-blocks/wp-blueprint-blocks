@@ -1,5 +1,6 @@
 import addAttribute from "./add-attribute";
 import editAttribute from "./edit-attribute";
+import renameAttribute from "./rename-attribute";
 import removeAttribute from "./remove-attribute";
 import setCategory from "./set-category";
 import setDescription from "./set-description";
@@ -12,6 +13,7 @@ import setTitle from "./set-title";
 const reducers = {
 	addAttribute,
 	editAttribute,
+	renameAttribute,
 	removeAttribute,
 	setCategory,
 	setDescription,

@@ -89,10 +89,7 @@ function BlueprintAttribute({ attributeName = null, editorRef = null }) {
 	]);
 
 	function onChangeAttributeName(newAttributeName) {
-		renameAttribute(attributeName, newAttributeName, {
-			type: attributeType,
-			defaultValue: attributeDefault,
-		});
+		renameAttribute(attributeName, newAttributeName);
 	}
 
 	function onChangeAttributeType(newAttributeType) {
