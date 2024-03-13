@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
+	getBlockComponent,
 	setComponentAttribute,
 	unsetComponentAttribute,
 } from "../store/block-blueprint";
@@ -9,13 +10,21 @@ import {
 const useBlueprint = () => {
 	const dispatch = useDispatch();
 
-	const { blockComponents = {} } = useSelector(
-		(state) => state.blockBlueprint,
+	const blockComponents = useSelector(
+		(state) => state.blockBlueprint.blockComponents,
 	);
 
-	const getComponentById = useCallback(
-		(clientId) => {
-			return blockComponents?.[clientId] || null;
+	const getComponentById = (clientId) =>
+		useSelector((state) => getBlockComponent(state, clientId));
+
+	const getComponentsByAttributeName = useCallback(
+		(attributeName) => {
+			return Object.fromEntries(
+				Object.entries(blockComponents).filter(
+					([_, blockComponent]) =>
+						blockComponent?.attributeName === attributeName,
+				),
+			);
 		},
 		[blockComponents],
 	);
@@ -31,6 +40,7 @@ const useBlueprint = () => {
 	return {
 		allComponents: blockComponents,
 		getComponentById,
+		getComponentsByAttributeName,
 		setComponentAttribute: _setComponentAttribute,
 		unsetComponentAttribute: _unsetComponentAttribute,
 	};

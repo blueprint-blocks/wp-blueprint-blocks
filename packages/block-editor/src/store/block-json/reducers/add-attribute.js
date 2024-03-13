@@ -6,8 +6,10 @@ const ALLOWED_ATTRIBUTE_TYPES = ["array", "number", "string", "object"];
 const addAttribute = (state, action) => {
 	let { name = "", type = "string", defaultValue = null } = action.payload;
 
+	console.log(Object.keys(state));
+
 	if (name === "") {
-		name = getUniqueAttributeName("attribute", state);
+		name = getUniqueAttributeName(state, "attribute");
 	}
 
 	const attributes = [...state.attributes];

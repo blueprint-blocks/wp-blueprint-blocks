@@ -1,15 +1,19 @@
-const getAttributeIndex = (state, attributeName) => {
-	if (!state?.attributes?.length) {
-		return null;
-	}
+import { createSelector } from "@reduxjs/toolkit";
 
-	for (let i = 0; i < state.attributes.length; i++) {
-		if (state.attributes[i].name === attributeName) {
-			return i;
+const selectAttributes = (state) => state.attributes;
+const selectAttributeName = (_, attributeName) => attributeName;
+
+const getAttributeIndex = createSelector(
+	[selectAttributes, selectAttributeName],
+	(attributes, attributeName) => {
+		for (let i = 0; i < attributes.length; i++) {
+			if (attributes[i].name === attributeName) {
+				return i;
+			}
 		}
-	}
 
-	return null;
-};
+		return null;
+	},
+);
 
 export default getAttributeIndex;

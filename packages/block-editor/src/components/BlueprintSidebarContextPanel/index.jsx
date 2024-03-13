@@ -23,9 +23,7 @@ const BlueprintSidebarContextPanel = forwardRef(({ editorRef = null }, ref) => {
 	} = useSelector((state) => state.editor.currentFocus || {});
 
 	const { type = "html", ...component } =
-		useSelector((state) =>
-			getBlockComponent(state.blockBlueprint, clientId),
-		) || {};
+		useSelector((state) => getBlockComponent(state, clientId)) || {};
 
 	const onClickSuggestedValue = ({ attribute, value }) => {
 		if (attribute.indexOf(currentFocus?.attributeName) !== -1) {

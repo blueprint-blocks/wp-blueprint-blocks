@@ -1,5 +1,9 @@
-const getAllAttributeNames = (state) => {
-	return state?.attributes?.map(({ name }) => name) || [];
-};
+import { createSelector } from "@reduxjs/toolkit";
+
+const selectAttributes = (state) => state.attributes;
+
+const getAllAttributeNames = createSelector([selectAttributes], (attributes) =>
+	attributes.map(({ name }) => name),
+);
 
 export default getAllAttributeNames;

@@ -1,15 +1,21 @@
+import { createSelector } from "@reduxjs/toolkit";
 import getAllAttributeNames from "./get-all-attribute-names";
 
-const getUniqueAttributeName = (name = "attribute", state) => {
-	let index = 1;
-	let indexedName = `${name}${index}`;
+const selectAttributeName = (_, attributeName) => attributeName;
 
-	while (getAllAttributeNames(state).includes(indexedName)) {
-		index++;
-		indexedName = `${name}${index}`;
-	}
+const getUniqueAttributeName = createSelector(
+	[getAllAttributeNames, selectAttributeName],
+	(allAttributeNames, attributeName) => {
+		let index = 1;
+		let indexedName = `${attributeName}${index}`;
 
-	return indexedName;
-};
+		while (allAttributeNames.includes(indexedName)) {
+			index++;
+			indexedName = `${attributeName}${index}`;
+		}
+
+		return indexedName;
+	},
+);
 
 export default getUniqueAttributeName;

@@ -19,9 +19,7 @@ const useEditorDrag = (props = {}, onDrop = null) => {
 		[context],
 	);
 
-	const draggingContext = useSelector((state) =>
-		getDraggingContext(state.editor),
-	);
+	const draggingContext = useSelector(getDraggingContext);
 
 	const isWatchingContext = useMemo(
 		() =>

@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useMemo, useSelector } from "react-redux";
 
 import {
 	addAttribute,
@@ -43,9 +43,7 @@ const useBlockJson = () => {
 	};
 
 	const _getAttribute = (attributeName) =>
-		useSelector((state) => {
-			return getAttribute(state.blockJson, attributeName);
-		});
+		useSelector((state) => getAttribute(state.blockJson, attributeName));
 
 	const _renameAttribute = (attributeName, newAttributeName) => {
 		dispatch(

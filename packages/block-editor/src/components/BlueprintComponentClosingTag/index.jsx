@@ -1,9 +1,7 @@
 import { useMemo, useRef } from "react";
-import { useSelector } from "react-redux";
 
 import { pascalize } from "../../functions";
 import { useBlueprint } from "../../hooks";
-import { getBlockComponent } from "../../store/block-blueprint";
 
 import BlueprintDebugRect from "../BlueprintDebugRect";
 

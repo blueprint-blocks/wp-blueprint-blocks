@@ -13,7 +13,7 @@ import {
 	isObject,
 } from "../../functions";
 
-import { useBlockJson, useDebugRenderCount } from "../../hooks";
+import { useBlockJson, useBlueprint, useDebugRenderCount } from "../../hooks";
 
 import BlueprintConnectionHandle from "../BlueprintConnectionHandle";
 import BlueprintWarning from "../BlueprintWarning";
@@ -25,6 +25,9 @@ function BlueprintAttribute({ attributeName = null, editorRef = null }) {
 	const ref = useRef(null);
 
 	const { editAttribute, getAttribute, renameAttribute } = useBlockJson();
+	const { getComponentsByAttributeName, setComponentAttribute } =
+		useBlueprint();
+
 	const attribute = getAttribute(attributeName);
 
 	const attributeDefault = useMemo(() => {
@@ -89,6 +92,16 @@ function BlueprintAttribute({ attributeName = null, editorRef = null }) {
 	]);
 
 	function onChangeAttributeName(newAttributeName) {
+		const blockComponents = Object.keys(
+			getComponentsByAttributeName(attributeName),
+		);
+
+		blockComponents.forEach((clientId) => {
+			setComponentAttribute(clientId, "attributeName", newAttributeName);
+		});
+
+		console.log(blockComponents);
+
 		renameAttribute(attributeName, newAttributeName);
 	}
 

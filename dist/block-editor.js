@@ -2514,6 +2514,222 @@
 	  };
 	}
 
+	// Cache implementation based on Erik Rasmussen's `lru-memoize`:
+	// https://github.com/erikras/lru-memoize
+	var NOT_FOUND = 'NOT_FOUND';
+	function createSingletonCache(equals) {
+	  var entry;
+	  return {
+	    get: function get(key) {
+	      if (entry && equals(entry.key, key)) {
+	        return entry.value;
+	      }
+	      return NOT_FOUND;
+	    },
+	    put: function put(key, value) {
+	      entry = {
+	        key: key,
+	        value: value
+	      };
+	    },
+	    getEntries: function getEntries() {
+	      return entry ? [entry] : [];
+	    },
+	    clear: function clear() {
+	      entry = undefined;
+	    }
+	  };
+	}
+	function createLruCache(maxSize, equals) {
+	  var entries = [];
+	  function get(key) {
+	    var cacheIndex = entries.findIndex(function (entry) {
+	      return equals(key, entry.key);
+	    }); // We found a cached entry
+
+	    if (cacheIndex > -1) {
+	      var entry = entries[cacheIndex]; // Cached entry not at top of cache, move it to the top
+
+	      if (cacheIndex > 0) {
+	        entries.splice(cacheIndex, 1);
+	        entries.unshift(entry);
+	      }
+	      return entry.value;
+	    } // No entry found in cache, return sentinel
+
+	    return NOT_FOUND;
+	  }
+	  function put(key, value) {
+	    if (get(key) === NOT_FOUND) {
+	      // TODO Is unshift slow?
+	      entries.unshift({
+	        key: key,
+	        value: value
+	      });
+	      if (entries.length > maxSize) {
+	        entries.pop();
+	      }
+	    }
+	  }
+	  function getEntries() {
+	    return entries;
+	  }
+	  function clear() {
+	    entries = [];
+	  }
+	  return {
+	    get: get,
+	    put: put,
+	    getEntries: getEntries,
+	    clear: clear
+	  };
+	}
+	var defaultEqualityCheck = function defaultEqualityCheck(a, b) {
+	  return a === b;
+	};
+	function createCacheKeyComparator(equalityCheck) {
+	  return function areArgumentsShallowlyEqual(prev, next) {
+	    if (prev === null || next === null || prev.length !== next.length) {
+	      return false;
+	    } // Do this in a for loop (and not a `forEach` or an `every`) so we can determine equality as fast as possible.
+
+	    var length = prev.length;
+	    for (var i = 0; i < length; i++) {
+	      if (!equalityCheck(prev[i], next[i])) {
+	        return false;
+	      }
+	    }
+	    return true;
+	  };
+	}
+	// defaultMemoize now supports a configurable cache size with LRU behavior,
+	// and optional comparison of the result value with existing values
+	function defaultMemoize(func, equalityCheckOrOptions) {
+	  var providedOptions = typeof equalityCheckOrOptions === 'object' ? equalityCheckOrOptions : {
+	    equalityCheck: equalityCheckOrOptions
+	  };
+	  var _providedOptions$equa = providedOptions.equalityCheck,
+	    equalityCheck = _providedOptions$equa === void 0 ? defaultEqualityCheck : _providedOptions$equa,
+	    _providedOptions$maxS = providedOptions.maxSize,
+	    maxSize = _providedOptions$maxS === void 0 ? 1 : _providedOptions$maxS,
+	    resultEqualityCheck = providedOptions.resultEqualityCheck;
+	  var comparator = createCacheKeyComparator(equalityCheck);
+	  var cache = maxSize === 1 ? createSingletonCache(comparator) : createLruCache(maxSize, comparator); // we reference arguments instead of spreading them for performance reasons
+
+	  function memoized() {
+	    var value = cache.get(arguments);
+	    if (value === NOT_FOUND) {
+	      // @ts-ignore
+	      value = func.apply(null, arguments);
+	      if (resultEqualityCheck) {
+	        var entries = cache.getEntries();
+	        var matchingEntry = entries.find(function (entry) {
+	          return resultEqualityCheck(entry.value, value);
+	        });
+	        if (matchingEntry) {
+	          value = matchingEntry.value;
+	        }
+	      }
+	      cache.put(arguments, value);
+	    }
+	    return value;
+	  }
+	  memoized.clearCache = function () {
+	    return cache.clear();
+	  };
+	  return memoized;
+	}
+
+	function getDependencies(funcs) {
+	  var dependencies = Array.isArray(funcs[0]) ? funcs[0] : funcs;
+	  if (!dependencies.every(function (dep) {
+	    return typeof dep === 'function';
+	  })) {
+	    var dependencyTypes = dependencies.map(function (dep) {
+	      return typeof dep === 'function' ? "function " + (dep.name || 'unnamed') + "()" : typeof dep;
+	    }).join(', ');
+	    throw new Error("createSelector expects all input-selectors to be functions, but received the following types: [" + dependencyTypes + "]");
+	  }
+	  return dependencies;
+	}
+	function createSelectorCreator(memoize) {
+	  for (var _len = arguments.length, memoizeOptionsFromArgs = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	    memoizeOptionsFromArgs[_key - 1] = arguments[_key];
+	  }
+	  var createSelector = function createSelector() {
+	    for (var _len2 = arguments.length, funcs = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+	      funcs[_key2] = arguments[_key2];
+	    }
+	    var _recomputations = 0;
+	    var _lastResult; // Due to the intricacies of rest params, we can't do an optional arg after `...funcs`.
+	    // So, start by declaring the default value here.
+	    // (And yes, the words 'memoize' and 'options' appear too many times in this next sequence.)
+
+	    var directlyPassedOptions = {
+	      memoizeOptions: undefined
+	    }; // Normally, the result func or "output selector" is the last arg
+
+	    var resultFunc = funcs.pop(); // If the result func is actually an _object_, assume it's our options object
+
+	    if (typeof resultFunc === 'object') {
+	      directlyPassedOptions = resultFunc; // and pop the real result func off
+
+	      resultFunc = funcs.pop();
+	    }
+	    if (typeof resultFunc !== 'function') {
+	      throw new Error("createSelector expects an output function after the inputs, but received: [" + typeof resultFunc + "]");
+	    } // Determine which set of options we're using. Prefer options passed directly,
+	    // but fall back to options given to createSelectorCreator.
+
+	    var _directlyPassedOption = directlyPassedOptions,
+	      _directlyPassedOption2 = _directlyPassedOption.memoizeOptions,
+	      memoizeOptions = _directlyPassedOption2 === void 0 ? memoizeOptionsFromArgs : _directlyPassedOption2; // Simplifying assumption: it's unlikely that the first options arg of the provided memoizer
+	    // is an array. In most libs I've looked at, it's an equality function or options object.
+	    // Based on that, if `memoizeOptions` _is_ an array, we assume it's a full
+	    // user-provided array of options. Otherwise, it must be just the _first_ arg, and so
+	    // we wrap it in an array so we can apply it.
+
+	    var finalMemoizeOptions = Array.isArray(memoizeOptions) ? memoizeOptions : [memoizeOptions];
+	    var dependencies = getDependencies(funcs);
+	    var memoizedResultFunc = memoize.apply(void 0, [function recomputationWrapper() {
+	      _recomputations++; // apply arguments instead of spreading for performance.
+
+	      return resultFunc.apply(null, arguments);
+	    }].concat(finalMemoizeOptions)); // If a selector is called with the exact same arguments we don't need to traverse our dependencies again.
+
+	    var selector = memoize(function dependenciesChecker() {
+	      var params = [];
+	      var length = dependencies.length;
+	      for (var i = 0; i < length; i++) {
+	        // apply arguments instead of spreading and mutate a local list of params for performance.
+	        // @ts-ignore
+	        params.push(dependencies[i].apply(null, arguments));
+	      } // apply arguments instead of spreading for performance.
+
+	      _lastResult = memoizedResultFunc.apply(null, params);
+	      return _lastResult;
+	    });
+	    Object.assign(selector, {
+	      resultFunc: resultFunc,
+	      memoizedResultFunc: memoizedResultFunc,
+	      dependencies: dependencies,
+	      lastResult: function lastResult() {
+	        return _lastResult;
+	      },
+	      recomputations: function recomputations() {
+	        return _recomputations;
+	      },
+	      resetRecomputations: function resetRecomputations() {
+	        return _recomputations = 0;
+	      }
+	    });
+	    return selector;
+	  }; // @ts-ignore
+
+	  return createSelector;
+	}
+	var createSelector = /* #__PURE__ */createSelectorCreator(defaultMemoize);
+
 	/** A function that accepts a potential "extra argument" value to be injected later,
 	 * and returns an instance of the thunk middleware that uses that value
 	 */
@@ -7371,10 +7587,18 @@
 	};
 
 	var ALL_CONTEXTS = ["edit", "toolbar", "save", "sidebar"];
-	var getBlockComponent = function getBlockComponent(state, clientId) {
-	  var _state$blockComponent;
-	  return ((_state$blockComponent = state.blockComponents) === null || _state$blockComponent === void 0 ? void 0 : _state$blockComponent[clientId]) || null;
+	var selectBlockComponents = function selectBlockComponents(state) {
+	  return state.blockBlueprint.blockComponents;
 	};
+	var selectClientId$1 = function selectClientId(_, clientId) {
+	  return clientId;
+	};
+	var getBlockComponent = createSelector([selectBlockComponents, selectClientId$1], function (blockComponents, clientId) {
+	  if (clientId in blockComponents) {
+	    return blockComponents[clientId];
+	  }
+	  return null;
+	});
 	var getComponentList = function getComponentList(state, context) {
 	  if (context === "edit") {
 	    return state.blockEdit;
@@ -7784,17 +8008,28 @@
 	  attributes: attributes$1
 	});
 
-	var getAllAttributeNames = function getAllAttributeNames(state) {
-	  var _state$attributes;
-	  return (state === null || state === void 0 || (_state$attributes = state.attributes) === null || _state$attributes === void 0 ? void 0 : _state$attributes.map(function (_ref) {
+	var selectAttributes$2 = function selectAttributes(state) {
+	  return state.attributes;
+	};
+	var getAllAttributeNames = createSelector([selectAttributes$2], function (attributes) {
+	  return attributes.map(function (_ref) {
 	    var name = _ref.name;
 	    return name;
-	  })) || [];
-	};
+	  });
+	});
 
 	var _excluded$c = ["name"];
-	var getAttribute = function getAttribute(state, attributeName) {
-	  var _iterator = _createForOfIteratorHelper((state === null || state === void 0 ? void 0 : state.attributes) || []),
+	var count$1 = 0;
+	var selectAttributes$1 = function selectAttributes(state) {
+	  return state.attributes;
+	};
+	var selectAttributeName$2 = function selectAttributeName(_, attributeName) {
+	  return attributeName;
+	};
+	var getAttribute = createSelector([selectAttributes$1, selectAttributeName$2], function (attributes, attributeName) {
+	  count$1++;
+	  console.log("selector ".concat(count$1, ":"), attributeName);
+	  var _iterator = _createForOfIteratorHelper(attributes),
 	    _step;
 	  try {
 	    for (_iterator.s(); !(_step = _iterator.n()).done;) {
@@ -7802,7 +8037,9 @@
 	      var name = _ref.name,
 	        attribute = _objectWithoutProperties(_ref, _excluded$c);
 	      if (name === attributeName) {
-	        return attribute;
+	        return _objectSpread2(_objectSpread2({}, attribute), {}, {
+	          name: name
+	        });
 	      }
 	    }
 	  } catch (err) {
@@ -7811,20 +8048,22 @@
 	    _iterator.f();
 	  }
 	  return null;
-	};
+	});
 
-	var getAttributeIndex = function getAttributeIndex(state, attributeName) {
-	  var _state$attributes;
-	  if (!(state !== null && state !== void 0 && (_state$attributes = state.attributes) !== null && _state$attributes !== void 0 && _state$attributes.length)) {
-	    return null;
-	  }
-	  for (var i = 0; i < state.attributes.length; i++) {
-	    if (state.attributes[i].name === attributeName) {
+	var selectAttributes = function selectAttributes(state) {
+	  return state.attributes;
+	};
+	var selectAttributeName$1 = function selectAttributeName(_, attributeName) {
+	  return attributeName;
+	};
+	var getAttributeIndex = createSelector([selectAttributes, selectAttributeName$1], function (attributes, attributeName) {
+	  for (var i = 0; i < attributes.length; i++) {
+	    if (attributes[i].name === attributeName) {
 	      return i;
 	    }
 	  }
 	  return null;
-	};
+	});
 
 	var getBlockClassName = function getBlockClassName(state, context) {
 	  var _state$name = state.name,
@@ -7861,17 +8100,18 @@
 	  });
 	};
 
-	var getUniqueAttributeName = function getUniqueAttributeName() {
-	  var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "attribute";
-	  var state = arguments.length > 1 ? arguments[1] : undefined;
+	var selectAttributeName = function selectAttributeName(_, attributeName) {
+	  return attributeName;
+	};
+	var getUniqueAttributeName = createSelector([getAllAttributeNames, selectAttributeName], function (allAttributeNames, attributeName) {
 	  var index = 1;
-	  var indexedName = "".concat(name).concat(index);
-	  while (getAllAttributeNames(state).includes(indexedName)) {
+	  var indexedName = "".concat(attributeName).concat(index);
+	  while (allAttributeNames.includes(indexedName)) {
 	    index++;
-	    indexedName = "".concat(name).concat(index);
+	    indexedName = "".concat(attributeName).concat(index);
 	  }
 	  return indexedName;
-	};
+	});
 
 	var ALLOWED_ATTRIBUTE_TYPES$1 = ["array", "number", "string", "object"];
 	var addAttribute$1 = function addAttribute(state, action) {
@@ -7882,8 +8122,9 @@
 	    type = _action$payload$type === void 0 ? "string" : _action$payload$type,
 	    _action$payload$defau = _action$payload.defaultValue,
 	    defaultValue = _action$payload$defau === void 0 ? null : _action$payload$defau;
+	  console.log(Object.keys(state));
 	  if (name === "") {
-	    name = getUniqueAttributeName("attribute", state);
+	    name = getUniqueAttributeName(state, "attribute");
 	  }
 	  var attributes = _toConsumableArray(state.attributes);
 	  attributes.push({
@@ -8209,15 +8450,33 @@
 	  unsetFocus: unsetFocus$1
 	};
 
-	var componentHasFocus = function componentHasFocus(state, clientId) {
-	  var _state$currentFocus;
-	  return clientId === ((_state$currentFocus = state.currentFocus) === null || _state$currentFocus === void 0 ? void 0 : _state$currentFocus.clientId);
+	var selectCurrentFocus$1 = function selectCurrentFocus(state) {
+	  return state.currentFocus;
 	};
-	var getDraggingContext = function getDraggingContext(state, action) {
-	  return state.currentDraggingContext || {
+	var selectClientId = function selectClientId(_, clientId) {
+	  return clientId;
+	};
+	var componentHasFocus = createSelector([selectCurrentFocus$1, selectClientId], function (currentFocus, clientId) {
+	  return clientId === (currentFocus === null || currentFocus === void 0 ? void 0 : currentFocus.clientId);
+	});
+
+	var selectCurrentDraggingContext = function selectCurrentDraggingContext(state) {
+	  return state.currentDraggingContext;
+	};
+	var getDraggingContext = createSelector([selectCurrentDraggingContext], function (currentDraggingContext) {
+	  return currentDraggingContext || {
 	    context: null
 	  };
+	});
+
+	var selectCurrentFocus = function selectCurrentFocus(state) {
+	  return state.currentFocus;
 	};
+	createSelector([selectCurrentFocus], function (currentFocus) {
+	  return currentFocus || {
+	    context: null
+	  };
+	});
 
 	var slice$4 = createSlice({
 	  name: "editor",
@@ -8497,13 +8756,21 @@
 
 	var useBlueprint = function useBlueprint() {
 	  var dispatch = useDispatch();
-	  var _useSelector = useSelector(function (state) {
-	      return state.blockBlueprint;
-	    }),
-	    _useSelector$blockCom = _useSelector.blockComponents,
-	    blockComponents = _useSelector$blockCom === void 0 ? {} : _useSelector$blockCom;
-	  var getComponentById = React$2.useCallback(function (clientId) {
-	    return (blockComponents === null || blockComponents === void 0 ? void 0 : blockComponents[clientId]) || null;
+	  var blockComponents = useSelector(function (state) {
+	    return state.blockBlueprint.blockComponents;
+	  });
+	  var getComponentById = function getComponentById(clientId) {
+	    return useSelector(function (state) {
+	      return getBlockComponent(state, clientId);
+	    });
+	  };
+	  var getComponentsByAttributeName = React$2.useCallback(function (attributeName) {
+	    return Object.fromEntries(Object.entries(blockComponents).filter(function (_ref) {
+	      var _ref2 = _slicedToArray(_ref, 2);
+	        _ref2[0];
+	        var blockComponent = _ref2[1];
+	      return (blockComponent === null || blockComponent === void 0 ? void 0 : blockComponent.attributeName) === attributeName;
+	    }));
 	  }, [blockComponents]);
 	  var _setComponentAttribute = function _setComponentAttribute(clientId, attribute, value) {
 	    dispatch(setComponentAttribute({
@@ -8521,6 +8788,7 @@
 	  return {
 	    allComponents: blockComponents,
 	    getComponentById: getComponentById,
+	    getComponentsByAttributeName: getComponentsByAttributeName,
 	    setComponentAttribute: _setComponentAttribute,
 	    unsetComponentAttribute: _unsetComponentAttribute
 	  };
@@ -8830,9 +9098,7 @@
 	  var contextArray = React$2.useMemo(function () {
 	    return Array.isArray(context) && context || [context];
 	  }, [context]);
-	  var draggingContext = useSelector(function (state) {
-	    return getDraggingContext(state.editor);
-	  });
+	  var draggingContext = useSelector(getDraggingContext);
 	  var isWatchingContext = React$2.useMemo(function () {
 	    return context === null || contextArray.includes(draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.context);
 	  }, [contextArray, draggingContext]);
@@ -14319,6 +14585,9 @@
 	    editAttribute = _useBlockJson.editAttribute,
 	    getAttribute = _useBlockJson.getAttribute,
 	    renameAttribute = _useBlockJson.renameAttribute;
+	  var _useBlueprint = useBlueprint(),
+	    getComponentsByAttributeName = _useBlueprint.getComponentsByAttributeName,
+	    setComponentAttribute = _useBlueprint.setComponentAttribute;
 	  var attribute = getAttribute(attributeName);
 	  var attributeDefault = React$2.useMemo(function () {
 	    if (isObject(attribute === null || attribute === void 0 ? void 0 : attribute["default"]) || isArray(attribute === null || attribute === void 0 ? void 0 : attribute["default"])) {
@@ -14355,6 +14624,11 @@
 	    return true;
 	  }, [allowsNullDefault, attributeDefault, attributeType, attributeTypeValid]);
 	  function onChangeAttributeName(newAttributeName) {
+	    var blockComponents = Object.keys(getComponentsByAttributeName(attributeName));
+	    blockComponents.forEach(function (clientId) {
+	      setComponentAttribute(clientId, "attributeName", newAttributeName);
+	    });
+	    console.log(blockComponents);
 	    renameAttribute(attributeName, newAttributeName);
 	  }
 	  function onChangeAttributeType(newAttributeType) {
@@ -14570,7 +14844,7 @@
 	    _objectWithoutProperties(_ref, _excluded$6);
 	  var dispatch = useDispatch();
 	  var component = useSelector(function (state) {
-	    return getBlockComponent(state.blockBlueprint, clientId);
+	    return getBlockComponent(state, clientId);
 	  });
 	  var ref = React$2.useRef(null);
 	  var attributeNameRef = React$2.useRef(null);
@@ -15432,7 +15706,7 @@
 	    _useSelector.property;
 	    var currentFocus = _objectWithoutProperties(_useSelector, _excluded$2);
 	  var _ref2 = useSelector(function (state) {
-	      return getBlockComponent(state.blockBlueprint, clientId);
+	      return getBlockComponent(state, clientId);
 	    }) || {},
 	    _ref2$type = _ref2.type,
 	    type = _ref2$type === void 0 ? "html" : _ref2$type;

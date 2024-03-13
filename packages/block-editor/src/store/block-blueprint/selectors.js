@@ -1,8 +1,19 @@
+import { createSelector } from "@reduxjs/toolkit";
+
 const ALL_CONTEXTS = ["edit", "toolbar", "save", "sidebar"];
 
-const getBlockComponent = (state, clientId) => {
-	return state.blockComponents?.[clientId] || null;
-};
+const selectBlockComponents = (state) => state.blockBlueprint.blockComponents;
+const selectClientId = (_, clientId) => clientId;
+
+const getBlockComponent = createSelector(
+	[selectBlockComponents, selectClientId],
+	(blockComponents, clientId) => {
+		if (clientId in blockComponents) {
+			return blockComponents[clientId];
+		}
+		return null;
+	},
+);
 
 const getComponentList = (state, context) => {
 	if (context === "edit") {
