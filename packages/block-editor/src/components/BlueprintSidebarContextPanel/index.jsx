@@ -7,6 +7,8 @@ import {
 	unsetComponentAttribute,
 } from "../../store/block-blueprint";
 
+import { getFocus as getEditorFocus } from "../../store/editor";
+
 import BlueprintContextualAttributeNameHelp from "../BlueprintContextualAttributeNameHelp";
 import BlueprintContextualAttributeValueHelp from "../BlueprintContextualAttributeValueHelp";
 
@@ -20,7 +22,7 @@ const BlueprintSidebarContextPanel = forwardRef(({ editorRef = null }, ref) => {
 		context,
 		property,
 		...currentFocus
-	} = useSelector((state) => state.editor.currentFocus || {});
+	} = useSelector((state) => getEditorFocus(state.editor));
 
 	const { type = "html", ...component } =
 		useSelector((state) =>

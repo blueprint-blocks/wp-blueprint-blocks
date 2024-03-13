@@ -1,4 +1,5 @@
-import { useDispatch, useMemo, useSelector } from "react-redux";
+import { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
 	addAttribute,
@@ -20,40 +21,43 @@ const useBlockJson = () => {
 		getAllAttributeNames(state.blockJson),
 	);
 
-	const _addAttribute = (attributeName, attributeProps) => {
+	const _addAttribute = useCallback((attributeName, attributeProps) => {
 		dispatch(
 			addAttribute({
 				...attributeProps,
 				name: attributeName,
 			}),
 		);
-	};
+	}, []);
 
-	const addEmptyAttribute = () => {
+	const addEmptyAttribute = useCallback(() => {
 		dispatch(addAttribute({}));
-	};
+	}, []);
 
-	const _editAttribute = (attributeName, attributeProps) => {
+	const _editAttribute = useCallback((attributeName, attributeProps) => {
 		dispatch(
 			editAttribute({
 				...attributeProps,
 				name: attributeName,
 			}),
 		);
-	};
+	}, []);
 
-	const _getAttribute = (attributeName) =>
-		useSelector((state) => getAttribute(state.blockJson, attributeName));
+	const _getAttribute = useCallback((attributeName) => {
+		return useSelector((state) =>
+			getAttribute(state.blockJson, attributeName),
+		);
+	}, []);
 
-	const _renameAttribute = (attributeName, newAttributeName) => {
+	const _renameAttribute = useCallback((attributeName, newAttributeName) => {
 		dispatch(
 			renameAttribute({ name: attributeName, newName: newAttributeName }),
 		);
-	};
+	}, []);
 
-	const _removeAttribute = (attributeName) => {
+	const _removeAttribute = useCallback((attributeName) => {
 		dispatch(removeAttribute(attributeName));
-	};
+	}, []);
 
 	return {
 		addAttribute: _addAttribute,

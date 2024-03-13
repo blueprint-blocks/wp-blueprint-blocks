@@ -8497,7 +8497,7 @@
 	var selectCurrentDraggingContext = function selectCurrentDraggingContext(state) {
 	  return state.currentDraggingContext;
 	};
-	var getDraggingContext = createSelector([selectCurrentDraggingContext], function (currentDraggingContext) {
+	var getDraggingContext$1 = createSelector([selectCurrentDraggingContext], function (currentDraggingContext) {
 	  return currentDraggingContext || {
 	    context: null
 	  };
@@ -8506,7 +8506,7 @@
 	var selectCurrentFocus = function selectCurrentFocus(state) {
 	  return state.currentFocus;
 	};
-	createSelector([selectCurrentFocus], function (currentFocus) {
+	var getDraggingContext = createSelector([selectCurrentFocus], function (currentFocus) {
 	  return currentFocus || {
 	    context: null
 	  };
@@ -8748,33 +8748,33 @@
 	  var attributeNames = useSelector(function (state) {
 	    return getAllAttributeNames(state.blockJson);
 	  });
-	  var _addAttribute = function _addAttribute(attributeName, attributeProps) {
+	  var _addAttribute = React$2.useCallback(function (attributeName, attributeProps) {
 	    dispatch(addAttribute(_objectSpread2(_objectSpread2({}, attributeProps), {}, {
 	      name: attributeName
 	    })));
-	  };
-	  var addEmptyAttribute = function addEmptyAttribute() {
+	  }, []);
+	  var addEmptyAttribute = React$2.useCallback(function () {
 	    dispatch(addAttribute({}));
-	  };
-	  var _editAttribute = function _editAttribute(attributeName, attributeProps) {
+	  }, []);
+	  var _editAttribute = React$2.useCallback(function (attributeName, attributeProps) {
 	    dispatch(editAttribute(_objectSpread2(_objectSpread2({}, attributeProps), {}, {
 	      name: attributeName
 	    })));
-	  };
-	  var _getAttribute = function _getAttribute(attributeName) {
+	  }, []);
+	  var _getAttribute = React$2.useCallback(function (attributeName) {
 	    return useSelector(function (state) {
 	      return getAttribute(state.blockJson, attributeName);
 	    });
-	  };
-	  var _renameAttribute = function _renameAttribute(attributeName, newAttributeName) {
+	  }, []);
+	  var _renameAttribute = React$2.useCallback(function (attributeName, newAttributeName) {
 	    dispatch(renameAttribute({
 	      name: attributeName,
 	      newName: newAttributeName
 	    }));
-	  };
-	  var _removeAttribute = function _removeAttribute(attributeName) {
+	  }, []);
+	  var _removeAttribute = React$2.useCallback(function (attributeName) {
 	    dispatch(removeAttribute(attributeName));
-	  };
+	  }, []);
 	  return {
 	    addAttribute: _addAttribute,
 	    addEmptyAttribute: addEmptyAttribute,
@@ -9099,7 +9099,7 @@
 	    ref = _props$ref === void 0 ? null : _props$ref;
 	  var hasFocus = useMouseFocus(ref);
 	  var draggingContext = useSelector(function (state) {
-	    return getDraggingContext(state.editor);
+	    return getDraggingContext$1(state.editor);
 	  });
 	  var isDragging = useSelector(function (state) {
 	    return state.editor.isDragging;
@@ -9131,7 +9131,7 @@
 	  var contextArray = React$2.useMemo(function () {
 	    return Array.isArray(context) && context || [context];
 	  }, [context]);
-	  var draggingContext = useSelector(getDraggingContext);
+	  var draggingContext = useSelector(getDraggingContext$1);
 	  var isWatchingContext = React$2.useMemo(function () {
 	    return context === null || contextArray.includes(draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.context);
 	  }, [contextArray, draggingContext]);
@@ -15732,7 +15732,7 @@
 	  _ref.editorRef;
 	  var dispatch = useDispatch();
 	  var _useSelector = useSelector(function (state) {
-	      return state.editor.currentFocus || {};
+	      return getDraggingContext(state.editor);
 	    }),
 	    _useSelector$clientId = _useSelector.clientId,
 	    clientId = _useSelector$clientId === void 0 ? null : _useSelector$clientId,
