@@ -12,8 +12,8 @@ import {
 const useBlockJson = () => {
 	const dispatch = useDispatch();
 
-	const { attributes } = useSelector((state) => {
-		return state.blockJson;
+	const attributes = useSelector((state) => {
+		return state.blockJson.attributes;
 	});
 
 	const attributeNames = useSelector((state) =>

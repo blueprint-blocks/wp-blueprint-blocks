@@ -21,7 +21,7 @@ function PageViewCss({}) {
 	});
 
 	const className = useSelector((state) => {
-		return getBlockClassName(state.blockJson || {});
+		return getBlockClassName(state.blockJson);
 	});
 
 	const cssValue = useSelector((state) => state.blockViewCss.raw);

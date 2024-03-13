@@ -26,7 +26,9 @@ function BlueprintComponentAttribute({
 }) {
 	const dispatch = useDispatch();
 
-	let component = useSelector((state) => getBlockComponent(state, clientId));
+	let component = useSelector((state) =>
+		getBlockComponent(state.blockBlueprint, clientId),
+	);
 
 	const ref = useRef(null);
 	const attributeNameRef = useRef(null);

@@ -21,7 +21,7 @@ function PageEditorCss({}) {
 	});
 
 	const className = useSelector((state) => {
-		return getBlockClassName(state.blockJson || {});
+		return getBlockClassName(state.blockJson);
 	});
 
 	const cssValue = useSelector((state) => state.blockEditorCss.raw);

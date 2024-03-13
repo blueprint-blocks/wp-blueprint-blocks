@@ -15,7 +15,9 @@ const useBlueprint = () => {
 	);
 
 	const getComponentById = (clientId) =>
-		useSelector((state) => getBlockComponent(state, clientId));
+		useSelector((state) =>
+			getBlockComponent(state.blockBlueprint, clientId),
+		);
 
 	const getComponentsByAttributeName = useCallback(
 		(attributeName) => {

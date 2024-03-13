@@ -15,7 +15,7 @@ import "./style.css";
 function BlockIconField({ onBlur, onFocus }) {
 	const dispatch = useDispatch();
 
-	const blockIcon = useSelector((state) => state.blockJson.icon);
+	const blockIcon = useSelector((state) => state.blockJson?.icon || "");
 
 	const ref = useRef(null);
 	const inputRef = useRef(null);

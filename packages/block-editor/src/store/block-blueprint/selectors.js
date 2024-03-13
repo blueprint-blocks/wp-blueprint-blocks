@@ -2,7 +2,11 @@ import { createSelector } from "@reduxjs/toolkit";
 
 const ALL_CONTEXTS = ["edit", "toolbar", "save", "sidebar"];
 
-const selectBlockComponents = (state) => state.blockBlueprint.blockComponents;
+const selectBlockComponents = (state) => state.blockComponents || {};
+const selectBlockEdit = (state) => state.blockEdit || [];
+const selectBlockToolbar = (state) => state.blockToolbar || [];
+const selectBlockSave = (state) => state.blockSave || [];
+const selectBlockSidebar = (state) => state.blockSidebar || [];
 const selectClientId = (_, clientId) => clientId;
 
 const getBlockComponent = createSelector(
@@ -101,22 +105,23 @@ const getComponentPositionInList = (state, { clientId, list = [] }) => {
 	return null;
 };
 
-const getRawJson = ({
-	blockComponents = {},
-	blockEdit = [],
-	blockToolbar = [],
-	blockSave = [],
-	blockSidebar = [],
-}) => {
-	return {
+const getRawJson = createSelector(
+	[
+		selectBlockComponents,
+		selectBlockEdit,
+		selectBlockToolbar,
+		selectBlockSave,
+		selectBlockSidebar,
+	],
+	(blockComponents, blockEdit, blockToolbar, blockSave, blockSidebar) => ({
 		$schema: "https://schemas.blueprint-blocks.com/blueprint.json",
 		apiVersion: 1,
 		blockEdit: rebuildComponentTree(blockEdit, blockComponents),
 		blockToolbar: rebuildComponentTree(blockToolbar, blockComponents),
 		blockSave: rebuildComponentTree(blockSave, blockComponents),
 		blockSidebar: rebuildComponentTree(blockSidebar, blockComponents),
-	};
-};
+	}),
+);
 
 const rebuildComponentTree = (tree = [], components = {}) => {
 	if (!tree) {

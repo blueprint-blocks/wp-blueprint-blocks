@@ -7463,7 +7463,7 @@
 	  };
 	};
 
-	var _excluded$e = ["isValid"];
+	var _excluded$d = ["isValid"];
 	var validateBlockJson = function validateBlockJson(blockJson) {
 	  var validations = blockJsonValidation.map(function (_ref) {
 	    var propertyName = _ref.propertyName,
@@ -7481,7 +7481,7 @@
 	  }, true);
 	  var errors = validations.filter(function (_ref2) {
 	    var isValid = _ref2.isValid;
-	      _objectWithoutProperties(_ref2, _excluded$e);
+	      _objectWithoutProperties(_ref2, _excluded$d);
 	    return isValid === false;
 	  });
 	  return {
@@ -7499,7 +7499,7 @@
 	};
 
 	var _blueprintBlocksEdito$a;
-	var _excluded$d = ["children"];
+	var _excluded$c = ["children"];
 	var blockComponents = {};
 	function parseComponentTree() {
 	  var components = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -7510,7 +7510,7 @@
 	  components.forEach(function (_ref) {
 	    var _ref$children = _ref.children,
 	      children = _ref$children === void 0 ? [] : _ref$children,
-	      component = _objectWithoutProperties(_ref, _excluded$d);
+	      component = _objectWithoutProperties(_ref, _excluded$c);
 	    var clientId = getUniqueClientId();
 	    var childClientIds = [];
 	    if (children.length > 0) {
@@ -7588,7 +7588,19 @@
 
 	var ALL_CONTEXTS = ["edit", "toolbar", "save", "sidebar"];
 	var selectBlockComponents = function selectBlockComponents(state) {
-	  return state.blockBlueprint.blockComponents;
+	  return state.blockComponents || {};
+	};
+	var selectBlockEdit = function selectBlockEdit(state) {
+	  return state.blockEdit || [];
+	};
+	var selectBlockToolbar = function selectBlockToolbar(state) {
+	  return state.blockToolbar || [];
+	};
+	var selectBlockSave = function selectBlockSave(state) {
+	  return state.blockSave || [];
+	};
+	var selectBlockSidebar = function selectBlockSidebar(state) {
+	  return state.blockSidebar || [];
 	};
 	var selectClientId$1 = function selectClientId(_, clientId) {
 	  return clientId;
@@ -7679,17 +7691,7 @@
 	  }
 	  return null;
 	};
-	var getRawJson$1 = function getRawJson(_ref4) {
-	  var _ref4$blockComponents = _ref4.blockComponents,
-	    blockComponents = _ref4$blockComponents === void 0 ? {} : _ref4$blockComponents,
-	    _ref4$blockEdit = _ref4.blockEdit,
-	    blockEdit = _ref4$blockEdit === void 0 ? [] : _ref4$blockEdit,
-	    _ref4$blockToolbar = _ref4.blockToolbar,
-	    blockToolbar = _ref4$blockToolbar === void 0 ? [] : _ref4$blockToolbar,
-	    _ref4$blockSave = _ref4.blockSave,
-	    blockSave = _ref4$blockSave === void 0 ? [] : _ref4$blockSave,
-	    _ref4$blockSidebar = _ref4.blockSidebar,
-	    blockSidebar = _ref4$blockSidebar === void 0 ? [] : _ref4$blockSidebar;
+	var getRawJson$1 = createSelector([selectBlockComponents, selectBlockEdit, selectBlockToolbar, selectBlockSave, selectBlockSidebar], function (blockComponents, blockEdit, blockToolbar, blockSave, blockSidebar) {
 	  return {
 	    $schema: "https://schemas.blueprint-blocks.com/blueprint.json",
 	    apiVersion: 1,
@@ -7698,18 +7700,18 @@
 	    blockSave: rebuildComponentTree(blockSave, blockComponents),
 	    blockSidebar: rebuildComponentTree(blockSidebar, blockComponents)
 	  };
-	};
+	});
 	var rebuildComponentTree = function rebuildComponentTree() {
 	  var tree = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	  var components = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 	  if (!tree) {
 	    return [];
 	  }
-	  return tree.map(function (_ref5) {
-	    var _ref6 = _slicedToArray(_ref5, 2),
-	      clientId = _ref6[0],
-	      _ref6$ = _ref6[1],
-	      children = _ref6$ === void 0 ? [] : _ref6$;
+	  return tree.map(function (_ref4) {
+	    var _ref5 = _slicedToArray(_ref4, 2),
+	      clientId = _ref5[0],
+	      _ref5$ = _ref5[1],
+	      children = _ref5$ === void 0 ? [] : _ref5$;
 	    if (!(clientId in components)) {
 	      return null;
 	    }
@@ -8008,25 +8010,25 @@
 	  attributes: attributes$1
 	});
 
-	var selectAttributes$2 = function selectAttributes(state) {
+	var selectAttributes$3 = function selectAttributes(state) {
 	  return state.attributes;
 	};
-	var getAllAttributeNames = createSelector([selectAttributes$2], function (attributes) {
+	var getAllAttributeNames = createSelector([selectAttributes$3], function (attributes) {
 	  return attributes.map(function (_ref) {
 	    var name = _ref.name;
 	    return name;
 	  });
 	});
 
-	var _excluded$c = ["name"];
+	var _excluded$b = ["name"];
 	var count$1 = 0;
-	var selectAttributes$1 = function selectAttributes(state) {
+	var selectAttributes$2 = function selectAttributes(state) {
 	  return state.attributes;
 	};
 	var selectAttributeName$2 = function selectAttributeName(_, attributeName) {
 	  return attributeName;
 	};
-	var getAttribute = createSelector([selectAttributes$1, selectAttributeName$2], function (attributes, attributeName) {
+	var getAttribute = createSelector([selectAttributes$2, selectAttributeName$2], function (attributes, attributeName) {
 	  count$1++;
 	  console.log("selector ".concat(count$1, ":"), attributeName);
 	  var _iterator = _createForOfIteratorHelper(attributes),
@@ -8035,7 +8037,7 @@
 	    for (_iterator.s(); !(_step = _iterator.n()).done;) {
 	      var _ref = _step.value;
 	      var name = _ref.name,
-	        attribute = _objectWithoutProperties(_ref, _excluded$c);
+	        attribute = _objectWithoutProperties(_ref, _excluded$b);
 	      if (name === attributeName) {
 	        return _objectSpread2(_objectSpread2({}, attribute), {}, {
 	          name: name
@@ -8050,13 +8052,13 @@
 	  return null;
 	});
 
-	var selectAttributes = function selectAttributes(state) {
+	var selectAttributes$1 = function selectAttributes(state) {
 	  return state.attributes;
 	};
 	var selectAttributeName$1 = function selectAttributeName(_, attributeName) {
 	  return attributeName;
 	};
-	var getAttributeIndex = createSelector([selectAttributes, selectAttributeName$1], function (attributes, attributeName) {
+	var getAttributeIndex = createSelector([selectAttributes$1, selectAttributeName$1], function (attributes, attributeName) {
 	  for (var i = 0; i < attributes.length; i++) {
 	    if (attributes[i].name === attributeName) {
 	      return i;
@@ -8085,20 +8087,52 @@
 	  return ((_name$split = name.split("/")) === null || _name$split === void 0 ? void 0 : _name$split[0]) || "";
 	};
 
-	var _excluded$b = ["name", "type"];
-	var getRawJson = function getRawJson(state) {
-	  return _objectSpread2(_objectSpread2({}, state), {}, {
-	    attributes: Object.fromEntries(_toConsumableArray(state.attributes || []).map(function (_ref) {
-	      var name = _ref.name,
-	        type = _ref.type,
-	        attribute = _objectWithoutProperties(_ref, _excluded$b);
-	      return [name, {
-	        type: type,
-	        "default": attribute["default"]
-	      }];
-	    }))
-	  });
+	var selectAttributes = function selectAttributes(state) {
+	  return state.attributes || [];
 	};
+	var selectCategory = function selectCategory(state) {
+	  return state.category || "";
+	};
+	var selectDescription = function selectDescription(state) {
+	  return state.description || "";
+	};
+	var selectIcon = function selectIcon(state) {
+	  return state.icon || "";
+	};
+	var selectKeywords = function selectKeywords(state) {
+	  return state.keywords || [];
+	};
+	var selectName = function selectName(state) {
+	  return state.name || "";
+	};
+	var selectSupports = function selectSupports(state) {
+	  return state.supports || {};
+	};
+	var selectTextdomain = function selectTextdomain(state) {
+	  return state.textdomain || "";
+	};
+	var selectTitle = function selectTitle(state) {
+	  return state.title || "";
+	};
+	var selectVersion = function selectVersion(state) {
+	  return state.version || "";
+	};
+	var getRawJson = createSelector([selectAttributes, selectCategory, selectDescription, selectIcon, selectKeywords, selectName, selectSupports, selectTextdomain, selectTitle, selectVersion], function (attributes, category, description, icon, keywords, name, supports, textdomain, title, version) {
+	  return {
+	    $schema: "https://schemas.wp.org/trunk/block.json",
+	    apiVersion: 3,
+	    name: name,
+	    version: version,
+	    title: title,
+	    description: description,
+	    icon: icon,
+	    keywords: keywords,
+	    category: category,
+	    attributes: attributes,
+	    supports: supports,
+	    textdomain: textdomain
+	  };
+	});
 
 	var selectAttributeName = function selectAttributeName(_, attributeName) {
 	  return attributeName;
@@ -8699,19 +8733,18 @@
 	}
 
 	function useBlockNamespace() {
-	  var _useSelector = useSelector(function (state) {
-	      return state.blockJson || {};
-	    }),
-	    name = _useSelector.name;
+	  var name = useSelector(function (state) {
+	    var _state$blockJson;
+	    return ((_state$blockJson = state.blockJson) === null || _state$blockJson === void 0 ? void 0 : _state$blockJson.name) || "";
+	  });
 	  return "wp-block-".concat(name.split("/")[0], "-").concat(name.split("/")[0]);
 	}
 
 	var useBlockJson = function useBlockJson() {
 	  var dispatch = useDispatch();
-	  var _useSelector = useSelector(function (state) {
-	      return state.blockJson;
-	    }),
-	    attributes = _useSelector.attributes;
+	  var attributes = useSelector(function (state) {
+	    return state.blockJson.attributes;
+	  });
 	  var attributeNames = useSelector(function (state) {
 	    return getAllAttributeNames(state.blockJson);
 	  });
@@ -8761,7 +8794,7 @@
 	  });
 	  var getComponentById = function getComponentById(clientId) {
 	    return useSelector(function (state) {
-	      return getBlockComponent(state, clientId);
+	      return getBlockComponent(state.blockBlueprint, clientId);
 	    });
 	  };
 	  var getComponentsByAttributeName = React$2.useCallback(function (attributeName) {
@@ -11907,7 +11940,8 @@
 	    onFocus = _ref.onFocus;
 	  var dispatch = useDispatch();
 	  var blockIcon = useSelector(function (state) {
-	    return state.blockJson.icon;
+	    var _state$blockJson;
+	    return ((_state$blockJson = state.blockJson) === null || _state$blockJson === void 0 ? void 0 : _state$blockJson.icon) || "";
 	  });
 	  var ref = React$2.useRef(null);
 	  var inputRef = React$2.useRef(null);
@@ -14844,7 +14878,7 @@
 	    _objectWithoutProperties(_ref, _excluded$6);
 	  var dispatch = useDispatch();
 	  var component = useSelector(function (state) {
-	    return getBlockComponent(state, clientId);
+	    return getBlockComponent(state.blockBlueprint, clientId);
 	  });
 	  var ref = React$2.useRef(null);
 	  var attributeNameRef = React$2.useRef(null);
@@ -15706,7 +15740,7 @@
 	    _useSelector.property;
 	    var currentFocus = _objectWithoutProperties(_useSelector, _excluded$2);
 	  var _ref2 = useSelector(function (state) {
-	      return getBlockComponent(state, clientId);
+	      return getBlockComponent(state.blockBlueprint, clientId);
 	    }) || {},
 	    _ref2$type = _ref2.type,
 	    type = _ref2$type === void 0 ? "html" : _ref2$type;
@@ -45593,7 +45627,7 @@
 	    selectionRange = _useState2[0],
 	    setSelectionRange = _useState2[1];
 	  var className = useSelector(function (state) {
-	    return getBlockClassName(state.blockJson || {});
+	    return getBlockClassName(state.blockJson);
 	  });
 	  var cssValue = useSelector(function (state) {
 	    return state.blockEditorCss.raw;
@@ -45652,7 +45686,7 @@
 	    selectionRange = _useState2[0],
 	    setSelectionRange = _useState2[1];
 	  var className = useSelector(function (state) {
-	    return getBlockClassName(state.blockJson || {});
+	    return getBlockClassName(state.blockJson);
 	  });
 	  var cssValue = useSelector(function (state) {
 	    return state.blockViewCss.raw;
