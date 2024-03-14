@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef } from "react";
+import { useSelector } from "react-redux";
 
 import { attributeTypes } from "../../data";
 
@@ -25,29 +26,24 @@ function BlueprintAttribute({ attributeName = null, editorRef = null }) {
 	const ref = useRef(null);
 
 	const { editAttribute, getAttribute, renameAttribute } = useBlockJson();
+
 	const { getComponentsByAttributeName, setComponentAttribute } =
 		useBlueprint();
+
+	//console.log(`BlueprintAttribute(${attributeName})`);
 
 	const attribute = getAttribute(attributeName);
 
 	const attributeDefault = useMemo(() => {
 		if (isObject(attribute?.default) || isArray(attribute?.default)) {
 			return JSON.stringify(attribute.default);
-		} else {
-			return attribute?.default || null;
 		}
+		return attribute?.default || null;
 	}, [attribute]);
-
-	const attributeType = useMemo(
-		() => attribute?.type || "string",
-		[attribute],
-	);
-
-	const [_attributeType, setAttributeType] = useState(attributeType);
 
 	const allowsNullDefault = useMemo(
 		() =>
-			(attributeTypes?.[attributeType]?.allowsNull === false && false) ||
+			(attributeTypes?.[attribute.type]?.allowsNull === false && false) ||
 			true,
 		[attribute],
 	);
@@ -58,19 +54,19 @@ function BlueprintAttribute({ attributeName = null, editorRef = null }) {
 	);
 
 	const attributeTypeValid = useMemo(
-		() => attributeType in attributeTypes,
-		[attributeType],
+		() => attribute.type in attributeTypes,
+		[attribute.type],
 	);
 
 	const attributeDefaultValid = useMemo(() => {
 		if (
-			attributeType === "array" &&
+			attribute.type === "array" &&
 			!isAttributeArrayValue(attributeDefault) &&
 			!isAttributeNullValue(attributeDefault)
 		) {
 			return false;
 		} else if (
-			attributeType === "object" &&
+			attribute.type === "object" &&
 			!isAttributeObjectValue(attributeDefault) &&
 			!isAttributeNullValue(attributeDefault)
 		) {
@@ -84,12 +80,7 @@ function BlueprintAttribute({ attributeName = null, editorRef = null }) {
 		}
 
 		return true;
-	}, [
-		allowsNullDefault,
-		attributeDefault,
-		attributeType,
-		attributeTypeValid,
-	]);
+	}, [allowsNullDefault, attributeDefault, attribute, attributeTypeValid]);
 
 	function onChangeAttributeName(newAttributeName) {
 		const blockComponents = Object.keys(
@@ -100,8 +91,6 @@ function BlueprintAttribute({ attributeName = null, editorRef = null }) {
 			setComponentAttribute(clientId, "attributeName", newAttributeName);
 		});
 
-		console.log(blockComponents);
-
 		renameAttribute(attributeName, newAttributeName);
 	}
 
@@ -110,12 +99,11 @@ function BlueprintAttribute({ attributeName = null, editorRef = null }) {
 			type: newAttributeType,
 			defaultValue: attributeDefault,
 		});
-		setAttributeType(newAttributeType);
 	}
 
 	function onChangeAttributeDefault(newAttributeDefault) {
 		editAttribute(attributeName, {
-			type: attributeType,
+			type: attribute.type,
 			defaultValue: newAttributeDefault,
 		});
 	}
@@ -154,7 +142,7 @@ function BlueprintAttribute({ attributeName = null, editorRef = null }) {
 					<EditableString
 						className="BlueprintAttribute-type"
 						placeholder="string"
-						value={_attributeType}
+						value={attribute.type}
 						onChange={onChangeAttributeType}
 					/>
 					<span>{'"'}</span>
@@ -168,7 +156,7 @@ function BlueprintAttribute({ attributeName = null, editorRef = null }) {
 					<span>{'"'}</span>
 					<span className="key">{`default`}</span>
 					<span>{`": `}</span>
-					{((attributeType === "string" &&
+					{((attribute.type === "string" &&
 						!isAttributeNullValue(attributeDefault)) ||
 						isAttributeStringValue(attributeDefault)) && (
 						<span>{`"`}</span>
@@ -179,7 +167,7 @@ function BlueprintAttribute({ attributeName = null, editorRef = null }) {
 						value={attributeDefault}
 						onChange={onChangeAttributeDefault}
 					/>
-					{((attributeType === "string" &&
+					{((attribute.type === "string" &&
 						!isAttributeNullValue(attributeDefault)) ||
 						isAttributeStringValue(attributeDefault)) && (
 						<span>{`"`}</span>

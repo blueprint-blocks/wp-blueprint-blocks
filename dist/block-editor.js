@@ -8020,8 +8020,7 @@
 	  });
 	});
 
-	var _excluded$b = ["name"];
-	var count$1 = 0;
+	var _excluded$b = ["name", "type"];
 	var selectAttributes$2 = function selectAttributes(state) {
 	  return state.attributes;
 	};
@@ -8029,18 +8028,21 @@
 	  return attributeName;
 	};
 	var getAttribute = createSelector([selectAttributes$2, selectAttributeName$2], function (attributes, attributeName) {
-	  count$1++;
-	  console.log("selector ".concat(count$1, ":"), attributeName);
+	  //count++;
+	  //console.log(`selector ${count}:`, attributeName);
 	  var _iterator = _createForOfIteratorHelper(attributes),
 	    _step;
 	  try {
 	    for (_iterator.s(); !(_step = _iterator.n()).done;) {
 	      var _ref = _step.value;
 	      var name = _ref.name,
+	        _ref$type = _ref.type,
+	        type = _ref$type === void 0 ? "string" : _ref$type,
 	        attribute = _objectWithoutProperties(_ref, _excluded$b);
 	      if (name === attributeName) {
 	        return _objectSpread2(_objectSpread2({}, attribute), {}, {
-	          name: name
+	          name: name,
+	          type: type
 	        });
 	      }
 	    }
@@ -14622,47 +14624,41 @@
 	  var _useBlueprint = useBlueprint(),
 	    getComponentsByAttributeName = _useBlueprint.getComponentsByAttributeName,
 	    setComponentAttribute = _useBlueprint.setComponentAttribute;
+
+	  //console.log(`BlueprintAttribute(${attributeName})`);
+
 	  var attribute = getAttribute(attributeName);
 	  var attributeDefault = React$2.useMemo(function () {
 	    if (isObject(attribute === null || attribute === void 0 ? void 0 : attribute["default"]) || isArray(attribute === null || attribute === void 0 ? void 0 : attribute["default"])) {
 	      return JSON.stringify(attribute["default"]);
-	    } else {
-	      return (attribute === null || attribute === void 0 ? void 0 : attribute["default"]) || null;
 	    }
+	    return (attribute === null || attribute === void 0 ? void 0 : attribute["default"]) || null;
 	  }, [attribute]);
-	  var attributeType = React$2.useMemo(function () {
-	    return (attribute === null || attribute === void 0 ? void 0 : attribute.type) || "string";
-	  }, [attribute]);
-	  var _useState = React$2.useState(attributeType),
-	    _useState2 = _slicedToArray(_useState, 2),
-	    _attributeType = _useState2[0],
-	    setAttributeType = _useState2[1];
 	  var allowsNullDefault = React$2.useMemo(function () {
 	    var _attributeTypes$attri;
-	    return (attributeTypes === null || attributeTypes === void 0 || (_attributeTypes$attri = attributeTypes[attributeType]) === null || _attributeTypes$attri === void 0 ? void 0 : _attributeTypes$attri.allowsNull) === false && false || true;
+	    return (attributeTypes === null || attributeTypes === void 0 || (_attributeTypes$attri = attributeTypes[attribute.type]) === null || _attributeTypes$attri === void 0 ? void 0 : _attributeTypes$attri.allowsNull) === false && false || true;
 	  }, [attribute]);
 	  var attributeNameValid = React$2.useMemo(function () {
 	    return (attributeName === null || attributeName === void 0 ? void 0 : attributeName.length) > 0;
 	  }, [attributeName]);
 	  var attributeTypeValid = React$2.useMemo(function () {
-	    return attributeType in attributeTypes;
-	  }, [attributeType]);
+	    return attribute.type in attributeTypes;
+	  }, [attribute.type]);
 	  var attributeDefaultValid = React$2.useMemo(function () {
-	    if (attributeType === "array" && !isAttributeArrayValue(attributeDefault) && !isStringNullValue(attributeDefault)) {
+	    if (attribute.type === "array" && !isAttributeArrayValue(attributeDefault) && !isStringNullValue(attributeDefault)) {
 	      return false;
-	    } else if (attributeType === "object" && !isAttributeObjectValue(attributeDefault) && !isStringNullValue(attributeDefault)) {
+	    } else if (attribute.type === "object" && !isAttributeObjectValue(attributeDefault) && !isStringNullValue(attributeDefault)) {
 	      return false;
 	    } else if (attributeTypeValid && !allowsNullDefault && !(attributeDefault !== null && attributeDefault !== void 0 && attributeDefault.length)) {
 	      return false;
 	    }
 	    return true;
-	  }, [allowsNullDefault, attributeDefault, attributeType, attributeTypeValid]);
+	  }, [allowsNullDefault, attributeDefault, attribute, attributeTypeValid]);
 	  function onChangeAttributeName(newAttributeName) {
 	    var blockComponents = Object.keys(getComponentsByAttributeName(attributeName));
 	    blockComponents.forEach(function (clientId) {
 	      setComponentAttribute(clientId, "attributeName", newAttributeName);
 	    });
-	    console.log(blockComponents);
 	    renameAttribute(attributeName, newAttributeName);
 	  }
 	  function onChangeAttributeType(newAttributeType) {
@@ -14670,11 +14666,10 @@
 	      type: newAttributeType,
 	      defaultValue: attributeDefault
 	    });
-	    setAttributeType(newAttributeType);
 	  }
 	  function onChangeAttributeDefault(newAttributeDefault) {
 	    editAttribute(attributeName, {
-	      type: attributeType,
+	      type: attribute.type,
 	      defaultValue: newAttributeDefault
 	    });
 	  }
@@ -14723,7 +14718,7 @@
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
 	          className: "BlueprintAttribute-type",
 	          placeholder: "string",
-	          value: _attributeType,
+	          value: attribute.type,
 	          onChange: onChangeAttributeType
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	          children: '"'
@@ -14744,14 +14739,14 @@
 	          children: "default"
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	          children: "\": "
-	        }), (attributeType === "string" && !isStringNullValue(attributeDefault) || isAttributeStringValue(attributeDefault)) && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	        }), (attribute.type === "string" && !isStringNullValue(attributeDefault) || isAttributeStringValue(attributeDefault)) && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	          children: "\""
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
 	          className: "BlueprintAttribute-default",
 	          placeholder: "null",
 	          value: attributeDefault,
 	          onChange: onChangeAttributeDefault
-	        }), (attributeType === "string" && !isStringNullValue(attributeDefault) || isAttributeStringValue(attributeDefault)) && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	        }), (attribute.type === "string" && !isStringNullValue(attributeDefault) || isAttributeStringValue(attributeDefault)) && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	          children: "\""
 	        })]
 	      })

@@ -3,7 +3,7 @@ const renderCounts = [];
 function useDebugRenderCount(componentName) {
 	if (
 		process.env.NODE_ENV !== "development" ||
-		env.DEBUG_RENDER_COUNT !== "true"
+		env.DEBUG_RENDER_COUNT !== true
 	) {
 		return;
 	}

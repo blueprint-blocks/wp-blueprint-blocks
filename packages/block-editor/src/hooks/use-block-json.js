@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -43,11 +43,13 @@ const useBlockJson = () => {
 		);
 	}, []);
 
-	const _getAttribute = useCallback((attributeName) => {
-		return useSelector((state) =>
-			getAttribute(state.blockJson, attributeName),
-		);
-	}, []);
+	const _getAttribute = useCallback(
+		(attributeName) =>
+			useSelector((state) =>
+				getAttribute(state.blockJson, attributeName),
+			),
+		[],
+	);
 
 	const _renameAttribute = useCallback((attributeName, newAttributeName) => {
 		dispatch(
