@@ -1,5 +1,7 @@
 import { useRef } from "react";
 
+import { useDebugRenderCount } from "../../hooks";
+
 import BlueprintEditor from "../BlueprintEditor";
 import BlueprintSidebar from "../BlueprintSidebar";
 
@@ -7,6 +9,10 @@ import "./style.css";
 
 function PageBlueprint() {
 	const ref = useRef(null);
+
+	if (process.env.NODE_ENV === "development") {
+		useDebugRenderCount("PageBlueprint");
+	}
 
 	return (
 		<div ref={ref} className="PageBlueprint">

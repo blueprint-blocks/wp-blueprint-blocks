@@ -1,10 +1,15 @@
 import clsx from "clsx";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { saveNewBlock, updateBlock } from "../../api";
-import { usePreventClose, useRect } from "../../hooks";
-import { setRect as setAppRect } from "../../store/app";
+
+import {
+	useDispatchAppRect,
+	useDebugRenderCount,
+	usePreventClose,
+} from "../../hooks";
+
 import { getRawJson as getRawBlueprintJson } from "../../store/block-blueprint";
 import { getRawJson as getRawBlockJson } from "../../store/block-json";
 import {
@@ -29,7 +34,6 @@ function App() {
 	const dispatch = useDispatch();
 
 	const ref = useRef(null);
-	const appRect = useRect(ref, null);
 
 	const [activeNavItem, setActiveNavItem] = useState(0);
 
@@ -88,13 +92,15 @@ function App() {
 		}
 	};
 
+	useDispatchAppRect(ref);
+
 	usePreventClose(
 		useSelector((state) => hasUnsavedChanges(state.postMetadata)),
 	);
 
-	useLayoutEffect(() => {
-		dispatch(setAppRect(appRect));
-	}, [appRect]);
+	if (process.env.NODE_ENV === "development") {
+		useDebugRenderCount("App");
+	}
 
 	return (
 		<div

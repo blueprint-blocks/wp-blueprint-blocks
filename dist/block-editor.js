@@ -8725,6 +8725,12 @@
 	  });
 	}
 
+	function useAppRect() {
+	  return useSelector(function (state) {
+	    return state.app.rect;
+	  });
+	}
+
 	function useBeforeUnload(callback) {
 	  React$2.useEffect(function () {
 	    window.addEventListener("beforeunload", callback);
@@ -9247,6 +9253,22 @@
 	  }, [rect]);
 	};
 
+	function useDispatchAppRect(ref) {
+	  var dispatch = useDispatch();
+	  var rect = useRect(ref, null);
+	  React$2.useLayoutEffect(function () {
+	    dispatch(setRect(rect));
+	  }, [rect]);
+	}
+
+	function useDispatchNavRect(ref) {
+	  var dispatch = useDispatch();
+	  var rect = useRect(ref, null);
+	  React$2.useLayoutEffect(function () {
+	    dispatch(setNavRect(rect));
+	  }, [rect]);
+	}
+
 	var useDragWithinBounds = function useDragWithinBounds(_ref) {
 	  var _ref$boundsRef = _ref.boundsRef,
 	    boundsRef = _ref$boundsRef === void 0 ? null : _ref$boundsRef,
@@ -9379,6 +9401,12 @@
 	      window.removeEventListener("mouseup", onMouseUp);
 	    };
 	  }, [onMouseUp]);
+	}
+
+	function useNavRect() {
+	  return useSelector(function (state) {
+	    return state.app.navRect;
+	  });
 	}
 
 	// Add ref and handler to effect dependencies
@@ -10594,9 +10622,7 @@
 	  var activeNavItem = _ref.activeNavItem,
 	    setActiveNavItem = _ref.setActiveNavItem,
 	    onUpdate = _ref.onUpdate;
-	  var dispatch = useDispatch();
 	  var ref = React$2.useRef(null);
-	  var rect = useRect(ref, null);
 	  var navItemRefs = navItems.map(function () {
 	    return React$2.useRef(null);
 	  });
@@ -10609,9 +10635,7 @@
 	  var isUpdateDisabled = useSelector(function (state) {
 	    return !hasUnsavedChanges(state.postMetadata);
 	  });
-	  React$2.useLayoutEffect(function () {
-	    dispatch(setNavRect(rect));
-	  }, [rect]);
+	  useDispatchNavRect(ref);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: "Navigator",
@@ -12079,12 +12103,8 @@
 	  var messageRef = React$2.useRef(null);
 	  var rect = useRect(ref, null, ["bottom", "top"]);
 	  var messageRect = useRect(messageRef, null, ["height"]);
-	  var appRect = useSelector(function (state) {
-	    return state.app.rect;
-	  });
-	  var navRect = useSelector(function (state) {
-	    return state.app.navRect;
-	  });
+	  var appRect = useAppRect();
+	  var navRect = useNavRect();
 	  var _position = React$2.useMemo(function () {
 	    if (rect.top - messageRect.height < navRect.bottom) {
 	      return "below";
@@ -45926,7 +45946,6 @@
 	function App() {
 	  var dispatch = useDispatch();
 	  var ref = React$2.useRef(null);
-	  var appRect = useRect(ref, null);
 	  var _useState = React$2.useState(0),
 	    _useState2 = _slicedToArray(_useState, 2),
 	    activeNavItem = _useState2[0],
@@ -45985,12 +46004,10 @@
 	      });
 	    }
 	  };
+	  useDispatchAppRect(ref);
 	  usePreventClose(useSelector(function (state) {
 	    return hasUnsavedChanges(state.postMetadata);
 	  }));
-	  React$2.useLayoutEffect(function () {
-	    dispatch(setRect(appRect));
-	  }, [appRect]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: clsx$1("App", {

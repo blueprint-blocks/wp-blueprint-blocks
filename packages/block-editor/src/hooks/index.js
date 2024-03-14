@@ -1,3 +1,4 @@
+import useAppRect from "./use-app-rect";
 import useBeforeUnload from "./use-before-unload";
 import useBlockClassName from "./use-block-class-name";
 import useBlockJson from "./use-block-json";
@@ -8,6 +9,8 @@ import useBlueprintConnectionsDrag from "./use-blueprint-connections-drag";
 import useBlueprintInsert from "./use-blueprint-insert";
 import useCenterPoint from "./use-center-point";
 import useDebugRenderCount from "./use-debug-render-count";
+import useDispatchAppRect from "./use-dispatch-app-rect";
+import useDispatchNavRect from "./use-dispatch-nav-rect";
 import useDragWithinBounds from "./use-drag-within-bounds";
 import useEditorDrag from "./use-editor-drag";
 import useEditorDrop from "./use-editor-drop";
@@ -15,12 +18,14 @@ import useEditorFocus from "./use-editor-focus";
 import useFocus from "./use-focus";
 import useMouseFocus from "./use-mouse-focus";
 import useMouseUp from "./use-mouse-up";
+import useNavRect from "./use-nav-rect";
 import useOnClickOutside from "./use-on-click-outside";
 import usePreventClose from "./use-prevent-close";
 import useRect from "./use-rect";
 import useScroll from "./use-scroll";
 
 export {
+	useAppRect,
 	useBeforeUnload,
 	useBlockClassName,
 	useBlockJson,
@@ -31,6 +36,8 @@ export {
 	useBlueprintInsert,
 	useCenterPoint,
 	useDebugRenderCount,
+	useDispatchAppRect,
+	useDispatchNavRect,
 	useDragWithinBounds,
 	useEditorDrag,
 	useEditorDrop,
@@ -38,6 +45,7 @@ export {
 	useFocus,
 	useMouseFocus,
 	useMouseUp,
+	useNavRect,
 	useOnClickOutside,
 	usePreventClose,
 	useRect,

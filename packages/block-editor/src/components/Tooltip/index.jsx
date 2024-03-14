@@ -1,10 +1,9 @@
 import clsx from "clsx";
 import { useMemo, useRef } from "react";
-import { useSelector } from "react-redux";
 
 import { tooltips } from "../../data";
 import { getObjectProperty } from "../../functions";
-import { useRect } from "../../hooks";
+import { useAppRect, useNavRect, useRect } from "../../hooks";
 
 import "./style.css";
 
@@ -23,8 +22,9 @@ function Tooltip({
 
 	const rect = useRect(ref, null, ["bottom", "top"]);
 	const messageRect = useRect(messageRef, null, ["height"]);
-	const appRect = useSelector((state) => state.app.rect);
-	const navRect = useSelector((state) => state.app.navRect);
+
+	const appRect = useAppRect();
+	const navRect = useNavRect();
 
 	const _position = useMemo(() => {
 		if (rect.top - messageRect.height < navRect.bottom) {

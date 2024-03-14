@@ -1,9 +1,8 @@
-import { useLayoutEffect, useMemo, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useMemo, useRef } from "react";
+import { useSelector } from "react-redux";
 
 import { navItems } from "../../data";
-import { useRect } from "../../hooks";
-import { setNavRect } from "../../store/app";
+import { useDispatchNavRect, useRect } from "../../hooks";
 import { hasUnsavedChanges } from "../../store/post-metadata";
 
 import Button from "../Button";
@@ -13,10 +12,7 @@ import "./style.css";
 const { pluginMetadata = {} } = blueprintBlocksEditorSettings;
 
 function Navigator({ activeNavItem, setActiveNavItem, onUpdate }) {
-	const dispatch = useDispatch();
-
 	const ref = useRef(null);
-	const rect = useRect(ref, null);
 
 	const navItemRefs = navItems.map(() => useRef(null));
 	const navItemRects = navItems.map((_, index) =>
@@ -32,9 +28,7 @@ function Navigator({ activeNavItem, setActiveNavItem, onUpdate }) {
 		(state) => !hasUnsavedChanges(state.postMetadata),
 	);
 
-	useLayoutEffect(() => {
-		dispatch(setNavRect(rect));
-	}, [rect]);
+	useDispatchNavRect(ref);
 
 	return (
 		<div ref={ref} className="Navigator">
