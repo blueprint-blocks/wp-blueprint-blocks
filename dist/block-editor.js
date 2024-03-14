@@ -15490,6 +15490,23 @@
 	  });
 	}
 
+	function UpsellBanner() {
+	  var dispatch = useDispatch();
+	  var onClick = function onClick() {
+	    dispatch(showUpsellDialog());
+	  };
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    className: "UpsellBanner",
+	    onClick: onClick,
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("p", {
+	      children: "Ready to level up with advanced features?"
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(Button, {
+	      label: "Learn More",
+	      style: ["large", "primary", "rounded"]
+	    })]
+	  });
+	}
+
 	function BlueprintEditor() {
 	  var dispatch = useDispatch();
 	  var column2Depth = useSelector(function (state) {
@@ -15499,9 +15516,6 @@
 	  var scrollRef = React$2.useRef(null);
 	  var wrapRef = React$2.useRef(null);
 	  var wrapRect = useRect(wrapRef, null, ["height", "width"]);
-	  var onClickUpsellBanner = function onClickUpsellBanner() {
-	    dispatch(showUpsellDialog());
-	  };
 	  React$2.useLayoutEffect(function () {
 	    dispatch(setSize({
 	      height: wrapRect.height,
@@ -15537,16 +15551,7 @@
 	          })]
 	        })]
 	      })
-	    }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	      className: "BlueprintEditor-banner",
-	      onClick: onClickUpsellBanner,
-	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("p", {
-	        children: "Ready to level up with advanced features?"
-	      }), /*#__PURE__*/jsxRuntimeExports.jsx(Button, {
-	        label: "Learn More",
-	        style: ["large", "primary", "rounded"]
-	      })]
-	    })]
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(UpsellBanner, {})]
 	  });
 	}
 

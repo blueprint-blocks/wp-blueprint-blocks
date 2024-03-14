@@ -1629,20 +1629,7 @@
 		cursor: not-allowed;
 	}
 
-.BlueprintEditor {
-	--column-1-width: 20;
-	--column-2-width: calc(32 + var(--column-2-depth, 0));
-	--grid-gap: 8;
-	--grid-padding: 4;
-	background: var(--color-darkest-gray);
-	border-radius: 9px;
-	height: 100%;
-	overflow: hidden;
-	position: relative;
-	z-index: 1;
-}
-
-.BlueprintEditor-banner {
+.UpsellBanner {
 	align-items: center;
 	-webkit-backdrop-filter: blur(4px);
 	        backdrop-filter: blur(4px);
@@ -1661,17 +1648,28 @@
 	transition: var(--transition);
 	z-index: 50;
 }
-
-.BlueprintEditor-banner p {
+.UpsellBanner p {
 		color: var(--color-black);
 		font-size: var(--font-size-large);
 		font-weight: var(--font-weight-semi-bold);
 		margin: 0;
 	}
-
-.BlueprintEditor-banner:hover {
+.UpsellBanner:hover {
 		background: #ffffff;
 	}
+
+.BlueprintEditor {
+	--column-1-width: 20;
+	--column-2-width: calc(32 + var(--column-2-depth, 0));
+	--grid-gap: 8;
+	--grid-padding: 4;
+	background: var(--color-darkest-gray);
+	border-radius: 9px;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+	z-index: 1;
+}
 
 .BlueprintEditor-scroll {
 	height: 100%;

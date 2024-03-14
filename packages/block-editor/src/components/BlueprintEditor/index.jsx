@@ -4,13 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useDebugRenderCount, useRect } from "../../hooks";
 import { setSize as setEditorSize } from "../../store/editor";
 import { getComponentListDepth } from "../../store/block-blueprint";
-import { showUpsellDialog } from "../../store/upsell-dialog";
 
 import BlueprintAttributeList from "../BlueprintAttributeList";
 import BlueprintBlockEdit from "../BlueprintBlockEdit";
 import BlueprintConnections from "../BlueprintConnections";
 import BlueprintColumn from "../BlueprintColumn";
-import Button from "../Button";
+import UpsellBanner from "../UpsellBanner";
 
 import "./style.css";
 import "./style-debug.css";
@@ -27,10 +26,6 @@ function BlueprintEditor() {
 	const wrapRef = useRef(null);
 
 	const wrapRect = useRect(wrapRef, null, ["height", "width"]);
-
-	const onClickUpsellBanner = () => {
-		dispatch(showUpsellDialog());
-	};
 
 	useLayoutEffect(() => {
 		dispatch(
@@ -68,16 +63,7 @@ function BlueprintEditor() {
 					</div>
 				</div>
 			</div>
-			<div
-				className="BlueprintEditor-banner"
-				onClick={onClickUpsellBanner}
-			>
-				<p>Ready to level up with advanced features?</p>
-				<Button
-					label={"Learn More"}
-					style={["large", "primary", "rounded"]}
-				/>
-			</div>
+			<UpsellBanner />
 		</div>
 	);
 }
