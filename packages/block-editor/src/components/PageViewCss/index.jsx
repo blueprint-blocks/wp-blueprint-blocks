@@ -1,6 +1,7 @@
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import { useDebugRenderCount } from "../../hooks";
 import { getBlockClassName } from "../../store/block-json";
 import { setViewCss } from "../../store/block-view-css";
 import { setChanged } from "../../store/post-metadata";
@@ -10,7 +11,7 @@ import CssSidebar from "../CssSidebar";
 
 import "./style.css";
 
-function PageViewCss({}) {
+const PageViewCss = memo(() => {
 	const dispatch = useDispatch();
 
 	const ref = useRef();
@@ -63,6 +64,10 @@ function PageViewCss({}) {
 		}
 	};
 
+	if (process.env.NODE_ENV === "development") {
+		useDebugRenderCount("PageViewCss");
+	}
+
 	return (
 		<div className="PageViewCss">
 			<div className="PageViewCss-view">
@@ -77,6 +82,6 @@ function PageViewCss({}) {
 			</div>
 		</div>
 	);
-}
+});
 
 export default PageViewCss;

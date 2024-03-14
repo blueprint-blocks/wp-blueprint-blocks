@@ -12780,7 +12780,7 @@
 	  });
 	}
 
-	function PageBlockJson() {
+	var PageBlockJson = /*#__PURE__*/React$2.memo(function () {
 	  var dispatch = useDispatch();
 	  var blockJson = useSelector(function (state) {
 	    return getRawJson(state.blockJson);
@@ -12922,7 +12922,7 @@
 	      })]
 	    })
 	  });
-	}
+	});
 
 	var cjs = {exports: {}};
 
@@ -14631,7 +14631,7 @@
 	  });
 	}
 
-	function BlueprintAttribute(_ref) {
+	var BlueprintAttribute = /*#__PURE__*/React$2.memo(function (_ref) {
 	  var _ref$attributeName = _ref.attributeName,
 	    attributeName = _ref$attributeName === void 0 ? null : _ref$attributeName,
 	    _ref$editorRef = _ref.editorRef,
@@ -14776,7 +14776,7 @@
 	      })
 	    })]
 	  });
-	}
+	});
 
 	function BlueprintHint(_ref) {
 	  var _ref$text = _ref.text,
@@ -14814,7 +14814,7 @@
 	  });
 	}
 
-	var BlueprintAttributeList = /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
+	var BlueprintAttributeList = /*#__PURE__*/React$2.memo( /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
 	  var _ref$editorRef = _ref.editorRef,
 	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef;
 	  var _useBlockJson = useBlockJson(),
@@ -14842,7 +14842,7 @@
 	      children: "Add attribute"
 	    })]
 	  });
-	});
+	}));
 
 	var _excluded$7 = ["tagName", "type"];
 	var BlueprintComponentClosingTag = function BlueprintComponentClosingTag(_ref) {
@@ -15160,7 +15160,7 @@
 
 	var _excluded$4 = ["tagName", "type"],
 	  _excluded2$1 = ["isDragging", "offset"];
-	function BlueprintComponent(_ref) {
+	var BlueprintComponent = /*#__PURE__*/React$2.memo(function (_ref) {
 	  var clientId = _ref.clientId,
 	    _ref$editorRef = _ref.editorRef,
 	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef,
@@ -15171,7 +15171,6 @@
 	    _ref$draggable = _ref.draggable,
 	    draggable = _ref$draggable === void 0 ? true : _ref$draggable;
 	  var ref = React$2.useRef(null);
-	  useMouseFocus(ref);
 	  var _useEditorFocus = useEditorFocus(clientId),
 	    hasFocus = _useEditorFocus.hasFocus,
 	    setFocus = _useEditorFocus.setFocus,
@@ -15281,9 +15280,9 @@
 	      })
 	    }))]
 	  });
-	}
+	});
 
-	function BlueprintInsert(_ref) {
+	var BlueprintInsert = /*#__PURE__*/React$2.memo(function (_ref) {
 	  _ref.editorRef;
 	    var _ref$indent = _ref.indent,
 	    indent = _ref$indent === void 0 ? 0 : _ref$indent,
@@ -15308,7 +15307,7 @@
 	      children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {})
 	    }), undefined === "development" ]
 	  });
-	}
+	});
 
 	var BlueprintComponentList = /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
 	  var _componentList;
@@ -15828,7 +15827,7 @@
 	  });
 	}
 
-	function PageBlueprint() {
+	var PageBlueprint = /*#__PURE__*/React$2.memo(function () {
 	  var ref = React$2.useRef(null);
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    ref: ref,
@@ -15840,7 +15839,7 @@
 	      })]
 	    })
 	  });
-	}
+	});
 
 	/**
 	The default maximum length of a `TreeBuffer` node.
@@ -45635,8 +45634,7 @@
 	  });
 	}
 
-	function PageEditorCss(_ref) {
-	  _objectDestructuringEmpty(_ref);
+	var PageEditorCss = /*#__PURE__*/React$2.memo(function () {
 	  var dispatch = useDispatch();
 	  var ref = React$2.useRef();
 	  var _useState = React$2.useState({
@@ -45692,10 +45690,9 @@
 	      })]
 	    })
 	  });
-	}
+	});
 
-	function PageViewCss(_ref) {
-	  _objectDestructuringEmpty(_ref);
+	var PageViewCss = /*#__PURE__*/React$2.memo(function () {
 	  var dispatch = useDispatch();
 	  var ref = React$2.useRef();
 	  var _useState = React$2.useState({
@@ -45751,7 +45748,7 @@
 	      })]
 	    })
 	  });
-	}
+	});
 
 	function LoadingIcon() {
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {

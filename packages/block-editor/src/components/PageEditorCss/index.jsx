@@ -1,6 +1,7 @@
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import { useDebugRenderCount } from "../../hooks";
 import { getBlockClassName } from "../../store/block-json";
 import { setEditorCss } from "../../store/block-editor-css";
 import { setChanged } from "../../store/post-metadata";
@@ -10,7 +11,7 @@ import CssSidebar from "../CssSidebar";
 
 import "./style.css";
 
-function PageEditorCss({}) {
+const PageEditorCss = memo(() => {
 	const dispatch = useDispatch();
 
 	const ref = useRef();
@@ -63,6 +64,10 @@ function PageEditorCss({}) {
 		}
 	};
 
+	if (process.env.NODE_ENV === "development") {
+		useDebugRenderCount("PageEditorCss");
+	}
+
 	return (
 		<div className="PageEditorCss">
 			<div className="PageEditorCss-view">
@@ -77,6 +82,6 @@ function PageEditorCss({}) {
 			</div>
 		</div>
 	);
-}
+});
 
 export default PageEditorCss;

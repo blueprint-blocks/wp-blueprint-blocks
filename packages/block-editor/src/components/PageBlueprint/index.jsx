@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { memo, useRef } from "react";
 
 import { useDebugRenderCount } from "../../hooks";
 
@@ -7,7 +7,7 @@ import BlueprintSidebar from "../BlueprintSidebar";
 
 import "./style.css";
 
-function PageBlueprint() {
+const PageBlueprint = memo(() => {
 	const ref = useRef(null);
 
 	if (process.env.NODE_ENV === "development") {
@@ -22,6 +22,6 @@ function PageBlueprint() {
 			</div>
 		</div>
 	);
-}
+});
 
 export default PageBlueprint;

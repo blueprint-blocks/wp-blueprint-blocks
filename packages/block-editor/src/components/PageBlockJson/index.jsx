@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -10,7 +11,7 @@ import {
 
 import { setChanged } from "../../store/post-metadata";
 
-import { useFocus } from "../../hooks";
+import { useDebugRenderCount, useFocus } from "../../hooks";
 
 import BlockIconField from "../BlockIconField";
 import BlockNameField from "../BlockNameField";
@@ -24,7 +25,7 @@ import TextField from "../TextField";
 
 import "./style.css";
 
-function PageBlockJson() {
+const PageBlockJson = memo(() => {
 	const dispatch = useDispatch();
 
 	const blockJson = useSelector((state) => getRawJson(state.blockJson));
@@ -45,6 +46,10 @@ function PageBlockJson() {
 	};
 
 	const [hasFocus, onBlur, onFocus] = useFocus([]);
+
+	if (process.env.NODE_ENV === "development") {
+		useDebugRenderCount("PageBlockJson");
+	}
 
 	return (
 		<div
@@ -148,6 +153,6 @@ function PageBlockJson() {
 			</div>
 		</div>
 	);
-}
+});
 
 export default PageBlockJson;

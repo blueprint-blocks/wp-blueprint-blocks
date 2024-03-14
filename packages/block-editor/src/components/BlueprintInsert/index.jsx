@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useRef } from "react";
+import { memo, useRef } from "react";
 
 import { useDebugRenderCount, useEditorDrag, useMouseFocus } from "../../hooks";
 
@@ -7,7 +7,7 @@ import BlueprintDebugRect from "../BlueprintDebugRect";
 
 import "./style.css";
 
-function BlueprintInsert({ editorRef = null, indent = 0, onDrop }) {
+const BlueprintInsert = memo(({ editorRef = null, indent = 0, onDrop }) => {
 	const ref = useRef(null);
 	const hasFocus = useMouseFocus(ref);
 
@@ -36,6 +36,6 @@ function BlueprintInsert({ editorRef = null, indent = 0, onDrop }) {
 			)}
 		</div>
 	);
-}
+});
 
 export default BlueprintInsert;
