@@ -12,6 +12,7 @@ import useDebugRenderCount from "./use-debug-render-count";
 import useDispatchAppRect from "./use-dispatch-app-rect";
 import useDispatchNavRect from "./use-dispatch-nav-rect";
 import useDragWithinBounds from "./use-drag-within-bounds";
+import useDragWithinEditor from "./use-drag-within-editor";
 import useEditorDrag from "./use-editor-drag";
 import useEditorDrop from "./use-editor-drop";
 import useEditorFocus from "./use-editor-focus";
@@ -39,6 +40,7 @@ export {
 	useDispatchAppRect,
 	useDispatchNavRect,
 	useDragWithinBounds,
+	useDragWithinEditor,
 	useEditorDrag,
 	useEditorDrop,
 	useEditorFocus,

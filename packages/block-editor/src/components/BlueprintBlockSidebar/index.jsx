@@ -7,7 +7,7 @@ import {
 
 import BlueprintComponentList from "../BlueprintComponentList";
 
-function BlueprintBlockSidebar({ editorRef }) {
+function BlueprintBlockSidebar() {
 	const dispatch = useDispatch();
 
 	const components = useSelector((state) =>
@@ -29,7 +29,6 @@ function BlueprintBlockSidebar({ editorRef }) {
 			allowMultiple={false}
 			hintText={`Drag components here that you'd like to display in the block sidebar.`}
 			components={components}
-			editorRef={editorRef}
 			onDrop={onDrop}
 		/>
 	);

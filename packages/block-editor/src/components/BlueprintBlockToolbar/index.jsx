@@ -7,7 +7,7 @@ import {
 
 import BlueprintComponentList from "../BlueprintComponentList";
 
-function BlueprintBlockToolbar({ editorRef }) {
+function BlueprintBlockToolbar() {
 	const dispatch = useDispatch();
 
 	const components = useSelector((state) =>
@@ -29,7 +29,6 @@ function BlueprintBlockToolbar({ editorRef }) {
 			allowMultiple={false}
 			hintText={`Drag components here that you'd like to display in the block toolbar.`}
 			components={components}
-			editorRef={editorRef}
 			onDrop={onDrop}
 		/>
 	);

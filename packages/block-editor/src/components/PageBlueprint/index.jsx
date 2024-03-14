@@ -1,5 +1,6 @@
-import { memo, useRef } from "react";
+import { memo, useContext, useLayoutEffect, useRef } from "react";
 
+import { AppContext } from "../../contexts";
 import { useDebugRenderCount } from "../../hooks";
 
 import BlueprintEditor from "../BlueprintEditor";
@@ -9,16 +10,21 @@ import "./style.css";
 
 const PageBlueprint = memo(() => {
 	const ref = useRef(null);
+	const { setEditorWrapperRef } = useContext(AppContext);
+
+	useLayoutEffect(() => {
+		setEditorWrapperRef(ref);
+	}, [ref]);
 
 	if (process.env.NODE_ENV === "development") {
 		useDebugRenderCount("PageBlueprint");
 	}
 
 	return (
-		<div ref={ref} className="PageBlueprint">
-			<div className="PageBlueprint-view">
+		<div className="PageBlueprint">
+			<div ref={ref} className="PageBlueprint-view">
 				<BlueprintEditor />
-				<BlueprintSidebar editorRef={ref} />
+				<BlueprintSidebar />
 			</div>
 		</div>
 	);

@@ -7,7 +7,7 @@ import { componentAllowsChildren } from "../../functions";
 import {
 	useBlueprint,
 	useBlueprintConnectionsDrag,
-	useDragWithinBounds,
+	useDragWithinEditor,
 	useDebugRenderCount,
 	useEditorDrag,
 	useEditorFocus,
@@ -21,13 +21,7 @@ import BlueprintComponentOpeningTag from "../BlueprintComponentOpeningTag";
 import "./style.css";
 
 const BlueprintComponent = memo(
-	({
-		clientId,
-		editorRef = null,
-		children = [],
-		indent = 0,
-		draggable = true,
-	}) => {
+	({ clientId, children = [], indent = 0, draggable = true }) => {
 		const ref = useRef(null);
 
 		const { hasFocus, setFocus, unsetFocus } = useEditorFocus(clientId);
@@ -72,8 +66,7 @@ const BlueprintComponent = memo(
 			isDragging: isDraggingSelf,
 			offset,
 			...draggableProps
-		} = useDragWithinBounds({
-			boundsRef: editorRef,
+		} = useDragWithinEditor({
 			ref,
 			onStart: onStartDrag,
 			onStop: onStopDrag,
@@ -102,16 +95,12 @@ const BlueprintComponent = memo(
 				onClick={onClick}
 				style={{ "--indent": indent }}
 			>
-				<BlueprintComponentOpeningTag
-					clientId={clientId}
-					editorRef={editorRef}
-				>
+				<BlueprintComponentOpeningTag clientId={clientId}>
 					{hasAttributeHandle && (
 						<BlueprintConnectionHandle
 							attributeName={component?.attributeName}
 							clientId={clientId}
 							context="to"
-							editorRef={editorRef}
 							isClone={true}
 							position="left"
 						/>
@@ -123,10 +112,7 @@ const BlueprintComponent = memo(
 				)}
 
 				{allowsChildren && (
-					<BlueprintComponentClosingTag
-						clientId={clientId}
-						editorRef={editorRef}
-					/>
+					<BlueprintComponentClosingTag clientId={clientId} />
 				)}
 
 				{draggable && (
@@ -142,7 +128,6 @@ const BlueprintComponent = memo(
 										clientId={clientId}
 										context="to"
 										draggingOffset={offset}
-										editorRef={editorRef}
 										isClone={false}
 										isDragging={isDraggingSelf}
 										position="left"

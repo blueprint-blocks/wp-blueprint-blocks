@@ -5,7 +5,7 @@ import { getComponentList } from "../../store/block-blueprint";
 
 import BlueprintComponentList from "../BlueprintComponentList";
 
-function BlueprintBlockEdit({ editorRef }) {
+function BlueprintBlockEdit() {
 	const blueprintInsert = useBlueprintInsert();
 
 	const components = useSelector((state) =>
@@ -25,7 +25,6 @@ function BlueprintBlockEdit({ editorRef }) {
 			allowMultiple={false}
 			hintText={`Drag components here to begin building your block.`}
 			components={components}
-			editorRef={editorRef}
 			onDrop={onDrop}
 		/>
 	);

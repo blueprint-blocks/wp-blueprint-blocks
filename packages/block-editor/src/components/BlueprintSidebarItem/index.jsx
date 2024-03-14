@@ -1,7 +1,8 @@
 import clsx from "clsx";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import Draggable from "react-draggable";
 
+import { AppContext } from "../../contexts";
 import { useDragWithinBounds, useEditorDrag } from "../../hooks";
 
 import "./style.css";
@@ -11,13 +12,12 @@ const { pluginMetadata = {} } = blueprintBlocksEditorSettings;
 function BlueprintSidebarItem({
 	icon,
 	label,
-	editorRef = null,
 	type = "html",
 	defaultAttributes = {},
-	pro = false,
 }) {
 	const ref = useRef(null);
 
+	const { editorWrapperRef } = useContext(AppContext);
 	const { startDragging, stopDragging } = useEditorDrag();
 
 	const onStartDrag = () => {
@@ -35,7 +35,7 @@ function BlueprintSidebarItem({
 	};
 
 	const { offset, ...draggableProps } = useDragWithinBounds({
-		boundsRef: editorRef,
+		boundsRef: editorWrapperRef,
 		ref,
 		onStart: onStartDrag,
 		onStop: onStopDrag,

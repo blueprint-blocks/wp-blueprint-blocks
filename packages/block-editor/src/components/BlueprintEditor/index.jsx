@@ -1,6 +1,7 @@
-import { useLayoutEffect, useRef } from "react";
+import { useContext, useLayoutEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import { AppContext, BlueprintEditorContext } from "../../contexts";
 import { useDebugRenderCount, useRect } from "../../hooks";
 import { setSize as setEditorSize } from "../../store/editor";
 import { getComponentListDepth } from "../../store/block-blueprint";
@@ -17,6 +18,8 @@ import "./style-debug.css";
 function BlueprintEditor() {
 	const dispatch = useDispatch();
 
+	const { setEditorRef } = useContext(AppContext);
+
 	const column2Depth = useSelector((state) =>
 		getComponentListDepth(state.blockBlueprint, "edit"),
 	);
@@ -26,6 +29,10 @@ function BlueprintEditor() {
 	const wrapRef = useRef(null);
 
 	const wrapRect = useRect(wrapRef, null, ["height", "width"]);
+
+	useLayoutEffect(() => {
+		setEditorRef(scrollRef);
+	}, [scrollRef]);
 
 	useLayoutEffect(() => {
 		dispatch(
@@ -45,26 +52,28 @@ function BlueprintEditor() {
 	}
 
 	return (
-		<div ref={ref} className="BlueprintEditor">
-			<div ref={scrollRef} className="BlueprintEditor-scroll">
-				<div ref={wrapRef} className="BlueprintEditor-wrap">
-					<div className="BlueprintEditor-grid" />
+		<BlueprintEditorContext.Provider value={{ ref: scrollRef }}>
+			<div ref={ref} className="BlueprintEditor">
+				<div ref={scrollRef} className="BlueprintEditor-scroll">
+					<div ref={wrapRef} className="BlueprintEditor-wrap">
+						<div className="BlueprintEditor-grid" />
 
-					<BlueprintConnections />
+						<BlueprintConnections />
 
-					<div className="BlueprintEditor-columns">
-						<BlueprintColumn label="Block Attributes">
-							<BlueprintAttributeList editorRef={scrollRef} />
-						</BlueprintColumn>
+						<div className="BlueprintEditor-columns">
+							<BlueprintColumn label="Block Attributes">
+								<BlueprintAttributeList />
+							</BlueprintColumn>
 
-						<BlueprintColumn label="Block Edit">
-							<BlueprintBlockEdit editorRef={scrollRef} />
-						</BlueprintColumn>
+							<BlueprintColumn label="Block Edit">
+								<BlueprintBlockEdit editorRef={scrollRef} />
+							</BlueprintColumn>
+						</div>
 					</div>
 				</div>
+				<UpsellBanner />
 			</div>
-			<UpsellBanner />
-		</div>
+		</BlueprintEditorContext.Provider>
 	);
 }
 

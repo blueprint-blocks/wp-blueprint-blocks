@@ -12,7 +12,7 @@ import BlueprintDebugRect from "../BlueprintDebugRect";
 
 import "./style.css";
 
-function BlueprintHint({ text = "", editorRef = null, indent = 0, onDrop }) {
+function BlueprintHint({ text = "", indent = 0, onDrop }) {
 	const ref = useRef(null);
 	const hasFocus = useMouseFocus(ref);
 	const { isDragging } = useEditorDrag();
@@ -42,7 +42,7 @@ function BlueprintHint({ text = "", editorRef = null, indent = 0, onDrop }) {
 			</div>
 
 			{process.env.NODE_ENV === "development" && (
-				<BlueprintDebugRect debugRef={ref} parentRef={editorRef} />
+				<BlueprintDebugRect debugRef={ref} />
 			)}
 		</div>
 	);

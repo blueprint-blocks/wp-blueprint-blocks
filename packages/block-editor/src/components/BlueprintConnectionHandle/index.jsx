@@ -1,14 +1,16 @@
 import clsx from "clsx";
 
-import { useId, useLayoutEffect, useRef, useState } from "react";
+import { useContext, useId, useLayoutEffect, useRef, useState } from "react";
 
 import { useDispatch } from "react-redux";
 import Draggable from "react-draggable";
 
+import { BlueprintEditorContext } from "../../contexts";
+
 import {
 	useBlueprintConnections,
 	useCenterPoint,
-	useDragWithinBounds,
+	useDragWithinEditor,
 	useEditorDrag,
 	useMouseUp,
 } from "../../hooks";
@@ -22,16 +24,16 @@ function BlueprintConnectionHandle({
 	clientId = null,
 	context = "to",
 	draggingOffset = { x: 0, y: 0 },
-	editorRef = null,
 	isClone = false,
 	isDragging = false,
 	...props
 }) {
 	const dispatch = useDispatch();
+	const editorContext = useContext(BlueprintEditorContext);
 
 	const id = clientId || useId();
 	const ref = useRef(null);
-	const centerPoint = useCenterPoint(ref, editorRef);
+	const centerPoint = useCenterPoint(ref, editorContext?.ref);
 
 	const [name, setName] = useState(attributeName);
 	const [currentPosition, setCurrentPosition] = useState(centerPoint);
@@ -120,8 +122,7 @@ function BlueprintConnectionHandle({
 		isDragging: isDraggingSelf,
 		offset: selfDraggingOffset,
 		...draggableProps
-	} = useDragWithinBounds({
-		boundsRef: editorRef,
+	} = useDragWithinEditor({
 		ref,
 		onDrag,
 		onStart: onStartDrag,

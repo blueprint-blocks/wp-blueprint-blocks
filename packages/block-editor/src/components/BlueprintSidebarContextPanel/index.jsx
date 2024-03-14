@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { forwardRef, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -14,61 +14,63 @@ import BlueprintContextualAttributeValueHelp from "../BlueprintContextualAttribu
 
 import "./style.css";
 
-const BlueprintSidebarContextPanel = forwardRef(({ editorRef = null }, ref) => {
-	const dispatch = useDispatch();
+const BlueprintSidebarContextPanel = memo(
+	forwardRef(({}, ref) => {
+		const dispatch = useDispatch();
 
-	const {
-		clientId = null,
-		context,
-		property,
-		...currentFocus
-	} = useSelector((state) => getEditorFocus(state.editor));
+		const {
+			clientId = null,
+			context,
+			property,
+			...currentFocus
+		} = useSelector((state) => getEditorFocus(state.editor));
 
-	const { type = "html", ...component } =
-		useSelector((state) =>
-			getBlockComponent(state.blockBlueprint, clientId),
-		) || {};
+		const { type = "html", ...component } =
+			useSelector((state) =>
+				getBlockComponent(state.blockBlueprint, clientId),
+			) || {};
 
-	const onClickSuggestedValue = ({ attribute, value }) => {
-		if (attribute.indexOf(currentFocus?.attributeName) !== -1) {
+		const onClickSuggestedValue = ({ attribute, value }) => {
+			if (attribute.indexOf(currentFocus?.attributeName) !== -1) {
+				dispatch(
+					unsetComponentAttribute({
+						clientId,
+						attribute: currentFocus?.attributeName,
+					}),
+				);
+			}
+
 			dispatch(
-				unsetComponentAttribute({
+				setComponentAttribute({
 					clientId,
-					attribute: currentFocus?.attributeName,
+					attribute,
+					value,
 				}),
 			);
-		}
+		};
 
-		dispatch(
-			setComponentAttribute({
-				clientId,
-				attribute,
-				value,
-			}),
+		return (
+			<div
+				ref={ref}
+				className="BlueprintSidebarContextPanel"
+				onMouseDown={(event) => {
+					event.stopPropagation();
+				}}
+				onTouchStart={(event) => {
+					event.stopPropagation();
+				}}
+			>
+				{context === "component" && (
+					<BlueprintContextualAttributeNameHelp
+						clientId={clientId}
+						componentType={type}
+						attributeName={currentFocus?.attributeName}
+						onClickSuggestedValue={onClickSuggestedValue}
+					/>
+				)}
+			</div>
 		);
-	};
-
-	return (
-		<div
-			ref={ref}
-			className="BlueprintSidebarContextPanel"
-			onMouseDown={(event) => {
-				event.stopPropagation();
-			}}
-			onTouchStart={(event) => {
-				event.stopPropagation();
-			}}
-		>
-			{context === "component" && (
-				<BlueprintContextualAttributeNameHelp
-					clientId={clientId}
-					componentType={type}
-					attributeName={currentFocus?.attributeName}
-					onClickSuggestedValue={onClickSuggestedValue}
-				/>
-			)}
-		</div>
-	);
-});
+	}),
+);
 
 export default BlueprintSidebarContextPanel;

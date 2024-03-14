@@ -8725,6 +8725,10 @@
 	  });
 	}
 
+	var AppContext = /*#__PURE__*/React$2.createContext(null);
+
+	var BlueprintEditorContext = /*#__PURE__*/React$2.createContext(null);
+
 	function useAppRect() {
 	  return useSelector(function (state) {
 	    return state.app.rect;
@@ -9279,6 +9283,7 @@
 	    onStop = _ref.onStop;
 	  var rect = useRect(ref);
 	  var boundsRect = useRect(boundsRef);
+	  console.log(boundsRect, ref);
 	  var _useState = React$2.useState(false),
 	    _useState2 = _slicedToArray(_useState, 2),
 	    isDragging = _useState2[0],
@@ -9340,6 +9345,22 @@
 	    onStart: _onStart,
 	    onStop: _onStop
 	  };
+	};
+
+	var useDragWithinEditor = function useDragWithinEditor(_ref) {
+	  var _ref$ref = _ref.ref,
+	    ref = _ref$ref === void 0 ? null : _ref$ref,
+	    onDrag = _ref.onDrag,
+	    onStart = _ref.onStart,
+	    onStop = _ref.onStop;
+	  var editorContext = React$2.useContext(BlueprintEditorContext);
+	  return useDragWithinBounds({
+	    boundsRef: editorContext === null || editorContext === void 0 ? void 0 : editorContext.ref,
+	    ref: ref,
+	    onDrag: onDrag,
+	    onStart: onStart,
+	    onStop: onStop
+	  });
 	};
 
 	var useEditorFocus = function useEditorFocus(clientId) {
@@ -14441,7 +14462,7 @@
 	var cjsExports = cjs.exports;
 	var Draggable$1 = /*@__PURE__*/getDefaultExportFromCjs(cjsExports);
 
-	var _excluded$8 = ["attributeName", "clientId", "context", "draggingOffset", "editorRef", "isClone", "isDragging"],
+	var _excluded$8 = ["attributeName", "clientId", "context", "draggingOffset", "isClone", "isDragging"],
 	  _excluded2$2 = ["isDragging", "offset"];
 	function BlueprintConnectionHandle(_ref) {
 	  var attributeName = _ref.attributeName,
@@ -14454,17 +14475,16 @@
 	      x: 0,
 	      y: 0
 	    } : _ref$draggingOffset,
-	    _ref$editorRef = _ref.editorRef,
-	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef,
 	    _ref$isClone = _ref.isClone,
 	    isClone = _ref$isClone === void 0 ? false : _ref$isClone,
 	    _ref$isDragging = _ref.isDragging,
 	    isDragging = _ref$isDragging === void 0 ? false : _ref$isDragging,
 	    props = _objectWithoutProperties(_ref, _excluded$8);
 	  var dispatch = useDispatch();
+	  var editorContext = React$2.useContext(BlueprintEditorContext);
 	  var id = clientId || React$2.useId();
 	  var ref = React$2.useRef(null);
-	  var centerPoint = useCenterPoint(ref, editorRef);
+	  var centerPoint = useCenterPoint(ref, editorContext === null || editorContext === void 0 ? void 0 : editorContext.ref);
 	  var _useState = React$2.useState(attributeName),
 	    _useState2 = _slicedToArray(_useState, 2),
 	    name = _useState2[0],
@@ -14561,16 +14581,15 @@
 	      });
 	    }
 	  };
-	  var _useDragWithinBounds = useDragWithinBounds({
-	      boundsRef: editorRef,
+	  var _useDragWithinEditor = useDragWithinEditor({
 	      ref: ref,
 	      onDrag: onDrag,
 	      onStart: onStartDrag,
 	      onStop: onStopDrag
 	    }),
-	    isDraggingSelf = _useDragWithinBounds.isDragging,
-	    selfDraggingOffset = _useDragWithinBounds.offset,
-	    draggableProps = _objectWithoutProperties(_useDragWithinBounds, _excluded2$2);
+	    isDraggingSelf = _useDragWithinEditor.isDragging,
+	    selfDraggingOffset = _useDragWithinEditor.offset,
+	    draggableProps = _objectWithoutProperties(_useDragWithinEditor, _excluded2$2);
 	  var _useEditorDrag = useEditorDrag();
 	    _useEditorDrag.isDragging;
 	    _useEditorDrag.context;
@@ -14633,9 +14652,7 @@
 
 	var BlueprintAttribute = /*#__PURE__*/React$2.memo(function (_ref) {
 	  var _ref$attributeName = _ref.attributeName,
-	    attributeName = _ref$attributeName === void 0 ? null : _ref$attributeName,
-	    _ref$editorRef = _ref.editorRef,
-	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef;
+	    attributeName = _ref$attributeName === void 0 ? null : _ref$attributeName;
 	  var ref = React$2.useRef(null);
 	  var _useBlockJson = useBlockJson(),
 	    editAttribute = _useBlockJson.editAttribute,
@@ -14699,7 +14716,6 @@
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionHandle, {
 	      attributeName: attributeName,
 	      context: "from",
-	      editorRef: editorRef,
 	      position: "right"
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintAttribute-line",
@@ -14780,9 +14796,8 @@
 
 	function BlueprintHint(_ref) {
 	  var _ref$text = _ref.text,
-	    text = _ref$text === void 0 ? "" : _ref$text;
-	    _ref.editorRef;
-	    var _ref$indent = _ref.indent,
+	    text = _ref$text === void 0 ? "" : _ref$text,
+	    _ref$indent = _ref.indent,
 	    indent = _ref$indent === void 0 ? 0 : _ref$indent,
 	    onDrop = _ref.onDrop;
 	  var ref = React$2.useRef(null);
@@ -14815,8 +14830,7 @@
 	}
 
 	var BlueprintAttributeList = /*#__PURE__*/React$2.memo( /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
-	  var _ref$editorRef = _ref.editorRef,
-	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef;
+	  _objectDestructuringEmpty(_ref);
 	  var _useBlockJson = useBlockJson(),
 	    addEmptyAttribute = _useBlockJson.addEmptyAttribute,
 	    blockAttributes = _useBlockJson.blockAttributes;
@@ -14829,13 +14843,11 @@
 	        var clientId = _ref2.clientId,
 	          name = _ref2.name;
 	        return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintAttribute, {
-	          attributeName: name,
-	          editorRef: editorRef
+	          attributeName: name
 	        }, clientId);
 	      })
 	    }), Object.keys(blockAttributes).length === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintHint, {
-	      text: "Add attributes for values that you'd like to be saved upon update.",
-	      editorRef: editorRef
+	      text: "Add attributes for values that you'd like to be saved upon update."
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintAttributeList-add",
 	      onClick: addEmptyAttribute,
@@ -14847,7 +14859,6 @@
 	var _excluded$7 = ["tagName", "type"];
 	var BlueprintComponentClosingTag = function BlueprintComponentClosingTag(_ref) {
 	  var clientId = _ref.clientId;
-	    _ref.editorRef;
 	  React$2.useRef(null);
 	  var _useBlueprint = useBlueprint(),
 	    getComponentById = _useBlueprint.getComponentById;
@@ -14875,7 +14886,7 @@
 	          children: ">"
 	        })]
 	      })
-	    }), undefined === "development"   ]
+	    }), undefined === "development"  ]
 	  });
 	};
 
@@ -15057,7 +15068,6 @@
 	    clientId = _ref.clientId,
 	    _ref$disabled = _ref.disabled,
 	    disabled = _ref$disabled === void 0 ? false : _ref$disabled;
-	    _ref.editorRef;
 	  React$2.useRef(null);
 	  var blockClassName = useBlockNamespace();
 	  var _useBlueprint = useBlueprint(),
@@ -15154,7 +15164,7 @@
 	          children: ">"
 	        })
 	      })]
-	    }), children, undefined === "development"   ]
+	    }), children, undefined === "development"  ]
 	  });
 	};
 
@@ -15162,8 +15172,6 @@
 	  _excluded2$1 = ["isDragging", "offset"];
 	var BlueprintComponent = /*#__PURE__*/React$2.memo(function (_ref) {
 	  var clientId = _ref.clientId,
-	    _ref$editorRef = _ref.editorRef,
-	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef,
 	    _ref$children = _ref.children,
 	    children = _ref$children === void 0 ? [] : _ref$children,
 	    _ref$indent = _ref.indent,
@@ -15211,15 +15219,14 @@
 	  var onStopDrag = React$2.useCallback(function () {
 	    stopDragging();
 	  }, []);
-	  var _useDragWithinBounds = useDragWithinBounds({
-	      boundsRef: editorRef,
+	  var _useDragWithinEditor = useDragWithinEditor({
 	      ref: ref,
 	      onStart: onStartDrag,
 	      onStop: onStopDrag
 	    }),
-	    isDraggingSelf = _useDragWithinBounds.isDragging,
-	    offset = _useDragWithinBounds.offset,
-	    draggableProps = _objectWithoutProperties(_useDragWithinBounds, _excluded2$1);
+	    isDraggingSelf = _useDragWithinEditor.isDragging,
+	    offset = _useDragWithinEditor.offset,
+	    draggableProps = _objectWithoutProperties(_useDragWithinEditor, _excluded2$1);
 	  var _useBlueprintConnecti = useBlueprintConnectionsDrag(ref, clientId),
 	    hasDraggingConnectionFocus = _useBlueprintConnecti.hasFocus;
 
@@ -15240,12 +15247,10 @@
 	    },
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentOpeningTag, {
 	      clientId: clientId,
-	      editorRef: editorRef,
 	      children: hasAttributeHandle && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionHandle, {
 	        attributeName: component === null || component === void 0 ? void 0 : component.attributeName,
 	        clientId: clientId,
 	        context: "to",
-	        editorRef: editorRef,
 	        isClone: true,
 	        position: "left"
 	      })
@@ -15253,8 +15258,7 @@
 	      className: "BlueprintComponent-body",
 	      children: children
 	    }), allowsChildren && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentClosingTag, {
-	      clientId: clientId,
-	      editorRef: editorRef
+	      clientId: clientId
 	    }), draggable && /*#__PURE__*/jsxRuntimeExports.jsx(Draggable$1, _objectSpread2(_objectSpread2({}, draggableProps), {}, {
 	      children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	        className: "BlueprintComponent is-clone",
@@ -15266,7 +15270,6 @@
 	            clientId: clientId,
 	            context: "to",
 	            draggingOffset: offset,
-	            editorRef: editorRef,
 	            isClone: false,
 	            isDragging: isDraggingSelf,
 	            position: "left"
@@ -15283,8 +15286,7 @@
 	});
 
 	var BlueprintInsert = /*#__PURE__*/React$2.memo(function (_ref) {
-	  _ref.editorRef;
-	    var _ref$indent = _ref.indent,
+	  var _ref$indent = _ref.indent,
 	    indent = _ref$indent === void 0 ? 0 : _ref$indent,
 	    onDrop = _ref.onDrop;
 	  var ref = React$2.useRef(null);
@@ -15323,8 +15325,6 @@
 	    components = _ref$components === void 0 ? null : _ref$components,
 	    _ref$indent = _ref.indent,
 	    indent = _ref$indent === void 0 ? 0 : _ref$indent,
-	    _ref$editorRef = _ref.editorRef,
-	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef,
 	    _onDrop = _ref.onDrop;
 	  var componentList = components || [];
 	  if (isObject(componentList)) {
@@ -15338,7 +15338,6 @@
 	    children: [componentList.length === 0 && hintText && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintHint, {
 	      text: hintText,
 	      indent: indent,
-	      editorRef: editorRef,
 	      onDrop: function onDrop() {
 	        return _onDrop({
 	          ancestry: [].concat(_toConsumableArray(ancestry), [0])
@@ -15346,7 +15345,6 @@
 	      }
 	    }), !hintText && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintInsert, {
 	      indent: indent,
-	      editorRef: editorRef,
 	      onDrop: function onDrop() {
 	        return _onDrop({
 	          ancestry: [].concat(_toConsumableArray(ancestry), [0])
@@ -15358,7 +15356,6 @@
 	        children = _ref3[1];
 	      return [index > 0 && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintInsert, {
 	        indent: indent,
-	        editorRef: editorRef,
 	        onDrop: function onDrop() {
 	          return _onDrop({
 	            ancestry: [].concat(_toConsumableArray(ancestry), [index])
@@ -15368,12 +15365,10 @@
 	        index: index,
 	        indent: indent,
 	        clientId: clientId,
-	        editorRef: editorRef,
 	        draggable: !isRoot || allowMultiple,
 	        children: [hintText && !(children !== null && children !== void 0 && children.length) && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintHint, {
 	          text: hintText,
 	          indent: indent + 1,
-	          editorRef: editorRef,
 	          onDrop: function onDrop() {
 	            return _onDrop({
 	              ancestry: [].concat(_toConsumableArray(ancestry), [index, 0])
@@ -15384,13 +15379,11 @@
 	          components: children || [],
 	          indent: indent + 1,
 	          ancestry: [].concat(_toConsumableArray(ancestry), [index]),
-	          editorRef: editorRef,
 	          onDrop: _onDrop
 	        })]
 	      }, clientId)];
 	    }), !hintText && ((_componentList = componentList) === null || _componentList === void 0 ? void 0 : _componentList.length) > 0 && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintInsert, {
 	      indent: indent,
-	      editorRef: editorRef,
 	      onDrop: function onDrop() {
 	        return _onDrop({
 	          ancestry: [].concat(_toConsumableArray(ancestry), [componentList.length])
@@ -15400,14 +15393,13 @@
 	  });
 	});
 
-	function BlueprintBlockEdit(_ref) {
-	  var editorRef = _ref.editorRef;
+	function BlueprintBlockEdit() {
 	  var blueprintInsert = useBlueprintInsert();
 	  var components = useSelector(function (state) {
 	    return getComponentList(state.blockBlueprint, "edit");
 	  });
-	  var onDrop = function onDrop(_ref2) {
-	    var ancestry = _ref2.ancestry;
+	  var onDrop = function onDrop(_ref) {
+	    var ancestry = _ref.ancestry;
 	    blueprintInsert({
 	      context: "edit",
 	      position: ancestry
@@ -15418,7 +15410,6 @@
 	    allowMultiple: false,
 	    hintText: "Drag components here to begin building your block.",
 	    components: components,
-	    editorRef: editorRef,
 	    onDrop: onDrop
 	  });
 	}
@@ -15528,6 +15519,8 @@
 
 	function BlueprintEditor() {
 	  var dispatch = useDispatch();
+	  var _useContext = React$2.useContext(AppContext),
+	    setEditorRef = _useContext.setEditorRef;
 	  var column2Depth = useSelector(function (state) {
 	    return getComponentListDepth(state.blockBlueprint, "edit");
 	  });
@@ -15535,6 +15528,9 @@
 	  var scrollRef = React$2.useRef(null);
 	  var wrapRef = React$2.useRef(null);
 	  var wrapRect = useRect(wrapRef, null, ["height", "width"]);
+	  React$2.useLayoutEffect(function () {
+	    setEditorRef(scrollRef);
+	  }, [scrollRef]);
 	  React$2.useLayoutEffect(function () {
 	    dispatch(setSize({
 	      height: wrapRect.height,
@@ -15544,33 +15540,36 @@
 	  React$2.useLayoutEffect(function () {
 	    ref.current.style.setProperty("--column-2-depth", column2Depth);
 	  }, [column2Depth]);
-	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	    ref: ref,
-	    className: "BlueprintEditor",
-	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	      ref: scrollRef,
-	      className: "BlueprintEditor-scroll",
-	      children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	        ref: wrapRef,
-	        className: "BlueprintEditor-wrap",
-	        children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	          className: "BlueprintEditor-grid"
-	        }), /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnections, {}), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	          className: "BlueprintEditor-columns",
-	          children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintColumn, {
-	            label: "Block Attributes",
-	            children: /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintAttributeList, {
-	              editorRef: scrollRef
-	            })
-	          }), /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintColumn, {
-	            label: "Block Edit",
-	            children: /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintBlockEdit, {
-	              editorRef: scrollRef
-	            })
+	  return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintEditorContext.Provider, {
+	    value: {
+	      ref: scrollRef
+	    },
+	    children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	      ref: ref,
+	      className: "BlueprintEditor",
+	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	        ref: scrollRef,
+	        className: "BlueprintEditor-scroll",
+	        children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	          ref: wrapRef,
+	          className: "BlueprintEditor-wrap",
+	          children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	            className: "BlueprintEditor-grid"
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnections, {}), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	            className: "BlueprintEditor-columns",
+	            children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintColumn, {
+	              label: "Block Attributes",
+	              children: /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintAttributeList, {})
+	            }), /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintColumn, {
+	              label: "Block Edit",
+	              children: /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintBlockEdit, {
+	                editorRef: scrollRef
+	              })
+	            })]
 	          })]
-	        })]
-	      })
-	    }), /*#__PURE__*/jsxRuntimeExports.jsx(UpsellBanner, {})]
+	        })
+	      }), /*#__PURE__*/jsxRuntimeExports.jsx(UpsellBanner, {})]
+	    })
 	  });
 	}
 
@@ -15581,14 +15580,13 @@
 	function BlueprintSidebarItem(_ref) {
 	  var icon = _ref.icon,
 	    label = _ref.label,
-	    _ref$editorRef = _ref.editorRef,
-	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef,
 	    _ref$type = _ref.type,
 	    type = _ref$type === void 0 ? "html" : _ref$type,
 	    _ref$defaultAttribute = _ref.defaultAttributes,
 	    defaultAttributes = _ref$defaultAttribute === void 0 ? {} : _ref$defaultAttribute;
-	    _ref.pro;
 	  var ref = React$2.useRef(null);
+	  var _useContext = React$2.useContext(AppContext),
+	    editorWrapperRef = _useContext.editorWrapperRef;
 	  var _useEditorDrag = useEditorDrag(),
 	    startDragging = _useEditorDrag.startDragging,
 	    stopDragging = _useEditorDrag.stopDragging;
@@ -15604,7 +15602,7 @@
 	    stopDragging();
 	  };
 	  var _useDragWithinBounds = useDragWithinBounds({
-	      boundsRef: editorRef,
+	      boundsRef: editorWrapperRef,
 	      ref: ref,
 	      onStart: onStartDrag,
 	      onStop: onStopDrag
@@ -15643,9 +15641,8 @@
 	  });
 	}
 
-	var BlueprintSidebarComponentsPanel = /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
-	  var _ref$editorRef = _ref.editorRef,
-	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef;
+	var BlueprintSidebarComponentsPanel = /*#__PURE__*/React$2.memo( /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
+	  _objectDestructuringEmpty(_ref);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: "BlueprintSidebarComponentsPanel",
@@ -15659,8 +15656,7 @@
 	      },
 	      children: blockComponents$1.fields.map(function (props, index) {
 	        return /*#__PURE__*/React$2.createElement(BlueprintSidebarItem, _objectSpread2(_objectSpread2({}, props), {}, {
-	          key: index,
-	          editorRef: editorRef
+	          key: index
 	        }));
 	      })
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
@@ -15673,13 +15669,12 @@
 	      },
 	      children: blockComponents$1.html.map(function (props, index) {
 	        return /*#__PURE__*/React$2.createElement(BlueprintSidebarItem, _objectSpread2(_objectSpread2({}, props), {}, {
-	          key: index,
-	          editorRef: editorRef
+	          key: index
 	        }));
 	      })
 	    })]
 	  });
-	});
+	}));
 
 	function BlueprintContextualAttributeNameHelp(_ref) {
 	  var _ref$componentType = _ref.componentType,
@@ -15747,8 +15742,8 @@
 
 	var _excluded$2 = ["clientId", "context", "property"],
 	  _excluded2 = ["type"];
-	var BlueprintSidebarContextPanel = /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
-	  _ref.editorRef;
+	var BlueprintSidebarContextPanel = /*#__PURE__*/React$2.memo( /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
+	  _objectDestructuringEmpty(_ref);
 	  var dispatch = useDispatch();
 	  var _useSelector = useSelector(function (state) {
 	      return getDraggingContext(state.editor);
@@ -15795,11 +15790,10 @@
 	      onClickSuggestedValue: onClickSuggestedValue
 	    })
 	  });
-	});
+	}));
 
 	function BlueprintSidebar(_ref) {
-	  var _ref$editorRef = _ref.editorRef,
-	    editorRef = _ref$editorRef === void 0 ? null : _ref$editorRef;
+	  _objectDestructuringEmpty(_ref);
 	  var ref = React$2.useRef(null);
 	  var contextPanelRef = React$2.useRef(null);
 	  var componentsPanelRef = React$2.useRef(null);
@@ -15818,25 +15812,26 @@
 	      "is-dragging": isDragging
 	    }),
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintSidebarContextPanel, {
-	      ref: contextPanelRef,
-	      editorRef: editorRef
+	      ref: contextPanelRef
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintSidebarComponentsPanel, {
-	      ref: componentsPanelRef,
-	      editorRef: editorRef
+	      ref: componentsPanelRef
 	    })]
 	  });
 	}
 
 	var PageBlueprint = /*#__PURE__*/React$2.memo(function () {
 	  var ref = React$2.useRef(null);
+	  var _useContext = React$2.useContext(AppContext),
+	    setEditorWrapperRef = _useContext.setEditorWrapperRef;
+	  React$2.useLayoutEffect(function () {
+	    setEditorWrapperRef(ref);
+	  }, [ref]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	    ref: ref,
 	    className: "PageBlueprint",
 	    children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	      ref: ref,
 	      className: "PageBlueprint-view",
-	      children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintEditor, {}), /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintSidebar, {
-	        editorRef: ref
-	      })]
+	      children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintEditor, {}), /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintSidebar, {})]
 	    })
 	  });
 	});
@@ -45943,10 +45938,18 @@
 	function App() {
 	  var dispatch = useDispatch();
 	  var ref = React$2.useRef(null);
-	  var _useState = React$2.useState(0),
+	  var _useState = React$2.useState(null),
 	    _useState2 = _slicedToArray(_useState, 2),
-	    activeNavItem = _useState2[0],
-	    setActiveNavItem = _useState2[1];
+	    editorRef = _useState2[0],
+	    setEditorRef = _useState2[1];
+	  var _useState3 = React$2.useState(null),
+	    _useState4 = _slicedToArray(_useState3, 2),
+	    editorWrapperRef = _useState4[0],
+	    setEditorWrapperRef = _useState4[1];
+	  var _useState5 = React$2.useState(0),
+	    _useState6 = _slicedToArray(_useState5, 2),
+	    activeNavItem = _useState6[0],
+	    setActiveNavItem = _useState6[1];
 	  var postId = useSelector(function (state) {
 	    return state.postMetadata.postId;
 	  });
@@ -46005,16 +46008,24 @@
 	  usePreventClose(useSelector(function (state) {
 	    return hasUnsavedChanges(state.postMetadata);
 	  }));
-	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	    ref: ref,
-	    className: clsx$1("App", {
-	      "is-debug": undefined === "development"
-	    }),
-	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(Navigator, {
-	      activeNavItem: activeNavItem,
-	      setActiveNavItem: setActiveNavItem,
-	      onUpdate: onUpdate
-	    }), activeNavItem === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlockJson, {}), activeNavItem === 1 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlueprint, {}), activeNavItem === 2 && /*#__PURE__*/jsxRuntimeExports.jsx(PageViewCss, {}), activeNavItem === 3 && /*#__PURE__*/jsxRuntimeExports.jsx(PageEditorCss, {}), saveDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(SaveDialog, {}), upsellDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(UpsellDialog, {})]
+	  return /*#__PURE__*/jsxRuntimeExports.jsx(AppContext.Provider, {
+	    value: {
+	      editorRef: editorRef,
+	      editorWrapperRef: editorWrapperRef,
+	      setEditorRef: setEditorRef,
+	      setEditorWrapperRef: setEditorWrapperRef
+	    },
+	    children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	      ref: ref,
+	      className: clsx$1("App", {
+	        "is-debug": undefined === "development"
+	      }),
+	      children: [/*#__PURE__*/jsxRuntimeExports.jsx(Navigator, {
+	        activeNavItem: activeNavItem,
+	        setActiveNavItem: setActiveNavItem,
+	        onUpdate: onUpdate
+	      }), activeNavItem === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlockJson, {}), activeNavItem === 1 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlueprint, {}), activeNavItem === 2 && /*#__PURE__*/jsxRuntimeExports.jsx(PageViewCss, {}), activeNavItem === 3 && /*#__PURE__*/jsxRuntimeExports.jsx(PageEditorCss, {}), saveDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(SaveDialog, {}), upsellDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(UpsellDialog, {})]
+	    })
 	  });
 	}
 

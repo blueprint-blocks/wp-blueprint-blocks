@@ -7,7 +7,7 @@ import BlueprintDebugRect from "../BlueprintDebugRect";
 
 import "./style.css";
 
-const BlueprintInsert = memo(({ editorRef = null, indent = 0, onDrop }) => {
+const BlueprintInsert = memo(({ indent = 0, onDrop }) => {
 	const ref = useRef(null);
 	const hasFocus = useMouseFocus(ref);
 
@@ -32,7 +32,7 @@ const BlueprintInsert = memo(({ editorRef = null, indent = 0, onDrop }) => {
 			</div>
 
 			{process.env.NODE_ENV === "development" && (
-				<BlueprintDebugRect debugRef={ref} parentRef={editorRef} />
+				<BlueprintDebugRect debugRef={ref} />
 			)}
 		</div>
 	);

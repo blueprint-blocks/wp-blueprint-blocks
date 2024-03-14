@@ -18,7 +18,6 @@ const BlueprintComponentList = forwardRef(
 			ancestry = [],
 			components = null,
 			indent = 0,
-			editorRef = null,
 			onDrop,
 		},
 		ref,
@@ -41,7 +40,6 @@ const BlueprintComponentList = forwardRef(
 					<BlueprintHint
 						text={hintText}
 						indent={indent}
-						editorRef={editorRef}
 						onDrop={() =>
 							onDrop({
 								ancestry: [...ancestry, 0],
@@ -52,7 +50,6 @@ const BlueprintComponentList = forwardRef(
 				{!hintText && (
 					<BlueprintInsert
 						indent={indent}
-						editorRef={editorRef}
 						onDrop={() =>
 							onDrop({
 								ancestry: [...ancestry, 0],
@@ -65,7 +62,6 @@ const BlueprintComponentList = forwardRef(
 						<BlueprintInsert
 							key={`insert-${index}`}
 							indent={indent}
-							editorRef={editorRef}
 							onDrop={() =>
 								onDrop({
 									ancestry: [...ancestry, index],
@@ -78,14 +74,12 @@ const BlueprintComponentList = forwardRef(
 						index={index}
 						indent={indent}
 						clientId={clientId}
-						editorRef={editorRef}
 						draggable={!isRoot || allowMultiple}
 					>
 						{hintText && !children?.length && (
 							<BlueprintHint
 								text={hintText}
 								indent={indent + 1}
-								editorRef={editorRef}
 								onDrop={() =>
 									onDrop({
 										ancestry: [...ancestry, index, 0],
@@ -99,7 +93,6 @@ const BlueprintComponentList = forwardRef(
 								components={children || []}
 								indent={indent + 1}
 								ancestry={[...ancestry, index]}
-								editorRef={editorRef}
 								onDrop={onDrop}
 							/>
 						)}
@@ -108,7 +101,6 @@ const BlueprintComponentList = forwardRef(
 				{!hintText && componentList?.length > 0 && (
 					<BlueprintInsert
 						indent={indent}
-						editorRef={editorRef}
 						onDrop={() =>
 							onDrop({
 								ancestry: [...ancestry, componentList.length],

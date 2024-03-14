@@ -11,7 +11,6 @@ const BlueprintComponentOpeningTag = ({
 	children = [],
 	clientId,
 	disabled = false,
-	editorRef = null,
 }) => {
 	const ref = useRef(null);
 
@@ -132,8 +131,8 @@ const BlueprintComponentOpeningTag = ({
 
 			{children}
 
-			{process.env.NODE_ENV === "development" && ref && editorRef && (
-				<BlueprintDebugRect debugRef={ref} parentRef={editorRef} />
+			{process.env.NODE_ENV === "development" && ref && (
+				<BlueprintDebugRect debugRef={ref} />
 			)}
 		</div>
 	);

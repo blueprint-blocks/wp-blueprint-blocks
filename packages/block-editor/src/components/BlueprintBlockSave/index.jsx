@@ -8,7 +8,7 @@ import {
 
 import BlueprintComponentList from "../BlueprintComponentList";
 
-function BlueprintBlockSidebar({ editorRef }) {
+function BlueprintBlockSidebar() {
 	const dispatch = useDispatch();
 
 	const components = useSelector((state) =>
@@ -49,7 +49,6 @@ function BlueprintBlockSidebar({ editorRef }) {
 			allowMultiple={false}
 			hintText={`Drag components here if you'd like your block to save markup differently from the edit context.`}
 			components={components}
-			editorRef={editorRef}
 			onDrop={onDrop}
 		/>
 	);

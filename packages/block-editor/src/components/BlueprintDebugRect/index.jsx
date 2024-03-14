@@ -1,13 +1,16 @@
+import { useContext } from "react";
+import { BlueprintEditorContext } from "../../contexts";
 import { useRect } from "../../hooks";
 
 import "./style.css";
 
-function BlueprintDebugRect({ debugRef = null, parentRef = null }) {
+function BlueprintDebugRect({ debugRef = null }) {
 	if (process.env.NODE_ENV !== "development" || env.DEBUG_RECT !== true) {
 		return null;
 	}
 
-	const rect = useRect(debugRef, parentRef);
+	const editorContext = useContext(BlueprintEditorContext);
+	const rect = useRect(debugRef, editorContext?.ref);
 
 	return (
 		<div className="BlueprintDebugRect">

@@ -9,7 +9,7 @@ import BlueprintSidebarContextPanel from "../BlueprintSidebarContextPanel";
 
 import "./style.css";
 
-function BlueprintSidebar({ editorRef = null }) {
+function BlueprintSidebar({}) {
 	const ref = useRef(null);
 	const contextPanelRef = useRef(null);
 	const componentsPanelRef = useRef(null);
@@ -34,15 +34,8 @@ function BlueprintSidebar({ editorRef = null }) {
 			ref={ref}
 			className={clsx("BlueprintSidebar", { "is-dragging": isDragging })}
 		>
-			<BlueprintSidebarContextPanel
-				ref={contextPanelRef}
-				editorRef={editorRef}
-			/>
-
-			<BlueprintSidebarComponentsPanel
-				ref={componentsPanelRef}
-				editorRef={editorRef}
-			/>
+			<BlueprintSidebarContextPanel ref={contextPanelRef} />
+			<BlueprintSidebarComponentsPanel ref={componentsPanelRef} />
 		</div>
 	);
 }

@@ -8,7 +8,7 @@ import BlueprintHint from "../BlueprintHint";
 import "./style.css";
 
 const BlueprintAttributeList = memo(
-	forwardRef(({ editorRef = null }, ref) => {
+	forwardRef(({}, ref) => {
 		const { addEmptyAttribute, blockAttributes } = useBlockJson();
 
 		if (process.env.NODE_ENV === "development") {
@@ -22,7 +22,6 @@ const BlueprintAttributeList = memo(
 						{blockAttributes.map(({ clientId, name }) => (
 							<BlueprintAttribute
 								attributeName={name}
-								editorRef={editorRef}
 								key={clientId}
 							/>
 						))}
@@ -31,7 +30,6 @@ const BlueprintAttributeList = memo(
 				{Object.keys(blockAttributes).length === 0 && (
 					<BlueprintHint
 						text={`Add attributes for values that you'd like to be saved upon update.`}
-						editorRef={editorRef}
 					/>
 				)}
 				<div
