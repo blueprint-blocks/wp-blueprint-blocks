@@ -29,8 +29,6 @@ const BlueprintAttribute = memo(({ attributeName = null }) => {
 	const { getComponentsByAttributeName, setComponentAttribute } =
 		useBlueprint();
 
-	//console.log(`BlueprintAttribute(${attributeName})`);
-
 	const attribute = getAttribute(attributeName);
 
 	const attributeDefault = useMemo(() => {

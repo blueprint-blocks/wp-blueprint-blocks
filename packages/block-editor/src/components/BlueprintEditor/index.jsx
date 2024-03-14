@@ -66,7 +66,7 @@ function BlueprintEditor() {
 							</BlueprintColumn>
 
 							<BlueprintColumn label="Block Edit">
-								<BlueprintBlockEdit editorRef={scrollRef} />
+								<BlueprintBlockEdit />
 							</BlueprintColumn>
 						</div>
 					</div>

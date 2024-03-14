@@ -16,8 +16,10 @@ import useDragWithinEditor from "./use-drag-within-editor";
 import useEditorDrag from "./use-editor-drag";
 import useEditorDrop from "./use-editor-drop";
 import useEditorFocus from "./use-editor-focus";
+import useEditorRect from "./use-editor-rect";
 import useFocus from "./use-focus";
 import useMouseFocus from "./use-mouse-focus";
+import useMouseMove from "./use-mouse-move";
 import useMouseUp from "./use-mouse-up";
 import useNavRect from "./use-nav-rect";
 import useOnClickOutside from "./use-on-click-outside";
@@ -44,6 +46,8 @@ export {
 	useEditorDrag,
 	useEditorDrop,
 	useEditorFocus,
+	useMouseMove,
+	useEditorRect,
 	useFocus,
 	useMouseFocus,
 	useMouseUp,

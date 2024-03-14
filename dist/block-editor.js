@@ -8158,7 +8158,6 @@
 	    type = _action$payload$type === void 0 ? "string" : _action$payload$type,
 	    _action$payload$defau = _action$payload.defaultValue,
 	    defaultValue = _action$payload$defau === void 0 ? null : _action$payload$defau;
-	  console.log(Object.keys(state));
 	  if (name === "") {
 	    name = getUniqueAttributeName(state, "attribute");
 	  }
@@ -8953,6 +8952,24 @@
 	  };
 	};
 
+	function useMouseMove(onMouseMove) {
+	  var dependencies = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+	  React$2.useLayoutEffect(function () {
+	    function handleMouseMove(_ref) {
+	      var clientX = _ref.clientX,
+	        clientY = _ref.clientY;
+	      onMouseMove({
+	        x: clientX,
+	        y: clientY
+	      });
+	    }
+	    window.addEventListener("mousemove", handleMouseMove);
+	    return function () {
+	      window.removeEventListener("mousemove", handleMouseMove);
+	    };
+	  }, dependencies);
+	}
+
 	function isEqual(rect1, rect2) {
 	  return rect1.x === rect2.x && rect1.y === rect2.y && rect1.top === rect2.top && rect1.right === rect2.right && rect1.bottom === rect2.bottom && rect1.left === rect2.left && rect1.height === rect2.height && rect1.width === rect2.width;
 	}
@@ -9082,22 +9099,14 @@
 	    _useState2 = _slicedToArray(_useState, 2),
 	    hasMouseFocus = _useState2[0],
 	    setHasMouseFocus = _useState2[1];
-	  var rect = useRect(ref);
-	  React$2.useLayoutEffect(function () {
-	    function handleMouseMove(_ref) {
-	      var clientX = _ref.clientX,
-	        clientY = _ref.clientY;
-	      var isInsideBounds = clientX >= (rect === null || rect === void 0 ? void 0 : rect.left) && clientX <= (rect === null || rect === void 0 ? void 0 : rect.right) && clientY >= (rect === null || rect === void 0 ? void 0 : rect.top) && clientY <= (rect === null || rect === void 0 ? void 0 : rect.bottom);
-	      if (isInsideBounds === true && hasMouseFocus === false) {
-	        setHasMouseFocus(true);
-	      } else if (isInsideBounds === false && hasMouseFocus === true) {
-	        setHasMouseFocus(false);
-	      }
+	  var rect = useRect(ref, null, ["bottom", "left", "right", "top"]);
+	  useMouseMove(function (mouse) {
+	    var isInsideBounds = mouse.x >= (rect === null || rect === void 0 ? void 0 : rect.left) && mouse.x <= (rect === null || rect === void 0 ? void 0 : rect.right) && mouse.y >= (rect === null || rect === void 0 ? void 0 : rect.top) && mouse.y <= (rect === null || rect === void 0 ? void 0 : rect.bottom);
+	    if (isInsideBounds === true && hasMouseFocus === false) {
+	      setHasMouseFocus(true);
+	    } else if (isInsideBounds === false && hasMouseFocus === true) {
+	      setHasMouseFocus(false);
 	    }
-	    window.addEventListener("mousemove", handleMouseMove);
-	    return function () {
-	      window.removeEventListener("mousemove", handleMouseMove);
-	    };
 	  }, [hasMouseFocus, rect]);
 	  return hasMouseFocus;
 	}
@@ -9129,7 +9138,7 @@
 	    if (hasFocus === true && isDragging === false && isWatchingContext === true && wasDragging === true) {
 	      onDrop && onDrop();
 	    }
-	  }, [hasFocus, isDragging, isWatchingContext, wasDragging]);
+	  }, [hasFocus, isDragging, isWatchingContext, wasDragging, ref]);
 	};
 
 	var useEditorDrag = function useEditorDrag() {
@@ -9143,7 +9152,9 @@
 	  var contextArray = React$2.useMemo(function () {
 	    return Array.isArray(context) && context || [context];
 	  }, [context]);
-	  var draggingContext = useSelector(getDraggingContext$1);
+	  var draggingContext = useSelector(function (state) {
+	    return getDraggingContext$1(state.editor);
+	  });
 	  var isWatchingContext = React$2.useMemo(function () {
 	    return context === null || contextArray.includes(draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.context);
 	  }, [contextArray, draggingContext]);
@@ -9283,7 +9294,6 @@
 	    onStop = _ref.onStop;
 	  var rect = useRect(ref);
 	  var boundsRect = useRect(boundsRef);
-	  console.log(boundsRect, ref);
 	  var _useState = React$2.useState(false),
 	    _useState2 = _slicedToArray(_useState, 2),
 	    isDragging = _useState2[0],
@@ -14661,9 +14671,6 @@
 	  var _useBlueprint = useBlueprint(),
 	    getComponentsByAttributeName = _useBlueprint.getComponentsByAttributeName,
 	    setComponentAttribute = _useBlueprint.setComponentAttribute;
-
-	  //console.log(`BlueprintAttribute(${attributeName})`);
-
 	  var attribute = getAttribute(attributeName);
 	  var attributeDefault = React$2.useMemo(function () {
 	    if (isObject(attribute === null || attribute === void 0 ? void 0 : attribute["default"]) || isArray(attribute === null || attribute === void 0 ? void 0 : attribute["default"])) {
@@ -15285,31 +15292,33 @@
 	  });
 	});
 
-	var BlueprintInsert = /*#__PURE__*/React$2.memo(function (_ref) {
+	var BlueprintInsert = function BlueprintInsert(_ref) {
 	  var _ref$indent = _ref.indent,
 	    indent = _ref$indent === void 0 ? 0 : _ref$indent,
 	    onDrop = _ref.onDrop;
 	  var ref = React$2.useRef(null);
-	  var hasFocus = useMouseFocus(ref);
+	  var focusRef = React$2.useRef(null);
+	  var hasFocus = useMouseFocus(focusRef);
 	  var _useEditorDrag = useEditorDrag({
 	      context: ["existingComponent", "newComponent"],
-	      ref: ref
+	      ref: focusRef
 	    }, onDrop),
 	    isDragging = _useEditorDrag.isDragging;
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    ref: ref,
 	    className: clsx$1("BlueprintInsert", {
-	      "has-focus": isDragging && hasFocus
+	      "has-focus": hasFocus && isDragging
 	    }),
 	    style: {
 	      "--indent": indent
 	    },
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	      ref: ref,
+	      ref: focusRef,
 	      className: "BlueprintInsert-line",
 	      children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {})
 	    }), undefined === "development" ]
 	  });
-	});
+	};
 
 	var BlueprintComponentList = /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
 	  var _componentList;
@@ -15562,9 +15571,7 @@
 	              children: /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintAttributeList, {})
 	            }), /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintColumn, {
 	              label: "Block Edit",
-	              children: /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintBlockEdit, {
-	                editorRef: scrollRef
-	              })
+	              children: /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintBlockEdit, {})
 	            })]
 	          })]
 	        })

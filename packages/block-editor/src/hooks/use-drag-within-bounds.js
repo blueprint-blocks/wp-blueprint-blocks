@@ -11,8 +11,6 @@ const useDragWithinBounds = ({
 	const rect = useRect(ref);
 	const boundsRect = useRect(boundsRef);
 
-	console.log(boundsRect, ref);
-
 	const [isDragging, setIsDragging] = useState(false);
 
 	const [offset, setOffset] = useState({

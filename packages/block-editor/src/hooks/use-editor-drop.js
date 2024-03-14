@@ -38,7 +38,7 @@ const useEditorDrop = (props = {}, onDrop = null) => {
 		) {
 			onDrop && onDrop();
 		}
-	}, [hasFocus, isDragging, isWatchingContext, wasDragging]);
+	}, [hasFocus, isDragging, isWatchingContext, wasDragging, ref]);
 };
 
 export default useEditorDrop;
