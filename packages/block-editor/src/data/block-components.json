@@ -53,8 +53,7 @@
 			"allowsChildren": false,
 			"shortDescription": "Inputs for an embedded link accepting a label, href, and target.",
 			"defaultAttributes": {
-				"placeholder": "Enter a label...",
-				"tagName": "a"
+				"placeholder": "Enter a label..."
 			}
 		},
 		{
@@ -64,8 +63,7 @@
 			"allowsChildren": false,
 			"shortDescription": "Upload dialog for all image formats.",
 			"defaultAttributes": {
-				"label": "Image",
-				"tagName": "img"
+				"label": "Image"
 			}
 		}
 	],

@@ -4300,8 +4300,7 @@
 			allowsChildren: false,
 			shortDescription: "Inputs for an embedded link accepting a label, href, and target.",
 			defaultAttributes: {
-				placeholder: "Enter a label...",
-				tagName: "a"
+				placeholder: "Enter a label..."
 			}
 		},
 		{
@@ -4311,8 +4310,7 @@
 			allowsChildren: false,
 			shortDescription: "Upload dialog for all image formats.",
 			defaultAttributes: {
-				label: "Image",
-				tagName: "img"
+				label: "Image"
 			}
 		}
 	];
@@ -8781,14 +8779,17 @@
 	    dispatch(addAttribute(_objectSpread2(_objectSpread2({}, attributeProps), {}, {
 	      name: attributeName
 	    })));
+	    dispatch(setChanged(true));
 	  }, []);
 	  var addEmptyAttribute = React$2.useCallback(function () {
 	    dispatch(addAttribute({}));
+	    dispatch(setChanged(true));
 	  }, []);
 	  var _editAttribute = React$2.useCallback(function (attributeName, attributeProps) {
 	    dispatch(editAttribute(_objectSpread2(_objectSpread2({}, attributeProps), {}, {
 	      name: attributeName
 	    })));
+	    dispatch(setChanged(true));
 	  }, []);
 	  var _getAttribute = React$2.useCallback(function (attributeName) {
 	    return useSelector(function (state) {
@@ -8800,9 +8801,11 @@
 	      name: attributeName,
 	      newName: newAttributeName
 	    }));
+	    dispatch(setChanged(true));
 	  }, []);
 	  var _removeAttribute = React$2.useCallback(function (attributeName) {
 	    dispatch(removeAttribute(attributeName));
+	    dispatch(setChanged(true));
 	  }, []);
 	  return {
 	    addAttribute: _addAttribute,

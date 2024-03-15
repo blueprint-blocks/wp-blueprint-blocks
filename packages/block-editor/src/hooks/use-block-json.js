@@ -10,6 +10,8 @@ import {
 	removeAttribute,
 } from "../store/block-json";
 
+import { setChanged } from "../store/post-metadata";
+
 const useBlockJson = () => {
 	const dispatch = useDispatch();
 
@@ -28,10 +30,12 @@ const useBlockJson = () => {
 				name: attributeName,
 			}),
 		);
+		dispatch(setChanged(true));
 	}, []);
 
 	const addEmptyAttribute = useCallback(() => {
 		dispatch(addAttribute({}));
+		dispatch(setChanged(true));
 	}, []);
 
 	const _editAttribute = useCallback((attributeName, attributeProps) => {
@@ -41,6 +45,7 @@ const useBlockJson = () => {
 				name: attributeName,
 			}),
 		);
+		dispatch(setChanged(true));
 	}, []);
 
 	const _getAttribute = useCallback(
@@ -55,10 +60,12 @@ const useBlockJson = () => {
 		dispatch(
 			renameAttribute({ name: attributeName, newName: newAttributeName }),
 		);
+		dispatch(setChanged(true));
 	}, []);
 
 	const _removeAttribute = useCallback((attributeName) => {
 		dispatch(removeAttribute(attributeName));
+		dispatch(setChanged(true));
 	}, []);
 
 	return {
