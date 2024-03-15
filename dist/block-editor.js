@@ -7463,7 +7463,7 @@
 	  };
 	};
 
-	var _excluded$d = ["isValid"];
+	var _excluded$e = ["isValid"];
 	var validateBlockJson = function validateBlockJson(blockJson) {
 	  var validations = blockJsonValidation.map(function (_ref) {
 	    var propertyName = _ref.propertyName,
@@ -7481,7 +7481,7 @@
 	  }, true);
 	  var errors = validations.filter(function (_ref2) {
 	    var isValid = _ref2.isValid;
-	      _objectWithoutProperties(_ref2, _excluded$d);
+	      _objectWithoutProperties(_ref2, _excluded$e);
 	    return isValid === false;
 	  });
 	  return {
@@ -7499,7 +7499,7 @@
 	};
 
 	var _blueprintBlocksEdito$a;
-	var _excluded$c = ["children"];
+	var _excluded$d = ["children"];
 	var blockComponents = {};
 	function parseComponentTree() {
 	  var components = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -7510,7 +7510,7 @@
 	  components.forEach(function (_ref) {
 	    var _ref$children = _ref.children,
 	      children = _ref$children === void 0 ? [] : _ref$children,
-	      component = _objectWithoutProperties(_ref, _excluded$c);
+	      component = _objectWithoutProperties(_ref, _excluded$d);
 	    var clientId = getUniqueClientId();
 	    var childClientIds = [];
 	    if (children.length > 0) {
@@ -8020,7 +8020,7 @@
 	  });
 	});
 
-	var _excluded$b = ["name", "type"];
+	var _excluded$c = ["name", "type"];
 	var selectAttributes$2 = function selectAttributes(state) {
 	  return state.attributes;
 	};
@@ -8038,7 +8038,7 @@
 	      var name = _ref.name,
 	        _ref$type = _ref.type,
 	        type = _ref$type === void 0 ? "string" : _ref$type,
-	        attribute = _objectWithoutProperties(_ref, _excluded$b);
+	        attribute = _objectWithoutProperties(_ref, _excluded$c);
 	      if (name === attributeName) {
 	        return _objectSpread2(_objectSpread2({}, attribute), {}, {
 	          name: name,
@@ -8095,6 +8095,7 @@
 	  return version;
 	};
 
+	var _excluded$b = ["name"];
 	var selectAttributes = function selectAttributes(state) {
 	  return state.attributes || [];
 	};
@@ -8136,7 +8137,11 @@
 	    icon: icon,
 	    keywords: keywords,
 	    category: category,
-	    attributes: attributes,
+	    attributes: Object.fromEntries(attributes.map(function (_ref) {
+	      var name = _ref.name,
+	        attribute = _objectWithoutProperties(_ref, _excluded$b);
+	      return [name, attribute];
+	    })),
 	    supports: supports,
 	    textdomain: textdomain
 	  };

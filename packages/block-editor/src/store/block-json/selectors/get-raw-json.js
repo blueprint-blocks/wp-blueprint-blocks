@@ -45,7 +45,9 @@ const getRawJson = createSelector(
 		icon,
 		keywords,
 		category,
-		attributes,
+		attributes: Object.fromEntries(
+			attributes.map(({ name, ...attribute }) => [name, attribute]),
+		),
 		supports,
 		textdomain,
 	}),
