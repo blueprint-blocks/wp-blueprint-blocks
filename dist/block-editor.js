@@ -8095,7 +8095,7 @@
 	  return version;
 	};
 
-	var _excluded$b = ["name"];
+	var _excluded$b = ["clientId", "name"];
 	var selectAttributes = function selectAttributes(state) {
 	  return state.attributes || [];
 	};
@@ -8138,7 +8138,8 @@
 	    keywords: keywords,
 	    category: category,
 	    attributes: Object.fromEntries(attributes.map(function (_ref) {
-	      var name = _ref.name,
+	      _ref.clientId;
+	        var name = _ref.name,
 	        attribute = _objectWithoutProperties(_ref, _excluded$b);
 	      return [name, attribute];
 	    })),
