@@ -8089,6 +8089,12 @@
 	  return ((_name$split = name.split("/")) === null || _name$split === void 0 ? void 0 : _name$split[0]) || "";
 	};
 
+	var getBlockVersion = function getBlockVersion(state, context) {
+	  var _state$version = state.version,
+	    version = _state$version === void 0 ? "" : _state$version;
+	  return version;
+	};
+
 	var selectAttributes = function selectAttributes(state) {
 	  return state.attributes || [];
 	};
@@ -8252,6 +8258,10 @@
 	  state.title = action.payload;
 	};
 
+	var setVersion$1 = function setVersion(state, action) {
+	  state.version = action.payload;
+	};
+
 	var reducers$2 = {
 	  addAttribute: addAttribute$1,
 	  editAttribute: editAttribute$1,
@@ -8263,7 +8273,8 @@
 	  setKeywords: setKeywords$1,
 	  setName: setName$1,
 	  setSupportsProperty: setSupportsProperty$1,
-	  setTitle: setTitle$1
+	  setTitle: setTitle$1,
+	  setVersion: setVersion$1
 	};
 
 	var slice$8 = createSlice({
@@ -8283,7 +8294,8 @@
 	  setKeywords = actions$8.setKeywords,
 	  setName = actions$8.setName,
 	  setSupportsProperty = actions$8.setSupportsProperty,
-	  setTitle = actions$8.setTitle;
+	  setTitle = actions$8.setTitle,
+	  setVersion = actions$8.setVersion;
 
 	var _blueprintBlocksEdito$8 = blueprintBlocksEditorSettings,
 	  _blueprintBlocksEdito2$6 = _blueprintBlocksEdito$8.blockMetadata,
@@ -12495,13 +12507,16 @@
 	};
 
 	function BlockVersionField(_ref) {
-	  _ref.name;
-	    _ref.placeholder;
-	    _ref.onBlur;
-	    _ref.onFocus;
-	    _ref.tooltip;
-	    _ref.value;
-	    _ref.setValue;
+	  var onBlur = _ref.onBlur,
+	    onFocus = _ref.onFocus;
+	  var dispatch = useDispatch();
+	  var blockVersion = useSelector(function (state) {
+	    return getBlockVersion(state.blockJson);
+	  });
+	  var setBlockVersion = function setBlockVersion(newBlockVersion) {
+	    dispatch(setVersion(newBlockVersion));
+	    dispatch(setChanged(true));
+	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    className: "BlockVersionField",
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
@@ -12509,7 +12524,10 @@
 	      children: "Version:"
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
 	      className: "BlockVersionField-value",
-	      value: "1.0.0"
+	      onBlur: onBlur,
+	      onChange: setBlockVersion,
+	      onFocus: onFocus,
+	      value: blockVersion
 	    })]
 	  });
 	}

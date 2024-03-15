@@ -9,6 +9,7 @@ import {
 	getBlockClassName,
 	getBlockName,
 	getBlockNamespace,
+	getBlockVersion,
 	getRawJson,
 	getUniqueAttributeName,
 } from "./selectors";
@@ -42,6 +43,7 @@ export const {
 	setName,
 	setSupportsProperty,
 	setTitle,
+	setVersion,
 } = actions;
 
 export {
@@ -50,6 +52,7 @@ export {
 	getBlockClassName,
 	getBlockName,
 	getBlockNamespace,
+	getBlockVersion,
 	getRawJson,
 	getUniqueAttributeName,
 };

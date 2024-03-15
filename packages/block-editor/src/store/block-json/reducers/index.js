@@ -9,6 +9,7 @@ import setKeywords from "./set-keywords";
 import setName from "./set-name";
 import setSupportsProperty from "./set-supports-property";
 import setTitle from "./set-title";
+import setVersion from "./set-version";
 
 const reducers = {
 	addAttribute,
@@ -22,6 +23,7 @@ const reducers = {
 	setName,
 	setSupportsProperty,
 	setTitle,
+	setVersion,
 };
 
 export default reducers;

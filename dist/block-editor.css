@@ -834,6 +834,14 @@
 	grid-template-columns: repeat(2, max-content);
 }
 
+.BlockVersionField .EditableString {
+		--focus-color: transparent;
+		--focus-margin: 0;
+		--focus-padding: 0;
+		--highlight-padding: 0.3em;
+		--line-height: 1em;
+	}
+
 .BlockVersionField-label {
 	color: var(--color-dark-gray);
 }
