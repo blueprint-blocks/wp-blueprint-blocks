@@ -5,6 +5,7 @@ import insertExistingComponentAtPosition from "./insert-existing-component-at-po
 import insertNewComponentAtPosition from "./insert-new-component-at-position";
 import moveComponentToPosition from "./move-component-to-position";
 import removeAtPosition from "./remove-at-position";
+import renameComponentAttribute from "./rename-component-attribute";
 import setComponentAttribute from "./set-component-attribute";
 import setComponentList from "./set-component-list";
 import startDraggingExistingComponent from "./start-dragging-existing-component";
@@ -21,6 +22,7 @@ const reducers = {
 	insertDraggingComponentAtPosition,
 	moveComponentToPosition,
 	removeAtPosition,
+	renameComponentAttribute,
 	setComponentAttribute,
 	setComponentList,
 	startDraggingExistingComponent,

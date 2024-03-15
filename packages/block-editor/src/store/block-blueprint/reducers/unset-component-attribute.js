@@ -5,13 +5,15 @@ const unsetComponentAttribute = (state, action) => {
 		return;
 	}
 
+	const component = Object.fromEntries(
+		Object.entries(state.blockComponents[clientId]).filter(
+			([name, _]) => name !== attribute,
+		),
+	);
+
 	state.blockComponents = {
 		...state.blockComponents,
-		[clientId]: Object.fromEntries(
-			Object.entries(state.blockComponents[clientId]).filter(
-				([key, _]) => key !== attribute,
-			),
-		),
+		[clientId]: component,
 	};
 };
 

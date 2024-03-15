@@ -7908,6 +7908,26 @@
 	  });
 	};
 
+	var renameComponentAttribute$1 = function renameComponentAttribute(state, action) {
+	  var _action$payload = action.payload,
+	    clientId = _action$payload.clientId,
+	    attributeName = _action$payload.attributeName,
+	    newAttributeName = _action$payload.newAttributeName;
+	  if (!(clientId in state.blockComponents)) {
+	    return;
+	  }
+	  var component = Object.fromEntries(Object.entries(state.blockComponents[clientId]).map(function (_ref) {
+	    var _ref2 = _slicedToArray(_ref, 2),
+	      name = _ref2[0],
+	      value = _ref2[1];
+	    if (name === attributeName) {
+	      return [newAttributeName, value];
+	    }
+	    return [name, value];
+	  }));
+	  state.blockComponents = _objectSpread2(_objectSpread2({}, state.blockComponents), {}, _defineProperty$1({}, clientId, component));
+	};
+
 	var setComponentAttribute$1 = function setComponentAttribute(state, action) {
 	  var _action$payload = action.payload,
 	    clientId = _action$payload.clientId,
@@ -7916,7 +7936,9 @@
 	  if (!(clientId in state.blockComponents)) {
 	    return;
 	  }
-	  state.blockComponents = _objectSpread2(_objectSpread2({}, state.blockComponents), {}, _defineProperty$1({}, clientId, _objectSpread2(_objectSpread2({}, state.blockComponents[clientId]), {}, _defineProperty$1({}, attribute, value))));
+	  var component = _objectSpread2({}, state.blockComponents[clientId]);
+	  component[attribute] = value;
+	  state.blockComponents = _objectSpread2(_objectSpread2({}, state.blockComponents), {}, _defineProperty$1({}, clientId, component));
 	};
 
 	var startDraggingExistingComponent = function startDraggingExistingComponent(state, action) {
@@ -7942,12 +7964,13 @@
 	  if (!(clientId in state.blockComponents)) {
 	    return;
 	  }
-	  state.blockComponents = _objectSpread2(_objectSpread2({}, state.blockComponents), {}, _defineProperty$1({}, clientId, Object.fromEntries(Object.entries(state.blockComponents[clientId]).filter(function (_ref) {
+	  var component = Object.fromEntries(Object.entries(state.blockComponents[clientId]).filter(function (_ref) {
 	    var _ref2 = _slicedToArray(_ref, 2),
-	      key = _ref2[0];
+	      name = _ref2[0];
 	      _ref2[1];
-	    return key !== attribute;
-	  }))));
+	    return name !== attribute;
+	  }));
+	  state.blockComponents = _objectSpread2(_objectSpread2({}, state.blockComponents), {}, _defineProperty$1({}, clientId, component));
 	};
 
 	var reducers$3 = {
@@ -7958,6 +7981,7 @@
 	  insertDraggingComponentAtPosition: insertDraggingComponentAtPosition,
 	  moveComponentToPosition: moveComponentToPosition$1,
 	  removeAtPosition: removeAtPosition,
+	  renameComponentAttribute: renameComponentAttribute$1,
 	  setComponentAttribute: setComponentAttribute$1,
 	  setComponentList: setComponentList,
 	  startDraggingExistingComponent: startDraggingExistingComponent,
@@ -7979,7 +8003,8 @@
 	  actions$9.insertExistingComponentAtPosition;
 	  var insertNewComponentAtPosition = actions$9.insertNewComponentAtPosition;
 	  actions$9.insertDraggingComponentAtPosition;
-	  var moveComponentToPosition = actions$9.moveComponentToPosition;
+	  var moveComponentToPosition = actions$9.moveComponentToPosition,
+	  renameComponentAttribute = actions$9.renameComponentAttribute;
 	  actions$9.removeAtPosition;
 	  var setComponentAttribute = actions$9.setComponentAttribute;
 	  actions$9.setComponentList;
@@ -8837,23 +8862,34 @@
 	      return (blockComponent === null || blockComponent === void 0 ? void 0 : blockComponent.attributeName) === attributeName;
 	    }));
 	  }, [blockComponents]);
+	  var _renameComponentAttribute = function _renameComponentAttribute(clientId, attributeName, newAttributeName) {
+	    dispatch(renameComponentAttribute({
+	      clientId: clientId,
+	      attributeName: attributeName,
+	      newAttributeName: newAttributeName
+	    }));
+	    dispatch(setChanged(true));
+	  };
 	  var _setComponentAttribute = function _setComponentAttribute(clientId, attribute, value) {
 	    dispatch(setComponentAttribute({
 	      clientId: clientId,
 	      attribute: attribute,
 	      value: value
 	    }));
+	    dispatch(setChanged(true));
 	  };
 	  var _unsetComponentAttribute = function _unsetComponentAttribute(clientId, attribute) {
 	    dispatch(unsetComponentAttribute({
 	      clientId: clientId,
 	      attribute: attribute
 	    }));
+	    dispatch(setChanged(true));
 	  };
 	  return {
 	    allComponents: blockComponents,
 	    getComponentById: getComponentById,
 	    getComponentsByAttributeName: getComponentsByAttributeName,
+	    renameComponentAttribute: _renameComponentAttribute,
 	    setComponentAttribute: _setComponentAttribute,
 	    unsetComponentAttribute: _unsetComponentAttribute
 	  };
@@ -14937,9 +14973,12 @@
 	    disabled = _ref$disabled === void 0 ? false : _ref$disabled;
 	    _objectWithoutProperties(_ref, _excluded$6);
 	  var dispatch = useDispatch();
-	  var component = useSelector(function (state) {
-	    return getBlockComponent(state.blockBlueprint, clientId);
-	  });
+	  var _useBlueprint = useBlueprint(),
+	    getComponentById = _useBlueprint.getComponentById,
+	    renameComponentAttribute = _useBlueprint.renameComponentAttribute,
+	    setComponentAttribute = _useBlueprint.setComponentAttribute,
+	    unsetComponentAttribute = _useBlueprint.unsetComponentAttribute;
+	  var component = getComponentById(clientId);
 	  var ref = React$2.useRef(null);
 	  var attributeNameRef = React$2.useRef(null);
 	  var _attributeName = React$2.useMemo(function () {
@@ -14966,15 +15005,7 @@
 	    });
 	    _useSelector.currentFocus;
 	  var onChangeAttributeName = React$2.useCallback(function (newAttributeName) {
-	    dispatch(unsetComponentAttribute({
-	      clientId: clientId,
-	      attribute: _attributeName
-	    }));
-	    dispatch(setComponentAttribute({
-	      clientId: clientId,
-	      attribute: newAttributeName,
-	      value: _attributeValue
-	    }));
+	    renameComponentAttribute(clientId, _attributeName, newAttributeName);
 	    dispatch(setFocus({
 	      clientId: clientId,
 	      context: "component",
@@ -14984,11 +15015,7 @@
 	    }));
 	  }, [_attributeName, _attributeValue]);
 	  var onChangeAttributeValue = React$2.useCallback(function (newAttributeValue) {
-	    dispatch(setComponentAttribute({
-	      clientId: clientId,
-	      attribute: _attributeName,
-	      value: newAttributeValue
-	    }));
+	    setComponentAttribute(clientId, _attributeName, newAttributeValue);
 	    dispatch(setFocus({
 	      clientId: clientId,
 	      context: "component",
@@ -15001,10 +15028,7 @@
 	    if (String(_attributeValue).length > 0) {
 	      return;
 	    }
-	    dispatch(unsetComponentAttribute({
-	      clientId: clientId,
-	      attribute: _attributeName
-	    }));
+	    unsetComponentAttribute(clientId, _attributeName);
 	  }, [_attributeName, _attributeValue]);
 	  var onFocusAttributeName = React$2.useCallback(function () {
 	    dispatch(setFocus({
@@ -15079,15 +15103,12 @@
 	  });
 	};
 
-	var BlueprintComponentInsert = /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
+	var BlueprintComponentInsert = /*#__PURE__*/React$2.memo(function (_ref) {
 	  var clientId = _ref.clientId;
-	  var dispatch = useDispatch();
+	  var _useBlueprint = useBlueprint(),
+	    setComponentAttribute = _useBlueprint.setComponentAttribute;
 	  var onClick = function onClick() {
-	    dispatch(setComponentAttribute({
-	      clientId: clientId,
-	      attribute: "",
-	      value: null
-	    }));
+	    setComponentAttribute(clientId, "", null);
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsx(InsertButton, {
 	    className: "BlueprintComponentInsert",

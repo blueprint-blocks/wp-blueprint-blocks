@@ -1,22 +1,16 @@
-import { forwardRef } from "react";
-import { useDispatch } from "react-redux";
+import { memo } from "react";
+
+import { useBlueprint } from "../../hooks";
 
 import InsertButton from "../InsertButton";
-import { setComponentAttribute } from "../../store/block-blueprint";
 
 import "./style.css";
 
-const BlueprintComponentInsert = forwardRef(({ clientId }, ref) => {
-	const dispatch = useDispatch();
+const BlueprintComponentInsert = memo(({ clientId }) => {
+	const { setComponentAttribute } = useBlueprint();
 
 	const onClick = () => {
-		dispatch(
-			setComponentAttribute({
-				clientId,
-				attribute: "",
-				value: null,
-			}),
-		);
+		setComponentAttribute(clientId, "", null);
 	};
 
 	return (

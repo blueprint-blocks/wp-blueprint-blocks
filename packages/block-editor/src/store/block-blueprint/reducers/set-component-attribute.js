@@ -5,12 +5,13 @@ const setComponentAttribute = (state, action) => {
 		return;
 	}
 
+	const component = { ...state.blockComponents[clientId] };
+
+	component[attribute] = value;
+
 	state.blockComponents = {
 		...state.blockComponents,
-		[clientId]: {
-			...state.blockComponents[clientId],
-			[attribute]: value,
-		},
+		[clientId]: component,
 	};
 };
 

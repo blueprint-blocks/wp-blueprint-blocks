@@ -3,12 +3,7 @@ import { memo, useCallback, useMemo, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getComponentAttributeType } from "../../functions";
-
-import {
-	getBlockComponent,
-	setComponentAttribute,
-	unsetComponentAttribute,
-} from "../../store/block-blueprint";
+import { useBlueprint } from "../../hooks";
 
 import { setFocus } from "../../store/editor";
 
@@ -26,9 +21,14 @@ function BlueprintComponentAttribute({
 }) {
 	const dispatch = useDispatch();
 
-	let component = useSelector((state) =>
-		getBlockComponent(state.blockBlueprint, clientId),
-	);
+	const {
+		getComponentById,
+		renameComponentAttribute,
+		setComponentAttribute,
+		unsetComponentAttribute,
+	} = useBlueprint();
+
+	let component = getComponentById(clientId);
 
 	const ref = useRef(null);
 	const attributeNameRef = useRef(null);
@@ -58,19 +58,10 @@ function BlueprintComponentAttribute({
 
 	const onChangeAttributeName = useCallback(
 		(newAttributeName) => {
-			dispatch(
-				unsetComponentAttribute({
-					clientId,
-					attribute: _attributeName,
-				}),
-			);
-
-			dispatch(
-				setComponentAttribute({
-					clientId,
-					attribute: newAttributeName,
-					value: _attributeValue,
-				}),
+			renameComponentAttribute(
+				clientId,
+				_attributeName,
+				newAttributeName,
 			);
 
 			dispatch(
@@ -88,13 +79,7 @@ function BlueprintComponentAttribute({
 
 	const onChangeAttributeValue = useCallback(
 		(newAttributeValue) => {
-			dispatch(
-				setComponentAttribute({
-					clientId,
-					attribute: _attributeName,
-					value: newAttributeValue,
-				}),
-			);
+			setComponentAttribute(clientId, _attributeName, newAttributeValue);
 
 			dispatch(
 				setFocus({
@@ -114,12 +99,7 @@ function BlueprintComponentAttribute({
 			return;
 		}
 
-		dispatch(
-			unsetComponentAttribute({
-				clientId,
-				attribute: _attributeName,
-			}),
-		);
+		unsetComponentAttribute(clientId, _attributeName);
 	}, [_attributeName, _attributeValue]);
 
 	const onFocusAttributeName = useCallback(() => {
