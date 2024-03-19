@@ -20,7 +20,11 @@ const insertNewComponentAtPosition = (state, action) => {
 
 	state.blockComponents = {
 		...state.blockComponents,
-		[clientId]: component,
+		[clientId]: Object.entries(component).map(([name, value]) => ({
+			clientId: getUniqueClientId(),
+			name,
+			value,
+		})),
 	};
 
 	setComponentList(state, {

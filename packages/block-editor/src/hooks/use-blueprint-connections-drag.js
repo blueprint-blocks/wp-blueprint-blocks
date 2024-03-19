@@ -7,9 +7,9 @@ import useMouseFocus from "./use-mouse-focus";
 
 const useBlueprintConnectionsDrag = (ref, clientId) => {
 	const hasMouseFocus = useMouseFocus(ref);
-	const { getComponentById, setComponentAttribute, unsetComponentAttribute } =
+	const { getComponentType, setComponentAttribute, unsetComponentAttribute } =
 		useBlueprint();
-	const { type = "html" } = getComponentById(clientId);
+	const type = getComponentType(clientId);
 	const hasAttributeHandle = useMemo(() => type !== "html", [type]);
 
 	if (!hasAttributeHandle) {

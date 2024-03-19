@@ -1,8 +1,14 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import { pascalize } from "../functions";
+
 import {
-	getBlockComponent,
+	getComponent,
+	getComponentAttribute,
+	getComponentAttributes,
+	getComponentTagName,
+	getComponentType,
 	renameComponentAttribute,
 	setComponentAttribute,
 	unsetComponentAttribute,
@@ -17,10 +23,49 @@ const useBlueprint = () => {
 		(state) => state.blockBlueprint.blockComponents,
 	);
 
-	const getComponentById = (clientId) =>
+	const _getComponent = (clientId) =>
 		useSelector((state) =>
-			getBlockComponent(state.blockBlueprint, clientId),
+			getComponent(state.blockBlueprint, { clientId }),
 		);
+
+	const _getComponentAttribute = (clientId, attributeName) => {
+		return useSelector((state) =>
+			getComponentAttribute(state.blockBlueprint, {
+				clientId,
+				attributeName,
+			}),
+		);
+	};
+
+	const _getComponentAttributes = (clientId) => {
+		return useSelector((state) =>
+			getComponentAttributes(state.blockBlueprint, {
+				clientId,
+			}),
+		);
+	};
+
+	const _getComponentTagName = (clientId) => {
+		const type = _getComponentType(clientId);
+		const tagName = useSelector((state) =>
+			getComponentTagName(state.blockBlueprint, {
+				clientId,
+			}),
+		);
+
+		return useMemo(
+			() => (type === "html" && (tagName || "div")) || pascalize(type),
+			[tagName, type],
+		);
+	};
+
+	const _getComponentType = (clientId) => {
+		return useSelector((state) =>
+			getComponentType(state.blockBlueprint, {
+				clientId,
+			}),
+		);
+	};
 
 	const getComponentsByAttributeName = useCallback(
 		(attributeName) => {
@@ -49,19 +94,29 @@ const useBlueprint = () => {
 		dispatch(setChanged(true));
 	};
 
-	const _setComponentAttribute = (clientId, attribute, value) => {
-		dispatch(setComponentAttribute({ clientId, attribute, value }));
+	const _setComponentAttribute = (
+		clientId,
+		attributeName,
+		attributeValue,
+	) => {
+		dispatch(
+			setComponentAttribute({ clientId, attributeName, attributeValue }),
+		);
 		dispatch(setChanged(true));
 	};
 
-	const _unsetComponentAttribute = (clientId, attribute) => {
-		dispatch(unsetComponentAttribute({ clientId, attribute }));
+	const _unsetComponentAttribute = (clientId, attributeName) => {
+		dispatch(unsetComponentAttribute({ clientId, attributeName }));
 		dispatch(setChanged(true));
 	};
 
 	return {
 		allComponents: blockComponents,
-		getComponentById,
+		getComponent: _getComponent,
+		getComponentAttribute: _getComponentAttribute,
+		getComponentAttributes: _getComponentAttributes,
+		getComponentTagName: _getComponentTagName,
+		getComponentType: _getComponentType,
 		getComponentsByAttributeName,
 		renameComponentAttribute: _renameComponentAttribute,
 		setComponentAttribute: _setComponentAttribute,

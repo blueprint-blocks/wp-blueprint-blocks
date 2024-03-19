@@ -1,15 +1,16 @@
 const unsetComponentAttribute = (state, action) => {
-	const { clientId, attribute } = action.payload;
+	const { clientId, attributeName } = action.payload;
 
 	if (!(clientId in state.blockComponents)) {
 		return;
 	}
 
-	const component = Object.fromEntries(
-		Object.entries(state.blockComponents[clientId]).filter(
-			([name, _]) => name !== attribute,
+	const component = {
+		...state.blockComponents[clientId],
+		attributes: state.blockComponents[clientId].attributes.filter(
+			(attribute) => attribute.name !== attributeName,
 		),
-	);
+	};
 
 	state.blockComponents = {
 		...state.blockComponents,

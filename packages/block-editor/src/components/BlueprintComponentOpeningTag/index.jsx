@@ -1,6 +1,6 @@
 import { useLayoutEffect, useMemo, useRef } from "react";
 
-import { componentAllowsChildren, pascalize } from "../../functions";
+import { componentAllowsChildren, getUniqueClientId } from "../../functions";
 import { useBlockClassName, useBlueprint } from "../../hooks";
 
 import BlueprintComponentAttribute from "../BlueprintComponentAttribute";
@@ -15,50 +15,45 @@ const BlueprintComponentOpeningTag = ({
 	const ref = useRef(null);
 
 	const blockClassName = useBlockClassName();
-	const { getComponentById } = useBlueprint();
+	const { getComponentAttributes, getComponentTagName, getComponentType } =
+		useBlueprint();
 
-	const {
-		tagName = null,
-		type = "html",
-		...component
-	} = getComponentById(clientId);
+	const componentAttributes = getComponentAttributes(clientId);
+	const type = getComponentType(clientId);
+	const tagName = getComponentTagName(clientId);
 
-	const _component = useMemo(() => {
-		const _component = { ...component };
-		if (type !== "html" && tagName !== null) {
-			_component.tagName = tagName;
-		}
-		return _component;
-	}, [component, tagName, type]);
-
-	const _tagName = useMemo(
-		() => (type === "html" && (tagName || "div")) || pascalize(type),
-		[tagName, type],
-	);
-
-	const componentAttributes = useMemo(() => {
-		const componentAttributes = [];
+	const _componentAttributes = useMemo(() => {
+		const _componentAttributes = [];
 
 		if (process.env.NODE_ENV === "development" && env.DEBUG_CLIENT_ID) {
-			componentAttributes.push(["clientId", clientId]);
+			_componentAttributes.push({
+				clientId: getUniqueClientId(),
+				name: "clientId",
+				value: clientId,
+			});
 		}
 
-		Object.entries(_component).forEach(([name, value]) => {
-			if (
-				name === "className" &&
-				value.hasOwnProperty("{{ block._className }}")
-			) {
+		componentAttributes.forEach(({ clientId, name, value }) => {
+			if (name === "className" && "{{ block._className }}" in value) {
 				let classNameValue = { ...value };
 				delete classNameValue["{{ block._className }}"];
 				classNameValue[blockClassName] = true;
-				componentAttributes.push([name, classNameValue]);
+				_componentAttributes.push({
+					clientId,
+					name,
+					value: classNameValue,
+				});
 			} else {
-				componentAttributes.push([name, value]);
+				_componentAttributes.push({
+					clientId,
+					name,
+					value,
+				});
 			}
 		});
 
-		return componentAttributes;
-	}, [blockClassName, clientId, component]);
+		return _componentAttributes;
+	}, [blockClassName, clientId, componentAttributes]);
 
 	const allowsChildren = useMemo(
 		() => componentAllowsChildren(type, tagName),
@@ -66,18 +61,23 @@ const BlueprintComponentOpeningTag = ({
 	);
 
 	const hasAttributes = useMemo(
-		() => componentAttributes.length > 0,
-		[componentAttributes],
+		() => _componentAttributes.length > 0,
+		[_componentAttributes],
 	);
 
 	const hasEmptyAttribute = useMemo(
-		() => "" in componentAttributes,
-		[componentAttributes],
+		() =>
+			_componentAttributes.reduce(
+				(hasEmptyAttribute, attribute) =>
+					hasEmptyAttribute || attribute.name === "",
+				false,
+			),
+		[_componentAttributes],
 	);
 
 	const hasMultipleAttributes = useMemo(
-		() => componentAttributes.length > 1,
-		[componentAttributes],
+		() => _componentAttributes.length > 1,
+		[_componentAttributes],
 	);
 
 	const isMultiLine = useMemo(
@@ -86,26 +86,27 @@ const BlueprintComponentOpeningTag = ({
 	);
 
 	return (
-		<div className="BlueprintComponent-open">
+		<div ref={ref} className="BlueprintComponent-open">
 			<div
 				className={`BlueprintComponent-markup ${(isMultiLine && "is-multi-line") || ""}`}
 			>
 				<div className="BlueprintComponent-line">
 					<span>{`<`}</span>
 					<span className="BlueprintComponent-tagName">
-						{_tagName}
+						{tagName}
 					</span>
 				</div>
-				{componentAttributes.map(([name, value], index) => (
+				{_componentAttributes.map((attribute, index) => (
 					<BlueprintComponentAttribute
-						key={index}
-						clientId={clientId}
+						key={attribute.clientId}
+						clientId={attribute.clientId}
+						componentClientId={clientId}
 						disabled={disabled}
-						attributeName={name}
-						attributeValue={value}
+						attributeName={attribute.name}
+						attributeValue={attribute.value}
 					>
 						{!isMultiLine &&
-							index === componentAttributes.length - 1 && (
+							index === _componentAttributes.length - 1 && (
 								<>
 									{!allowsChildren && <span>{`/`}</span>}
 									<span>{`>`}</span>

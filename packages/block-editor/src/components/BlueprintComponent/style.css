@@ -19,15 +19,11 @@
 
 .BlueprintComponent-markup {
 	display: grid;
-	font-family: var(--font-family-monospace);
-	font-size: var(--font-size-x-small);
-	font-weight: var(--font-weight-bold);
 	gap: 4px;
 	grid-auto-columns: max-content;
 	grid-auto-flow: column;
 	grid-auto-rows: max-content;
 	overflow: auto;
-	white-space: pre;
 	width: 100%;
 
 	&.is-multi-line {
@@ -36,6 +32,13 @@
 		grid-auto-flow: row;
 		justify-items: start;
 	}
+}
+
+.BlueprintComponent-line {
+	font-family: var(--font-family-monospace);
+	font-size: var(--font-size-x-small);
+	font-weight: var(--font-weight-bold);
+	white-space: pre;
 }
 
 .BlueprintComponent-tagName {

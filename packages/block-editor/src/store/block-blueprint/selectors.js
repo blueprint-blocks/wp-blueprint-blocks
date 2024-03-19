@@ -7,9 +7,10 @@ const selectBlockEdit = (state) => state.blockEdit || [];
 const selectBlockToolbar = (state) => state.blockToolbar || [];
 const selectBlockSave = (state) => state.blockSave || [];
 const selectBlockSidebar = (state) => state.blockSidebar || [];
-const selectClientId = (_, clientId) => clientId;
+const selectClientId = (_, { clientId } = {}) => clientId;
+const selectAttributeName = (_, { attributeName } = {}) => attributeName;
 
-const getBlockComponent = createSelector(
+const getComponent = createSelector(
 	[selectBlockComponents, selectClientId],
 	(blockComponents, clientId) => {
 		if (clientId in blockComponents) {
@@ -18,6 +19,30 @@ const getBlockComponent = createSelector(
 		return null;
 	},
 );
+
+const getComponentAttributes = createSelector([getComponent], (component) => {
+	return component?.attributes || [];
+});
+
+const getComponentAttribute = createSelector(
+	[getComponentAttributes, selectAttributeName],
+	(attributes, attributeName) => {
+		for (const attribute of attributes || []) {
+			if (attribute.name === attributeName) {
+				return attribute.value;
+			}
+		}
+		return null;
+	},
+);
+
+const getComponentTagName = createSelector([getComponent], (component) => {
+	return component?.tagName || null;
+});
+
+const getComponentType = createSelector([getComponent], (component) => {
+	return component?.type || "html";
+});
 
 const getComponentList = (state, context) => {
 	if (context === "edit") {
@@ -134,14 +159,24 @@ const rebuildComponentTree = (tree = [], components = {}) => {
 		}
 
 		return {
-			...(components[clientId] || {}),
+			...Object.fromEntries(
+				(components[clientId]?.attributes || []).map(
+					({ name, value }) => [name, value],
+				),
+			),
+			type: components[clientId]?.type || "html",
+			tagName: components[clientId]?.tagName || null,
 			children: rebuildComponentTree(children, components),
 		};
 	});
 };
 
 export {
-	getBlockComponent,
+	getComponent,
+	getComponentAttribute,
+	getComponentAttributes,
+	getComponentTagName,
+	getComponentType,
 	getComponentContext,
 	getComponentList,
 	getComponentListDepth,

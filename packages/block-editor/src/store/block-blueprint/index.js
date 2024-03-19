@@ -4,7 +4,11 @@ import initialState from "./initial-state";
 import reducers from "./reducers";
 
 import {
-	getBlockComponent,
+	getComponent,
+	getComponentAttribute,
+	getComponentAttributes,
+	getComponentTagName,
+	getComponentType,
 	getComponentContext,
 	getComponentList,
 	getComponentListDepth,
@@ -38,7 +42,11 @@ export const {
 } = actions;
 
 export {
-	getBlockComponent,
+	getComponent,
+	getComponentAttribute,
+	getComponentAttributes,
+	getComponentTagName,
+	getComponentType,
 	getComponentContext,
 	getComponentList,
 	getComponentListDepth,

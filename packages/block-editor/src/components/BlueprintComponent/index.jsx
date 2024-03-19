@@ -27,12 +27,12 @@ const BlueprintComponent = memo(
 		const { hasFocus, setFocus, unsetFocus } = useEditorFocus(clientId);
 		const { isDragging, startDragging, stopDragging } = useEditorDrag();
 
-		const { getComponentById } = useBlueprint();
-		const {
-			tagName = null,
-			type = "html",
-			...component
-		} = getComponentById(clientId);
+		const { getComponentAttribute, getComponentTagName, getComponentType } =
+			useBlueprint();
+
+		const attributeName = getComponentAttribute(clientId, "attributeName");
+		const tagName = getComponentTagName(clientId);
+		const type = getComponentType(clientId);
 
 		const allowsChildren = useMemo(
 			() => componentAllowsChildren(type, tagName),
@@ -98,7 +98,7 @@ const BlueprintComponent = memo(
 				<BlueprintComponentOpeningTag clientId={clientId}>
 					{hasAttributeHandle && (
 						<BlueprintConnectionHandle
-							attributeName={component?.attributeName}
+							attributeName={attributeName}
 							clientId={clientId}
 							context="to"
 							isClone={true}
@@ -124,7 +124,7 @@ const BlueprintComponent = memo(
 							>
 								{hasAttributeHandle && (
 									<BlueprintConnectionHandle
-										attributeName={component?.attributeName}
+										attributeName={attributeName}
 										clientId={clientId}
 										context="to"
 										draggingOffset={offset}

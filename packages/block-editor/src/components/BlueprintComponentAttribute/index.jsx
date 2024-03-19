@@ -15,6 +15,7 @@ function BlueprintComponentAttribute({
 	attributeName = "",
 	attributeValue = "",
 	clientId,
+	componentClientId,
 	children = {},
 	disabled = false,
 	...props
@@ -22,13 +23,13 @@ function BlueprintComponentAttribute({
 	const dispatch = useDispatch();
 
 	const {
-		getComponentById,
+		getComponentType,
 		renameComponentAttribute,
 		setComponentAttribute,
 		unsetComponentAttribute,
 	} = useBlueprint();
 
-	let component = getComponentById(clientId);
+	const componentType = getComponentType(componentClientId);
 
 	const ref = useRef(null);
 	const attributeNameRef = useRef(null);
@@ -50,8 +51,8 @@ function BlueprintComponentAttribute({
 	}, [_attributeName]);
 
 	const attributeType = useMemo(
-		() => getComponentAttributeType(component.type, attributeName),
-		[attributeName, component.type],
+		() => getComponentAttributeType(componentType, attributeName),
+		[attributeName, componentType],
 	);
 
 	const { currentFocus } = useSelector((state) => state.editor);
@@ -59,14 +60,14 @@ function BlueprintComponentAttribute({
 	const onChangeAttributeName = useCallback(
 		(newAttributeName) => {
 			renameComponentAttribute(
-				clientId,
+				componentClientId,
 				_attributeName,
 				newAttributeName,
 			);
 
 			dispatch(
 				setFocus({
-					clientId,
+					clientId: componentClientId,
 					context: "component",
 					property: "attributeName",
 					attributeName: newAttributeName,
@@ -79,11 +80,15 @@ function BlueprintComponentAttribute({
 
 	const onChangeAttributeValue = useCallback(
 		(newAttributeValue) => {
-			setComponentAttribute(clientId, _attributeName, newAttributeValue);
+			setComponentAttribute(
+				componentClientId,
+				_attributeName,
+				newAttributeValue,
+			);
 
 			dispatch(
 				setFocus({
-					clientId,
+					clientId: componentClientId,
 					context: "component",
 					property: "attributeValue",
 					attributeName: _attributeName,
@@ -99,13 +104,13 @@ function BlueprintComponentAttribute({
 			return;
 		}
 
-		unsetComponentAttribute(clientId, _attributeName);
+		unsetComponentAttribute(componentClientId, _attributeName);
 	}, [_attributeName, _attributeValue]);
 
 	const onFocusAttributeName = useCallback(() => {
 		dispatch(
 			setFocus({
-				clientId,
+				clientId: componentClientId,
 				context: "component",
 				property: "attributeName",
 				attributeName: _attributeName,
@@ -117,7 +122,7 @@ function BlueprintComponentAttribute({
 	const onFocusAttributeValue = useCallback(() => {
 		dispatch(
 			setFocus({
-				clientId,
+				clientId: componentClientId,
 				context: "component",
 				property: "attributeValue",
 				attributeName: _attributeName,

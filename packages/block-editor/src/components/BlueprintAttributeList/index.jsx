@@ -22,6 +22,7 @@ const BlueprintAttributeList = memo(
 						{blockAttributes.map(({ clientId, name }) => (
 							<BlueprintAttribute
 								attributeName={name}
+								clientId={clientId}
 								key={clientId}
 							/>
 						))}

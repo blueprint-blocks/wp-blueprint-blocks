@@ -21,7 +21,7 @@ import EditableString from "../EditableString";
 
 import "./style.css";
 
-const BlueprintAttribute = memo(({ attributeName = null }) => {
+const BlueprintAttribute = memo(({ attributeName = null, clientId }) => {
 	const ref = useRef(null);
 
 	const { editAttribute, getAttribute, renameAttribute } = useBlockJson();
@@ -113,6 +113,7 @@ const BlueprintAttribute = memo(({ attributeName = null }) => {
 		<div ref={ref} className="BlueprintAttribute">
 			<BlueprintConnectionHandle
 				attributeName={attributeName}
+				clientId={clientId}
 				context="from"
 				position="right"
 			/>

@@ -5,14 +5,26 @@ const renameComponentAttribute = (state, action) => {
 		return;
 	}
 
-	const component = Object.fromEntries(
-		Object.entries(state.blockComponents[clientId]).map(([name, value]) => {
-			if (name === attributeName) {
-				return [newAttributeName, value];
+	const attributeIndex = state.blockComponents[clientId].attributes.reduce(
+		(attributeIndex, attribute, index) => {
+			if (attributeIndex !== false) {
+				return attributeIndex;
 			}
-			return [name, value];
-		}),
+			if (attribute.name === attributeName) {
+				return index;
+			}
+			return false;
+		},
+		false,
 	);
+
+	const component = {
+		...state.blockComponents[clientId],
+	};
+
+	if (attributeIndex !== false) {
+		component.attributes[attributeIndex].name = newAttributeName;
+	}
 
 	state.blockComponents = {
 		...state.blockComponents,

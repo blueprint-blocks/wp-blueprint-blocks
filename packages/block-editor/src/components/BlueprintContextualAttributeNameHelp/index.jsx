@@ -48,20 +48,22 @@ function BlueprintContextualAttributeNameHelp({
 							<>
 								<h5>{"Suggested Values"}</h5>
 								<div className="BlueprintContextualAttributeNameHelp-suggestedValues">
-									{suggestedValues.map((value, index) => (
-										<div
-											key={index}
-											onClick={() =>
-												onClickSuggestedValue &&
-												onClickSuggestedValue({
-													attribute: attributeName,
-													value,
-												})
-											}
-										>
-											<span>{value}</span>
-										</div>
-									))}
+									{suggestedValues.map(
+										(attributeValue, index) => (
+											<div
+												key={index}
+												onClick={() =>
+													onClickSuggestedValue &&
+													onClickSuggestedValue({
+														attributeName,
+														attributeValue,
+													})
+												}
+											>
+												<span>{attributeValue}</span>
+											</div>
+										),
+									)}
 								</div>
 							</>
 						)}

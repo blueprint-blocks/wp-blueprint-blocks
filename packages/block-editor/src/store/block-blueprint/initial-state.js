@@ -24,7 +24,15 @@ function parseComponentTree(components = []) {
 		}
 
 		blockComponents[clientId] = {
-			...component,
+			attributes: Object.entries(component)
+				.filter(([name, _]) => !["tagName", "type"].includes(name))
+				.map(([name, value]) => ({
+					clientId: getUniqueClientId(),
+					name,
+					value,
+				})),
+			tagName: component?.tagName || null,
+			type: component?.type || "html",
 		};
 
 		clientIds.push([clientId, childClientIds]);

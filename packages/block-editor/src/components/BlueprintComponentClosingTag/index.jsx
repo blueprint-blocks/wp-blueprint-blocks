@@ -1,33 +1,19 @@
-import { useMemo, useRef } from "react";
-
-import { pascalize } from "../../functions";
+import { useRef } from "react";
 import { useBlueprint } from "../../hooks";
-
 import BlueprintDebugRect from "../BlueprintDebugRect";
 
 const BlueprintComponentClosingTag = ({ clientId }) => {
 	const ref = useRef(null);
-
-	const { getComponentById } = useBlueprint();
-
-	const {
-		tagName = null,
-		type = "html",
-		...component
-	} = getComponentById(clientId);
-
-	const _tagName = useMemo(
-		() => (type === "html" && tagName) || pascalize(type),
-		[tagName, type],
-	);
+	const { getComponentTagName } = useBlueprint();
+	const tagName = getComponentTagName(clientId);
 
 	return (
-		<div className="BlueprintComponent-close">
+		<div ref={ref} className="BlueprintComponent-close">
 			<div className="BlueprintComponent-markup">
 				<div className="BlueprintComponent-line">
 					<span>{`</`}</span>
 					<span className="BlueprintComponent-tagName">
-						{_tagName}
+						{tagName}
 					</span>
 					<span>{`>`}</span>
 				</div>

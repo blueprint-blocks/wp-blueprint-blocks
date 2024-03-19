@@ -7461,7 +7461,7 @@
 	  };
 	};
 
-	var _excluded$e = ["isValid"];
+	var _excluded$c = ["isValid"];
 	var validateBlockJson = function validateBlockJson(blockJson) {
 	  var validations = blockJsonValidation.map(function (_ref) {
 	    var propertyName = _ref.propertyName,
@@ -7479,7 +7479,7 @@
 	  }, true);
 	  var errors = validations.filter(function (_ref2) {
 	    var isValid = _ref2.isValid;
-	      _objectWithoutProperties(_ref2, _excluded$e);
+	      _objectWithoutProperties(_ref2, _excluded$c);
 	    return isValid === false;
 	  });
 	  return {
@@ -7497,7 +7497,7 @@
 	};
 
 	var _blueprintBlocksEdito$a;
-	var _excluded$d = ["children"];
+	var _excluded$b = ["children"];
 	var blockComponents = {};
 	function parseComponentTree() {
 	  var components = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -7508,7 +7508,7 @@
 	  components.forEach(function (_ref) {
 	    var _ref$children = _ref.children,
 	      children = _ref$children === void 0 ? [] : _ref$children,
-	      component = _objectWithoutProperties(_ref, _excluded$d);
+	      component = _objectWithoutProperties(_ref, _excluded$b);
 	    var clientId = getUniqueClientId();
 	    var childClientIds = [];
 	    if (children.length > 0) {
@@ -7517,14 +7517,32 @@
 	    if (component !== null && component !== void 0 && component.className) {
 	      component.className = normalizeClasslistAsObject(component === null || component === void 0 ? void 0 : component.className);
 	    }
-	    blockComponents[clientId] = _objectSpread2({}, component);
+	    blockComponents[clientId] = {
+	      attributes: Object.entries(component).filter(function (_ref2) {
+	        var _ref3 = _slicedToArray(_ref2, 2),
+	          name = _ref3[0];
+	          _ref3[1];
+	        return !["tagName", "type"].includes(name);
+	      }).map(function (_ref4) {
+	        var _ref5 = _slicedToArray(_ref4, 2),
+	          name = _ref5[0],
+	          value = _ref5[1];
+	        return {
+	          clientId: getUniqueClientId(),
+	          name: name,
+	          value: value
+	        };
+	      }),
+	      tagName: (component === null || component === void 0 ? void 0 : component.tagName) || null,
+	      type: (component === null || component === void 0 ? void 0 : component.type) || "html"
+	    };
 	    clientIds.push([clientId, childClientIds]);
 	  });
 	  return clientIds;
 	}
-	var _ref2 = ((_blueprintBlocksEdito$a = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$a === void 0 ? void 0 : _blueprintBlocksEdito$a.blockMetadata) || {},
-	  _ref2$blockBlueprint = _ref2.blockBlueprint,
-	  blockBlueprint = _ref2$blockBlueprint === void 0 ? {} : _ref2$blockBlueprint;
+	var _ref6 = ((_blueprintBlocksEdito$a = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$a === void 0 ? void 0 : _blueprintBlocksEdito$a.blockMetadata) || {},
+	  _ref6$blockBlueprint = _ref6.blockBlueprint,
+	  blockBlueprint = _ref6$blockBlueprint === void 0 ? {} : _ref6$blockBlueprint;
 	var blockEdit = parseComponentTree((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockEdit) || []);
 	var blockToolbar = parseComponentTree((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockToolbar) || []);
 	var blockSave = parseComponentTree((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockSave) || []);
@@ -7600,14 +7618,47 @@
 	var selectBlockSidebar = function selectBlockSidebar(state) {
 	  return state.blockSidebar || [];
 	};
-	var selectClientId$1 = function selectClientId(_, clientId) {
+	var selectClientId$1 = function selectClientId(_) {
+	  var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+	    clientId = _ref.clientId;
 	  return clientId;
 	};
-	var getBlockComponent = createSelector([selectBlockComponents, selectClientId$1], function (blockComponents, clientId) {
+	var selectAttributeName$3 = function selectAttributeName(_) {
+	  var _ref2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+	    attributeName = _ref2.attributeName;
+	  return attributeName;
+	};
+	var getComponent = createSelector([selectBlockComponents, selectClientId$1], function (blockComponents, clientId) {
 	  if (clientId in blockComponents) {
 	    return blockComponents[clientId];
 	  }
 	  return null;
+	});
+	var getComponentAttributes = createSelector([getComponent], function (component) {
+	  return (component === null || component === void 0 ? void 0 : component.attributes) || [];
+	});
+	var getComponentAttribute = createSelector([getComponentAttributes, selectAttributeName$3], function (attributes, attributeName) {
+	  var _iterator = _createForOfIteratorHelper(attributes || []),
+	    _step;
+	  try {
+	    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+	      var attribute = _step.value;
+	      if (attribute.name === attributeName) {
+	        return attribute.value;
+	      }
+	    }
+	  } catch (err) {
+	    _iterator.e(err);
+	  } finally {
+	    _iterator.f();
+	  }
+	  return null;
+	});
+	var getComponentTagName = createSelector([getComponent], function (component) {
+	  return (component === null || component === void 0 ? void 0 : component.tagName) || null;
+	});
+	var getComponentType = createSelector([getComponent], function (component) {
+	  return (component === null || component === void 0 ? void 0 : component.type) || "html";
 	});
 	var getComponentList = function getComponentList(state, context) {
 	  if (context === "edit") {
@@ -7638,10 +7689,10 @@
 	  var getDepth = function getDepth() {
 	    var list = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	    var depth = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-	    list.forEach(function (_ref) {
-	      var _ref2 = _slicedToArray(_ref, 2);
-	        _ref2[0];
-	        var list = _ref2[1];
+	    list.forEach(function (_ref3) {
+	      var _ref4 = _slicedToArray(_ref3, 2);
+	        _ref4[0];
+	        var list = _ref4[1];
 	      if (Array.isArray(list) && list.length > 0) {
 	        depth = Math.max(depth, getDepth(list, depth + 1));
 	      }
@@ -7665,10 +7716,10 @@
 	    }
 	  }
 	};
-	var getComponentPositionInList = function getComponentPositionInList(state, _ref3) {
-	  var clientId = _ref3.clientId,
-	    _ref3$list = _ref3.list,
-	    list = _ref3$list === void 0 ? [] : _ref3$list;
+	var getComponentPositionInList = function getComponentPositionInList(state, _ref5) {
+	  var clientId = _ref5.clientId,
+	    _ref5$list = _ref5.list,
+	    list = _ref5$list === void 0 ? [] : _ref5$list;
 	  if (!Array.isArray(list) || !list.length) {
 	    return null;
 	  }
@@ -7705,15 +7756,22 @@
 	  if (!tree) {
 	    return [];
 	  }
-	  return tree.map(function (_ref4) {
-	    var _ref5 = _slicedToArray(_ref4, 2),
-	      clientId = _ref5[0],
-	      _ref5$ = _ref5[1],
-	      children = _ref5$ === void 0 ? [] : _ref5$;
+	  return tree.map(function (_ref6) {
+	    var _components$clientId, _components$clientId2, _components$clientId3;
+	    var _ref7 = _slicedToArray(_ref6, 2),
+	      clientId = _ref7[0],
+	      _ref7$ = _ref7[1],
+	      children = _ref7$ === void 0 ? [] : _ref7$;
 	    if (!(clientId in components)) {
 	      return null;
 	    }
-	    return _objectSpread2(_objectSpread2({}, components[clientId] || {}), {}, {
+	    return _objectSpread2(_objectSpread2({}, Object.fromEntries((((_components$clientId = components[clientId]) === null || _components$clientId === void 0 ? void 0 : _components$clientId.attributes) || []).map(function (_ref8) {
+	      var name = _ref8.name,
+	        value = _ref8.value;
+	      return [name, value];
+	    }))), {}, {
+	      type: ((_components$clientId2 = components[clientId]) === null || _components$clientId2 === void 0 ? void 0 : _components$clientId2.type) || "html",
+	      tagName: ((_components$clientId3 = components[clientId]) === null || _components$clientId3 === void 0 ? void 0 : _components$clientId3.tagName) || null,
 	      children: rebuildComponentTree(children, components)
 	    });
 	  });
@@ -7823,7 +7881,16 @@
 	    componentList: getComponentList(state, context),
 	    position: position
 	  });
-	  state.blockComponents = _objectSpread2(_objectSpread2({}, state.blockComponents), {}, _defineProperty$1({}, clientId, component));
+	  state.blockComponents = _objectSpread2(_objectSpread2({}, state.blockComponents), {}, _defineProperty$1({}, clientId, Object.entries(component).map(function (_ref2) {
+	    var _ref3 = _slicedToArray(_ref2, 2),
+	      name = _ref3[0],
+	      value = _ref3[1];
+	    return {
+	      clientId: getUniqueClientId(),
+	      name: name,
+	      value: value
+	    };
+	  })));
 	  setComponentList(state, {
 	    payload: {
 	      context: context,
@@ -7916,28 +7983,49 @@
 	  if (!(clientId in state.blockComponents)) {
 	    return;
 	  }
-	  var component = Object.fromEntries(Object.entries(state.blockComponents[clientId]).map(function (_ref) {
-	    var _ref2 = _slicedToArray(_ref, 2),
-	      name = _ref2[0],
-	      value = _ref2[1];
-	    if (name === attributeName) {
-	      return [newAttributeName, value];
+	  var attributeIndex = state.blockComponents[clientId].attributes.reduce(function (attributeIndex, attribute, index) {
+	    if (attributeIndex !== false) {
+	      return attributeIndex;
 	    }
-	    return [name, value];
-	  }));
+	    if (attribute.name === attributeName) {
+	      return index;
+	    }
+	    return false;
+	  }, false);
+	  var component = _objectSpread2({}, state.blockComponents[clientId]);
+	  if (attributeIndex !== false) {
+	    component.attributes[attributeIndex].name = newAttributeName;
+	  }
 	  state.blockComponents = _objectSpread2(_objectSpread2({}, state.blockComponents), {}, _defineProperty$1({}, clientId, component));
 	};
 
 	var setComponentAttribute$1 = function setComponentAttribute(state, action) {
 	  var _action$payload = action.payload,
 	    clientId = _action$payload.clientId,
-	    attribute = _action$payload.attribute,
-	    value = _action$payload.value;
+	    attributeName = _action$payload.attributeName,
+	    attributeValue = _action$payload.attributeValue;
 	  if (!(clientId in state.blockComponents)) {
 	    return;
 	  }
+	  var attributeIndex = state.blockComponents[clientId].attributes.reduce(function (attributeIndex, attribute, index) {
+	    if (attributeIndex !== false) {
+	      return attributeIndex;
+	    }
+	    if (attribute.name === attributeName) {
+	      return index;
+	    }
+	    return false;
+	  }, false);
 	  var component = _objectSpread2({}, state.blockComponents[clientId]);
-	  component[attribute] = value;
+	  if (attributeIndex !== false) {
+	    component.attributes[attributeIndex].value = attributeValue;
+	  } else {
+	    component.attributes.push({
+	      clientId: getUniqueClientId(),
+	      name: attributeName,
+	      value: attributeValue
+	    });
+	  }
 	  state.blockComponents = _objectSpread2(_objectSpread2({}, state.blockComponents), {}, _defineProperty$1({}, clientId, component));
 	};
 
@@ -7960,16 +8048,15 @@
 	var unsetComponentAttribute$1 = function unsetComponentAttribute(state, action) {
 	  var _action$payload = action.payload,
 	    clientId = _action$payload.clientId,
-	    attribute = _action$payload.attribute;
+	    attributeName = _action$payload.attributeName;
 	  if (!(clientId in state.blockComponents)) {
 	    return;
 	  }
-	  var component = Object.fromEntries(Object.entries(state.blockComponents[clientId]).filter(function (_ref) {
-	    var _ref2 = _slicedToArray(_ref, 2),
-	      name = _ref2[0];
-	      _ref2[1];
-	    return name !== attribute;
-	  }));
+	  var component = _objectSpread2(_objectSpread2({}, state.blockComponents[clientId]), {}, {
+	    attributes: state.blockComponents[clientId].attributes.filter(function (attribute) {
+	      return attribute.name !== attributeName;
+	    })
+	  });
 	  state.blockComponents = _objectSpread2(_objectSpread2({}, state.blockComponents), {}, _defineProperty$1({}, clientId, component));
 	};
 
@@ -8043,7 +8130,7 @@
 	  });
 	});
 
-	var _excluded$c = ["name", "type"];
+	var _excluded$a = ["name", "type"];
 	var selectAttributes$2 = function selectAttributes(state) {
 	  return state.attributes;
 	};
@@ -8061,7 +8148,7 @@
 	      var name = _ref.name,
 	        _ref$type = _ref.type,
 	        type = _ref$type === void 0 ? "string" : _ref$type,
-	        attribute = _objectWithoutProperties(_ref, _excluded$c);
+	        attribute = _objectWithoutProperties(_ref, _excluded$a);
 	      if (name === attributeName) {
 	        return _objectSpread2(_objectSpread2({}, attribute), {}, {
 	          name: name,
@@ -8118,7 +8205,7 @@
 	  return version;
 	};
 
-	var _excluded$b = ["clientId", "name"];
+	var _excluded$9 = ["clientId", "name"];
 	var selectAttributes = function selectAttributes(state) {
 	  return state.attributes || [];
 	};
@@ -8163,7 +8250,7 @@
 	    attributes: Object.fromEntries(attributes.map(function (_ref) {
 	      _ref.clientId;
 	        var name = _ref.name,
-	        attribute = _objectWithoutProperties(_ref, _excluded$b);
+	        attribute = _objectWithoutProperties(_ref, _excluded$9);
 	      return [name, attribute];
 	    })),
 	    supports: supports,
@@ -8483,12 +8570,12 @@
 	  state.currentDraggingContext = null;
 	};
 
-	var _excluded$a = ["context"];
+	var _excluded$8 = ["context"];
 	var setFocus$1 = function setFocus(state, action) {
 	  var _ref = action.payload || {},
 	    _ref$context = _ref.context,
 	    context = _ref$context === void 0 ? null : _ref$context,
-	    props = _objectWithoutProperties(_ref, _excluded$a);
+	    props = _objectWithoutProperties(_ref, _excluded$8);
 	  if (context === null) {
 	    return;
 	  }
@@ -8703,8 +8790,8 @@
 	  return n;
 	}
 
-	var _excluded$9 = ["id"],
-	  _excluded2$3 = ["id"];
+	var _excluded$7 = ["id"],
+	  _excluded2$1 = ["id"];
 	function saveNewBlock(_ref) {
 	  var postType = _ref.postType,
 	    blockJson = _ref.blockJson,
@@ -8727,7 +8814,7 @@
 	      }
 	    }).then(function (_ref2) {
 	      var id = _ref2.id;
-	        _objectWithoutProperties(_ref2, _excluded$9);
+	        _objectWithoutProperties(_ref2, _excluded$7);
 	      resolve({
 	        id: id
 	      });
@@ -8757,7 +8844,7 @@
 	      }
 	    }).then(function (_ref4) {
 	      var id = _ref4.id;
-	        _objectWithoutProperties(_ref4, _excluded2$3);
+	        _objectWithoutProperties(_ref4, _excluded2$1);
 	      resolve({
 	        id: id
 	      });
@@ -8849,9 +8936,44 @@
 	  var blockComponents = useSelector(function (state) {
 	    return state.blockBlueprint.blockComponents;
 	  });
-	  var getComponentById = function getComponentById(clientId) {
+	  var _getComponent = function _getComponent(clientId) {
 	    return useSelector(function (state) {
-	      return getBlockComponent(state.blockBlueprint, clientId);
+	      return getComponent(state.blockBlueprint, {
+	        clientId: clientId
+	      });
+	    });
+	  };
+	  var _getComponentAttribute = function _getComponentAttribute(clientId, attributeName) {
+	    return useSelector(function (state) {
+	      return getComponentAttribute(state.blockBlueprint, {
+	        clientId: clientId,
+	        attributeName: attributeName
+	      });
+	    });
+	  };
+	  var _getComponentAttributes = function _getComponentAttributes(clientId) {
+	    return useSelector(function (state) {
+	      return getComponentAttributes(state.blockBlueprint, {
+	        clientId: clientId
+	      });
+	    });
+	  };
+	  var _getComponentTagName = function _getComponentTagName(clientId) {
+	    var type = _getComponentType(clientId);
+	    var tagName = useSelector(function (state) {
+	      return getComponentTagName(state.blockBlueprint, {
+	        clientId: clientId
+	      });
+	    });
+	    return React$2.useMemo(function () {
+	      return type === "html" && (tagName || "div") || pascalize(type);
+	    }, [tagName, type]);
+	  };
+	  var _getComponentType = function _getComponentType(clientId) {
+	    return useSelector(function (state) {
+	      return getComponentType(state.blockBlueprint, {
+	        clientId: clientId
+	      });
 	    });
 	  };
 	  var getComponentsByAttributeName = React$2.useCallback(function (attributeName) {
@@ -8870,24 +8992,28 @@
 	    }));
 	    dispatch(setChanged(true));
 	  };
-	  var _setComponentAttribute = function _setComponentAttribute(clientId, attribute, value) {
+	  var _setComponentAttribute = function _setComponentAttribute(clientId, attributeName, attributeValue) {
 	    dispatch(setComponentAttribute({
 	      clientId: clientId,
-	      attribute: attribute,
-	      value: value
+	      attributeName: attributeName,
+	      attributeValue: attributeValue
 	    }));
 	    dispatch(setChanged(true));
 	  };
-	  var _unsetComponentAttribute = function _unsetComponentAttribute(clientId, attribute) {
+	  var _unsetComponentAttribute = function _unsetComponentAttribute(clientId, attributeName) {
 	    dispatch(unsetComponentAttribute({
 	      clientId: clientId,
-	      attribute: attribute
+	      attributeName: attributeName
 	    }));
 	    dispatch(setChanged(true));
 	  };
 	  return {
 	    allComponents: blockComponents,
-	    getComponentById: getComponentById,
+	    getComponent: _getComponent,
+	    getComponentAttribute: _getComponentAttribute,
+	    getComponentAttributes: _getComponentAttributes,
+	    getComponentTagName: _getComponentTagName,
+	    getComponentType: _getComponentType,
 	    getComponentsByAttributeName: getComponentsByAttributeName,
 	    renameComponentAttribute: _renameComponentAttribute,
 	    setComponentAttribute: _setComponentAttribute,
@@ -9254,12 +9380,10 @@
 	var useBlueprintConnectionsDrag = function useBlueprintConnectionsDrag(ref, clientId) {
 	  var hasMouseFocus = useMouseFocus(ref);
 	  var _useBlueprint = useBlueprint(),
-	    getComponentById = _useBlueprint.getComponentById,
+	    getComponentType = _useBlueprint.getComponentType,
 	    setComponentAttribute = _useBlueprint.setComponentAttribute,
 	    unsetComponentAttribute = _useBlueprint.unsetComponentAttribute;
-	  var _getComponentById = getComponentById(clientId),
-	    _getComponentById$typ = _getComponentById.type,
-	    type = _getComponentById$typ === void 0 ? "html" : _getComponentById$typ;
+	  var type = getComponentType(clientId);
 	  var hasAttributeHandle = React$2.useMemo(function () {
 	    return type !== "html";
 	  }, [type]);
@@ -14535,8 +14659,8 @@
 	var cjsExports = cjs.exports;
 	var Draggable$1 = /*@__PURE__*/getDefaultExportFromCjs(cjsExports);
 
-	var _excluded$8 = ["attributeName", "clientId", "context", "draggingOffset", "isClone", "isDragging"],
-	  _excluded2$2 = ["isDragging", "offset"];
+	var _excluded$6 = ["attributeName", "clientId", "context", "draggingOffset", "isClone", "isDragging"],
+	  _excluded2 = ["isDragging", "offset"];
 	function BlueprintConnectionHandle(_ref) {
 	  var attributeName = _ref.attributeName,
 	    _ref$clientId = _ref.clientId,
@@ -14552,7 +14676,7 @@
 	    isClone = _ref$isClone === void 0 ? false : _ref$isClone,
 	    _ref$isDragging = _ref.isDragging,
 	    isDragging = _ref$isDragging === void 0 ? false : _ref$isDragging,
-	    props = _objectWithoutProperties(_ref, _excluded$8);
+	    props = _objectWithoutProperties(_ref, _excluded$6);
 	  var dispatch = useDispatch();
 	  var editorContext = React$2.useContext(BlueprintEditorContext);
 	  var id = clientId || React$2.useId();
@@ -14662,7 +14786,7 @@
 	    }),
 	    isDraggingSelf = _useDragWithinEditor.isDragging,
 	    selfDraggingOffset = _useDragWithinEditor.offset,
-	    draggableProps = _objectWithoutProperties(_useDragWithinEditor, _excluded2$2);
+	    draggableProps = _objectWithoutProperties(_useDragWithinEditor, _excluded2);
 	  var _useEditorDrag = useEditorDrag();
 	    _useEditorDrag.isDragging;
 	    _useEditorDrag.context;
@@ -14725,7 +14849,8 @@
 
 	var BlueprintAttribute = /*#__PURE__*/React$2.memo(function (_ref) {
 	  var _ref$attributeName = _ref.attributeName,
-	    attributeName = _ref$attributeName === void 0 ? null : _ref$attributeName;
+	    attributeName = _ref$attributeName === void 0 ? null : _ref$attributeName,
+	    clientId = _ref.clientId;
 	  var ref = React$2.useRef(null);
 	  var _useBlockJson = useBlockJson(),
 	    editAttribute = _useBlockJson.editAttribute,
@@ -14785,6 +14910,7 @@
 	    className: "BlueprintAttribute",
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionHandle, {
 	      attributeName: attributeName,
+	      clientId: clientId,
 	      context: "from",
 	      position: "right"
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
@@ -14913,7 +15039,8 @@
 	        var clientId = _ref2.clientId,
 	          name = _ref2.name;
 	        return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintAttribute, {
-	          attributeName: name
+	          attributeName: name,
+	          clientId: clientId
 	        }, clientId);
 	      })
 	    }), Object.keys(blockAttributes).length === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintHint, {
@@ -14926,22 +15053,14 @@
 	  });
 	}));
 
-	var _excluded$7 = ["tagName", "type"];
 	var BlueprintComponentClosingTag = function BlueprintComponentClosingTag(_ref) {
 	  var clientId = _ref.clientId;
-	  React$2.useRef(null);
+	  var ref = React$2.useRef(null);
 	  var _useBlueprint = useBlueprint(),
-	    getComponentById = _useBlueprint.getComponentById;
-	  var _getComponentById = getComponentById(clientId),
-	    _getComponentById$tag = _getComponentById.tagName,
-	    tagName = _getComponentById$tag === void 0 ? null : _getComponentById$tag,
-	    _getComponentById$typ = _getComponentById.type,
-	    type = _getComponentById$typ === void 0 ? "html" : _getComponentById$typ;
-	    _objectWithoutProperties(_getComponentById, _excluded$7);
-	  var _tagName = React$2.useMemo(function () {
-	    return type === "html" && tagName || pascalize(type);
-	  }, [tagName, type]);
+	    getComponentTagName = _useBlueprint.getComponentTagName;
+	  var tagName = getComponentTagName(clientId);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    ref: ref,
 	    className: "BlueprintComponent-close",
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintComponent-markup",
@@ -14951,7 +15070,7 @@
 	          children: "</"
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	          className: "BlueprintComponent-tagName",
-	          children: _tagName
+	          children: tagName
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	          children: ">"
 	        })]
@@ -14960,25 +15079,26 @@
 	  });
 	};
 
-	var _excluded$6 = ["attributeName", "attributeValue", "clientId", "children", "disabled"];
+	var _excluded$5 = ["attributeName", "attributeValue", "clientId", "componentClientId", "children", "disabled"];
 	function BlueprintComponentAttribute(_ref) {
 	  var _ref$attributeName = _ref.attributeName,
 	    attributeName = _ref$attributeName === void 0 ? "" : _ref$attributeName,
 	    _ref$attributeValue = _ref.attributeValue,
-	    attributeValue = _ref$attributeValue === void 0 ? "" : _ref$attributeValue,
-	    clientId = _ref.clientId,
+	    attributeValue = _ref$attributeValue === void 0 ? "" : _ref$attributeValue;
+	    _ref.clientId;
+	    var componentClientId = _ref.componentClientId,
 	    _ref$children = _ref.children,
 	    children = _ref$children === void 0 ? {} : _ref$children,
 	    _ref$disabled = _ref.disabled,
 	    disabled = _ref$disabled === void 0 ? false : _ref$disabled;
-	    _objectWithoutProperties(_ref, _excluded$6);
+	    _objectWithoutProperties(_ref, _excluded$5);
 	  var dispatch = useDispatch();
 	  var _useBlueprint = useBlueprint(),
-	    getComponentById = _useBlueprint.getComponentById,
+	    getComponentType = _useBlueprint.getComponentType,
 	    renameComponentAttribute = _useBlueprint.renameComponentAttribute,
 	    setComponentAttribute = _useBlueprint.setComponentAttribute,
 	    unsetComponentAttribute = _useBlueprint.unsetComponentAttribute;
-	  var component = getComponentById(clientId);
+	  var componentType = getComponentType(componentClientId);
 	  var ref = React$2.useRef(null);
 	  var attributeNameRef = React$2.useRef(null);
 	  var _attributeName = React$2.useMemo(function () {
@@ -14998,16 +15118,16 @@
 	    return true;
 	  }, [_attributeName]);
 	  var attributeType = React$2.useMemo(function () {
-	    return getComponentAttributeType(component.type, attributeName);
-	  }, [attributeName, component.type]);
+	    return getComponentAttributeType(componentType, attributeName);
+	  }, [attributeName, componentType]);
 	  var _useSelector = useSelector(function (state) {
 	      return state.editor;
 	    });
 	    _useSelector.currentFocus;
 	  var onChangeAttributeName = React$2.useCallback(function (newAttributeName) {
-	    renameComponentAttribute(clientId, _attributeName, newAttributeName);
+	    renameComponentAttribute(componentClientId, _attributeName, newAttributeName);
 	    dispatch(setFocus({
-	      clientId: clientId,
+	      clientId: componentClientId,
 	      context: "component",
 	      property: "attributeName",
 	      attributeName: newAttributeName,
@@ -15015,9 +15135,9 @@
 	    }));
 	  }, [_attributeName, _attributeValue]);
 	  var onChangeAttributeValue = React$2.useCallback(function (newAttributeValue) {
-	    setComponentAttribute(clientId, _attributeName, newAttributeValue);
+	    setComponentAttribute(componentClientId, _attributeName, newAttributeValue);
 	    dispatch(setFocus({
-	      clientId: clientId,
+	      clientId: componentClientId,
 	      context: "component",
 	      property: "attributeValue",
 	      attributeName: _attributeName,
@@ -15028,11 +15148,11 @@
 	    if (String(_attributeValue).length > 0) {
 	      return;
 	    }
-	    unsetComponentAttribute(clientId, _attributeName);
+	    unsetComponentAttribute(componentClientId, _attributeName);
 	  }, [_attributeName, _attributeValue]);
 	  var onFocusAttributeName = React$2.useCallback(function () {
 	    dispatch(setFocus({
-	      clientId: clientId,
+	      clientId: componentClientId,
 	      context: "component",
 	      property: "attributeName",
 	      attributeName: _attributeName,
@@ -15041,7 +15161,7 @@
 	  }, [_attributeName, _attributeValue]);
 	  var onFocusAttributeValue = React$2.useCallback(function () {
 	    dispatch(setFocus({
-	      clientId: clientId,
+	      clientId: componentClientId,
 	      context: "component",
 	      property: "attributeValue",
 	      attributeName: _attributeName,
@@ -15116,66 +15236,65 @@
 	  });
 	});
 
-	var _excluded$5 = ["tagName", "type"];
 	var BlueprintComponentOpeningTag = function BlueprintComponentOpeningTag(_ref) {
 	  var _ref$children = _ref.children,
 	    children = _ref$children === void 0 ? [] : _ref$children,
 	    clientId = _ref.clientId,
 	    _ref$disabled = _ref.disabled,
 	    disabled = _ref$disabled === void 0 ? false : _ref$disabled;
-	  React$2.useRef(null);
+	  var ref = React$2.useRef(null);
 	  var blockClassName = useBlockNamespace();
 	  var _useBlueprint = useBlueprint(),
-	    getComponentById = _useBlueprint.getComponentById;
-	  var _getComponentById = getComponentById(clientId),
-	    _getComponentById$tag = _getComponentById.tagName,
-	    tagName = _getComponentById$tag === void 0 ? null : _getComponentById$tag,
-	    _getComponentById$typ = _getComponentById.type,
-	    type = _getComponentById$typ === void 0 ? "html" : _getComponentById$typ,
-	    component = _objectWithoutProperties(_getComponentById, _excluded$5);
-	  var _component = React$2.useMemo(function () {
-	    var _component = _objectSpread2({}, component);
-	    if (type !== "html" && tagName !== null) {
-	      _component.tagName = tagName;
-	    }
-	    return _component;
-	  }, [component, tagName, type]);
-	  var _tagName = React$2.useMemo(function () {
-	    return type === "html" && (tagName || "div") || pascalize(type);
-	  }, [tagName, type]);
-	  var componentAttributes = React$2.useMemo(function () {
-	    var componentAttributes = [];
-	    Object.entries(_component).forEach(function (_ref2) {
-	      var _ref3 = _slicedToArray(_ref2, 2),
-	        name = _ref3[0],
-	        value = _ref3[1];
-	      if (name === "className" && value.hasOwnProperty("{{ block._className }}")) {
+	    getComponentAttributes = _useBlueprint.getComponentAttributes,
+	    getComponentTagName = _useBlueprint.getComponentTagName,
+	    getComponentType = _useBlueprint.getComponentType;
+	  var componentAttributes = getComponentAttributes(clientId);
+	  var type = getComponentType(clientId);
+	  var tagName = getComponentTagName(clientId);
+	  var _componentAttributes = React$2.useMemo(function () {
+	    var _componentAttributes = [];
+	    componentAttributes.forEach(function (_ref2) {
+	      var clientId = _ref2.clientId,
+	        name = _ref2.name,
+	        value = _ref2.value;
+	      if (name === "className" && "{{ block._className }}" in value) {
 	        var classNameValue = _objectSpread2({}, value);
 	        delete classNameValue["{{ block._className }}"];
 	        classNameValue[blockClassName] = true;
-	        componentAttributes.push([name, classNameValue]);
+	        _componentAttributes.push({
+	          clientId: clientId,
+	          name: name,
+	          value: classNameValue
+	        });
 	      } else {
-	        componentAttributes.push([name, value]);
+	        _componentAttributes.push({
+	          clientId: clientId,
+	          name: name,
+	          value: value
+	        });
 	      }
 	    });
-	    return componentAttributes;
-	  }, [blockClassName, clientId, component]);
+	    return _componentAttributes;
+	  }, [blockClassName, clientId, componentAttributes]);
 	  var allowsChildren = React$2.useMemo(function () {
 	    return componentAllowsChildren(type, tagName);
 	  }, [tagName, type]);
 	  var hasAttributes = React$2.useMemo(function () {
-	    return componentAttributes.length > 0;
-	  }, [componentAttributes]);
+	    return _componentAttributes.length > 0;
+	  }, [_componentAttributes]);
 	  var hasEmptyAttribute = React$2.useMemo(function () {
-	    return "" in componentAttributes;
-	  }, [componentAttributes]);
+	    return _componentAttributes.reduce(function (hasEmptyAttribute, attribute) {
+	      return hasEmptyAttribute || attribute.name === "";
+	    }, false);
+	  }, [_componentAttributes]);
 	  var hasMultipleAttributes = React$2.useMemo(function () {
-	    return componentAttributes.length > 1;
-	  }, [componentAttributes]);
+	    return _componentAttributes.length > 1;
+	  }, [_componentAttributes]);
 	  var isMultiLine = React$2.useMemo(function () {
 	    return type !== "html" || hasMultipleAttributes;
 	  }, [hasMultipleAttributes, type]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    ref: ref,
 	    className: "BlueprintComponent-open",
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	      className: "BlueprintComponent-markup ".concat(isMultiLine && "is-multi-line" || ""),
@@ -15185,25 +15304,23 @@
 	          children: "<"
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	          className: "BlueprintComponent-tagName",
-	          children: _tagName
+	          children: tagName
 	        })]
-	      }), componentAttributes.map(function (_ref4, index) {
-	        var _ref5 = _slicedToArray(_ref4, 2),
-	          name = _ref5[0],
-	          value = _ref5[1];
+	      }), _componentAttributes.map(function (attribute, index) {
 	        return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentAttribute, {
-	          clientId: clientId,
+	          clientId: attribute.clientId,
+	          componentClientId: clientId,
 	          disabled: disabled,
-	          attributeName: name,
-	          attributeValue: value,
-	          children: !isMultiLine && index === componentAttributes.length - 1 && /*#__PURE__*/jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, {
+	          attributeName: attribute.name,
+	          attributeValue: attribute.value,
+	          children: !isMultiLine && index === _componentAttributes.length - 1 && /*#__PURE__*/jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, {
 	            children: [!allowsChildren && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	              children: "/"
 	            }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	              children: ">"
 	            })]
 	          })
-	        }, index);
+	        }, attribute.clientId);
 	      }), !hasEmptyAttribute && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentInsert, {
 	        clientId: clientId
 	      }), isMultiLine && /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
@@ -15223,8 +15340,7 @@
 	  });
 	};
 
-	var _excluded$4 = ["tagName", "type"],
-	  _excluded2$1 = ["isDragging", "offset"];
+	var _excluded$4 = ["isDragging", "offset"];
 	var BlueprintComponent = /*#__PURE__*/React$2.memo(function (_ref) {
 	  var clientId = _ref.clientId,
 	    _ref$children = _ref.children,
@@ -15243,13 +15359,12 @@
 	    startDragging = _useEditorDrag.startDragging,
 	    stopDragging = _useEditorDrag.stopDragging;
 	  var _useBlueprint = useBlueprint(),
-	    getComponentById = _useBlueprint.getComponentById;
-	  var _getComponentById = getComponentById(clientId),
-	    _getComponentById$tag = _getComponentById.tagName,
-	    tagName = _getComponentById$tag === void 0 ? null : _getComponentById$tag,
-	    _getComponentById$typ = _getComponentById.type,
-	    type = _getComponentById$typ === void 0 ? "html" : _getComponentById$typ,
-	    component = _objectWithoutProperties(_getComponentById, _excluded$4);
+	    getComponentAttribute = _useBlueprint.getComponentAttribute,
+	    getComponentTagName = _useBlueprint.getComponentTagName,
+	    getComponentType = _useBlueprint.getComponentType;
+	  var attributeName = getComponentAttribute(clientId, "attributeName");
+	  var tagName = getComponentTagName(clientId);
+	  var type = getComponentType(clientId);
 	  var allowsChildren = React$2.useMemo(function () {
 	    return componentAllowsChildren(type, tagName);
 	  }, [tagName, type]);
@@ -15281,7 +15396,7 @@
 	    }),
 	    isDraggingSelf = _useDragWithinEditor.isDragging,
 	    offset = _useDragWithinEditor.offset,
-	    draggableProps = _objectWithoutProperties(_useDragWithinEditor, _excluded2$1);
+	    draggableProps = _objectWithoutProperties(_useDragWithinEditor, _excluded$4);
 	  var _useBlueprintConnecti = useBlueprintConnectionsDrag(ref, clientId),
 	    hasDraggingConnectionFocus = _useBlueprintConnecti.hasFocus;
 
@@ -15303,7 +15418,7 @@
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentOpeningTag, {
 	      clientId: clientId,
 	      children: hasAttributeHandle && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionHandle, {
-	        attributeName: component === null || component === void 0 ? void 0 : component.attributeName,
+	        attributeName: attributeName,
 	        clientId: clientId,
 	        context: "to",
 	        isClone: true,
@@ -15321,7 +15436,7 @@
 	          clientId: clientId,
 	          disabled: true,
 	          children: hasAttributeHandle && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionHandle, {
-	            attributeName: component === null || component === void 0 ? void 0 : component.attributeName,
+	            attributeName: attributeName,
 	            clientId: clientId,
 	            context: "to",
 	            draggingOffset: offset,
@@ -15775,16 +15890,16 @@
 	            children: "Suggested Values"
 	          }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	            className: "BlueprintContextualAttributeNameHelp-suggestedValues",
-	            children: suggestedValues.map(function (value, index) {
+	            children: suggestedValues.map(function (attributeValue, index) {
 	              return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	                onClick: function onClick() {
 	                  return onClickSuggestedValue && onClickSuggestedValue({
-	                    attribute: attributeName,
-	                    value: value
+	                    attributeName: attributeName,
+	                    attributeValue: attributeValue
 	                  });
 	                },
 	                children: /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	                  children: value
+	                  children: attributeValue
 	                })
 	              }, index);
 	            })
@@ -15795,11 +15910,14 @@
 	  });
 	}
 
-	var _excluded$2 = ["clientId", "context", "property"],
-	  _excluded2 = ["type"];
+	var _excluded$2 = ["clientId", "context", "property"];
 	var BlueprintSidebarContextPanel = /*#__PURE__*/React$2.memo( /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
 	  _objectDestructuringEmpty(_ref);
-	  var dispatch = useDispatch();
+	  useDispatch();
+	  var _useBlueprint = useBlueprint(),
+	    getComponentType = _useBlueprint.getComponentType,
+	    setComponentAttribute = _useBlueprint.setComponentAttribute,
+	    unsetComponentAttribute = _useBlueprint.unsetComponentAttribute;
 	  var _useSelector = useSelector(function (state) {
 	      return getDraggingContext(state.editor);
 	    }),
@@ -15808,26 +15926,14 @@
 	    context = _useSelector.context;
 	    _useSelector.property;
 	    var currentFocus = _objectWithoutProperties(_useSelector, _excluded$2);
-	  var _ref2 = useSelector(function (state) {
-	      return getBlockComponent(state.blockBlueprint, clientId);
-	    }) || {},
-	    _ref2$type = _ref2.type,
-	    type = _ref2$type === void 0 ? "html" : _ref2$type;
-	    _objectWithoutProperties(_ref2, _excluded2);
-	  var onClickSuggestedValue = function onClickSuggestedValue(_ref3) {
-	    var attribute = _ref3.attribute,
-	      value = _ref3.value;
-	    if (attribute.indexOf(currentFocus === null || currentFocus === void 0 ? void 0 : currentFocus.attributeName) !== -1) {
-	      dispatch(unsetComponentAttribute({
-	        clientId: clientId,
-	        attribute: currentFocus === null || currentFocus === void 0 ? void 0 : currentFocus.attributeName
-	      }));
+	  var type = getComponentType(clientId);
+	  var onClickSuggestedValue = function onClickSuggestedValue(_ref2) {
+	    var attributeName = _ref2.attributeName,
+	      attributeValue = _ref2.attributeValue;
+	    if (attributeName.indexOf(currentFocus === null || currentFocus === void 0 ? void 0 : currentFocus.attributeName) !== -1) {
+	      unsetComponentAttribute(clientId, currentFocus === null || currentFocus === void 0 ? void 0 : currentFocus.attributeName);
 	    }
-	    dispatch(setComponentAttribute({
-	      clientId: clientId,
-	      attribute: attribute,
-	      value: value
-	    }));
+	    setComponentAttribute(clientId, attributeName, attributeValue);
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    ref: ref,

@@ -1,11 +1,7 @@
 import { forwardRef, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-	getBlockComponent,
-	setComponentAttribute,
-	unsetComponentAttribute,
-} from "../../store/block-blueprint";
+import { useBlueprint } from "../../hooks";
 
 import { getFocus as getEditorFocus } from "../../store/editor";
 
@@ -19,34 +15,26 @@ const BlueprintSidebarContextPanel = memo(
 		const dispatch = useDispatch();
 
 		const {
+			getComponentType,
+			setComponentAttribute,
+			unsetComponentAttribute,
+		} = useBlueprint();
+
+		const {
 			clientId = null,
 			context,
 			property,
 			...currentFocus
 		} = useSelector((state) => getEditorFocus(state.editor));
 
-		const { type = "html", ...component } =
-			useSelector((state) =>
-				getBlockComponent(state.blockBlueprint, clientId),
-			) || {};
+		const type = getComponentType(clientId);
 
-		const onClickSuggestedValue = ({ attribute, value }) => {
-			if (attribute.indexOf(currentFocus?.attributeName) !== -1) {
-				dispatch(
-					unsetComponentAttribute({
-						clientId,
-						attribute: currentFocus?.attributeName,
-					}),
-				);
+		const onClickSuggestedValue = ({ attributeName, attributeValue }) => {
+			if (attributeName.indexOf(currentFocus?.attributeName) !== -1) {
+				unsetComponentAttribute(clientId, currentFocus?.attributeName);
 			}
 
-			dispatch(
-				setComponentAttribute({
-					clientId,
-					attribute,
-					value,
-				}),
-			);
+			setComponentAttribute(clientId, attributeName, attributeValue);
 		};
 
 		return (
