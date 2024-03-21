@@ -12,16 +12,18 @@
 		position: absolute;
 		top: var(--3x);
 		width: 320px;
-		z-index: 20;
+		z-index: 100;
 	}
 
 	.BlueprintConnectionsDebug-title,
-	.BlueprintConnectionsDebug-attributeName {
+	.BlueprintConnectionsDebug-from,
+	.BlueprintConnectionsDebug-clientId {
 		font-weight: var(--font-weight-semi-bold);
 	}
 
 	.BlueprintConnectionsDebug-list {
+		column-gap: var(--2x);
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+		grid-template-columns: max-content 1fr;
 	}
 }

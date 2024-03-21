@@ -1,4 +1,5 @@
 import AppContext from "./App";
+import BlueprintConnectionsContext from "./BlueprintConnections";
 import BlueprintEditorContext from "./BlueprintEditor";
 
-export { AppContext, BlueprintEditorContext };
+export { AppContext, BlueprintConnectionsContext, BlueprintEditorContext };

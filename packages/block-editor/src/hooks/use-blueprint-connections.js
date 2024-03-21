@@ -1,26 +1,32 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useContext, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import useBlockJson from "./use-block-json";
 import useBlueprint from "./use-blueprint";
 
+import { BlueprintConnectionsContext } from "../contexts";
+
 import {
 	startDraggingExistingConnection,
 	startDraggingNewConnection,
-	setPosition,
+	setHandlePosition,
 	stopDraggingExistingConnection,
 	stopDraggingNewConnection,
-} from "../store/connection-handles";
+} from "../store/block-connections";
 
 const useBlueprintConnections = () => {
 	const dispatch = useDispatch();
 
 	const { blockAttributeNames } = useBlockJson();
-	const { allComponents } = useBlueprint();
+	const { blockComponents } = useBlueprint();
+
+	const { allConnections, getHandlePosition } = useContext(
+		BlueprintConnectionsContext,
+	);
 
 	const componentAttributes = useMemo(
 		() =>
-			Object.entries(allComponents)
+			Object.entries(blockComponents)
 				.filter(
 					([_, { attributeName = null }]) => attributeName !== null,
 				)
@@ -28,7 +34,7 @@ const useBlueprintConnections = () => {
 					attributeName,
 					clientId,
 				})),
-		[allComponents],
+		[blockComponents],
 	);
 
 	const blockAttributes = useMemo(
@@ -42,52 +48,12 @@ const useBlueprintConnections = () => {
 	const {
 		draggingExistingConnection,
 		draggingNewConnection,
+		handlePositions,
 		handlesFrom,
 		handlesTo,
 	} = useSelector((state) => {
-		return state.connectionHandles || {};
+		return state.blockConnections || {};
 	});
-
-	const allConnections = useMemo(() => {
-		const allConnections = [];
-
-		blockAttributes.forEach(({ attributeName, clientId }) => {
-			if (!(attributeName in handlesFrom) || !(clientId in handlesTo)) {
-				return;
-			}
-
-			allConnections.push({
-				attributeName,
-				clientId,
-				from: {
-					x: handlesFrom[attributeName].x || null,
-					y: handlesFrom[attributeName].y || null,
-				},
-				to: {
-					x: handlesTo[clientId].x || null,
-					y: handlesTo[clientId].y || null,
-				},
-			});
-		});
-
-		return allConnections;
-	}, [blockAttributes, handlesFrom, handlesTo]);
-
-	const connectionsById = useMemo(() => {
-		const connectionsById = {};
-
-		blockAttributes.forEach(({ attributeName, clientId }) => {
-			if (!(attributeName in handlesFrom) || !(clientId in handlesTo)) {
-				return;
-			}
-
-			connectionsById[attributeName] =
-				connectionsById[attributeName] || [];
-			connectionsById[attributeName].push(clientId);
-		});
-
-		return connectionsById;
-	}, [blockAttributes, handlesFrom, handlesTo]);
 
 	const _startDraggingExistingConnection = useCallback(
 		({ attributeName, clientId }) => {
@@ -102,10 +68,10 @@ const useBlueprintConnections = () => {
 	);
 
 	const _startDraggingNewConnection = useCallback(
-		({ attributeName, from, to }) => {
+		({ clientId, from, to }) => {
 			dispatch(
 				startDraggingNewConnection({
-					attributeName,
+					clientId,
 					from,
 					to,
 				}),
@@ -115,7 +81,7 @@ const useBlueprintConnections = () => {
 	);
 
 	const setHandlePosition = useCallback((handlePosition) => {
-		dispatch(setPosition(handlePosition));
+		dispatch(setHandlePosition(handlePosition));
 	}, []);
 
 	const _stopDraggingExistingConnection = useCallback(() => {
@@ -127,12 +93,13 @@ const useBlueprintConnections = () => {
 	}, []);
 
 	return {
-		allConnections: allConnections || [],
-		connectionsById: connectionsById || {},
+		allConnections,
 		draggingExistingConnection,
 		draggingNewConnection,
+		getHandlePosition,
 		handlesFrom,
 		handlesTo,
+		handlePositions,
 		setHandlePosition,
 		startDraggingExistingConnection: _startDraggingExistingConnection,
 		startDraggingNewConnection: _startDraggingNewConnection,

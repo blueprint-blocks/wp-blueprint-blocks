@@ -111,12 +111,7 @@ const BlueprintAttribute = memo(({ attributeName = null, clientId }) => {
 
 	return (
 		<div ref={ref} className="BlueprintAttribute">
-			<BlueprintConnectionHandle
-				attributeName={attributeName}
-				clientId={clientId}
-				context="from"
-				position="right"
-			/>
+			<BlueprintConnectionHandle clientId={clientId} context="from" />
 			<div className="BlueprintAttribute-line">
 				<span className={clsx({ "is-invalid": !attributeNameValid })}>
 					<BlueprintWarning position="left" />

@@ -1,8 +1,9 @@
 const startDraggingNewConnection = (state, action) => {
-	const { attributeName, from, to } = action.payload;
+	const { clientId, context = "from", from, to } = action.payload;
 
 	state.draggingNewConnection = {
-		attributeName,
+		clientId,
+		context: (context === "from" && "from") || "to",
 		from: {
 			x: from?.x || null,
 			y: from?.y || null,

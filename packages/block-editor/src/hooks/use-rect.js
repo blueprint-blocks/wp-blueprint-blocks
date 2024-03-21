@@ -84,8 +84,8 @@ function useRect(ref, parentRef, reduceProps = null) {
 				if (!isEqual(rect, newRect)) {
 					setRect(newRect);
 				}
-			}, 100);
-		}, 50)();
+			}, 1000 / 30);
+		}, 1000 / 60)();
 	}
 
 	useEffect(() => {

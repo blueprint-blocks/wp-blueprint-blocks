@@ -1,15 +1,14 @@
-import { useBlueprint } from "../../hooks";
+import { useBlueprint, useBlueprintConnections } from "../../hooks";
 
-const BlueprintConnection = ({
-	attributeName = null,
-	clientId = null,
-	from = null,
-	to = null,
-}) => {
+const BlueprintConnection = ({ from = null, to = null }) => {
 	const { unsetComponentAttribute } = useBlueprint();
+	const { getHandlePosition } = useBlueprintConnections();
 
-	const height = Math.abs(to?.y - from?.y);
-	const width = Math.abs(to?.x - from?.x);
+	const fromPosition = getHandlePosition(from);
+	const toPosition = getHandlePosition(to);
+
+	const height = Math.abs(toPosition?.y - fromPosition?.y);
+	const width = Math.abs(toPosition?.x - fromPosition?.x);
 
 	const handleOffsetX =
 		Math.round(Math.min(height * 2, width * 0.75) * 100) / 100;
@@ -17,19 +16,19 @@ const BlueprintConnection = ({
 
 	const onClick = () => {
 		if (clientId) {
-			unsetComponentAttribute(clientId, "attributeName");
+			//unsetComponentAttribute(clientId, "attributeName");
 		}
 	};
 
 	return (
 		<g>
 			<path
-				d={`M${from?.x} ${from?.y}C${from?.x + handleOffsetX} ${from?.y - handleOffsetY} ${to?.x - handleOffsetX} ${to?.y + handleOffsetY} ${to?.x} ${to?.y}`}
+				d={`M${fromPosition?.x} ${fromPosition?.y}C${fromPosition?.x + handleOffsetX} ${fromPosition?.y - handleOffsetY} ${toPosition?.x - handleOffsetX} ${toPosition?.y + handleOffsetY} ${toPosition?.x} ${toPosition?.y}`}
 				stroke="var(--color-white)"
 				strokeWidth="2"
 			/>
 			<path
-				d={`M${from?.x} ${from?.y}C${from?.x + handleOffsetX} ${from?.y - handleOffsetY} ${to?.x - handleOffsetX} ${to?.y + handleOffsetY} ${to?.x} ${to?.y}`}
+				d={`M${fromPosition?.x} ${fromPosition?.y}C${fromPosition?.x + handleOffsetX} ${fromPosition?.y - handleOffsetY} ${toPosition?.x - handleOffsetX} ${toPosition?.y + handleOffsetY} ${toPosition?.x} ${toPosition?.y}`}
 				onClick={onClick}
 				stroke="transparent"
 				strokeWidth="10"

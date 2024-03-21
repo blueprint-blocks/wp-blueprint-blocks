@@ -15,11 +15,11 @@
 	opacity: 0;
 }
 
-.BlueprintConnectionHandle.is-left {
+.BlueprintConnectionHandle.is-to {
 	left: -5px;
 }
 
-.BlueprintConnectionHandle.is-right {
+.BlueprintConnectionHandle.is-from {
 	right: 0;
 }
 

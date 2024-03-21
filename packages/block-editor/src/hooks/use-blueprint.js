@@ -70,9 +70,14 @@ const useBlueprint = () => {
 	const getComponentsByAttributeName = useCallback(
 		(attributeName) => {
 			return Object.fromEntries(
-				Object.entries(blockComponents).filter(
-					([_, blockComponent]) =>
-						blockComponent?.attributeName === attributeName,
+				Object.entries(blockComponents).filter(([_, blockComponent]) =>
+					blockComponent.attributes.reduce(
+						(hasAttributeName, attribute) =>
+							hasAttributeName ||
+							(attribute.name === "attributeName" &&
+								attribute.value === attributeName),
+						false,
+					),
 				),
 			);
 		},
@@ -111,7 +116,7 @@ const useBlueprint = () => {
 	};
 
 	return {
-		allComponents: blockComponents,
+		blockComponents,
 		getComponent: _getComponent,
 		getComponentAttribute: _getComponentAttribute,
 		getComponentAttributes: _getComponentAttributes,

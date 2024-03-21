@@ -98,11 +98,9 @@ const BlueprintComponent = memo(
 				<BlueprintComponentOpeningTag clientId={clientId}>
 					{hasAttributeHandle && (
 						<BlueprintConnectionHandle
-							attributeName={attributeName}
 							clientId={clientId}
 							context="to"
 							isClone={true}
-							position="left"
 						/>
 					)}
 				</BlueprintComponentOpeningTag>
@@ -124,13 +122,10 @@ const BlueprintComponent = memo(
 							>
 								{hasAttributeHandle && (
 									<BlueprintConnectionHandle
-										attributeName={attributeName}
 										clientId={clientId}
 										context="to"
 										draggingOffset={offset}
-										isClone={false}
 										isDragging={isDraggingSelf}
-										position="left"
 									/>
 								)}
 							</BlueprintComponentOpeningTag>

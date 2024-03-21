@@ -1,4 +1,4 @@
-const removePosition = (state, action) => {
+const removeHandlePosition = (state, action) => {
 	/*const { id, name } = action.payload;
 
 	state.allHandles = Object.fromEntries(
@@ -30,4 +30,4 @@ const removePosition = (state, action) => {
 	}*/
 };
 
-export default removePosition;
+export default removeHandlePosition;

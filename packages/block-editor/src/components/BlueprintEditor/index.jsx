@@ -2,6 +2,7 @@ import { useContext, useLayoutEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { AppContext, BlueprintEditorContext } from "../../contexts";
+
 import { useDebugRenderCount, useRect } from "../../hooks";
 import { setSize as setEditorSize } from "../../store/editor";
 import { getComponentListDepth } from "../../store/block-blueprint";
@@ -9,6 +10,7 @@ import { getComponentListDepth } from "../../store/block-blueprint";
 import BlueprintAttributeList from "../BlueprintAttributeList";
 import BlueprintBlockEdit from "../BlueprintBlockEdit";
 import BlueprintConnections from "../BlueprintConnections";
+import BlueprintConnectionsDebug from "../BlueprintConnectionsDebug";
 import BlueprintColumn from "../BlueprintColumn";
 import UpsellBanner from "../UpsellBanner";
 
@@ -59,6 +61,7 @@ function BlueprintEditor() {
 						<div className="BlueprintEditor-grid" />
 
 						<BlueprintConnections />
+						<BlueprintConnectionsDebug />
 
 						<div className="BlueprintEditor-columns">
 							<BlueprintColumn label="Block Attributes">

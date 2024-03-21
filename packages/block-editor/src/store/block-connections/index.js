@@ -2,10 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import reducers from "./reducers";
 
+import { getHandlePosition } from "./selectors";
+
 const slice = createSlice({
-	name: "connectionHandles",
+	name: "blockConnections",
 
 	initialState: {
+		connections: {},
+		handlePositions: {},
 		handlesFrom: {},
 		handlesTo: {},
 		draggingExistingConnection: null,
@@ -18,11 +22,14 @@ const slice = createSlice({
 const { actions, reducer } = slice;
 
 export const {
-	removePosition,
-	setPosition,
+	removeHandlePosition,
+	setHandlePosition,
 	startDraggingExistingConnection,
 	startDraggingNewConnection,
 	stopDraggingExistingConnection,
 	stopDraggingNewConnection,
 } = actions;
+
+export { getHandlePosition };
+
 export default reducer;

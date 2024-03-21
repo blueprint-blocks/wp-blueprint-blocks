@@ -1,13 +1,12 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { BlueprintEditorContext } from "../contexts";
 import useDragWithinBounds from "./use-drag-within-bounds";
 
-const useDragWithinEditor = ({ ref = null, onDrag, onStart, onStop }) => {
+const useDragWithinEditor = ({ onDrag, onStart, onStop }) => {
 	const editorContext = useContext(BlueprintEditorContext);
 
 	return useDragWithinBounds({
-		boundsRef: editorContext?.ref,
-		ref,
+		bounds: editorContext?.ref,
 		onDrag,
 		onStart,
 		onStop,

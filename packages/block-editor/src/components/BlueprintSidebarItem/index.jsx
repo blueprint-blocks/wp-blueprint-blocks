@@ -35,8 +35,7 @@ function BlueprintSidebarItem({
 	};
 
 	const { offset, ...draggableProps } = useDragWithinBounds({
-		boundsRef: editorWrapperRef,
-		ref,
+		bounds: editorWrapperRef,
 		onStart: onStartDrag,
 		onStop: onStopDrag,
 	});

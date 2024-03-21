@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { useBlueprintConnections } from "../../hooks";
 
 import BlueprintConnection from "../BlueprintConnection";
-import BlueprintConnectionsDebug from "../BlueprintConnectionsDebug";
 
 import "./style.css";
 
@@ -17,7 +16,6 @@ function BlueprintConnections({}) {
 
 	return (
 		<div className="BlueprintConnections">
-			<BlueprintConnectionsDebug />
 			<svg
 				width={editor.width}
 				height={editor.height}
@@ -27,17 +25,9 @@ function BlueprintConnections({}) {
 				stroke="none"
 				strokeWidth="0"
 			>
-				{allConnections.map(
-					({ attributeName, clientId, from, to }, i) => (
-						<BlueprintConnection
-							key={`${attributeName}-${clientId}`}
-							attributeName={attributeName}
-							clientId={clientId}
-							from={from}
-							to={to}
-						/>
-					),
-				)}
+				{allConnections.map(({ from, to }, i) => (
+					<BlueprintConnection key={i} from={from} to={to} />
+				))}
 				{draggingNewConnection && (
 					<BlueprintConnection {...draggingNewConnection} />
 				)}

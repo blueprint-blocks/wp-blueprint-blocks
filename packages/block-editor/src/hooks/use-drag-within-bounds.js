@@ -1,16 +1,8 @@
-import { useMemo, useState } from "react";
-import useRect from "./use-rect";
+import { useCallback, useMemo, useState } from "react";
 
-const useDragWithinBounds = ({
-	boundsRef = null,
-	ref = null,
-	onDrag,
-	onStart,
-	onStop,
-}) => {
-	const rect = useRect(ref);
-	const boundsRect = useRect(boundsRef);
+import useDebugRenderCount from "./use-debug-render-count";
 
+const useDragWithinBounds = ({ bounds = null, onDrag, onStart, onStop }) => {
 	const [isDragging, setIsDragging] = useState(false);
 
 	const [offset, setOffset] = useState({
@@ -23,43 +15,43 @@ const useDragWithinBounds = ({
 		y: 0,
 	});
 
-	const bounds = useMemo(
-		() => ({
-			bottom: boundsRect.bottom - rect.bottom,
-			left: boundsRect.left - rect.left,
-			right: boundsRect.right - rect.right,
-			top: boundsRect.top - rect.top,
-		}),
-		[boundsRect, rect],
+	const _onDrag = useCallback(
+		(event, { x, y }) => {
+			if (isDragging === false) {
+				setIsDragging(true);
+				onStart && onStart();
+			}
+			setOffset({ x, y });
+			onDrag && onDrag({ x, y });
+		},
+		[isDragging, onDrag, onStart],
 	);
 
-	const _onDrag = (event, { x, y }) => {
-		if (isDragging === false) {
-			setIsDragging(true);
-			onStart && onStart();
-		}
-		setOffset({ x, y });
-		onDrag && onDrag({ x, y });
-	};
+	const _onStart = useCallback(() => {}, []);
 
-	const _onStart = () => {};
-
-	const _onStop = () => {
+	const _onStop = useCallback(() => {
 		setIsDragging(false);
 		setPosition({ x: 0, y: 0 });
 		onStop && onStop();
-	};
+	}, [onStop]);
 
-	return {
-		axis: "both",
-		bounds,
-		offset,
-		isDragging,
-		position,
-		onDrag: _onDrag,
-		onStart: _onStart,
-		onStop: _onStop,
-	};
+	if (process.env.NODE_ENV === "development") {
+		useDebugRenderCount("useDragWithinBounds");
+	}
+
+	return useMemo(
+		() => ({
+			axis: "both",
+			bounds,
+			offset,
+			isDragging,
+			position,
+			onDrag: _onDrag,
+			onStart: _onStart,
+			onStop: _onStop,
+		}),
+		[bounds, offset, isDragging, position, _onDrag, _onStart, _onStop],
+	);
 };
 
 export default useDragWithinBounds;
