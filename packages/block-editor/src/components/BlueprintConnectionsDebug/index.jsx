@@ -1,6 +1,3 @@
-import { useContext } from "react";
-
-import { BlueprintConnectionsContext } from "../../contexts";
 import { useBlueprintConnections } from "../../hooks";
 
 import "./style.css";
@@ -13,9 +10,12 @@ function BlueprintConnectionsDebug() {
 		return null;
 	}
 
-	const { allConnections, handlePositions } = useContext(
-		BlueprintConnectionsContext,
-	);
+	const {
+		allConnections,
+		existingDraggingConnection,
+		newDraggingConnection,
+		handlePositions,
+	} = useBlueprintConnections();
 
 	return (
 		<div className="BlueprintConnectionsDebug">
@@ -23,19 +23,11 @@ function BlueprintConnectionsDebug() {
 				{"Connections"}
 			</div>
 			<div className="BlueprintConnectionsDebug-list">
-				{Object.values(allConnections).map(({ from, to }) => (
-					<>
-						<div
-							key={`${from}-1`}
-							className="BlueprintConnectionsDebug-from"
-						>{`${from}:`}</div>
-						<div
-							key={`${from}-2`}
-							className="BlueprintConnectionsDebug-to"
-						>
-							{to}
-						</div>
-					</>
+				{Object.values(allConnections).map(({ from, to }, index) => (
+					<div key={index}>
+						<div className="BlueprintConnectionsDebug-from">{`${from}:`}</div>
+						<div className="BlueprintConnectionsDebug-to">{to}</div>
+					</div>
 				))}
 			</div>
 			<div className="BlueprintConnectionsDebug-title">
@@ -44,21 +36,41 @@ function BlueprintConnectionsDebug() {
 			<div className="BlueprintConnectionsDebug-list">
 				{Object.entries(handlePositions).map(
 					([clientId, { x, y }], index) => (
-						<>
-							<div
-								key={`${clientId}`}
-								className="BlueprintConnectionsDebug-clientId"
-							>
+						<div key={index}>
+							<div className="BlueprintConnectionsDebug-clientId">
 								{clientId}
 							</div>
-							<div
-								key={`${clientId}-xy`}
-								className="BlueprintConnectionsDebug-position"
-							>{`${x}, ${y}`}</div>
-						</>
+							<div className="BlueprintConnectionsDebug-position">{`${x}, ${y}`}</div>
+						</div>
 					),
 				)}
 			</div>
+			{newDraggingConnection && (
+				<>
+					<div className="BlueprintConnectionsDebug-title">
+						{"Dragging Connection"}
+					</div>
+					<div className="BlueprintConnectionsDebug-list">
+						<div className="BlueprintConnectionsDebug-clientId">
+							{newDraggingConnection?.clientId}
+						</div>
+						<div className="BlueprintConnectionsDebug-position">{`${newDraggingConnection?.from?.x}, ${newDraggingConnection?.from?.y} -> ${newDraggingConnection?.to?.x}, ${newDraggingConnection?.to?.y}`}</div>
+					</div>
+				</>
+			)}
+			{existingDraggingConnection && (
+				<>
+					<div className="BlueprintConnectionsDebug-title">
+						{"Dragging Connection"}
+					</div>
+					<div className="BlueprintConnectionsDebug-list">
+						<div className="BlueprintConnectionsDebug-clientId">
+							{existingDraggingConnection?.clientId}
+						</div>
+						<div className="BlueprintConnectionsDebug-position">{`${existingDraggingConnection?.from?.x}, ${existingDraggingConnection?.from?.y} -> ${existingDraggingConnection?.to?.x}, ${existingDraggingConnection?.to?.y}`}</div>
+					</div>
+				</>
+			)}
 		</div>
 	);
 }

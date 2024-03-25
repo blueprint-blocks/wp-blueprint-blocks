@@ -1,7 +1,7 @@
 import { createSelector } from "@reduxjs/toolkit";
 
 const selectHandlePositions = (state) => state.handlePositions || {};
-const selectClientId = (_, { clientId } = {}) => clientId;
+const selectClientId = (_, clientId) => clientId;
 
 const getHandlePosition = createSelector(
 	[selectHandlePositions, selectClientId],
@@ -13,4 +13,4 @@ const getHandlePosition = createSelector(
 	},
 );
 
-export { getHandlePosition };
+export default getHandlePosition;

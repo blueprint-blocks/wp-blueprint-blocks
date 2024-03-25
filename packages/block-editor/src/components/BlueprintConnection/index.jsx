@@ -1,34 +1,36 @@
-import { useBlueprint, useBlueprintConnections } from "../../hooks";
+import { useBlueprintConnections } from "../../hooks";
 
-const BlueprintConnection = ({ from = null, to = null }) => {
-	const { unsetComponentAttribute } = useBlueprint();
-	const { getHandlePosition } = useBlueprintConnections();
+const BlueprintConnection = ({
+	from = null,
+	fromPosition = null,
+	to = null,
+	toPosition = null,
+}) => {
+	const { getHandlePosition, removeConnection } = useBlueprintConnections();
 
-	const fromPosition = getHandlePosition(from);
-	const toPosition = getHandlePosition(to);
+	const _fromPosition = fromPosition || getHandlePosition(from);
+	const _toPosition = toPosition || getHandlePosition(to);
 
-	const height = Math.abs(toPosition?.y - fromPosition?.y);
-	const width = Math.abs(toPosition?.x - fromPosition?.x);
+	const height = Math.abs(_toPosition?.y - _fromPosition?.y);
+	const width = Math.abs(_toPosition?.x - _fromPosition?.x);
 
 	const handleOffsetX =
 		Math.round(Math.min(height * 2, width * 0.75) * 100) / 100;
 	const handleOffsetY = Math.round(height * 0.1 * 100) / 100;
 
 	const onClick = () => {
-		if (clientId) {
-			//unsetComponentAttribute(clientId, "attributeName");
-		}
+		removeConnection(to);
 	};
 
 	return (
 		<g>
 			<path
-				d={`M${fromPosition?.x} ${fromPosition?.y}C${fromPosition?.x + handleOffsetX} ${fromPosition?.y - handleOffsetY} ${toPosition?.x - handleOffsetX} ${toPosition?.y + handleOffsetY} ${toPosition?.x} ${toPosition?.y}`}
+				d={`M${_fromPosition?.x} ${_fromPosition?.y}C${_fromPosition?.x + handleOffsetX} ${_fromPosition?.y - handleOffsetY} ${_toPosition?.x - handleOffsetX} ${_toPosition?.y + handleOffsetY} ${_toPosition?.x} ${_toPosition?.y}`}
 				stroke="var(--color-white)"
 				strokeWidth="2"
 			/>
 			<path
-				d={`M${fromPosition?.x} ${fromPosition?.y}C${fromPosition?.x + handleOffsetX} ${fromPosition?.y - handleOffsetY} ${toPosition?.x - handleOffsetX} ${toPosition?.y + handleOffsetY} ${toPosition?.x} ${toPosition?.y}`}
+				d={`M${_fromPosition?.x} ${_fromPosition?.y}C${_fromPosition?.x + handleOffsetX} ${_fromPosition?.y - handleOffsetY} ${_toPosition?.x - handleOffsetX} ${_toPosition?.y + handleOffsetY} ${_toPosition?.x} ${_toPosition?.y}`}
 				onClick={onClick}
 				stroke="transparent"
 				strokeWidth="10"

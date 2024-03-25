@@ -1,12 +1,20 @@
 import clsx from "clsx";
-import { memo, useContext, useId, useRef, useState } from "react";
 
 import {
-	BlueprintConnectionsContext,
-	BlueprintEditorContext,
-} from "../../contexts";
+	memo,
+	useCallback,
+	useContext,
+	useLayoutEffect,
+	useId,
+	useRef,
+	useState,
+} from "react";
+
+import { BlueprintEditorContext } from "../../contexts";
 
 import {
+	useBlockJson,
+	useBlueprint,
 	useBlueprintConnections,
 	useCenterPoint,
 	useDebugRenderCount,
@@ -26,7 +34,6 @@ const BlueprintConnectionHandle = memo(
 	}) => {
 		const ref = useRef(null);
 
-		const { setHandlePosition } = useContext(BlueprintConnectionsContext);
 		const editorContext = useContext(BlueprintEditorContext);
 
 		const _clientId = clientId || useId();
@@ -39,7 +46,19 @@ const BlueprintConnectionHandle = memo(
 			y: 0,
 		});
 
+		const { getAttributeById } = useBlockJson();
+		const { getComponentAttribute } = useBlueprint();
+
+		let attributeName;
+
+		if (context === "from") {
+			attributeName = (getAttributeById(_clientId) || {})?.name;
+		} else {
+			attributeName = getComponentAttribute(_clientId, "attributeName");
+		}
+
 		const {
+			setHandlePosition,
 			startDraggingExistingConnection,
 			startDraggingNewConnection,
 			stopDraggingExistingConnection,
@@ -70,21 +89,35 @@ const BlueprintConnectionHandle = memo(
 
 			if (context === "from") {
 				startDraggingNewConnection({
+					attributeName,
+					clientId: _clientId,
 					from: centerPoint,
 					to: {
 						x: centerPoint.x + x,
 						y: centerPoint.y + y,
 					},
 				});
+			} else if (attributeName === null) {
+				startDraggingNewConnection({
+					attributeName,
+					clientId: _clientId,
+					from: {
+						x: centerPoint.x + x,
+						y: centerPoint.y + y,
+					},
+					to: centerPoint,
+				});
 			} else {
 				dispatchPosition();
-				/*startDraggingNewConnection({
-				from: {
-					x: centerPoint.x + x,
-					y: centerPoint.y + y,
-				},
-				to: centerPoint,
-			});*/
+				startDraggingExistingConnection({
+					attributeName,
+					clientId: _clientId,
+					from: {
+						x: centerPoint.x + x,
+						y: centerPoint.y + y,
+					},
+					to: centerPoint,
+				});
 			}
 		};
 
@@ -93,37 +126,39 @@ const BlueprintConnectionHandle = memo(
 
 			if (context === "from") {
 				startDraggingNewConnection({
+					attributeName,
+					clientId: _clientId,
+					from: centerPoint,
+					to: centerPoint,
+				});
+			} else if (attributeName === null) {
+				startDraggingNewConnection({
+					attributeName,
 					clientId: _clientId,
 					from: centerPoint,
 					to: centerPoint,
 				});
 			} else {
+				dispatchPosition();
 				startDraggingExistingConnection({
+					attributeName,
 					clientId: _clientId,
+					from: centerPoint,
+					to: centerPoint,
 				});
-				/*startDraggingNewConnection({
-				clientId: _clientId,
-				from: centerPoint,
-				to: centerPoint,
-			});*/
 			}
 		};
 
-		const onStopDrag = () => {
+		const onStopDrag = useCallback(() => {
 			setIsDraggingSelf(false);
 			setSelfDraggingOffset({ x: 0, y: 0 });
 
-			dispatchPosition(centerPoint);
-
 			setTimeout(() => {
-				if (context === "from") {
-					stopDraggingNewConnection();
-				} else {
-					stopDraggingExistingConnection();
-					//stopDraggingNewConnection();
-				}
+				dispatchPosition(centerPoint);
+				stopDraggingNewConnection();
+				stopDraggingExistingConnection();
 			}, 0);
-		};
+		}, [centerPoint]);
 
 		const dispatchPosition = (position = null) => {
 			const currentPosition = position || getCurrentPosition();
@@ -133,8 +168,8 @@ const BlueprintConnectionHandle = memo(
 			}
 
 			setHandlePosition({
-				context,
 				clientId: _clientId,
+				context,
 				x: currentPosition.x,
 				y: currentPosition.y,
 			});
@@ -146,7 +181,9 @@ const BlueprintConnectionHandle = memo(
 		 * the connections between handles.
 		 */
 		if (!isClone) {
-			dispatchPosition();
+			useLayoutEffect(() => {
+				dispatchPosition();
+			}, [centerPoint, clientId, context]);
 		}
 
 		if (process.env.NODE_ENV === "development") {

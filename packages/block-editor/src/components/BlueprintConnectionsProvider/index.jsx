@@ -5,57 +5,56 @@ import { useBlockJson, useBlueprint, useDebugRenderCount } from "../../hooks";
 
 function BlueprintConnectionsProvider({ children }) {
 	const [allConnections, setAllConnections] = useState([]);
-	const [draggingConnection, setDraggingConnection] = useState(null);
-	const [handlePositions, setHandlePositions] = useState({});
+	const [existingDraggingConnection, setExistingDraggingConnection] =
+		useState(null);
+	const [newDraggingConnection, setNewDraggingConnection] = useState(null);
 
 	const { blockAttributes } = useBlockJson();
-	const { getComponentsByAttributeName } = useBlueprint();
+	const { blockComponents, getComponentsByAttributeName } = useBlueprint();
 
-	const getHandlePosition = useCallback(
-		(clientId) => {
-			if (clientId in handlePositions) {
-				return handlePositions[clientId];
-			}
-			return null;
-		},
-		[handlePositions],
-	);
-
-	const setHandlePosition = useCallback(
-		({ clientId, context = "from", x = 0, y = 0 }) => {
-			if (
-				x === handlePositions?.[clientId]?.x &&
-				y === handlePositions?.[clientId]?.y
-			) {
-				return;
-			}
-
-			setHandlePositions({
-				...handlePositions,
-				[clientId]: {
-					context: (context === "from" && "from") || "to",
-					x,
-					y,
+	const startDraggingExistingConnection = useCallback(
+		({ attributeName, clientId, from, to }) => {
+			setExistingDraggingConnection({
+				attributeName,
+				clientId,
+				from: {
+					x: from?.x || null,
+					y: from?.y || null,
+				},
+				to: {
+					x: to?.x || null,
+					y: to?.y || null,
 				},
 			});
 		},
-		[handlePositions],
+		[],
 	);
 
-	/*const startDraggingNewConnection = ({ clientId, to }) => {
-		state.draggingNewConnection = {
-			clientId,
-			context: (context === "from" && "from") || "to",
-			from: {
-				x: from?.x || null,
-				y: from?.y || null,
-			},
-			to: {
-				x: to?.x || null,
-				y: to?.y || null,
-			},
-		};
-	};*/
+	const startDraggingNewConnection = useCallback(
+		({ attributeName, clientId, from, to }) => {
+			setNewDraggingConnection({
+				attributeName,
+				clientId,
+				from: {
+					x: from?.x || null,
+					y: from?.y || null,
+				},
+				to: {
+					x: to?.x || null,
+					y: to?.y || null,
+				},
+			});
+		},
+		[],
+	);
+
+	const stopDraggingExistingConnection = useCallback(() => {
+		setExistingDraggingConnection(null);
+	}, []);
+
+	const stopDraggingNewConnection = useCallback(() => {
+		setNewDraggingConnection(null);
+	}, []);
 
 	useLayoutEffect(() => {
 		const allConnections = [];
@@ -76,7 +75,7 @@ function BlueprintConnectionsProvider({ children }) {
 		});
 
 		setAllConnections(allConnections);
-	}, []);
+	}, [blockAttributes, blockComponents]);
 
 	if (process.env.NODE_ENV === "development") {
 		useDebugRenderCount("BlueprintConnectionsProvider");
@@ -86,9 +85,12 @@ function BlueprintConnectionsProvider({ children }) {
 		<BlueprintConnectionsContext.Provider
 			value={{
 				allConnections,
-				getHandlePosition,
-				handlePositions,
-				setHandlePosition,
+				existingDraggingConnection,
+				newDraggingConnection,
+				startDraggingExistingConnection,
+				startDraggingNewConnection,
+				stopDraggingExistingConnection,
+				stopDraggingNewConnection,
 			}}
 		>
 			{children}

@@ -8,12 +8,7 @@ const slice = createSlice({
 	name: "blockConnections",
 
 	initialState: {
-		connections: {},
 		handlePositions: {},
-		handlesFrom: {},
-		handlesTo: {},
-		draggingExistingConnection: null,
-		draggingNewConnection: null,
 	},
 
 	reducers,
@@ -21,14 +16,7 @@ const slice = createSlice({
 
 const { actions, reducer } = slice;
 
-export const {
-	removeHandlePosition,
-	setHandlePosition,
-	startDraggingExistingConnection,
-	startDraggingNewConnection,
-	stopDraggingExistingConnection,
-	stopDraggingNewConnection,
-} = actions;
+export const { setHandlePosition } = actions;
 
 export { getHandlePosition };
 

@@ -7461,7 +7461,7 @@
 	  };
 	};
 
-	var _excluded$b = ["isValid"];
+	var _excluded$c = ["isValid"];
 	var validateBlockJson = function validateBlockJson(blockJson) {
 	  var validations = blockJsonValidation.map(function (_ref) {
 	    var propertyName = _ref.propertyName,
@@ -7479,7 +7479,7 @@
 	  }, true);
 	  var errors = validations.filter(function (_ref2) {
 	    var isValid = _ref2.isValid;
-	      _objectWithoutProperties(_ref2, _excluded$b);
+	      _objectWithoutProperties(_ref2, _excluded$c);
 	    return isValid === false;
 	  });
 	  return {
@@ -7497,7 +7497,7 @@
 	};
 
 	var _blueprintBlocksEdito$a;
-	var _excluded$a = ["children"];
+	var _excluded$b = ["children"];
 	var blockComponents = {};
 	function parseComponentTree() {
 	  var components = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -7508,7 +7508,7 @@
 	  components.forEach(function (_ref) {
 	    var _ref$children = _ref.children,
 	      children = _ref$children === void 0 ? [] : _ref$children,
-	      component = _objectWithoutProperties(_ref, _excluded$a);
+	      component = _objectWithoutProperties(_ref, _excluded$b);
 	    var clientId = getUniqueClientId();
 	    var childClientIds = [];
 	    if (children.length > 0) {
@@ -7618,7 +7618,7 @@
 	var selectBlockSidebar = function selectBlockSidebar(state) {
 	  return state.blockSidebar || [];
 	};
-	var selectClientId$2 = function selectClientId(_) {
+	var selectClientId$3 = function selectClientId(_) {
 	  var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
 	    clientId = _ref.clientId;
 	  return clientId;
@@ -7628,7 +7628,7 @@
 	    attributeName = _ref2.attributeName;
 	  return attributeName;
 	};
-	var getComponent = createSelector([selectBlockComponents, selectClientId$2], function (blockComponents, clientId) {
+	var getComponent = createSelector([selectBlockComponents, selectClientId$3], function (blockComponents, clientId) {
 	  if (clientId in blockComponents) {
 	    return blockComponents[clientId];
 	  }
@@ -8101,42 +8101,17 @@
 	  var unsetComponentAttribute = actions$9.unsetComponentAttribute;
 	  actions$9.unsetDraggingComponent;
 
-	var removeHandlePosition = function removeHandlePosition(state, action) {
-	  /*const { id, name } = action.payload;
-	  	state.allHandles = Object.fromEntries(
-	  	Object.entries(state.allHandles).filter(([key, value]) => key !== id),
-	  );
-	  	if (!name) {
-	  	return;
-	  }
-	  	if (state.handlesByName?.[name]?.from === id) {
-	  	state.handlesByName = {
-	  		...state.handlesByName,
-	  		[name]: {
-	  			from: null,
-	  			to: state.handlesByName?.[name]?.to || [],
-	  		},
-	  	};
-	  } else if (state.handlesByName?.[name]?.to.includes(id)) {
-	  	state.handlesByName = {
-	  		...state.handlesByName,
-	  		[name]: {
-	  			from: state.handlesByName?.[name]?.from || null,
-	  			to: (state.handlesByName?.[name]?.to || []).filter(
-	  				(to) => to !== id,
-	  			),
-	  		},
-	  	};
-	  }*/
-	};
-
-	var setHandlePosition = function setHandlePosition(state, action) {
+	var setHandlePosition$1 = function setHandlePosition(state, action) {
+	  var _state$handlePosition, _state$handlePosition2;
 	  var _action$payload = action.payload,
 	    clientId = _action$payload.clientId,
 	    _action$payload$x = _action$payload.x,
 	    x = _action$payload$x === void 0 ? 0 : _action$payload$x,
 	    _action$payload$y = _action$payload.y,
 	    y = _action$payload$y === void 0 ? 0 : _action$payload$y;
+	  if (x === ((_state$handlePosition = state.handlePositions) === null || _state$handlePosition === void 0 || (_state$handlePosition = _state$handlePosition[clientId]) === null || _state$handlePosition === void 0 ? void 0 : _state$handlePosition.x) && y === ((_state$handlePosition2 = state.handlePositions) === null || _state$handlePosition2 === void 0 || (_state$handlePosition2 = _state$handlePosition2[clientId]) === null || _state$handlePosition2 === void 0 ? void 0 : _state$handlePosition2.y)) {
+	    return;
+	  }
 	  var position = {
 	    x: x && !Number.isNaN(x) && x || 0,
 	    y: y && !Number.isNaN(y) && y || 0
@@ -8144,63 +8119,17 @@
 	  state.handlePositions = _objectSpread2(_objectSpread2({}, state.handlePositions), {}, _defineProperty$1({}, clientId, position));
 	};
 
-	var startDraggingExistingConnection$1 = function startDraggingExistingConnection(state, action) {
-	  var _action$payload = action.payload,
-	    attributeName = _action$payload.attributeName,
-	    clientId = _action$payload.clientId;
-	  state.draggingExistingConnection = {
-	    attributeName: attributeName,
-	    clientId: clientId
-	  };
-	};
-
-	var startDraggingNewConnection$1 = function startDraggingNewConnection(state, action) {
-	  var _action$payload = action.payload,
-	    clientId = _action$payload.clientId,
-	    _action$payload$conte = _action$payload.context,
-	    context = _action$payload$conte === void 0 ? "from" : _action$payload$conte,
-	    from = _action$payload.from,
-	    to = _action$payload.to;
-	  state.draggingNewConnection = {
-	    clientId: clientId,
-	    context: context === "from" && "from" || "to",
-	    from: {
-	      x: (from === null || from === void 0 ? void 0 : from.x) || null,
-	      y: (from === null || from === void 0 ? void 0 : from.y) || null
-	    },
-	    to: {
-	      x: (to === null || to === void 0 ? void 0 : to.x) || null,
-	      y: (to === null || to === void 0 ? void 0 : to.y) || null
-	    }
-	  };
-	};
-
-	var stopDraggingExistingConnection$1 = function stopDraggingExistingConnection(state, action) {
-	  state.draggingExistingConnection = null;
-	};
-
-	var stopDraggingNewConnection$1 = function stopDraggingNewConnection(state, action) {
-	  state.draggingNewConnection = null;
-	};
-
 	var reducers$2 = {
-	  removeHandlePosition: removeHandlePosition,
-	  setHandlePosition: setHandlePosition,
-	  startDraggingExistingConnection: startDraggingExistingConnection$1,
-	  startDraggingNewConnection: startDraggingNewConnection$1,
-	  stopDraggingExistingConnection: stopDraggingExistingConnection$1,
-	  stopDraggingNewConnection: stopDraggingNewConnection$1
+	  setHandlePosition: setHandlePosition$1
 	};
 
 	var selectHandlePositions = function selectHandlePositions(state) {
 	  return state.handlePositions || {};
 	};
-	var selectClientId$1 = function selectClientId(_) {
-	  var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-	    clientId = _ref.clientId;
+	var selectClientId$2 = function selectClientId(_, clientId) {
 	  return clientId;
 	};
-	createSelector([selectHandlePositions, selectClientId$1], function (handlePositions, clientId) {
+	var getHandlePosition = createSelector([selectHandlePositions, selectClientId$2], function (handlePositions, clientId) {
 	  if (clientId in handlePositions) {
 	    return handlePositions[clientId];
 	  }
@@ -8210,23 +8139,13 @@
 	var slice$8 = createSlice({
 	  name: "blockConnections",
 	  initialState: {
-	    connections: {},
-	    handlePositions: {},
-	    handlesFrom: {},
-	    handlesTo: {},
-	    draggingExistingConnection: null,
-	    draggingNewConnection: null
+	    handlePositions: {}
 	  },
 	  reducers: reducers$2
 	});
 	var actions$8 = slice$8.actions,
 	  reducer$8 = slice$8.reducer;
-	actions$8.removeHandlePosition;
-	  actions$8.setHandlePosition;
-	  var startDraggingExistingConnection = actions$8.startDraggingExistingConnection,
-	  startDraggingNewConnection = actions$8.startDraggingNewConnection,
-	  stopDraggingExistingConnection = actions$8.stopDraggingExistingConnection,
-	  stopDraggingNewConnection = actions$8.stopDraggingNewConnection;
+	var setHandlePosition = actions$8.setHandlePosition;
 
 	var _blueprintBlocksEdito$9;
 	var _ref$1 = ((_blueprintBlocksEdito$9 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$9 === void 0 ? void 0 : _blueprintBlocksEdito$9.blockMetadata) || {},
@@ -8247,26 +8166,24 @@
 	  attributes: attributes$1
 	});
 
-	var selectAttributes$3 = function selectAttributes(state) {
+	var selectAttributes$4 = function selectAttributes(state) {
 	  return state.attributes;
 	};
-	var getAllAttributeNames = createSelector([selectAttributes$3], function (attributes) {
+	var getAllAttributeNames = createSelector([selectAttributes$4], function (attributes) {
 	  return attributes.map(function (_ref) {
 	    var name = _ref.name;
 	    return name;
 	  });
 	});
 
-	var _excluded$9 = ["name", "type"];
-	var selectAttributes$2 = function selectAttributes(state) {
+	var _excluded$a = ["name", "type"];
+	var selectAttributes$3 = function selectAttributes(state) {
 	  return state.attributes;
 	};
 	var selectAttributeName$2 = function selectAttributeName(_, attributeName) {
 	  return attributeName;
 	};
-	var getAttribute = createSelector([selectAttributes$2, selectAttributeName$2], function (attributes, attributeName) {
-	  //count++;
-	  //console.log(`selector ${count}:`, attributeName);
+	var getAttribute = createSelector([selectAttributes$3, selectAttributeName$2], function (attributes, attributeName) {
 	  var _iterator = _createForOfIteratorHelper(attributes),
 	    _step;
 	  try {
@@ -8275,12 +8192,39 @@
 	      var name = _ref.name,
 	        _ref$type = _ref.type,
 	        type = _ref$type === void 0 ? "string" : _ref$type,
-	        attribute = _objectWithoutProperties(_ref, _excluded$9);
+	        attribute = _objectWithoutProperties(_ref, _excluded$a);
 	      if (name === attributeName) {
 	        return _objectSpread2(_objectSpread2({}, attribute), {}, {
 	          name: name,
 	          type: type
 	        });
+	      }
+	    }
+	  } catch (err) {
+	    _iterator.e(err);
+	  } finally {
+	    _iterator.f();
+	  }
+	  return null;
+	});
+
+	var _excluded$9 = ["clientId"];
+	var selectAttributes$2 = function selectAttributes(state) {
+	  return state.attributes;
+	};
+	var selectClientId$1 = function selectClientId(_, clientId) {
+	  return clientId;
+	};
+	var getAttributeById = createSelector([selectAttributes$2, selectClientId$1], function (attributes, attributeClientId) {
+	  var _iterator = _createForOfIteratorHelper(attributes),
+	    _step;
+	  try {
+	    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+	      var _ref = _step.value;
+	      var clientId = _ref.clientId,
+	        attribute = _objectWithoutProperties(_ref, _excluded$9);
+	      if (clientId === attributeClientId) {
+	        return attribute;
 	      }
 	    }
 	  } catch (err) {
@@ -8923,6 +8867,11 @@
 	      return getAttribute(state.blockJson, attributeName);
 	    });
 	  }, []);
+	  var _getAttributeById = React$2.useCallback(function (attributeName) {
+	    return useSelector(function (state) {
+	      return getAttributeById(state.blockJson, attributeName);
+	    });
+	  }, []);
 	  var _renameAttribute = React$2.useCallback(function (attributeName, newAttributeName) {
 	    dispatch(renameAttribute({
 	      name: attributeName,
@@ -8941,6 +8890,7 @@
 	    blockAttributeNames: attributeNames,
 	    editAttribute: _editAttribute,
 	    getAttribute: _getAttribute,
+	    getAttributeById: _getAttributeById,
 	    renameAttribute: _renameAttribute,
 	    removeAttribute: _removeAttribute
 	  };
@@ -9038,15 +8988,17 @@
 	  };
 	};
 
+	//import { getAttributeById } from "../store/block-json";
+
 	var useBlueprintConnections = function useBlueprintConnections() {
 	  var dispatch = useDispatch();
 	  var _useBlockJson = useBlockJson(),
-	    blockAttributeNames = _useBlockJson.blockAttributeNames;
+	    blockAttributeNames = _useBlockJson.blockAttributeNames,
+	    getAttributeById = _useBlockJson.getAttributeById;
 	  var _useBlueprint = useBlueprint(),
-	    blockComponents = _useBlueprint.blockComponents;
-	  var _useContext = React$2.useContext(BlueprintConnectionsContext),
-	    allConnections = _useContext.allConnections,
-	    getHandlePosition = _useContext.getHandlePosition;
+	    blockComponents = _useBlueprint.blockComponents,
+	    unsetComponentAttribute = _useBlueprint.unsetComponentAttribute;
+	  var connnectionsContext = React$2.useContext(BlueprintConnectionsContext);
 	  var componentAttributes = React$2.useMemo(function () {
 	    return Object.entries(blockComponents).filter(function (_ref) {
 	      var _ref2 = _slicedToArray(_ref, 2);
@@ -9073,52 +9025,40 @@
 	  var _useSelector = useSelector(function (state) {
 	      return state.blockConnections || {};
 	    }),
-	    draggingExistingConnection = _useSelector.draggingExistingConnection,
-	    draggingNewConnection = _useSelector.draggingNewConnection,
-	    handlePositions = _useSelector.handlePositions,
-	    handlesFrom = _useSelector.handlesFrom,
-	    handlesTo = _useSelector.handlesTo;
-	  var _startDraggingExistingConnection = React$2.useCallback(function (_ref6) {
-	    var attributeName = _ref6.attributeName,
-	      clientId = _ref6.clientId;
-	    dispatch(startDraggingExistingConnection({
-	      attributeName: attributeName,
-	      clientId: clientId
-	    }));
+	    handlePositions = _useSelector.handlePositions;
+	  var _getHandlePosition = React$2.useCallback(function (clientId) {
+	    return useSelector(function (state) {
+	      return getHandlePosition(state.blockConnections, clientId);
+	    });
 	  }, []);
-	  var _startDraggingNewConnection = React$2.useCallback(function (_ref7) {
-	    var clientId = _ref7.clientId,
-	      from = _ref7.from,
-	      to = _ref7.to;
-	    dispatch(startDraggingNewConnection({
+	  var removeConnection = React$2.useCallback(function (clientId) {
+	    unsetComponentAttribute(clientId, "attributeName");
+	  }, []);
+	  var setConnection = React$2.useCallback(function (from, to) {
+	    //console.log(from, to);
+	    /*const attribute = useSelector((state) =>
+	    	getAttributeById(state.blockJson, from),
+	    );*/
+	    var attribute = getAttributeById(from);
+	    console.log(attribute);
+	  });
+	  var _setHandlePosition = React$2.useCallback(function (_ref6) {
+	    var clientId = _ref6.clientId,
+	      x = _ref6.x,
+	      y = _ref6.y;
+	    dispatch(setHandlePosition({
 	      clientId: clientId,
-	      from: from,
-	      to: to
+	      x: x,
+	      y: y
 	    }));
 	  }, []);
-	  var setHandlePosition = React$2.useCallback(function (handlePosition) {
-	    dispatch(setHandlePosition(handlePosition));
-	  }, []);
-	  var _stopDraggingExistingConnection = React$2.useCallback(function () {
-	    dispatch(stopDraggingExistingConnection());
-	  }, []);
-	  var _stopDraggingNewConnection = React$2.useCallback(function () {
-	    dispatch(stopDraggingNewConnection());
-	  }, []);
-	  return {
-	    allConnections: allConnections,
-	    draggingExistingConnection: draggingExistingConnection,
-	    draggingNewConnection: draggingNewConnection,
-	    getHandlePosition: getHandlePosition,
-	    handlesFrom: handlesFrom,
-	    handlesTo: handlesTo,
+	  return _objectSpread2(_objectSpread2({}, connnectionsContext), {}, {
+	    getHandlePosition: _getHandlePosition,
 	    handlePositions: handlePositions,
-	    setHandlePosition: setHandlePosition,
-	    startDraggingExistingConnection: _startDraggingExistingConnection,
-	    startDraggingNewConnection: _startDraggingNewConnection,
-	    stopDraggingExistingConnection: _stopDraggingExistingConnection,
-	    stopDraggingNewConnection: _stopDraggingNewConnection
-	  };
+	    removeConnection: removeConnection,
+	    setConnection: setConnection,
+	    setHandlePosition: _setHandlePosition
+	  });
 	};
 
 	function useMouseMove(onMouseMove) {
@@ -9363,33 +9303,49 @@
 	  }, [draggingContext, isDragging]);
 	};
 
-	var useBlueprintConnectionsDrag = function useBlueprintConnectionsDrag(ref, clientId) {
+	var useBlueprintConnectionsDrag = function useBlueprintConnectionsDrag(ref, _ref) {
+	  var _ref$attributeName = _ref.attributeName,
+	    attributeName = _ref$attributeName === void 0 ? null : _ref$attributeName,
+	    clientId = _ref.clientId,
+	    _ref$context = _ref.context,
+	    context = _ref$context === void 0 ? "component" : _ref$context;
 	  var hasMouseFocus = useMouseFocus(ref);
+	  var _useBlockJson = useBlockJson(),
+	    getAttributeById = _useBlockJson.getAttributeById;
 	  var _useBlueprint = useBlueprint(),
 	    getComponentType = _useBlueprint.getComponentType,
 	    setComponentAttribute = _useBlueprint.setComponentAttribute,
 	    unsetComponentAttribute = _useBlueprint.unsetComponentAttribute;
-	  var type = getComponentType(clientId);
-	  var hasAttributeHandle = React$2.useMemo(function () {
-	    return type !== "html";
-	  }, [type]);
+	  var hasAttributeHandle = null;
+	  if (context === "attribute") {
+	    getAttributeById(clientId);
+	    hasAttributeHandle = true;
+	  } else {
+	    var type = getComponentType(clientId);
+	    hasAttributeHandle = React$2.useMemo(function () {
+	      return type !== "html";
+	    }, [type]);
+	  }
 	  if (!hasAttributeHandle) {
 	    return {};
 	  }
 	  var _useBlueprintConnecti = useBlueprintConnections(),
-	    draggingExistingConnection = _useBlueprintConnecti.draggingExistingConnection,
-	    draggingNewConnection = _useBlueprintConnecti.draggingNewConnection;
+	    existingDraggingConnection = _useBlueprintConnecti.existingDraggingConnection,
+	    newDraggingConnection = _useBlueprintConnecti.newDraggingConnection;
+	  var onDrop = React$2.useCallback(function () {
+	    if (existingDraggingConnection) {
+	      unsetComponentAttribute(existingDraggingConnection === null || existingDraggingConnection === void 0 ? void 0 : existingDraggingConnection.clientId, "attributeName");
+	      setComponentAttribute(clientId, "attributeName", existingDraggingConnection === null || existingDraggingConnection === void 0 ? void 0 : existingDraggingConnection.attributeName);
+	    } else if (newDraggingConnection && context === "attribute") {
+	      setComponentAttribute(newDraggingConnection === null || newDraggingConnection === void 0 ? void 0 : newDraggingConnection.clientId, "attributeName", attributeName);
+	    } else if (newDraggingConnection) {
+	      setComponentAttribute(clientId, "attributeName", newDraggingConnection === null || newDraggingConnection === void 0 ? void 0 : newDraggingConnection.attributeName);
+	    }
+	  }, [clientId, context, existingDraggingConnection, newDraggingConnection]);
 	  var _useEditorDrag = useEditorDrag({
 	      context: ["connectionHandle"],
 	      ref: ref
-	    }, function () {
-	      if (draggingExistingConnection) {
-	        unsetComponentAttribute(draggingExistingConnection === null || draggingExistingConnection === void 0 ? void 0 : draggingExistingConnection.clientId, "attributeName");
-	        setComponentAttribute(clientId, "attributeName", draggingExistingConnection === null || draggingExistingConnection === void 0 ? void 0 : draggingExistingConnection.attributeName);
-	      } else if (draggingNewConnection) {
-	        setComponentAttribute(clientId, "attributeName", draggingNewConnection === null || draggingNewConnection === void 0 ? void 0 : draggingNewConnection.attributeName);
-	      }
-	    }),
+	    }, onDrop),
 	    isDragging = _useEditorDrag.isDragging;
 	  return {
 	    hasFocus: hasMouseFocus && isDragging
@@ -10776,57 +10732,60 @@
 	    allConnections = _useState2[0],
 	    setAllConnections = _useState2[1];
 	  var _useState3 = React$2.useState(null),
-	    _useState4 = _slicedToArray(_useState3, 2);
-	    _useState4[0];
-	    _useState4[1];
-	  var _useState5 = React$2.useState({}),
+	    _useState4 = _slicedToArray(_useState3, 2),
+	    existingDraggingConnection = _useState4[0],
+	    setExistingDraggingConnection = _useState4[1];
+	  var _useState5 = React$2.useState(null),
 	    _useState6 = _slicedToArray(_useState5, 2),
-	    handlePositions = _useState6[0],
-	    setHandlePositions = _useState6[1];
+	    newDraggingConnection = _useState6[0],
+	    setNewDraggingConnection = _useState6[1];
 	  var _useBlockJson = useBlockJson(),
 	    blockAttributes = _useBlockJson.blockAttributes;
 	  var _useBlueprint = useBlueprint(),
+	    blockComponents = _useBlueprint.blockComponents,
 	    getComponentsByAttributeName = _useBlueprint.getComponentsByAttributeName;
-	  var getHandlePosition = React$2.useCallback(function (clientId) {
-	    if (clientId in handlePositions) {
-	      return handlePositions[clientId];
-	    }
-	    return null;
-	  }, [handlePositions]);
-	  var setHandlePosition = React$2.useCallback(function (_ref2) {
-	    var _handlePositions$clie, _handlePositions$clie2;
-	    var clientId = _ref2.clientId,
-	      _ref2$context = _ref2.context,
-	      context = _ref2$context === void 0 ? "from" : _ref2$context,
-	      _ref2$x = _ref2.x,
-	      x = _ref2$x === void 0 ? 0 : _ref2$x,
-	      _ref2$y = _ref2.y,
-	      y = _ref2$y === void 0 ? 0 : _ref2$y;
-	    if (x === (handlePositions === null || handlePositions === void 0 || (_handlePositions$clie = handlePositions[clientId]) === null || _handlePositions$clie === void 0 ? void 0 : _handlePositions$clie.x) && y === (handlePositions === null || handlePositions === void 0 || (_handlePositions$clie2 = handlePositions[clientId]) === null || _handlePositions$clie2 === void 0 ? void 0 : _handlePositions$clie2.y)) {
-	      return;
-	    }
-	    setHandlePositions(_objectSpread2(_objectSpread2({}, handlePositions), {}, _defineProperty$1({}, clientId, {
-	      context: context === "from" && "from" || "to",
-	      x: x,
-	      y: y
-	    })));
-	  }, [handlePositions]);
-
-	  /*const startDraggingNewConnection = ({ clientId, to }) => {
-	  	state.draggingNewConnection = {
-	  		clientId,
-	  		context: (context === "from" && "from") || "to",
-	  		from: {
-	  			x: from?.x || null,
-	  			y: from?.y || null,
-	  		},
-	  		to: {
-	  			x: to?.x || null,
-	  			y: to?.y || null,
-	  		},
-	  	};
-	  };*/
-
+	  var startDraggingExistingConnection = React$2.useCallback(function (_ref2) {
+	    var attributeName = _ref2.attributeName,
+	      clientId = _ref2.clientId,
+	      from = _ref2.from,
+	      to = _ref2.to;
+	    setExistingDraggingConnection({
+	      attributeName: attributeName,
+	      clientId: clientId,
+	      from: {
+	        x: (from === null || from === void 0 ? void 0 : from.x) || null,
+	        y: (from === null || from === void 0 ? void 0 : from.y) || null
+	      },
+	      to: {
+	        x: (to === null || to === void 0 ? void 0 : to.x) || null,
+	        y: (to === null || to === void 0 ? void 0 : to.y) || null
+	      }
+	    });
+	  }, []);
+	  var startDraggingNewConnection = React$2.useCallback(function (_ref3) {
+	    var attributeName = _ref3.attributeName,
+	      clientId = _ref3.clientId,
+	      from = _ref3.from,
+	      to = _ref3.to;
+	    setNewDraggingConnection({
+	      attributeName: attributeName,
+	      clientId: clientId,
+	      from: {
+	        x: (from === null || from === void 0 ? void 0 : from.x) || null,
+	        y: (from === null || from === void 0 ? void 0 : from.y) || null
+	      },
+	      to: {
+	        x: (to === null || to === void 0 ? void 0 : to.x) || null,
+	        y: (to === null || to === void 0 ? void 0 : to.y) || null
+	      }
+	    });
+	  }, []);
+	  var stopDraggingExistingConnection = React$2.useCallback(function () {
+	    setExistingDraggingConnection(null);
+	  }, []);
+	  var stopDraggingNewConnection = React$2.useCallback(function () {
+	    setNewDraggingConnection(null);
+	  }, []);
 	  React$2.useLayoutEffect(function () {
 	    var allConnections = [];
 	    blockAttributes.forEach(function (attribute) {
@@ -10841,13 +10800,16 @@
 	      });
 	    });
 	    setAllConnections(allConnections);
-	  }, []);
+	  }, [blockAttributes, blockComponents]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionsContext.Provider, {
 	    value: {
 	      allConnections: allConnections,
-	      getHandlePosition: getHandlePosition,
-	      handlePositions: handlePositions,
-	      setHandlePosition: setHandlePosition
+	      existingDraggingConnection: existingDraggingConnection,
+	      newDraggingConnection: newDraggingConnection,
+	      startDraggingExistingConnection: startDraggingExistingConnection,
+	      startDraggingNewConnection: startDraggingNewConnection,
+	      stopDraggingExistingConnection: stopDraggingExistingConnection,
+	      stopDraggingNewConnection: stopDraggingNewConnection
 	    },
 	    children: children
 	  });
@@ -14771,8 +14733,6 @@
 	    _ref$isDragging = _ref.isDragging,
 	    isDragging = _ref$isDragging === void 0 ? false : _ref$isDragging;
 	  var ref = React$2.useRef(null);
-	  var _useContext = React$2.useContext(BlueprintConnectionsContext),
-	    setHandlePosition = _useContext.setHandlePosition;
 	  var editorContext = React$2.useContext(BlueprintEditorContext);
 	  var _clientId = clientId || React$2.useId();
 	  var centerPoint = useCenterPoint(ref, editorContext === null || editorContext === void 0 ? void 0 : editorContext.ref);
@@ -14787,7 +14747,19 @@
 	    _useState4 = _slicedToArray(_useState3, 2),
 	    selfDraggingOffset = _useState4[0],
 	    setSelfDraggingOffset = _useState4[1];
+	  var _useBlockJson = useBlockJson(),
+	    getAttributeById = _useBlockJson.getAttributeById;
+	  var _useBlueprint = useBlueprint(),
+	    getComponentAttribute = _useBlueprint.getComponentAttribute;
+	  var attributeName;
+	  if (context === "from") {
+	    var _ref2;
+	    attributeName = (_ref2 = getAttributeById(_clientId) || {}) === null || _ref2 === void 0 ? void 0 : _ref2.name;
+	  } else {
+	    attributeName = getComponentAttribute(_clientId, "attributeName");
+	  }
 	  var _useBlueprintConnecti = useBlueprintConnections(),
+	    setHandlePosition = _useBlueprintConnecti.setHandlePosition,
 	    startDraggingExistingConnection = _useBlueprintConnecti.startDraggingExistingConnection,
 	    startDraggingNewConnection = _useBlueprintConnecti.startDraggingNewConnection,
 	    stopDraggingExistingConnection = _useBlueprintConnecti.stopDraggingExistingConnection,
@@ -14809,67 +14781,84 @@
 	    }
 	    return centerPoint;
 	  };
-	  var onDrag = function onDrag(_ref2) {
-	    var x = _ref2.x,
-	      y = _ref2.y;
+	  var onDrag = function onDrag(_ref3) {
+	    var x = _ref3.x,
+	      y = _ref3.y;
 	    setSelfDraggingOffset({
 	      x: x,
 	      y: y
 	    });
 	    if (context === "from") {
 	      startDraggingNewConnection({
+	        attributeName: attributeName,
+	        clientId: _clientId,
 	        from: centerPoint,
 	        to: {
 	          x: centerPoint.x + x,
 	          y: centerPoint.y + y
 	        }
 	      });
+	    } else if (attributeName === null) {
+	      startDraggingNewConnection({
+	        attributeName: attributeName,
+	        clientId: _clientId,
+	        from: {
+	          x: centerPoint.x + x,
+	          y: centerPoint.y + y
+	        },
+	        to: centerPoint
+	      });
 	    } else {
 	      dispatchPosition();
-	      /*startDraggingNewConnection({
-	      from: {
-	      	x: centerPoint.x + x,
-	      	y: centerPoint.y + y,
-	      },
-	      to: centerPoint,
-	      });*/
+	      startDraggingExistingConnection({
+	        attributeName: attributeName,
+	        clientId: _clientId,
+	        from: {
+	          x: centerPoint.x + x,
+	          y: centerPoint.y + y
+	        },
+	        to: centerPoint
+	      });
 	    }
 	  };
 	  var onStartDrag = function onStartDrag() {
 	    setIsDraggingSelf(true);
 	    if (context === "from") {
 	      startDraggingNewConnection({
+	        attributeName: attributeName,
+	        clientId: _clientId,
+	        from: centerPoint,
+	        to: centerPoint
+	      });
+	    } else if (attributeName === null) {
+	      startDraggingNewConnection({
+	        attributeName: attributeName,
 	        clientId: _clientId,
 	        from: centerPoint,
 	        to: centerPoint
 	      });
 	    } else {
+	      dispatchPosition();
 	      startDraggingExistingConnection({
-	        clientId: _clientId
+	        attributeName: attributeName,
+	        clientId: _clientId,
+	        from: centerPoint,
+	        to: centerPoint
 	      });
-	      /*startDraggingNewConnection({
-	      clientId: _clientId,
-	      from: centerPoint,
-	      to: centerPoint,
-	      });*/
 	    }
 	  };
-	  var onStopDrag = function onStopDrag() {
+	  var onStopDrag = React$2.useCallback(function () {
 	    setIsDraggingSelf(false);
 	    setSelfDraggingOffset({
 	      x: 0,
 	      y: 0
 	    });
-	    dispatchPosition(centerPoint);
 	    setTimeout(function () {
-	      if (context === "from") {
-	        stopDraggingNewConnection();
-	      } else {
-	        stopDraggingExistingConnection();
-	        //stopDraggingNewConnection();
-	      }
+	      dispatchPosition(centerPoint);
+	      stopDraggingNewConnection();
+	      stopDraggingExistingConnection();
 	    }, 0);
-	  };
+	  }, [centerPoint]);
 	  var dispatchPosition = function dispatchPosition() {
 	    var position = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 	    var currentPosition = position || getCurrentPosition();
@@ -14877,8 +14866,8 @@
 	      return;
 	    }
 	    setHandlePosition({
-	      context: context,
 	      clientId: _clientId,
+	      context: context,
 	      x: currentPosition.x,
 	      y: currentPosition.y
 	    });
@@ -14890,7 +14879,9 @@
 	   * the connections between handles.
 	   */
 	  if (!isClone) {
-	    dispatchPosition();
+	    React$2.useLayoutEffect(function () {
+	      dispatchPosition();
+	    }, [centerPoint, clientId, context]);
 	  }
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    ref: ref,
@@ -14988,9 +14979,17 @@
 	      defaultValue: newAttributeDefault
 	    });
 	  }
+	  var _useBlueprintConnecti = useBlueprintConnectionsDrag(ref, {
+	      attributeName: attributeName,
+	      clientId: clientId,
+	      context: "attribute"
+	    }),
+	    hasDraggingConnectionFocus = _useBlueprintConnecti.hasFocus;
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
-	    className: "BlueprintAttribute",
+	    className: clsx$1("BlueprintAttribute", {
+	      "has-focus": hasDraggingConnectionFocus
+	    }),
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionHandle, {
 	      clientId: clientId,
 	      context: "from"
@@ -15478,7 +15477,10 @@
 	    isDraggingSelf = _useDragWithinEditor.isDragging,
 	    offset = _useDragWithinEditor.offset,
 	    draggableProps = _objectWithoutProperties(_useDragWithinEditor, _excluded$4);
-	  var _useBlueprintConnecti = useBlueprintConnectionsDrag(ref, clientId),
+	  var _useBlueprintConnecti = useBlueprintConnectionsDrag(ref, {
+	      clientId: clientId,
+	      context: "component"
+	    }),
 	    hasDraggingConnectionFocus = _useBlueprintConnecti.hasFocus;
 
 	  // Call hook passing in the ref and a function to call on outside click
@@ -15665,27 +15667,31 @@
 	var BlueprintConnection = function BlueprintConnection(_ref) {
 	  var _ref$from = _ref.from,
 	    from = _ref$from === void 0 ? null : _ref$from,
+	    _ref$fromPosition = _ref.fromPosition,
+	    fromPosition = _ref$fromPosition === void 0 ? null : _ref$fromPosition,
 	    _ref$to = _ref.to,
-	    to = _ref$to === void 0 ? null : _ref$to;
-	  useBlueprint();
+	    to = _ref$to === void 0 ? null : _ref$to,
+	    _ref$toPosition = _ref.toPosition,
+	    toPosition = _ref$toPosition === void 0 ? null : _ref$toPosition;
 	  var _useBlueprintConnecti = useBlueprintConnections(),
-	    getHandlePosition = _useBlueprintConnecti.getHandlePosition;
-	  var fromPosition = getHandlePosition(from);
-	  var toPosition = getHandlePosition(to);
-	  var height = Math.abs((toPosition === null || toPosition === void 0 ? void 0 : toPosition.y) - (fromPosition === null || fromPosition === void 0 ? void 0 : fromPosition.y));
-	  var width = Math.abs((toPosition === null || toPosition === void 0 ? void 0 : toPosition.x) - (fromPosition === null || fromPosition === void 0 ? void 0 : fromPosition.x));
+	    getHandlePosition = _useBlueprintConnecti.getHandlePosition,
+	    removeConnection = _useBlueprintConnecti.removeConnection;
+	  var _fromPosition = fromPosition || getHandlePosition(from);
+	  var _toPosition = toPosition || getHandlePosition(to);
+	  var height = Math.abs((_toPosition === null || _toPosition === void 0 ? void 0 : _toPosition.y) - (_fromPosition === null || _fromPosition === void 0 ? void 0 : _fromPosition.y));
+	  var width = Math.abs((_toPosition === null || _toPosition === void 0 ? void 0 : _toPosition.x) - (_fromPosition === null || _fromPosition === void 0 ? void 0 : _fromPosition.x));
 	  var handleOffsetX = Math.round(Math.min(height * 2, width * 0.75) * 100) / 100;
 	  var handleOffsetY = Math.round(height * 0.1 * 100) / 100;
 	  var onClick = function onClick() {
-	    if (clientId) ;
+	    removeConnection(to);
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("g", {
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("path", {
-	      d: "M".concat(fromPosition === null || fromPosition === void 0 ? void 0 : fromPosition.x, " ").concat(fromPosition === null || fromPosition === void 0 ? void 0 : fromPosition.y, "C").concat((fromPosition === null || fromPosition === void 0 ? void 0 : fromPosition.x) + handleOffsetX, " ").concat((fromPosition === null || fromPosition === void 0 ? void 0 : fromPosition.y) - handleOffsetY, " ").concat((toPosition === null || toPosition === void 0 ? void 0 : toPosition.x) - handleOffsetX, " ").concat((toPosition === null || toPosition === void 0 ? void 0 : toPosition.y) + handleOffsetY, " ").concat(toPosition === null || toPosition === void 0 ? void 0 : toPosition.x, " ").concat(toPosition === null || toPosition === void 0 ? void 0 : toPosition.y),
+	      d: "M".concat(_fromPosition === null || _fromPosition === void 0 ? void 0 : _fromPosition.x, " ").concat(_fromPosition === null || _fromPosition === void 0 ? void 0 : _fromPosition.y, "C").concat((_fromPosition === null || _fromPosition === void 0 ? void 0 : _fromPosition.x) + handleOffsetX, " ").concat((_fromPosition === null || _fromPosition === void 0 ? void 0 : _fromPosition.y) - handleOffsetY, " ").concat((_toPosition === null || _toPosition === void 0 ? void 0 : _toPosition.x) - handleOffsetX, " ").concat((_toPosition === null || _toPosition === void 0 ? void 0 : _toPosition.y) + handleOffsetY, " ").concat(_toPosition === null || _toPosition === void 0 ? void 0 : _toPosition.x, " ").concat(_toPosition === null || _toPosition === void 0 ? void 0 : _toPosition.y),
 	      stroke: "var(--color-white)",
 	      strokeWidth: "2"
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("path", {
-	      d: "M".concat(fromPosition === null || fromPosition === void 0 ? void 0 : fromPosition.x, " ").concat(fromPosition === null || fromPosition === void 0 ? void 0 : fromPosition.y, "C").concat((fromPosition === null || fromPosition === void 0 ? void 0 : fromPosition.x) + handleOffsetX, " ").concat((fromPosition === null || fromPosition === void 0 ? void 0 : fromPosition.y) - handleOffsetY, " ").concat((toPosition === null || toPosition === void 0 ? void 0 : toPosition.x) - handleOffsetX, " ").concat((toPosition === null || toPosition === void 0 ? void 0 : toPosition.y) + handleOffsetY, " ").concat(toPosition === null || toPosition === void 0 ? void 0 : toPosition.x, " ").concat(toPosition === null || toPosition === void 0 ? void 0 : toPosition.y),
+	      d: "M".concat(_fromPosition === null || _fromPosition === void 0 ? void 0 : _fromPosition.x, " ").concat(_fromPosition === null || _fromPosition === void 0 ? void 0 : _fromPosition.y, "C").concat((_fromPosition === null || _fromPosition === void 0 ? void 0 : _fromPosition.x) + handleOffsetX, " ").concat((_fromPosition === null || _fromPosition === void 0 ? void 0 : _fromPosition.y) - handleOffsetY, " ").concat((_toPosition === null || _toPosition === void 0 ? void 0 : _toPosition.x) - handleOffsetX, " ").concat((_toPosition === null || _toPosition === void 0 ? void 0 : _toPosition.y) + handleOffsetY, " ").concat(_toPosition === null || _toPosition === void 0 ? void 0 : _toPosition.x, " ").concat(_toPosition === null || _toPosition === void 0 ? void 0 : _toPosition.y),
 	      onClick: onClick,
 	      stroke: "transparent",
 	      strokeWidth: "10"
@@ -15697,8 +15703,8 @@
 	  _objectDestructuringEmpty(_ref);
 	  var _useBlueprintConnecti = useBlueprintConnections(),
 	    allConnections = _useBlueprintConnecti.allConnections,
-	    _useBlueprintConnecti2 = _useBlueprintConnecti.draggingNewConnection,
-	    draggingNewConnection = _useBlueprintConnecti2 === void 0 ? {} : _useBlueprintConnecti2;
+	    _useBlueprintConnecti2 = _useBlueprintConnecti.newDraggingConnection,
+	    newDraggingConnection = _useBlueprintConnecti2 === void 0 ? null : _useBlueprintConnecti2;
 	  var editor = useSelector(function (state) {
 	    return state.editor || {};
 	  });
@@ -15719,7 +15725,10 @@
 	          from: from,
 	          to: to
 	        }, i);
-	      }), draggingNewConnection && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnection, _objectSpread2({}, draggingNewConnection))]
+	      }), newDraggingConnection && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnection, {
+	        fromPosition: newDraggingConnection === null || newDraggingConnection === void 0 ? void 0 : newDraggingConnection.from,
+	        toPosition: newDraggingConnection === null || newDraggingConnection === void 0 ? void 0 : newDraggingConnection.to
+	      })]
 	    })
 	  });
 	}

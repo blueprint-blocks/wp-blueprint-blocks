@@ -5,6 +5,7 @@ import {
 	addAttribute,
 	editAttribute,
 	getAttribute,
+	getAttributeById,
 	getAllAttributeNames,
 	renameAttribute,
 	removeAttribute,
@@ -56,6 +57,14 @@ const useBlockJson = () => {
 		[],
 	);
 
+	const _getAttributeById = useCallback(
+		(attributeName) =>
+			useSelector((state) =>
+				getAttributeById(state.blockJson, attributeName),
+			),
+		[],
+	);
+
 	const _renameAttribute = useCallback((attributeName, newAttributeName) => {
 		dispatch(
 			renameAttribute({ name: attributeName, newName: newAttributeName }),
@@ -75,6 +84,7 @@ const useBlockJson = () => {
 		blockAttributeNames: attributeNames,
 		editAttribute: _editAttribute,
 		getAttribute: _getAttribute,
+		getAttributeById: _getAttributeById,
 		renameAttribute: _renameAttribute,
 		removeAttribute: _removeAttribute,
 	};

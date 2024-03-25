@@ -8,8 +8,6 @@ const selectAttributeName = (_, attributeName) => attributeName;
 const getAttribute = createSelector(
 	[selectAttributes, selectAttributeName],
 	(attributes, attributeName) => {
-		//count++;
-		//console.log(`selector ${count}:`, attributeName);
 		for (const { name, type = "string", ...attribute } of attributes) {
 			if (name === attributeName) {
 				return {

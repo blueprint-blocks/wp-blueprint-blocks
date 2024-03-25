@@ -13,7 +13,12 @@ import {
 	isObject,
 } from "../../functions";
 
-import { useBlockJson, useBlueprint, useDebugRenderCount } from "../../hooks";
+import {
+	useBlockJson,
+	useBlueprint,
+	useBlueprintConnectionsDrag,
+	useDebugRenderCount,
+} from "../../hooks";
 
 import BlueprintConnectionHandle from "../BlueprintConnectionHandle";
 import BlueprintWarning from "../BlueprintWarning";
@@ -105,12 +110,24 @@ const BlueprintAttribute = memo(({ attributeName = null, clientId }) => {
 		});
 	}
 
+	const { hasFocus: hasDraggingConnectionFocus } =
+		useBlueprintConnectionsDrag(ref, {
+			attributeName,
+			clientId,
+			context: "attribute",
+		});
+
 	if (process.env.NODE_ENV === "development") {
 		useDebugRenderCount("BlueprintAttribute");
 	}
 
 	return (
-		<div ref={ref} className="BlueprintAttribute">
+		<div
+			ref={ref}
+			className={clsx("BlueprintAttribute", {
+				"has-focus": hasDraggingConnectionFocus,
+			})}
+		>
 			<BlueprintConnectionHandle clientId={clientId} context="from" />
 			<div className="BlueprintAttribute-line">
 				<span className={clsx({ "is-invalid": !attributeNameValid })}>

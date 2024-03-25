@@ -73,7 +73,10 @@ const BlueprintComponent = memo(
 		});
 
 		const { hasFocus: hasDraggingConnectionFocus } =
-			useBlueprintConnectionsDrag(ref, clientId);
+			useBlueprintConnectionsDrag(ref, {
+				clientId,
+				context: "component",
+			});
 
 		// Call hook passing in the ref and a function to call on outside click
 		useOnClickOutside(ref, () => {

@@ -7,22 +7,19 @@ import useBlueprint from "./use-blueprint";
 import { BlueprintConnectionsContext } from "../contexts";
 
 import {
-	startDraggingExistingConnection,
-	startDraggingNewConnection,
+	getHandlePosition,
 	setHandlePosition,
-	stopDraggingExistingConnection,
-	stopDraggingNewConnection,
 } from "../store/block-connections";
+
+//import { getAttributeById } from "../store/block-json";
 
 const useBlueprintConnections = () => {
 	const dispatch = useDispatch();
 
-	const { blockAttributeNames } = useBlockJson();
-	const { blockComponents } = useBlueprint();
+	const { blockAttributeNames, getAttributeById } = useBlockJson();
+	const { blockComponents, unsetComponentAttribute } = useBlueprint();
 
-	const { allConnections, getHandlePosition } = useContext(
-		BlueprintConnectionsContext,
-	);
+	const connnectionsContext = useContext(BlueprintConnectionsContext);
 
 	const componentAttributes = useMemo(
 		() =>
@@ -45,66 +42,42 @@ const useBlueprintConnections = () => {
 		[blockAttributeNames, componentAttributes],
 	);
 
-	const {
-		draggingExistingConnection,
-		draggingNewConnection,
-		handlePositions,
-		handlesFrom,
-		handlesTo,
-	} = useSelector((state) => {
+	const { handlePositions } = useSelector((state) => {
 		return state.blockConnections || {};
 	});
 
-	const _startDraggingExistingConnection = useCallback(
-		({ attributeName, clientId }) => {
-			dispatch(
-				startDraggingExistingConnection({
-					attributeName,
-					clientId,
-				}),
-			);
-		},
+	const _getHandlePosition = useCallback(
+		(clientId) =>
+			useSelector((state) =>
+				getHandlePosition(state.blockConnections, clientId),
+			),
 		[],
 	);
 
-	const _startDraggingNewConnection = useCallback(
-		({ clientId, from, to }) => {
-			dispatch(
-				startDraggingNewConnection({
-					clientId,
-					from,
-					to,
-				}),
-			);
-		},
-		[],
-	);
-
-	const setHandlePosition = useCallback((handlePosition) => {
-		dispatch(setHandlePosition(handlePosition));
+	const removeConnection = useCallback((clientId) => {
+		unsetComponentAttribute(clientId, "attributeName");
 	}, []);
 
-	const _stopDraggingExistingConnection = useCallback(() => {
-		dispatch(stopDraggingExistingConnection());
-	}, []);
+	const setConnection = useCallback((from, to) => {
+		//console.log(from, to);
+		/*const attribute = useSelector((state) =>
+			getAttributeById(state.blockJson, from),
+		);*/
+		const attribute = getAttributeById(from);
+		console.log(attribute);
+	});
 
-	const _stopDraggingNewConnection = useCallback(() => {
-		dispatch(stopDraggingNewConnection());
+	const _setHandlePosition = useCallback(({ clientId, x, y }) => {
+		dispatch(setHandlePosition({ clientId, x, y }));
 	}, []);
 
 	return {
-		allConnections,
-		draggingExistingConnection,
-		draggingNewConnection,
-		getHandlePosition,
-		handlesFrom,
-		handlesTo,
+		...connnectionsContext,
+		getHandlePosition: _getHandlePosition,
 		handlePositions,
-		setHandlePosition,
-		startDraggingExistingConnection: _startDraggingExistingConnection,
-		startDraggingNewConnection: _startDraggingNewConnection,
-		stopDraggingExistingConnection: _stopDraggingExistingConnection,
-		stopDraggingNewConnection: _stopDraggingNewConnection,
+		removeConnection,
+		setConnection,
+		setHandlePosition: _setHandlePosition,
 	};
 };
 

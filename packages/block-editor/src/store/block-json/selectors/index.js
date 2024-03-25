@@ -1,5 +1,6 @@
 import getAllAttributeNames from "./get-all-attribute-names";
 import getAttribute from "./get-attribute";
+import getAttributeById from "./get-attribute-by-id";
 import getAttributeIndex from "./get-attribute-index";
 import getBlockClassName from "./get-block-class-name";
 import getBlockName from "./get-block-name";
@@ -11,6 +12,7 @@ import getUniqueAttributeName from "./get-unique-attribute-name";
 export {
 	getAllAttributeNames,
 	getAttribute,
+	getAttributeById,
 	getAttributeIndex,
 	getBlockClassName,
 	getBlockName,

@@ -6,6 +6,7 @@ import reducers from "./reducers";
 import {
 	getAllAttributeNames,
 	getAttribute,
+	getAttributeById,
 	getBlockClassName,
 	getBlockName,
 	getBlockNamespace,
@@ -49,6 +50,7 @@ export const {
 export {
 	getAllAttributeNames,
 	getAttribute,
+	getAttributeById,
 	getBlockClassName,
 	getBlockName,
 	getBlockNamespace,

@@ -7,7 +7,7 @@ import BlueprintConnection from "../BlueprintConnection";
 import "./style.css";
 
 function BlueprintConnections({}) {
-	const { allConnections, draggingNewConnection = {} } =
+	const { allConnections, newDraggingConnection = null } =
 		useBlueprintConnections();
 
 	const editor = useSelector((state) => {
@@ -28,8 +28,11 @@ function BlueprintConnections({}) {
 				{allConnections.map(({ from, to }, i) => (
 					<BlueprintConnection key={i} from={from} to={to} />
 				))}
-				{draggingNewConnection && (
-					<BlueprintConnection {...draggingNewConnection} />
+				{newDraggingConnection && (
+					<BlueprintConnection
+						fromPosition={newDraggingConnection?.from}
+						toPosition={newDraggingConnection?.to}
+					/>
 				)}
 			</svg>
 		</div>

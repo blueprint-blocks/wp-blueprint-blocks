@@ -21,7 +21,7 @@
 		font-weight: var(--font-weight-semi-bold);
 	}
 
-	.BlueprintConnectionsDebug-list {
+	.BlueprintConnectionsDebug-list > div {
 		column-gap: var(--2x);
 		display: grid;
 		grid-template-columns: max-content 1fr;
