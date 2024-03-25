@@ -9547,6 +9547,29 @@
 	  });
 	}
 
+	// Add handler to effect dependencies
+	// It's worth noting that because passed in handler is a new ...
+	// ... function on every render that will cause this effect ...
+	// ... callback/cleanup to run every render. It's not a big deal ...
+	// ... but to optimize you can wrap handler in useCallback before ...
+	// ... passing it into this hook.
+
+	function useOnDelete(handler) {
+	  React$2.useEffect(function () {
+	    var listener = function listener(event) {
+	      // Do nothing if key is not backspace
+	      if (event.key !== "Backspace") {
+	        return;
+	      }
+	      handler(event);
+	    };
+	    document.addEventListener("keydown", listener);
+	    return function () {
+	      document.removeEventListener("keydown", listener);
+	    };
+	  }, [handler]);
+	}
+
 	// Add ref and handler to effect dependencies
 	// It's worth noting that because passed in handler is a new ...
 	// ... function on every render that will cause this effect ...
@@ -14926,13 +14949,19 @@
 	    attributeName = _ref$attributeName === void 0 ? null : _ref$attributeName,
 	    clientId = _ref.clientId;
 	  var ref = React$2.useRef(null);
+	  var _useEditorFocus = useEditorFocus(clientId),
+	    hasFocus = _useEditorFocus.hasFocus,
+	    setFocus = _useEditorFocus.setFocus,
+	    unsetFocus = _useEditorFocus.unsetFocus;
 	  var _useBlockJson = useBlockJson(),
 	    editAttribute = _useBlockJson.editAttribute,
 	    getAttribute = _useBlockJson.getAttribute,
+	    removeAttribute = _useBlockJson.removeAttribute,
 	    renameAttribute = _useBlockJson.renameAttribute;
 	  var _useBlueprint = useBlueprint(),
 	    getComponentsByAttributeName = _useBlueprint.getComponentsByAttributeName,
-	    setComponentAttribute = _useBlueprint.setComponentAttribute;
+	    setComponentAttribute = _useBlueprint.setComponentAttribute,
+	    unsetComponentAttribute = _useBlueprint.unsetComponentAttribute;
 	  var attribute = getAttribute(attributeName);
 	  var attributeDefault = React$2.useMemo(function () {
 	    if (isObject(attribute === null || attribute === void 0 ? void 0 : attribute["default"]) || isArray(attribute === null || attribute === void 0 ? void 0 : attribute["default"])) {
@@ -14960,6 +14989,13 @@
 	    }
 	    return true;
 	  }, [allowsNullDefault, attributeDefault, attribute, attributeTypeValid]);
+	  var onClick = React$2.useCallback(function (event) {
+	    event.stopPropagation();
+	    setFocus({
+	      clientId: clientId,
+	      context: "attribute"
+	    });
+	  }, [clientId]);
 	  function onChangeAttributeName(newAttributeName) {
 	    var blockComponents = Object.keys(getComponentsByAttributeName(attributeName));
 	    blockComponents.forEach(function (clientId) {
@@ -14985,11 +15021,28 @@
 	      context: "attribute"
 	    }),
 	    hasDraggingConnectionFocus = _useBlueprintConnecti.hasFocus;
+
+	  // Remove attribute on delete
+	  useOnDelete(function () {
+	    if (hasFocus) {
+	      var blockComponents = Object.keys(getComponentsByAttributeName(attributeName));
+	      blockComponents.forEach(function (clientId) {
+	        unsetComponentAttribute(clientId, "attributeName");
+	      });
+	      removeAttribute(attributeName);
+	    }
+	  });
+
+	  // Call hook passing in the ref and a function to call on outside click
+	  useOnClickOutside(ref, function () {
+	    unsetFocus();
+	  });
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: clsx$1("BlueprintAttribute", {
-	      "has-focus": hasDraggingConnectionFocus
+	      "has-focus": hasFocus || hasDraggingConnectionFocus
 	    }),
+	    onClick: onClick,
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      "class": "BlueprintAttribute-focus"
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionHandle, {

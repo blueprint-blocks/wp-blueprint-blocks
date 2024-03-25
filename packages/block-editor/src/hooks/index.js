@@ -22,6 +22,7 @@ import useMouseFocus from "./use-mouse-focus";
 import useMouseMove from "./use-mouse-move";
 import useMouseUp from "./use-mouse-up";
 import useNavRect from "./use-nav-rect";
+import useOnDelete from "./use-on-delete";
 import useOnClickOutside from "./use-on-click-outside";
 import usePreventClose from "./use-prevent-close";
 import useRect from "./use-rect";
@@ -52,6 +53,7 @@ export {
 	useMouseFocus,
 	useMouseUp,
 	useNavRect,
+	useOnDelete,
 	useOnClickOutside,
 	usePreventClose,
 	useRect,

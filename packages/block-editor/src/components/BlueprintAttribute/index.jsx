@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import { memo, useMemo, useRef } from "react";
+
+import { memo, useCallback, useMemo, useRef } from "react";
 
 import { attributeTypes } from "../../data";
 
@@ -18,6 +19,9 @@ import {
 	useBlueprint,
 	useBlueprintConnectionsDrag,
 	useDebugRenderCount,
+	useEditorFocus,
+	useOnClickOutside,
+	useOnDelete,
 } from "../../hooks";
 
 import BlueprintConnectionHandle from "../BlueprintConnectionHandle";
@@ -29,10 +33,16 @@ import "./style.css";
 const BlueprintAttribute = memo(({ attributeName = null, clientId }) => {
 	const ref = useRef(null);
 
-	const { editAttribute, getAttribute, renameAttribute } = useBlockJson();
+	const { hasFocus, setFocus, unsetFocus } = useEditorFocus(clientId);
 
-	const { getComponentsByAttributeName, setComponentAttribute } =
-		useBlueprint();
+	const { editAttribute, getAttribute, removeAttribute, renameAttribute } =
+		useBlockJson();
+
+	const {
+		getComponentsByAttributeName,
+		setComponentAttribute,
+		unsetComponentAttribute,
+	} = useBlueprint();
 
 	const attribute = getAttribute(attributeName);
 
@@ -84,6 +94,14 @@ const BlueprintAttribute = memo(({ attributeName = null, clientId }) => {
 		return true;
 	}, [allowsNullDefault, attributeDefault, attribute, attributeTypeValid]);
 
+	const onClick = useCallback(
+		(event) => {
+			event.stopPropagation();
+			setFocus({ clientId, context: "attribute" });
+		},
+		[clientId],
+	);
+
 	function onChangeAttributeName(newAttributeName) {
 		const blockComponents = Object.keys(
 			getComponentsByAttributeName(attributeName),
@@ -117,6 +135,26 @@ const BlueprintAttribute = memo(({ attributeName = null, clientId }) => {
 			context: "attribute",
 		});
 
+	// Remove attribute on delete
+	useOnDelete(() => {
+		if (hasFocus) {
+			const blockComponents = Object.keys(
+				getComponentsByAttributeName(attributeName),
+			);
+
+			blockComponents.forEach((clientId) => {
+				unsetComponentAttribute(clientId, "attributeName");
+			});
+
+			removeAttribute(attributeName);
+		}
+	}, [clientId, hasFocus]);
+
+	// Call hook passing in the ref and a function to call on outside click
+	useOnClickOutside(ref, () => {
+		unsetFocus();
+	});
+
 	if (process.env.NODE_ENV === "development") {
 		useDebugRenderCount("BlueprintAttribute");
 	}
@@ -125,8 +163,9 @@ const BlueprintAttribute = memo(({ attributeName = null, clientId }) => {
 		<div
 			ref={ref}
 			className={clsx("BlueprintAttribute", {
-				"has-focus": hasDraggingConnectionFocus,
+				"has-focus": hasFocus || hasDraggingConnectionFocus,
 			})}
+			onClick={onClick}
 		>
 			<div class="BlueprintAttribute-focus" />
 			<BlueprintConnectionHandle clientId={clientId} context="from" />
