@@ -64,6 +64,12 @@
 	box-shadow: 0 0 var(--3x) var(--color-accent-yellow);
 }
 
+.BlueprintComponent.has-focus
+	> .BlueprintComponent-open
+	> .BlueprintConnectionHandle {
+	border-color: var(--color-accent-yellow);
+}
+
 .BlueprintComponent-body {
 	align-items: start;
 	display: grid;

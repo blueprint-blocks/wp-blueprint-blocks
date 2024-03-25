@@ -7,6 +7,7 @@
 	position: absolute;
 	right: 0;
 	top: calc(50% - 5px);
+	transition: var(--transition);
 	width: 10px;
 	z-index: 20;
 }
@@ -16,7 +17,7 @@
 }
 
 .BlueprintConnectionHandle.is-to {
-	left: -5px;
+	left: -4px;
 }
 
 .BlueprintConnectionHandle.is-from {
@@ -25,7 +26,7 @@
 
 .BlueprintConnectionHandle.is-clone {
 	cursor: grab;
-	left: 0;
+	left: -2px;
 	opacity: 0;
-	top: 0;
+	top: -2px;
 }

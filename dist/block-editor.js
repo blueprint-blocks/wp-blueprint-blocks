@@ -14990,7 +14990,9 @@
 	    className: clsx$1("BlueprintAttribute", {
 	      "has-focus": hasDraggingConnectionFocus
 	    }),
-	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionHandle, {
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	      "class": "BlueprintAttribute-focus"
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionHandle, {
 	      clientId: clientId,
 	      context: "from"
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {

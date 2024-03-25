@@ -128,6 +128,7 @@ const BlueprintAttribute = memo(({ attributeName = null, clientId }) => {
 				"has-focus": hasDraggingConnectionFocus,
 			})}
 		>
+			<div class="BlueprintAttribute-focus" />
 			<BlueprintConnectionHandle clientId={clientId} context="from" />
 			<div className="BlueprintAttribute-line">
 				<span className={clsx({ "is-invalid": !attributeNameValid })}>
