@@ -183,7 +183,7 @@ const BlueprintConnectionHandle = memo(
 		if (!isClone) {
 			useLayoutEffect(() => {
 				dispatchPosition();
-			}, [centerPoint, clientId, context]);
+			}, [centerPoint, clientId, context, draggingOffset]);
 		}
 
 		if (process.env.NODE_ENV === "development") {

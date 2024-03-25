@@ -14881,7 +14881,7 @@
 	  if (!isClone) {
 	    React$2.useLayoutEffect(function () {
 	      dispatchPosition();
-	    }, [centerPoint, clientId, context]);
+	    }, [centerPoint, clientId, context, draggingOffset]);
 	  }
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    ref: ref,
