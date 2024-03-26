@@ -15255,15 +15255,16 @@
 	    text = _ref$text === void 0 ? "" : _ref$text,
 	    _ref$indent = _ref.indent,
 	    indent = _ref$indent === void 0 ? 0 : _ref$indent,
-	    onDrop = _ref.onDrop;
+	    _ref$ancestry = _ref.ancestry,
+	    ancestry = _ref$ancestry === void 0 ? [] : _ref$ancestry,
+	    _ref$context = _ref.context,
+	    context = _ref$context === void 0 ? "edit" : _ref$context;
 	  var ref = React$2.useRef(null);
-	  var hasFocus = useMouseFocus(ref);
-	  var _useEditorDrag = useEditorDrag(),
-	    isDragging = _useEditorDrag.isDragging;
-	  useEditorDrop({
-	    ref: ref,
-	    context: ["existingComponent", "newComponent"]
-	  }, onDrop);
+	  var _useBlueprintDrag = useBlueprintDrag(ref, {
+	      ancestry: ancestry,
+	      context: context
+	    }),
+	    hasFocus = _useBlueprintDrag.hasFocus;
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: clsx$1("BlueprintHint", {
