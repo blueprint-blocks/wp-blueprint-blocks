@@ -9309,13 +9309,9 @@
 	  var _ref$ancestry = _ref.ancestry,
 	    ancestry = _ref$ancestry === void 0 ? [] : _ref$ancestry,
 	    _ref$context = _ref.context,
-	    context = _ref$context === void 0 ? "edit" : _ref$context,
-	    id = _ref.id;
+	    context = _ref$context === void 0 ? "edit" : _ref$context;
 	  var blueprintInsert = useBlueprintInsert();
 	  var hasMouseFocus = useMouseFocus(ref);
-	  if (ancestry.toString() === "0,3,1,0") {
-	    console.log("useBlueprintDrag debug", ref === null || ref === void 0 ? void 0 : ref.current, id);
-	  }
 	  var onDrop = React$2.useCallback(function () {
 	    blueprintInsert({
 	      ancestry: ancestry,
@@ -15761,13 +15757,9 @@
 	    context = _ref$context === void 0 ? "edit" : _ref$context;
 	  var ref = React$2.useRef(null);
 	  var focusRef = React$2.useRef(null);
-	  var id = React$2.useMemo(function () {
-	    return getUniqueClientId();
-	  }, []);
 	  var _useBlueprintDrag = useBlueprintDrag(focusRef, {
 	      ancestry: ancestry,
-	      context: context,
-	      id: id
+	      context: context
 	    }),
 	    hasFocus = _useBlueprintDrag.hasFocus;
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
@@ -19957,7 +19949,7 @@
 	    return !this.disabled || this.disabled[term] == 0;
 	  }
 	}
-	const id = x => x;
+	const id$1 = x => x;
 	/**
 	Context trackers are used to track stateful context (such as
 	indentation in the Python grammar, or parent elements in the XML
@@ -19976,9 +19968,9 @@
 	  */
 	  constructor(spec) {
 	    this.start = spec.start;
-	    this.shift = spec.shift || id;
-	    this.reduce = spec.reduce || id;
-	    this.reuse = spec.reuse || id;
+	    this.shift = spec.shift || id$1;
+	    this.reduce = spec.reduce || id$1;
+	    this.reuse = spec.reuse || id$1;
 	    this.hash = spec.hash || (() => 0);
 	    this.strict = spec.strict !== false;
 	  }
