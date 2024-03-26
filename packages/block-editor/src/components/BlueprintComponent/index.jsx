@@ -1,22 +1,21 @@
 import clsx from "clsx";
-import { memo, useCallback, useMemo, useRef } from "react";
-import Draggable from "react-draggable";
+import { memo, useCallback, useMemo, useRef, useState } from "react";
 
 import { componentAllowsChildren } from "../../functions";
 
 import {
 	useBlueprint,
 	useBlueprintConnectionsDrag,
-	useDragWithinEditor,
 	useDebugRenderCount,
-	useEditorDrag,
 	useEditorFocus,
 	useOnClickOutside,
+	useOnDelete,
 } from "../../hooks";
 
 import BlueprintConnectionHandle from "../BlueprintConnectionHandle";
 import BlueprintComponentClosingTag from "../BlueprintComponentClosingTag";
 import BlueprintComponentOpeningTag from "../BlueprintComponentOpeningTag";
+import DraggableWithinEditor from "../DraggableWithinEditor";
 
 import "./style.css";
 
@@ -24,13 +23,14 @@ const BlueprintComponent = memo(
 	({ clientId, children = [], indent = 0, draggable = true }) => {
 		const ref = useRef(null);
 
-		const { hasFocus, setFocus, unsetFocus } = useEditorFocus(clientId);
-		const { isDragging, startDragging, stopDragging } = useEditorDrag();
+		const [offset, setOffset] = useState({ x: 0, y: 0 });
+		const [isDraggingSelf, setIsDraggingSelf] = useState(false);
 
-		const { getComponentAttribute, getComponentTagName, getComponentType } =
+		const { hasFocus, setFocus, unsetFocus } = useEditorFocus(clientId);
+
+		const { getComponentTagName, getComponentType, removeComponent } =
 			useBlueprint();
 
-		const attributeName = getComponentAttribute(clientId, "attributeName");
 		const tagName = getComponentTagName(clientId);
 		const type = getComponentType(clientId);
 
@@ -43,40 +43,40 @@ const BlueprintComponent = memo(
 
 		const onClick = useCallback(
 			(event) => {
-				if (!isDragging) {
+				if (!isDraggingSelf) {
 					event.stopPropagation();
 					setFocus({ clientId, context: "component" });
 				}
 			},
-			[clientId, isDragging],
+			[clientId, isDraggingSelf],
 		);
 
 		const onStartDrag = useCallback(() => {
-			startDragging({
-				context: "existingComponent",
-				clientId,
-			});
+			setIsDraggingSelf(true);
+			setOffset({ x: 0, y: 0 });
 		}, [clientId]);
 
 		const onStopDrag = useCallback(() => {
-			stopDragging();
+			setIsDraggingSelf(false);
+			setOffset({ x: 0, y: 0 });
 		}, []);
 
-		const {
-			isDragging: isDraggingSelf,
-			offset,
-			...draggableProps
-		} = useDragWithinEditor({
-			ref,
-			onStart: onStartDrag,
-			onStop: onStopDrag,
-		});
+		const onDrag = useCallback(({ x, y }) => {
+			setOffset({ x, y });
+		}, []);
 
 		const { hasFocus: hasDraggingConnectionFocus } =
 			useBlueprintConnectionsDrag(ref, {
 				clientId,
 				context: "component",
 			});
+
+		// Remove component on delete
+		useOnDelete(() => {
+			if (hasFocus) {
+				removeComponent(clientId);
+			}
+		}, [clientId, hasFocus]);
 
 		// Call hook passing in the ref and a function to call on outside click
 		useOnClickOutside(ref, () => {
@@ -117,7 +117,14 @@ const BlueprintComponent = memo(
 				)}
 
 				{draggable && (
-					<Draggable {...draggableProps}>
+					<DraggableWithinEditor
+						clientId={clientId}
+						context="existingComponent"
+						onDrag={onDrag}
+						onStartDrag={onStartDrag}
+						onStopDrag={onStopDrag}
+						ref={ref}
+					>
 						<div className="BlueprintComponent is-clone">
 							<BlueprintComponentOpeningTag
 								clientId={clientId}
@@ -145,7 +152,7 @@ const BlueprintComponent = memo(
 								/>
 							)}
 						</div>
-					</Draggable>
+					</DraggableWithinEditor>
 				)}
 			</div>
 		);

@@ -14,11 +14,11 @@ const BlueprintComponentList = forwardRef(
 		{
 			isRoot = false,
 			allowMultiple = true,
+			context = "edit",
 			hintText = "",
 			ancestry = [],
 			components = null,
 			indent = 0,
-			onDrop,
 		},
 		ref,
 	) => {
@@ -40,21 +40,15 @@ const BlueprintComponentList = forwardRef(
 					<BlueprintHint
 						text={hintText}
 						indent={indent}
-						onDrop={() =>
-							onDrop({
-								ancestry: [...ancestry, 0],
-							})
-						}
+						ancestry={[...ancestry, 0]}
+						context={context}
 					/>
 				)}
 				{!hintText && (
 					<BlueprintInsert
 						indent={indent}
-						onDrop={() =>
-							onDrop({
-								ancestry: [...ancestry, 0],
-							})
-						}
+						ancestry={[...ancestry, 0]}
+						context={context}
 					/>
 				)}
 				{componentList.map(([clientId, children], index) => [
@@ -62,11 +56,8 @@ const BlueprintComponentList = forwardRef(
 						<BlueprintInsert
 							key={`insert-${index}`}
 							indent={indent}
-							onDrop={() =>
-								onDrop({
-									ancestry: [...ancestry, index],
-								})
-							}
+							ancestry={[...ancestry, index]}
+							context={context}
 						/>
 					),
 					<BlueprintComponent
@@ -80,11 +71,8 @@ const BlueprintComponentList = forwardRef(
 							<BlueprintHint
 								text={hintText}
 								indent={indent + 1}
-								onDrop={() =>
-									onDrop({
-										ancestry: [...ancestry, index, 0],
-									})
-								}
+								ancestry={[...ancestry, index, 0]}
+								context={context}
 							/>
 						)}
 						{(!hintText || children?.length > 0) && (
@@ -93,7 +81,7 @@ const BlueprintComponentList = forwardRef(
 								components={children || []}
 								indent={indent + 1}
 								ancestry={[...ancestry, index]}
-								onDrop={onDrop}
+								context={context}
 							/>
 						)}
 					</BlueprintComponent>,
@@ -101,11 +89,8 @@ const BlueprintComponentList = forwardRef(
 				{!hintText && componentList?.length > 0 && (
 					<BlueprintInsert
 						indent={indent}
-						onDrop={() =>
-							onDrop({
-								ancestry: [...ancestry, componentList.length],
-							})
-						}
+						ancestry={[...ancestry, componentList.length]}
+						context={context}
 					/>
 				)}
 			</div>

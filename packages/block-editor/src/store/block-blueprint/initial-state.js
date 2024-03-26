@@ -1,45 +1,4 @@
-import { getUniqueClientId, normalizeClasslistAsObject } from "../../functions";
-
-const blockComponents = {};
-
-function parseComponentTree(components = []) {
-	if (!components) {
-		return [];
-	}
-
-	let clientIds = [];
-
-	components.forEach(({ children = [], ...component }) => {
-		const clientId = getUniqueClientId();
-		let childClientIds = [];
-
-		if (children.length > 0) {
-			childClientIds = parseComponentTree(children);
-		}
-
-		if (component?.className) {
-			component.className = normalizeClasslistAsObject(
-				component?.className,
-			);
-		}
-
-		blockComponents[clientId] = {
-			attributes: Object.entries(component)
-				.filter(([name, _]) => !["tagName", "type"].includes(name))
-				.map(([name, value]) => ({
-					clientId: getUniqueClientId(),
-					name,
-					value,
-				})),
-			tagName: component?.tagName || null,
-			type: component?.type || "html",
-		};
-
-		clientIds.push([clientId, childClientIds]);
-	});
-
-	return clientIds;
-}
+import { parseComponentTree } from "./functions";
 
 const { blockBlueprint = {} } =
 	blueprintBlocksEditorSettings?.blockMetadata || {};
@@ -49,16 +8,23 @@ const blockToolbar = parseComponentTree(blockBlueprint?.blockToolbar || []);
 const blockSave = parseComponentTree(blockBlueprint?.blockSave || []);
 const blockSidebar = parseComponentTree(blockBlueprint?.blockSidebar || []);
 
+const blockComponents = {
+	...blockEdit[1],
+	...blockToolbar[1],
+	...blockSave[1],
+	...blockSidebar[1],
+};
+
 const initialState = {
 	blockComponents,
 
-	blockEdit,
+	blockEdit: blockEdit[0],
 
-	blockToolbar,
+	blockToolbar: blockToolbar[0],
 
-	blockSave,
+	blockSave: blockSave[0],
 
-	blockSidebar,
+	blockSidebar: blockSidebar[0],
 
 	existingDraggingComponent: null,
 

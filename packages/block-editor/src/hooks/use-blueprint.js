@@ -9,6 +9,7 @@ import {
 	getComponentAttributes,
 	getComponentTagName,
 	getComponentType,
+	removeComponent,
 	renameComponentAttribute,
 	setComponentAttribute,
 	unsetComponentAttribute,
@@ -99,6 +100,11 @@ const useBlueprint = () => {
 		dispatch(setChanged(true));
 	};
 
+	const _removeComponent = (clientId) => {
+		dispatch(removeComponent(clientId));
+		dispatch(setChanged(true));
+	};
+
 	const _setComponentAttribute = (
 		clientId,
 		attributeName,
@@ -124,6 +130,7 @@ const useBlueprint = () => {
 		getComponentType: _getComponentType,
 		getComponentsByAttributeName,
 		renameComponentAttribute: _renameComponentAttribute,
+		removeComponent: _removeComponent,
 		setComponentAttribute: _setComponentAttribute,
 		unsetComponentAttribute: _unsetComponentAttribute,
 	};

@@ -21,6 +21,7 @@ function BlueprintEditor() {
 	const dispatch = useDispatch();
 
 	const { setEditorRef } = useContext(AppContext);
+	const { setRef } = useContext(BlueprintEditorContext);
 
 	const column2Depth = useSelector((state) =>
 		getComponentListDepth(state.blockBlueprint, "edit"),
@@ -34,6 +35,7 @@ function BlueprintEditor() {
 
 	useLayoutEffect(() => {
 		setEditorRef(scrollRef);
+		setRef(scrollRef);
 	}, [scrollRef]);
 
 	useLayoutEffect(() => {
@@ -54,29 +56,27 @@ function BlueprintEditor() {
 	}
 
 	return (
-		<BlueprintEditorContext.Provider value={{ ref: scrollRef }}>
-			<div ref={ref} className="BlueprintEditor">
-				<div ref={scrollRef} className="BlueprintEditor-scroll">
-					<div ref={wrapRef} className="BlueprintEditor-wrap">
-						<div className="BlueprintEditor-grid" />
+		<div ref={ref} className="BlueprintEditor">
+			<div ref={scrollRef} className="BlueprintEditor-scroll">
+				<div ref={wrapRef} className="BlueprintEditor-wrap">
+					<div className="BlueprintEditor-grid" />
 
-						<BlueprintConnections />
-						<BlueprintConnectionsDebug />
+					<BlueprintConnections />
+					<BlueprintConnectionsDebug />
 
-						<div className="BlueprintEditor-columns">
-							<BlueprintColumn label="Block Attributes">
-								<BlueprintAttributeList />
-							</BlueprintColumn>
+					<div className="BlueprintEditor-columns">
+						<BlueprintColumn label="Block Attributes">
+							<BlueprintAttributeList />
+						</BlueprintColumn>
 
-							<BlueprintColumn label="Block Edit">
-								<BlueprintBlockEdit />
-							</BlueprintColumn>
-						</div>
+						<BlueprintColumn label="Block Edit">
+							<BlueprintBlockEdit />
+						</BlueprintColumn>
 					</div>
 				</div>
-				<UpsellBanner />
 			</div>
-		</BlueprintEditorContext.Provider>
+			<UpsellBanner />
+		</div>
 	);
 }
 

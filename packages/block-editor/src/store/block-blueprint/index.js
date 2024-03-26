@@ -31,6 +31,7 @@ export const {
 	insertDraggingComponentAtPosition,
 	moveComponentToPosition,
 	renameComponentAttribute,
+	removeComponent,
 	removeAtPosition,
 	setComponentAttribute,
 	setComponentList,

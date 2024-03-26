@@ -1,17 +1,14 @@
-import { useEffect, useMemo } from "react";
-import { useSelector } from "react-redux";
+import { useContext, useEffect, useMemo } from "react";
 import useMouseFocus from "./use-mouse-focus";
-import { getDraggingContext } from "../store/editor";
+import { BlueprintEditorContext } from "../contexts";
 
 const useEditorDrop = (props = {}, onDrop = null) => {
 	const { context = null, ref = null } = props;
 	const hasFocus = useMouseFocus(ref);
 
-	const draggingContext = useSelector((state) =>
-		getDraggingContext(state.editor),
+	const { currentDraggingContext, isDragging } = useContext(
+		BlueprintEditorContext,
 	);
-
-	const isDragging = useSelector((state) => state.editor.isDragging);
 
 	const contextArray = useMemo(
 		() => (Array.isArray(context) && context) || [context],
@@ -20,13 +17,14 @@ const useEditorDrop = (props = {}, onDrop = null) => {
 
 	const isWatchingContext = useMemo(
 		() =>
-			context === null || contextArray.includes(draggingContext?.context),
+			context === null ||
+			contextArray.includes(currentDraggingContext?.context),
 		[contextArray],
 	);
 
 	const wasDragging = useMemo(
-		() => draggingContext?.context !== null,
-		[draggingContext],
+		() => currentDraggingContext?.context !== null,
+		[currentDraggingContext],
 	);
 
 	useEffect(() => {

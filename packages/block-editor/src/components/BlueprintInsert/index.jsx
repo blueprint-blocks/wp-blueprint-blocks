@@ -1,19 +1,18 @@
 import clsx from "clsx";
-import { memo, useRef } from "react";
-import { useDebugRenderCount, useEditorDrag, useMouseFocus } from "../../hooks";
+import { useRef } from "react";
+import { useBlueprintDrag, useDebugRenderCount } from "../../hooks";
 import BlueprintDebugRect from "../BlueprintDebugRect";
 
 import "./style.css";
 
-const BlueprintInsert = ({ indent = 0, onDrop }) => {
+const BlueprintInsert = ({ indent = 0, ancestry = [], context = "edit" }) => {
 	const ref = useRef(null);
 	const focusRef = useRef(null);
-	const hasFocus = useMouseFocus(focusRef);
 
-	const { isDragging } = useEditorDrag(
-		{ context: ["existingComponent", "newComponent"], ref: focusRef },
-		onDrop,
-	);
+	const { hasFocus } = useBlueprintDrag(focusRef, {
+		ancestry,
+		context,
+	});
 
 	if (process.env.NODE_ENV === "development") {
 		useDebugRenderCount("BlueprintInsert");
@@ -23,7 +22,7 @@ const BlueprintInsert = ({ indent = 0, onDrop }) => {
 		<div
 			ref={ref}
 			className={clsx("BlueprintInsert", {
-				"has-focus": hasFocus && isDragging,
+				"has-focus": hasFocus,
 			})}
 			style={{ "--indent": indent }}
 		>

@@ -23,6 +23,7 @@ import {
 import { showSaveDialog } from "../../store/save-dialog";
 
 import BlueprintConnectionsProvider from "../BlueprintConnectionsProvider";
+import BlueprintEditorProvider from "../BlueprintEditorProvider";
 import Navigator from "../Navigator";
 import PageBlockJson from "../PageBlockJson";
 import PageBlueprint from "../PageBlueprint";
@@ -119,24 +120,26 @@ function App() {
 			}}
 		>
 			<BlueprintConnectionsProvider>
-				<div
-					ref={ref}
-					className={clsx("App", {
-						"is-debug": process.env.NODE_ENV === "development",
-					})}
-				>
-					<Navigator
-						activeNavItem={activeNavItem}
-						setActiveNavItem={setActiveNavItem}
-						onUpdate={onUpdate}
-					/>
-					{activeNavItem === 0 && <PageBlockJson />}
-					{activeNavItem === 1 && <PageBlueprint />}
-					{activeNavItem === 2 && <PageViewCss />}
-					{activeNavItem === 3 && <PageEditorCss />}
-					{saveDialogIsVisible && <SaveDialog />}
-					{upsellDialogIsVisible && <UpsellDialog />}
-				</div>
+				<BlueprintEditorProvider>
+					<div
+						ref={ref}
+						className={clsx("App", {
+							"is-debug": process.env.NODE_ENV === "development",
+						})}
+					>
+						<Navigator
+							activeNavItem={activeNavItem}
+							setActiveNavItem={setActiveNavItem}
+							onUpdate={onUpdate}
+						/>
+						{activeNavItem === 0 && <PageBlockJson />}
+						{activeNavItem === 1 && <PageBlueprint />}
+						{activeNavItem === 2 && <PageViewCss />}
+						{activeNavItem === 3 && <PageEditorCss />}
+						{saveDialogIsVisible && <SaveDialog />}
+						{upsellDialogIsVisible && <UpsellDialog />}
+					</div>
+				</BlueprintEditorProvider>
 			</BlueprintConnectionsProvider>
 		</AppContext.Provider>
 	);

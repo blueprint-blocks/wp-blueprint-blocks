@@ -1,4 +1,4 @@
-import { getUniqueClientId } from "../../../functions";
+import { parseComponentForClient } from "../functions";
 import { getComponentList } from "../selectors";
 import insertAtPosition from "./insert-at-position";
 import setComponentList from "./set-component-list";
@@ -10,7 +10,7 @@ const insertNewComponentAtPosition = (state, action) => {
 		position = [],
 	} = action.payload || {};
 
-	const clientId = getUniqueClientId();
+	const [clientId, parsedComponent] = parseComponentForClient(component);
 
 	let componentList = insertAtPosition({
 		clientId,
@@ -20,11 +20,7 @@ const insertNewComponentAtPosition = (state, action) => {
 
 	state.blockComponents = {
 		...state.blockComponents,
-		[clientId]: Object.entries(component).map(([name, value]) => ({
-			clientId: getUniqueClientId(),
-			name,
-			value,
-		})),
+		[clientId]: parsedComponent,
 	};
 
 	setComponentList(state, {

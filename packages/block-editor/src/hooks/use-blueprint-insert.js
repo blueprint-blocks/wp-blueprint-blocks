@@ -1,5 +1,4 @@
 import { useDispatch } from "react-redux";
-
 import useEditorDrag from "./use-editor-drag";
 
 import {
@@ -7,31 +6,29 @@ import {
 	moveComponentToPosition,
 } from "../store/block-blueprint";
 
-import { resetDraggingContext } from "../store/editor";
-
 const useBlueprintInsert = () => {
 	const dispatch = useDispatch();
-	const { context: draggingContext } = useEditorDrag();
+	const { context: draggingContext, resetDraggingContext } = useEditorDrag();
 
-	return ({ context = "edit", position = [] }) => {
+	return ({ context = "edit", ancestry = [] }) => {
 		if (draggingContext?.context === "existingComponent") {
 			dispatch(
 				moveComponentToPosition({
 					clientId: draggingContext?.clientId,
 					context,
-					position,
+					position: ancestry,
 				}),
 			);
-			dispatch(resetDraggingContext());
+			resetDraggingContext();
 		} else if (draggingContext?.context === "newComponent") {
 			dispatch(
 				insertNewComponentAtPosition({
 					component: draggingContext?.component,
 					context,
-					position,
+					position: ancestry,
 				}),
 			);
-			dispatch(resetDraggingContext());
+			resetDraggingContext();
 		}
 	};
 };
