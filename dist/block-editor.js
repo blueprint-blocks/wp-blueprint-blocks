@@ -9144,154 +9144,31 @@
 	  }, dependencies);
 	}
 
-	function isEqual(rect1, rect2) {
-	  return rect1.x === rect2.x && rect1.y === rect2.y && rect1.top === rect2.top && rect1.right === rect2.right && rect1.bottom === rect2.bottom && rect1.left === rect2.left && rect1.height === rect2.height && rect1.width === rect2.width;
-	}
-	function getRect() {
-	  var rect = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-	  var parentRect = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-	  var parentScroll = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-	  var _rect$x = rect.x,
-	    x = _rect$x === void 0 ? 0 : _rect$x,
-	    _rect$y = rect.y,
-	    y = _rect$y === void 0 ? 0 : _rect$y,
-	    _rect$top = rect.top,
-	    top = _rect$top === void 0 ? 0 : _rect$top,
-	    _rect$right = rect.right,
-	    right = _rect$right === void 0 ? 0 : _rect$right,
-	    _rect$bottom = rect.bottom,
-	    bottom = _rect$bottom === void 0 ? 0 : _rect$bottom,
-	    _rect$left = rect.left,
-	    left = _rect$left === void 0 ? 0 : _rect$left,
-	    _rect$width = rect.width,
-	    width = _rect$width === void 0 ? 0 : _rect$width,
-	    _rect$height = rect.height,
-	    height = _rect$height === void 0 ? 0 : _rect$height;
-	  if (parentRect) {
-	    x -= parentRect.x - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.x) || 0;
-	    y -= parentRect.y - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.y) || 0;
-	    top -= parentRect.top - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.y) || 0;
-	    right -= parentRect.left - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.x) || 0;
-	    bottom -= parentRect.top - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.y) || 0;
-	    left -= parentRect.left - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.x) || 0;
-	  }
-	  return {
-	    x: Math.round((x + Number.EPSILON) * 100) / 100,
-	    y: Math.round((y + Number.EPSILON) * 100) / 100,
-	    top: Math.round((top + Number.EPSILON) * 100) / 100,
-	    right: Math.round((right + Number.EPSILON) * 100) / 100,
-	    bottom: Math.round((bottom + Number.EPSILON) * 100) / 100,
-	    left: Math.round((left + Number.EPSILON) * 100) / 100,
-	    width: Math.round((width + Number.EPSILON) * 100) / 100,
-	    height: Math.round((height + Number.EPSILON) * 100) / 100
-	  };
-	}
-	function reduceRect(rect) {
-	  var reduceProps = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-	  if (reduceProps === null) {
-	    return rect;
-	  }
-	  return Object.fromEntries(Object.entries(rect).filter(function (_ref) {
-	    var _ref2 = _slicedToArray(_ref, 2),
-	      key = _ref2[0];
-	      _ref2[1];
-	    return reduceProps.includes(key);
-	  }));
-	}
-	function useRect(ref, parentRef) {
-	  var reduceProps = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-	  var timeout = null;
-	  var _useState = React$2.useState({}),
-	    _useState2 = _slicedToArray(_useState, 2),
-	    rect = _useState2[0],
-	    setRect = _useState2[1];
-	  function handleResize() {
-	    throttle(function () {
-	      if (timeout) {
-	        clearTimeout(timeout);
-	      }
-	      timeout = setTimeout(function () {
-	        var _ref$current, _parentRef$current, _parentRef$current2, _parentRef$current3;
-	        var newRect = getRect(ref === null || ref === void 0 || (_ref$current = ref.current) === null || _ref$current === void 0 ? void 0 : _ref$current.getBoundingClientRect(), parentRef === null || parentRef === void 0 || (_parentRef$current = parentRef.current) === null || _parentRef$current === void 0 ? void 0 : _parentRef$current.getBoundingClientRect(), {
-	          x: (parentRef === null || parentRef === void 0 || (_parentRef$current2 = parentRef.current) === null || _parentRef$current2 === void 0 ? void 0 : _parentRef$current2.scrollLeft) || 0,
-	          y: (parentRef === null || parentRef === void 0 || (_parentRef$current3 = parentRef.current) === null || _parentRef$current3 === void 0 ? void 0 : _parentRef$current3.scrollTop) || 0
-	        });
-	        newRect = reduceRect(newRect, reduceProps);
-	        if (!isEqual(rect, newRect)) {
-	          setRect(newRect);
-	        }
-	      }, 1000 / 30);
-	    }, 1000 / 60)();
-	  }
-	  React$2.useEffect(function () {
-	    if (!(ref !== null && ref !== void 0 && ref.current)) {
-	      return;
-	    }
-	    var observer = new IntersectionObserver(function (_ref3) {
-	      var _parentEntry$target, _parentEntry$target2;
-	      var _ref4 = _slicedToArray(_ref3, 2),
-	        entry = _ref4[0],
-	        _ref4$ = _ref4[1],
-	        parentEntry = _ref4$ === void 0 ? null : _ref4$;
-	      if (parentRef !== null && parentRef !== void 0 && parentRef.current && !parentEntry) {
-	        return;
-	      }
-	      var newRect = getRect(entry === null || entry === void 0 ? void 0 : entry.boundingClientRect, parentEntry === null || parentEntry === void 0 ? void 0 : parentEntry.boundingClientRect, {
-	        x: (parentEntry === null || parentEntry === void 0 || (_parentEntry$target = parentEntry.target) === null || _parentEntry$target === void 0 ? void 0 : _parentEntry$target.scrollLeft) || 0,
-	        y: (parentEntry === null || parentEntry === void 0 || (_parentEntry$target2 = parentEntry.target) === null || _parentEntry$target2 === void 0 ? void 0 : _parentEntry$target2.scrollTop) || 0
-	      });
-	      newRect = reduceRect(newRect, reduceProps);
-	      if (!isEqual(rect, newRect)) {
-	        setRect(newRect);
-	      }
-	    });
-	    observer.observe(ref.current);
-	    if (parentRef !== null && parentRef !== void 0 && parentRef.current) {
-	      observer.observe(parentRef.current);
-	    }
-	    return function () {
-	      observer.disconnect();
-	    };
-	  }, [ref, parentRef, rect]);
-	  React$2.useLayoutEffect(function () {
-	    window.addEventListener("mousedown", handleResize, true);
-	    window.addEventListener("resize", handleResize);
-	    window.addEventListener("orientationchange", handleResize);
-	    window.addEventListener("scroll", handleResize, true);
-	    return function () {
-	      window.removeEventListener("mousedown", handleResize, true);
-	      window.removeEventListener("resize", handleResize);
-	      window.removeEventListener("orientationchange", handleResize);
-	      window.removeEventListener("scroll", handleResize, true);
-	    };
-	  }, [ref, parentRef, rect]);
-	  return rect;
-	}
-
 	function useMouseFocus(ref) {
 	  var _useState = React$2.useState(false),
 	    _useState2 = _slicedToArray(_useState, 2),
 	    hasMouseFocus = _useState2[0],
 	    setHasMouseFocus = _useState2[1];
-	  var rect = useRect(ref, null, ["bottom", "left", "right", "top"]);
 	  useMouseMove(function (mouse) {
+	    var _ref$current;
+	    var rect = ref === null || ref === void 0 || (_ref$current = ref.current) === null || _ref$current === void 0 ? void 0 : _ref$current.getBoundingClientRect();
 	    var isInsideBounds = mouse.x >= (rect === null || rect === void 0 ? void 0 : rect.left) && mouse.x <= (rect === null || rect === void 0 ? void 0 : rect.right) && mouse.y >= (rect === null || rect === void 0 ? void 0 : rect.top) && mouse.y <= (rect === null || rect === void 0 ? void 0 : rect.bottom);
 	    if (isInsideBounds === true && hasMouseFocus === false) {
 	      setHasMouseFocus(true);
 	    } else if (isInsideBounds === false && hasMouseFocus === true) {
 	      setHasMouseFocus(false);
 	    }
-	  }, [hasMouseFocus, rect]);
+	  }, [hasMouseFocus]);
 	  return hasMouseFocus;
 	}
 
 	var useEditorDrop = function useEditorDrop() {
-	  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+	    _ref$context = _ref.context,
+	    context = _ref$context === void 0 ? null : _ref$context,
+	    _ref$ref = _ref.ref,
+	    ref = _ref$ref === void 0 ? null : _ref$ref;
 	  var onDrop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-	  var _props$context = props.context,
-	    context = _props$context === void 0 ? null : _props$context,
-	    _props$ref = props.ref,
-	    ref = _props$ref === void 0 ? null : _props$ref;
 	  var hasFocus = useMouseFocus(ref);
 	  var _useContext = React$2.useContext(BlueprintEditorContext),
 	    currentDraggingContext = _useContext.currentDraggingContext,
@@ -9301,7 +9178,7 @@
 	  }, [context]);
 	  var isWatchingContext = React$2.useMemo(function () {
 	    return context === null || contextArray.includes(currentDraggingContext === null || currentDraggingContext === void 0 ? void 0 : currentDraggingContext.context);
-	  }, [contextArray]);
+	  }, [context, contextArray]);
 	  var wasDragging = React$2.useMemo(function () {
 	    return (currentDraggingContext === null || currentDraggingContext === void 0 ? void 0 : currentDraggingContext.context) !== null;
 	  }, [currentDraggingContext]);
@@ -9432,15 +9309,19 @@
 	  var _ref$ancestry = _ref.ancestry,
 	    ancestry = _ref$ancestry === void 0 ? [] : _ref$ancestry,
 	    _ref$context = _ref.context,
-	    context = _ref$context === void 0 ? "edit" : _ref$context;
+	    context = _ref$context === void 0 ? "edit" : _ref$context,
+	    id = _ref.id;
 	  var blueprintInsert = useBlueprintInsert();
 	  var hasMouseFocus = useMouseFocus(ref);
+	  if (ancestry.toString() === "0,3,1,0") {
+	    console.log("useBlueprintDrag debug", ref === null || ref === void 0 ? void 0 : ref.current, id);
+	  }
 	  var onDrop = React$2.useCallback(function () {
 	    blueprintInsert({
 	      ancestry: ancestry,
 	      context: context
 	    });
-	  }, [ancestry, context]);
+	  }, [ancestry, context, ref]);
 	  var _useEditorDrag = useEditorDrag({
 	      context: ["existingComponent", "newComponent"],
 	      ref: ref
@@ -9450,6 +9331,130 @@
 	    hasFocus: hasMouseFocus && isDragging
 	  };
 	};
+
+	function isEqual(rect1, rect2) {
+	  return rect1.x === rect2.x && rect1.y === rect2.y && rect1.top === rect2.top && rect1.right === rect2.right && rect1.bottom === rect2.bottom && rect1.left === rect2.left && rect1.height === rect2.height && rect1.width === rect2.width;
+	}
+	function getRect() {
+	  var rect = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var parentRect = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+	  var parentScroll = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+	  var _rect$x = rect.x,
+	    x = _rect$x === void 0 ? 0 : _rect$x,
+	    _rect$y = rect.y,
+	    y = _rect$y === void 0 ? 0 : _rect$y,
+	    _rect$top = rect.top,
+	    top = _rect$top === void 0 ? 0 : _rect$top,
+	    _rect$right = rect.right,
+	    right = _rect$right === void 0 ? 0 : _rect$right,
+	    _rect$bottom = rect.bottom,
+	    bottom = _rect$bottom === void 0 ? 0 : _rect$bottom,
+	    _rect$left = rect.left,
+	    left = _rect$left === void 0 ? 0 : _rect$left,
+	    _rect$width = rect.width,
+	    width = _rect$width === void 0 ? 0 : _rect$width,
+	    _rect$height = rect.height,
+	    height = _rect$height === void 0 ? 0 : _rect$height;
+	  if (parentRect) {
+	    x -= parentRect.x - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.x) || 0;
+	    y -= parentRect.y - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.y) || 0;
+	    top -= parentRect.top - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.y) || 0;
+	    right -= parentRect.left - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.x) || 0;
+	    bottom -= parentRect.top - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.y) || 0;
+	    left -= parentRect.left - (parentScroll === null || parentScroll === void 0 ? void 0 : parentScroll.x) || 0;
+	  }
+	  return {
+	    x: Math.round((x + Number.EPSILON) * 100) / 100,
+	    y: Math.round((y + Number.EPSILON) * 100) / 100,
+	    top: Math.round((top + Number.EPSILON) * 100) / 100,
+	    right: Math.round((right + Number.EPSILON) * 100) / 100,
+	    bottom: Math.round((bottom + Number.EPSILON) * 100) / 100,
+	    left: Math.round((left + Number.EPSILON) * 100) / 100,
+	    width: Math.round((width + Number.EPSILON) * 100) / 100,
+	    height: Math.round((height + Number.EPSILON) * 100) / 100
+	  };
+	}
+	function reduceRect(rect) {
+	  var reduceProps = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+	  if (reduceProps === null) {
+	    return rect;
+	  }
+	  return Object.fromEntries(Object.entries(rect).filter(function (_ref) {
+	    var _ref2 = _slicedToArray(_ref, 2),
+	      key = _ref2[0];
+	      _ref2[1];
+	    return reduceProps.includes(key);
+	  }));
+	}
+	function useRect(ref, parentRef) {
+	  var reduceProps = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+	  var timeout = null;
+	  var _useState = React$2.useState({}),
+	    _useState2 = _slicedToArray(_useState, 2),
+	    rect = _useState2[0],
+	    setRect = _useState2[1];
+	  function handleResize() {
+	    throttle(function () {
+	      if (timeout) {
+	        clearTimeout(timeout);
+	      }
+	      timeout = setTimeout(function () {
+	        var _ref$current, _parentRef$current, _parentRef$current2, _parentRef$current3;
+	        var newRect = getRect(ref === null || ref === void 0 || (_ref$current = ref.current) === null || _ref$current === void 0 ? void 0 : _ref$current.getBoundingClientRect(), parentRef === null || parentRef === void 0 || (_parentRef$current = parentRef.current) === null || _parentRef$current === void 0 ? void 0 : _parentRef$current.getBoundingClientRect(), {
+	          x: (parentRef === null || parentRef === void 0 || (_parentRef$current2 = parentRef.current) === null || _parentRef$current2 === void 0 ? void 0 : _parentRef$current2.scrollLeft) || 0,
+	          y: (parentRef === null || parentRef === void 0 || (_parentRef$current3 = parentRef.current) === null || _parentRef$current3 === void 0 ? void 0 : _parentRef$current3.scrollTop) || 0
+	        });
+	        newRect = reduceRect(newRect, reduceProps);
+	        if (!isEqual(rect, newRect)) {
+	          setRect(newRect);
+	        }
+	      }, 1000 / 30);
+	    }, 1000 / 60)();
+	  }
+	  React$2.useEffect(function () {
+	    if (!(ref !== null && ref !== void 0 && ref.current)) {
+	      return;
+	    }
+	    var observer = new IntersectionObserver(function (_ref3) {
+	      var _parentEntry$target, _parentEntry$target2;
+	      var _ref4 = _slicedToArray(_ref3, 2),
+	        entry = _ref4[0],
+	        _ref4$ = _ref4[1],
+	        parentEntry = _ref4$ === void 0 ? null : _ref4$;
+	      if (parentRef !== null && parentRef !== void 0 && parentRef.current && !parentEntry) {
+	        return;
+	      }
+	      var newRect = getRect(entry === null || entry === void 0 ? void 0 : entry.boundingClientRect, parentEntry === null || parentEntry === void 0 ? void 0 : parentEntry.boundingClientRect, {
+	        x: (parentEntry === null || parentEntry === void 0 || (_parentEntry$target = parentEntry.target) === null || _parentEntry$target === void 0 ? void 0 : _parentEntry$target.scrollLeft) || 0,
+	        y: (parentEntry === null || parentEntry === void 0 || (_parentEntry$target2 = parentEntry.target) === null || _parentEntry$target2 === void 0 ? void 0 : _parentEntry$target2.scrollTop) || 0
+	      });
+	      newRect = reduceRect(newRect, reduceProps);
+	      if (!isEqual(rect, newRect)) {
+	        setRect(newRect);
+	      }
+	    });
+	    observer.observe(ref.current);
+	    if (parentRef !== null && parentRef !== void 0 && parentRef.current) {
+	      observer.observe(parentRef.current);
+	    }
+	    return function () {
+	      observer.disconnect();
+	    };
+	  }, [ref, parentRef, rect]);
+	  React$2.useLayoutEffect(function () {
+	    window.addEventListener("mousedown", handleResize, true);
+	    window.addEventListener("resize", handleResize);
+	    window.addEventListener("orientationchange", handleResize);
+	    window.addEventListener("scroll", handleResize, true);
+	    return function () {
+	      window.removeEventListener("mousedown", handleResize, true);
+	      window.removeEventListener("resize", handleResize);
+	      window.removeEventListener("orientationchange", handleResize);
+	      window.removeEventListener("scroll", handleResize, true);
+	    };
+	  }, [ref, parentRef, rect]);
+	  return rect;
+	}
 
 	var useCenterPoint = function useCenterPoint() {
 	  var ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -14823,7 +14828,7 @@
 	var cjsExports = cjs.exports;
 	var Draggable$1 = /*@__PURE__*/getDefaultExportFromCjs(cjsExports);
 
-	var DraggableWithinEditor = /*#__PURE__*/React$2.memo( /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
+	var DraggableWithinEditor = /*#__PURE__*/React$2.memo(function (_ref) {
 	  var _ref$additionalContex = _ref.additionalContext,
 	    additionalContext = _ref$additionalContex === void 0 ? {} : _ref$additionalContex,
 	    children = _ref.children,
@@ -14834,6 +14839,10 @@
 	    onDrag = _ref.onDrag,
 	    onStartDrag = _ref.onStartDrag,
 	    onStopDrag = _ref.onStopDrag;
+	  var _useState = React$2.useState(false),
+	    _useState2 = _slicedToArray(_useState, 2),
+	    isDraggingSelf = _useState2[0],
+	    setIsDraggingSelf = _useState2[1];
 	  var _onDrag = function _onDrag(_ref2) {
 	    var x = _ref2.x,
 	      y = _ref2.y;
@@ -14843,6 +14852,7 @@
 	    });
 	  };
 	  var _onStartDrag = function _onStartDrag() {
+	    setIsDraggingSelf(true);
 	    startDragging(_objectSpread2({
 	      clientId: clientId,
 	      context: context
@@ -14850,6 +14860,7 @@
 	    onStartDrag && onStartDrag();
 	  };
 	  var _onStopDrag = function _onStopDrag() {
+	    setIsDraggingSelf(false);
 	    stopDragging();
 	    onStopDrag && onStopDrag();
 	  };
@@ -14859,12 +14870,16 @@
 	    onStop: _onStopDrag
 	  });
 	  var _useEditorDrag = useEditorDrag(),
+	    isDragging = _useEditorDrag.isDragging,
 	    startDragging = _useEditorDrag.startDragging,
 	    stopDragging = _useEditorDrag.stopDragging;
+	  if (isDragging && !isDraggingSelf) {
+	    return;
+	  }
 	  return /*#__PURE__*/jsxRuntimeExports.jsx(Draggable$1, _objectSpread2(_objectSpread2({}, draggableProps), {}, {
 	    children: children
 	  }));
-	}));
+	});
 
 	var BlueprintConnectionHandle = /*#__PURE__*/React$2.memo(function (_ref) {
 	  var _ref$clientId = _ref.clientId,
@@ -15737,7 +15752,7 @@
 	  });
 	});
 
-	var BlueprintInsert = function BlueprintInsert(_ref) {
+	var BlueprintInsert = /*#__PURE__*/React$2.memo(function (_ref) {
 	  var _ref$indent = _ref.indent,
 	    indent = _ref$indent === void 0 ? 0 : _ref$indent,
 	    _ref$ancestry = _ref.ancestry,
@@ -15746,9 +15761,13 @@
 	    context = _ref$context === void 0 ? "edit" : _ref$context;
 	  var ref = React$2.useRef(null);
 	  var focusRef = React$2.useRef(null);
+	  var id = React$2.useMemo(function () {
+	    return getUniqueClientId();
+	  }, []);
 	  var _useBlueprintDrag = useBlueprintDrag(focusRef, {
 	      ancestry: ancestry,
-	      context: context
+	      context: context,
+	      id: id
 	    }),
 	    hasFocus = _useBlueprintDrag.hasFocus;
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
@@ -15756,6 +15775,7 @@
 	    className: clsx$1("BlueprintInsert", {
 	      "has-focus": hasFocus
 	    }),
+	    "data-id": "".concat(ancestry.toString(), "-").concat(id),
 	    style: {
 	      "--indent": indent
 	    },
@@ -15765,7 +15785,7 @@
 	      children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {})
 	    }), undefined === "development" ]
 	  });
-	};
+	});
 
 	var BlueprintComponentList = /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
 	  var _componentList;

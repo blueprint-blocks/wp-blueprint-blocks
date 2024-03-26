@@ -1,13 +1,13 @@
 import { useState } from "react";
 import useMouseMove from "./use-mouse-move";
-import useRect from "./use-rect";
 
 function useMouseFocus(ref) {
 	const [hasMouseFocus, setHasMouseFocus] = useState(false);
-	const rect = useRect(ref, null, ["bottom", "left", "right", "top"]);
 
 	useMouseMove(
 		(mouse) => {
+			const rect = ref?.current?.getBoundingClientRect();
+
 			const isInsideBounds =
 				mouse.x >= rect?.left &&
 				mouse.x <= rect?.right &&
@@ -20,7 +20,7 @@ function useMouseFocus(ref) {
 				setHasMouseFocus(false);
 			}
 		},
-		[hasMouseFocus, rect],
+		[hasMouseFocus],
 	);
 
 	return hasMouseFocus;

@@ -1,40 +1,47 @@
 import clsx from "clsx";
-import { useRef } from "react";
+import { memo, useMemo, useRef } from "react";
 import { useBlueprintDrag, useDebugRenderCount } from "../../hooks";
 import BlueprintDebugRect from "../BlueprintDebugRect";
+import { getUniqueClientId } from "../../functions";
 
 import "./style.css";
 
-const BlueprintInsert = ({ indent = 0, ancestry = [], context = "edit" }) => {
-	const ref = useRef(null);
-	const focusRef = useRef(null);
+const BlueprintInsert = memo(
+	({ indent = 0, ancestry = [], context = "edit" }) => {
+		const ref = useRef(null);
+		const focusRef = useRef(null);
 
-	const { hasFocus } = useBlueprintDrag(focusRef, {
-		ancestry,
-		context,
-	});
+		const id = useMemo(() => getUniqueClientId(), []);
 
-	if (process.env.NODE_ENV === "development") {
-		useDebugRenderCount("BlueprintInsert");
-	}
+		const { hasFocus } = useBlueprintDrag(focusRef, {
+			ancestry,
+			context,
+			id,
+		});
 
-	return (
-		<div
-			ref={ref}
-			className={clsx("BlueprintInsert", {
-				"has-focus": hasFocus,
-			})}
-			style={{ "--indent": indent }}
-		>
-			<div ref={focusRef} className="BlueprintInsert-line">
-				<div />
+		if (process.env.NODE_ENV === "development") {
+			useDebugRenderCount("BlueprintInsert");
+		}
+
+		return (
+			<div
+				ref={ref}
+				className={clsx("BlueprintInsert", {
+					"has-focus": hasFocus,
+				})}
+				data-id={`${ancestry.toString()}-${id}`}
+				style={{ "--indent": indent }}
+			>
+				<div ref={focusRef} className="BlueprintInsert-line">
+					<div />
+				</div>
+
+				{process.env.NODE_ENV === "development" && (
+					<BlueprintDebugRect debugRef={focusRef} />
+				)}
 			</div>
-
-			{process.env.NODE_ENV === "development" && (
-				<BlueprintDebugRect debugRef={focusRef} />
-			)}
-		</div>
-	);
-};
+		);
+	},
+);
 
 export default BlueprintInsert;

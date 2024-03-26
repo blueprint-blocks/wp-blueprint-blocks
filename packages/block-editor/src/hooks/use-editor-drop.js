@@ -2,8 +2,7 @@ import { useContext, useEffect, useMemo } from "react";
 import useMouseFocus from "./use-mouse-focus";
 import { BlueprintEditorContext } from "../contexts";
 
-const useEditorDrop = (props = {}, onDrop = null) => {
-	const { context = null, ref = null } = props;
+const useEditorDrop = ({ context = null, ref = null } = {}, onDrop = null) => {
 	const hasFocus = useMouseFocus(ref);
 
 	const { currentDraggingContext, isDragging } = useContext(
@@ -19,7 +18,7 @@ const useEditorDrop = (props = {}, onDrop = null) => {
 		() =>
 			context === null ||
 			contextArray.includes(currentDraggingContext?.context),
-		[contextArray],
+		[context, contextArray],
 	);
 
 	const wasDragging = useMemo(

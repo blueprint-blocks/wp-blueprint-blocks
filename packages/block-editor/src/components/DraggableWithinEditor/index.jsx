@@ -1,4 +1,4 @@
-import { forwardRef, memo } from "react";
+import { memo, useState } from "react";
 import Draggable from "react-draggable";
 
 import {
@@ -8,52 +8,55 @@ import {
 } from "../../hooks";
 
 const DraggableWithinEditor = memo(
-	forwardRef(
-		(
-			{
-				additionalContext = {},
-				children,
-				clientId = null,
-				context = null,
-				onDrag,
-				onStartDrag,
-				onStopDrag,
-			},
-			ref,
-		) => {
-			const _onDrag = ({ x, y }) => {
-				onDrag && onDrag({ x, y });
-			};
+	({
+		additionalContext = {},
+		children,
+		clientId = null,
+		context = null,
+		onDrag,
+		onStartDrag,
+		onStopDrag,
+	}) => {
+		const [isDraggingSelf, setIsDraggingSelf] = useState(false);
 
-			const _onStartDrag = () => {
-				startDragging({
-					clientId,
-					context,
-					...additionalContext,
-				});
-				onStartDrag && onStartDrag();
-			};
+		const _onDrag = ({ x, y }) => {
+			onDrag && onDrag({ x, y });
+		};
 
-			const _onStopDrag = () => {
-				stopDragging();
-				onStopDrag && onStopDrag();
-			};
-
-			const draggableProps = useDragWithinEditor({
-				onDrag: _onDrag,
-				onStart: _onStartDrag,
-				onStop: _onStopDrag,
+		const _onStartDrag = () => {
+			setIsDraggingSelf(true);
+			startDragging({
+				clientId,
+				context,
+				...additionalContext,
 			});
+			onStartDrag && onStartDrag();
+		};
 
-			const { startDragging, stopDragging } = useEditorDrag();
+		const _onStopDrag = () => {
+			setIsDraggingSelf(false);
+			stopDragging();
+			onStopDrag && onStopDrag();
+		};
 
-			if (process.env.NODE_ENV === "development") {
-				useDebugRenderCount("DraggableWithinEditor");
-			}
+		const draggableProps = useDragWithinEditor({
+			onDrag: _onDrag,
+			onStart: _onStartDrag,
+			onStop: _onStopDrag,
+		});
 
-			return <Draggable {...draggableProps}>{children}</Draggable>;
-		},
-	),
+		const { isDragging, startDragging, stopDragging } = useEditorDrag();
+
+		if (isDragging && !isDraggingSelf) {
+			return;
+		}
+
+		if (process.env.NODE_ENV === "development") {
+			useDebugRenderCount("DraggableWithinEditor");
+		}
+
+		return <Draggable {...draggableProps}>{children}</Draggable>;
+	},
 );
 
 export default DraggableWithinEditor;
