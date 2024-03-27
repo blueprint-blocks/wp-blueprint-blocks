@@ -1225,9 +1225,11 @@
 
 
 .BlueprintHint {
-	margin-left: calc(16px * var(--indent));
+	margin-left: var(--2x);
 	max-width: 512px;
 	position: relative;
+	width: -moz-fit-content;
+	width: fit-content;
 }
 
 .BlueprintHint-wrap {
@@ -1451,10 +1453,10 @@
 	display: grid;
 	gap: var(--1x);
 	justify-items: start;
-	margin-left: calc(16px * var(--indent, 0));
+	margin-left: var(--2x);
 	padding: 2px 0;
 	position: relative;
-	width: calc(100% - (16px * var(--indent, 0)));
+	width: calc(100% - var(--2x));
 }
 
 .BlueprintComponent .EditableString {
@@ -1559,11 +1561,11 @@
 
 .BlueprintInsert {
 	height: 0;
-	margin-left: calc(16px * var(--indent));
+	margin-left: var(--2x);
 	max-width: 512px;
 	position: relative;
 	transition: var(--transition);
-	width: calc(100% - (16px * var(--indent)));
+	width: calc(100% - var(--2x));
 	will-change: height;
 }
 

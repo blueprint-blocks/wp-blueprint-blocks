@@ -1,10 +1,10 @@
 .BlueprintInsert {
 	height: 0;
-	margin-left: calc(16px * var(--indent));
+	margin-left: var(--2x);
 	max-width: 512px;
 	position: relative;
 	transition: var(--transition);
-	width: calc(100% - (16px * var(--indent)));
+	width: calc(100% - var(--2x));
 	will-change: height;
 
 	@if $debug-rect == true {

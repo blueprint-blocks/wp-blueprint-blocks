@@ -1,7 +1,8 @@
 .BlueprintHint {
-	margin-left: calc(16px * var(--indent));
+	margin-left: var(--2x);
 	max-width: 512px;
 	position: relative;
+	width: fit-content;
 }
 
 .BlueprintHint-wrap {
