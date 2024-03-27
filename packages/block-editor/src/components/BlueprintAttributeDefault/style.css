@@ -1,0 +1,77 @@
+.BlueprintAttribute {
+	border-bottom: 2px solid var(--color-darker-gray);
+	color: var(--color-dark-gray);
+	font-family: var(--font-family-monospace);
+	font-size: var(--font-size-x-small);
+	font-weight: var(--font-weight-medium);
+	padding: var(--2x) var(--1x);
+	position: relative;
+
+	& :is(.key, .value) {
+		color: var(--color-gray);
+	}
+
+	& .indent {
+		margin-left: var(--2x);
+	}
+
+	& .EditableString {
+		--color: var(--color-gray);
+		--focus-color: var(--color-darker-slate);
+		--hover-color: var(--color-white);
+		--placeholder-color: var(--color-dark-gray);
+		--placeholder-focus-color: var(--color-dark-slate);
+	}
+}
+
+.BlueprintAttribute-focus {
+	border: 2px solid var(--color-accent-yellow-30);
+	border-radius: 5px;
+	bottom: var(--1x);
+	box-shadow: 0 0 var(--3x) var(--color-accent-yellow-30);
+	left: 0;
+	opacity: 0;
+	position: absolute;
+	right: 4px;
+	top: var(--1x);
+	transition: var(--transition);
+	z-index: -1;
+}
+
+.BlueprintAttribute.has-focus > .BlueprintAttribute-focus {
+	opacity: 1;
+}
+
+.BlueprintAttribute.has-focus .BlueprintConnectionHandle {
+	border-color: var(--color-accent-yellow-30);
+}
+
+.BlueprintAttribute-line {
+	position: relative;
+
+	& > span {
+		display: inline-block;
+		position: relative;
+	}
+
+	& .BlueprintWarning {
+		opacity: 0;
+		transition: var(--transition);
+	}
+
+	& .is-invalid > .BlueprintWarning {
+		opacity: 1;
+	}
+}
+
+.BlueprintAttribute-handle {
+	background: var(--color-darkest-gray);
+	border: 2px solid var(--color-lighter-gray);
+	border-radius: 10px;
+	box-sizing: border-box;
+	height: 10px;
+	position: absolute;
+	right: 0;
+	top: calc(50% - 5px);
+	width: 10px;
+}

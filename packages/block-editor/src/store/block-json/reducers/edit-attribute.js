@@ -3,7 +3,7 @@ import { getAttributeIndex } from "../selectors";
 const ALLOWED_ATTRIBUTE_TYPES = ["array", "number", "string", "object"];
 
 const editAttribute = (state, action) => {
-	const { name = "", type = "string", defaultValue = null } = action.payload;
+	const { name = "", ...attribute } = action.payload;
 	const index = getAttributeIndex(state, name);
 
 	if (index === null) {
@@ -13,9 +13,9 @@ const editAttribute = (state, action) => {
 	const attributes = [...state.attributes];
 
 	attributes[index] = {
+		...attributes[index],
+		...attribute,
 		name,
-		type: (ALLOWED_ATTRIBUTE_TYPES.includes(type) && type) || "string",
-		default: defaultValue || null,
 	};
 
 	state.attributes = attributes;

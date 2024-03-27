@@ -25,7 +25,6 @@ const BlueprintInsert = memo(
 				className={clsx("BlueprintInsert", {
 					"has-focus": hasFocus,
 				})}
-				data-id={`${ancestry.toString()}-${id}`}
 				style={{ "--indent": indent }}
 			>
 				<div ref={focusRef} className="BlueprintInsert-line">
