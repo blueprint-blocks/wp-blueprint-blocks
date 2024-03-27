@@ -12299,6 +12299,9 @@
 	    onFocus && onFocus();
 	  };
 	  var onKeyDown = React$2.useCallback(function (event) {
+	    if (event.key === "Backspace") {
+	      event.stopPropagation();
+	    }
 	    if (event.key === "Backspace" && html.length === 0) {
 	      onDelete && onDelete();
 	    }

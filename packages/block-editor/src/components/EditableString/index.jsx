@@ -47,6 +47,10 @@ const EditableString = forwardRef(
 
 		const onKeyDown = useCallback(
 			(event) => {
+				if (event.key === "Backspace") {
+					event.stopPropagation();
+				}
+
 				if (event.key === "Backspace" && html.length === 0) {
 					onDelete && onDelete();
 				}
