@@ -58,10 +58,16 @@ const useBlockJson = () => {
 	);
 
 	const _getAttributeById = useCallback(
-		(attributeName) =>
-			useSelector((state) =>
-				getAttributeById(state.blockJson, attributeName),
-			),
+		(clientId) =>
+			useSelector((state) => {
+				const attribute = getAttributeById(state.blockJson, clientId);
+
+				if (attribute?.name === "link") {
+					console.log(clientId, JSON.stringify(state.blockJson));
+				}
+
+				return attribute;
+			}),
 		[],
 	);
 

@@ -1,4 +1,4 @@
-import { createSelector } from "@reduxjs/toolkit";
+import { createSelector, weakMapMemoize } from "reselect";
 import getAllAttributeNames from "./get-all-attribute-names";
 
 const selectAttributeName = (_, attributeName) => attributeName;
@@ -15,6 +15,10 @@ const getUniqueAttributeName = createSelector(
 		}
 
 		return indexedName;
+	},
+	{
+		memoize: weakMapMemoize,
+		argsMemoize: weakMapMemoize,
 	},
 );
 

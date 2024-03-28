@@ -1,4 +1,4 @@
-import { createSelector } from "@reduxjs/toolkit";
+import { createSelector, weakMapMemoize } from "reselect";
 
 let count = 0;
 
@@ -19,6 +19,10 @@ const getAttribute = createSelector(
 		}
 
 		return null;
+	},
+	{
+		memoize: weakMapMemoize,
+		argsMemoize: weakMapMemoize,
 	},
 );
 

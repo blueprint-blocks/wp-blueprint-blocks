@@ -1111,6 +1111,64 @@
 	width: 16px;
 }
 
+/*.EditableObject {
+	--color: var(--color-darkest-gray);
+	--focus-color: var(--color-light-gray);
+	--hover-color: var(--color-black);
+	--placeholder-color: var(--color-dark-gray);
+	--placeholder-focus-color: var(--color-darker-gray);
+	color: var(--color);
+	cursor: text;
+	display: inline-grid;
+	position: relative;
+	transition: var(--transition);
+
+	&::before {
+		border-radius: 0.2em;
+		bottom: 0;
+		content: "";
+		display: block;
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+		transition: var(--transition);
+		z-index: -1;
+	}
+
+	&.has-value:hover,
+	&.has-value.has-focus {
+		color: var(--hover-color);
+	}
+
+	& .placeholder {
+		color: var(--placeholder-color);
+		transition: var(--transition);
+	}
+}
+
+.EditableObject-open {
+	grid-column: 1;
+	grid-row: 1;
+}
+
+.EditableObject-properties {
+	grid-column: 1;
+	grid-row: 2;
+}
+
+.EditableObject-property {
+	display: grid;
+	grid-auto-columns: max-content;
+	grid-auto-flow: column;
+}
+
+.EditableObject-close {
+	grid-column: 1;
+	grid-row: 3;
+}
+*/
+
 .BlueprintAttribute {
 	border-bottom: 2px solid var(--color-darker-gray);
 	color: var(--color-dark-gray);

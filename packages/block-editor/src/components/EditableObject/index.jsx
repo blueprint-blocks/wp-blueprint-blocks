@@ -1,151 +1,214 @@
 import clsx from "clsx";
-import { memo, useCallback, useMemo, useRef, useState } from "react";
 
-import EditableString from "../EditableString";
-import InsertButton from "../InsertButton";
-import { isObject, isStringifiedObject } from "../../functions";
+import {
+	forwardRef,
+	memo,
+	useCallback,
+	useLayoutEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
+
+import ContentEditable from "react-contenteditable";
+import { prettyPrintJson } from "pretty-print-json";
+
+import {
+	isAttributeArrayValue,
+	isAttributeNullValue,
+	isAttributeNumberValue,
+	isAttributeObjectValue,
+	isAttributeStringValue,
+	isObject,
+	isStringified,
+	isStringifiedObject,
+} from "../../functions";
+
+import { useDebugRenderCount } from "../../hooks";
 
 import "./style.css";
 
 const EditableObject = memo(
-	({
-		className = "",
-		keyPlaceholder = "key",
-		keyValueSeperator = ":",
-		onChange,
-		onFocus,
-		onBlur,
-		propertySeperator = ",",
-		value = {},
-		valuePlaceholder = "value",
-	}) => {
-		const ref = useRef(null);
-		const contentRef = useRef(null);
-		const [hasFocus, setHasFocus] = useState(false);
-
-		const _value = useMemo(() => {
-			if (isObject(value)) {
-				return value;
-			}
-
-			if (isStringifiedObject(value)) {
-				return JSON.parse(value);
-			}
-
-			return {};
-		}, [value]);
-
-		const onChangePropertyName = useCallback(
-			(propertyName, newPropertyName) => {
-				const propertyValue = _value?.[propertyName];
-				let newValue = { ..._value };
-				delete newValue?.[propertyName];
-				newValue[newPropertyName] = propertyValue;
-				onChange && onChange(newValue);
+	forwardRef(
+		(
+			{
+				className = "",
+				disabled = false,
+				invalid = false,
+				keyPlaceholder = "key",
+				keyValueSeperator = ":",
+				onChange,
+				onFocus,
+				onBlur,
+				placeholder = "null",
+				propertySeperator = ",",
+				value = {},
+				valuePlaceholder = "value",
 			},
-			[_value],
-		);
+			contentRef,
+		) => {
+			const ref = useRef(null);
+			const _contentRef = contentRef || useRef(null);
+			const [hasFocus, setHasFocus] = useState(false);
 
-		const onChangePropertyValue = useCallback(
-			(propertyName, newPropertyValue) => {
-				let newValue = { ..._value };
-				newValue[propertyName] = newPropertyValue;
-				onChange && onChange(newValue);
-			},
-			[_value],
-		);
-
-		const onDeleteProperty = useCallback(
-			(propertyName) => {
-				if (String(_value?.[propertyName]).length > 0) {
-					return;
+			const objectType = useMemo(() => {
+				if (isAttributeNullValue(value)) {
+					return "null";
+				} else if (isAttributeNumberValue(value)) {
+					return "number";
+				} else if (isAttributeArrayValue(value)) {
+					return "array";
+				} else if (isAttributeObjectValue(value)) {
+					return "object";
 				}
-				let newValue = { ..._value };
-				delete newValue?.[propertyName];
-				onChange && onChange(newValue);
-			},
-			[_value],
-		);
 
-		const onInsert = useCallback(() => {
-			let newValue = { ..._value };
-			newValue[""] = "";
-			onChange && onChange(newValue);
-		}, [_value]);
+				return "string";
+			}, [value]);
 
-		const _onBlur = () => {
-			setHasFocus(false);
-			onBlur && onBlur();
-		};
+			const html = useMemo(() => {
+				let _value = value;
 
-		const _onFocus = () => {
-			setHasFocus(true);
-			onFocus && onFocus();
-		};
+				if (isStringified(_value)) {
+					_value = JSON.parse(_value);
+				}
 
-		return (
-			<div
-				ref={ref}
-				className={clsx("EditableObject", className, {
-					"has-focus": hasFocus,
-					"has-value": Object.entries(_value).length > 0,
-				})}
-			>
-				<div className="EditableObject-properties">
-					{Object.entries(value).map(
-						([propertyName, propertyValue], index) => (
-							<div className="EditableObject-property">
-								<span className="EditableObject-value">
-									<EditableString
-										placeholder={keyPlaceholder}
-										value={String(propertyName)}
-										onBlur={_onBlur}
-										onChange={(newPropertyName) =>
-											onChangePropertyName(
-												propertyName,
-												newPropertyName,
-											)
-										}
-										onFocus={_onFocus}
-										onDelete={() =>
-											onDeleteProperty(propertyName)
-										}
-									/>
-								</span>
-								<span className="EditableObject-seperator">
-									{`${keyValueSeperator} `}
-								</span>
-								<span className="EditableObject-value">
-									<EditableString
-										placeholder={valuePlaceholder}
-										value={String(propertyValue)}
-										onBlur={_onBlur}
-										onChange={(newPropertyValue) =>
-											onChangePropertyValue(
-												propertyName,
-												newPropertyValue,
-											)
-										}
-										onFocus={_onFocus}
-									/>
-								</span>
-								{(propertySeperator !== "," ||
-									index <
-										Object.entries(_value).length - 1) && (
-									<span className="EditableObject-seperator">
-										{propertySeperator}
-									</span>
-								)}
-							</div>
-						),
+				return prettyPrintJson.toHtml(_value, {
+					indent: 2,
+					quoteKeys: true,
+					trailingCommas: false,
+				});
+			}, [objectType, value]);
+
+			/*useLayoutEffect(() => {
+				console.log(value, html);
+			}, [html, value]);*/
+
+			const _onChange = (event) => {
+				let newValue = _contentRef?.current?.textContent;
+				newValue = newValue.replaceAll(/\n/g, " ");
+				newValue = newValue.replaceAll("&nbsp;", " ");
+
+				// Clear out value when null string is backspaced
+				if (value === null && newValue === "nul") {
+					newValue = "";
+				}
+
+				// Unescape string value
+				if (isAttributeStringValue(newValue)) {
+					newValue = newValue.replaceAll(/\\\\/g, "\\");
+					newValue = newValue.replaceAll(/\\\"/g, '"');
+				}
+
+				// Add back trailing quote when deleted from a string
+				if (
+					isAttributeStringValue(value) &&
+					value === newValue.slice(1)
+				) {
+					newValue = `${newValue}"`;
+				}
+
+				// Add back preceding quote when deleted from a string
+				if (
+					isAttributeStringValue(value) &&
+					value === newValue.slice(0, -1)
+				) {
+					newValue = `"${newValue}`;
+				}
+
+				// Remove quotes from stringified string
+				if (
+					newValue.slice(0, 1) === '"' &&
+					newValue.slice(-1) === '"'
+				) {
+					newValue = newValue.slice(1, -1);
+				}
+
+				// Autocomplete curly brackets
+				if (newValue === "{") {
+					newValue = "{}";
+				}
+
+				// Autocomplete brackets
+				if (newValue === "[") {
+					newValue = "[]";
+				}
+
+				if (isAttributeNullValue(newValue)) {
+					newValue = null;
+				} else if (isAttributeArrayValue(newValue)) {
+					newValue = JSON.parse(newValue);
+				} else if (isAttributeObjectValue(newValue)) {
+					newValue = JSON.parse(newValue);
+				}
+
+				if (JSON.stringify(newValue) !== JSON.stringify(value)) {
+					console.log(
+						value,
+						newValue,
+						JSON.stringify(value),
+						JSON.stringify(newValue),
+						JSON.stringify(newValue) !== JSON.stringify(value),
+						isAttributeStringValue(newValue),
+					);
+					debugger;
+					onChange && onChange(newValue);
+				}
+			};
+
+			const _onBlur = () => {
+				setHasFocus(false);
+				onBlur && onBlur();
+			};
+
+			const _onFocus = () => {
+				setHasFocus(true);
+				onFocus && onFocus();
+			};
+
+			const onKeyDown = useCallback((event) => {
+				if (event.key === "Backspace") {
+					event.stopPropagation();
+				}
+			}, []);
+
+			console.log("rerender editableobject");
+
+			if (process.env.NODE_ENV === "development") {
+				useDebugRenderCount("EditableObject");
+			}
+
+			return (
+				<div
+					ref={ref}
+					data-testid="editable-object"
+					className={clsx("EditableObject", className, {
+						"has-focus": hasFocus,
+						"has-value": html.length > 0,
+						"is-invalid": invalid,
+					})}
+					onKeyDown={onKeyDown}
+				>
+					{html.length === 0 && (
+						<div
+							className="placeholder"
+							data-testid="editable-object/placeholder"
+						>
+							{placeholder}
+						</div>
 					)}
-					{!_value.hasOwnProperty("") && (
-						<InsertButton onClick={onInsert} />
-					)}
+					<ContentEditable
+						data-testid="editable-object/content-editable"
+						disabled={disabled}
+						innerRef={_contentRef}
+						html={html}
+						onChange={_onChange}
+						onBlur={_onBlur}
+						onFocus={_onFocus}
+					/>
 				</div>
-			</div>
-		);
-	},
+			);
+		},
+	),
 );
 
 export default EditableObject;

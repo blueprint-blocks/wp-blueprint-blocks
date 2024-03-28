@@ -34,7 +34,9 @@ const BlueprintAttribute = memo(({ clientId }) => {
 	const onClick = useCallback(
 		(event) => {
 			event.stopPropagation();
-			setFocus({ clientId, context: "attribute" });
+			if (hasFocus === false) {
+				setFocus({ clientId, context: "attribute" });
+			}
 		},
 		[clientId],
 	);
@@ -48,7 +50,7 @@ const BlueprintAttribute = memo(({ clientId }) => {
 
 	// Remove attribute on delete
 	useOnDelete(() => {
-		if (hasFocus) {
+		if (hasFocus === true) {
 			const blockComponents = Object.keys(
 				getComponentsByAttributeName(attributeName),
 			);
@@ -63,7 +65,9 @@ const BlueprintAttribute = memo(({ clientId }) => {
 
 	// Call hook passing in the ref and a function to call on outside click
 	useOnClickOutside(ref, () => {
-		unsetFocus();
+		if (hasFocus === true) {
+			unsetFocus();
+		}
 	});
 
 	if (process.env.NODE_ENV === "development") {

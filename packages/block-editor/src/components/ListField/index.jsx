@@ -67,7 +67,9 @@ function ListField({
 	}
 
 	useOnClickOutside(ref, () => {
-		setBlur(currentIndex);
+		if (hasFocus === true) {
+			setBlur(currentIndex);
+		}
 	});
 
 	return (

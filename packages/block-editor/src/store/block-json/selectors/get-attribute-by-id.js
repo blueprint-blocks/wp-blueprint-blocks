@@ -1,6 +1,4 @@
-import { createSelector } from "@reduxjs/toolkit";
-
-let count = 0;
+import { createSelector, weakMapMemoize } from "reselect";
 
 const selectAttributes = (state) => state.attributes;
 const selectClientId = (_, clientId) => clientId;
@@ -15,6 +13,10 @@ const getAttributeById = createSelector(
 		}
 
 		return null;
+	},
+	{
+		memoize: weakMapMemoize,
+		argsMemoize: weakMapMemoize,
 	},
 );
 

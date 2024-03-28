@@ -113,7 +113,12 @@ function RenderJson({
 	);
 }
 
-function JsonEditor({ json, focus = [], placeholders = {}, values = {} }) {
+function JsonEditor({
+	json = null,
+	focus = [],
+	placeholders = {},
+	values = {},
+}) {
 	return (
 		<div className="JsonEditor">
 			<RenderJson

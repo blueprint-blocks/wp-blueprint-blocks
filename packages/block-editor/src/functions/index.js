@@ -15,6 +15,8 @@ import isAttributeNumberValue from "./is-attribute-number-value";
 import isAttributeObjectValue from "./is-attribute-object-value";
 import isAttributeStringValue from "./is-attribute-string-value";
 import isObject from "./is-object";
+import isStringified from "./is-stringified";
+import isStringifiedArray from "./is-stringified-array";
 import isStringifiedObject from "./is-stringified-object";
 import normalizeClasslistAsObject from "./normalize-classlist-as-object";
 import pascalize from "./pascalize";
@@ -42,6 +44,8 @@ export {
 	isAttributeObjectValue,
 	isAttributeStringValue,
 	isObject,
+	isStringified,
+	isStringifiedArray,
 	isStringifiedObject,
 	normalizeClasslistAsObject,
 	pascalize,

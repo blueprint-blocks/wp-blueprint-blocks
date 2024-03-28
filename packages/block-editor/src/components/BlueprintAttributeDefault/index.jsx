@@ -14,28 +14,27 @@ import {
 	isObject,
 } from "../../functions";
 
-import { useBlockJson } from "../../hooks";
+import { useBlockJson, useDebugRenderCount } from "../../hooks";
 
 import BlueprintWarning from "../BlueprintWarning";
-import EditableString from "../EditableString";
+import EditableObject from "../EditableObject";
 
 import "./style.css";
 
 const BlueprintAttributeDefault = memo(({ clientId }) => {
 	const { editAttribute, getAttributeById } = useBlockJson();
 
+	const attribute = getAttributeById(clientId);
+
 	const {
 		default: attributeDefault,
 		name: attributeName,
 		type: attributeType,
-	} = getAttributeById(clientId);
+	} = attribute;
 
-	const _attributeDefault = useMemo(() => {
-		if (isObject(attributeDefault) || isArray(attributeDefault)) {
-			return JSON.stringify(attributeDefault);
-		}
-		return attributeDefault || null;
-	}, [attributeDefault]);
+	if (attributeName === "link") {
+		console.log(attribute);
+	}
 
 	const allowsNullDefault = useMemo(
 		() =>
@@ -52,31 +51,43 @@ const BlueprintAttributeDefault = memo(({ clientId }) => {
 	const attributeDefaultValid = useMemo(() => {
 		if (
 			attributeType === "array" &&
-			!isAttributeArrayValue(_attributeDefault) &&
-			!isAttributeNullValue(_attributeDefault)
+			!isAttributeArrayValue(attributeDefault) &&
+			!isAttributeNullValue(attributeDefault)
 		) {
 			return false;
 		} else if (
 			attributeType === "object" &&
-			!isAttributeObjectValue(_attributeDefault) &&
-			!isAttributeNullValue(_attributeDefault)
+			!isAttributeObjectValue(attributeDefault) &&
+			!isAttributeNullValue(attributeDefault)
 		) {
 			return false;
 		} else if (
 			attributeTypeValid &&
 			!allowsNullDefault &&
-			!_attributeDefault?.length
+			!attributeDefault?.length
 		) {
 			return false;
 		}
 
 		return true;
-	}, [allowsNullDefault, _attributeDefault, attributeTypeValid]);
+	}, [allowsNullDefault, attributeDefault, attributeTypeValid]);
 
 	function onChange(newAttributeDefault) {
-		editAttribute(attributeName, {
-			default: newAttributeDefault,
-		});
+		console.log(
+			newAttributeDefault,
+			attributeDefault,
+			newAttributeDefault !== attributeDefault,
+		);
+		debugger;
+		if (newAttributeDefault !== attributeDefault) {
+			editAttribute(attributeName, {
+				default: newAttributeDefault,
+			});
+		}
+	}
+
+	if (process.env.NODE_ENV === "development") {
+		useDebugRenderCount("BlueprintAttributeDefault");
 	}
 
 	return (
@@ -90,22 +101,12 @@ const BlueprintAttributeDefault = memo(({ clientId }) => {
 				<span>{'"'}</span>
 				<span className="key">{`default`}</span>
 				<span>{`": `}</span>
-				{((attributeType === "string" &&
-					!isAttributeNullValue(_attributeDefault)) ||
-					isAttributeStringValue(_attributeDefault)) && (
-					<span>{`"`}</span>
-				)}
-				<EditableString
+				<EditableObject
 					className="BlueprintAttribute-default"
-					placeholder="null"
-					value={_attributeDefault}
 					onChange={onChange}
+					placeholder="null"
+					value={attributeDefault}
 				/>
-				{((attributeType === "string" &&
-					!isAttributeNullValue(_attributeDefault)) ||
-					isAttributeStringValue(_attributeDefault)) && (
-					<span>{`"`}</span>
-				)}
 			</span>
 		</div>
 	);

@@ -2640,7 +2640,7 @@
 	  return memoized;
 	}
 
-	function getDependencies(funcs) {
+	function getDependencies$1(funcs) {
 	  var dependencies = Array.isArray(funcs[0]) ? funcs[0] : funcs;
 	  if (!dependencies.every(function (dep) {
 	    return typeof dep === 'function';
@@ -2652,7 +2652,7 @@
 	  }
 	  return dependencies;
 	}
-	function createSelectorCreator(memoize) {
+	function createSelectorCreator$1(memoize) {
 	  for (var _len = arguments.length, memoizeOptionsFromArgs = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
 	    memoizeOptionsFromArgs[_key - 1] = arguments[_key];
 	  }
@@ -2690,7 +2690,7 @@
 	    // we wrap it in an array so we can apply it.
 
 	    var finalMemoizeOptions = Array.isArray(memoizeOptions) ? memoizeOptions : [memoizeOptions];
-	    var dependencies = getDependencies(funcs);
+	    var dependencies = getDependencies$1(funcs);
 	    var memoizedResultFunc = memoize.apply(void 0, [function recomputationWrapper() {
 	      _recomputations++; // apply arguments instead of spreading for performance.
 
@@ -2728,7 +2728,7 @@
 
 	  return createSelector;
 	}
-	var createSelector = /* #__PURE__ */createSelectorCreator(defaultMemoize);
+	var createSelector$1 = /* #__PURE__ */createSelectorCreator$1(defaultMemoize);
 
 	/** A function that accepts a potential "extra argument" value to be injected later,
 	 * and returns an instance of the thunk middleware that uses that value
@@ -7358,10 +7358,6 @@
 	  return clientId;
 	}
 
-	function isArray(value) {
-	  return Array.isArray(value) && value !== null;
-	}
-
 	function isAttributeArrayValue(value) {
 	  try {
 	    var json = JSON.parse(value);
@@ -7375,7 +7371,7 @@
 	}
 
 	function isStringNullValue(value) {
-	  return value === null || !(value !== null && value !== void 0 && value.length);
+	  return value === "null" || value === null || !(value !== null && value !== void 0 && value.length);
 	}
 
 	function isAttributeNumberValue(value) {
@@ -7400,6 +7396,15 @@
 
 	function isObject(value) {
 	  return _typeof(value) === "object" && !Array.isArray(value) && value !== null;
+	}
+
+	function isStringified(string) {
+	  var isStringified = false;
+	  try {
+	    JSON.parse(string);
+	    isStringified = true;
+	  } catch (_unused) {}
+	  return isStringified;
 	}
 
 	function normalizeClasslistAsObject() {
@@ -7703,16 +7708,16 @@
 	    attributeName = _ref2.attributeName;
 	  return attributeName;
 	};
-	var getComponent = createSelector([selectBlockComponents, selectClientId$3], function (blockComponents, clientId) {
+	var getComponent = createSelector$1([selectBlockComponents, selectClientId$3], function (blockComponents, clientId) {
 	  if (clientId in blockComponents) {
 	    return blockComponents[clientId];
 	  }
 	  return null;
 	});
-	var getComponentAttributes = createSelector([getComponent], function (component) {
+	var getComponentAttributes = createSelector$1([getComponent], function (component) {
 	  return (component === null || component === void 0 ? void 0 : component.attributes) || [];
 	});
-	var getComponentAttribute = createSelector([getComponentAttributes, selectAttributeName$3], function (attributes, attributeName) {
+	var getComponentAttribute = createSelector$1([getComponentAttributes, selectAttributeName$3], function (attributes, attributeName) {
 	  var _iterator = _createForOfIteratorHelper(attributes || []),
 	    _step;
 	  try {
@@ -7729,10 +7734,10 @@
 	  }
 	  return null;
 	});
-	var getComponentTagName = createSelector([getComponent], function (component) {
+	var getComponentTagName = createSelector$1([getComponent], function (component) {
 	  return (component === null || component === void 0 ? void 0 : component.tagName) || null;
 	});
-	var getComponentType = createSelector([getComponent], function (component) {
+	var getComponentType = createSelector$1([getComponent], function (component) {
 	  return (component === null || component === void 0 ? void 0 : component.type) || "html";
 	});
 	var getComponentList = function getComponentList(state, context) {
@@ -7815,7 +7820,7 @@
 	  }
 	  return null;
 	};
-	var getRawJson$1 = createSelector([selectBlockComponents, selectBlockEdit, selectBlockToolbar, selectBlockSave, selectBlockSidebar], function (blockComponents, blockEdit, blockToolbar, blockSave, blockSidebar) {
+	var getRawJson$1 = createSelector$1([selectBlockComponents, selectBlockEdit, selectBlockToolbar, selectBlockSave, selectBlockSidebar], function (blockComponents, blockEdit, blockToolbar, blockSave, blockSidebar) {
 	  return {
 	    $schema: "https://schemas.blueprint-blocks.com/blueprint.json",
 	    apiVersion: 1,
@@ -8219,7 +8224,7 @@
 	var selectClientId$2 = function selectClientId(_, clientId) {
 	  return clientId;
 	};
-	var getHandlePosition = createSelector([selectHandlePositions, selectClientId$2], function (handlePositions, clientId) {
+	var getHandlePosition = createSelector$1([selectHandlePositions, selectClientId$2], function (handlePositions, clientId) {
 	  if (clientId in handlePositions) {
 	    return handlePositions[clientId];
 	  }
@@ -8256,6 +8261,313 @@
 	  attributes: attributes$1
 	});
 
+	// src/devModeChecks/identityFunctionCheck.ts
+	var runIdentityFunctionCheck = (resultFunc, inputSelectorsResults, outputSelectorResult) => {
+	  if (inputSelectorsResults.length === 1 && inputSelectorsResults[0] === outputSelectorResult) {
+	    let isInputSameAsOutput = false;
+	    try {
+	      const emptyObject = {};
+	      if (resultFunc(emptyObject) === emptyObject) isInputSameAsOutput = true;
+	    } catch {}
+	    if (isInputSameAsOutput) {
+	      let stack = void 0;
+	      try {
+	        throw new Error();
+	      } catch (e) {
+	        ({
+	          stack
+	        } = e);
+	      }
+	      console.warn("The result function returned its own inputs without modification. e.g\n`createSelector([state => state.todos], todos => todos)`\nThis could lead to inefficient memoization and unnecessary re-renders.\nEnsure transformation logic is in the result function, and extraction logic is in the input selectors.", {
+	        stack
+	      });
+	    }
+	  }
+	};
+
+	// src/devModeChecks/inputStabilityCheck.ts
+	var runInputStabilityCheck = (inputSelectorResultsObject, options, inputSelectorArgs) => {
+	  const {
+	    memoize,
+	    memoizeOptions
+	  } = options;
+	  const {
+	    inputSelectorResults,
+	    inputSelectorResultsCopy
+	  } = inputSelectorResultsObject;
+	  const createAnEmptyObject = memoize(() => ({}), ...memoizeOptions);
+	  const areInputSelectorResultsEqual = createAnEmptyObject.apply(null, inputSelectorResults) === createAnEmptyObject.apply(null, inputSelectorResultsCopy);
+	  if (!areInputSelectorResultsEqual) {
+	    let stack = void 0;
+	    try {
+	      throw new Error();
+	    } catch (e) {
+	      ({
+	        stack
+	      } = e);
+	    }
+	    console.warn("An input selector returned a different result when passed same arguments.\nThis means your output selector will likely run more frequently than intended.\nAvoid returning a new reference inside your input selector, e.g.\n`createSelector([state => state.todos.map(todo => todo.id)], todoIds => todoIds.length)`", {
+	      arguments: inputSelectorArgs,
+	      firstInputs: inputSelectorResults,
+	      secondInputs: inputSelectorResultsCopy,
+	      stack
+	    });
+	  }
+	};
+
+	// src/devModeChecks/setGlobalDevModeChecks.ts
+	var globalDevModeChecks = {
+	  inputStabilityCheck: "once",
+	  identityFunctionCheck: "once"
+	};
+	function assertIsFunction(func, errorMessage = `expected a function, instead received ${typeof func}`) {
+	  if (typeof func !== "function") {
+	    throw new TypeError(errorMessage);
+	  }
+	}
+	function assertIsObject(object, errorMessage = `expected an object, instead received ${typeof object}`) {
+	  if (typeof object !== "object") {
+	    throw new TypeError(errorMessage);
+	  }
+	}
+	function assertIsArrayOfFunctions(array, errorMessage = `expected all items to be functions, instead received the following types: `) {
+	  if (!array.every(item => typeof item === "function")) {
+	    const itemTypes = array.map(item => typeof item === "function" ? `function ${item.name || "unnamed"}()` : typeof item).join(", ");
+	    throw new TypeError(`${errorMessage}[${itemTypes}]`);
+	  }
+	}
+	var ensureIsArray = item => {
+	  return Array.isArray(item) ? item : [item];
+	};
+	function getDependencies(createSelectorArgs) {
+	  const dependencies = Array.isArray(createSelectorArgs[0]) ? createSelectorArgs[0] : createSelectorArgs;
+	  assertIsArrayOfFunctions(dependencies, `createSelector expects all input-selectors to be functions, but received the following types: `);
+	  return dependencies;
+	}
+	function collectInputSelectorResults(dependencies, inputSelectorArgs) {
+	  const inputSelectorResults = [];
+	  const {
+	    length
+	  } = dependencies;
+	  for (let i = 0; i < length; i++) {
+	    inputSelectorResults.push(dependencies[i].apply(null, inputSelectorArgs));
+	  }
+	  return inputSelectorResults;
+	}
+	var getDevModeChecksExecutionInfo = (firstRun, devModeChecks) => {
+	  const {
+	    identityFunctionCheck,
+	    inputStabilityCheck
+	  } = {
+	    ...globalDevModeChecks,
+	    ...devModeChecks
+	  };
+	  return {
+	    identityFunctionCheck: {
+	      shouldRun: identityFunctionCheck === "always" || identityFunctionCheck === "once" && firstRun,
+	      run: runIdentityFunctionCheck
+	    },
+	    inputStabilityCheck: {
+	      shouldRun: inputStabilityCheck === "always" || inputStabilityCheck === "once" && firstRun,
+	      run: runInputStabilityCheck
+	    }
+	  };
+	};
+
+	// src/weakMapMemoize.ts
+	var StrongRef = class {
+	  constructor(value) {
+	    this.value = value;
+	  }
+	  deref() {
+	    return this.value;
+	  }
+	};
+	var Ref = typeof WeakRef !== "undefined" ? WeakRef : StrongRef;
+	var UNTERMINATED = 0;
+	var TERMINATED = 1;
+	function createCacheNode() {
+	  return {
+	    s: UNTERMINATED,
+	    v: void 0,
+	    o: null,
+	    p: null
+	  };
+	}
+	function weakMapMemoize(func, options = {}) {
+	  let fnNode = createCacheNode();
+	  const {
+	    resultEqualityCheck
+	  } = options;
+	  let lastResult;
+	  let resultsCount = 0;
+	  function memoized() {
+	    let cacheNode = fnNode;
+	    const {
+	      length
+	    } = arguments;
+	    for (let i = 0, l = length; i < l; i++) {
+	      const arg = arguments[i];
+	      if (typeof arg === "function" || typeof arg === "object" && arg !== null) {
+	        let objectCache = cacheNode.o;
+	        if (objectCache === null) {
+	          cacheNode.o = objectCache = /* @__PURE__ */new WeakMap();
+	        }
+	        const objectNode = objectCache.get(arg);
+	        if (objectNode === void 0) {
+	          cacheNode = createCacheNode();
+	          objectCache.set(arg, cacheNode);
+	        } else {
+	          cacheNode = objectNode;
+	        }
+	      } else {
+	        let primitiveCache = cacheNode.p;
+	        if (primitiveCache === null) {
+	          cacheNode.p = primitiveCache = /* @__PURE__ */new Map();
+	        }
+	        const primitiveNode = primitiveCache.get(arg);
+	        if (primitiveNode === void 0) {
+	          cacheNode = createCacheNode();
+	          primitiveCache.set(arg, cacheNode);
+	        } else {
+	          cacheNode = primitiveNode;
+	        }
+	      }
+	    }
+	    const terminatedNode = cacheNode;
+	    let result;
+	    if (cacheNode.s === TERMINATED) {
+	      result = cacheNode.v;
+	    } else {
+	      result = func.apply(null, arguments);
+	      resultsCount++;
+	    }
+	    terminatedNode.s = TERMINATED;
+	    if (resultEqualityCheck) {
+	      const lastResultValue = lastResult?.deref?.() ?? lastResult;
+	      if (lastResultValue != null && resultEqualityCheck(lastResultValue, result)) {
+	        result = lastResultValue;
+	        resultsCount !== 0 && resultsCount--;
+	      }
+	      const needsWeakRef = typeof result === "object" && result !== null || typeof result === "function";
+	      lastResult = needsWeakRef ? new Ref(result) : result;
+	    }
+	    terminatedNode.v = result;
+	    return result;
+	  }
+	  memoized.clearCache = () => {
+	    fnNode = createCacheNode();
+	    memoized.resetResultsCount();
+	  };
+	  memoized.resultsCount = () => resultsCount;
+	  memoized.resetResultsCount = () => {
+	    resultsCount = 0;
+	  };
+	  return memoized;
+	}
+
+	// src/createSelectorCreator.ts
+	function createSelectorCreator(memoizeOrOptions, ...memoizeOptionsFromArgs) {
+	  const createSelectorCreatorOptions = typeof memoizeOrOptions === "function" ? {
+	    memoize: memoizeOrOptions,
+	    memoizeOptions: memoizeOptionsFromArgs
+	  } : memoizeOrOptions;
+	  const createSelector2 = (...createSelectorArgs) => {
+	    let recomputations = 0;
+	    let dependencyRecomputations = 0;
+	    let lastResult;
+	    let directlyPassedOptions = {};
+	    let resultFunc = createSelectorArgs.pop();
+	    if (typeof resultFunc === "object") {
+	      directlyPassedOptions = resultFunc;
+	      resultFunc = createSelectorArgs.pop();
+	    }
+	    assertIsFunction(resultFunc, `createSelector expects an output function after the inputs, but received: [${typeof resultFunc}]`);
+	    const combinedOptions = {
+	      ...createSelectorCreatorOptions,
+	      ...directlyPassedOptions
+	    };
+	    const {
+	      memoize,
+	      memoizeOptions = [],
+	      argsMemoize = weakMapMemoize,
+	      argsMemoizeOptions = [],
+	      devModeChecks = {}
+	    } = combinedOptions;
+	    const finalMemoizeOptions = ensureIsArray(memoizeOptions);
+	    const finalArgsMemoizeOptions = ensureIsArray(argsMemoizeOptions);
+	    const dependencies = getDependencies(createSelectorArgs);
+	    const memoizedResultFunc = memoize(function recomputationWrapper() {
+	      recomputations++;
+	      return resultFunc.apply(null, arguments);
+	    }, ...finalMemoizeOptions);
+	    let firstRun = true;
+	    const selector = argsMemoize(function dependenciesChecker() {
+	      dependencyRecomputations++;
+	      const inputSelectorResults = collectInputSelectorResults(dependencies, arguments);
+	      lastResult = memoizedResultFunc.apply(null, inputSelectorResults);
+	      {
+	        const {
+	          identityFunctionCheck,
+	          inputStabilityCheck
+	        } = getDevModeChecksExecutionInfo(firstRun, devModeChecks);
+	        if (identityFunctionCheck.shouldRun) {
+	          identityFunctionCheck.run(resultFunc, inputSelectorResults, lastResult);
+	        }
+	        if (inputStabilityCheck.shouldRun) {
+	          const inputSelectorResultsCopy = collectInputSelectorResults(dependencies, arguments);
+	          inputStabilityCheck.run({
+	            inputSelectorResults,
+	            inputSelectorResultsCopy
+	          }, {
+	            memoize,
+	            memoizeOptions: finalMemoizeOptions
+	          }, arguments);
+	        }
+	        if (firstRun) firstRun = false;
+	      }
+	      return lastResult;
+	    }, ...finalArgsMemoizeOptions);
+	    return Object.assign(selector, {
+	      resultFunc,
+	      memoizedResultFunc,
+	      dependencies,
+	      dependencyRecomputations: () => dependencyRecomputations,
+	      resetDependencyRecomputations: () => {
+	        dependencyRecomputations = 0;
+	      },
+	      lastResult: () => lastResult,
+	      recomputations: () => recomputations,
+	      resetRecomputations: () => {
+	        recomputations = 0;
+	      },
+	      memoize,
+	      argsMemoize
+	    });
+	  };
+	  Object.assign(createSelector2, {
+	    withTypes: () => createSelector2
+	  });
+	  return createSelector2;
+	}
+	var createSelector = /* @__PURE__ */createSelectorCreator(weakMapMemoize);
+
+	// src/createStructuredSelector.ts
+	var createStructuredSelector = Object.assign((inputSelectorsObject, selectorCreator = createSelector) => {
+	  assertIsObject(inputSelectorsObject, `createStructuredSelector expects first argument to be an object where each property is a selector, instead received a ${typeof inputSelectorsObject}`);
+	  const inputSelectorKeys = Object.keys(inputSelectorsObject);
+	  const dependencies = inputSelectorKeys.map(key => inputSelectorsObject[key]);
+	  const structuredSelector = selectorCreator(dependencies, (...inputSelectorResults) => {
+	    return inputSelectorResults.reduce((composition, value, index) => {
+	      composition[inputSelectorKeys[index]] = value;
+	      return composition;
+	    }, {});
+	  });
+	  return structuredSelector;
+	}, {
+	  withTypes: () => createStructuredSelector
+	});
+
 	var selectAttributes$4 = function selectAttributes(state) {
 	  return state.attributes;
 	};
@@ -8264,6 +8576,9 @@
 	    var name = _ref.name;
 	    return name;
 	  });
+	}, {
+	  memoize: weakMapMemoize,
+	  argsMemoize: weakMapMemoize
 	});
 
 	var _excluded$a = ["name", "type"];
@@ -8296,6 +8611,9 @@
 	    _iterator.f();
 	  }
 	  return null;
+	}, {
+	  memoize: weakMapMemoize,
+	  argsMemoize: weakMapMemoize
 	});
 
 	var _excluded$9 = ["clientId"];
@@ -8323,6 +8641,9 @@
 	    _iterator.f();
 	  }
 	  return null;
+	}, {
+	  memoize: weakMapMemoize,
+	  argsMemoize: weakMapMemoize
 	});
 
 	var selectAttributes$1 = function selectAttributes(state) {
@@ -8338,6 +8659,9 @@
 	    }
 	  }
 	  return null;
+	}, {
+	  memoize: weakMapMemoize,
+	  argsMemoize: weakMapMemoize
 	});
 
 	var getBlockClassName = function getBlockClassName(state, context) {
@@ -8397,7 +8721,7 @@
 	var selectVersion = function selectVersion(state) {
 	  return state.version || "";
 	};
-	var getRawJson = createSelector([selectAttributes, selectCategory, selectDescription, selectIcon, selectKeywords, selectName, selectSupports, selectTextdomain, selectTitle, selectVersion], function (attributes, category, description, icon, keywords, name, supports, textdomain, title, version) {
+	var getRawJson = createSelector$1([selectAttributes, selectCategory, selectDescription, selectIcon, selectKeywords, selectName, selectSupports, selectTextdomain, selectTitle, selectVersion], function (attributes, category, description, icon, keywords, name, supports, textdomain, title, version) {
 	  return {
 	    $schema: "https://schemas.wp.org/trunk/block.json",
 	    apiVersion: 3,
@@ -8430,6 +8754,9 @@
 	    indexedName = "".concat(attributeName).concat(index);
 	  }
 	  return indexedName;
+	}, {
+	  memoize: weakMapMemoize,
+	  argsMemoize: weakMapMemoize
 	});
 
 	var ALLOWED_ATTRIBUTE_TYPES = ["array", "number", "string", "object"];
@@ -8642,14 +8969,14 @@
 	var selectClientId = function selectClientId(_, clientId) {
 	  return clientId;
 	};
-	var componentHasFocus = createSelector([selectCurrentFocus$1, selectClientId], function (currentFocus, clientId) {
+	var componentHasFocus = createSelector$1([selectCurrentFocus$1, selectClientId], function (currentFocus, clientId) {
 	  return clientId === (currentFocus === null || currentFocus === void 0 ? void 0 : currentFocus.clientId);
 	});
 
 	var selectCurrentFocus = function selectCurrentFocus(state) {
 	  return state.currentFocus;
 	};
-	var getDraggingContext = createSelector([selectCurrentFocus], function (currentFocus) {
+	var getDraggingContext = createSelector$1([selectCurrentFocus], function (currentFocus) {
 	  return currentFocus || {
 	    context: null
 	  };
@@ -8922,9 +9249,13 @@
 	      return getAttribute(state.blockJson, attributeName);
 	    });
 	  }, []);
-	  var _getAttributeById = React$2.useCallback(function (attributeName) {
+	  var _getAttributeById = React$2.useCallback(function (clientId) {
 	    return useSelector(function (state) {
-	      return getAttributeById(state.blockJson, attributeName);
+	      var attribute = getAttributeById(state.blockJson, clientId);
+	      if ((attribute === null || attribute === void 0 ? void 0 : attribute.name) === "link") {
+	        console.log(clientId, JSON.stringify(state.blockJson));
+	      }
+	      return attribute;
 	    });
 	  }, []);
 	  var _renameAttribute = React$2.useCallback(function (attributeName, newAttributeName) {
@@ -12248,7 +12579,7 @@
 	}(React$1.Component);
 	var _default$1 = reactContenteditable.default = ContentEditable;
 
-	var EditableString = /*#__PURE__*/React$2.forwardRef(function (_ref, contentRef) {
+	var EditableString = /*#__PURE__*/React$2.memo( /*#__PURE__*/React$2.forwardRef(function (_ref, contentRef) {
 	  var _ref$allowEnter = _ref.allowEnter,
 	    allowEnter = _ref$allowEnter === void 0 ? false : _ref$allowEnter,
 	    _ref$className = _ref.className,
@@ -12285,8 +12616,8 @@
 	  var _onChange = function _onChange(_ref2) {
 	    var target = _ref2.target;
 	    var newValue = String((target === null || target === void 0 ? void 0 : target.value) || "");
-	    newValue = newValue.replace(/\n/g, " ");
-	    newValue = newValue.replace("&nbsp;", " ");
+	    newValue = newValue.replaceAll(/\n/g, " ");
+	    newValue = newValue.replaceAll("&nbsp;", " ");
 	    onChange && onChange(newValue);
 	  };
 	  var _onFocus = function _onFocus() {
@@ -12334,7 +12665,7 @@
 	      }
 	    })]
 	  });
-	});
+	}));
 
 	function BlockIconField(_ref) {
 	  var onBlur = _ref.onBlur,
@@ -12965,7 +13296,8 @@
 	  });
 	}
 	function JsonEditor(_ref4) {
-	  var json = _ref4.json,
+	  var _ref4$json = _ref4.json,
+	    json = _ref4$json === void 0 ? null : _ref4$json,
 	    _ref4$focus = _ref4.focus,
 	    focus = _ref4$focus === void 0 ? [] : _ref4$focus,
 	    _ref4$placeholders = _ref4.placeholders,
@@ -13041,7 +13373,9 @@
 	    itemList.push("");
 	  }
 	  useOnClickOutside(ref, function () {
-	    setBlur(currentIndex);
+	    if (hasFocus === true) {
+	      setBlur(currentIndex);
+	    }
 	  });
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
@@ -13320,21 +13654,220 @@
 	  });
 	}
 
+	//! pretty-print-json v3.0.0 ~~ https://pretty-print-json.js.org ~~ MIT License
+
+	const prettyPrintJson = {
+	  version: '3.0.0',
+	  toHtml(data, options) {
+	    const defaults = {
+	      indent: 3,
+	      lineNumbers: false,
+	      linkUrls: true,
+	      linksNewTab: true,
+	      quoteKeys: false,
+	      trailingCommas: true
+	    };
+	    const settings = {
+	      ...defaults,
+	      ...options
+	    };
+	    const invalidHtml = /[<>&]|\\"/g;
+	    const toHtml = char => char === '<' ? '&lt;' : char === '>' ? '&gt;' : char === '&' ? '&amp;' : '&bsol;&quot;';
+	    const spanTag = (type, display) => display ? '<span class=json-' + type + '>' + display + '</span>' : '';
+	    const buildValueHtml = value => {
+	      const strType = /^"/.test(value) && 'string';
+	      const boolType = ['true', 'false'].includes(value) && 'boolean';
+	      const nullType = value === 'null' && 'null';
+	      const type = boolType || nullType || strType || 'number';
+	      const urlPattern = /https?:\/\/[^\s"]+/g;
+	      const target = settings.linksNewTab ? ' target=_blank' : '';
+	      const makeLink = link => `<a class=json-link href="${link}"${target}>${link}</a>`;
+	      const display = strType && settings.linkUrls ? value.replace(urlPattern, makeLink) : value;
+	      return spanTag(type, display);
+	    };
+	    const replacer = (match, ...parts) => {
+	      const part = {
+	        indent: parts[0],
+	        key: parts[1],
+	        value: parts[2],
+	        end: parts[3]
+	      };
+	      const findName = settings.quoteKeys ? /(.*)(): / : /"([\w$]+)": |(.*): /;
+	      const indentHtml = part.indent || '';
+	      const keyName = part.key && part.key.replace(findName, '$1$2');
+	      const keyHtml = part.key ? spanTag('key', keyName) + spanTag('mark', ': ') : '';
+	      const valueHtml = part.value ? buildValueHtml(part.value) : '';
+	      const noComma = !part.end || [']', '}'].includes(match.at(-1));
+	      const addComma = settings.trailingCommas && match.at(0) === ' ' && noComma;
+	      const endHtml = spanTag('mark', addComma ? (part.end ?? '') + ',' : part.end);
+	      return indentHtml + keyHtml + valueHtml + endHtml;
+	    };
+	    const jsonLine = /^( *)("[^"]+": )?("[^"]*"|[\w.+-]*)?([{}[\],]*)?$/mg;
+	    const json = JSON.stringify(data, null, settings.indent) || 'undefined';
+	    const html = json.replace(invalidHtml, toHtml).replace(jsonLine, replacer);
+	    const makeLine = line => `   <li>${line}</li>`;
+	    const addLineNumbers = html => ['<ol class=json-lines>', ...html.split('\n').map(makeLine), '</ol>'].join('\n');
+	    return settings.lineNumbers ? addLineNumbers(html) : html;
+	  }
+	};
+
+	var EditableObject = /*#__PURE__*/React$2.memo( /*#__PURE__*/React$2.forwardRef(function (_ref, contentRef) {
+	  var _ref$className = _ref.className,
+	    className = _ref$className === void 0 ? "" : _ref$className,
+	    _ref$disabled = _ref.disabled,
+	    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
+	    _ref$invalid = _ref.invalid,
+	    invalid = _ref$invalid === void 0 ? false : _ref$invalid;
+	    _ref.keyPlaceholder;
+	    _ref.keyValueSeperator;
+	    var onChange = _ref.onChange,
+	    onFocus = _ref.onFocus,
+	    onBlur = _ref.onBlur,
+	    _ref$placeholder = _ref.placeholder,
+	    placeholder = _ref$placeholder === void 0 ? "null" : _ref$placeholder;
+	    _ref.propertySeperator;
+	    var _ref$value = _ref.value,
+	    value = _ref$value === void 0 ? {} : _ref$value;
+	    _ref.valuePlaceholder;
+	  var ref = React$2.useRef(null);
+	  var _contentRef = contentRef || React$2.useRef(null);
+	  var _useState = React$2.useState(false),
+	    _useState2 = _slicedToArray(_useState, 2),
+	    hasFocus = _useState2[0],
+	    setHasFocus = _useState2[1];
+	  var objectType = React$2.useMemo(function () {
+	    if (isStringNullValue(value)) {
+	      return "null";
+	    } else if (isAttributeNumberValue(value)) {
+	      return "number";
+	    } else if (isAttributeArrayValue(value)) {
+	      return "array";
+	    } else if (isAttributeObjectValue(value)) {
+	      return "object";
+	    }
+	    return "string";
+	  }, [value]);
+	  var html = React$2.useMemo(function () {
+	    var _value = value;
+	    if (isStringified(_value)) {
+	      _value = JSON.parse(_value);
+	    }
+	    return prettyPrintJson.toHtml(_value, {
+	      indent: 2,
+	      quoteKeys: true,
+	      trailingCommas: false
+	    });
+	  }, [objectType, value]);
+
+	  /*useLayoutEffect(() => {
+	  	console.log(value, html);
+	  }, [html, value]);*/
+
+	  var _onChange = function _onChange(event) {
+	    var _contentRef$current;
+	    var newValue = _contentRef === null || _contentRef === void 0 || (_contentRef$current = _contentRef.current) === null || _contentRef$current === void 0 ? void 0 : _contentRef$current.textContent;
+	    newValue = newValue.replaceAll(/\n/g, " ");
+	    newValue = newValue.replaceAll("&nbsp;", " ");
+
+	    // Clear out value when null string is backspaced
+	    if (value === null && newValue === "nul") {
+	      newValue = "";
+	    }
+
+	    // Unescape string value
+	    if (isAttributeStringValue(newValue)) {
+	      newValue = newValue.replaceAll(/\\\\/g, "\\");
+	      newValue = newValue.replaceAll(/\\\"/g, '"');
+	    }
+
+	    // Add back trailing quote when deleted from a string
+	    if (isAttributeStringValue(value) && value === newValue.slice(1)) {
+	      newValue = "".concat(newValue, "\"");
+	    }
+
+	    // Add back preceding quote when deleted from a string
+	    if (isAttributeStringValue(value) && value === newValue.slice(0, -1)) {
+	      newValue = "\"".concat(newValue);
+	    }
+
+	    // Remove quotes from stringified string
+	    if (newValue.slice(0, 1) === '"' && newValue.slice(-1) === '"') {
+	      newValue = newValue.slice(1, -1);
+	    }
+
+	    // Autocomplete curly brackets
+	    if (newValue === "{") {
+	      newValue = "{}";
+	    }
+
+	    // Autocomplete brackets
+	    if (newValue === "[") {
+	      newValue = "[]";
+	    }
+	    if (isStringNullValue(newValue)) {
+	      newValue = null;
+	    } else if (isAttributeArrayValue(newValue)) {
+	      newValue = JSON.parse(newValue);
+	    } else if (isAttributeObjectValue(newValue)) {
+	      newValue = JSON.parse(newValue);
+	    }
+	    if (JSON.stringify(newValue) !== JSON.stringify(value)) {
+	      console.log(value, newValue, JSON.stringify(value), JSON.stringify(newValue), JSON.stringify(newValue) !== JSON.stringify(value), isAttributeStringValue(newValue));
+	      debugger;
+	      onChange && onChange(newValue);
+	    }
+	  };
+	  var _onBlur = function _onBlur() {
+	    setHasFocus(false);
+	    onBlur && onBlur();
+	  };
+	  var _onFocus = function _onFocus() {
+	    setHasFocus(true);
+	    onFocus && onFocus();
+	  };
+	  var onKeyDown = React$2.useCallback(function (event) {
+	    if (event.key === "Backspace") {
+	      event.stopPropagation();
+	    }
+	  }, []);
+	  console.log("rerender editableobject");
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    ref: ref,
+	    "data-testid": "editable-object",
+	    className: clsx$1("EditableObject", className, {
+	      "has-focus": hasFocus,
+	      "has-value": html.length > 0,
+	      "is-invalid": invalid
+	    }),
+	    onKeyDown: onKeyDown,
+	    children: [html.length === 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	      className: "placeholder",
+	      "data-testid": "editable-object/placeholder",
+	      children: placeholder
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(_default$1, {
+	      "data-testid": "editable-object/content-editable",
+	      disabled: disabled,
+	      innerRef: _contentRef,
+	      html: html,
+	      onChange: _onChange,
+	      onBlur: _onBlur,
+	      onFocus: _onFocus
+	    })]
+	  });
+	}));
+
 	var BlueprintAttributeDefault = /*#__PURE__*/React$2.memo(function (_ref) {
 	  var clientId = _ref.clientId;
 	  var _useBlockJson = useBlockJson(),
 	    editAttribute = _useBlockJson.editAttribute,
 	    getAttributeById = _useBlockJson.getAttributeById;
-	  var _getAttributeById = getAttributeById(clientId),
-	    attributeDefault = _getAttributeById["default"],
-	    attributeName = _getAttributeById.name,
-	    attributeType = _getAttributeById.type;
-	  var _attributeDefault = React$2.useMemo(function () {
-	    if (isObject(attributeDefault) || isArray(attributeDefault)) {
-	      return JSON.stringify(attributeDefault);
-	    }
-	    return attributeDefault || null;
-	  }, [attributeDefault]);
+	  var attribute = getAttributeById(clientId);
+	  var attributeDefault = attribute["default"],
+	    attributeName = attribute.name,
+	    attributeType = attribute.type;
+	  if (attributeName === "link") {
+	    console.log(attribute);
+	  }
 	  var allowsNullDefault = React$2.useMemo(function () {
 	    var _attributeTypes$attri;
 	    return (attributeTypes === null || attributeTypes === void 0 || (_attributeTypes$attri = attributeTypes[attributeType]) === null || _attributeTypes$attri === void 0 ? void 0 : _attributeTypes$attri.allowsNull) === false && false || true;
@@ -13343,19 +13876,23 @@
 	    return attributeType in attributeTypes;
 	  }, [attributeType]);
 	  var attributeDefaultValid = React$2.useMemo(function () {
-	    if (attributeType === "array" && !isAttributeArrayValue(_attributeDefault) && !isStringNullValue(_attributeDefault)) {
+	    if (attributeType === "array" && !isAttributeArrayValue(attributeDefault) && !isStringNullValue(attributeDefault)) {
 	      return false;
-	    } else if (attributeType === "object" && !isAttributeObjectValue(_attributeDefault) && !isStringNullValue(_attributeDefault)) {
+	    } else if (attributeType === "object" && !isAttributeObjectValue(attributeDefault) && !isStringNullValue(attributeDefault)) {
 	      return false;
-	    } else if (attributeTypeValid && !allowsNullDefault && !(_attributeDefault !== null && _attributeDefault !== void 0 && _attributeDefault.length)) {
+	    } else if (attributeTypeValid && !allowsNullDefault && !(attributeDefault !== null && attributeDefault !== void 0 && attributeDefault.length)) {
 	      return false;
 	    }
 	    return true;
-	  }, [allowsNullDefault, _attributeDefault, attributeTypeValid]);
+	  }, [allowsNullDefault, attributeDefault, attributeTypeValid]);
 	  function onChange(newAttributeDefault) {
-	    editAttribute(attributeName, {
-	      "default": newAttributeDefault
-	    });
+	    console.log(newAttributeDefault, attributeDefault, newAttributeDefault !== attributeDefault);
+	    debugger;
+	    if (newAttributeDefault !== attributeDefault) {
+	      editAttribute(attributeName, {
+	        "default": newAttributeDefault
+	      });
+	    }
 	  }
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    className: "BlueprintAttribute-line indent",
@@ -13372,15 +13909,11 @@
 	        children: "default"
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	        children: "\": "
-	      }), (attributeType === "string" && !isStringNullValue(_attributeDefault) || isAttributeStringValue(_attributeDefault)) && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	        children: "\""
-	      }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
+	      }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableObject, {
 	        className: "BlueprintAttribute-default",
+	        onChange: onChange,
 	        placeholder: "null",
-	        value: _attributeDefault,
-	        onChange: onChange
-	      }), (attributeType === "string" && !isStringNullValue(_attributeDefault) || isAttributeStringValue(_attributeDefault)) && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	        children: "\""
+	        value: attributeDefault
 	      })]
 	    })
 	  });
@@ -15246,10 +15779,12 @@
 	    attributeName = _getAttributeById.name;
 	  var onClick = React$2.useCallback(function (event) {
 	    event.stopPropagation();
-	    setFocus({
-	      clientId: clientId,
-	      context: "attribute"
-	    });
+	    if (hasFocus === false) {
+	      setFocus({
+	        clientId: clientId,
+	        context: "attribute"
+	      });
+	    }
 	  }, [clientId]);
 	  var _useBlueprintConnecti = useBlueprintConnectionsDrag(ref, {
 	      attributeName: attributeName,
@@ -15260,7 +15795,7 @@
 
 	  // Remove attribute on delete
 	  useOnDelete(function () {
-	    if (hasFocus) {
+	    if (hasFocus === true) {
 	      var blockComponents = Object.keys(getComponentsByAttributeName(attributeName));
 	      blockComponents.forEach(function (clientId) {
 	        unsetComponentAttribute(clientId, "attributeName");
@@ -15271,7 +15806,9 @@
 
 	  // Call hook passing in the ref and a function to call on outside click
 	  useOnClickOutside(ref, function () {
-	    unsetFocus();
+	    if (hasFocus === true) {
+	      unsetFocus();
+	    }
 	  });
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
@@ -15686,7 +16223,7 @@
 	    return type !== "html";
 	  }, [type]);
 	  var onClick = React$2.useCallback(function (event) {
-	    if (!isDraggingSelf) {
+	    if (isDraggingSelf === false) {
 	      event.stopPropagation();
 	      setFocus({
 	        clientId: clientId,
@@ -15724,14 +16261,16 @@
 
 	  // Remove component on delete
 	  useOnDelete(function () {
-	    if (hasFocus) {
+	    if (hasFocus === true) {
 	      removeComponent(clientId);
 	    }
 	  });
 
 	  // Call hook passing in the ref and a function to call on outside click
 	  useOnClickOutside(ref, function () {
-	    unsetFocus();
+	    if (hasFocus === true) {
+	      unsetFocus();
+	    }
 	  });
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,

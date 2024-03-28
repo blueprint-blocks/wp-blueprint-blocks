@@ -43,7 +43,7 @@ const BlueprintComponent = memo(
 
 		const onClick = useCallback(
 			(event) => {
-				if (!isDraggingSelf) {
+				if (isDraggingSelf === false) {
 					event.stopPropagation();
 					setFocus({ clientId, context: "component" });
 				}
@@ -73,14 +73,16 @@ const BlueprintComponent = memo(
 
 		// Remove component on delete
 		useOnDelete(() => {
-			if (hasFocus) {
+			if (hasFocus === true) {
 				removeComponent(clientId);
 			}
 		}, [clientId, hasFocus]);
 
 		// Call hook passing in the ref and a function to call on outside click
 		useOnClickOutside(ref, () => {
-			unsetFocus();
+			if (hasFocus === true) {
+				unsetFocus();
+			}
 		});
 
 		if (process.env.NODE_ENV === "development") {
