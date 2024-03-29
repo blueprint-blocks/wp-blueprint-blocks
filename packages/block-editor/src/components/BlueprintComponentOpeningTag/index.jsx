@@ -1,6 +1,10 @@
 import { useLayoutEffect, useMemo, useRef } from "react";
 
-import { componentAllowsChildren, getUniqueClientId } from "../../functions";
+import {
+	isArray,
+	componentAllowsChildren,
+	getUniqueClientId,
+} from "../../functions";
 import { useBlockClassName, useBlueprint } from "../../hooks";
 
 import BlueprintComponentAttribute from "../BlueprintComponentAttribute";
@@ -34,7 +38,12 @@ const BlueprintComponentOpeningTag = ({
 		}
 
 		componentAttributes.forEach(({ clientId, name, value }) => {
-			if (name === "className" && "{{ block._className }}" in value) {
+			if (
+				name === "className" &&
+				value &&
+				isArray(value) &&
+				"{{ block._className }}" in value
+			) {
 				let classNameValue = { ...value };
 				delete classNameValue["{{ block._className }}"];
 				classNameValue[blockClassName] = true;

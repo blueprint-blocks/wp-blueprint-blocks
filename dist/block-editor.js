@@ -7374,6 +7374,10 @@
 	  return clientId;
 	}
 
+	function isArray(value) {
+	  return Array.isArray(value) && value !== null;
+	}
+
 	function isAttributeArrayValue(value) {
 	  try {
 	    var json = JSON.parse(value);
@@ -16213,7 +16217,7 @@
 	      var clientId = _ref2.clientId,
 	        name = _ref2.name,
 	        value = _ref2.value;
-	      if (name === "className" && "{{ block._className }}" in value) {
+	      if (name === "className" && value && isArray(value) && "{{ block._className }}" in value) {
 	        var classNameValue = _objectSpread2({}, value);
 	        delete classNameValue["{{ block._className }}"];
 	        classNameValue[blockClassName] = true;
