@@ -66,7 +66,7 @@
 
 .BlueprintComponent.has-focus
 	> .BlueprintComponent-open
-	> .BlueprintConnectionHandle {
+	> .BlueprintConnectionHandleTo {
 	border-color: var(--color-accent-yellow);
 }
 
