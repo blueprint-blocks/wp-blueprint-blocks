@@ -15592,7 +15592,10 @@
 	  var _clientId = clientId || React$2.useId();
 	  var centerPoint = useCenterPoint(ref, editorContext === null || editorContext === void 0 ? void 0 : editorContext.ref);
 	  var _useBlockJson = useBlockJson(),
+	    blockAttributes = _useBlockJson.blockAttributes,
 	    getAttributeById = _useBlockJson.getAttributeById;
+	  var _useBlueprint = useBlueprint(),
+	    blockComponents = _useBlueprint.blockComponents;
 	  var _useBlueprintConnecti = useBlueprintConnections(),
 	    setHandlePosition = _useBlueprintConnecti.setHandlePosition,
 	    startDraggingNewConnection = _useBlueprintConnecti.startDraggingNewConnection,
@@ -15657,7 +15660,7 @@
 	  if (!isClone) {
 	    React$2.useLayoutEffect(function () {
 	      dispatchPosition();
-	    }, [centerPoint, clientId, draggingOffset]);
+	    }, [blockAttributes, blockComponents, centerPoint, clientId, draggingOffset]);
 	  }
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    ref: ref,
@@ -15860,9 +15863,11 @@
 	    selfDraggingOffset = _useState4[0],
 	    setSelfDraggingOffset = _useState4[1];
 	  var _useBlockJson = useBlockJson(),
+	    blockAttributes = _useBlockJson.blockAttributes,
 	    getAttribute = _useBlockJson.getAttribute,
 	    getUniqueAttributeName = _useBlockJson.getUniqueAttributeName;
 	  var _useBlueprint = useBlueprint(),
+	    blockComponents = _useBlueprint.blockComponents,
 	    getComponentAttribute = _useBlueprint.getComponentAttribute,
 	    getComponentType = _useBlueprint.getComponentType;
 	  var _useBlueprintConnecti = useBlueprintConnections(),
@@ -15979,7 +15984,7 @@
 	  if (!isClone) {
 	    React$2.useLayoutEffect(function () {
 	      dispatchPosition();
-	    }, [centerPoint, clientId, draggingOffset]);
+	    }, [blockAttributes, blockComponents, centerPoint, clientId, draggingOffset]);
 	  }
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    ref: ref,

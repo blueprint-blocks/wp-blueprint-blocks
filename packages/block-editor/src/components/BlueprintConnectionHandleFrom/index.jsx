@@ -11,6 +11,7 @@ import { BlueprintEditorContext } from "../../contexts";
 
 import {
 	useBlockJson,
+	useBlueprint,
 	useBlueprintConnections,
 	useCenterPoint,
 	useDebugRenderCount,
@@ -29,7 +30,8 @@ const BlueprintConnectionHandleFrom = memo(
 		const _clientId = clientId || useId();
 		const centerPoint = useCenterPoint(ref, editorContext?.ref);
 
-		const { getAttributeById } = useBlockJson();
+		const { blockAttributes, getAttributeById } = useBlockJson();
+		const { blockComponents } = useBlueprint();
 
 		const {
 			setHandlePosition,
@@ -101,7 +103,13 @@ const BlueprintConnectionHandleFrom = memo(
 		if (!isClone) {
 			useLayoutEffect(() => {
 				dispatchPosition();
-			}, [centerPoint, clientId, draggingOffset]);
+			}, [
+				blockAttributes,
+				blockComponents,
+				centerPoint,
+				clientId,
+				draggingOffset,
+			]);
 		}
 
 		if (process.env.NODE_ENV === "development") {

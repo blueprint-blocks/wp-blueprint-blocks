@@ -42,8 +42,10 @@ const BlueprintConnectionHandleTo = memo(
 			y: 0,
 		});
 
-		const { getAttribute, getUniqueAttributeName } = useBlockJson();
-		const { getComponentAttribute, getComponentType } = useBlueprint();
+		const { blockAttributes, getAttribute, getUniqueAttributeName } =
+			useBlockJson();
+		const { blockComponents, getComponentAttribute, getComponentType } =
+			useBlueprint();
 
 		const {
 			setHandlePosition,
@@ -165,7 +167,13 @@ const BlueprintConnectionHandleTo = memo(
 		if (!isClone) {
 			useLayoutEffect(() => {
 				dispatchPosition();
-			}, [centerPoint, clientId, draggingOffset]);
+			}, [
+				blockAttributes,
+				blockComponents,
+				centerPoint,
+				clientId,
+				draggingOffset,
+			]);
 		}
 
 		if (process.env.NODE_ENV === "development") {
