@@ -1,14 +1,9 @@
-import { createSelector, weakMapMemoize } from "reselect";
+import { createSelector } from "reselect";
 
 const selectAttributes = (state) => state.attributes;
 
-const getAllAttributeNames = createSelector(
-	[selectAttributes],
-	(attributes) => attributes.map(({ name }) => name),
-	{
-		memoize: weakMapMemoize,
-		argsMemoize: weakMapMemoize,
-	},
+const getAllAttributeNames = createSelector([selectAttributes], (attributes) =>
+	attributes.map(({ name }) => name),
 );
 
 export default getAllAttributeNames;

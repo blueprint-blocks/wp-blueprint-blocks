@@ -9,23 +9,3 @@
 	border-top: 2px solid var(--color-darker-gray);
 	width: 100%;
 }
-
-.BlueprintAttributeList-add {
-	background: var(--color-gray);
-	border-radius: 32px;
-	color: var(--color-darkest-gray);
-	cursor: pointer;
-	display: grid;
-	font-family: var(--font-family);
-	font-size: var(--font-size-small);
-	font-weight: var(--font-weight-medium);
-	height: 32px;
-	line-height: 32px;
-	padding: 0 var(--2x);
-	transition: var(--transition);
-	white-space: nowrap;
-
-	&:hover {
-		background: var(--color-white);
-	}
-}

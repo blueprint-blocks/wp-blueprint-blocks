@@ -7,6 +7,7 @@ import {
 	getAttribute,
 	getAttributeById,
 	getAllAttributeNames,
+	getUniqueAttributeName,
 	renameAttribute,
 	removeAttribute,
 } from "../store/block-json";
@@ -16,9 +17,7 @@ import { setChanged } from "../store/post-metadata";
 const useBlockJson = () => {
 	const dispatch = useDispatch();
 
-	const attributes = useSelector((state) => {
-		return state.blockJson.attributes;
-	});
+	const attributes = useSelector((state) => state.blockJson.attributes);
 
 	const attributeNames = useSelector((state) =>
 		getAllAttributeNames(state.blockJson),
@@ -63,6 +62,14 @@ const useBlockJson = () => {
 		[],
 	);
 
+	const _getUniqueAttributeName = useCallback(
+		(attributeName) =>
+			useSelector((state) =>
+				getUniqueAttributeName(state.blockJson, attributeName),
+			),
+		[],
+	);
+
 	const _renameAttribute = useCallback((attributeName, newAttributeName) => {
 		dispatch(
 			renameAttribute({ name: attributeName, newName: newAttributeName }),
@@ -83,6 +90,7 @@ const useBlockJson = () => {
 		editAttribute: _editAttribute,
 		getAttribute: _getAttribute,
 		getAttributeById: _getAttributeById,
+		getUniqueAttributeName: _getUniqueAttributeName,
 		renameAttribute: _renameAttribute,
 		removeAttribute: _removeAttribute,
 	};

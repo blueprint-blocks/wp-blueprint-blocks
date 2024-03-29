@@ -15,7 +15,7 @@ import {
 import BlueprintAttributeDefault from "../BlueprintAttributeDefault";
 import BlueprintAttributeName from "../BlueprintAttributeName";
 import BlueprintAttributeType from "../BlueprintAttributeType";
-import BlueprintConnectionHandle from "../BlueprintConnectionHandle";
+import BlueprintConnectionHandleFrom from "../BlueprintConnectionHandleFrom";
 
 import "./style.css";
 
@@ -83,7 +83,7 @@ const BlueprintAttribute = memo(({ clientId }) => {
 			onClick={onClick}
 		>
 			<div class="BlueprintAttribute-focus" />
-			<BlueprintConnectionHandle clientId={clientId} context="from" />
+			<BlueprintConnectionHandleFrom clientId={clientId} context="from" />
 			<BlueprintAttributeName clientId={clientId} />
 			<BlueprintAttributeType clientId={clientId} />
 			<BlueprintAttributeDefault clientId={clientId} />

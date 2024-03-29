@@ -1,0 +1,24 @@
+.BlueprintConnectionHandleFrom {
+	background: var(--color-darkest-gray);
+	border: 2px solid var(--color-white);
+	border-radius: 10px;
+	box-sizing: border-box;
+	height: 10px;
+	position: absolute;
+	right: 0;
+	top: calc(50% - 5px);
+	transition: var(--transition);
+	width: 10px;
+	z-index: 20;
+}
+
+.BlueprintConnectionHandleFrom.is-hidden {
+	opacity: 0;
+}
+
+.BlueprintConnectionHandleFrom.is-clone {
+	cursor: grab;
+	left: -2px;
+	opacity: 0;
+	top: -2px;
+}

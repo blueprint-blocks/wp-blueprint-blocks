@@ -21,6 +21,10 @@
 			"allowsChildren": false,
 			"description": "Text based input with options for complex formatting. If no value is input to this field in the editor, it will not be displayed on the front end.",
 			"shortDescription": "Text based input with options for complex formatting.",
+			"blockAttribute": {
+				"type": "string",
+				"default": null
+			},
 			"attributes": {
 				"allowedFormats": {
 					"type": "array"
@@ -52,6 +56,14 @@
 			"icon": "link-sharp-regular",
 			"allowsChildren": false,
 			"shortDescription": "Inputs for an embedded link accepting a label, href, and target.",
+			"blockAttribute": {
+				"type": "object",
+				"default": {
+					"href": "#",
+					"label": "Learn more",
+					"target": "_blank"
+				}
+			},
 			"defaultAttributes": {
 				"placeholder": "Enter a label..."
 			}
@@ -62,6 +74,10 @@
 			"icon": "image-sharp-regular",
 			"allowsChildren": false,
 			"shortDescription": "Upload dialog for all image formats.",
+			"blockAttribute": {
+				"type": "array",
+				"default": null
+			},
 			"defaultAttributes": {
 				"label": "Image"
 			}

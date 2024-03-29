@@ -1,8 +1,5 @@
-import clsx from "clsx";
-
 import {
 	memo,
-	useCallback,
 	useContext,
 	useLayoutEffect,
 	useId,
@@ -24,10 +21,9 @@ import DraggableWithinEditor from "../DraggableWithinEditor";
 
 import "./style.css";
 
-const BlueprintConnectionHandle = memo(
+const BlueprintConnectionHandleTo = memo(
 	({
 		clientId = null,
-		context = "to",
 		draggingOffset = { x: 0, y: 0 },
 		isClone = false,
 		isDragging = false,
@@ -46,16 +42,8 @@ const BlueprintConnectionHandle = memo(
 			y: 0,
 		});
 
-		const { getAttributeById } = useBlockJson();
-		const { getComponentAttribute } = useBlueprint();
-
-		let attributeName;
-
-		if (context === "from") {
-			attributeName = (getAttributeById(_clientId) || {})?.name;
-		} else {
-			attributeName = getComponentAttribute(_clientId, "attributeName");
-		}
+		const { getAttribute, getUniqueAttributeName } = useBlockJson();
+		const { getComponentAttribute, getComponentType } = useBlueprint();
 
 		const {
 			setHandlePosition,
@@ -65,17 +53,24 @@ const BlueprintConnectionHandle = memo(
 			stopDraggingNewConnection,
 		} = useBlueprintConnections();
 
+		const componentType = getComponentType(_clientId);
+
+		const attributeName = getComponentAttribute(_clientId, "attributeName");
+		const uniqueAttributeName = getUniqueAttributeName(componentType);
+
+		const attributeExists = !!getAttribute(attributeName);
+
 		const getCurrentPosition = () => {
 			if (centerPoint.x === null || centerPoint.y === null) {
 				return null;
 			}
 
-			if (isDraggingSelf && context === "to") {
+			if (isDraggingSelf) {
 				return {
 					x: centerPoint.x + selfDraggingOffset.x,
 					y: centerPoint.y + selfDraggingOffset.y,
 				};
-			} else if (isDragging && context === "to") {
+			} else if (isDragging) {
 				return {
 					x: centerPoint.x + draggingOffset.x,
 					y: centerPoint.y + draggingOffset.y,
@@ -87,25 +82,16 @@ const BlueprintConnectionHandle = memo(
 		const onDrag = ({ x, y }) => {
 			setSelfDraggingOffset({ x, y });
 
-			if (context === "from") {
+			if (attributeExists === false) {
 				startDraggingNewConnection({
-					attributeName,
-					clientId: _clientId,
-					from: centerPoint,
-					to: {
-						x: centerPoint.x + x,
-						y: centerPoint.y + y,
-					},
-				});
-			} else if (attributeName === null) {
-				startDraggingNewConnection({
-					attributeName,
+					attributeName: attributeName || uniqueAttributeName,
 					clientId: _clientId,
 					from: {
 						x: centerPoint.x + x,
 						y: centerPoint.y + y,
 					},
 					to: centerPoint,
+					type: componentType,
 				});
 			} else {
 				dispatchPosition();
@@ -124,19 +110,13 @@ const BlueprintConnectionHandle = memo(
 		const onStartDrag = () => {
 			setIsDraggingSelf(true);
 
-			if (context === "from") {
+			if (attributeExists === false) {
 				startDraggingNewConnection({
-					attributeName,
+					attributeName: attributeName || uniqueAttributeName,
 					clientId: _clientId,
 					from: centerPoint,
 					to: centerPoint,
-				});
-			} else if (attributeName === null) {
-				startDraggingNewConnection({
-					attributeName,
-					clientId: _clientId,
-					from: centerPoint,
-					to: centerPoint,
+					type: componentType,
 				});
 			} else {
 				dispatchPosition();
@@ -149,7 +129,7 @@ const BlueprintConnectionHandle = memo(
 			}
 		};
 
-		const onStopDrag = useCallback(() => {
+		const onStopDrag = () => {
 			setIsDraggingSelf(false);
 			setSelfDraggingOffset({ x: 0, y: 0 });
 
@@ -160,7 +140,7 @@ const BlueprintConnectionHandle = memo(
 					stopDraggingExistingConnection();
 				}, 0);
 			}, 0);
-		}, [centerPoint]);
+		};
 
 		const dispatchPosition = (position = null) => {
 			const currentPosition = position || getCurrentPosition();
@@ -171,7 +151,7 @@ const BlueprintConnectionHandle = memo(
 
 			setHandlePosition({
 				clientId: _clientId,
-				context,
+				context: "to",
 				x: currentPosition.x,
 				y: currentPosition.y,
 			});
@@ -185,26 +165,23 @@ const BlueprintConnectionHandle = memo(
 		if (!isClone) {
 			useLayoutEffect(() => {
 				dispatchPosition();
-			}, [centerPoint, clientId, context, draggingOffset]);
+			}, [centerPoint, clientId, draggingOffset]);
 		}
 
 		if (process.env.NODE_ENV === "development") {
-			useDebugRenderCount("BlueprintConnectionHandle");
+			useDebugRenderCount("BlueprintConnectionHandleTo");
 		}
 
 		return (
 			<div
 				ref={ref}
-				className={clsx(
-					"BlueprintConnectionHandle",
-					`is-${(context === "from" && "from") || "to"}`,
-				)}
+				className="BlueprintConnectionHandleTo"
 				onClick={(event) => {
 					event.stopPropagation();
 				}}
 			>
 				<DraggableWithinEditor
-					additionalContext={{ handleContext: context }}
+					additionalContext={{ handleContext: "to" }}
 					clientId={clientId}
 					context="connectionHandle"
 					onDrag={onDrag}
@@ -212,11 +189,11 @@ const BlueprintConnectionHandle = memo(
 					onStopDrag={onStopDrag}
 					ref={ref}
 				>
-					<div className="BlueprintConnectionHandle is-clone" />
+					<div className="BlueprintConnectionHandleTo is-clone" />
 				</DraggableWithinEditor>
 			</div>
 		);
 	},
 );
 
-export default BlueprintConnectionHandle;
+export default BlueprintConnectionHandleTo;

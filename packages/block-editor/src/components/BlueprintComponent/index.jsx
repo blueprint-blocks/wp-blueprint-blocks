@@ -12,7 +12,7 @@ import {
 	useOnDelete,
 } from "../../hooks";
 
-import BlueprintConnectionHandle from "../BlueprintConnectionHandle";
+import BlueprintConnectionHandleTo from "../BlueprintConnectionHandleTo";
 import BlueprintComponentClosingTag from "../BlueprintComponentClosingTag";
 import BlueprintComponentOpeningTag from "../BlueprintComponentOpeningTag";
 import DraggableWithinEditor from "../DraggableWithinEditor";
@@ -102,7 +102,7 @@ const BlueprintComponent = memo(
 			>
 				<BlueprintComponentOpeningTag clientId={clientId}>
 					{hasAttributeHandle && (
-						<BlueprintConnectionHandle
+						<BlueprintConnectionHandleTo
 							clientId={clientId}
 							context="to"
 							isClone={true}
@@ -133,7 +133,7 @@ const BlueprintComponent = memo(
 								disabled={true}
 							>
 								{hasAttributeHandle && (
-									<BlueprintConnectionHandle
+									<BlueprintConnectionHandleTo
 										clientId={clientId}
 										context="to"
 										draggingOffset={offset}
