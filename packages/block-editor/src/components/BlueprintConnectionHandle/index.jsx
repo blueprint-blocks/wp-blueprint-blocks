@@ -155,8 +155,10 @@ const BlueprintConnectionHandle = memo(
 
 			setTimeout(() => {
 				dispatchPosition(centerPoint);
-				stopDraggingNewConnection();
-				stopDraggingExistingConnection();
+				setTimeout(() => {
+					stopDraggingNewConnection();
+					stopDraggingExistingConnection();
+				}, 0);
 			}, 0);
 		}, [centerPoint]);
 

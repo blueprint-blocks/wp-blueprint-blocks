@@ -32,10 +32,6 @@ const BlueprintAttributeDefault = memo(({ clientId }) => {
 		type: attributeType,
 	} = attribute;
 
-	if (attributeName === "link") {
-		console.log(attribute);
-	}
-
 	const allowsNullDefault = useMemo(
 		() =>
 			(attributeTypes?.[attributeType]?.allowsNull === false && false) ||
@@ -73,12 +69,6 @@ const BlueprintAttributeDefault = memo(({ clientId }) => {
 	}, [allowsNullDefault, attributeDefault, attributeTypeValid]);
 
 	function onChange(newAttributeDefault) {
-		console.log(
-			newAttributeDefault,
-			attributeDefault,
-			newAttributeDefault !== attributeDefault,
-		);
-		debugger;
 		if (newAttributeDefault !== attributeDefault) {
 			editAttribute(attributeName, {
 				default: newAttributeDefault,

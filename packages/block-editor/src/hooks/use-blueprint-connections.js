@@ -58,15 +58,6 @@ const useBlueprintConnections = () => {
 		unsetComponentAttribute(clientId, "attributeName");
 	}, []);
 
-	const setConnection = useCallback((from, to) => {
-		//console.log(from, to);
-		/*const attribute = useSelector((state) =>
-			getAttributeById(state.blockJson, from),
-		);*/
-		const attribute = getAttributeById(from);
-		console.log(attribute);
-	});
-
 	const _setHandlePosition = useCallback(({ clientId, x, y }) => {
 		dispatch(setHandlePosition({ clientId, x, y }));
 	}, []);
@@ -76,7 +67,6 @@ const useBlueprintConnections = () => {
 		getHandlePosition: _getHandlePosition,
 		handlePositions,
 		removeConnection,
-		setConnection,
 		setHandlePosition: _setHandlePosition,
 	};
 };

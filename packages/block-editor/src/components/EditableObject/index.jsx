@@ -79,10 +79,6 @@ const EditableObject = memo(
 				});
 			}, [objectType, value]);
 
-			/*useLayoutEffect(() => {
-				console.log(value, html);
-			}, [html, value]);*/
-
 			const _onChange = (event) => {
 				let newValue = _contentRef?.current?.textContent;
 				newValue = newValue.replaceAll(/\n/g, " ");
@@ -142,15 +138,6 @@ const EditableObject = memo(
 				}
 
 				if (JSON.stringify(newValue) !== JSON.stringify(value)) {
-					console.log(
-						value,
-						newValue,
-						JSON.stringify(value),
-						JSON.stringify(newValue),
-						JSON.stringify(newValue) !== JSON.stringify(value),
-						isAttributeStringValue(newValue),
-					);
-					debugger;
 					onChange && onChange(newValue);
 				}
 			};
@@ -170,8 +157,6 @@ const EditableObject = memo(
 					event.stopPropagation();
 				}
 			}, []);
-
-			console.log("rerender editableobject");
 
 			if (process.env.NODE_ENV === "development") {
 				useDebugRenderCount("EditableObject");

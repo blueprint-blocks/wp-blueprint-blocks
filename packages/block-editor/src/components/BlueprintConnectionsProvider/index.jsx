@@ -32,6 +32,7 @@ function BlueprintConnectionsProvider({ children }) {
 
 	const startDraggingNewConnection = useCallback(
 		({ attributeName, clientId, from, to }) => {
+			console.log(attributeName, clientId, from, to);
 			setNewDraggingConnection({
 				attributeName,
 				clientId,

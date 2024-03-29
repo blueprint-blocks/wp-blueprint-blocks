@@ -9251,11 +9251,7 @@
 	  }, []);
 	  var _getAttributeById = React$2.useCallback(function (clientId) {
 	    return useSelector(function (state) {
-	      var attribute = getAttributeById(state.blockJson, clientId);
-	      if ((attribute === null || attribute === void 0 ? void 0 : attribute.name) === "link") {
-	        console.log(clientId, JSON.stringify(state.blockJson));
-	      }
-	      return attribute;
+	      return getAttributeById(state.blockJson, clientId);
 	    });
 	  }, []);
 	  var _renameAttribute = React$2.useCallback(function (attributeName, newAttributeName) {
@@ -9384,8 +9380,7 @@
 	var useBlueprintConnections = function useBlueprintConnections() {
 	  var dispatch = useDispatch();
 	  var _useBlockJson = useBlockJson(),
-	    blockAttributeNames = _useBlockJson.blockAttributeNames,
-	    getAttributeById = _useBlockJson.getAttributeById;
+	    blockAttributeNames = _useBlockJson.blockAttributeNames;
 	  var _useBlueprint = useBlueprint(),
 	    blockComponents = _useBlueprint.blockComponents,
 	    unsetComponentAttribute = _useBlueprint.unsetComponentAttribute;
@@ -9425,14 +9420,6 @@
 	  var removeConnection = React$2.useCallback(function (clientId) {
 	    unsetComponentAttribute(clientId, "attributeName");
 	  }, []);
-	  var setConnection = React$2.useCallback(function (from, to) {
-	    //console.log(from, to);
-	    /*const attribute = useSelector((state) =>
-	    	getAttributeById(state.blockJson, from),
-	    );*/
-	    var attribute = getAttributeById(from);
-	    console.log(attribute);
-	  });
 	  var _setHandlePosition = React$2.useCallback(function (_ref6) {
 	    var clientId = _ref6.clientId,
 	      x = _ref6.x,
@@ -9447,7 +9434,6 @@
 	    getHandlePosition: _getHandlePosition,
 	    handlePositions: handlePositions,
 	    removeConnection: removeConnection,
-	    setConnection: setConnection,
 	    setHandlePosition: _setHandlePosition
 	  });
 	};
@@ -11189,6 +11175,7 @@
 	      clientId = _ref3.clientId,
 	      from = _ref3.from,
 	      to = _ref3.to;
+	    console.log(attributeName, clientId, from, to);
 	    setNewDraggingConnection({
 	      attributeName: attributeName,
 	      clientId: clientId,
@@ -13758,11 +13745,6 @@
 	      trailingCommas: false
 	    });
 	  }, [objectType, value]);
-
-	  /*useLayoutEffect(() => {
-	  	console.log(value, html);
-	  }, [html, value]);*/
-
 	  var _onChange = function _onChange(event) {
 	    var _contentRef$current;
 	    var newValue = _contentRef === null || _contentRef === void 0 || (_contentRef$current = _contentRef.current) === null || _contentRef$current === void 0 ? void 0 : _contentRef$current.textContent;
@@ -13812,8 +13794,6 @@
 	      newValue = JSON.parse(newValue);
 	    }
 	    if (JSON.stringify(newValue) !== JSON.stringify(value)) {
-	      console.log(value, newValue, JSON.stringify(value), JSON.stringify(newValue), JSON.stringify(newValue) !== JSON.stringify(value), isAttributeStringValue(newValue));
-	      debugger;
 	      onChange && onChange(newValue);
 	    }
 	  };
@@ -13830,7 +13810,6 @@
 	      event.stopPropagation();
 	    }
 	  }, []);
-	  console.log("rerender editableobject");
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    "data-testid": "editable-object",
@@ -13865,9 +13844,6 @@
 	  var attributeDefault = attribute["default"],
 	    attributeName = attribute.name,
 	    attributeType = attribute.type;
-	  if (attributeName === "link") {
-	    console.log(attribute);
-	  }
 	  var allowsNullDefault = React$2.useMemo(function () {
 	    var _attributeTypes$attri;
 	    return (attributeTypes === null || attributeTypes === void 0 || (_attributeTypes$attri = attributeTypes[attributeType]) === null || _attributeTypes$attri === void 0 ? void 0 : _attributeTypes$attri.allowsNull) === false && false || true;
@@ -13886,8 +13862,6 @@
 	    return true;
 	  }, [allowsNullDefault, attributeDefault, attributeTypeValid]);
 	  function onChange(newAttributeDefault) {
-	    console.log(newAttributeDefault, attributeDefault, newAttributeDefault !== attributeDefault);
-	    debugger;
 	    if (newAttributeDefault !== attributeDefault) {
 	      editAttribute(attributeName, {
 	        "default": newAttributeDefault
@@ -15711,8 +15685,10 @@
 	    });
 	    setTimeout(function () {
 	      dispatchPosition(centerPoint);
-	      stopDraggingNewConnection();
-	      stopDraggingExistingConnection();
+	      setTimeout(function () {
+	        stopDraggingNewConnection();
+	        stopDraggingExistingConnection();
+	      }, 0);
 	    }, 0);
 	  }, [centerPoint]);
 	  var dispatchPosition = function dispatchPosition() {
