@@ -7,6 +7,7 @@ import {
 	getBlockName,
 	getBlockNamespace,
 	setName,
+	setTextdomain,
 	setTitle,
 	validateName,
 	validateNamespace,
@@ -57,10 +58,12 @@ const BlockNameField = ({ onBlur, onFocus }) => {
 	const setBlockNamespace = (newBlockNamespace) => {
 		if (newBlockNamespace === "") {
 			dispatch(setName(`${defaultBlockNamespace}/${blockName}`));
+			dispatch(setTextdomain(defaultBlockNamespace));
 		} else {
 			dispatch(
 				setName(`${delimiterize(newBlockNamespace)}/${blockName}`),
 			);
+			dispatch(setTextdomain(delimiterize(newBlockNamespace)));
 		}
 		dispatch(setChanged(true));
 	};

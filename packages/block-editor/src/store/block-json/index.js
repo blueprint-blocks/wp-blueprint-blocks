@@ -43,6 +43,7 @@ export const {
 	setKeywords,
 	setName,
 	setSupportsProperty,
+	setTextdomain,
 	setTitle,
 	setVersion,
 } = actions;

@@ -8,6 +8,7 @@ import setIcon from "./set-icon";
 import setKeywords from "./set-keywords";
 import setName from "./set-name";
 import setSupportsProperty from "./set-supports-property";
+import setTextdomain from "./set-textdomain";
 import setTitle from "./set-title";
 import setVersion from "./set-version";
 
@@ -22,6 +23,7 @@ const reducers = {
 	setKeywords,
 	setName,
 	setSupportsProperty,
+	setTextdomain,
 	setTitle,
 	setVersion,
 };

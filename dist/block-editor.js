@@ -8958,6 +8958,10 @@
 	  state.supports = _objectSpread2(_objectSpread2({}, state.supports), {}, _defineProperty$1({}, property.name, value));
 	};
 
+	var setTextdomain$1 = function setTextdomain(state, action) {
+	  state.textdomain = action.payload;
+	};
+
 	var setTitle$1 = function setTitle(state, action) {
 	  state.title = action.payload;
 	};
@@ -8977,6 +8981,7 @@
 	  setKeywords: setKeywords$1,
 	  setName: setName$1,
 	  setSupportsProperty: setSupportsProperty$1,
+	  setTextdomain: setTextdomain$1,
 	  setTitle: setTitle$1,
 	  setVersion: setVersion
 	};
@@ -8998,6 +9003,7 @@
 	  setKeywords = actions$7.setKeywords,
 	  setName = actions$7.setName,
 	  setSupportsProperty = actions$7.setSupportsProperty,
+	  setTextdomain = actions$7.setTextdomain,
 	  setTitle = actions$7.setTitle;
 	  actions$7.setVersion;
 
@@ -13007,8 +13013,10 @@
 	  var setBlockNamespace = function setBlockNamespace(newBlockNamespace) {
 	    if (newBlockNamespace === "") {
 	      dispatch(setName("".concat(defaultBlockNamespace, "/").concat(blockName)));
+	      dispatch(setTextdomain(defaultBlockNamespace));
 	    } else {
 	      dispatch(setName("".concat(delimiterize(newBlockNamespace), "/").concat(blockName)));
+	      dispatch(setTextdomain(delimiterize(newBlockNamespace)));
 	    }
 	    dispatch(setChanged(true));
 	  };
