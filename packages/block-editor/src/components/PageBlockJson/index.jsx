@@ -42,9 +42,18 @@ const PageBlockJson = memo(() => {
 		[],
 	);
 
-	console.log(_blockCategories);
-
 	const blockJson = useSelector((state) => getRawJson(state.blockJson));
+
+	const _blockJson = useMemo(
+		() =>
+			Object.fromEntries(
+				Object.entries(blockJson).filter(
+					([key, _]) =>
+						["$schema", "apiVersion"].includes(key) === false,
+				),
+			),
+		[blockJson],
+	);
 
 	const setBlockDescription = (description) => {
 		dispatch(setDescription(description));
@@ -136,7 +145,7 @@ const PageBlockJson = memo(() => {
 				<div className="PageBlockJson-json">
 					<JsonEditor
 						focus={hasFocus}
-						json={blockJson}
+						json={_blockJson}
 						placeholders={{
 							title: "Enter a title for your block...",
 							description:

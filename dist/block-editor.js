@@ -8823,15 +8823,11 @@
 	var selectTitle = function selectTitle(state) {
 	  return state.title || "";
 	};
-	var selectVersion = function selectVersion(state) {
-	  return state.version || "";
-	};
-	var getRawJson = createSelector$1([selectAttributes, selectCategory, selectDescription, selectIcon, selectKeywords, selectName, selectSupports, selectTextdomain, selectTitle, selectVersion], function (attributes, category, description, icon, keywords, name, supports, textdomain, title, version) {
+	var getRawJson = createSelector$1([selectAttributes, selectCategory, selectDescription, selectIcon, selectKeywords, selectName, selectSupports, selectTextdomain, selectTitle], function (attributes, category, description, icon, keywords, name, supports, textdomain, title) {
 	  return {
 	    $schema: "https://schemas.wp.org/trunk/block.json",
 	    apiVersion: 3,
 	    name: name,
-	    version: version,
 	    title: title,
 	    description: description,
 	    icon: icon,
@@ -13612,10 +13608,17 @@
 	      };
 	    });
 	  }, []);
-	  console.log(_blockCategories);
 	  var blockJson = useSelector(function (state) {
 	    return getRawJson(state.blockJson);
 	  });
+	  var _blockJson = React$2.useMemo(function () {
+	    return Object.fromEntries(Object.entries(blockJson).filter(function (_ref4) {
+	      var _ref5 = _slicedToArray(_ref4, 2),
+	        key = _ref5[0];
+	        _ref5[1];
+	      return ["$schema", "apiVersion"].includes(key) === false;
+	    }));
+	  }, [blockJson]);
 	  var setBlockDescription = function setBlockDescription(description) {
 	    dispatch(setDescription(description));
 	    dispatch(setChanged(true));
@@ -13722,7 +13725,7 @@
 	        className: "PageBlockJson-json",
 	        children: /*#__PURE__*/jsxRuntimeExports.jsx(JsonEditor, {
 	          focus: hasFocus,
-	          json: blockJson,
+	          json: _blockJson,
 	          placeholders: {
 	            title: "Enter a title for your block...",
 	            description: "Enter a description for your block...",

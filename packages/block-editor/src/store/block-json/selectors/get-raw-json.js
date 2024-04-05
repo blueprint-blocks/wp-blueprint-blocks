@@ -9,7 +9,6 @@ const selectName = (state) => state.name || "";
 const selectSupports = (state) => state.supports || {};
 const selectTextdomain = (state) => state.textdomain || "";
 const selectTitle = (state) => state.title || "";
-const selectVersion = (state) => state.version || "";
 
 const getRawJson = createSelector(
 	[
@@ -22,7 +21,6 @@ const getRawJson = createSelector(
 		selectSupports,
 		selectTextdomain,
 		selectTitle,
-		selectVersion,
 	],
 	(
 		attributes,
@@ -34,12 +32,10 @@ const getRawJson = createSelector(
 		supports,
 		textdomain,
 		title,
-		version,
 	) => ({
 		$schema: "https://schemas.wp.org/trunk/block.json",
 		apiVersion: 3,
 		name,
-		version,
 		title,
 		description,
 		icon,
