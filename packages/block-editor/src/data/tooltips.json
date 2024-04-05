@@ -13,6 +13,27 @@
 			"text": "This is the display title for your block, which can be translated with WordPress translation functions. The title will display in the Inserter and in other areas of the editor.",
 			"url": "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#title",
 			"width": 360
+		},
+		"description": {
+			"label": "Block Description",
+			"required": false,
+			"text": "This is the short descriptor for your block, which can be translated with WordPress translation functions. The description will display in the block inspector.",
+			"url": "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#description",
+			"width": 360
+		},
+		"keywords": {
+			"label": "Block Keywords",
+			"required": false,
+			"text": "Sometimes its helpful for users to have terms other than a block's title to discover it. For example, an image block could also want to be discovered by photo. You can do so by providing an array of unlimited terms (which are translated).",
+			"url": "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#keywords",
+			"width": 360
+		},
+		"category": {
+			"label": "Block Category",
+			"required": false,
+			"text": "The category is where you block is grouped when browsing in the Inserter. These categories help users browse and discover blocks.",
+			"url": "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#category",
+			"width": 360
 		}
 	}
 }

@@ -84,10 +84,6 @@ const PageBlockJson = memo(() => {
 							onBlur={() => onBlur("name")}
 							onFocus={() => onFocus("name")}
 						/>
-						<BlockVersionField
-							onBlur={() => onBlur("version")}
-							onFocus={() => onFocus("version")}
-						/>
 					</div>
 
 					<div className="PageBlockJson-fieldset">
@@ -101,7 +97,7 @@ const PageBlockJson = memo(() => {
 						/>
 						<TextField
 							label="Enter a description..."
-							tooltip="Hello..."
+							tooltip="blockJson.description"
 							multiLine={true}
 							rows={4}
 							value={blockJson?.description}
@@ -112,17 +108,16 @@ const PageBlockJson = memo(() => {
 						<ListField
 							label="Enter a few keywords..."
 							placeholder="Enter a keyword..."
-							tooltip="Keywords are used to find your block when searching in the editor."
+							tooltip="blockJson.keywords"
 							value={blockJson?.keywords}
 							setValue={setBlockKeywords}
 							onFocus={(index) => onFocus("keywords", index)}
 							onBlur={(index) => onBlur("keywords", index)}
-							max={3}
 						/>
 						<SelectField
 							name="category"
 							label="Category"
-							tooltip="Hello..."
+							tooltip="blockJson.category"
 							options={_blockCategories}
 							value={blockJson?.category}
 							setValue={setBlockCategory}

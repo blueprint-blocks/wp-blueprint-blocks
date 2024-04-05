@@ -7253,6 +7253,27 @@
 			text: "This is the display title for your block, which can be translated with WordPress translation functions. The title will display in the Inserter and in other areas of the editor.",
 			url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#title",
 			width: 360
+		},
+		description: {
+			label: "Block Description",
+			required: false,
+			text: "This is the short descriptor for your block, which can be translated with WordPress translation functions. The description will display in the block inspector.",
+			url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#description",
+			width: 360
+		},
+		keywords: {
+			label: "Block Keywords",
+			required: false,
+			text: "Sometimes its helpful for users to have terms other than a block's title to discover it. For example, an image block could also want to be discovered by photo. You can do so by providing an array of unlimited terms (which are translated).",
+			url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#keywords",
+			width: 360
+		},
+		category: {
+			label: "Block Category",
+			required: false,
+			text: "The category is where you block is grouped when browsing in the Inserter. These categories help users browse and discover blocks.",
+			url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#category",
+			width: 360
 		}
 	};
 	var tooltips = {
@@ -8701,12 +8722,6 @@
 	  return ((_name$split = name.split("/")) === null || _name$split === void 0 ? void 0 : _name$split[0]) || "";
 	};
 
-	var getBlockVersion = function getBlockVersion(state, context) {
-	  var _state$version = state.version,
-	    version = _state$version === void 0 ? "" : _state$version;
-	  return version;
-	};
-
 	var _excluded$8 = ["clientId", "name"];
 	var selectAttributes = function selectAttributes(state) {
 	  return state.attributes || [];
@@ -8874,7 +8889,7 @@
 	  state.title = action.payload;
 	};
 
-	var setVersion$1 = function setVersion(state, action) {
+	var setVersion = function setVersion(state, action) {
 	  state.version = action.payload;
 	};
 
@@ -8890,7 +8905,7 @@
 	  setName: setName$1,
 	  setSupportsProperty: setSupportsProperty$1,
 	  setTitle: setTitle$1,
-	  setVersion: setVersion$1
+	  setVersion: setVersion
 	};
 
 	var slice$7 = createSlice({
@@ -8910,8 +8925,8 @@
 	  setKeywords = actions$7.setKeywords,
 	  setName = actions$7.setName,
 	  setSupportsProperty = actions$7.setSupportsProperty,
-	  setTitle = actions$7.setTitle,
-	  setVersion = actions$7.setVersion;
+	  setTitle = actions$7.setTitle;
+	  actions$7.setVersion;
 
 	var _blueprintBlocksEdito$9 = blueprintBlocksEditorSettings,
 	  _blueprintBlocksEdito2$6 = _blueprintBlocksEdito$9.blockMetadata,
@@ -13188,32 +13203,6 @@
 	  });
 	};
 
-	function BlockVersionField(_ref) {
-	  var onBlur = _ref.onBlur,
-	    onFocus = _ref.onFocus;
-	  var dispatch = useDispatch();
-	  var blockVersion = useSelector(function (state) {
-	    return getBlockVersion(state.blockJson);
-	  });
-	  var setBlockVersion = function setBlockVersion(newBlockVersion) {
-	    dispatch(setVersion(newBlockVersion));
-	    dispatch(setChanged(true));
-	  };
-	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	    className: "BlockVersionField",
-	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	      className: "BlockVersionField-label",
-	      children: "Version:"
-	    }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
-	      className: "BlockVersionField-value",
-	      onBlur: onBlur,
-	      onChange: setBlockVersion,
-	      onFocus: onFocus,
-	      value: blockVersion
-	    })]
-	  });
-	}
-
 	function RenderJson(_ref) {
 	  var _ref$index = _ref.index,
 	    index = _ref$index === void 0 ? null : _ref$index,
@@ -13563,26 +13552,19 @@
 	      className: "PageBlockJson-grid",
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	        className: "PageBlockJson-fields",
-	        children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	        children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	          className: "PageBlockJson-fieldset",
 	          style: {
 	            gap: "var(--1x)"
 	          },
-	          children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlockNameField, {
+	          children: /*#__PURE__*/jsxRuntimeExports.jsx(BlockNameField, {
 	            onBlur: function onBlur() {
 	              return _onBlur("name");
 	            },
 	            onFocus: function onFocus() {
 	              return _onFocus("name");
 	            }
-	          }), /*#__PURE__*/jsxRuntimeExports.jsx(BlockVersionField, {
-	            onBlur: function onBlur() {
-	              return _onBlur("version");
-	            },
-	            onFocus: function onFocus() {
-	              return _onFocus("version");
-	            }
-	          })]
+	          })
 	        }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	          className: "PageBlockJson-fieldset",
 	          children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlockIconField, {
@@ -13601,7 +13583,7 @@
 	            }
 	          }), /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
 	            label: "Enter a description...",
-	            tooltip: "Hello...",
+	            tooltip: "blockJson.description",
 	            multiLine: true,
 	            rows: 4,
 	            value: blockJson === null || blockJson === void 0 ? void 0 : blockJson.description,
@@ -13615,7 +13597,7 @@
 	          }), /*#__PURE__*/jsxRuntimeExports.jsx(ListField, {
 	            label: "Enter a few keywords...",
 	            placeholder: "Enter a keyword...",
-	            tooltip: "Keywords are used to find your block when searching in the editor.",
+	            tooltip: "blockJson.keywords",
 	            value: blockJson === null || blockJson === void 0 ? void 0 : blockJson.keywords,
 	            setValue: setBlockKeywords,
 	            onFocus: function onFocus(index) {
@@ -13623,12 +13605,11 @@
 	            },
 	            onBlur: function onBlur(index) {
 	              return _onBlur("keywords", index);
-	            },
-	            max: 3
+	            }
 	          }), /*#__PURE__*/jsxRuntimeExports.jsx(SelectField, {
 	            name: "category",
 	            label: "Category",
-	            tooltip: "Hello...",
+	            tooltip: "blockJson.category",
 	            options: _blockCategories,
 	            value: blockJson === null || blockJson === void 0 ? void 0 : blockJson.category,
 	            setValue: setBlockCategory,
