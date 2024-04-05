@@ -109,14 +109,18 @@
 
 	--app-height: max(
 		680px,
-		calc(100vh - 65px - var(--wp-admin--admin-bar--height))
+		calc(
+			100vh - var(--navigator-height) - var(--wp-admin--admin-bar--height)
+		)
 	);
-	--navigator-height: var(--7x);
+
+	--navigator-height: calc(var(--7x) + 3px);
+	--sidebar-width: 380px;
 
 	background: #f0f0f1;
 	color: var(--color-black);
 	display: grid;
-	grid-template-rows: 65px max-content;
+	grid-template-rows: var(--navigator-height) max-content;
 	font-family: var(--font-family);
 	font-size: var(--font-size-base);
 	font-weight: var(--font-weight-base);

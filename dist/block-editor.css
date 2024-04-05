@@ -103,11 +103,11 @@
 }
 
 .Navigator {
-	align-items: center;
+	align-items: start;
 	background: var(--color-white);
 	display: grid;
 	grid-template-columns: 1fr max-content;
-	height: calc(var(--navigator-height) + 3px);
+	height: var(--navigator-height);
 	padding-right: var(--5x);
 	position: sticky;
 	top: var(--wp-admin--admin-bar--height);
@@ -120,7 +120,7 @@
 .Navigator ul {
 		display: grid;
 		grid-auto-flow: column;
-		height: calc(var(--navigator-height) + 3px);
+		height: var(--navigator-height);
 		justify-content: start;
 		list-style: none;
 		margin: 0;
@@ -133,9 +133,9 @@
 		cursor: pointer;
 		font-size: var(--font-size-base);
 		font-weight: var(--font-weight-semi-bold);
-		height: var(--3x);
+		height: calc(var(--5x) - 3px);
 		margin: 0;
-		padding: var(--2x) var(--4x) calc(var(--2x) + 3px);
+		padding: var(--1x) var(--4x) calc(var(--1x) + 3px);
 		position: relative;
 		transition: var(--transition);
 	}
@@ -148,7 +148,7 @@
 		gap: var(--2x);
 		grid-auto-columns: max-content;
 		grid-auto-flow: column;
-		height: var(--3x);
+		height: calc(var(--5x) - 3px);
 		line-height: var(--3x);
 		mix-blend-mode: lighten;
 		padding: 0 var(--1x);
@@ -156,14 +156,14 @@
 
 .Navigator li::before {
 		background: var(--gradient-teal-blue);
-		bottom: calc(var(--2x) + 3px);
+		bottom: calc(var(--1x) + 3px);
 		content: "";
 		display: block;
 		left: var(--4x);
 		opacity: 0;
 		position: absolute;
 		right: var(--4x);
-		top: var(--2x);
+		top: var(--1x);
 		transition: var(--transition);
 		z-index: -1;
 	}
@@ -218,6 +218,7 @@
 	gap: var(--2x);
 	grid-auto-flow: column;
 	grid-template-columns: max-content;
+	padding: var(--1x) 0;
 	position: relative;
 	z-index: 2;
 }
@@ -2249,7 +2250,11 @@
 }
 
 .CssEditor {
+	box-sizing: border-box;
 	height: 100%;
+	border-radius: 9px;
+	overflow: hidden;
+	padding: var(--5x) 0 var(--5x) var(--5x);
 }
 .CssEditor > div,
 	.CssEditor .cm-editor {
@@ -2282,9 +2287,9 @@
 		box-sizing: border-box;
 		grid-column: 1;
 		grid-row: 1;
-		height: 100%;
+		height: var(--app-height);
 		overflow: auto;
-		padding: 0 3px 0 var(--3x);
+		padding: var(--5x) var(--5x) var(--5x) var(--3x);
 		width: 100%;
 	}
 
@@ -2371,44 +2376,34 @@
 }
 
 .PageEditorCss {
-	box-sizing: border-box;
 	display: grid;
 	height: var(--app-height);
-	padding: var(--5x);
 }
 
 .PageEditorCss-view {
-	--sidebar-width: 340px;
 	align-items: stretch;
-	border-radius: 9px;
 	display: grid;
 	grid-template-columns: calc(100% - var(--sidebar-width)) var(
 			--sidebar-width
 		);
 	grid-template-rows: 100%;
-	overflow: hidden;
 	-webkit-user-select: none;
 	   -moz-user-select: none;
 	        user-select: none;
 }
 
 .PageViewCss {
-	box-sizing: border-box;
 	display: grid;
 	height: var(--app-height);
-	padding: var(--5x);
 }
 
 .PageViewCss-view {
-	--sidebar-width: 340px;
 	align-items: stretch;
-	border-radius: 9px;
 	display: grid;
 	grid-template-columns: calc(100% - var(--sidebar-width)) var(
 			--sidebar-width
 		);
 	grid-template-rows: 100%;
-	overflow: hidden;
 	-webkit-user-select: none;
 	   -moz-user-select: none;
 	        user-select: none;
@@ -2978,14 +2973,18 @@
 
 	--app-height: max(
 		680px,
-		calc(100vh - 65px - var(--wp-admin--admin-bar--height))
+		calc(
+			100vh - var(--navigator-height) - var(--wp-admin--admin-bar--height)
+		)
 	);
-	--navigator-height: var(--7x);
+
+	--navigator-height: calc(var(--7x) + 3px);
+	--sidebar-width: 380px;
 
 	background: #f0f0f1;
 	color: var(--color-black);
 	display: grid;
-	grid-template-rows: 65px max-content;
+	grid-template-rows: var(--navigator-height) max-content;
 	font-family: var(--font-family);
 	font-size: var(--font-size-base);
 	font-weight: var(--font-weight-base);

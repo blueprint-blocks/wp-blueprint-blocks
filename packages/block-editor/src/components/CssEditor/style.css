@@ -1,5 +1,9 @@
 .CssEditor {
+	box-sizing: border-box;
 	height: 100%;
+	border-radius: 9px;
+	overflow: hidden;
+	padding: var(--5x) 0 var(--5x) var(--5x);
 
 	& > div,
 	.cm-editor {

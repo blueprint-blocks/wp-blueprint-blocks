@@ -3,19 +3,19 @@ const { cssVariables = {} } =
 
 const VARIABLE_GROUPS = [
 	{
-		key: "color",
+		key: "colors",
 		label: "Colors",
 	},
 	{
-		key: "gradient",
+		key: "gradients",
 		label: "Gradients",
 	},
 	{
-		key: "font-size",
+		key: "fontSizes",
 		label: "Font Sizes",
 	},
 	{
-		key: "font-family",
+		key: "fontFamilies",
 		label: "Font Families",
 	},
 	{
@@ -23,10 +23,12 @@ const VARIABLE_GROUPS = [
 		label: "Spacing",
 	},
 	{
-		key: "shadow",
+		key: "shadows",
 		label: "Shadows",
 	},
 ];
+
+console.log(cssVariables);
 
 import "./style.css";
 
@@ -43,52 +45,63 @@ function CssSidebar({ ...props }) {
 					</p>
 				</div>
 
-				{VARIABLE_GROUPS.map((group, index) => (
-					<div key={index}>
-						<div className="CssSidebar-label">
-							<h4>{group.label}</h4>
-						</div>
-						<div className="CssSidebar-propertyList">
-							{Object.entries(
-								cssVariables?.[group.key] || {},
-							).map(([key, { name, value }]) => (
-								<div
-									key={key}
-									className={[
-										"CssSidebar-property",
-										(["color", "gradient"].includes(
-											group.key,
-										) &&
-											"has-preview") ||
-											"",
-									].join(" ")}
-									onClick={() =>
-										props?.onInsertVariable(name)
-									}
-								>
-									<div className="CssSidebar-propertyName">
-										{key}
-									</div>
-									<div className="CssSidebar-propertyValue">
-										{value}
-									</div>
-									{["color", "gradient"].includes(
-										group.key,
-									) && (
-										<div
-											className="CssSidebar-propertyPreview"
-											style={
-												value && {
-													"--property-value": value,
+				{VARIABLE_GROUPS.map(
+					(group, index) =>
+						(cssVariables?.[group.key] || []).length > 0 && (
+							<div key={index}>
+								<div className="CssSidebar-label">
+									<h4>{group.label}</h4>
+								</div>
+								<div className="CssSidebar-propertyList">
+									{(cssVariables?.[group.key] || []).map(
+										(
+											{ name, slug, value, variable },
+											index,
+										) => (
+											<div
+												key={index}
+												className={[
+													"CssSidebar-property",
+													([
+														"colors",
+														"gradients",
+													].includes(group.key) &&
+														"has-preview") ||
+														"",
+												].join(" ")}
+												onClick={() =>
+													props?.onInsertVariable(
+														name,
+													)
 												}
-											}
-										/>
+											>
+												<div className="CssSidebar-propertyName">
+													{name}
+												</div>
+												<div className="CssSidebar-propertyValue">
+													{value}
+												</div>
+												{[
+													"colors",
+													"gradients",
+												].includes(group.key) && (
+													<div
+														className="CssSidebar-propertyPreview"
+														style={
+															value && {
+																"--property-value":
+																	value,
+															}
+														}
+													/>
+												)}
+											</div>
+										),
 									)}
 								</div>
-							))}
-						</div>
-					</div>
-				))}
+							</div>
+						),
+				)}
 			</div>
 		</div>
 	);

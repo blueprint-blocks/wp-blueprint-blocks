@@ -46680,24 +46680,25 @@
 	  _ref$cssVariables = _ref.cssVariables,
 	  cssVariables = _ref$cssVariables === void 0 ? {} : _ref$cssVariables;
 	var VARIABLE_GROUPS = [{
-	  key: "color",
+	  key: "colors",
 	  label: "Colors"
 	}, {
-	  key: "gradient",
+	  key: "gradients",
 	  label: "Gradients"
 	}, {
-	  key: "font-size",
+	  key: "fontSizes",
 	  label: "Font Sizes"
 	}, {
-	  key: "font-family",
+	  key: "fontFamilies",
 	  label: "Font Families"
 	}, {
 	  key: "spacing",
 	  label: "Spacing"
 	}, {
-	  key: "shadow",
+	  key: "shadows",
 	  label: "Shadows"
 	}];
+	console.log(cssVariables);
 	function CssSidebar(_ref2) {
 	  var props = _extends$1({}, (_objectDestructuringEmpty(_ref2), _ref2));
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
@@ -46711,7 +46712,7 @@
 	          children: "These CSS variables are available to use via the active theme."
 	        })]
 	      }), VARIABLE_GROUPS.map(function (group, index) {
-	        return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	        return ((cssVariables === null || cssVariables === void 0 ? void 0 : cssVariables[group.key]) || []).length > 0 && /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	          children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	            className: "CssSidebar-label",
 	            children: /*#__PURE__*/jsxRuntimeExports.jsx("h4", {
@@ -46719,30 +46720,29 @@
 	            })
 	          }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	            className: "CssSidebar-propertyList",
-	            children: Object.entries((cssVariables === null || cssVariables === void 0 ? void 0 : cssVariables[group.key]) || {}).map(function (_ref3) {
-	              var _ref4 = _slicedToArray(_ref3, 2),
-	                key = _ref4[0],
-	                _ref4$ = _ref4[1],
-	                name = _ref4$.name,
-	                value = _ref4$.value;
+	            children: ((cssVariables === null || cssVariables === void 0 ? void 0 : cssVariables[group.key]) || []).map(function (_ref3, index) {
+	              var name = _ref3.name;
+	                _ref3.slug;
+	                var value = _ref3.value;
+	                _ref3.variable;
 	              return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	                className: ["CssSidebar-property", ["color", "gradient"].includes(group.key) && "has-preview" || ""].join(" "),
+	                className: ["CssSidebar-property", ["colors", "gradients"].includes(group.key) && "has-preview" || ""].join(" "),
 	                onClick: function onClick() {
 	                  return props === null || props === void 0 ? void 0 : props.onInsertVariable(name);
 	                },
 	                children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	                  className: "CssSidebar-propertyName",
-	                  children: key
+	                  children: name
 	                }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	                  className: "CssSidebar-propertyValue",
 	                  children: value
-	                }), ["color", "gradient"].includes(group.key) && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	                }), ["colors", "gradients"].includes(group.key) && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	                  className: "CssSidebar-propertyPreview",
 	                  style: value && {
 	                    "--property-value": value
 	                  }
 	                })]
-	              }, key);
+	              }, index);
 	            })
 	          })]
 	        }, index);

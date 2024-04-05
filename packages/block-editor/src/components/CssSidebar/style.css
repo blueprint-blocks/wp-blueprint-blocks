@@ -10,9 +10,9 @@
 		box-sizing: border-box;
 		grid-column: 1;
 		grid-row: 1;
-		height: 100%;
+		height: var(--app-height);
 		overflow: auto;
-		padding: 0 3px 0 var(--3x);
+		padding: var(--5x) var(--5x) var(--5x) var(--3x);
 		width: 100%;
 	}
 }

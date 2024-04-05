@@ -1,9 +1,9 @@
 .Navigator {
-	align-items: center;
+	align-items: start;
 	background: var(--color-white);
 	display: grid;
 	grid-template-columns: 1fr max-content;
-	height: calc(var(--navigator-height) + 3px);
+	height: var(--navigator-height);
 	padding-right: var(--5x);
 	position: sticky;
 	top: var(--wp-admin--admin-bar--height);
@@ -13,7 +13,7 @@
 	ul {
 		display: grid;
 		grid-auto-flow: column;
-		height: calc(var(--navigator-height) + 3px);
+		height: var(--navigator-height);
 		justify-content: start;
 		list-style: none;
 		margin: 0;
@@ -26,9 +26,9 @@
 		cursor: pointer;
 		font-size: var(--font-size-base);
 		font-weight: var(--font-weight-semi-bold);
-		height: var(--3x);
+		height: calc(var(--5x) - 3px);
 		margin: 0;
-		padding: var(--2x) var(--4x) calc(var(--2x) + 3px);
+		padding: var(--1x) var(--4x) calc(var(--1x) + 3px);
 		position: relative;
 		transition: var(--transition);
 	}
@@ -41,7 +41,7 @@
 		gap: var(--2x);
 		grid-auto-columns: max-content;
 		grid-auto-flow: column;
-		height: var(--3x);
+		height: calc(var(--5x) - 3px);
 		line-height: var(--3x);
 		mix-blend-mode: lighten;
 		padding: 0 var(--1x);
@@ -49,14 +49,14 @@
 
 	li::before {
 		background: var(--gradient-teal-blue);
-		bottom: calc(var(--2x) + 3px);
+		bottom: calc(var(--1x) + 3px);
 		content: "";
 		display: block;
 		left: var(--4x);
 		opacity: 0;
 		position: absolute;
 		right: var(--4x);
-		top: var(--2x);
+		top: var(--1x);
 		transition: var(--transition);
 		z-index: -1;
 	}
@@ -110,6 +110,7 @@
 	gap: var(--2x);
 	grid-auto-flow: column;
 	grid-template-columns: max-content;
+	padding: var(--1x) 0;
 	position: relative;
 	z-index: 2;
 }

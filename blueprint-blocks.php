@@ -17,6 +17,7 @@ require __DIR__ . '/classes/class-post-types.php';
 require __DIR__ . '/functions/blueprint-blocks.php';
 require __DIR__ . '/functions/get-block-types.php';
 require __DIR__ . '/functions/get-css-variables.php';
+require __DIR__ . '/functions/get-global-settings-value.php';
 require __DIR__ . '/functions/get-json.php';
 
 blueprint_blocks();
