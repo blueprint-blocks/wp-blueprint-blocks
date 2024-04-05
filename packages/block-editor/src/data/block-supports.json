@@ -3,16 +3,14 @@
 		"type": "boolean",
 		"name": "anchor",
 		"label": "Anchor",
-		"description": "Anchors let you link directly to a specific block on a page. This property adds a field to define an id for the block and a button to copy the direct link.",
-		"learnMoreLink": "#"
+		"tooltip": "blockJson.supports.anchor"
 	},
 	{
 		"type": "array",
 		"name": "align",
 		"label": "Align",
+		"tooltip": "blockJson.supports.align",
 		"defaultValueWhenChecked": ["left", "center", "right", "wide", "full"],
-		"description": "Alignment adds block controls which allow changing the block’s alignment.",
-		"learnMoreLink": "#",
 		"attributes": {
 			"align": {
 				"type": "string",
@@ -51,14 +49,13 @@
 		"type": "object",
 		"name": "color",
 		"label": "Color",
+		"tooltip": "blockJson.supports.color",
 		"defaultValueWhenChecked": {
 			"background": true,
 			"gradients": false,
 			"link": false,
 			"text": true
 		},
-		"description": "Color adds block controls which allow changing the block’s color.",
-		"learnMoreLink": "#",
 		"subProperties": [
 			{
 				"type": "boolean",
@@ -104,27 +101,36 @@
 		"type": "boolean",
 		"name": "multiple",
 		"label": "Multiple",
-		"description": "Multiple...",
-		"learnMoreLink": "#"
+		"tooltip": "blockJson.supports.multiple"
 	},
 	{
 		"type": "boolean",
 		"name": "reusable",
 		"label": "Reusable",
-		"description": "Reusable...",
-		"learnMoreLink": "#"
+		"tooltip": "blockJson.supports.reusable"
+	},
+	{
+		"type": "boolean",
+		"name": "renaming",
+		"label": "Renaming",
+		"tooltip": "blockJson.supports.renaming"
+	},
+	{
+		"type": "boolean",
+		"name": "shadow",
+		"label": "Shadow",
+		"tooltip": "blockJson.supports.shadow"
 	},
 	{
 		"type": "object",
 		"name": "spacing",
 		"label": "Spacing",
+		"tooltip": "blockJson.supports.spacing",
 		"defaultValueWhenChecked": {
 			"margin": true,
 			"padding": true,
 			"blockGap": false
 		},
-		"description": "Spacing...",
-		"learnMoreLink": "#",
 		"subProperties": [
 			{
 				"type": "boolean",
@@ -147,12 +153,11 @@
 		"type": "object",
 		"name": "typography",
 		"label": "Typography",
+		"tooltip": "blockJson.supports.typography",
 		"defaultValueWhenChecked": {
 			"fontSize": true,
 			"lineHeight": true
 		},
-		"description": "Typography...",
-		"learnMoreLink": "#",
 		"subProperties": [
 			{
 				"type": "boolean",

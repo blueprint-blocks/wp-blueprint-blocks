@@ -43,10 +43,13 @@ function Tooltip({
 		() => getObjectProperty(tooltips, `${data}.required`) || required,
 		[data, required],
 	);
-	const _text = useMemo(
-		() => getObjectProperty(tooltips, `${data}.text`) || text,
-		[data, text],
-	);
+	const _text = useMemo(() => {
+		const _text = getObjectProperty(tooltips, `${data}.text`);
+		if (_text !== null) {
+			return _text;
+		}
+		return text;
+	}, [data, text]);
 	const _url = useMemo(
 		() => getObjectProperty(tooltips, `${data}.url`) || url,
 		[data, url],

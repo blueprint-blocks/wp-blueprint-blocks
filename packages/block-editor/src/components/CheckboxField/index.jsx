@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import FieldLabel from "../FieldLabel";
 
 import "./style.css";
 
@@ -31,9 +32,12 @@ function CheckboxField({
 			</div>
 			<div className={clsx("CheckboxField-content")}>
 				{label && (
-					<label className={clsx("CheckboxField-label")}>
-						{label}
-					</label>
+					<FieldLabel
+						label={label}
+						tooltip={tooltip}
+						tooltipDirection="right"
+						tooltipPosition="above"
+					/>
 				)}
 				{children}
 			</div>

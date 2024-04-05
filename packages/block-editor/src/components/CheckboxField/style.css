@@ -4,19 +4,21 @@
 	display: grid;
 	gap: var(--2x);
 	grid-template-columns: max-content 1fr;
+	justify-items: start;
 	max-width: 640px;
 	position: relative;
 
-	p {
-		color: var(--color-dark-gray);
-		font-size: var(--font-size-base);
-		font-weight: var(--font-weight-medium);
-		margin: 0 0 var(--2x);
-	}
-
-	a {
+	.FieldLabel {
+		align-items: center;
 		color: var(--color-black);
-		text-decoration: underline;
+		display: grid;
+		gap: var(--2x);
+		grid-auto-columns: max-content;
+		grid-auto-flow: column;
+		font-size: var(--font-size-large);
+		font-weight: var(--font-weight-semi-bold);
+		line-height: var(--size);
+		width: fit-content;
 	}
 }
 
@@ -25,24 +27,7 @@
 	gap: var(--1x);
 }
 
-.CheckboxField-label {
-	align-items: center;
-	color: var(--color-black);
-	display: grid;
-	gap: var(--2x);
-	grid-auto-columns: max-content;
-	grid-auto-flow: column;
-	font-size: var(--font-size-large);
-	font-weight: var(--font-weight-semi-bold);
-	line-height: var(--size);
-	margin-bottom: var(--1x);
-
-	&:last-child {
-		margin-bottom: 0;
-	}
-}
-
-.CheckboxField.is-small .CheckboxField-label {
+.CheckboxField.is-small .FieldLabel {
 	font-size: var(--font-size-base);
 	font-weight: var(--font-weight-medium);
 }
@@ -94,6 +79,7 @@
 	display: grid;
 	gap: 0;
 	grid-auto-flow: row;
+	width: fit-content;
 }
 
 .CheckboxField-list {

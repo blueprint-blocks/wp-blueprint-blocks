@@ -6,10 +6,8 @@ import "./style.css";
 
 const BlockSupportsFieldItem = ({
 	defaultValueWhenChecked = true,
-	description,
-	name,
 	label,
-	learnMoreLink,
+	tooltip,
 	setValue,
 	subProperties,
 	size,
@@ -70,18 +68,10 @@ const BlockSupportsFieldItem = ({
 			<CheckboxField
 				label={label}
 				size={size}
+				tooltip={tooltip}
 				value={isChecked}
 				setValue={setPropertyValue}
 			>
-				{(description || learnMoreLink) && (
-					<p>
-						{description}
-						{description && learnMoreLink && <br />}
-						{learnMoreLink && (
-							<a href={learnMoreLink}>{"Learn more"}</a>
-						)}
-					</p>
-				)}
 				{isChecked && subProperties?.length > 0 && (
 					<div className="BlockSupportsFieldItem-list">
 						{subProperties.map((subProperty, index) => (

@@ -14,7 +14,9 @@
 		"color": {},
 		"html": false,
 		"multiple": true,
+		"renaming": true,
 		"reusable": false,
+		"shadow": false,
 		"spacing": {},
 		"typography": {}
 	},

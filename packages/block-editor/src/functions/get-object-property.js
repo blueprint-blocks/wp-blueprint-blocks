@@ -1,6 +1,9 @@
 const getObjectProperty = (object, identifier) => {
 	if (identifier.indexOf(".") === -1) {
-		return object?.[identifier] || null;
+		if (identifier in object) {
+			return object[identifier];
+		}
+		return null;
 	}
 
 	const index = identifier.indexOf(".");

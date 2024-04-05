@@ -4433,13 +4433,13 @@
 			type: "boolean",
 			name: "anchor",
 			label: "Anchor",
-			description: "Anchors let you link directly to a specific block on a page. This property adds a field to define an id for the block and a button to copy the direct link.",
-			learnMoreLink: "#"
+			tooltip: "blockJson.supports.anchor"
 		},
 		{
 			type: "array",
 			name: "align",
 			label: "Align",
+			tooltip: "blockJson.supports.align",
 			defaultValueWhenChecked: [
 				"left",
 				"center",
@@ -4447,8 +4447,6 @@
 				"wide",
 				"full"
 			],
-			description: "Alignment adds block controls which allow changing the block’s alignment.",
-			learnMoreLink: "#",
 			attributes: {
 				align: {
 					type: "string",
@@ -4487,14 +4485,13 @@
 			type: "object",
 			name: "color",
 			label: "Color",
+			tooltip: "blockJson.supports.color",
 			defaultValueWhenChecked: {
 				background: true,
 				gradients: false,
 				link: false,
 				text: true
 			},
-			description: "Color adds block controls which allow changing the block’s color.",
-			learnMoreLink: "#",
 			subProperties: [
 				{
 					type: "boolean",
@@ -4540,27 +4537,36 @@
 			type: "boolean",
 			name: "multiple",
 			label: "Multiple",
-			description: "Multiple...",
-			learnMoreLink: "#"
+			tooltip: "blockJson.supports.multiple"
 		},
 		{
 			type: "boolean",
 			name: "reusable",
 			label: "Reusable",
-			description: "Reusable...",
-			learnMoreLink: "#"
+			tooltip: "blockJson.supports.reusable"
+		},
+		{
+			type: "boolean",
+			name: "renaming",
+			label: "Renaming",
+			tooltip: "blockJson.supports.renaming"
+		},
+		{
+			type: "boolean",
+			name: "shadow",
+			label: "Shadow",
+			tooltip: "blockJson.supports.shadow"
 		},
 		{
 			type: "object",
 			name: "spacing",
 			label: "Spacing",
+			tooltip: "blockJson.supports.spacing",
 			defaultValueWhenChecked: {
 				margin: true,
 				padding: true,
 				blockGap: false
 			},
-			description: "Spacing...",
-			learnMoreLink: "#",
 			subProperties: [
 				{
 					type: "boolean",
@@ -4583,12 +4589,11 @@
 			type: "object",
 			name: "typography",
 			label: "Typography",
+			tooltip: "blockJson.supports.typography",
 			defaultValueWhenChecked: {
 				fontSize: true,
 				lineHeight: true
 			},
-			description: "Typography...",
-			learnMoreLink: "#",
 			subProperties: [
 				{
 					type: "boolean",
@@ -7274,6 +7279,71 @@
 			text: "The category is where you block is grouped when browsing in the Inserter. These categories help users browse and discover blocks.",
 			url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#category",
 			width: 360
+		},
+		supports: {
+			anchor: {
+				label: "Anchor",
+				required: false,
+				text: "Anchors let you link directly to a specific block on a page. This property adds a field to define an id for the block and a button to copy the direct link.",
+				url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#anchor",
+				width: 360
+			},
+			align: {
+				label: "Align",
+				required: false,
+				text: "Alignment adds block controls which allow changing the block's alignment.",
+				url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#align",
+				width: 360
+			},
+			color: {
+				label: "Color",
+				required: false,
+				text: "Color adds block controls which allow changing the block's color.",
+				url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#color",
+				width: 360
+			},
+			multiple: {
+				label: "Multiple",
+				required: false,
+				text: "If a block is flagged as non-multiple, it can be inserted into each post one time only. The icon will be dimmed and be unclickable in the Inserter if an instance is already in the post.",
+				url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#multiple",
+				width: 360
+			},
+			reusable: {
+				label: "Reusable",
+				required: false,
+				text: "By default all blocks can be converted to a reusable block. If unchecked, the option to convert this block into a reusable block will not appear.",
+				url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#reusable",
+				width: 360
+			},
+			renaming: {
+				label: "Renaming",
+				required: false,
+				text: "By default, a block can be renamed by a user from the block 'Options' dropdown or the 'Advanced' panel. To disable this behavior, this flag can be unchecked.",
+				url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#renaming",
+				width: 360
+			},
+			shadow: {
+				label: "Shadow",
+				required: false,
+				text: "When checked, the block editor will show UI controls for shadows, allowing the user to set a box shadow for the block.",
+				url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#shadow",
+				width: 360
+			},
+			spacing: {
+				label: "Spacing",
+				required: false,
+				text: "When checked, the block editor will show UI controls for spacing, allowing the user to set spacing as defined by the theme.",
+				url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#spacing",
+				width: 360
+			},
+			typography: {
+				label: "Typography",
+				required: false,
+				text: "When checked, the block editor will show UI controls for typography, allowing the user to set typography as defined by the theme.",
+				url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#typography",
+				width: 360
+			}
 		}
 	};
 	var tooltips = {
@@ -7369,7 +7439,10 @@
 
 	var getObjectProperty = function getObjectProperty(object, identifier) {
 	  if (identifier.indexOf(".") === -1) {
-	    return (object === null || object === void 0 ? void 0 : object[identifier]) || null;
+	    if (identifier in object) {
+	      return object[identifier];
+	    }
+	    return null;
 	  }
 	  var index = identifier.indexOf(".");
 	  var propertyName = identifier.substring(0, index);
@@ -12860,7 +12933,11 @@
 	    return getObjectProperty(tooltips, "".concat(data, ".required")) || required;
 	  }, [data, required]);
 	  var _text = React$2.useMemo(function () {
-	    return getObjectProperty(tooltips, "".concat(data, ".text")) || text;
+	    var _text = getObjectProperty(tooltips, "".concat(data, ".text"));
+	    if (_text !== null) {
+	      return _text;
+	    }
+	    return text;
 	  }, [data, text]);
 	  var _url = React$2.useMemo(function () {
 	    return getObjectProperty(tooltips, "".concat(data, ".url")) || url;
@@ -12974,12 +13051,18 @@
 	function FieldLabel(_ref) {
 	  var htmlFor = _ref.htmlFor,
 	    label = _ref.label,
-	    tooltip = _ref.tooltip;
+	    tooltip = _ref.tooltip,
+	    _ref$tooltipDirection = _ref.tooltipDirection,
+	    tooltipDirection = _ref$tooltipDirection === void 0 ? "left" : _ref$tooltipDirection,
+	    _ref$tooltipPosition = _ref.tooltipPosition,
+	    tooltipPosition = _ref$tooltipPosition === void 0 ? "above" : _ref$tooltipPosition;
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("label", {
 	    className: "FieldLabel",
 	    htmlFor: htmlFor,
 	    children: [label, tooltip && /*#__PURE__*/jsxRuntimeExports.jsx(Tooltip, {
 	      data: tooltip,
+	      direction: tooltipDirection,
+	      position: tooltipPosition,
 	      text: tooltip
 	    })]
 	  });
@@ -13063,9 +13146,9 @@
 	  var children = _ref.children,
 	    label = _ref.label,
 	    _ref$size = _ref.size,
-	    size = _ref$size === void 0 ? "" : _ref$size;
-	    _ref.tooltip;
-	    var _ref$value = _ref.value,
+	    size = _ref$size === void 0 ? "" : _ref$size,
+	    tooltip = _ref.tooltip,
+	    _ref$value = _ref.value,
 	    value = _ref$value === void 0 ? false : _ref$value,
 	    setValue = _ref.setValue;
 	  var onChange = function onChange(event) {
@@ -13087,9 +13170,11 @@
 	      })
 	    }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	      className: clsx$1("CheckboxField-content"),
-	      children: [label && /*#__PURE__*/jsxRuntimeExports.jsx("label", {
-	        className: clsx$1("CheckboxField-label"),
-	        children: label
+	      children: [label && /*#__PURE__*/jsxRuntimeExports.jsx(FieldLabel, {
+	        label: label,
+	        tooltip: tooltip,
+	        tooltipDirection: "right",
+	        tooltipPosition: "above"
 	      }), children]
 	    })]
 	  });
@@ -13098,10 +13183,8 @@
 	var BlockSupportsFieldItem = function BlockSupportsFieldItem(_ref) {
 	  var _ref$defaultValueWhen = _ref.defaultValueWhenChecked,
 	    defaultValueWhenChecked = _ref$defaultValueWhen === void 0 ? true : _ref$defaultValueWhen,
-	    description = _ref.description;
-	    _ref.name;
-	    var label = _ref.label,
-	    learnMoreLink = _ref.learnMoreLink,
+	    label = _ref.label,
+	    tooltip = _ref.tooltip,
 	    setValue = _ref.setValue,
 	    subProperties = _ref.subProperties,
 	    size = _ref.size,
@@ -13151,17 +13234,13 @@
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    className: "BlockSupportsFieldItem",
-	    children: /*#__PURE__*/jsxRuntimeExports.jsxs(CheckboxField, {
+	    children: /*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
 	      label: label,
 	      size: size,
+	      tooltip: tooltip,
 	      value: isChecked,
 	      setValue: setPropertyValue,
-	      children: [(description || learnMoreLink) && /*#__PURE__*/jsxRuntimeExports.jsxs("p", {
-	        children: [description, description && learnMoreLink && /*#__PURE__*/jsxRuntimeExports.jsx("br", {}), learnMoreLink && /*#__PURE__*/jsxRuntimeExports.jsx("a", {
-	          href: learnMoreLink,
-	          children: "Learn more"
-	        })]
-	      }), isChecked && (subProperties === null || subProperties === void 0 ? void 0 : subProperties.length) > 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	      children: isChecked && (subProperties === null || subProperties === void 0 ? void 0 : subProperties.length) > 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	        className: "BlockSupportsFieldItem-list",
 	        children: subProperties.map(function (subProperty, index) {
 	          return /*#__PURE__*/React$2.createElement(BlockSupportsFieldItem, _objectSpread2(_objectSpread2({}, subProperty), {}, {
@@ -13173,7 +13252,7 @@
 	            }
 	          }));
 	        })
-	      })]
+	      })
 	    })
 	  });
 	};
