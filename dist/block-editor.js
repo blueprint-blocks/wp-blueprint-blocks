@@ -46723,12 +46723,12 @@
 	            children: ((cssVariables === null || cssVariables === void 0 ? void 0 : cssVariables[group.key]) || []).map(function (_ref3, index) {
 	              var name = _ref3.name;
 	                _ref3.slug;
-	                var value = _ref3.value;
-	                _ref3.variable;
+	                var value = _ref3.value,
+	                variable = _ref3.variable;
 	              return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	                className: ["CssSidebar-property", ["colors", "gradients"].includes(group.key) && "has-preview" || ""].join(" "),
 	                onClick: function onClick() {
-	                  return props === null || props === void 0 ? void 0 : props.onInsertVariable(name);
+	                  return props === null || props === void 0 ? void 0 : props.onInsertVariable(variable);
 	                },
 	                children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	                  className: "CssSidebar-propertyName",

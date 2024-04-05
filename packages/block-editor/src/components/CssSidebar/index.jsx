@@ -71,7 +71,7 @@ function CssSidebar({ ...props }) {
 												].join(" ")}
 												onClick={() =>
 													props?.onInsertVariable(
-														name,
+														variable,
 													)
 												}
 											>
