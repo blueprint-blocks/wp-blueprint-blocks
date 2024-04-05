@@ -13128,7 +13128,9 @@
 	    return false;
 	  }, [type, value]);
 	  var setPropertyValue = function setPropertyValue(newPropertyValue) {
-	    if (newPropertyValue === false) {
+	    if (type === "object" && newPropertyValue === false) {
+	      setValue({});
+	    } else if (newPropertyValue === false) {
 	      setValue(false);
 	    } else if (type === "boolean") {
 	      setValue(true);
@@ -15792,7 +15794,7 @@
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: clsx$1("BlueprintHint", {
-	      "has-focus": isDragging && hasFocus
+	      "has-focus": hasFocus
 	    }),
 	    style: {
 	      "--indent": indent

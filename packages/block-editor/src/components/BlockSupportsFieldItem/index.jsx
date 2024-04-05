@@ -39,7 +39,9 @@ const BlockSupportsFieldItem = ({
 	);
 
 	const setPropertyValue = (newPropertyValue) => {
-		if (newPropertyValue === false) {
+		if (type === "object" && newPropertyValue === false) {
+			setValue({});
+		} else if (newPropertyValue === false) {
 			setValue(false);
 		} else if (type === "boolean") {
 			setValue(true);

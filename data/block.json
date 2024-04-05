@@ -7,34 +7,16 @@
 	"icon": "star-filled",
 	"keywords": [],
 	"category": "text",
-	"attributes": {
-		"title": {
-			"type": "string",
-			"default": null
-		},
-		"subtitle": {
-			"type": "string",
-			"default": null
-		},
-		"image": {
-			"type": "object",
-			"default": {}
-		},
-		"link": {
-			"type": "object",
-			"default": {
-				"href": "#",
-				"label": "Learn more",
-				"target": "_blank"
-			}
-		}
-	},
+	"attributes": {},
 	"supports": {
-		"align": [],
+		"align": false,
 		"anchor": false,
+		"color": {},
 		"html": false,
 		"multiple": true,
-		"reusable": false
+		"reusable": false,
+		"spacing": {},
+		"typography": {}
 	},
 	"textdomain": "blueprint-blocks"
 }

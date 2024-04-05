@@ -7,34 +7,8 @@
 			"className": {
 				"{{ block._className }}": true
 			},
-			"style": {
-				"background-color": "red",
-				"text-color": "white"
-			},
-			"children": [
-				{
-					"type": "rich-text",
-					"attributeName": "title",
-					"tagName": "h2",
-					"placeholder": "Enter a title..."
-				},
-				{
-					"type": "rich-text",
-					"attributeName": "subtitle",
-					"tagName": "p",
-					"placeholder": "Enter a subtitle..."
-				},
-				{
-					"type": "image",
-					"attributeName": "image",
-					"label": "Image"
-				},
-				{
-					"type": "link",
-					"attributeName": "link",
-					"placeholder": "Back to where..."
-				}
-			]
+			"style": {},
+			"children": []
 		}
 	],
 	"blockSave": null,

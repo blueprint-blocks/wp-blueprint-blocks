@@ -26,7 +26,7 @@ function BlueprintHint({
 		<div
 			ref={ref}
 			className={clsx("BlueprintHint", {
-				"has-focus": isDragging && hasFocus,
+				"has-focus": hasFocus,
 			})}
 			style={{ "--indent": indent }}
 		>
