@@ -45,6 +45,7 @@ function RenderJson({
 								placeholders) ||
 							null
 						}
+						disabled={true}
 						value={value}
 					/>
 					<span>{'"'}</span>

@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -25,8 +25,24 @@ import TextField from "../TextField";
 
 import "./style.css";
 
+const { blockCategories = [] } =
+	blueprintBlocksEditorSettings?.editorMetadata || {};
+
 const PageBlockJson = memo(() => {
 	const dispatch = useDispatch();
+
+	const _blockCategories = useMemo(
+		() =>
+			blockCategories
+				.filter(({ slug }) => !["reusable"].includes(slug))
+				.map(({ slug, title }) => ({
+					label: title,
+					value: slug,
+				})),
+		[],
+	);
+
+	console.log(_blockCategories);
 
 	const blockJson = useSelector((state) => getRawJson(state.blockJson));
 
@@ -107,16 +123,7 @@ const PageBlockJson = memo(() => {
 							name="category"
 							label="Category"
 							tooltip="Hello..."
-							options={[
-								{
-									label: "Common",
-									value: "common",
-								},
-								{
-									label: "Layout",
-									value: "layout",
-								},
-							]}
+							options={_blockCategories}
 							value={blockJson?.category}
 							setValue={setBlockCategory}
 							onFocus={() => onFocus("category")}

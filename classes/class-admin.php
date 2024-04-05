@@ -89,6 +89,9 @@ class Admin
                 'editorCss' => $block_editor_css,
                 'viewCss' => $block_view_css,
             ],
+			'editorMetadata' => [
+				'blockCategories' => get_block_categories(null),
+			],
             'postMetadata' => [
                 'postId' => $post_id,
             ],

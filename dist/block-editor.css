@@ -854,11 +854,12 @@
 .JsonEditor {
 	background: var(--color-black);
 	border-radius: 9px;
+	box-sizing: border-box;
 	color: var(--color-white);
 	font-family: var(--font-family-monospace);
 	font-size: var(--font-size-small);
 	font-weight: var(--font-weight-base);
-	height: 100%;
+	height: calc(var(--app-height) - var(--10x));
 	line-height: 1.75;
 	overflow: auto;
 	padding: var(--5x);

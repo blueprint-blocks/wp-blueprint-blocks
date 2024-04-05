@@ -7638,9 +7638,9 @@
 	  });
 	};
 
-	var _blueprintBlocksEdito$a;
-	var _ref$2 = ((_blueprintBlocksEdito$a = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$a === void 0 ? void 0 : _blueprintBlocksEdito$a.blockMetadata) || {},
-	  _ref$blockBlueprint = _ref$2.blockBlueprint,
+	var _blueprintBlocksEdito$b;
+	var _ref$3 = ((_blueprintBlocksEdito$b = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$b === void 0 ? void 0 : _blueprintBlocksEdito$b.blockMetadata) || {},
+	  _ref$blockBlueprint = _ref$3.blockBlueprint,
 	  blockBlueprint = _ref$blockBlueprint === void 0 ? {} : _ref$blockBlueprint;
 	var blockEdit = parseComponentTree((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockEdit) || []);
 	var blockToolbar = parseComponentTree((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockToolbar) || []);
@@ -8262,9 +8262,9 @@
 	  reducer$8 = slice$8.reducer;
 	var setHandlePosition = actions$8.setHandlePosition;
 
-	var _blueprintBlocksEdito$9;
-	var _ref$1 = ((_blueprintBlocksEdito$9 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$9 === void 0 ? void 0 : _blueprintBlocksEdito$9.blockMetadata) || {},
-	  _ref$blockJson = _ref$1.blockJson,
+	var _blueprintBlocksEdito$a;
+	var _ref$2 = ((_blueprintBlocksEdito$a = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$a === void 0 ? void 0 : _blueprintBlocksEdito$a.blockMetadata) || {},
+	  _ref$blockJson = _ref$2.blockJson,
 	  blockJson = _ref$blockJson === void 0 ? {} : _ref$blockJson;
 	var attributes$1 = Object.entries((blockJson === null || blockJson === void 0 ? void 0 : blockJson.attributes) || {}).map(function (_ref2) {
 	  var _ref3 = _slicedToArray(_ref2, 2),
@@ -8913,8 +8913,8 @@
 	  setTitle = actions$7.setTitle,
 	  setVersion = actions$7.setVersion;
 
-	var _blueprintBlocksEdito$8 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$6 = _blueprintBlocksEdito$8.blockMetadata,
+	var _blueprintBlocksEdito$9 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$6 = _blueprintBlocksEdito$9.blockMetadata,
 	  blockMetadata$1 = _blueprintBlocksEdito2$6 === void 0 ? {} : _blueprintBlocksEdito2$6;
 	var slice$6 = createSlice({
 	  name: "blockEditorCss",
@@ -8931,8 +8931,8 @@
 	  reducer$6 = slice$6.reducer;
 	var setEditorCss = actions$6.setEditorCss;
 
-	var _blueprintBlocksEdito$7 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$5 = _blueprintBlocksEdito$7.blockMetadata,
+	var _blueprintBlocksEdito$8 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$5 = _blueprintBlocksEdito$8.blockMetadata,
 	  blockMetadata = _blueprintBlocksEdito2$5 === void 0 ? {} : _blueprintBlocksEdito2$5;
 	var slice$5 = createSlice({
 	  name: "blockViewCss",
@@ -9025,8 +9025,8 @@
 	  return state.valid === false;
 	};
 
-	var _blueprintBlocksEdito$6 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$4 = _blueprintBlocksEdito$6.postMetadata,
+	var _blueprintBlocksEdito$7 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$4 = _blueprintBlocksEdito$7.postMetadata,
 	  postMetadata = _blueprintBlocksEdito2$4 === void 0 ? {} : _blueprintBlocksEdito2$4;
 	var slice$3 = createSlice({
 	  name: "postMetadata",
@@ -9053,8 +9053,8 @@
 	  setPostId = actions$3.setPostId,
 	  setValid = actions$3.setValid;
 
-	var _blueprintBlocksEdito$5 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$3 = _blueprintBlocksEdito$5.postType,
+	var _blueprintBlocksEdito$6 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$3 = _blueprintBlocksEdito$6.postType,
 	  postType = _blueprintBlocksEdito2$3 === void 0 ? {} : _blueprintBlocksEdito2$3;
 	var slice$2 = createSlice({
 	  name: "postType",
@@ -11337,8 +11337,8 @@
 	  });
 	};
 
-	var _blueprintBlocksEdito$4 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$2 = _blueprintBlocksEdito$4.pluginMetadata,
+	var _blueprintBlocksEdito$5 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$2 = _blueprintBlocksEdito$5.pluginMetadata,
 	  pluginMetadata$2 = _blueprintBlocksEdito2$2 === void 0 ? {} : _blueprintBlocksEdito2$2;
 	function Navigator(_ref) {
 	  var activeNavItem = _ref.activeNavItem,
@@ -12890,8 +12890,8 @@
 	  });
 	}
 
-	var _blueprintBlocksEdito$3;
-	var defaultBlockNamespace = ((_blueprintBlocksEdito$3 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$3 === void 0 || (_blueprintBlocksEdito$3 = _blueprintBlocksEdito$3.blockMetadata) === null || _blueprintBlocksEdito$3 === void 0 ? void 0 : _blueprintBlocksEdito$3.blockNamespace) || "blueprint-blocks";
+	var _blueprintBlocksEdito$4;
+	var defaultBlockNamespace = ((_blueprintBlocksEdito$4 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$4 === void 0 || (_blueprintBlocksEdito$4 = _blueprintBlocksEdito$4.blockMetadata) === null || _blueprintBlocksEdito$4 === void 0 ? void 0 : _blueprintBlocksEdito$4.blockNamespace) || "blueprint-blocks";
 	var BlockNameField = function BlockNameField(_ref) {
 	  var onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus;
@@ -13255,6 +13255,7 @@
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
 	        className: hasFocus && "has-focus" || "",
 	        placeholder: typeof placeholders === "string" && placeholders || null,
+	        disabled: true,
 	        value: value
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	        children: '"'
@@ -13514,8 +13515,26 @@
 	  });
 	}
 
+	var _blueprintBlocksEdito$3;
+	var _ref$1 = ((_blueprintBlocksEdito$3 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$3 === void 0 ? void 0 : _blueprintBlocksEdito$3.editorMetadata) || {},
+	  _ref$blockCategories = _ref$1.blockCategories,
+	  blockCategories = _ref$blockCategories === void 0 ? [] : _ref$blockCategories;
 	var PageBlockJson = /*#__PURE__*/React$2.memo(function () {
 	  var dispatch = useDispatch();
+	  var _blockCategories = React$2.useMemo(function () {
+	    return blockCategories.filter(function (_ref2) {
+	      var slug = _ref2.slug;
+	      return !["reusable"].includes(slug);
+	    }).map(function (_ref3) {
+	      var slug = _ref3.slug,
+	        title = _ref3.title;
+	      return {
+	        label: title,
+	        value: slug
+	      };
+	    });
+	  }, []);
+	  console.log(_blockCategories);
 	  var blockJson = useSelector(function (state) {
 	    return getRawJson(state.blockJson);
 	  });
@@ -13610,13 +13629,7 @@
 	            name: "category",
 	            label: "Category",
 	            tooltip: "Hello...",
-	            options: [{
-	              label: "Common",
-	              value: "common"
-	            }, {
-	              label: "Layout",
-	              value: "layout"
-	            }],
+	            options: _blockCategories,
 	            value: blockJson === null || blockJson === void 0 ? void 0 : blockJson.category,
 	            setValue: setBlockCategory,
 	            onFocus: function onFocus() {
@@ -43804,7 +43817,7 @@
 	  ret(score, matched) {
 	    this.score = score;
 	    this.matched = matched;
-	    return true;
+	    return this;
 	  }
 	  // Matches a given word (completion) against the pattern (input).
 	  // Will return a boolean indicating whether there was a match and,
@@ -43815,7 +43828,7 @@
 	  // is. See `Penalty` above.
 	  match(word) {
 	    if (this.pattern.length == 0) return this.ret(-100 /* Penalty.NotFull */, []);
-	    if (word.length < this.pattern.length) return false;
+	    if (word.length < this.pattern.length) return null;
 	    let {
 	      chars,
 	      folded,
@@ -43829,7 +43842,7 @@
 	      let first = codePointAt(word, 0),
 	        firstSize = codePointSize(first);
 	      let score = firstSize == word.length ? 0 : -100 /* Penalty.NotFull */;
-	      if (first == chars[0]) ;else if (first == folded[0]) score += -200 /* Penalty.CaseFold */;else return false;
+	      if (first == chars[0]) ;else if (first == folded[0]) score += -200 /* Penalty.CaseFold */;else return null;
 	      return this.ret(score, [0, firstSize]);
 	    }
 	    let direct = word.indexOf(this.pattern);
@@ -43843,7 +43856,7 @@
 	        i += codePointSize(next);
 	      }
 	      // No match, exit immediately
-	      if (anyTo < len) return false;
+	      if (anyTo < len) return null;
 	    }
 	    // This tracks the extent of the precise (non-folded, not
 	    // necessarily adjacent) match
@@ -43887,7 +43900,7 @@
 	    if (direct > -1) return this.ret(-700 /* Penalty.NotStart */ - word.length, [direct, direct + this.pattern.length]);
 	    if (adjacentTo == len) return this.ret(-200 /* Penalty.CaseFold */ + -700 /* Penalty.NotStart */ - word.length, [adjacentStart, adjacentEnd]);
 	    if (byWordTo == len) return this.result(-100 /* Penalty.ByWord */ + (byWordFolded ? -200 /* Penalty.CaseFold */ : 0) + -700 /* Penalty.NotStart */ + (wordAdjacent ? 0 : -1100 /* Penalty.Gap */), byWord, word);
-	    return chars.length == 2 ? false : this.result((any[0] ? -700 /* Penalty.NotStart */ : 0) + -200 /* Penalty.CaseFold */ + -1100 /* Penalty.Gap */, any, word);
+	    return chars.length == 2 ? null : this.result((any[0] ? -700 /* Penalty.NotStart */ : 0) + -200 /* Penalty.CaseFold */ + -1100 /* Penalty.Gap */, any, word);
 	  }
 	  result(score, positions, word) {
 	    let result = [],
@@ -43900,6 +43913,23 @@
 	      }
 	    }
 	    return this.ret(score - word.length, result);
+	  }
+	}
+	class StrictMatcher {
+	  constructor(pattern) {
+	    this.pattern = pattern;
+	    this.matched = [];
+	    this.score = 0;
+	    this.folded = pattern.toLowerCase();
+	  }
+	  match(word) {
+	    if (word.length < this.pattern.length) return null;
+	    let start = word.slice(0, this.pattern.length);
+	    let match = start == this.pattern ? 0 : start.toLowerCase() == this.folded ? -200 /* Penalty.CaseFold */ : null;
+	    if (match == null) return null;
+	    this.matched = [0, start.length];
+	    this.score = match + (word.length == this.pattern.length ? 0 : -100 /* Penalty.NotFull */);
+	    return this;
 	  }
 	}
 	const completionConfig = /*@__PURE__*/Facet.define({
@@ -43918,6 +43948,7 @@
 	      icons: true,
 	      addToOptions: [],
 	      positionInfo: defaultPositionInfo,
+	      filterStrict: false,
 	      compareCompletions: (a, b) => a.label.localeCompare(b.label),
 	      interactionDelay: 75,
 	      updateSyncTime: 100
@@ -43927,7 +43958,8 @@
 	      icons: (a, b) => a && b,
 	      tooltipClass: (a, b) => c => joinClass(a(c), b(c)),
 	      optionClass: (a, b) => c => joinClass(a(c), b(c)),
-	      addToOptions: (a, b) => a.concat(b)
+	      addToOptions: (a, b) => a.concat(b),
+	      filterStrict: (a, b) => a || b
 	    });
 	  }
 	});
@@ -44293,6 +44325,7 @@
 	      } : section);
 	    }
 	  };
+	  let conf = state.facet(completionConfig);
 	  for (let a of active) if (a.hasResult()) {
 	    let getMatch = a.result.getMatch;
 	    if (a.result.filter === false) {
@@ -44300,10 +44333,12 @@
 	        addOption(new Option(option, a.source, getMatch ? getMatch(option) : [], 1e9 - options.length));
 	      }
 	    } else {
-	      let matcher = new FuzzyMatcher(state.sliceDoc(a.from, a.to));
-	      for (let option of a.result.options) if (matcher.match(option.label)) {
-	        let matched = !option.displayLabel ? matcher.matched : getMatch ? getMatch(option, matcher.matched) : [];
-	        addOption(new Option(option, a.source, matched, matcher.score + (option.boost || 0)));
+	      let pattern = state.sliceDoc(a.from, a.to),
+	        match;
+	      let matcher = conf.filterStrict ? new StrictMatcher(pattern) : new FuzzyMatcher(pattern);
+	      for (let option of a.result.options) if (match = matcher.match(option.label)) {
+	        let matched = !option.displayLabel ? match.matched : getMatch ? getMatch(option, match.matched) : [];
+	        addOption(new Option(option, a.source, matched, match.score + (option.boost || 0)));
 	      }
 	    }
 	  }
@@ -44327,7 +44362,7 @@
 	  }
 	  let result = [],
 	    prev = null;
-	  let compare = state.facet(completionConfig).compareCompletions;
+	  let compare = conf.compareCompletions;
 	  for (let opt of options.sort((a, b) => b.score - a.score || compare(a.completion, b.completion))) {
 	    let cur = opt.completion;
 	    if (!prev || prev.label != cur.label || prev.detail != cur.detail || prev.type != null && cur.type != null && prev.type != cur.type || prev.apply != cur.apply || prev.boost != cur.boost) result.push(opt);else if (score(opt.completion) > score(prev)) result[result.length - 1] = opt;
@@ -44473,21 +44508,25 @@
 	  }
 	  handleUserEvent(tr, type, conf) {
 	    var _a;
+	    let result = this.result;
+	    if (result.map && !tr.changes.empty) result = result.map(result, tr.changes);
 	    let from = tr.changes.mapPos(this.from),
 	      to = tr.changes.mapPos(this.to, 1);
 	    let pos = cur(tr.state);
-	    if ((this.explicitPos < 0 ? pos <= from : pos < this.from) || pos > to || type == "delete" && cur(tr.startState) == this.from) return new ActiveSource(this.source, type == "input" && conf.activateOnTyping ? 1 /* State.Pending */ : 0 /* State.Inactive */);
-	    let explicitPos = this.explicitPos < 0 ? -1 : tr.changes.mapPos(this.explicitPos),
-	      updated;
-	    if (checkValid(this.result.validFor, tr.state, from, to)) return new ActiveResult(this.source, explicitPos, this.result, from, to);
-	    if (this.result.update && (updated = this.result.update(this.result, from, to, new CompletionContext(tr.state, pos, explicitPos >= 0)))) return new ActiveResult(this.source, explicitPos, updated, updated.from, (_a = updated.to) !== null && _a !== void 0 ? _a : cur(tr.state));
+	    if ((this.explicitPos < 0 ? pos <= from : pos < this.from) || pos > to || !result || type == "delete" && cur(tr.startState) == this.from) return new ActiveSource(this.source, type == "input" && conf.activateOnTyping ? 1 /* State.Pending */ : 0 /* State.Inactive */);
+	    let explicitPos = this.explicitPos < 0 ? -1 : tr.changes.mapPos(this.explicitPos);
+	    if (checkValid(result.validFor, tr.state, from, to)) return new ActiveResult(this.source, explicitPos, result, from, to);
+	    if (result.update && (result = result.update(result, from, to, new CompletionContext(tr.state, pos, explicitPos >= 0)))) return new ActiveResult(this.source, explicitPos, result, result.from, (_a = result.to) !== null && _a !== void 0 ? _a : cur(tr.state));
 	    return new ActiveSource(this.source, 1 /* State.Pending */, explicitPos);
 	  }
 	  handleChange(tr) {
 	    return tr.changes.touchesRange(this.from, this.to) ? new ActiveSource(this.source, 0 /* State.Inactive */) : this.map(tr.changes);
 	  }
 	  map(mapping) {
-	    return mapping.empty ? this : new ActiveResult(this.source, this.explicitPos < 0 ? -1 : mapping.mapPos(this.explicitPos), this.result, mapping.mapPos(this.from), mapping.mapPos(this.to, 1));
+	    if (mapping.empty) return this;
+	    let result = this.result.map ? this.result.map(this.result, mapping) : this.result;
+	    if (!result) return new ActiveSource(this.source, 0 /* State.Inactive */);
+	    return new ActiveResult(this.source, this.explicitPos < 0 ? -1 : mapping.mapPos(this.explicitPos), this.result, mapping.mapPos(this.from), mapping.mapPos(this.to, 1));
 	  }
 	}
 	function checkValid(validFor, state, from, to) {
@@ -44726,6 +44765,18 @@
 	    }
 	  }
 	});
+	const windows = typeof navigator == "object" && /*@__PURE__*/ /Win/.test(navigator.platform);
+	const commitCharacters = /*@__PURE__*/Prec.highest( /*@__PURE__*/EditorView.domEventHandlers({
+	  keydown(event, view) {
+	    let field = view.state.field(completionState, false);
+	    if (!field || !field.open || field.open.disabled || field.open.selected < 0 || event.key.length > 1 || event.ctrlKey && !(windows && event.altKey) || event.metaKey) return false;
+	    let option = field.open.options[field.open.selected];
+	    let result = field.active.find(a => a.source == option.source);
+	    let commitChars = option.completion.commitCharacters || result.result.commitCharacters;
+	    if (commitChars && commitChars.indexOf(event.key) > -1) applyCompletion(view, option);
+	    return false;
+	  }
+	}));
 	const baseTheme$1 = /*@__PURE__*/EditorView.baseTheme({
 	  ".cm-tooltip.cm-tooltip-autocomplete": {
 	    "& > ul": {
@@ -45469,7 +45520,7 @@
 	Returns an extension that enables autocompletion.
 	*/
 	function autocompletion(config = {}) {
-	  return [completionState, completionConfig.of(config), completionPlugin, completionKeymapExt, baseTheme$1];
+	  return [commitCharacters, completionState, completionConfig.of(config), completionPlugin, completionKeymapExt, baseTheme$1];
 	}
 	/**
 	Basic keybindings for autocompletion.
