@@ -2284,7 +2284,7 @@
 		grid-row: 1;
 		height: 100%;
 		overflow: auto;
-		padding: var(--5x) var(--3x);
+		padding: 0 3px 0 var(--3x);
 		width: 100%;
 	}
 
@@ -2380,7 +2380,6 @@
 .PageEditorCss-view {
 	--sidebar-width: 340px;
 	align-items: stretch;
-	background: var(--color-lighter-gray);
 	border-radius: 9px;
 	display: grid;
 	grid-template-columns: calc(100% - var(--sidebar-width)) var(
@@ -2403,7 +2402,6 @@
 .PageViewCss-view {
 	--sidebar-width: 340px;
 	align-items: stretch;
-	background: var(--color-lighter-gray);
 	border-radius: 9px;
 	display: grid;
 	grid-template-columns: calc(100% - var(--sidebar-width)) var(
