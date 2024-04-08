@@ -1,6 +1,8 @@
 import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import useEditorFocus from "./use-editor-focus";
+
 import {
 	addAttribute,
 	editAttribute,
@@ -16,6 +18,8 @@ import { setChanged } from "../store/post-metadata";
 
 const useBlockJson = () => {
 	const dispatch = useDispatch();
+
+	const { unsetFocus } = useEditorFocus();
 
 	const attributes = useSelector((state) => state.blockJson.attributes);
 
@@ -80,6 +84,7 @@ const useBlockJson = () => {
 	const _removeAttribute = useCallback((attributeName) => {
 		dispatch(removeAttribute(attributeName));
 		dispatch(setChanged(true));
+		unsetFocus(true);
 	}, []);
 
 	return {

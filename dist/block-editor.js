@@ -9359,8 +9359,37 @@
 	  return "wp-block-".concat(name.split("/")[0], "-").concat(name.split("/")[0]);
 	}
 
+	var useEditorFocus = function useEditorFocus(clientId) {
+	  var dispatch = useDispatch();
+	  var _componentHasFocus = useSelector(function (state) {
+	    return componentHasFocus(state.editor, clientId);
+	  });
+	  var currentFocus = useSelector(function (state) {
+	    return getDraggingContext(state.editor);
+	  });
+	  var _setFocus = function _setFocus(context) {
+	    dispatch(setFocus(context));
+	  };
+	  var _unsetFocus = function _unsetFocus() {
+	    var unsetRegardlessOfCurrentFocus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+	    if (unsetRegardlessOfCurrentFocus || _componentHasFocus) {
+	      dispatch(unsetFocus());
+	    }
+	  };
+	  return React$2.useMemo(function () {
+	    return {
+	      currentFocus: currentFocus,
+	      hasFocus: _componentHasFocus,
+	      setFocus: _setFocus,
+	      unsetFocus: _unsetFocus
+	    };
+	  }, [_componentHasFocus]);
+	};
+
 	var useBlockJson = function useBlockJson() {
 	  var dispatch = useDispatch();
+	  var _useEditorFocus = useEditorFocus(),
+	    unsetFocus = _useEditorFocus.unsetFocus;
 	  var attributes = useSelector(function (state) {
 	    return state.blockJson.attributes;
 	  });
@@ -9408,6 +9437,7 @@
 	  var _removeAttribute = React$2.useCallback(function (attributeName) {
 	    dispatch(removeAttribute(attributeName));
 	    dispatch(setChanged(true));
+	    unsetFocus(true);
 	  }, []);
 	  return {
 	    addAttribute: _addAttribute,
@@ -9425,6 +9455,8 @@
 
 	var useBlueprint = function useBlueprint() {
 	  var dispatch = useDispatch();
+	  var _useEditorFocus = useEditorFocus(),
+	    unsetFocus = _useEditorFocus.unsetFocus;
 	  var blockComponents = useSelector(function (state) {
 	    return state.blockBlueprint.blockComponents;
 	  });
@@ -9489,6 +9521,7 @@
 	  var _removeComponent = function _removeComponent(clientId) {
 	    dispatch(removeComponent(clientId));
 	    dispatch(setChanged(true));
+	    unsetFocus(true);
 	  };
 	  var _setComponentAttribute = function _setComponentAttribute(clientId, attributeName, attributeValue) {
 	    dispatch(setComponentAttribute({
@@ -10039,33 +10072,6 @@
 	    onStart: onStart,
 	    onStop: onStop
 	  });
-	};
-
-	var useEditorFocus = function useEditorFocus(clientId) {
-	  var dispatch = useDispatch();
-	  var _componentHasFocus = useSelector(function (state) {
-	    return componentHasFocus(state.editor, clientId);
-	  });
-	  var currentFocus = useSelector(function (state) {
-	    return getDraggingContext(state.editor);
-	  });
-	  var _setFocus = function _setFocus(context) {
-	    dispatch(setFocus(context));
-	  };
-	  var _unsetFocus = function _unsetFocus() {
-	    var unsetRegardlessOfCurrentFocus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-	    if (unsetRegardlessOfCurrentFocus || _componentHasFocus) {
-	      dispatch(unsetFocus());
-	    }
-	  };
-	  return React$2.useMemo(function () {
-	    return {
-	      currentFocus: currentFocus,
-	      hasFocus: _componentHasFocus,
-	      setFocus: _setFocus,
-	      unsetFocus: _unsetFocus
-	    };
-	  }, [_componentHasFocus]);
 	};
 
 	function useFocus() {

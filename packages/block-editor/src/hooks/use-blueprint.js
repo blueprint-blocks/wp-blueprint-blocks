@@ -2,6 +2,7 @@ import { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { pascalize } from "../functions";
+import useEditorFocus from "./use-editor-focus";
 
 import {
 	getComponent,
@@ -19,6 +20,8 @@ import { setChanged } from "../store/post-metadata";
 
 const useBlueprint = () => {
 	const dispatch = useDispatch();
+
+	const { unsetFocus } = useEditorFocus();
 
 	const blockComponents = useSelector(
 		(state) => state.blockBlueprint.blockComponents,
@@ -103,6 +106,7 @@ const useBlueprint = () => {
 	const _removeComponent = (clientId) => {
 		dispatch(removeComponent(clientId));
 		dispatch(setChanged(true));
+		unsetFocus(true);
 	};
 
 	const _setComponentAttribute = (
