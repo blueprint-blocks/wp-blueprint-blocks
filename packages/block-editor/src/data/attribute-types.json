@@ -2,6 +2,9 @@
 	"array": {
 		"allowsNull": true
 	},
+	"boolean": {
+		"allowsNull": true
+	},
 	"number": {
 		"allowsNull": true
 	},

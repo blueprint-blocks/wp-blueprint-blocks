@@ -1,41 +1,17 @@
 import { forwardRef, memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEditorFocus } from "../../hooks";
 
-import { useBlueprint } from "../../hooks";
-
-import { getFocus as getEditorFocus } from "../../store/editor";
-
-import BlueprintContextualAttributeNameHelp from "../BlueprintContextualAttributeNameHelp";
-import BlueprintContextualAttributeValueHelp from "../BlueprintContextualAttributeValueHelp";
+import BlueprintContextualAttributeHelp from "../BlueprintContextualAttributeHelp";
+import BlueprintContextualComponentHelp from "../BlueprintContextualComponentHelp";
 
 import "./style.css";
 
 const BlueprintSidebarContextPanel = memo(
 	forwardRef(({}, ref) => {
-		const dispatch = useDispatch();
+		const { currentFocus } = useEditorFocus();
+		const { context, ...focus } = currentFocus;
 
-		const {
-			getComponentType,
-			setComponentAttribute,
-			unsetComponentAttribute,
-		} = useBlueprint();
-
-		const {
-			clientId = null,
-			context,
-			property,
-			...currentFocus
-		} = useSelector((state) => getEditorFocus(state.editor));
-
-		const type = getComponentType(clientId);
-
-		const onClickSuggestedValue = ({ attributeName, attributeValue }) => {
-			if (attributeName.indexOf(currentFocus?.attributeName) !== -1) {
-				unsetComponentAttribute(clientId, currentFocus?.attributeName);
-			}
-
-			setComponentAttribute(clientId, attributeName, attributeValue);
-		};
+		console.log(context, focus);
 
 		return (
 			<div
@@ -48,13 +24,11 @@ const BlueprintSidebarContextPanel = memo(
 					event.stopPropagation();
 				}}
 			>
+				{context === "attribute" && (
+					<BlueprintContextualAttributeHelp />
+				)}
 				{context === "component" && (
-					<BlueprintContextualAttributeNameHelp
-						clientId={clientId}
-						componentType={type}
-						attributeName={currentFocus?.attributeName}
-						onClickSuggestedValue={onClickSuggestedValue}
-					/>
+					<BlueprintContextualComponentHelp />
 				)}
 			</div>
 		);

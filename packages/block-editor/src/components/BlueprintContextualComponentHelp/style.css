@@ -1,4 +1,4 @@
-.BlueprintContextualAttributeNameHelp {
+.BlueprintContextualComponentHelp {
 	display: grid;
 	gap: var(--5x);
 	grid-auto-flow: row;
@@ -58,7 +58,7 @@
 	}
 }
 
-.BlueprintContextualAttributeNameHelp-suggestedValues {
+.BlueprintContextualComponentHelp-suggestedValues {
 	display: flex;
 	flex-wrap: wrap;
 	gap: var(--1x);

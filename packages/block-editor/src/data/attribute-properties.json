@@ -1,0 +1,19 @@
+[
+	{
+		"propertyName": "name",
+		"label": "Name",
+		"description": "Attribute name can be any valid string value, but it's best practice to format these is a consistent way that describes what they are for. A common format for attribute names is camelCase."
+	},
+	{
+		"propertyName": "type",
+		"label": "Type",
+		"description": "Type indicates the type of data that is stored by the attribute. It should match the type of data provided by the connected component.",
+		"suggestedValues": ["array", "boolean", "number", "object", "string"]
+	},
+	{
+		"propertyName": "default",
+		"label": "Default",
+		"description": "A block attribute can contain a default value, which will be used if no data is provided by the connected component, e.g. if the user has not made any changes in the editor. The value of the default should match the format of the type.",
+		"suggestedValues": ["null"]
+	}
+]

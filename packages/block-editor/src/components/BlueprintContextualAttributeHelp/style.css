@@ -1,0 +1,80 @@
+.BlueprintContextualAttributeHelp {
+	display: grid;
+	gap: var(--5x);
+	grid-auto-flow: row;
+	grid-template-columns: 100%;
+
+	h3 {
+		color: var(--color-black);
+		font-size: var(--font-size-large);
+		font-weight: var(--font-weight-bold);
+		margin: 0 0 var(--1x);
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	h4 {
+		color: var(--color-black);
+		font-size: var(--font-size-base);
+		font-weight: var(--font-weight-bold);
+		margin: 0 0 var(--1x);
+	}
+
+	h5 {
+		color: var(--color-black);
+		font-size: var(--font-size-small);
+		font-weight: var(--font-weight-bold);
+		margin: var(--3x) 0 var(--1x);
+	}
+
+	p {
+		color: var(--color-black);
+		font-size: var(--font-size-small);
+		margin: 0 0 var(--1x);
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	ul {
+		font-size: var(--font-size-small);
+		list-style: disc;
+		margin: 0 0 var(--3x) var(--2x);
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	li {
+		margin: 0;
+	}
+
+	li + li {
+		margin-top: var(--1x);
+	}
+}
+
+.BlueprintContextualAttributeHelp-suggestedValues {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--1x);
+	width: 100%;
+
+	> div {
+		background: var(--color-white);
+		border-radius: 5px;
+		box-shadow: 0 1px 9px rgba(0, 0, 0, 0.1);
+		cursor: pointer;
+		display: inline-block;
+		flex-grow: 0;
+		flex-shrink: 0;
+		font-family: var(--font-family-monospace);
+		font-size: var(--font-size-x-small);
+		font-weight: var(--font-weight-bold);
+		padding: 0 0.4em;
+	}
+}

@@ -1,3 +1,4 @@
+import attributeProperties from "./attribute-properties.json";
 import attributeTypes from "./attribute-types.json";
 import blockComponents from "./block-components.json";
 import blockJsonValidation from "./block-json-validation.json";
@@ -7,6 +8,7 @@ import navItems from "./nav-items.json";
 import tooltips from "./tooltips.json";
 
 export {
+	attributeProperties,
 	attributeTypes,
 	blockComponents,
 	blockJsonValidation,

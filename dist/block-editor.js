@@ -4270,7 +4270,38 @@
 	  });
 	}
 
+	var attributeProperties = [
+		{
+			propertyName: "name",
+			label: "Name",
+			description: "Attribute name can be any valid string value, but it's best practice to format these is a consistent way that describes what they are for. A common format for attribute names is camelCase."
+		},
+		{
+			propertyName: "type",
+			label: "Type",
+			description: "Type indicates the type of data that is stored by the attribute. It should match the type of data provided by the connected component.",
+			suggestedValues: [
+				"array",
+				"boolean",
+				"number",
+				"object",
+				"string"
+			]
+		},
+		{
+			propertyName: "default",
+			label: "Default",
+			description: "A block attribute can contain a default value, which will be used if no data is provided by the connected component, e.g. if the user has not made any changes in the editor. The value of the default should match the format of the type.",
+			suggestedValues: [
+				"null"
+			]
+		}
+	];
+
 	var array$1 = {
+		allowsNull: true
+	};
+	var boolean = {
 		allowsNull: true
 	};
 	var number$2 = {
@@ -4284,6 +4315,7 @@
 	};
 	var attributeTypes = {
 		array: array$1,
+		boolean: boolean,
 		number: number$2,
 		object: object,
 		string: string$2
@@ -10000,6 +10032,9 @@
 	  var _componentHasFocus = useSelector(function (state) {
 	    return componentHasFocus(state.editor, clientId);
 	  });
+	  var currentFocus = useSelector(function (state) {
+	    return getDraggingContext(state.editor);
+	  });
 	  var _setFocus = function _setFocus(context) {
 	    dispatch(setFocus(context));
 	  };
@@ -10011,6 +10046,7 @@
 	  };
 	  return React$2.useMemo(function () {
 	    return {
+	      currentFocus: currentFocus,
 	      hasFocus: _componentHasFocus,
 	      setFocus: _setFocus,
 	      unsetFocus: _unsetFocus
@@ -16901,27 +16937,108 @@
 	  });
 	}));
 
-	function BlueprintContextualAttributeNameHelp(_ref) {
-	  var _ref$componentType = _ref.componentType,
-	    componentType = _ref$componentType === void 0 ? "html" : _ref$componentType,
-	    _ref$attributeName = _ref.attributeName,
-	    attributeName = _ref$attributeName === void 0 ? "" : _ref$attributeName,
-	    onClickSuggestedValue = _ref.onClickSuggestedValue;
+	var BlueprintContextualAttributeHelp = /*#__PURE__*/React$2.memo(function () {
 	  var ref = React$2.useRef(null);
+	  var _useEditorFocus = useEditorFocus(),
+	    currentFocus = _useEditorFocus.currentFocus;
+	  var _currentFocus$clientI = currentFocus.clientId,
+	    clientId = _currentFocus$clientI === void 0 ? null : _currentFocus$clientI;
+	  var _useBlockJson = useBlockJson(),
+	    editAttribute = _useBlockJson.editAttribute,
+	    getAttributeById = _useBlockJson.getAttributeById,
+	    renameAttribute = _useBlockJson.renameAttribute;
+	  var _getAttributeById = getAttributeById(clientId),
+	    attributeName = _getAttributeById.name;
+	  var onClickSuggestedValue = function onClickSuggestedValue(_ref) {
+	    var propertyName = _ref.propertyName,
+	      propertyValue = _ref.propertyValue;
+	    if (propertyName === "name") {
+	      renameAttribute(attributeName, propertyValue);
+	    } else {
+	      editAttribute(attributeName, _defineProperty$1({}, propertyName, propertyValue));
+	    }
+	  };
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    ref: ref,
+	    className: "BlueprintContextualAttributeHelp",
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	      className: "BlueprintContextualAttributeHelp-heading",
+	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("h3", {
+	        children: "Block Attributes"
+	      }), /*#__PURE__*/jsxRuntimeExports.jsx("p", {
+	        children: "Block attributes store information about the block. For example, a title, metadata about an image, or attributes of a link. When connected to a component, data from the connected component will be stored in the attribute."
+	      })]
+	    }), attributeProperties.map(function (_ref2, index) {
+	      var propertyName = _ref2.propertyName,
+	        label = _ref2.label,
+	        description = _ref2.description,
+	        _ref2$suggestedValues = _ref2.suggestedValues,
+	        suggestedValues = _ref2$suggestedValues === void 0 ? [] : _ref2$suggestedValues;
+	      return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	        children: [/*#__PURE__*/jsxRuntimeExports.jsx("h4", {
+	          children: label
+	        }), /*#__PURE__*/jsxRuntimeExports.jsx("p", {
+	          children: description
+	        }), suggestedValues.length > 0 && /*#__PURE__*/jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, {
+	          children: [/*#__PURE__*/jsxRuntimeExports.jsx("h5", {
+	            children: "Suggested Values"
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	            className: "BlueprintContextualAttributeHelp-suggestedValues",
+	            children: suggestedValues.map(function (propertyValue, index) {
+	              return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	                onClick: function onClick() {
+	                  return onClickSuggestedValue({
+	                    propertyName: propertyName,
+	                    propertyValue: propertyValue
+	                  });
+	                },
+	                children: /*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	                  children: propertyValue
+	                })
+	              }, index);
+	            })
+	          })]
+	        })]
+	      }, index);
+	    })]
+	  });
+	});
+
+	var BlueprintContextualComponentHelp = /*#__PURE__*/React$2.memo(function () {
+	  var ref = React$2.useRef(null);
+	  var _useBlueprint = useBlueprint(),
+	    getComponentType = _useBlueprint.getComponentType,
+	    setComponentAttribute = _useBlueprint.setComponentAttribute,
+	    unsetComponentAttribute = _useBlueprint.unsetComponentAttribute;
+	  var _useEditorFocus = useEditorFocus(),
+	    currentFocus = _useEditorFocus.currentFocus;
+	  var _currentFocus$clientI = currentFocus.clientId,
+	    clientId = _currentFocus$clientI === void 0 ? null : _currentFocus$clientI;
+	    currentFocus.context;
+	    var attributeName = currentFocus.attributeName;
+	  var componentType = getComponentType(clientId);
 	  var componentProperties = React$2.useMemo(function () {
 	    return getComponentProperties(componentType);
 	  }, [componentType]);
-	  var componentAttributes = Object.entries((componentProperties === null || componentProperties === void 0 ? void 0 : componentProperties.attributes) || {}).filter(function (_ref2) {
-	    var _ref3 = _slicedToArray(_ref2, 2),
-	      key = _ref3[0];
-	      _ref3[1];
+	  var componentAttributes = Object.entries((componentProperties === null || componentProperties === void 0 ? void 0 : componentProperties.attributes) || {}).filter(function (_ref) {
+	    var _ref2 = _slicedToArray(_ref, 2),
+	      key = _ref2[0];
+	      _ref2[1];
 	    return attributeName === "" || key.indexOf(attributeName) !== -1;
 	  });
+	  var onClickSuggestedValue = function onClickSuggestedValue(_ref3) {
+	    var attributeName = _ref3.attributeName,
+	      attributeValue = _ref3.attributeValue;
+	    if (attributeName.indexOf(currentFocus === null || currentFocus === void 0 ? void 0 : currentFocus.attributeName) !== -1) {
+	      unsetComponentAttribute(clientId, currentFocus === null || currentFocus === void 0 ? void 0 : currentFocus.attributeName);
+	    }
+	    setComponentAttribute(clientId, attributeName, attributeValue);
+	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
-	    className: "BlueprintContextualAttributeNameHelp",
+	    className: "BlueprintContextualComponentHelp",
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	      className: "BlueprintContextualAttributeNameHelp-heading",
+	      className: "BlueprintContextualComponentHelp-heading",
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("h3", {
 	        children: (componentProperties === null || componentProperties === void 0 ? void 0 : componentProperties.label) || ""
 	      }), (componentProperties === null || componentProperties === void 0 ? void 0 : componentProperties.description) && /*#__PURE__*/jsxRuntimeExports.jsx("p", {
@@ -16944,11 +17061,11 @@
 	          children: [/*#__PURE__*/jsxRuntimeExports.jsx("h5", {
 	            children: "Suggested Values"
 	          }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	            className: "BlueprintContextualAttributeNameHelp-suggestedValues",
+	            className: "BlueprintContextualComponentHelp-suggestedValues",
 	            children: suggestedValues.map(function (attributeValue, index) {
 	              return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	                onClick: function onClick() {
-	                  return onClickSuggestedValue && onClickSuggestedValue({
+	                  return onClickSuggestedValue({
 	                    attributeName: attributeName,
 	                    attributeValue: attributeValue
 	                  });
@@ -16963,34 +17080,17 @@
 	      }, index);
 	    })]
 	  });
-	}
+	});
 
-	var _excluded$2 = ["clientId", "context", "property"];
+	var _excluded$2 = ["context"];
 	var BlueprintSidebarContextPanel = /*#__PURE__*/React$2.memo( /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
 	  _objectDestructuringEmpty(_ref);
-	  useDispatch();
-	  var _useBlueprint = useBlueprint(),
-	    getComponentType = _useBlueprint.getComponentType,
-	    setComponentAttribute = _useBlueprint.setComponentAttribute,
-	    unsetComponentAttribute = _useBlueprint.unsetComponentAttribute;
-	  var _useSelector = useSelector(function (state) {
-	      return getDraggingContext(state.editor);
-	    }),
-	    _useSelector$clientId = _useSelector.clientId,
-	    clientId = _useSelector$clientId === void 0 ? null : _useSelector$clientId,
-	    context = _useSelector.context;
-	    _useSelector.property;
-	    var currentFocus = _objectWithoutProperties(_useSelector, _excluded$2);
-	  var type = getComponentType(clientId);
-	  var onClickSuggestedValue = function onClickSuggestedValue(_ref2) {
-	    var attributeName = _ref2.attributeName,
-	      attributeValue = _ref2.attributeValue;
-	    if (attributeName.indexOf(currentFocus === null || currentFocus === void 0 ? void 0 : currentFocus.attributeName) !== -1) {
-	      unsetComponentAttribute(clientId, currentFocus === null || currentFocus === void 0 ? void 0 : currentFocus.attributeName);
-	    }
-	    setComponentAttribute(clientId, attributeName, attributeValue);
-	  };
-	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	  var _useEditorFocus = useEditorFocus(),
+	    currentFocus = _useEditorFocus.currentFocus;
+	  var context = currentFocus.context,
+	    focus = _objectWithoutProperties(currentFocus, _excluded$2);
+	  console.log(context, focus);
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: "BlueprintSidebarContextPanel",
 	    onMouseDown: function onMouseDown(event) {
@@ -16999,12 +17099,7 @@
 	    onTouchStart: function onTouchStart(event) {
 	      event.stopPropagation();
 	    },
-	    children: context === "component" && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintContextualAttributeNameHelp, {
-	      clientId: clientId,
-	      componentType: type,
-	      attributeName: currentFocus === null || currentFocus === void 0 ? void 0 : currentFocus.attributeName,
-	      onClickSuggestedValue: onClickSuggestedValue
-	    })
+	    children: [context === "attribute" && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintContextualAttributeHelp, {}), context === "component" && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintContextualComponentHelp, {})]
 	  });
 	}));
 

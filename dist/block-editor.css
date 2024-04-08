@@ -2086,74 +2086,74 @@
 		transform: translateX(100%);
 	}
 
-.BlueprintContextualAttributeNameHelp {
+.BlueprintContextualAttributeHelp {
 	display: grid;
 	gap: var(--5x);
 	grid-auto-flow: row;
 	grid-template-columns: 100%;
 }
 
-.BlueprintContextualAttributeNameHelp h3 {
+.BlueprintContextualAttributeHelp h3 {
 		color: var(--color-black);
 		font-size: var(--font-size-large);
 		font-weight: var(--font-weight-bold);
 		margin: 0 0 var(--1x);
 	}
 
-.BlueprintContextualAttributeNameHelp h3:last-child {
+.BlueprintContextualAttributeHelp h3:last-child {
 			margin-bottom: 0;
 		}
 
-.BlueprintContextualAttributeNameHelp h4 {
+.BlueprintContextualAttributeHelp h4 {
 		color: var(--color-black);
 		font-size: var(--font-size-base);
 		font-weight: var(--font-weight-bold);
 		margin: 0 0 var(--1x);
 	}
 
-.BlueprintContextualAttributeNameHelp h5 {
+.BlueprintContextualAttributeHelp h5 {
 		color: var(--color-black);
 		font-size: var(--font-size-small);
 		font-weight: var(--font-weight-bold);
 		margin: var(--3x) 0 var(--1x);
 	}
 
-.BlueprintContextualAttributeNameHelp p {
+.BlueprintContextualAttributeHelp p {
 		color: var(--color-black);
 		font-size: var(--font-size-small);
 		margin: 0 0 var(--1x);
 	}
 
-.BlueprintContextualAttributeNameHelp p:last-child {
+.BlueprintContextualAttributeHelp p:last-child {
 			margin-bottom: 0;
 		}
 
-.BlueprintContextualAttributeNameHelp ul {
+.BlueprintContextualAttributeHelp ul {
 		font-size: var(--font-size-small);
 		list-style: disc;
 		margin: 0 0 var(--3x) var(--2x);
 	}
 
-.BlueprintContextualAttributeNameHelp ul:last-child {
+.BlueprintContextualAttributeHelp ul:last-child {
 			margin-bottom: 0;
 		}
 
-.BlueprintContextualAttributeNameHelp li {
+.BlueprintContextualAttributeHelp li {
 		margin: 0;
 	}
 
-.BlueprintContextualAttributeNameHelp li + li {
+.BlueprintContextualAttributeHelp li + li {
 		margin-top: var(--1x);
 	}
 
-.BlueprintContextualAttributeNameHelp-suggestedValues {
+.BlueprintContextualAttributeHelp-suggestedValues {
 	display: flex;
 	flex-wrap: wrap;
 	gap: var(--1x);
 	width: 100%;
 }
 
-.BlueprintContextualAttributeNameHelp-suggestedValues > div {
+.BlueprintContextualAttributeHelp-suggestedValues > div {
 		background: var(--color-white);
 		border-radius: 5px;
 		box-shadow: 0 1px 9px rgba(0, 0, 0, 0.1);
@@ -2167,6 +2167,86 @@
 		padding: 0 0.4em;
 	}
 
+.BlueprintContextualComponentHelp {
+	display: grid;
+	gap: var(--5x);
+	grid-auto-flow: row;
+	grid-template-columns: 100%;
+}
+
+.BlueprintContextualComponentHelp h3 {
+		color: var(--color-black);
+		font-size: var(--font-size-large);
+		font-weight: var(--font-weight-bold);
+		margin: 0 0 var(--1x);
+	}
+
+.BlueprintContextualComponentHelp h3:last-child {
+			margin-bottom: 0;
+		}
+
+.BlueprintContextualComponentHelp h4 {
+		color: var(--color-black);
+		font-size: var(--font-size-base);
+		font-weight: var(--font-weight-bold);
+		margin: 0 0 var(--1x);
+	}
+
+.BlueprintContextualComponentHelp h5 {
+		color: var(--color-black);
+		font-size: var(--font-size-small);
+		font-weight: var(--font-weight-bold);
+		margin: var(--3x) 0 var(--1x);
+	}
+
+.BlueprintContextualComponentHelp p {
+		color: var(--color-black);
+		font-size: var(--font-size-small);
+		margin: 0 0 var(--1x);
+	}
+
+.BlueprintContextualComponentHelp p:last-child {
+			margin-bottom: 0;
+		}
+
+.BlueprintContextualComponentHelp ul {
+		font-size: var(--font-size-small);
+		list-style: disc;
+		margin: 0 0 var(--3x) var(--2x);
+	}
+
+.BlueprintContextualComponentHelp ul:last-child {
+			margin-bottom: 0;
+		}
+
+.BlueprintContextualComponentHelp li {
+		margin: 0;
+	}
+
+.BlueprintContextualComponentHelp li + li {
+		margin-top: var(--1x);
+	}
+
+.BlueprintContextualComponentHelp-suggestedValues {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--1x);
+	width: 100%;
+}
+
+.BlueprintContextualComponentHelp-suggestedValues > div {
+		background: var(--color-white);
+		border-radius: 5px;
+		box-shadow: 0 1px 9px rgba(0, 0, 0, 0.1);
+		cursor: pointer;
+		display: inline-block;
+		flex-grow: 0;
+		flex-shrink: 0;
+		font-family: var(--font-family-monospace);
+		font-size: var(--font-size-x-small);
+		font-weight: var(--font-weight-bold);
+		padding: 0 0.4em;
+	}
 
 .BlueprintSidebarContextPanel {
 	transition: var(--transition);
