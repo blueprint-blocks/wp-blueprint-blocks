@@ -13412,7 +13412,7 @@
 	    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
 	    label = _ref.label,
 	    _ref$max = _ref.max,
-	    max = _ref$max === void 0 ? 0 : _ref$max,
+	    max = _ref$max === void 0 ? null : _ref$max,
 	    placeholder = _ref.placeholder,
 	    onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus,
@@ -13462,10 +13462,18 @@
 	      return n.length > 0;
 	    }));
 	  };
-	  var itemList = value.slice(0, max);
-	  if ((itemList === null || itemList === void 0 ? void 0 : itemList[itemList.length - 1]) !== "") {
-	    itemList.push("");
-	  }
+	  var itemList = React$2.useMemo(function () {
+	    var itemList = [];
+	    if (max === null) {
+	      itemList = isArray(value) && _toConsumableArray(value) || [value];
+	    } else {
+	      itemList = value.slice(0, max);
+	    }
+	    if (itemList[itemList.length - 1] !== "") {
+	      itemList.push("");
+	    }
+	    return itemList;
+	  }, [max, value]);
 	  useOnClickOutside(ref, function () {
 	    if (hasFocus === true) {
 	      setBlur(currentIndex);

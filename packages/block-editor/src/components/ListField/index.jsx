@@ -1,9 +1,10 @@
 import clsx from "clsx";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
 import EditableString from "../EditableString";
 import FieldLabel from "../FieldLabel";
 
+import { isArray } from "../../functions";
 import { useOnClickOutside } from "../../hooks";
 
 import "./style.css";
@@ -11,7 +12,7 @@ import "./style.css";
 function ListField({
 	disabled = false,
 	label,
-	max = 0,
+	max = null,
 	placeholder,
 	onBlur,
 	onFocus,
@@ -60,11 +61,21 @@ function ListField({
 		setValue([...newValue].filter((n) => n.length > 0));
 	};
 
-	const itemList = value.slice(0, max);
+	const itemList = useMemo(() => {
+		let itemList = [];
 
-	if (itemList?.[itemList.length - 1] !== "") {
-		itemList.push("");
-	}
+		if (max === null) {
+			itemList = (isArray(value) && [...value]) || [value];
+		} else {
+			itemList = value.slice(0, max);
+		}
+
+		if (itemList[itemList.length - 1] !== "") {
+			itemList.push("");
+		}
+
+		return itemList;
+	}, [max, value]);
 
 	useOnClickOutside(ref, () => {
 		if (hasFocus === true) {
