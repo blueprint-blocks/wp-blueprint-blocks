@@ -29,14 +29,14 @@ class Admin
 
         wp_enqueue_style(
             'blueprint-blocks-editor',
-            blueprint_blocks()->url . 'dist/block-editor.css',
+            blueprint_blocks()->url . '/dist/block-editor.css',
             array(),
             blueprint_blocks()::VERSION
         );
 
         wp_enqueue_script(
             'blueprint-blocks-editor',
-            blueprint_blocks()->url . 'dist/block-editor.js',
+            blueprint_blocks()->url . '/dist/block-editor.js',
             array(
                 'lodash',
                 'react',

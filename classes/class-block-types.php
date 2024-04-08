@@ -10,7 +10,6 @@ class BlockTypes
     public function __construct()
     {
 		add_action( 'admin_enqueue_scripts', array( &$this, 'admin_enqueue_scripts' ) );
-		add_action( 'enqueue_block_assets', array( &$this, 'enqueue_block_assets' ) );
 		add_action( 'enqueue_block_editor_assets', array( &$this, 'enqueue_block_editor_assets' ) );
 		add_action( 'init', array( &$this, 'register_block_types' ) );
 	}
@@ -59,28 +58,17 @@ class BlockTypes
 
 			$block_handle = str_replace( '/', '-', $block_name );
 
-			wp_register_style(  $block_handle . '-style', blueprint_blocks()->url . 'style.css' );
-			wp_register_style( $block_handle . '-editor-style', blueprint_blocks()->url . 'style.css' );
+			wp_register_style(
+				$block_handle . '-style',
+				blueprint_blocks()->url . '/block-styles/' . $block_name . '/main.css/',
+				[],
+				$block_type[ 'blockJson' ]['version'] ?? null
+			);
 
 			register_block_type( $block_name, array_merge( $block_type[ 'blockJson' ] ?? [], [
 				'style' => $block_handle . '-style',
 				'editor_style' => $block_handle . '-editor-style',
 			] ) );
-
-		}
-	}
-
-	/**
-	 * Enqueue block styles for the front end.
-     * @access public
-     * @return void
-     */
-	public function enqueue_block_assets()
-	{
-		foreach ( blueprint_blocks_get_block_types() as $block_name => $block_type ) {
-
-			$block_handle = str_replace( '/', '-', $block_name );
-			wp_add_inline_style( $block_handle . '-style', $block_type[ 'viewCss' ] );
 
 		}
 	}
