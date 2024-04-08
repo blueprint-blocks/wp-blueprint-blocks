@@ -25,7 +25,7 @@ const BlueprintInsert = memo(
 				className={clsx("BlueprintInsert", {
 					"has-focus": hasFocus,
 				})}
-				style={{ "--indent": indent }}
+				style={{ "--indent": Math.min(indent, 1) }}
 			>
 				<div ref={focusRef} className="BlueprintInsert-line">
 					<div />

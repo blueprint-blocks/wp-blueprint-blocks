@@ -28,7 +28,7 @@ function BlueprintHint({
 			className={clsx("BlueprintHint", {
 				"has-focus": hasFocus,
 			})}
-			style={{ "--indent": indent }}
+			style={{ "--indent": Math.min(indent, 1) }}
 		>
 			<div className="BlueprintHint-wrap">
 				<div className="BlueprintHint-text">{text}</div>

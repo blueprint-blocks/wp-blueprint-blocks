@@ -15895,7 +15895,7 @@
 	      "has-focus": hasFocus
 	    }),
 	    style: {
-	      "--indent": indent
+	      "--indent": Math.min(indent, 1)
 	    },
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	      className: "BlueprintHint-wrap",
@@ -16552,7 +16552,7 @@
 	      "has-focus": hasFocus
 	    }),
 	    style: {
-	      "--indent": indent
+	      "--indent": Math.min(indent, 1)
 	    },
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      ref: focusRef,

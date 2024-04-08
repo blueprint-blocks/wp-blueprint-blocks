@@ -1,6 +1,6 @@
 .BlueprintInsert {
 	height: 0;
-	margin-left: var(--2x);
+	margin-left: calc(var(--2x) * var(--indent));
 	max-width: 512px;
 	position: relative;
 	transition: var(--transition);
