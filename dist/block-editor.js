@@ -9744,9 +9744,16 @@
 
 	var useBlueprintInsert = function useBlueprintInsert() {
 	  var dispatch = useDispatch();
+	  var _useBlockJson = useBlockJson(),
+	    addAttribute = _useBlockJson.addAttribute,
+	    getUniqueAttributeName = _useBlockJson.getUniqueAttributeName;
 	  var _useEditorDrag = useEditorDrag(),
 	    draggingContext = _useEditorDrag.context,
 	    resetDraggingContext = _useEditorDrag.resetDraggingContext;
+	  var component = (draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.component) || {};
+	  var componentType = (component === null || component === void 0 ? void 0 : component.type) || "html";
+	  var componentProperties = getComponentProperties(componentType, component.tagName || "div");
+	  var newAttributeName = getUniqueAttributeName(camelize(componentType));
 	  return function (_ref) {
 	    var _ref$context = _ref.context,
 	      context = _ref$context === void 0 ? "edit" : _ref$context,
@@ -9760,6 +9767,13 @@
 	      }));
 	      resetDraggingContext();
 	    } else if ((draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.context) === "newComponent") {
+	      if (componentType !== "html") {
+	        component.attributeName = newAttributeName;
+	        addAttribute(newAttributeName, _objectSpread2({
+	          type: "string",
+	          "default": null
+	        }, (componentProperties === null || componentProperties === void 0 ? void 0 : componentProperties.blockAttribute) || {}));
+	      }
 	      dispatch(insertNewComponentAtPosition({
 	        component: draggingContext === null || draggingContext === void 0 ? void 0 : draggingContext.component,
 	        context: context,
