@@ -17142,7 +17142,10 @@
 	    children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	      ref: ref,
 	      className: "PageBlueprint-view",
-	      children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintEditor, {}), /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintSidebar, {})]
+	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	        className: "PageBlueprint-body",
+	        children: /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintEditor, {})
+	      }), /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintSidebar, {})]
 	    })
 	  });
 	});

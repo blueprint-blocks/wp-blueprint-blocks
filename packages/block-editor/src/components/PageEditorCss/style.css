@@ -10,5 +10,6 @@
 			--sidebar-width
 		);
 	grid-template-rows: 100%;
+	overflow: hidden;
 	user-select: none;
 }

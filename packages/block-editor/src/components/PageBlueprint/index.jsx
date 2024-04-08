@@ -23,7 +23,9 @@ const PageBlueprint = memo(() => {
 	return (
 		<div className="PageBlueprint">
 			<div ref={ref} className="PageBlueprint-view">
-				<BlueprintEditor />
+				<div className="PageBlueprint-body">
+					<BlueprintEditor />
+				</div>
 				<BlueprintSidebar />
 			</div>
 		</div>
