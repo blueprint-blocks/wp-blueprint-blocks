@@ -16961,11 +16961,11 @@
 	    editAttribute = _useBlockJson.editAttribute,
 	    getAttributeById = _useBlockJson.getAttributeById,
 	    renameAttribute = _useBlockJson.renameAttribute;
-	  var _getAttributeById = getAttributeById(clientId),
-	    attributeName = _getAttributeById.name;
-	  var onClickSuggestedValue = function onClickSuggestedValue(_ref) {
-	    var propertyName = _ref.propertyName,
-	      propertyValue = _ref.propertyValue;
+	  var _ref = getAttributeById(clientId) || {},
+	    attributeName = _ref.name;
+	  var onClickSuggestedValue = function onClickSuggestedValue(_ref2) {
+	    var propertyName = _ref2.propertyName,
+	      propertyValue = _ref2.propertyValue;
 	    if (propertyName === "name") {
 	      renameAttribute(attributeName, propertyValue);
 	    } else {
@@ -16982,12 +16982,12 @@
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("p", {
 	        children: "Block attributes store information about the block. For example, a title, metadata about an image, or attributes of a link. When connected to a component, data from the connected component will be stored in the attribute."
 	      })]
-	    }), attributeProperties.map(function (_ref2, index) {
-	      var propertyName = _ref2.propertyName,
-	        label = _ref2.label,
-	        description = _ref2.description,
-	        _ref2$suggestedValues = _ref2.suggestedValues,
-	        suggestedValues = _ref2$suggestedValues === void 0 ? [] : _ref2$suggestedValues;
+	    }), attributeProperties.map(function (_ref3, index) {
+	      var propertyName = _ref3.propertyName,
+	        label = _ref3.label,
+	        description = _ref3.description,
+	        _ref3$suggestedValues = _ref3.suggestedValues,
+	        suggestedValues = _ref3$suggestedValues === void 0 ? [] : _ref3$suggestedValues;
 	      return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	        children: [/*#__PURE__*/jsxRuntimeExports.jsx("h4", {
 	          children: label

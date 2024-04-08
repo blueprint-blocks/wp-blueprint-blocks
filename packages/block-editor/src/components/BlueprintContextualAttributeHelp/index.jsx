@@ -12,7 +12,7 @@ const BlueprintContextualAttributeHelp = memo(() => {
 	const { clientId = null } = currentFocus;
 
 	const { editAttribute, getAttributeById, renameAttribute } = useBlockJson();
-	const { name: attributeName } = getAttributeById(clientId);
+	const { name: attributeName } = getAttributeById(clientId) || {};
 
 	const onClickSuggestedValue = ({ propertyName, propertyValue }) => {
 		if (propertyName === "name") {
