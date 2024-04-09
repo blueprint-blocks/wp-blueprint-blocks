@@ -65,7 +65,8 @@
 				}
 			},
 			"defaultAttributes": {
-				"placeholder": "Enter a label..."
+				"placeholder": "Enter a label...",
+				"tagName": "a"
 			}
 		},
 		{
@@ -75,11 +76,12 @@
 			"allowsChildren": false,
 			"shortDescription": "Upload dialog for all image formats.",
 			"blockAttribute": {
-				"type": "array",
+				"type": "object",
 				"default": null
 			},
 			"defaultAttributes": {
-				"label": "Image"
+				"label": "Image",
+				"tagName": "img"
 			}
 		}
 	],

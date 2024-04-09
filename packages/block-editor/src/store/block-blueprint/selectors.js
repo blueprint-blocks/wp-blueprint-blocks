@@ -159,13 +159,13 @@ const rebuildComponentTree = (tree = [], components = {}) => {
 		}
 
 		return {
+			tagName: components[clientId]?.tagName || null, // tagName is first so that it can be overridden in the blueprint editor
 			...Object.fromEntries(
 				(components[clientId]?.attributes || []).map(
 					({ name, value }) => [name, value],
 				),
 			),
 			type: components[clientId]?.type || "html",
-			tagName: components[clientId]?.tagName || null,
 			children: rebuildComponentTree(children, components),
 		};
 	});

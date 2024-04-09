@@ -4392,7 +4392,8 @@
 				}
 			},
 			defaultAttributes: {
-				placeholder: "Enter a label..."
+				placeholder: "Enter a label...",
+				tagName: "a"
 			}
 		},
 		{
@@ -4402,11 +4403,12 @@
 			allowsChildren: false,
 			shortDescription: "Upload dialog for all image formats.",
 			blockAttribute: {
-				type: "array",
+				type: "object",
 				"default": null
 			},
 			defaultAttributes: {
-				label: "Image"
+				label: "Image",
+				tagName: "img"
 			}
 		}
 	];
@@ -8164,22 +8166,32 @@
 	};
 
 	var parseComponentForClient = function parseComponentForClient(component) {
+	  var _componentProperties$;
+	  var componentProperties = getComponentProperties((component === null || component === void 0 ? void 0 : component.type) || "html");
+	  var componentAttributes = Object.entries(component).filter(function (_ref) {
+	    var _ref2 = _slicedToArray(_ref, 2),
+	      name = _ref2[0];
+	      _ref2[1];
+	    return !["tagName", "type"].includes(name);
+	  }).map(function (_ref3) {
+	    var _ref4 = _slicedToArray(_ref3, 2),
+	      name = _ref4[0],
+	      value = _ref4[1];
+	    return {
+	      clientId: getUniqueClientId(),
+	      name: name,
+	      value: value
+	    };
+	  });
+	  if (component.tagName !== null && component.tagName !== ((_componentProperties$ = componentProperties.defaultAttributes) === null || _componentProperties$ === void 0 ? void 0 : _componentProperties$.tagName)) {
+	    componentAttributes.push({
+	      clientId: getUniqueClientId(),
+	      name: "tagName",
+	      value: component.tagName
+	    });
+	  }
 	  return [getUniqueClientId(), {
-	    attributes: Object.entries(component).filter(function (_ref) {
-	      var _ref2 = _slicedToArray(_ref, 2),
-	        name = _ref2[0];
-	        _ref2[1];
-	      return !["tagName", "type"].includes(name);
-	    }).map(function (_ref3) {
-	      var _ref4 = _slicedToArray(_ref3, 2),
-	        name = _ref4[0],
-	        value = _ref4[1];
-	      return {
-	        clientId: getUniqueClientId(),
-	        name: name,
-	        value: value
-	      };
-	    }),
+	    attributes: componentAttributes,
 	    tagName: (component === null || component === void 0 ? void 0 : component.tagName) || null,
 	    type: (component === null || component === void 0 ? void 0 : component.type) || "html"
 	  }];
@@ -8456,13 +8468,14 @@
 	    if (!(clientId in components)) {
 	      return null;
 	    }
-	    return _objectSpread2(_objectSpread2({}, Object.fromEntries((((_components$clientId = components[clientId]) === null || _components$clientId === void 0 ? void 0 : _components$clientId.attributes) || []).map(function (_ref8) {
+	    return _objectSpread2(_objectSpread2({
+	      tagName: ((_components$clientId = components[clientId]) === null || _components$clientId === void 0 ? void 0 : _components$clientId.tagName) || null
+	    }, Object.fromEntries((((_components$clientId2 = components[clientId]) === null || _components$clientId2 === void 0 ? void 0 : _components$clientId2.attributes) || []).map(function (_ref8) {
 	      var name = _ref8.name,
 	        value = _ref8.value;
 	      return [name, value];
 	    }))), {}, {
-	      type: ((_components$clientId2 = components[clientId]) === null || _components$clientId2 === void 0 ? void 0 : _components$clientId2.type) || "html",
-	      tagName: ((_components$clientId3 = components[clientId]) === null || _components$clientId3 === void 0 ? void 0 : _components$clientId3.tagName) || null,
+	      type: ((_components$clientId3 = components[clientId]) === null || _components$clientId3 === void 0 ? void 0 : _components$clientId3.type) || "html",
 	      children: rebuildComponentTree(children, components)
 	    });
 	  });

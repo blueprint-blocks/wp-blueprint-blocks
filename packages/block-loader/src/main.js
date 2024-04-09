@@ -18,6 +18,7 @@ import { BlockEdit, BlockSave } from "@blueprint-blocks/components";
 const { blockTypes = {} } = blueprintBlocksLoaderSettings || {};
 
 Object.entries(blockTypes).forEach(([blockName, blockType]) => {
+	console.log(blockName, blockType);
 	registerBlockType(blockName, {
 		...(blockType?.blockJson || {}),
 
