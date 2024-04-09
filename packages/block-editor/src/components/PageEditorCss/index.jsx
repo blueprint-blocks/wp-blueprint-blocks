@@ -28,7 +28,7 @@ const PageEditorCss = memo(() => {
 	const cssValue = useSelector((state) => state.blockEditorCss.raw);
 
 	const defaultValue = `.${className} {
-	// Add styles here that should by used wherever the block is displayed
+	/* Add styles here that should by used wherever the block is displayed */
 }`;
 
 	const onChange = (value) => {

@@ -47599,7 +47599,7 @@
 	  var cssValue = useSelector(function (state) {
 	    return state.blockEditorCss.raw;
 	  });
-	  var defaultValue = ".".concat(className, " {\n\t// Add styles here that should by used wherever the block is displayed\n}");
+	  var defaultValue = ".".concat(className, " {\n\t/* Add styles here that should by used wherever the block is displayed */\n}");
 	  var onChange = function onChange(value) {
 	    dispatch(setEditorCss(value));
 	    dispatch(setChanged(true));
@@ -47657,7 +47657,7 @@
 	  var cssValue = useSelector(function (state) {
 	    return state.blockViewCss.raw;
 	  });
-	  var defaultValue = ".".concat(className, " {\n\t// Add styles here that should by used wherever the block is displayed\n}");
+	  var defaultValue = ".".concat(className, " {\n\t/* Add styles here that should by used wherever the block is displayed */\n}");
 	  var onChange = function onChange(value) {
 	    dispatch(setViewCss(value));
 	    dispatch(setChanged(true));
