@@ -59,7 +59,7 @@ class Admin
         $block_editor_css = '';
         $block_view_css = '';
 
-        if ($current_screen->base === 'post') {
+        if ($current_screen->base === 'post' && $current_screen->action !== 'add') {
             $post_id = get_the_ID();
         }
 
@@ -81,6 +81,16 @@ class Admin
             }
         }
 
+		$post_type = get_post_type_object( blueprint_blocks()::OBJECT_PREFIX . 'block' );
+
+		$screen_title  = sprintf(
+			__( '%1$s "{{ title }}"' ),
+			$post_type->labels->edit_item
+		);
+
+		$admin_title = get_bloginfo( 'name' );
+		$admin_title = sprintf( __( '%1$s ‹ %2$s — WordPress' ), $screen_title, $admin_title );
+
         wp_localize_script('blueprint-blocks-editor', 'blueprintBlocksEditorSettings', [
             'blockMetadata' => [
                 'blockNamespace' => 'blueprint-blocks',
@@ -91,6 +101,7 @@ class Admin
             ],
 			'editorMetadata' => [
 				'blockCategories' => get_block_categories(null),
+				'documentTitle' => $admin_title,
 			],
             'postMetadata' => [
                 'postId' => $post_id,

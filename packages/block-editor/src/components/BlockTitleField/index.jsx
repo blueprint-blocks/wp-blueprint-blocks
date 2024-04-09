@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 
-import { delimiterize } from "../../functions";
+import { delimiterize, setDocumentTitle } from "../../functions";
+import { useBlockSave } from "../../hooks";
 
 import {
 	getBlockName,
@@ -8,12 +9,13 @@ import {
 	setName,
 	setTitle,
 } from "../../store/block-json";
-import { setChanged } from "../../store/post-metadata";
 
 import TextField from "../TextField";
 
 const BlockTitleField = ({ onBlur, onFocus }) => {
 	const dispatch = useDispatch();
+
+	const { isNew, setChanged } = useBlockSave();
 
 	const blockName = useSelector((state) => getBlockName(state.blockJson));
 
@@ -29,7 +31,11 @@ const BlockTitleField = ({ onBlur, onFocus }) => {
 			dispatch(setName(`${blockNamespace}/${newBlockName}`));
 		}
 		dispatch(setTitle(newBlockTitle));
-		dispatch(setChanged(true));
+		setChanged();
+
+		if (!isNew) {
+			setDocumentTitle(newBlockTitle);
+		}
 	};
 
 	return (

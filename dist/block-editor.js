@@ -7619,6 +7619,24 @@
 	  return formattedString;
 	}
 
+	var _blueprintBlocksEdito$d;
+	var _ref$5 = ((_blueprintBlocksEdito$d = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$d === void 0 ? void 0 : _blueprintBlocksEdito$d.editorMetadata) || {},
+	  _ref$documentTitle$1 = _ref$5.documentTitle,
+	  documentTitle$1 = _ref$documentTitle$1 === void 0 ? "" : _ref$documentTitle$1;
+	var setDocumentHistory = function setDocumentHistory(id, blockTitle) {
+	  window.history.pushState({
+	    id: id
+	  }, documentTitle$1.replace("{{ title }}", blockTitle), "/wp-admin/post.php?post=".concat(id, "&action=edit"));
+	};
+
+	var _blueprintBlocksEdito$c;
+	var _ref$4 = ((_blueprintBlocksEdito$c = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$c === void 0 ? void 0 : _blueprintBlocksEdito$c.editorMetadata) || {},
+	  _ref$documentTitle = _ref$4.documentTitle,
+	  documentTitle = _ref$documentTitle === void 0 ? "" : _ref$documentTitle;
+	var setDocumentTitle = function setDocumentTitle(blockTitle) {
+	  document.title = documentTitle.replace("{{ title }}", blockTitle);
+	};
+
 	/**
 	 *
 	 *
@@ -9448,14 +9466,6 @@
 	  };
 	};
 
-	function usePreventClose(shouldPreventClose) {
-	  useBeforeUnload(React$2.useCallback(function (event) {
-	    if (shouldPreventClose) {
-	      event.preventDefault();
-	    }
-	  }, [shouldPreventClose]));
-	}
-
 	var _excluded$5 = ["id"],
 	  _excluded2 = ["id"];
 	function saveNewBlock(_ref) {
@@ -9526,6 +9536,9 @@
 	  var postType = useSelector(function (state) {
 	    return state.postType;
 	  });
+	  var isNew = React$2.useMemo(function () {
+	    return postId === null;
+	  }, [postId]);
 	  var blockBlueprint = useSelector(function (state) {
 	    return getRawJson$1(state.blockBlueprint);
 	  });
@@ -9557,9 +9570,8 @@
 	        var id = _ref.id;
 	        dispatch(setPostId(id));
 	        dispatch(setChanged(false));
-	        window.history.pushState({
-	          id: id
-	        }, "Edit Block < Flickerbox - WordPress", "/wp-admin/post.php?post=".concat(id, "&action=edit"));
+	        setDocumentHistory(id, blockJson === null || blockJson === void 0 ? void 0 : blockJson.title);
+	        setDocumentTitle(blockJson === null || blockJson === void 0 ? void 0 : blockJson.title);
 	      });
 	    } else {
 	      updateBlock({
@@ -9574,13 +9586,15 @@
 	      });
 	    }
 	  };
-	  usePreventClose(useSelector(function (state) {
-	    return hasUnsavedChanges(state.postMetadata);
-	  }));
+	  var _setChanged = function _setChanged() {
+	    dispatch(setChanged(true));
+	  };
 	  return {
 	    hasUnsavedChanges: _hasUnsavedChanges,
+	    isNew: isNew,
 	    saveBlock: saveBlock,
-	    saveDialogIsVisible: saveDialogIsVisible
+	    saveDialogIsVisible: saveDialogIsVisible,
+	    setChanged: _setChanged
 	  };
 	};
 
@@ -10286,6 +10300,14 @@
 	      document.removeEventListener("touchstart", listener);
 	    };
 	  }, [ref, handler]);
+	}
+
+	function usePreventClose(shouldPreventClose) {
+	  useBeforeUnload(React$2.useCallback(function (event) {
+	    if (shouldPreventClose) {
+	      event.preventDefault();
+	    }
+	  }, [shouldPreventClose]));
 	}
 
 	var jsxRuntime = {exports: {}};
@@ -13315,6 +13337,9 @@
 	  var onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus;
 	  var dispatch = useDispatch();
+	  var _useBlockSave = useBlockSave(),
+	    isNew = _useBlockSave.isNew,
+	    setChanged = _useBlockSave.setChanged;
 	  var blockName = useSelector(function (state) {
 	    return getBlockName(state.blockJson);
 	  });
@@ -13330,7 +13355,10 @@
 	      dispatch(setName("".concat(blockNamespace, "/").concat(newBlockName)));
 	    }
 	    dispatch(setTitle(newBlockTitle));
-	    dispatch(setChanged(true));
+	    setChanged();
+	    if (!isNew) {
+	      setDocumentTitle(newBlockTitle);
+	    }
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
 	    label: "Enter a title...",
@@ -47452,12 +47480,14 @@
 	    activeNavItem = _useState6[0],
 	    setActiveNavItem = _useState6[1];
 	  var _useBlockSave = useBlockSave(),
+	    hasUnsavedChanges = _useBlockSave.hasUnsavedChanges,
 	    saveBlock = _useBlockSave.saveBlock,
 	    saveDialogIsVisible = _useBlockSave.saveDialogIsVisible;
 	  var upsellDialogIsVisible = useSelector(function (state) {
 	    return state.upsellDialog.visible;
 	  });
 	  useDispatchAppRect(ref);
+	  usePreventClose(hasUnsavedChanges);
 	  return /*#__PURE__*/jsxRuntimeExports.jsx(AppContext.Provider, {
 	    value: {
 	      editorRef: editorRef,

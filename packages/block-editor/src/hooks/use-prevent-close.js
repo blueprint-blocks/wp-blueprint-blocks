@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import useBeforeUnload from "./use-before-unload";
 
 function usePreventClose(shouldPreventClose) {

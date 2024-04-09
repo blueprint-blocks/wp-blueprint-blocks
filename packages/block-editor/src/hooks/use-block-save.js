@@ -1,7 +1,9 @@
+import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import usePreventClose from "./use-prevent-close";
 
 import { saveNewBlock, updateBlock } from "../api";
+
+import { setDocumentHistory, setDocumentTitle } from "../functions";
 
 import { getRawJson as getRawBlueprintJson } from "../store/block-blueprint";
 import { getRawJson as getRawBlockJson } from "../store/block-json";
@@ -18,8 +20,9 @@ const useBlockSave = () => {
 	const dispatch = useDispatch();
 
 	const postId = useSelector((state) => state.postMetadata.postId);
-
 	const postType = useSelector((state) => state.postType);
+
+	const isNew = useMemo(() => postId === null, [postId]);
 
 	const blockBlueprint = useSelector((state) =>
 		getRawBlueprintJson(state.blockBlueprint),
@@ -52,11 +55,8 @@ const useBlockSave = () => {
 			}).then(({ id }) => {
 				dispatch(setPostId(id));
 				dispatch(setChanged(false));
-				window.history.pushState(
-					{ id },
-					`Edit Block < Flickerbox - WordPress`,
-					`/wp-admin/post.php?post=${id}&action=edit`,
-				);
+				setDocumentHistory(id, blockJson?.title);
+				setDocumentTitle(blockJson?.title);
 			});
 		} else {
 			updateBlock({
@@ -72,14 +72,16 @@ const useBlockSave = () => {
 		}
 	};
 
-	usePreventClose(
-		useSelector((state) => hasUnsavedChanges(state.postMetadata)),
-	);
+	const _setChanged = () => {
+		dispatch(setChanged(true));
+	};
 
 	return {
 		hasUnsavedChanges: _hasUnsavedChanges,
+		isNew,
 		saveBlock,
 		saveDialogIsVisible,
+		setChanged: _setChanged,
 	};
 };
 

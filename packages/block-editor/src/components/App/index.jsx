@@ -8,6 +8,7 @@ import {
 	useBlockSave,
 	useDispatchAppRect,
 	useDebugRenderCount,
+	usePreventClose,
 } from "../../hooks";
 
 import BlueprintConnectionsProvider from "../BlueprintConnectionsProvider";
@@ -31,13 +32,15 @@ function App() {
 
 	const [activeNavItem, setActiveNavItem] = useState(0);
 
-	const { saveBlock, saveDialogIsVisible } = useBlockSave();
+	const { hasUnsavedChanges, saveBlock, saveDialogIsVisible } =
+		useBlockSave();
 
 	const upsellDialogIsVisible = useSelector(
 		(state) => state.upsellDialog.visible,
 	);
 
 	useDispatchAppRect(ref);
+	usePreventClose(hasUnsavedChanges);
 
 	if (process.env.NODE_ENV === "development") {
 		useDebugRenderCount("App");

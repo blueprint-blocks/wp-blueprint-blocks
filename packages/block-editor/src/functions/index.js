@@ -21,6 +21,8 @@ import isStringifiedArray from "./is-stringified-array";
 import isStringifiedObject from "./is-stringified-object";
 import normalizeClasslistAsObject from "./normalize-classlist-as-object";
 import pascalize from "./pascalize";
+import setDocumentHistory from "./set-document-history";
+import setDocumentTitle from "./set-document-title";
 import throttle from "./throttle";
 import tokenizeObject from "./tokenize-object";
 import validateBlock from "./validate-block";
@@ -51,6 +53,8 @@ export {
 	isStringifiedObject,
 	normalizeClasslistAsObject,
 	pascalize,
+	setDocumentHistory,
+	setDocumentTitle,
 	throttle,
 	tokenizeObject,
 	validateBlock,
