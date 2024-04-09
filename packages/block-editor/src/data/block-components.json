@@ -1,16 +1,27 @@
 {
-	"attributes": {
-		"attributeName": {
-			"type": "string",
-			"description": ""
-		},
+	"htmlAttributes": {
 		"className": {
 			"type": "string",
-			"description": "This is a class name."
+			"description": "The className property is analogous to the HTML class attribute. Specify a list of class names to be applied to the component.",
+			"url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/class"
 		},
 		"style": {
 			"type": "string",
-			"description": "This is a style property string."
+			"description": "Specify a set of inline CSS styles to be applied to the component.",
+			"url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/style"
+		},
+		"tagName": {
+			"type": "string",
+			"description": "By default, components display with a `div` tag, but this property can be set to any valid HTML tag to change how it is displayed.",
+			"url": "https://developer.mozilla.org/en-US/docs/Glossary/Tag",
+			"suggestedValues": ["h1", "span", "a", "img"]
+		}
+	},
+	"fieldAttributes": {
+		"attributeName": {
+			"type": "string",
+			"description": "This property associates the input from a component with an attribute defined on the block. The attribute name specified in this property must match in the Block Attributes to accept user input.",
+			"url": "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-attributes/"
 		}
 	},
 	"fields": [
@@ -27,11 +38,26 @@
 			},
 			"attributes": {
 				"allowedFormats": {
-					"type": "array"
+					"type": "array",
+					"description": "By default, all registered formats are allowed. If you want to limit the formats allowed, you can specify them in this property as a comma seperated list.",
+					"url": "https://github.com/WordPress/gutenberg/blob/HEAD/packages/block-editor/src/components/rich-text/README.md#allowedformats-array",
+					"suggestedValues": [
+						"core/bold",
+						"core/code",
+						"core/image",
+						"core/italic",
+						"core/link",
+						"core/strikethrough",
+						"core/subscript",
+						"core/superscript",
+						"core/text-color",
+						"core/underline"
+					]
 				},
 				"placeholder": {
 					"type": "string",
-					"description": "Placeholder text will be displayed in the editor whenever the field is blank.",
+					"description": "The placeholder property will display text in the editor whenever the component does not have a value.",
+					"url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/placeholder",
 					"suggestedValues": [
 						"Enter a label...",
 						"Enter a description...",
@@ -39,10 +65,17 @@
 						"Enter a subtitle..."
 					]
 				},
+				"preserveWhiteSpace": {
+					"type": "boolean",
+					"description": "By default, newline and space characters are collapsed to a single space or trimmed. If set to true, this property will preserve whitespace characters.",
+					"url": "https://github.com/WordPress/gutenberg/blob/HEAD/packages/block-editor/src/components/rich-text/README.md#preservewhitespace-boolean",
+					"suggestedValues": ["true", "false"]
+				},
 				"tagName": {
 					"type": "string",
-					"description": "Rich text fields display as a div tag by default. Any valid HTML tag name can be designated.",
-					"suggestedValues": ["h1", "h2", "h3", "p"]
+					"description": "By default, rich text components display with a `div` tag, but this property can be set to any valid HTML tag to change how it is displayed.",
+					"url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements",
+					"suggestedValues": ["h1", "h2", "h3", "h4", "h5", "h6", "p"]
 				}
 			},
 			"defaultAttributes": {

@@ -1,5 +1,5 @@
 .Tooltip {
-	background: var(--color-lighter-gray);
+	background: rgba(0, 0, 0, 0.1);
 	border-radius: var(--1x);
 	color: var(--color-dark-gray);
 	cursor: pointer;

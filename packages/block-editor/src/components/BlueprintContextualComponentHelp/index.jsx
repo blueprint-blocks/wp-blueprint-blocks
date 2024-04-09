@@ -1,7 +1,9 @@
 import { memo, useMemo, useRef } from "react";
 
-import { getComponentProperties } from "../../functions";
+import { getComponentProperties, parseMarkdown } from "../../functions";
 import { useBlueprint, useEditorFocus } from "../../hooks";
+
+import Tooltip from "../Tooltip";
 
 import "./style.css";
 
@@ -12,7 +14,7 @@ const BlueprintContextualComponentHelp = memo(() => {
 		useBlueprint();
 
 	const { currentFocus } = useEditorFocus();
-	const { clientId = null, context, attributeName } = currentFocus;
+	const { clientId = null, context, attributeName = "" } = currentFocus;
 
 	const componentType = getComponentType(clientId);
 
@@ -47,15 +49,22 @@ const BlueprintContextualComponentHelp = memo(() => {
 
 			{componentAttributes.map(
 				(
-					[
-						attributeName,
-						{ type, description, suggestedValues = [] },
-					],
+					[attributeName, { description, suggestedValues = [], url }],
 					index,
 				) => (
 					<div key={index}>
-						<h4>{attributeName}</h4>
-						<p>{description}</p>
+						<h4>
+							<span>{attributeName}</span>
+							{url && <Tooltip url={url} />}
+						</h4>
+
+						{description && (
+							<p
+								dangerouslySetInnerHTML={{
+									__html: parseMarkdown(description),
+								}}
+							/>
+						)}
 
 						{suggestedValues.length > 0 && (
 							<>

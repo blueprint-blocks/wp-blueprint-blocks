@@ -90,43 +90,51 @@ function Tooltip({
 	return (
 		<div ref={ref} className="Tooltip" style={{ "--width": _width }}>
 			<span>{"?"}</span>
-			<div
-				ref={messageRef}
-				className={clsx(
-					"Tooltip-message",
-					`is-${direction}`,
-					`is-${_position}`,
-					{ "has-label": _label },
-				)}
-			>
-				{_label && <div className="Tooltip-label">{_label}</div>}
-				<div className="Tooltip-text">
-					<p dangerouslySetInnerHTML={{ __html: _text }} />
-					{_required && (
-						<div className="Tooltip-meta">
-							<div className="Tooltip-required">{"Required"}</div>
-						</div>
+			{(_label || _text) && (
+				<div
+					ref={messageRef}
+					className={clsx(
+						"Tooltip-message",
+						`is-${direction}`,
+						`is-${_position}`,
+						{ "has-label": _label },
 					)}
-					{_default && (
-						<div className="Tooltip-default">
-							{"Default value:"}
-							{_default === "checked" && (
-								<div className="Tooltip-checkbox is-checked"></div>
-							)}
-							{_default === "unchecked" && (
-								<div className="Tooltip-checkbox is-unchecked"></div>
-							)}
-							{_default !== "checked" &&
-								_default !== "unchecked" && (
-									<span>{_default}</span>
+				>
+					{_label && <div className="Tooltip-label">{_label}</div>}
+					<div className="Tooltip-text">
+						<p dangerouslySetInnerHTML={{ __html: _text }} />
+						{_required && (
+							<div className="Tooltip-meta">
+								<div className="Tooltip-required">
+									{"Required"}
+								</div>
+							</div>
+						)}
+						{_default && (
+							<div className="Tooltip-default">
+								{"Default value:"}
+								{_default === "checked" && (
+									<div className="Tooltip-checkbox is-checked"></div>
 								)}
-						</div>
+								{_default === "unchecked" && (
+									<div className="Tooltip-checkbox is-unchecked"></div>
+								)}
+								{_default !== "checked" &&
+									_default !== "unchecked" && (
+										<span>{_default}</span>
+									)}
+							</div>
+						)}
+					</div>
+					{_url && (
+						<a
+							className="Tooltip-link"
+							href={_url}
+							target="_blank"
+						/>
 					)}
 				</div>
-				{_url && (
-					<a className="Tooltip-link" href={_url} target="_blank" />
-				)}
-			</div>
+			)}
 			{_url && <a className="Tooltip-link" href={_url} target="_blank" />}
 		</div>
 	);

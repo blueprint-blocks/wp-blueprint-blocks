@@ -4321,18 +4321,34 @@
 		string: string$2
 	};
 
-	var attributes$2 = {
-		attributeName: {
-			type: "string",
-			description: ""
-		},
+	var htmlAttributes = {
 		className: {
 			type: "string",
-			description: "This is a class name."
+			description: "The className property is analogous to the HTML class attribute. Specify a list of class names to be applied to the component.",
+			url: "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/class"
 		},
 		style: {
 			type: "string",
-			description: "This is a style property string."
+			description: "Specify a set of inline CSS styles to be applied to the component.",
+			url: "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/style"
+		},
+		tagName: {
+			type: "string",
+			description: "By default, components display with a `div` tag, but this property can be set to any valid HTML tag to change how it is displayed.",
+			url: "https://developer.mozilla.org/en-US/docs/Glossary/Tag",
+			suggestedValues: [
+				"h1",
+				"span",
+				"a",
+				"img"
+			]
+		}
+	};
+	var fieldAttributes = {
+		attributeName: {
+			type: "string",
+			description: "This property associates the input from a component with an attribute defined on the block. The attribute name specified in this property must match in the Block Attributes to accept user input.",
+			url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-attributes/"
 		}
 	};
 	var fields = [
@@ -4349,11 +4365,26 @@
 			},
 			attributes: {
 				allowedFormats: {
-					type: "array"
+					type: "array",
+					description: "By default, all registered formats are allowed. If you want to limit the formats allowed, you can specify them in this property as a comma seperated list.",
+					url: "https://github.com/WordPress/gutenberg/blob/HEAD/packages/block-editor/src/components/rich-text/README.md#allowedformats-array",
+					suggestedValues: [
+						"core/bold",
+						"core/code",
+						"core/image",
+						"core/italic",
+						"core/link",
+						"core/strikethrough",
+						"core/subscript",
+						"core/superscript",
+						"core/text-color",
+						"core/underline"
+					]
 				},
 				placeholder: {
 					type: "string",
-					description: "Placeholder text will be displayed in the editor whenever the field is blank.",
+					description: "The placeholder property will display text in the editor whenever the component does not have a value.",
+					url: "https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/placeholder",
 					suggestedValues: [
 						"Enter a label...",
 						"Enter a description...",
@@ -4361,13 +4392,26 @@
 						"Enter a subtitle..."
 					]
 				},
+				preserveWhiteSpace: {
+					type: "boolean",
+					description: "By default, newline and space characters are collapsed to a single space or trimmed. If set to true, this property will preserve whitespace characters.",
+					url: "https://github.com/WordPress/gutenberg/blob/HEAD/packages/block-editor/src/components/rich-text/README.md#preservewhitespace-boolean",
+					suggestedValues: [
+						"true",
+						"false"
+					]
+				},
 				tagName: {
 					type: "string",
-					description: "Rich text fields display as a div tag by default. Any valid HTML tag name can be designated.",
+					description: "By default, rich text components display with a `div` tag, but this property can be set to any valid HTML tag to change how it is displayed.",
+					url: "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements",
 					suggestedValues: [
 						"h1",
 						"h2",
 						"h3",
+						"h4",
+						"h5",
+						"h6",
 						"p"
 					]
 				}
@@ -4439,7 +4483,8 @@
 		}
 	];
 	var blockComponents$1 = {
-		attributes: attributes$2,
+		htmlAttributes: htmlAttributes,
+		fieldAttributes: fieldAttributes,
 		fields: fields,
 		html: html$1
 	};
@@ -7484,25 +7529,18 @@
 	  var component = _getComponentProperties(type, tagName);
 	  if (component) {
 	    return _objectSpread2(_objectSpread2({}, component), {}, {
-	      attributes: _objectSpread2(_objectSpread2({}, blockComponents$1.attributes), component.attributes)
+	      attributes: _objectSpread2(_objectSpread2(_objectSpread2({}, blockComponents$1.htmlAttributes), (component === null || component === void 0 ? void 0 : component.type) !== "html" && blockComponents$1.fieldAttributes || {}), component.attributes)
 	    });
 	  }
 	  return component;
 	}
 
 	function getComponentAttributeType() {
+	  var _component$attributes;
 	  var componentType = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "html";
 	  var attributeName = arguments.length > 1 ? arguments[1] : undefined;
 	  var component = getComponentProperties(componentType);
-	  if (component && attributeName in Object.keys((component === null || component === void 0 ? void 0 : component.attributes) || {})) {
-	    var _component$attributes;
-	    return ((_component$attributes = component.attributes[attributeName]) === null || _component$attributes === void 0 ? void 0 : _component$attributes.type) || "string";
-	  }
-	  if (attributeName in blockComponents$1.attributes) {
-	    var _blockComponents$attr;
-	    return ((_blockComponents$attr = blockComponents$1.attributes[attributeName]) === null || _blockComponents$attr === void 0 ? void 0 : _blockComponents$attr.type) || "string";
-	  }
-	  return "string";
+	  return ((_component$attributes = component.attributes) === null || _component$attributes === void 0 || (_component$attributes = _component$attributes[attributeName]) === null || _component$attributes === void 0 ? void 0 : _component$attributes.type) || "string";
 	}
 
 	var getObjectProperty = function getObjectProperty(object, identifier) {
@@ -13596,7 +13634,7 @@
 	    },
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	      children: "?"
-	    }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    }), (_label || _text) && /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	      ref: messageRef,
 	      className: clsx$1("Tooltip-message", "is-".concat(direction), "is-".concat(_position), {
 	        "has-label": _label
@@ -17638,7 +17676,8 @@
 	  var _currentFocus$clientI = currentFocus.clientId,
 	    clientId = _currentFocus$clientI === void 0 ? null : _currentFocus$clientI;
 	    currentFocus.context;
-	    var attributeName = currentFocus.attributeName;
+	    var _currentFocus$attribu = currentFocus.attributeName,
+	    attributeName = _currentFocus$attribu === void 0 ? "" : _currentFocus$attribu;
 	  var componentType = getComponentType(clientId);
 	  var componentProperties = React$2.useMemo(function () {
 	    return getComponentProperties(componentType);
@@ -17670,16 +17709,22 @@
 	    }), componentAttributes.map(function (_ref4, index) {
 	      var _ref5 = _slicedToArray(_ref4, 2),
 	        attributeName = _ref5[0],
-	        _ref5$ = _ref5[1];
-	        _ref5$.type;
-	        var description = _ref5$.description,
+	        _ref5$ = _ref5[1],
+	        description = _ref5$.description,
 	        _ref5$$suggestedValue = _ref5$.suggestedValues,
-	        suggestedValues = _ref5$$suggestedValue === void 0 ? [] : _ref5$$suggestedValue;
+	        suggestedValues = _ref5$$suggestedValue === void 0 ? [] : _ref5$$suggestedValue,
+	        url = _ref5$.url;
 	      return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	        children: [/*#__PURE__*/jsxRuntimeExports.jsx("h4", {
-	          children: attributeName
-	        }), /*#__PURE__*/jsxRuntimeExports.jsx("p", {
-	          children: description
+	        children: [/*#__PURE__*/jsxRuntimeExports.jsxs("h4", {
+	          children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	            children: attributeName
+	          }), url && /*#__PURE__*/jsxRuntimeExports.jsx(Tooltip, {
+	            url: url
+	          })]
+	        }), description && /*#__PURE__*/jsxRuntimeExports.jsx("p", {
+	          dangerouslySetInnerHTML: {
+	            __html: parseMarkdown(description)
+	          }
 	        }), suggestedValues.length > 0 && /*#__PURE__*/jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, {
 	          children: [/*#__PURE__*/jsxRuntimeExports.jsx("h5", {
 	            children: "Suggested Values"

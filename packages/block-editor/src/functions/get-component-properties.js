@@ -23,7 +23,10 @@ function getComponentProperties(type = "html", tagName = "div") {
 		return {
 			...component,
 			attributes: {
-				...blockComponents.attributes,
+				...blockComponents.htmlAttributes,
+				...((component?.type !== "html" &&
+					blockComponents.fieldAttributes) ||
+					{}),
 				...component.attributes,
 			},
 		};

@@ -462,7 +462,7 @@
 	}
 
 .Tooltip {
-	background: var(--color-lighter-gray);
+	background: rgba(0, 0, 0, 0.1);
 	border-radius: var(--1x);
 	color: var(--color-dark-gray);
 	cursor: pointer;
@@ -2238,9 +2238,14 @@
 		}
 
 .BlueprintContextualComponentHelp h4 {
+		align-items: center;
 		color: var(--color-black);
+		display: grid;
 		font-size: var(--font-size-base);
 		font-weight: var(--font-weight-bold);
+		gap: var(--1x);
+		grid-auto-flow: column;
+		grid-auto-columns: max-content;
 		margin: 0 0 var(--1x);
 	}
 
