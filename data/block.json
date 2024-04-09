@@ -9,16 +9,7 @@
 	"category": "text",
 	"attributes": {},
 	"supports": {
-		"align": false,
-		"anchor": false,
-		"color": {},
-		"html": false,
-		"multiple": true,
-		"renaming": true,
-		"reusable": false,
-		"shadow": false,
-		"spacing": {},
-		"typography": {}
+		"html": false
 	},
 	"textdomain": "blueprint-blocks"
 }

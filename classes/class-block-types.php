@@ -29,7 +29,7 @@ class BlockTypes
 
 		wp_enqueue_script(
 			'blueprint-blocks-loader',
-			blueprint_blocks()->url . 'dist/block-loader.js',
+			blueprint_blocks()->url . '/dist/block-loader.js',
 			array(
 				'wp-blocks',
 				'wp-block-editor',

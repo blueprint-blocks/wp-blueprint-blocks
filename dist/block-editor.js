@@ -4465,13 +4465,15 @@
 			type: "boolean",
 			name: "anchor",
 			label: "Anchor",
-			tooltip: "blockJson.supports.anchor"
+			tooltip: "blockJson.supports.anchor",
+			"default": false
 		},
 		{
 			type: "array",
 			name: "align",
 			label: "Align",
 			tooltip: "blockJson.supports.align",
+			"default": false,
 			defaultValueWhenChecked: [
 				"left",
 				"center",
@@ -4518,6 +4520,7 @@
 			name: "color",
 			label: "Color",
 			tooltip: "blockJson.supports.color",
+			"default": false,
 			defaultValueWhenChecked: {
 				background: true,
 				gradients: false,
@@ -4569,31 +4572,36 @@
 			type: "boolean",
 			name: "multiple",
 			label: "Multiple",
-			tooltip: "blockJson.supports.multiple"
+			tooltip: "blockJson.supports.multiple",
+			"default": true
 		},
 		{
 			type: "boolean",
 			name: "reusable",
 			label: "Reusable",
-			tooltip: "blockJson.supports.reusable"
+			tooltip: "blockJson.supports.reusable",
+			"default": false
 		},
 		{
 			type: "boolean",
 			name: "renaming",
 			label: "Renaming",
-			tooltip: "blockJson.supports.renaming"
+			tooltip: "blockJson.supports.renaming",
+			"default": true
 		},
 		{
 			type: "boolean",
 			name: "shadow",
 			label: "Shadow",
-			tooltip: "blockJson.supports.shadow"
+			tooltip: "blockJson.supports.shadow",
+			"default": false
 		},
 		{
 			type: "object",
 			name: "spacing",
 			label: "Spacing",
 			tooltip: "blockJson.supports.spacing",
+			"default": false,
 			defaultValueWhenChecked: {
 				margin: true,
 				padding: true,
@@ -4622,6 +4630,7 @@
 			name: "typography",
 			label: "Typography",
 			tooltip: "blockJson.supports.typography",
+			"default": false,
 			defaultValueWhenChecked: {
 				fontSize: true,
 				lineHeight: true
@@ -7485,6 +7494,24 @@
 	  return getObjectProperty(object[propertyName], subIdentifier);
 	};
 
+	function getSupportsProperties(name) {
+	  var _iterator = _createForOfIteratorHelper(blockSupportsProperties),
+	    _step;
+	  try {
+	    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+	      var blockSupport = _step.value;
+	      if (blockSupport.name === name) {
+	        return blockSupport;
+	      }
+	    }
+	  } catch (err) {
+	    _iterator.e(err);
+	  } finally {
+	    _iterator.f();
+	  }
+	  return null;
+	}
+
 	var ALL_CLIENT_IDS = [];
 	function getRandomClientId() {
 	  var hash1 = Math.random().toString(20).slice(2, 6);
@@ -8978,12 +9005,32 @@
 
 	var setSupportsProperty$1 = function setSupportsProperty(state, action) {
 	  var _action$payload = action.payload,
-	    property = _action$payload.property,
+	    propertyName = _action$payload.propertyName,
 	    value = _action$payload.value;
-	  if (!(property !== null && property !== void 0 && property.name)) {
+	  if (!propertyName) {
 	    return;
 	  }
-	  state.supports = _objectSpread2(_objectSpread2({}, state.supports), {}, _defineProperty$1({}, property.name, value));
+	  var supportsProperty = getSupportsProperties(propertyName);
+	  if (!supportsProperty) {
+	    return;
+	  }
+	  var newSupports = _objectSpread2({}, state.supports);
+	  if (supportsProperty["default"] === value) {
+	    newSupports = Object.fromEntries(Object.entries(newSupports).filter(function (_ref) {
+	      var _ref2 = _slicedToArray(_ref, 2),
+	        name = _ref2[0];
+	        _ref2[1];
+	      return name !== supportsProperty.name;
+	    }));
+	  } else if (value === true) {
+	    newSupports[propertyName] = (supportsProperty === null || supportsProperty === void 0 ? void 0 : supportsProperty.defaultValueWhenChecked) || true;
+	  } else {
+	    newSupports[propertyName] = false;
+	  }
+	  state.supports = Object.keys(newSupports).sort().reduce(function (sorted, key) {
+	    sorted[key] = newSupports[key];
+	    return sorted;
+	  }, {});
 	};
 
 	var setTextdomain$1 = function setTextdomain(state, action) {
@@ -13241,9 +13288,7 @@
 	}
 
 	var BlockSupportsFieldItem = function BlockSupportsFieldItem(_ref) {
-	  var _ref$defaultValueWhen = _ref.defaultValueWhenChecked,
-	    defaultValueWhenChecked = _ref$defaultValueWhen === void 0 ? true : _ref$defaultValueWhen,
-	    label = _ref.label,
+	  var label = _ref.label,
 	    tooltip = _ref.tooltip,
 	    setValue = _ref.setValue,
 	    subProperties = _ref.subProperties,
@@ -13271,15 +13316,7 @@
 	    return false;
 	  }, [type, value]);
 	  var setPropertyValue = function setPropertyValue(newPropertyValue) {
-	    if (type === "object" && newPropertyValue === false) {
-	      setValue({});
-	    } else if (newPropertyValue === false) {
-	      setValue(false);
-	    } else if (type === "boolean") {
-	      setValue(true);
-	    } else {
-	      setValue(defaultValueWhenChecked);
-	    }
+	    setValue(newPropertyValue);
 	  };
 	  var setSubPropertyValue = function setSubPropertyValue(subProperty, newSubPropertyValue) {
 	    if (type === "object") {
@@ -13323,9 +13360,9 @@
 	    var _state$blockJson;
 	    return ((_state$blockJson = state.blockJson) === null || _state$blockJson === void 0 ? void 0 : _state$blockJson.supports) || {};
 	  });
-	  var setPropertyValue = function setPropertyValue(property, value) {
+	  var setPropertyValue = function setPropertyValue(propertyName, value) {
 	    dispatch(setSupportsProperty({
-	      property: property,
+	      propertyName: propertyName,
 	      value: value
 	    }));
 	    dispatch(setChanged(true));
@@ -13335,9 +13372,9 @@
 	    children: blockSupportsProperties.map(function (property, index) {
 	      return /*#__PURE__*/React$2.createElement(BlockSupportsFieldItem, _objectSpread2(_objectSpread2({}, property), {}, {
 	        key: index,
-	        value: blockSupports === null || blockSupports === void 0 ? void 0 : blockSupports[property.name],
+	        value: (blockSupports === null || blockSupports === void 0 ? void 0 : blockSupports[property.name]) || (property === null || property === void 0 ? void 0 : property["default"]) || false,
 	        setValue: function setValue(value) {
-	          return setPropertyValue(property, value);
+	          return setPropertyValue(property.name, value);
 	        }
 	      }));
 	    })

@@ -5,7 +5,6 @@ import CheckboxField from "../CheckboxField";
 import "./style.css";
 
 const BlockSupportsFieldItem = ({
-	defaultValueWhenChecked = true,
 	label,
 	tooltip,
 	setValue,
@@ -37,15 +36,7 @@ const BlockSupportsFieldItem = ({
 	);
 
 	const setPropertyValue = (newPropertyValue) => {
-		if (type === "object" && newPropertyValue === false) {
-			setValue({});
-		} else if (newPropertyValue === false) {
-			setValue(false);
-		} else if (type === "boolean") {
-			setValue(true);
-		} else {
-			setValue(defaultValueWhenChecked);
-		}
+		setValue(newPropertyValue);
 	};
 
 	const setSubPropertyValue = (subProperty, newSubPropertyValue) => {

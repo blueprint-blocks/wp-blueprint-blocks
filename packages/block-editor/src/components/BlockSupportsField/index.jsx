@@ -15,8 +15,8 @@ const BlockSupportsField = () => {
 		(state) => state.blockJson?.supports || {},
 	);
 
-	const setPropertyValue = (property, value) => {
-		dispatch(setSupportsProperty({ property, value }));
+	const setPropertyValue = (propertyName, value) => {
+		dispatch(setSupportsProperty({ propertyName, value }));
 		dispatch(setChanged(true));
 	};
 
@@ -26,8 +26,12 @@ const BlockSupportsField = () => {
 				<BlockSupportsFieldItem
 					{...property}
 					key={index}
-					value={blockSupports?.[property.name]}
-					setValue={(value) => setPropertyValue(property, value)}
+					value={
+						blockSupports?.[property.name] ||
+						property?.default ||
+						false
+					}
+					setValue={(value) => setPropertyValue(property.name, value)}
 				/>
 			))}
 		</div>

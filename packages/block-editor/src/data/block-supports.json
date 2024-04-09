@@ -3,13 +3,15 @@
 		"type": "boolean",
 		"name": "anchor",
 		"label": "Anchor",
-		"tooltip": "blockJson.supports.anchor"
+		"tooltip": "blockJson.supports.anchor",
+		"default": false
 	},
 	{
 		"type": "array",
 		"name": "align",
 		"label": "Align",
 		"tooltip": "blockJson.supports.align",
+		"default": false,
 		"defaultValueWhenChecked": ["left", "center", "right", "wide", "full"],
 		"attributes": {
 			"align": {
@@ -50,6 +52,7 @@
 		"name": "color",
 		"label": "Color",
 		"tooltip": "blockJson.supports.color",
+		"default": false,
 		"defaultValueWhenChecked": {
 			"background": true,
 			"gradients": false,
@@ -101,31 +104,36 @@
 		"type": "boolean",
 		"name": "multiple",
 		"label": "Multiple",
-		"tooltip": "blockJson.supports.multiple"
+		"tooltip": "blockJson.supports.multiple",
+		"default": true
 	},
 	{
 		"type": "boolean",
 		"name": "reusable",
 		"label": "Reusable",
-		"tooltip": "blockJson.supports.reusable"
+		"tooltip": "blockJson.supports.reusable",
+		"default": false
 	},
 	{
 		"type": "boolean",
 		"name": "renaming",
 		"label": "Renaming",
-		"tooltip": "blockJson.supports.renaming"
+		"tooltip": "blockJson.supports.renaming",
+		"default": true
 	},
 	{
 		"type": "boolean",
 		"name": "shadow",
 		"label": "Shadow",
-		"tooltip": "blockJson.supports.shadow"
+		"tooltip": "blockJson.supports.shadow",
+		"default": false
 	},
 	{
 		"type": "object",
 		"name": "spacing",
 		"label": "Spacing",
 		"tooltip": "blockJson.supports.spacing",
+		"default": false,
 		"defaultValueWhenChecked": {
 			"margin": true,
 			"padding": true,
@@ -154,6 +162,7 @@
 		"name": "typography",
 		"label": "Typography",
 		"tooltip": "blockJson.supports.typography",
+		"default": false,
 		"defaultValueWhenChecked": {
 			"fontSize": true,
 			"lineHeight": true
