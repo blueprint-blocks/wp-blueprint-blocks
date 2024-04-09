@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { blockSupports as blockSupportsProperties } from "../../data";
@@ -15,6 +16,18 @@ const BlockSupportsField = () => {
 		(state) => state.blockJson?.supports || {},
 	);
 
+	const blockSupportsValues = useMemo(
+		() =>
+			blockSupportsProperties.map((property, index) => {
+				if (property.name in blockSupports) {
+					return blockSupports?.[property.name];
+				}
+
+				return property?.default || false;
+			}),
+		[blockSupports],
+	);
+
 	const setPropertyValue = (propertyName, value) => {
 		dispatch(setSupportsProperty({ propertyName, value }));
 		dispatch(setChanged(true));
@@ -26,11 +39,7 @@ const BlockSupportsField = () => {
 				<BlockSupportsFieldItem
 					{...property}
 					key={index}
-					value={
-						blockSupports?.[property.name] ||
-						property?.default ||
-						false
-					}
+					value={blockSupportsValues[index]}
 					setValue={(value) => setPropertyValue(property.name, value)}
 				/>
 			))}
