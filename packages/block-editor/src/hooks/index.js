@@ -3,6 +3,7 @@ import useBeforeUnload from "./use-before-unload";
 import useBlockClassName from "./use-block-class-name";
 import useBlockJson from "./use-block-json";
 import useBlockNamespace from "./use-block-namespace";
+import useBlockSave from "./use-block-save";
 import useBlueprint from "./use-blueprint";
 import useBlueprintConnections from "./use-blueprint-connections";
 import useBlueprintConnectionsDrag from "./use-blueprint-connections-drag";
@@ -35,6 +36,7 @@ export {
 	useBlockClassName,
 	useBlockJson,
 	useBlockNamespace,
+	useBlockSave,
 	useBlueprint,
 	useBlueprintConnections,
 	useBlueprintConnectionsDrag,

@@ -9321,68 +9321,6 @@
 	  return n;
 	}
 
-	var _excluded$5 = ["id"],
-	  _excluded2 = ["id"];
-	function saveNewBlock(_ref) {
-	  var postType = _ref.postType,
-	    blockJson = _ref.blockJson,
-	    blockBlueprint = _ref.blockBlueprint,
-	    blockEditorCss = _ref.blockEditorCss,
-	    blockViewCss = _ref.blockViewCss;
-	  return new Promise(function (resolve, reject) {
-	    apiFetch({
-	      path: "/wp/v2/".concat(postType.restBase),
-	      method: "POST",
-	      data: {
-	        title: blockJson.title,
-	        status: "publish",
-	        meta: {
-	          blueprint_blocks_block_json: blockJson,
-	          blueprint_blocks_blueprint_json: blockBlueprint,
-	          blueprint_blocks_editor_css: blockEditorCss,
-	          blueprint_blocks_view_css: blockViewCss
-	        }
-	      }
-	    }).then(function (_ref2) {
-	      var id = _ref2.id;
-	        _objectWithoutProperties(_ref2, _excluded$5);
-	      resolve({
-	        id: id
-	      });
-	    });
-	  });
-	}
-	function updateBlock(_ref3) {
-	  var postId = _ref3.postId,
-	    postType = _ref3.postType,
-	    blockJson = _ref3.blockJson,
-	    blockBlueprint = _ref3.blockBlueprint,
-	    blockEditorCss = _ref3.blockEditorCss,
-	    blockViewCss = _ref3.blockViewCss;
-	  return new Promise(function (resolve, reject) {
-	    apiFetch({
-	      path: "/wp/v2/".concat(postType.restBase, "/").concat(postId),
-	      method: "POST",
-	      data: {
-	        title: blockJson.title,
-	        status: "publish",
-	        meta: {
-	          blueprint_blocks_block_json: blockJson,
-	          blueprint_blocks_blueprint_json: blockBlueprint,
-	          blueprint_blocks_editor_css: blockEditorCss,
-	          blueprint_blocks_view_css: blockViewCss
-	        }
-	      }
-	    }).then(function (_ref4) {
-	      var id = _ref4.id;
-	        _objectWithoutProperties(_ref4, _excluded2);
-	      resolve({
-	        id: id
-	      });
-	    });
-	  });
-	}
-
 	var AppContext = /*#__PURE__*/React$2.createContext(null);
 
 	var BlueprintConnectionsContext = /*#__PURE__*/React$2.createContext({
@@ -9507,6 +9445,142 @@
 	    getUniqueAttributeName: _getUniqueAttributeName,
 	    renameAttribute: _renameAttribute,
 	    removeAttribute: _removeAttribute
+	  };
+	};
+
+	function usePreventClose(shouldPreventClose) {
+	  useBeforeUnload(React$2.useCallback(function (event) {
+	    if (shouldPreventClose) {
+	      event.preventDefault();
+	    }
+	  }, [shouldPreventClose]));
+	}
+
+	var _excluded$5 = ["id"],
+	  _excluded2 = ["id"];
+	function saveNewBlock(_ref) {
+	  var postType = _ref.postType,
+	    blockJson = _ref.blockJson,
+	    blockBlueprint = _ref.blockBlueprint,
+	    blockEditorCss = _ref.blockEditorCss,
+	    blockViewCss = _ref.blockViewCss;
+	  return new Promise(function (resolve, reject) {
+	    apiFetch({
+	      path: "/wp/v2/".concat(postType.restBase),
+	      method: "POST",
+	      data: {
+	        title: blockJson.title,
+	        status: "publish",
+	        meta: {
+	          blueprint_blocks_block_json: blockJson,
+	          blueprint_blocks_blueprint_json: blockBlueprint,
+	          blueprint_blocks_editor_css: blockEditorCss,
+	          blueprint_blocks_view_css: blockViewCss
+	        }
+	      }
+	    }).then(function (_ref2) {
+	      var id = _ref2.id;
+	        _objectWithoutProperties(_ref2, _excluded$5);
+	      resolve({
+	        id: id
+	      });
+	    });
+	  });
+	}
+	function updateBlock(_ref3) {
+	  var postId = _ref3.postId,
+	    postType = _ref3.postType,
+	    blockJson = _ref3.blockJson,
+	    blockBlueprint = _ref3.blockBlueprint,
+	    blockEditorCss = _ref3.blockEditorCss,
+	    blockViewCss = _ref3.blockViewCss;
+	  return new Promise(function (resolve, reject) {
+	    apiFetch({
+	      path: "/wp/v2/".concat(postType.restBase, "/").concat(postId),
+	      method: "POST",
+	      data: {
+	        title: blockJson.title,
+	        status: "publish",
+	        meta: {
+	          blueprint_blocks_block_json: blockJson,
+	          blueprint_blocks_blueprint_json: blockBlueprint,
+	          blueprint_blocks_editor_css: blockEditorCss,
+	          blueprint_blocks_view_css: blockViewCss
+	        }
+	      }
+	    }).then(function (_ref4) {
+	      var id = _ref4.id;
+	        _objectWithoutProperties(_ref4, _excluded2);
+	      resolve({
+	        id: id
+	      });
+	    });
+	  });
+	}
+
+	var useBlockSave = function useBlockSave() {
+	  var dispatch = useDispatch();
+	  var postId = useSelector(function (state) {
+	    return state.postMetadata.postId;
+	  });
+	  var postType = useSelector(function (state) {
+	    return state.postType;
+	  });
+	  var blockBlueprint = useSelector(function (state) {
+	    return getRawJson$1(state.blockBlueprint);
+	  });
+	  var blockJson = useSelector(function (state) {
+	    return getRawJson(state.blockJson);
+	  });
+	  var blockEditorCss = useSelector(function (state) {
+	    return state.blockEditorCss.raw;
+	  });
+	  var blockViewCss = useSelector(function (state) {
+	    return state.blockViewCss.raw;
+	  });
+	  var _hasUnsavedChanges = useSelector(function (state) {
+	    return hasUnsavedChanges(state.postMetadata);
+	  });
+	  var saveDialogIsVisible = useSelector(function (state) {
+	    return state.saveDialog.visible;
+	  });
+	  var saveBlock = function saveBlock() {
+	    dispatch(showSaveDialog());
+	    if (postId === null) {
+	      saveNewBlock({
+	        postType: postType,
+	        blockBlueprint: blockBlueprint,
+	        blockJson: blockJson,
+	        blockEditorCss: blockEditorCss,
+	        blockViewCss: blockViewCss
+	      }).then(function (_ref) {
+	        var id = _ref.id;
+	        dispatch(setPostId(id));
+	        dispatch(setChanged(false));
+	        window.history.pushState({
+	          id: id
+	        }, "Edit Block < Flickerbox - WordPress", "/wp-admin/post.php?post=".concat(id, "&action=edit"));
+	      });
+	    } else {
+	      updateBlock({
+	        postId: postId,
+	        postType: postType,
+	        blockBlueprint: blockBlueprint,
+	        blockJson: blockJson,
+	        blockEditorCss: blockEditorCss,
+	        blockViewCss: blockViewCss
+	      }).then(function () {
+	        dispatch(setChanged(false));
+	      });
+	    }
+	  };
+	  usePreventClose(useSelector(function (state) {
+	    return hasUnsavedChanges(state.postMetadata);
+	  }));
+	  return {
+	    hasUnsavedChanges: _hasUnsavedChanges,
+	    saveBlock: saveBlock,
+	    saveDialogIsVisible: saveDialogIsVisible
 	  };
 	};
 
@@ -10212,14 +10286,6 @@
 	      document.removeEventListener("touchstart", listener);
 	    };
 	  }, [ref, handler]);
-	}
-
-	function usePreventClose(shouldPreventClose) {
-	  useBeforeUnload(React$2.useCallback(function (event) {
-	    if (shouldPreventClose) {
-	      event.preventDefault();
-	    }
-	  }, [shouldPreventClose]));
 	}
 
 	var jsxRuntime = {exports: {}};
@@ -47372,7 +47438,6 @@
 	}
 
 	function App() {
-	  var dispatch = useDispatch();
 	  var ref = React$2.useRef(null);
 	  var _useState = React$2.useState(null),
 	    _useState2 = _slicedToArray(_useState, 2),
@@ -47386,64 +47451,13 @@
 	    _useState6 = _slicedToArray(_useState5, 2),
 	    activeNavItem = _useState6[0],
 	    setActiveNavItem = _useState6[1];
-	  var postId = useSelector(function (state) {
-	    return state.postMetadata.postId;
-	  });
-	  var postType = useSelector(function (state) {
-	    return state.postType;
-	  });
-	  var blockBlueprint = useSelector(function (state) {
-	    return getRawJson$1(state.blockBlueprint);
-	  });
-	  var blockJson = useSelector(function (state) {
-	    return getRawJson(state.blockJson);
-	  });
-	  var blockEditorCss = useSelector(function (state) {
-	    return state.blockEditorCss.raw;
-	  });
-	  var blockViewCss = useSelector(function (state) {
-	    return state.blockViewCss.raw;
-	  });
-	  var saveDialogIsVisible = useSelector(function (state) {
-	    return state.saveDialog.visible;
-	  });
+	  var _useBlockSave = useBlockSave(),
+	    saveBlock = _useBlockSave.saveBlock,
+	    saveDialogIsVisible = _useBlockSave.saveDialogIsVisible;
 	  var upsellDialogIsVisible = useSelector(function (state) {
 	    return state.upsellDialog.visible;
 	  });
-	  var onUpdate = function onUpdate() {
-	    dispatch(showSaveDialog());
-	    if (postId === null) {
-	      saveNewBlock({
-	        postType: postType,
-	        blockBlueprint: blockBlueprint,
-	        blockJson: blockJson,
-	        blockEditorCss: blockEditorCss,
-	        blockViewCss: blockViewCss
-	      }).then(function (_ref) {
-	        var id = _ref.id;
-	        dispatch(setPostId(id));
-	        dispatch(setChanged(false));
-	        window.history.pushState({
-	          id: id
-	        }, "Edit Block < Flickerbox - WordPress", "/wp-admin/post.php?post=".concat(id, "&action=edit"));
-	      });
-	    } else {
-	      updateBlock({
-	        postId: postId,
-	        postType: postType,
-	        blockBlueprint: blockBlueprint,
-	        blockJson: blockJson,
-	        blockEditorCss: blockEditorCss,
-	        blockViewCss: blockViewCss
-	      }).then(function () {
-	        dispatch(setChanged(false));
-	      });
-	    }
-	  };
 	  useDispatchAppRect(ref);
-	  usePreventClose(useSelector(function (state) {
-	    return hasUnsavedChanges(state.postMetadata);
-	  }));
 	  return /*#__PURE__*/jsxRuntimeExports.jsx(AppContext.Provider, {
 	    value: {
 	      editorRef: editorRef,
@@ -47461,7 +47475,7 @@
 	          children: [/*#__PURE__*/jsxRuntimeExports.jsx(Navigator, {
 	            activeNavItem: activeNavItem,
 	            setActiveNavItem: setActiveNavItem,
-	            onUpdate: onUpdate
+	            onUpdate: saveBlock
 	          }), activeNavItem === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlockJson, {}), activeNavItem === 1 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlueprint, {}), activeNavItem === 2 && /*#__PURE__*/jsxRuntimeExports.jsx(PageViewCss, {}), activeNavItem === 3 && /*#__PURE__*/jsxRuntimeExports.jsx(PageEditorCss, {}), saveDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(SaveDialog, {}), upsellDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(UpsellDialog, {})]
 	        })
 	      })
