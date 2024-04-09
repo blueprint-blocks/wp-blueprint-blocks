@@ -48,6 +48,13 @@
 		]
 	},
 	{
+		"type": "boolean",
+		"name": "className",
+		"label": "Class Name",
+		"tooltip": "blockJson.supports.className",
+		"default": true
+	},
+	{
 		"type": "object",
 		"name": "color",
 		"label": "Color",

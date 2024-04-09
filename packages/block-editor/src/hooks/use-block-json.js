@@ -21,6 +21,8 @@ const useBlockJson = () => {
 
 	const { unsetFocus } = useEditorFocus();
 
+	const blockJson = useSelector((state) => state.blockJson);
+
 	const attributes = useSelector((state) => state.blockJson.attributes);
 
 	const attributeNames = useSelector((state) =>
@@ -92,6 +94,7 @@ const useBlockJson = () => {
 		addEmptyAttribute,
 		blockAttributes: attributes,
 		blockAttributeNames: attributeNames,
+		blockJson,
 		editAttribute: _editAttribute,
 		getAttribute: _getAttribute,
 		getAttributeById: _getAttributeById,

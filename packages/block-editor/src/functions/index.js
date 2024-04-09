@@ -20,7 +20,9 @@ import isStringified from "./is-stringified";
 import isStringifiedArray from "./is-stringified-array";
 import isStringifiedObject from "./is-stringified-object";
 import normalizeClasslistAsObject from "./normalize-classlist-as-object";
+import parseMarkdown from "./parse-markdown";
 import pascalize from "./pascalize";
+import replaceTokens from "./replace-tokens";
 import setDocumentHistory from "./set-document-history";
 import setDocumentTitle from "./set-document-title";
 import throttle from "./throttle";
@@ -52,7 +54,9 @@ export {
 	isStringifiedArray,
 	isStringifiedObject,
 	normalizeClasslistAsObject,
+	parseMarkdown,
 	pascalize,
+	replaceTokens,
 	setDocumentHistory,
 	setDocumentTitle,
 	throttle,

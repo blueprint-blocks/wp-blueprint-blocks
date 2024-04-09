@@ -4,7 +4,7 @@ const { documentTitle = "" } =
 const setDocumentHistory = (id, blockTitle) => {
 	window.history.pushState(
 		{ id },
-		documentTitle.replace("{{ title }}", blockTitle),
+		documentTitle.replace("{{ block.title }}", blockTitle),
 		`/wp-admin/post.php?post=${id}&action=edit`,
 	);
 };

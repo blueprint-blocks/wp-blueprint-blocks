@@ -53,6 +53,14 @@
 				"url": "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#align",
 				"width": 360
 			},
+			"className": {
+				"label": "Class Name",
+				"required": false,
+				"default": "checked",
+				"text": "When checked, the class `.wp-block-{{ block.namespace }}-{{ block.name }}` is added to the root element of your saved markup.",
+				"url": "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#classname",
+				"width": 360
+			},
 			"color": {
 				"label": "Color",
 				"required": false,

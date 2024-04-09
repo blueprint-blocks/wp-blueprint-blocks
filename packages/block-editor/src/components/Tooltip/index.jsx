@@ -2,8 +2,14 @@ import clsx from "clsx";
 import { useMemo, useRef } from "react";
 
 import { tooltips } from "../../data";
-import { getObjectProperty } from "../../functions";
-import { useAppRect, useNavRect, useRect } from "../../hooks";
+
+import {
+	getObjectProperty,
+	parseMarkdown,
+	replaceTokens,
+} from "../../functions";
+
+import { useAppRect, useBlockJson, useNavRect, useRect } from "../../hooks";
 
 import "./style.css";
 
@@ -27,6 +33,8 @@ function Tooltip({
 	const appRect = useAppRect();
 	const navRect = useNavRect();
 
+	const { blockJson } = useBlockJson();
+
 	const _position = useMemo(() => {
 		if (rect.top - messageRect.height < navRect.bottom) {
 			return "below";
@@ -40,25 +48,40 @@ function Tooltip({
 		() => getObjectProperty(tooltips, `${data}.label`) || label,
 		[data, label],
 	);
+
 	const _required = useMemo(
 		() => getObjectProperty(tooltips, `${data}.required`) || required,
 		[data, required],
 	);
+
 	const _default = useMemo(
 		() => getObjectProperty(tooltips, `${data}.default`) || defaultValue,
 		[data, defaultValue],
 	);
+
 	const _text = useMemo(() => {
-		const _text = getObjectProperty(tooltips, `${data}.text`);
-		if (_text !== null) {
-			return _text;
+		let _text = getObjectProperty(tooltips, `${data}.text`);
+
+		if (_text === null) {
+			_text = text;
 		}
-		return text;
-	}, [data, text]);
+
+		return parseMarkdown(
+			replaceTokens(_text, {
+				block: {
+					...blockJson,
+					namespace: blockJson.name.split("/")?.[0],
+					name: blockJson.name.split("/")?.[1],
+				},
+			}),
+		);
+	}, [blockJson, data, text]);
+
 	const _url = useMemo(
 		() => getObjectProperty(tooltips, `${data}.url`) || url,
 		[data, url],
 	);
+
 	const _width = useMemo(
 		() => getObjectProperty(tooltips, `${data}.width`) || width,
 		[data, width],
@@ -78,7 +101,7 @@ function Tooltip({
 			>
 				{_label && <div className="Tooltip-label">{_label}</div>}
 				<div className="Tooltip-text">
-					<p>{_text}</p>
+					<p dangerouslySetInnerHTML={{ __html: _text }} />
 					{_required && (
 						<div className="Tooltip-meta">
 							<div className="Tooltip-required">{"Required"}</div>

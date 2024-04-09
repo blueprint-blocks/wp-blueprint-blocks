@@ -4,10 +4,8 @@
 	"blockEdit": [
 		{
 			"tagName": "div",
-			"className": {
-				"{{ block._className }}": true
-			},
-			"style": {},
+			"className": "",
+			"style": "",
 			"children": []
 		}
 	],

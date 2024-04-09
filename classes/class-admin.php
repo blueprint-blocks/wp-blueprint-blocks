@@ -84,7 +84,7 @@ class Admin
 		$post_type = get_post_type_object( blueprint_blocks()::OBJECT_PREFIX . 'block' );
 
 		$screen_title  = sprintf(
-			__( '%1$s "{{ title }}"' ),
+			__( '%1$s "{{ block.title }}"' ),
 			$post_type->labels->edit_item
 		);
 

@@ -3944,7 +3944,7 @@
 	// src/index.ts
 	F();
 
-	var slice$a = createSlice({
+	var slice$b = createSlice({
 	  name: "app",
 	  initialState: {
 	    navRect: {
@@ -3989,8 +3989,8 @@
 	    }
 	  }
 	});
-	var actions$a = slice$a.actions,
-	  reducer$a = slice$a.reducer;
+	var actions$a = slice$b.actions,
+	  reducer$a = slice$b.reducer;
 	var setNavRect = actions$a.setNavRect,
 	  setRect = actions$a.setRect;
 
@@ -4514,6 +4514,13 @@
 					label: "Full"
 				}
 			]
+		},
+		{
+			type: "boolean",
+			name: "className",
+			label: "Class Name",
+			tooltip: "blockJson.supports.className",
+			"default": true
 		},
 		{
 			type: "object",
@@ -7339,6 +7346,14 @@
 				url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#align",
 				width: 360
 			},
+			className: {
+				label: "Class Name",
+				required: false,
+				"default": "checked",
+				text: "When checked, the class `.wp-block-{{ block.namespace }}-{{ block.name }}` is added to the root element of your saved markup.",
+				url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#classname",
+				width: 360
+			},
 			color: {
 				label: "Color",
 				required: false,
@@ -7590,33 +7605,431 @@
 	  return isStringified;
 	}
 
-	function normalizeClasslistAsObject() {
-	  var classList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-	  if (classList === null) {
-	    return {};
+	function parseMarkdown() {
+	  var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+	  if (typeof string !== "string") {
+	    return string;
 	  }
-	  var newClassList = {};
-	  if (typeof classList === "string") {
-	    newClassList[classList] = true;
-	  } else if (Array.isArray(classList)) {
-	    classList.forEach(function (classListItem) {
-	      newClassList = Object.assign({}, newClassList, normalizeClasslistAsObject(classListItem));
-	    });
-	  } else if (_typeof(classList) === "object") {
-	    Object.entries(classList).forEach(function (_ref) {
-	      var _ref2 = _slicedToArray(_ref, 2),
-	        name = _ref2[0],
-	        value = _ref2[1];
-	      newClassList[name] = value;
-	    });
-	  }
-	  return newClassList;
+	  return string.replaceAll(/\`(.*?)\`/g, function (match, p1) {
+	    return "<code>".concat(p1, "</code>");
+	  });
 	}
 
 	function pascalize(string) {
 	  var formattedString = camelize(string);
 	  formattedString = formattedString.charAt(0).toUpperCase() + formattedString.slice(1);
 	  return formattedString;
+	}
+
+	/**
+	 * @constant DEFAULT_OPTIONS_KEYS the default options keys
+	 */
+	var DEFAULT_OPTIONS_KEYS = {
+	  isEqual: true,
+	  isMatchingKey: true,
+	  isPromise: true,
+	  maxSize: true,
+	  onCacheAdd: true,
+	  onCacheChange: true,
+	  onCacheHit: true,
+	  transformKey: true
+	};
+	/**
+	 * @function slice
+	 *
+	 * @description
+	 * slice.call() pre-bound
+	 */
+	var slice$a = Array.prototype.slice;
+	/**
+	 * @function cloneArray
+	 *
+	 * @description
+	 * clone the array-like object and return the new array
+	 *
+	 * @param arrayLike the array-like object to clone
+	 * @returns the clone as an array
+	 */
+	function cloneArray(arrayLike) {
+	  var length = arrayLike.length;
+	  if (!length) {
+	    return [];
+	  }
+	  if (length === 1) {
+	    return [arrayLike[0]];
+	  }
+	  if (length === 2) {
+	    return [arrayLike[0], arrayLike[1]];
+	  }
+	  if (length === 3) {
+	    return [arrayLike[0], arrayLike[1], arrayLike[2]];
+	  }
+	  return slice$a.call(arrayLike, 0);
+	}
+	/**
+	 * @function getCustomOptions
+	 *
+	 * @description
+	 * get the custom options on the object passed
+	 *
+	 * @param options the memoization options passed
+	 * @returns the custom options passed
+	 */
+	function getCustomOptions(options) {
+	  var customOptions = {};
+	  /* eslint-disable no-restricted-syntax */
+	  for (var key in options) {
+	    if (!DEFAULT_OPTIONS_KEYS[key]) {
+	      customOptions[key] = options[key];
+	    }
+	  }
+	  /* eslint-enable */
+	  return customOptions;
+	}
+	/**
+	 * @function isMemoized
+	 *
+	 * @description
+	 * is the function passed already memoized
+	 *
+	 * @param fn the function to test
+	 * @returns is the function already memoized
+	 */
+	function isMemoized(fn) {
+	  return typeof fn === 'function' && fn.isMemoized;
+	}
+	/**
+	 * @function isSameValueZero
+	 *
+	 * @description
+	 * are the objects equal based on SameValueZero equality
+	 *
+	 * @param object1 the first object to compare
+	 * @param object2 the second object to compare
+	 * @returns are the two objects equal
+	 */
+	function isSameValueZero(object1, object2) {
+	  // eslint-disable-next-line no-self-compare
+	  return object1 === object2 || object1 !== object1 && object2 !== object2;
+	}
+	/**
+	 * @function mergeOptions
+	 *
+	 * @description
+	 * merge the options into the target
+	 *
+	 * @param existingOptions the options provided
+	 * @param newOptions the options to include
+	 * @returns the merged options
+	 */
+	function mergeOptions(existingOptions, newOptions) {
+	  var target = {};
+	  /* eslint-disable no-restricted-syntax */
+	  for (var key in existingOptions) {
+	    target[key] = existingOptions[key];
+	  }
+	  for (var key in newOptions) {
+	    target[key] = newOptions[key];
+	  }
+	  /* eslint-enable */
+	  return target;
+	}
+
+	// utils
+	var Cache = /** @class */function () {
+	  function Cache(options) {
+	    this.keys = [];
+	    this.values = [];
+	    this.options = options;
+	    var isMatchingKeyFunction = typeof options.isMatchingKey === 'function';
+	    if (isMatchingKeyFunction) {
+	      this.getKeyIndex = this._getKeyIndexFromMatchingKey;
+	    } else if (options.maxSize > 1) {
+	      this.getKeyIndex = this._getKeyIndexForMany;
+	    } else {
+	      this.getKeyIndex = this._getKeyIndexForSingle;
+	    }
+	    this.canTransformKey = typeof options.transformKey === 'function';
+	    this.shouldCloneArguments = this.canTransformKey || isMatchingKeyFunction;
+	    this.shouldUpdateOnAdd = typeof options.onCacheAdd === 'function';
+	    this.shouldUpdateOnChange = typeof options.onCacheChange === 'function';
+	    this.shouldUpdateOnHit = typeof options.onCacheHit === 'function';
+	  }
+	  Object.defineProperty(Cache.prototype, "size", {
+	    /**
+	     * The number of cached [key,value] results.
+	     */
+	    get: function () {
+	      return this.keys.length;
+	    },
+	    enumerable: false,
+	    configurable: true
+	  });
+	  Object.defineProperty(Cache.prototype, "snapshot", {
+	    /**
+	     * A copy of the cache at a moment in time. This is useful
+	     * to compare changes over time, since the cache mutates
+	     * internally for performance reasons.
+	     */
+	    get: function () {
+	      return {
+	        keys: cloneArray(this.keys),
+	        size: this.size,
+	        values: cloneArray(this.values)
+	      };
+	    },
+	    enumerable: false,
+	    configurable: true
+	  });
+	  /**
+	   * Gets the matching key index when a custom key matcher is used.
+	   */
+	  Cache.prototype._getKeyIndexFromMatchingKey = function (keyToMatch) {
+	    var _a = this.options,
+	      isMatchingKey = _a.isMatchingKey,
+	      maxSize = _a.maxSize;
+	    var keys = this.keys;
+	    var keysLength = keys.length;
+	    if (!keysLength) {
+	      return -1;
+	    }
+	    if (isMatchingKey(keys[0], keyToMatch)) {
+	      return 0;
+	    }
+	    if (maxSize > 1) {
+	      for (var index = 1; index < keysLength; index++) {
+	        if (isMatchingKey(keys[index], keyToMatch)) {
+	          return index;
+	        }
+	      }
+	    }
+	    return -1;
+	  };
+	  /**
+	   * Gets the matching key index when multiple keys are used.
+	   */
+	  Cache.prototype._getKeyIndexForMany = function (keyToMatch) {
+	    var isEqual = this.options.isEqual;
+	    var keys = this.keys;
+	    var keysLength = keys.length;
+	    if (!keysLength) {
+	      return -1;
+	    }
+	    if (keysLength === 1) {
+	      return this._getKeyIndexForSingle(keyToMatch);
+	    }
+	    var keyLength = keyToMatch.length;
+	    var existingKey;
+	    var argIndex;
+	    if (keyLength > 1) {
+	      for (var index = 0; index < keysLength; index++) {
+	        existingKey = keys[index];
+	        if (existingKey.length === keyLength) {
+	          argIndex = 0;
+	          for (; argIndex < keyLength; argIndex++) {
+	            if (!isEqual(existingKey[argIndex], keyToMatch[argIndex])) {
+	              break;
+	            }
+	          }
+	          if (argIndex === keyLength) {
+	            return index;
+	          }
+	        }
+	      }
+	    } else {
+	      for (var index = 0; index < keysLength; index++) {
+	        existingKey = keys[index];
+	        if (existingKey.length === keyLength && isEqual(existingKey[0], keyToMatch[0])) {
+	          return index;
+	        }
+	      }
+	    }
+	    return -1;
+	  };
+	  /**
+	   * Gets the matching key index when a single key is used.
+	   */
+	  Cache.prototype._getKeyIndexForSingle = function (keyToMatch) {
+	    var keys = this.keys;
+	    if (!keys.length) {
+	      return -1;
+	    }
+	    var existingKey = keys[0];
+	    var length = existingKey.length;
+	    if (keyToMatch.length !== length) {
+	      return -1;
+	    }
+	    var isEqual = this.options.isEqual;
+	    if (length > 1) {
+	      for (var index = 0; index < length; index++) {
+	        if (!isEqual(existingKey[index], keyToMatch[index])) {
+	          return -1;
+	        }
+	      }
+	      return 0;
+	    }
+	    return isEqual(existingKey[0], keyToMatch[0]) ? 0 : -1;
+	  };
+	  /**
+	   * Order the array based on a Least-Recently-Used basis.
+	   */
+	  Cache.prototype.orderByLru = function (key, value, startingIndex) {
+	    var keys = this.keys;
+	    var values = this.values;
+	    var currentLength = keys.length;
+	    var index = startingIndex;
+	    while (index--) {
+	      keys[index + 1] = keys[index];
+	      values[index + 1] = values[index];
+	    }
+	    keys[0] = key;
+	    values[0] = value;
+	    var maxSize = this.options.maxSize;
+	    if (currentLength === maxSize && startingIndex === currentLength) {
+	      keys.pop();
+	      values.pop();
+	    } else if (startingIndex >= maxSize) {
+	      // eslint-disable-next-line no-multi-assign
+	      keys.length = values.length = maxSize;
+	    }
+	  };
+	  /**
+	   * Update the promise method to auto-remove from cache if rejected, and
+	   * if resolved then fire cache hit / changed.
+	   */
+	  Cache.prototype.updateAsyncCache = function (memoized) {
+	    var _this = this;
+	    var _a = this.options,
+	      onCacheChange = _a.onCacheChange,
+	      onCacheHit = _a.onCacheHit;
+	    var firstKey = this.keys[0];
+	    var firstValue = this.values[0];
+	    this.values[0] = firstValue.then(function (value) {
+	      if (_this.shouldUpdateOnHit) {
+	        onCacheHit(_this, _this.options, memoized);
+	      }
+	      if (_this.shouldUpdateOnChange) {
+	        onCacheChange(_this, _this.options, memoized);
+	      }
+	      return value;
+	    }, function (error) {
+	      var keyIndex = _this.getKeyIndex(firstKey);
+	      if (keyIndex !== -1) {
+	        _this.keys.splice(keyIndex, 1);
+	        _this.values.splice(keyIndex, 1);
+	      }
+	      throw error;
+	    });
+	  };
+	  return Cache;
+	}();
+	function createMemoizedFunction(fn, options) {
+	  if (options === void 0) {
+	    options = {};
+	  }
+	  if (isMemoized(fn)) {
+	    return createMemoizedFunction(fn.fn, mergeOptions(fn.options, options));
+	  }
+	  if (typeof fn !== 'function') {
+	    throw new TypeError('You must pass a function to `memoize`.');
+	  }
+	  var _a = options.isEqual,
+	    isEqual = _a === void 0 ? isSameValueZero : _a,
+	    isMatchingKey = options.isMatchingKey,
+	    _b = options.isPromise,
+	    isPromise = _b === void 0 ? false : _b,
+	    _c = options.maxSize,
+	    maxSize = _c === void 0 ? 1 : _c,
+	    onCacheAdd = options.onCacheAdd,
+	    onCacheChange = options.onCacheChange,
+	    onCacheHit = options.onCacheHit,
+	    transformKey = options.transformKey;
+	  var normalizedOptions = mergeOptions({
+	    isEqual: isEqual,
+	    isMatchingKey: isMatchingKey,
+	    isPromise: isPromise,
+	    maxSize: maxSize,
+	    onCacheAdd: onCacheAdd,
+	    onCacheChange: onCacheChange,
+	    onCacheHit: onCacheHit,
+	    transformKey: transformKey
+	  }, getCustomOptions(options));
+	  var cache = new Cache(normalizedOptions);
+	  var keys = cache.keys,
+	    values = cache.values,
+	    canTransformKey = cache.canTransformKey,
+	    shouldCloneArguments = cache.shouldCloneArguments,
+	    shouldUpdateOnAdd = cache.shouldUpdateOnAdd,
+	    shouldUpdateOnChange = cache.shouldUpdateOnChange,
+	    shouldUpdateOnHit = cache.shouldUpdateOnHit;
+	  var memoized = function () {
+	    var key = shouldCloneArguments ? cloneArray(arguments) : arguments;
+	    if (canTransformKey) {
+	      key = transformKey(key);
+	    }
+	    var keyIndex = keys.length ? cache.getKeyIndex(key) : -1;
+	    if (keyIndex !== -1) {
+	      if (shouldUpdateOnHit) {
+	        onCacheHit(cache, normalizedOptions, memoized);
+	      }
+	      if (keyIndex) {
+	        cache.orderByLru(keys[keyIndex], values[keyIndex], keyIndex);
+	        if (shouldUpdateOnChange) {
+	          onCacheChange(cache, normalizedOptions, memoized);
+	        }
+	      }
+	    } else {
+	      var newValue = fn.apply(this, arguments);
+	      var newKey = shouldCloneArguments ? key : cloneArray(arguments);
+	      cache.orderByLru(newKey, newValue, keys.length);
+	      if (isPromise) {
+	        cache.updateAsyncCache(memoized);
+	      }
+	      if (shouldUpdateOnAdd) {
+	        onCacheAdd(cache, normalizedOptions, memoized);
+	      }
+	      if (shouldUpdateOnChange) {
+	        onCacheChange(cache, normalizedOptions, memoized);
+	      }
+	    }
+	    return values[0];
+	  };
+	  memoized.cache = cache;
+	  memoized.fn = fn;
+	  memoized.isMemoized = true;
+	  memoized.options = normalizedOptions;
+	  return memoized;
+	}
+
+	var valueByIdentifier = createMemoizedFunction(function () {
+	  var identifier = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+	  var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+	  var value = _objectSpread2({}, context);
+	  var parts = identifier.split(".");
+	  if (parts.length === 0) {
+	    return "";
+	  }
+	  var key = parts.shift();
+	  if (!(context !== null && context !== void 0 && context[key])) {
+	    return "";
+	  }
+	  if (parts.length === 0 && key === "length") {
+	    return Object.values(value).length;
+	  }
+	  if (parts.length === 0) {
+	    return value[key];
+	  }
+	  return valueByIdentifier(parts.join("."), value[key]);
+	});
+	function replaceTokens() {
+	  var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+	  var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+	  if (typeof string !== "string") {
+	    return string;
+	  }
+	  return string.replaceAll(/\{\{(.*?)\}\}/g, function (match, p1) {
+	    return valueByIdentifier(p1.trim(), context);
+	  });
 	}
 
 	var _blueprintBlocksEdito$d;
@@ -7626,7 +8039,7 @@
 	var setDocumentHistory = function setDocumentHistory(id, blockTitle) {
 	  window.history.pushState({
 	    id: id
-	  }, documentTitle$1.replace("{{ title }}", blockTitle), "/wp-admin/post.php?post=".concat(id, "&action=edit"));
+	  }, documentTitle$1.replace("{{ block.title }}", blockTitle), "/wp-admin/post.php?post=".concat(id, "&action=edit"));
 	};
 
 	var _blueprintBlocksEdito$c;
@@ -7634,7 +8047,7 @@
 	  _ref$documentTitle = _ref$4.documentTitle,
 	  documentTitle = _ref$documentTitle === void 0 ? "" : _ref$documentTitle;
 	var setDocumentTitle = function setDocumentTitle(blockTitle) {
-	  document.title = documentTitle.replace("{{ title }}", blockTitle);
+	  document.title = documentTitle.replace("{{ block.title }}", blockTitle);
 	};
 
 	/**
@@ -7790,9 +8203,6 @@
 	      var _parseComponentTree2 = _slicedToArray(_parseComponentTree, 2);
 	      childClientIds = _parseComponentTree2[0];
 	      components = _parseComponentTree2[1];
-	    }
-	    if (component !== null && component !== void 0 && component.className) {
-	      component.className = normalizeClasslistAsObject(component === null || component === void 0 ? void 0 : component.className);
 	    }
 	    var _parseComponentForCli = parseComponentForClient(component),
 	      _parseComponentForCli2 = _slicedToArray(_parseComponentForCli, 2),
@@ -9403,6 +9813,9 @@
 	  var dispatch = useDispatch();
 	  var _useEditorFocus = useEditorFocus(),
 	    unsetFocus = _useEditorFocus.unsetFocus;
+	  var blockJson = useSelector(function (state) {
+	    return state.blockJson;
+	  });
 	  var attributes = useSelector(function (state) {
 	    return state.blockJson.attributes;
 	  });
@@ -9457,6 +9870,7 @@
 	    addEmptyAttribute: addEmptyAttribute,
 	    blockAttributes: attributes,
 	    blockAttributeNames: attributeNames,
+	    blockJson: blockJson,
 	    editAttribute: _editAttribute,
 	    getAttribute: _getAttribute,
 	    getAttributeById: _getAttributeById,
@@ -13123,6 +13537,8 @@
 	  var messageRect = useRect(messageRef, null, ["height"]);
 	  var appRect = useAppRect();
 	  var navRect = useNavRect();
+	  var _useBlockJson = useBlockJson(),
+	    blockJson = _useBlockJson.blockJson;
 	  var _position = React$2.useMemo(function () {
 	    if (rect.top - messageRect.height < navRect.bottom) {
 	      return "below";
@@ -13141,12 +13557,18 @@
 	    return getObjectProperty(tooltips, "".concat(data, ".default")) || defaultValue;
 	  }, [data, defaultValue]);
 	  var _text = React$2.useMemo(function () {
+	    var _blockJson$name$split, _blockJson$name$split2;
 	    var _text = getObjectProperty(tooltips, "".concat(data, ".text"));
-	    if (_text !== null) {
-	      return _text;
+	    if (_text === null) {
+	      _text = text;
 	    }
-	    return text;
-	  }, [data, text]);
+	    return parseMarkdown(replaceTokens(_text, {
+	      block: _objectSpread2(_objectSpread2({}, blockJson), {}, {
+	        namespace: (_blockJson$name$split = blockJson.name.split("/")) === null || _blockJson$name$split === void 0 ? void 0 : _blockJson$name$split[0],
+	        name: (_blockJson$name$split2 = blockJson.name.split("/")) === null || _blockJson$name$split2 === void 0 ? void 0 : _blockJson$name$split2[1]
+	      })
+	    }));
+	  }, [blockJson, data, text]);
 	  var _url = React$2.useMemo(function () {
 	    return getObjectProperty(tooltips, "".concat(data, ".url")) || url;
 	  }, [data, url]);
@@ -13172,7 +13594,9 @@
 	      }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	        className: "Tooltip-text",
 	        children: [/*#__PURE__*/jsxRuntimeExports.jsx("p", {
-	          children: _text
+	          dangerouslySetInnerHTML: {
+	            __html: _text
+	          }
 	        }), _required && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	          className: "Tooltip-meta",
 	          children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {

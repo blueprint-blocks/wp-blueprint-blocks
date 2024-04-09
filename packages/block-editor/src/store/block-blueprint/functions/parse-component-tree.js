@@ -1,5 +1,3 @@
-import { normalizeClasslistAsObject } from "../../../functions";
-
 import parseComponentForClient from "./parse-component-for-client";
 
 const parseComponentTree = (tree = [], components = []) => {
@@ -16,12 +14,6 @@ const parseComponentTree = (tree = [], components = []) => {
 			[childClientIds, components] = parseComponentTree(
 				children,
 				components,
-			);
-		}
-
-		if (component?.className) {
-			component.className = normalizeClasslistAsObject(
-				component?.className,
 			);
 		}
 
