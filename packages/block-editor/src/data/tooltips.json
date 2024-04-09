@@ -31,6 +31,7 @@
 		"category": {
 			"label": "Block Category",
 			"required": false,
+			"default": "Text",
 			"text": "The category is where you block is grouped when browsing in the Inserter. These categories help users browse and discover blocks.",
 			"url": "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#category",
 			"width": 360
@@ -39,6 +40,7 @@
 			"anchor": {
 				"label": "Anchor",
 				"required": false,
+				"default": "unchecked",
 				"text": "Anchors let you link directly to a specific block on a page. This property adds a field to define an id for the block and a button to copy the direct link.",
 				"url": "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#anchor",
 				"width": 360
@@ -46,6 +48,7 @@
 			"align": {
 				"label": "Align",
 				"required": false,
+				"default": "unchecked",
 				"text": "Alignment adds block controls which allow changing the block's alignment.",
 				"url": "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#align",
 				"width": 360
@@ -53,6 +56,7 @@
 			"color": {
 				"label": "Color",
 				"required": false,
+				"default": "unchecked",
 				"text": "Color adds block controls which allow changing the block's color.",
 				"url": "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#color",
 				"width": 360
@@ -60,6 +64,7 @@
 			"multiple": {
 				"label": "Multiple",
 				"required": false,
+				"default": "checked",
 				"text": "If a block is flagged as non-multiple, it can be inserted into each post one time only. The icon will be dimmed and be unclickable in the Inserter if an instance is already in the post.",
 				"url": "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#multiple",
 				"width": 360
@@ -67,6 +72,7 @@
 			"reusable": {
 				"label": "Reusable",
 				"required": false,
+				"default": "unchecked",
 				"text": "By default all blocks can be converted to a reusable block. If unchecked, the option to convert this block into a reusable block will not appear.",
 				"url": "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#reusable",
 				"width": 360
@@ -74,6 +80,7 @@
 			"renaming": {
 				"label": "Renaming",
 				"required": false,
+				"default": "checked",
 				"text": "By default, a block can be renamed by a user from the block 'Options' dropdown or the 'Advanced' panel. To disable this behavior, this flag can be unchecked.",
 				"url": "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#renaming",
 				"width": 360
@@ -81,6 +88,7 @@
 			"shadow": {
 				"label": "Shadow",
 				"required": false,
+				"default": "unchecked",
 				"text": "When checked, the block editor will show UI controls for shadows, allowing the user to set a box shadow for the block.",
 				"url": "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#shadow",
 				"width": 360
@@ -88,6 +96,7 @@
 			"spacing": {
 				"label": "Spacing",
 				"required": false,
+				"default": "unchecked",
 				"text": "When checked, the block editor will show UI controls for spacing, allowing the user to set spacing as defined by the theme.",
 				"url": "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#spacing",
 				"width": 360
@@ -95,6 +104,7 @@
 			"typography": {
 				"label": "Typography",
 				"required": false,
+				"default": "unchecked",
 				"text": "When checked, the block editor will show UI controls for typography, allowing the user to set typography as defined by the theme.",
 				"url": "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#typography",
 				"width": 360

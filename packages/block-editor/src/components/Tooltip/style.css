@@ -55,11 +55,63 @@
 	display: grid;
 	gap: var(--2x);
 	justify-items: start;
-	padding: var(--2x) var(--3x);
+	padding: var(--2x) 0;
 
 	p {
-		margin: 0;
+		box-sizing: border-box;
+		margin: 0 !important;
+		padding: 0 var(--3x);
+		width: 100%;
 	}
+}
+
+.Tooltip-default {
+	align-items: center;
+	border-top: 1px solid var(--color-lighter-gray);
+	box-sizing: border-box;
+	color: var(--color-darker-gray);
+	display: grid;
+	gap: var(--1x);
+	grid-auto-columns: max-content;
+	grid-auto-flow: column;
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-semi-bold);
+	line-height: var(--2x);
+	padding: var(--2x) var(--3x) 0;
+	width: 100%;
+}
+
+.Tooltip-checkbox {
+	--size: var(--2x);
+	border: 2px solid var(--color-light-gray);
+	border-radius: 3px;
+	box-sizing: border-box;
+	height: var(--2x);
+	position: relative;
+	width: var(--2x);
+
+	&::after {
+		background: url("../assets/images/icon-check.png") no-repeat center;
+		background-size: contain;
+		content: "";
+		display: block;
+		height: calc((19 / 24) * var(--size));
+		left: calc((2 / 24) * var(--size));
+		position: absolute;
+		top: -2px;
+		transition: var(--transition);
+		width: calc((26 / 24) * var(--size));
+	}
+}
+
+.Tooltip-checkbox.is-unchecked::after {
+	opacity: 0;
+}
+
+.Tooltip-meta {
+	box-sizing: border-box;
+	padding: 0 var(--3x);
+	width: 100%;
 }
 
 .Tooltip-required {

@@ -13,6 +13,7 @@ function Tooltip({
 	label,
 	position = "above",
 	required = false,
+	defaultValue = null,
 	text,
 	url,
 	width = 240,
@@ -42,6 +43,10 @@ function Tooltip({
 	const _required = useMemo(
 		() => getObjectProperty(tooltips, `${data}.required`) || required,
 		[data, required],
+	);
+	const _default = useMemo(
+		() => getObjectProperty(tooltips, `${data}.default`) || defaultValue,
+		[data, defaultValue],
 	);
 	const _text = useMemo(() => {
 		const _text = getObjectProperty(tooltips, `${data}.text`);
@@ -75,7 +80,24 @@ function Tooltip({
 				<div className="Tooltip-text">
 					<p>{_text}</p>
 					{_required && (
-						<div className="Tooltip-required">{"Required"}</div>
+						<div className="Tooltip-meta">
+							<div className="Tooltip-required">{"Required"}</div>
+						</div>
+					)}
+					{_default && (
+						<div className="Tooltip-default">
+							{"Default value:"}
+							{_default === "checked" && (
+								<div className="Tooltip-checkbox is-checked"></div>
+							)}
+							{_default === "unchecked" && (
+								<div className="Tooltip-checkbox is-unchecked"></div>
+							)}
+							{_default !== "checked" &&
+								_default !== "unchecked" && (
+									<span>{_default}</span>
+								)}
+						</div>
 					)}
 				</div>
 				{_url && (

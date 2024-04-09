@@ -7317,6 +7317,7 @@
 		category: {
 			label: "Block Category",
 			required: false,
+			"default": "Text",
 			text: "The category is where you block is grouped when browsing in the Inserter. These categories help users browse and discover blocks.",
 			url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#category",
 			width: 360
@@ -7325,6 +7326,7 @@
 			anchor: {
 				label: "Anchor",
 				required: false,
+				"default": "unchecked",
 				text: "Anchors let you link directly to a specific block on a page. This property adds a field to define an id for the block and a button to copy the direct link.",
 				url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#anchor",
 				width: 360
@@ -7332,6 +7334,7 @@
 			align: {
 				label: "Align",
 				required: false,
+				"default": "unchecked",
 				text: "Alignment adds block controls which allow changing the block's alignment.",
 				url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#align",
 				width: 360
@@ -7339,6 +7342,7 @@
 			color: {
 				label: "Color",
 				required: false,
+				"default": "unchecked",
 				text: "Color adds block controls which allow changing the block's color.",
 				url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#color",
 				width: 360
@@ -7346,6 +7350,7 @@
 			multiple: {
 				label: "Multiple",
 				required: false,
+				"default": "checked",
 				text: "If a block is flagged as non-multiple, it can be inserted into each post one time only. The icon will be dimmed and be unclickable in the Inserter if an instance is already in the post.",
 				url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#multiple",
 				width: 360
@@ -7353,6 +7358,7 @@
 			reusable: {
 				label: "Reusable",
 				required: false,
+				"default": "unchecked",
 				text: "By default all blocks can be converted to a reusable block. If unchecked, the option to convert this block into a reusable block will not appear.",
 				url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#reusable",
 				width: 360
@@ -7360,6 +7366,7 @@
 			renaming: {
 				label: "Renaming",
 				required: false,
+				"default": "checked",
 				text: "By default, a block can be renamed by a user from the block 'Options' dropdown or the 'Advanced' panel. To disable this behavior, this flag can be unchecked.",
 				url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#renaming",
 				width: 360
@@ -7367,6 +7374,7 @@
 			shadow: {
 				label: "Shadow",
 				required: false,
+				"default": "unchecked",
 				text: "When checked, the block editor will show UI controls for shadows, allowing the user to set a box shadow for the block.",
 				url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#shadow",
 				width: 360
@@ -7374,6 +7382,7 @@
 			spacing: {
 				label: "Spacing",
 				required: false,
+				"default": "unchecked",
 				text: "When checked, the block editor will show UI controls for spacing, allowing the user to set spacing as defined by the theme.",
 				url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#spacing",
 				width: 360
@@ -7381,6 +7390,7 @@
 			typography: {
 				label: "Typography",
 				required: false,
+				"default": "unchecked",
 				text: "When checked, the block editor will show UI controls for typography, allowing the user to set typography as defined by the theme.",
 				url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-supports/#typography",
 				width: 360
@@ -13013,6 +13023,8 @@
 	    position = _ref$position === void 0 ? "above" : _ref$position,
 	    _ref$required = _ref.required,
 	    required = _ref$required === void 0 ? false : _ref$required,
+	    _ref$defaultValue = _ref.defaultValue,
+	    defaultValue = _ref$defaultValue === void 0 ? null : _ref$defaultValue,
 	    text = _ref.text,
 	    url = _ref.url,
 	    _ref$width = _ref.width,
@@ -13037,6 +13049,9 @@
 	  var _required = React$2.useMemo(function () {
 	    return getObjectProperty(tooltips, "".concat(data, ".required")) || required;
 	  }, [data, required]);
+	  var _default = React$2.useMemo(function () {
+	    return getObjectProperty(tooltips, "".concat(data, ".default")) || defaultValue;
+	  }, [data, defaultValue]);
 	  var _text = React$2.useMemo(function () {
 	    var _text = getObjectProperty(tooltips, "".concat(data, ".text"));
 	    if (_text !== null) {
@@ -13071,8 +13086,20 @@
 	        children: [/*#__PURE__*/jsxRuntimeExports.jsx("p", {
 	          children: _text
 	        }), _required && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	          className: "Tooltip-required",
-	          children: "Required"
+	          className: "Tooltip-meta",
+	          children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	            className: "Tooltip-required",
+	            children: "Required"
+	          })
+	        }), _default && /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	          className: "Tooltip-default",
+	          children: ["Default value:", _default === "checked" && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	            className: "Tooltip-checkbox is-checked"
+	          }), _default === "unchecked" && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	            className: "Tooltip-checkbox is-unchecked"
+	          }), _default !== "checked" && _default !== "unchecked" && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	            children: _default
+	          })]
 	        })]
 	      }), _url && /*#__PURE__*/jsxRuntimeExports.jsx("a", {
 	        className: "Tooltip-link",
