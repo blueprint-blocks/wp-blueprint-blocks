@@ -942,6 +942,17 @@
     });
     return replaceTokens(npmClassNames.apply(void 0, _toConsumableArray(classNameArray)), context);
   }
+  function convertStyleStringToObject() {
+    var style = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+    if (typeof style !== "string") {
+      return {};
+    }
+    return Object.fromEntries(style.split(";").filter(function (property) {
+      return !!property;
+    }).map(function (property) {
+      return property.split(":");
+    }));
+  }
   var _excluded$1$1 = ["clientId", "attributes", "innerBlocks"];
   /**
    * Returns the block context with private attributes formatted.
@@ -4116,18 +4127,21 @@
   }
   var EXCLUDED_ATTRIBUTES = ["saveAs"];
   function styles() {
-    var _styles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var styles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    if (_typeof$5(_styles) !== 'object') {
+    var _styles = structuredClone(styles);
+    if (typeof _styles === "string") {
+      _styles = convertStyleStringToObject(_styles);
+    }
+    if (_typeof$5(_styles) !== "object") {
       return {};
     }
-    var stylesArray = Object.entries(_styles).map(function (_ref) {
+    return Object.fromEntries(Object.entries(_styles).map(function (_ref) {
       var _ref2 = _slicedToArray(_ref, 2),
         property = _ref2[0],
         value = _ref2[1];
       return [replaceTokens(property, context), replaceTokens(value, context)];
-    });
-    return Object.fromEntries(stylesArray);
+    }));
   }
   var _excluded$10 = ["children", "className", "editorClassName", "viewClassName", "style", "attributeName", "type", "tagName", "persist"],
     _excluded2$5 = ["jsx"];
@@ -4531,8 +4545,8 @@
     }, label), children);
   }
 
-  var _excluded$Z = ["attributes", "blockName", "attributeName", "label", "children", "innerHtml", "className", "tagName", "type", "display"];
-  var selfClosingTagNames = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
+  var _excluded$Z = ["attributes", "blockName", "attributeName", "label", "children", "clientId", "innerHtml", "className", "tagName", "type", "display"];
+  var selfClosingTagNames = ["area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"];
   function save$t(_ref) {
     _ref.attributes;
       _ref.blockName;
@@ -4540,11 +4554,12 @@
       _ref.label;
       var _ref$children = _ref.children,
       children = _ref$children === void 0 ? [] : _ref$children;
+      _ref.clientId;
       _ref.innerHtml;
       var _ref$className = _ref.className,
-      className = _ref$className === void 0 ? '' : _ref$className,
+      className = _ref$className === void 0 ? "" : _ref$className,
       _ref$tagName = _ref.tagName,
-      tagName = _ref$tagName === void 0 ? 'div' : _ref$tagName;
+      tagName = _ref$tagName === void 0 ? "div" : _ref$tagName;
       _ref.type;
       var _ref$display = _ref.display,
       display = _ref$display === void 0 ? true : _ref$display,
@@ -4556,9 +4571,10 @@
     if (className) {
       fieldProps.className = className;
     }
-    if (tagName === 'a' && 'href' in fieldProps && !('rel' in fieldProps) && (isExternalUrl(fieldProps.href) || isFragmentUrl(fieldProps.href) || 'target' in fieldProps)) {
-      fieldProps.rel = 'noopener';
+    if (tagName === "a" && "href" in fieldProps && !("rel" in fieldProps) && (isExternalUrl(fieldProps.href) || isFragmentUrl(fieldProps.href) || "target" in fieldProps)) {
+      fieldProps.rel = "noopener";
     }
+    console.log("props:", fieldProps);
     var Component = tagName;
     if (selfClosingTagNames.includes(tagName) === true || ((children === null || children === void 0 ? void 0 : children.length) || 0) === 0 || props.dangerouslySetInnerHTML) ;
     return /*#__PURE__*/React.createElement(Component, _extends$1({}, fieldProps, {
@@ -6028,10 +6044,19 @@
       var _ref$value = _ref.value,
       value = _ref$value === void 0 ? [] : _ref$value,
       props = _objectWithoutProperties$1(_ref, _excluded$D);
-    return /*#__PURE__*/React.createElement(Field.save, _extends$1({}, props, {
+    var fieldProps = {};
+    var fieldStyle = {};
+    if (value !== null && value !== void 0 && value.height && value !== null && value !== void 0 && value.width) {
+      fieldProps.height = value === null || value === void 0 ? void 0 : value.height;
+      fieldProps.width = value === null || value === void 0 ? void 0 : value.width;
+      fieldStyle["aspect-ratio"] = "".concat((props === null || props === void 0 ? void 0 : props.width) || (value === null || value === void 0 ? void 0 : value.width), " / ").concat((props === null || props === void 0 ? void 0 : props.height) || (value === null || value === void 0 ? void 0 : value.height));
+      fieldStyle.height = "auto";
+    }
+    return /*#__PURE__*/React.createElement(Field.save, _extends$1({}, fieldProps, props, {
+      src: value === null || value === void 0 ? void 0 : value.url,
+      style: _objectSpread2$7(_objectSpread2$7({}, fieldStyle), styles(props === null || props === void 0 ? void 0 : props.style)),
       tagName: "img",
-      type: "image",
-      src: value === null || value === void 0 ? void 0 : value.url
+      type: "image"
     }));
   }
 
@@ -6260,15 +6285,17 @@
     }));
   }
 
-  var _excluded$x = ["multiLine", "placeholder", "tagName", "value"];
+  var _excluded$x = ["allowedFormats", "multiline", "preserveWhiteSpace", "placeholder", "tagName", "value"];
   function save$f(_ref) {
-    _ref.multiLine;
+    _ref.allowedFormats;
+      _ref.multiline;
+      _ref.preserveWhiteSpace;
       _ref.placeholder;
       var _ref$tagName = _ref.tagName,
-      tagName = _ref$tagName === void 0 ? 'p' : _ref$tagName,
+      tagName = _ref$tagName === void 0 ? "p" : _ref$tagName,
       value = _ref.value,
       props = _objectWithoutProperties$1(_ref, _excluded$x);
-    if (value === '' || value === null) {
+    if (value === "" || value === null) {
       return;
     }
     return /*#__PURE__*/React.createElement(Field.save, _extends$1({}, props, {
@@ -8216,7 +8243,6 @@
   const { blockTypes = {} } = blueprintBlocksLoaderSettings || {};
 
   Object.entries(blockTypes).forEach(([blockName, blockType]) => {
-  	console.log(blockName, blockType);
   	blocks.registerBlockType(blockName, {
   		...(blockType?.blockJson || {}),
 
@@ -8227,3 +8253,4 @@
   });
 
 })(wp.blocks);
+//# sourceMappingURL=block-loader.js.map

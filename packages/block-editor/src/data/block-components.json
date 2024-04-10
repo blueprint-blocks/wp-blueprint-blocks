@@ -112,6 +112,18 @@
 				"type": "object",
 				"default": null
 			},
+			"attributes": {
+				"height": {
+					"type": "number",
+					"description": "By default, the height property is applied when correctly returned as metadata from the WordPress media uploader.",
+					"suggestedValues": ["200", "400"]
+				},
+				"width": {
+					"type": "number",
+					"description": "By default, the width property is applied when correctly returned as metadata from the WordPress media uploader.",
+					"suggestedValues": ["400", "800"]
+				}
+			},
 			"defaultAttributes": {
 				"label": "Image",
 				"tagName": "img"
