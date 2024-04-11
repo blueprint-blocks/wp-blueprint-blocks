@@ -39,28 +39,15 @@
 }
 
 .Tooltip-label {
-	background: var(--color-black);
-	border-radius: 5px;
-	color: var(--color-white);
+	color: var(--color-black);
+	font-size: var(--font-size-large);
 	font-weight: var(--font-weight-semi-bold);
-	padding: var(--1x) var(--3x);
-
-	&:not(:last-child) {
-		border-bottom-left-radius: 0;
-		border-bottom-right-radius: 0;
-	}
 }
 
 .Tooltip-text {
-	display: grid;
-	gap: var(--2x);
-	justify-items: start;
-	padding: var(--2x) 0;
-
 	p {
 		box-sizing: border-box;
 		margin: 0 !important;
-		padding: 0 var(--3x);
 		width: 100%;
 	}
 }
@@ -77,7 +64,7 @@
 	font-size: var(--font-size-small);
 	font-weight: var(--font-weight-semi-bold);
 	line-height: var(--2x);
-	padding: var(--2x) var(--3x) 0;
+	padding: var(--2x) 0 0;
 	width: 100%;
 }
 
@@ -110,7 +97,6 @@
 
 .Tooltip-meta {
 	box-sizing: border-box;
-	padding: 0 var(--3x);
 	width: 100%;
 }
 
@@ -132,11 +118,15 @@
 	border-radius: 5px;
 	box-shadow: var(--box-shadow-medium);
 	color: var(--color-black);
+	display: grid;
 	font-size: var(--font-size-base);
 	font-weight: var(--font-weight-medium);
+	gap: var(--2x);
+	justify-items: start;
 	line-height: var(--line-height-base);
 	min-width: calc(1px * var(--width, 0));
 	opacity: 0;
+	padding: var(--2x) var(--3x);
 	position: absolute;
 	text-align: left;
 

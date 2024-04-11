@@ -100,32 +100,32 @@ function Tooltip({
 						{ "has-label": _label },
 					)}
 				>
-					{_label && <div className="Tooltip-label">{_label}</div>}
 					<div className="Tooltip-text">
+						{_label && (
+							<div className="Tooltip-label">{_label}</div>
+						)}
 						<p dangerouslySetInnerHTML={{ __html: _text }} />
-						{_required && (
-							<div className="Tooltip-meta">
-								<div className="Tooltip-required">
-									{"Required"}
-								</div>
-							</div>
-						)}
-						{_default && (
-							<div className="Tooltip-default">
-								{"Default value:"}
-								{_default === "checked" && (
-									<div className="Tooltip-checkbox is-checked"></div>
-								)}
-								{_default === "unchecked" && (
-									<div className="Tooltip-checkbox is-unchecked"></div>
-								)}
-								{_default !== "checked" &&
-									_default !== "unchecked" && (
-										<span>{_default}</span>
-									)}
-							</div>
-						)}
 					</div>
+					{_required && (
+						<div className="Tooltip-meta">
+							<div className="Tooltip-required">{"Required"}</div>
+						</div>
+					)}
+					{_default && (
+						<div className="Tooltip-default">
+							{"Default value:"}
+							{_default === "checked" && (
+								<div className="Tooltip-checkbox is-checked"></div>
+							)}
+							{_default === "unchecked" && (
+								<div className="Tooltip-checkbox is-unchecked"></div>
+							)}
+							{_default !== "checked" &&
+								_default !== "unchecked" && (
+									<span>{_default}</span>
+								)}
+						</div>
+					)}
 					{_url && (
 						<a
 							className="Tooltip-link"

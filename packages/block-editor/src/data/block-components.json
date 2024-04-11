@@ -39,7 +39,7 @@
 			"attributes": {
 				"allowedFormats": {
 					"type": "array",
-					"description": "By default, all registered formats are allowed. If you want to limit the formats allowed, you can specify them in this property as a comma seperated list.",
+					"description": "By default, all registered formats are allowed. If you want to limit the allowed formats, you can specify them in this property as a comma seperated list.",
 					"url": "https://github.com/WordPress/gutenberg/blob/HEAD/packages/block-editor/src/components/rich-text/README.md#allowedformats-array",
 					"suggestedValues": [
 						"core/bold",
@@ -97,6 +97,37 @@
 					"target": "_blank"
 				}
 			},
+			"attributes": {
+				"tagName": {
+					"type": "string",
+					"description": "By default, link components display with an `a` tag, but this property can be set to any valid HTML tag to change how it is displayed.",
+					"url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements"
+				},
+				"allowedFormats": {
+					"type": "array",
+					"description": "By default, a limited subset of registered formats are allowed. If you want to limit the allowed formats further, you can specify them in this property as a comma seperated list.",
+					"url": "https://github.com/WordPress/gutenberg/blob/HEAD/packages/block-editor/src/components/rich-text/README.md#allowedformats-array",
+					"suggestedValues": [
+						"core/bold",
+						"core/italic",
+						"core/strikethrough",
+						"core/subscript",
+						"core/superscript",
+						"core/text-color",
+						"core/underline"
+					]
+				},
+				"placeholder": {
+					"type": "string",
+					"description": "The placeholder property will display text in the editor whenever the component does not have a value for the link text.",
+					"url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/placeholder",
+					"suggestedValues": [
+						"Enter a label...",
+						"Learn more...",
+						"Get started..."
+					]
+				}
+			},
 			"defaultAttributes": {
 				"placeholder": "Enter a label...",
 				"tagName": "a"
@@ -113,6 +144,11 @@
 				"default": null
 			},
 			"attributes": {
+				"tagName": {
+					"type": "string",
+					"description": "By default, image components display with an `img` tag, but this property can be set to any valid HTML tag to change how it is displayed.",
+					"url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Heading_Elements"
+				},
 				"height": {
 					"type": "number",
 					"description": "By default, the height property is applied when correctly returned as metadata from the WordPress media uploader.",
