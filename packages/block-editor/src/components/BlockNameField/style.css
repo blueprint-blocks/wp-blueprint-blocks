@@ -5,6 +5,7 @@
 	gap: var(--2x);
 	grid-template-columns: 1fr max-content;
 	padding: var(--1x) 0;
+	position: relative;
 
 	.EditableString {
 		--focus-color: transparent;
@@ -22,6 +23,7 @@
 	font-weight: var(--font-weight-medium);
 	gap: var(--2x);
 	grid-template-columns: repeat(3, max-content);
+	position: relative;
 }
 
 .BlockNameField-namespace {

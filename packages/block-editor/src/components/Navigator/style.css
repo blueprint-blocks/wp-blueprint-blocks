@@ -113,4 +113,8 @@
 	padding: var(--1x) 0;
 	position: relative;
 	z-index: 2;
+
+	.is-disabled {
+		opacity: 0.5;
+	}
 }

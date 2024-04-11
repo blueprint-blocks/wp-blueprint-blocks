@@ -3,6 +3,7 @@
 	border: 2px solid var(--color-black);
 	border-radius: 7px;
 	box-shadow: var(--box-shadow-low);
+	box-sizing: border-box;
 	display: grid;
 	gap: var(--1x);
 	grid-auto-flow: row;

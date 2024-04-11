@@ -38,6 +38,15 @@
 	}
 }
 
+.BlockIconField-wrap {
+	position: relative;
+	width: fit-content;
+}
+
+.BlockIconField:not(.is-open) {
+	cursor: pointer;
+}
+
 .BlockIconField.is-open {
 	z-index: 20;
 

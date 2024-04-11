@@ -1,6 +1,8 @@
-import { useMemo, useRef } from "react";
+import clsx from "clsx";
+import { useCallback, useContext, useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
 
+import { TutorialContext } from "../../contexts";
 import { navItems } from "../../data";
 import { useDispatchNavRect, useRect } from "../../hooks";
 import { hasUnsavedChanges } from "../../store/post-metadata";
@@ -11,8 +13,10 @@ import "./style.css";
 
 const { pluginMetadata = {} } = blueprintBlocksEditorSettings;
 
-function Navigator({ activeNavItem, setActiveNavItem, onUpdate }) {
+const Navigator = ({ activeNavItem, setActiveNavItem, onUpdate }) => {
 	const ref = useRef(null);
+
+	const tutorialContext = useContext(TutorialContext);
 
 	const navItemRefs = navItems.map(() => useRef(null));
 	const navItemRects = navItems.map((_, index) =>
@@ -28,6 +32,17 @@ function Navigator({ activeNavItem, setActiveNavItem, onUpdate }) {
 		(state) => !hasUnsavedChanges(state.postMetadata),
 	);
 
+	const _setActiveNavItem = useCallback(
+		(index) => {
+			if (tutorialContext.isActive === true) {
+				return;
+			}
+
+			setActiveNavItem(index);
+		},
+		[tutorialContext],
+	);
+
 	useDispatchNavRect(ref);
 
 	return (
@@ -37,10 +52,11 @@ function Navigator({ activeNavItem, setActiveNavItem, onUpdate }) {
 					<li
 						ref={navItemRefs[index]}
 						key={index}
-						className={
-							(index === activeNavItem && "is-active") || ""
-						}
-						onClick={() => setActiveNavItem(index)}
+						className={clsx({
+							"is-active": index === activeNavItem,
+							"is-disabled": tutorialContext.isActive,
+						})}
+						onClick={() => _setActiveNavItem(index)}
 					>
 						<div>
 							{icon && (
@@ -70,6 +86,6 @@ function Navigator({ activeNavItem, setActiveNavItem, onUpdate }) {
 			</div>
 		</div>
 	);
-}
+};
 
 export default Navigator;

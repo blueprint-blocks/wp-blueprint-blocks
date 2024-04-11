@@ -38,8 +38,8 @@
 		z-index: -1;
 	}
 
-	&.has-value:hover,
-	&.has-value.has-focus {
+	&:not(.is-disabled).has-value:hover,
+	&:not(.is-disabled).has-value.has-focus {
 		color: var(--hover-color);
 	}
 

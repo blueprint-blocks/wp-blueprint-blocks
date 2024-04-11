@@ -28,6 +28,13 @@
 	border-radius: var(--size);
 }
 
+.Button.is-small {
+	--size: var(--4x);
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-bold);
+	padding: 0 var(--2x);
+}
+
 .Button.is-large {
 	--size: var(--6x);
 	font-weight: var(--font-weight-bold);
@@ -39,11 +46,22 @@
 	font-weight: var(--font-weight-semi-bold);
 }
 
+.Button.is-white {
+	background: var(--color-white);
+	color: var(--color-black);
+}
+
 .Button.is-outline {
 	background: var(--color-white);
 	border: 1px solid var(--color-light-gray);
 	color: var(--color-black);
 	line-height: calc(var(--size) - 2px);
+}
+
+.Button.is-outline.is-white {
+	background: transparent;
+	border: 1px solid var(--color-white);
+	color: var(--color-white);
 }
 
 .Button.is-primary {

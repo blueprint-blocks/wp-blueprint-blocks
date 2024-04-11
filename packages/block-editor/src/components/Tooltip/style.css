@@ -14,7 +14,7 @@
 	width: var(--2x);
 }
 
-.Tooltip:hover {
+.Tooltip:not(.is-disabled):hover {
 	background: var(--color-accent-teal-blue);
 	color: var(--color-white);
 	overflow: visible;
@@ -126,7 +126,7 @@
 	line-height: var(--line-height-base);
 	min-width: calc(1px * var(--width, 0));
 	opacity: 0;
-	padding: var(--2x) var(--3x);
+	padding: var(--2x) var(--2x) var(--2x) var(--3x);
 	position: absolute;
 	text-align: left;
 
@@ -141,11 +141,11 @@
 	}
 }
 
-.Tooltip:hover .Tooltip-message {
+.Tooltip:not(.is-disabled):hover .Tooltip-message {
 	opacity: 1;
 }
 
-.Tooltip-message.is-above {
+.Tooltip-message.position-above {
 	bottom: calc(100% + var(--1x) - 2px);
 
 	&::before {
@@ -154,8 +154,7 @@
 	}
 }
 
-.Tooltip-message.is-below {
-	--caret-color: var(--color-black);
+.Tooltip-message.position-below {
 	top: calc(100% + var(--1x) - 2px);
 
 	&::before {
@@ -164,7 +163,7 @@
 	}
 }
 
-.Tooltip-message.is-left {
+.Tooltip-message.direction-left {
 	right: calc(-1 * var(--3x));
 
 	&::before {
@@ -172,7 +171,7 @@
 	}
 }
 
-.Tooltip-message.is-right {
+.Tooltip-message.direction-right {
 	left: calc(-1 * var(--3x));
 
 	&::before {

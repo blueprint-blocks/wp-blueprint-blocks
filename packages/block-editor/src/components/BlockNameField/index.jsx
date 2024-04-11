@@ -1,7 +1,10 @@
-import { useMemo } from "react";
+import { useContext, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import { TutorialContext } from "../../contexts";
 import { delimiterize } from "../../functions";
+
+import { useRect } from "../../hooks";
 
 import {
 	getBlockName,
@@ -21,6 +24,7 @@ import {
 
 import EditableString from "../EditableString";
 import Tooltip from "../Tooltip";
+import TutorialTooltip from "../TutorialTooltip";
 
 import "./style.css";
 
@@ -30,6 +34,15 @@ const defaultBlockNamespace =
 
 const BlockNameField = ({ onBlur, onFocus }) => {
 	const dispatch = useDispatch();
+
+	const ref = useRef(null);
+	const nameRef = useRef(null);
+
+	const nameRect = useRect(nameRef, ref, ["right"]);
+
+	const tutorialContext = useContext(TutorialContext);
+
+	const [hasFocus, setHasFocus] = useState(false);
 
 	const blockName = useSelector((state) => getBlockName(state.blockJson));
 
@@ -51,8 +64,18 @@ const BlockNameField = ({ onBlur, onFocus }) => {
 		if (blockName === delimiterizedBlockTitle) {
 			//dispatch(setTitle())
 		}
+
 		dispatch(setName(`${blockNamespace}/${delimiterize(newBlockName)}`));
 		dispatch(setChanged(true));
+
+		// Move on to the next step in the tutorial if the user has started typing a name
+		if (
+			tutorialContext.isActive &&
+			tutorialContext.currentStep === 1 &&
+			newBlockName.length > 2
+		) {
+			tutorialContext.goToNextStep();
+		}
 	};
 
 	const setBlockNamespace = (newBlockNamespace) => {
@@ -78,26 +101,53 @@ const BlockNameField = ({ onBlur, onFocus }) => {
 		[showValidationErrors, blockNamespace],
 	);
 
+	const disabled = useMemo(
+		() =>
+			!hasFocus &&
+			tutorialContext.isActive &&
+			tutorialContext.currentStep !== 1,
+		[hasFocus, tutorialContext],
+	);
+
+	const _onBlur = () => {
+		setHasFocus(false);
+		onBlur();
+	};
+
+	const _onFocus = () => {
+		setHasFocus(true);
+		onFocus();
+	};
+
 	return (
-		<div className="BlockNameField">
+		<div className="BlockNameField" ref={ref}>
 			<div className="BlockNameField-input">
 				<EditableString
 					className="BlockNameField-namespace"
+					disabled={tutorialContext.isActive}
 					invalid={showNamespaceInvalid}
-					onBlur={onBlur}
+					onBlur={_onBlur}
 					onChange={setBlockNamespace}
-					onFocus={onFocus}
+					onFocus={_onFocus}
 					value={blockNamespace}
 				/>
 				<div class="BlockNameField-seperator">{"/"}</div>
 				<EditableString
+					ref={nameRef}
 					className="BlockNameField-name"
+					disabled={disabled}
 					invalid={showNameInvalid}
-					onBlur={onBlur}
+					onBlur={_onBlur}
 					onChange={setBlockName}
-					onFocus={onFocus}
+					onFocus={_onFocus}
 					placeholder={"enter-a-block-name..."}
 					value={blockName}
+				/>
+				<TutorialTooltip
+					ref={ref}
+					step={1}
+					left={nameRect.right}
+					position="right"
 				/>
 			</div>
 			<Tooltip data="blockJson.name" position="below" />

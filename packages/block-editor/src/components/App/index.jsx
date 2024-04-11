@@ -1,8 +1,8 @@
 import clsx from "clsx";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
-import { AppContext } from "../../contexts";
+import { AppContext, TutorialContext } from "../../contexts";
 
 import {
 	useBlockSave,
@@ -11,8 +11,6 @@ import {
 	usePreventClose,
 } from "../../hooks";
 
-import BlueprintConnectionsProvider from "../BlueprintConnectionsProvider";
-import BlueprintEditorProvider from "../BlueprintEditorProvider";
 import Navigator from "../Navigator";
 import PageBlockJson from "../PageBlockJson";
 import PageBlueprint from "../PageBlueprint";
@@ -39,6 +37,8 @@ function App() {
 		(state) => state.upsellDialog.visible,
 	);
 
+	const tutorialContext = useContext(TutorialContext);
+
 	useDispatchAppRect(ref);
 	usePreventClose(hasUnsavedChanges);
 
@@ -55,28 +55,25 @@ function App() {
 				setEditorWrapperRef,
 			}}
 		>
-			<BlueprintConnectionsProvider>
-				<BlueprintEditorProvider>
-					<div
-						ref={ref}
-						className={clsx("App", {
-							"is-debug": process.env.NODE_ENV === "development",
-						})}
-					>
-						<Navigator
-							activeNavItem={activeNavItem}
-							setActiveNavItem={setActiveNavItem}
-							onUpdate={saveBlock}
-						/>
-						{activeNavItem === 0 && <PageBlockJson />}
-						{activeNavItem === 1 && <PageBlueprint />}
-						{activeNavItem === 2 && <PageViewCss />}
-						{activeNavItem === 3 && <PageEditorCss />}
-						{saveDialogIsVisible && <SaveDialog />}
-						{upsellDialogIsVisible && <UpsellDialog />}
-					</div>
-				</BlueprintEditorProvider>
-			</BlueprintConnectionsProvider>
+			<div
+				ref={ref}
+				className={clsx("App", {
+					"is-debug": process.env.NODE_ENV === "development",
+					"is-tutorial": tutorialContext.isActive,
+				})}
+			>
+				<Navigator
+					activeNavItem={activeNavItem}
+					setActiveNavItem={setActiveNavItem}
+					onUpdate={saveBlock}
+				/>
+				{activeNavItem === 0 && <PageBlockJson />}
+				{activeNavItem === 1 && <PageBlueprint />}
+				{activeNavItem === 2 && <PageViewCss />}
+				{activeNavItem === 3 && <PageEditorCss />}
+				{saveDialogIsVisible && <SaveDialog />}
+				{upsellDialogIsVisible && <UpsellDialog />}
+			</div>
 		</AppContext.Provider>
 	);
 }

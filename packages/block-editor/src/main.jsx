@@ -5,11 +5,20 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 import App from "./components/App";
+import BlueprintConnectionsProvider from "./components/BlueprintConnectionsProvider";
+import BlueprintEditorProvider from "./components/BlueprintEditorProvider";
+import TutorialProvider from "./components/TutorialProvider";
 
 import "./main.css";
 
 ReactDOM.createRoot(document.getElementById("wpbody")).render(
 	<Provider store={store}>
-		<App />
+		<TutorialProvider>
+			<BlueprintConnectionsProvider>
+				<BlueprintEditorProvider>
+					<App />
+				</BlueprintEditorProvider>
+			</BlueprintConnectionsProvider>
+		</TutorialProvider>
 	</Provider>,
 );

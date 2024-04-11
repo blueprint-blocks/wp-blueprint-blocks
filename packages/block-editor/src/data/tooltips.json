@@ -118,5 +118,22 @@
 				"width": 360
 			}
 		}
+	},
+	"tutorial": {
+		"step1": {
+			"label": "This is the block name",
+			"text": "All blocks need a unique name to be registered in WordPress. Name it something concise and memorable.",
+			"width": 400
+		},
+		"step2": {
+			"label": "This is the block title",
+			"text": "The title is what the user will see when editing a page. Make sure to give it a descriptive one that is easy to find and recognizable.",
+			"width": 400
+		},
+		"step3": {
+			"label": "This is the block icon",
+			"text": "The icon is displayed when selecting a block in the Inserter. Pick something that will ✨ standout ✨ from the crowd.",
+			"width": 400
+		}
 	}
 }

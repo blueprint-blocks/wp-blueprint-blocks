@@ -7513,8 +7513,26 @@
 			}
 		}
 	};
+	var tutorial = {
+		step1: {
+			label: "This is the block name",
+			text: "All blocks need a unique name to be registered in WordPress. Name it something concise and memorable.",
+			width: 400
+		},
+		step2: {
+			label: "This is the block title",
+			text: "The title is what the user will see when editing a page. Make sure to give it a descriptive one that is easy to find and recognizable.",
+			width: 400
+		},
+		step3: {
+			label: "This is the block icon",
+			text: "The icon is displayed when selecting a block in the Inserter. Pick something that will ✨ standout ✨ from the crowd.",
+			width: 400
+		}
+	};
 	var tooltips = {
-		blockJson: blockJson$1
+		blockJson: blockJson$1,
+		tutorial: tutorial
 	};
 
 	function componentAllowsChildren() {
@@ -9864,6 +9882,8 @@
 
 	var BlueprintEditorContext = /*#__PURE__*/React$2.createContext(null);
 
+	var TutorialContext = /*#__PURE__*/React$2.createContext({});
+
 	function useAppRect() {
 	  return useSelector(function (state) {
 	    return state.app.rect;
@@ -11974,151 +11994,6 @@
 
 	var jsxRuntimeExports = jsxRuntime.exports;
 
-	function BlueprintConnectionsProvider(_ref) {
-	  var children = _ref.children;
-	  var _useState = React$2.useState([]),
-	    _useState2 = _slicedToArray(_useState, 2),
-	    allConnections = _useState2[0],
-	    setAllConnections = _useState2[1];
-	  var _useState3 = React$2.useState(null),
-	    _useState4 = _slicedToArray(_useState3, 2),
-	    existingDraggingConnection = _useState4[0],
-	    setExistingDraggingConnection = _useState4[1];
-	  var _useState5 = React$2.useState(null),
-	    _useState6 = _slicedToArray(_useState5, 2),
-	    newDraggingConnection = _useState6[0],
-	    setNewDraggingConnection = _useState6[1];
-	  var _useBlockJson = useBlockJson(),
-	    blockAttributes = _useBlockJson.blockAttributes;
-	  var _useBlueprint = useBlueprint(),
-	    blockComponents = _useBlueprint.blockComponents,
-	    getComponentsByAttributeName = _useBlueprint.getComponentsByAttributeName;
-	  var startDraggingExistingConnection = React$2.useCallback(function (_ref2) {
-	    var attributeName = _ref2.attributeName,
-	      clientId = _ref2.clientId,
-	      from = _ref2.from,
-	      to = _ref2.to;
-	    setExistingDraggingConnection({
-	      attributeName: attributeName,
-	      clientId: clientId,
-	      from: {
-	        x: (from === null || from === void 0 ? void 0 : from.x) || null,
-	        y: (from === null || from === void 0 ? void 0 : from.y) || null
-	      },
-	      to: {
-	        x: (to === null || to === void 0 ? void 0 : to.x) || null,
-	        y: (to === null || to === void 0 ? void 0 : to.y) || null
-	      }
-	    });
-	  }, []);
-	  var startDraggingNewConnection = React$2.useCallback(function (_ref3) {
-	    var attributeName = _ref3.attributeName,
-	      clientId = _ref3.clientId,
-	      from = _ref3.from,
-	      to = _ref3.to,
-	      type = _ref3.type;
-	    setNewDraggingConnection({
-	      attributeName: attributeName,
-	      clientId: clientId,
-	      from: {
-	        x: (from === null || from === void 0 ? void 0 : from.x) || null,
-	        y: (from === null || from === void 0 ? void 0 : from.y) || null
-	      },
-	      to: {
-	        x: (to === null || to === void 0 ? void 0 : to.x) || null,
-	        y: (to === null || to === void 0 ? void 0 : to.y) || null
-	      },
-	      type: type
-	    });
-	  }, []);
-	  var stopDraggingExistingConnection = React$2.useCallback(function () {
-	    setExistingDraggingConnection(null);
-	  }, []);
-	  var stopDraggingNewConnection = React$2.useCallback(function () {
-	    setNewDraggingConnection(null);
-	  }, []);
-	  React$2.useLayoutEffect(function () {
-	    var allConnections = [];
-	    blockAttributes.forEach(function (attribute) {
-	      if (!(attribute !== null && attribute !== void 0 && attribute.name)) {
-	        return;
-	      }
-	      Object.keys(getComponentsByAttributeName(attribute.name)).forEach(function (to) {
-	        allConnections.push({
-	          from: attribute.clientId,
-	          to: to
-	        });
-	      });
-	    });
-	    setAllConnections(allConnections);
-	  }, [blockAttributes, blockComponents]);
-	  return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionsContext.Provider, {
-	    value: {
-	      allConnections: allConnections,
-	      existingDraggingConnection: existingDraggingConnection,
-	      newDraggingConnection: newDraggingConnection,
-	      startDraggingExistingConnection: startDraggingExistingConnection,
-	      startDraggingNewConnection: startDraggingNewConnection,
-	      stopDraggingExistingConnection: stopDraggingExistingConnection,
-	      stopDraggingNewConnection: stopDraggingNewConnection
-	    },
-	    children: children
-	  });
-	}
-
-	function BlueprintEditorProvider(_ref) {
-	  var children = _ref.children;
-	  var _useState = React$2.useState(null),
-	    _useState2 = _slicedToArray(_useState, 2),
-	    ref = _useState2[0],
-	    setRef = _useState2[1];
-	  var _useState3 = React$2.useState(false),
-	    _useState4 = _slicedToArray(_useState3, 2),
-	    isDragging = _useState4[0],
-	    setIsDragging = _useState4[1];
-	  var _useState5 = React$2.useState(null),
-	    _useState6 = _slicedToArray(_useState5, 2),
-	    currentDraggingContext = _useState6[0],
-	    setCurrentDraggingContext = _useState6[1];
-	  var _useState7 = React$2.useState(null),
-	    _useState8 = _slicedToArray(_useState7, 2),
-	    priorDraggingContext = _useState8[0],
-	    setPriorDraggingContext = _useState8[1];
-	  var resetDraggingContext = React$2.useCallback(function () {
-	    setCurrentDraggingContext(null);
-	  }, []);
-	  var startDragging = React$2.useCallback(function (context) {
-	    setCurrentDraggingContext(context);
-	    setIsDragging(true);
-	  }, []);
-	  var stopDragging = React$2.useCallback(function () {
-	    // this is done at the end of the render to prevent click events
-	    setTimeout(function () {
-	      setPriorDraggingContext(currentDraggingContext);
-	      setIsDragging(false);
-
-	      // this is done at the end of the next render to
-	      // allow pickup by drop listeners
-	      setTimeout(function () {
-	        resetDraggingContext();
-	      }, 0);
-	    }, 0);
-	  }, []);
-	  return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintEditorContext.Provider, {
-	    value: {
-	      ref: ref,
-	      currentDraggingContext: currentDraggingContext,
-	      isDragging: isDragging,
-	      priorDraggingContext: priorDraggingContext,
-	      resetDraggingContext: resetDraggingContext,
-	      setRef: setRef,
-	      startDragging: startDragging,
-	      stopDragging: stopDragging
-	    },
-	    children: children
-	  });
-	}
-
 	var Button = function Button(_ref) {
 	  var children = _ref.children,
 	    _ref$disabled = _ref.disabled,
@@ -12150,11 +12025,12 @@
 	var _blueprintBlocksEdito$5 = blueprintBlocksEditorSettings,
 	  _blueprintBlocksEdito2$2 = _blueprintBlocksEdito$5.pluginMetadata,
 	  pluginMetadata$2 = _blueprintBlocksEdito2$2 === void 0 ? {} : _blueprintBlocksEdito2$2;
-	function Navigator(_ref) {
+	var Navigator = function Navigator(_ref) {
 	  var activeNavItem = _ref.activeNavItem,
 	    setActiveNavItem = _ref.setActiveNavItem,
 	    onUpdate = _ref.onUpdate;
 	  var ref = React$2.useRef(null);
+	  var tutorialContext = React$2.useContext(TutorialContext);
 	  var navItemRefs = navItems.map(function () {
 	    return React$2.useRef(null);
 	  });
@@ -12167,6 +12043,12 @@
 	  var isUpdateDisabled = useSelector(function (state) {
 	    return !hasUnsavedChanges(state.postMetadata);
 	  });
+	  var _setActiveNavItem = React$2.useCallback(function (index) {
+	    if (tutorialContext.isActive === true) {
+	      return;
+	    }
+	    setActiveNavItem(index);
+	  }, [tutorialContext]);
 	  useDispatchNavRect(ref);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
@@ -12177,9 +12059,12 @@
 	          icon = _ref2.icon;
 	        return /*#__PURE__*/jsxRuntimeExports.jsx("li", {
 	          ref: navItemRefs[index],
-	          className: index === activeNavItem && "is-active" || "",
+	          className: clsx$1({
+	            "is-active": index === activeNavItem,
+	            "is-disabled": tutorialContext.isActive
+	          }),
 	          onClick: function onClick() {
-	            return setActiveNavItem(index);
+	            return _setActiveNavItem(index);
 	          },
 	          children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	            children: [icon && /*#__PURE__*/jsxRuntimeExports.jsx("img", {
@@ -12204,7 +12089,7 @@
 	      })
 	    })]
 	  });
-	}
+	};
 
 	var reactContenteditable = {};
 
@@ -13467,6 +13352,7 @@
 	    className: clsx$1("EditableString", className, {
 	      "has-focus": hasFocus,
 	      "has-value": html.length > 0,
+	      "is-disabled": disabled,
 	      "is-invalid": invalid,
 	      "is-multiline": multiLine
 	    }),
@@ -13496,10 +13382,103 @@
 	  });
 	}));
 
+	var TutorialTooltip = /*#__PURE__*/React$2.memo( /*#__PURE__*/React$2.forwardRef(function (_ref, parentRef) {
+	  var _ref$step = _ref.step,
+	    step = _ref$step === void 0 ? null : _ref$step,
+	    _ref$left = _ref.left,
+	    left = _ref$left === void 0 ? null : _ref$left,
+	    _ref$position = _ref.position,
+	    position = _ref$position === void 0 ? "above" : _ref$position,
+	    _ref$right = _ref.right,
+	    right = _ref$right === void 0 ? null : _ref$right;
+	  var tooltipRef = React$2.useRef(null);
+	  useRect(tooltipRef, null, ["height"]);
+	  //const parentRect = useRect(parentRef, null, ["bottom", "top"]);
+
+	  var _useState = React$2.useState(false),
+	    _useState2 = _slicedToArray(_useState, 2),
+	    isVisible = _useState2[0],
+	    setIsVisible = _useState2[1];
+	  useAppRect();
+	  useNavRect();
+	  var tutorialContext = React$2.useContext(TutorialContext);
+	  var _useBlockJson = useBlockJson(),
+	    blockJson = _useBlockJson.blockJson;
+	  var _label = React$2.useMemo(function () {
+	    return getObjectProperty(tooltips, "tutorial.step".concat(step, ".label"));
+	  }, [step]);
+	  var _text = React$2.useMemo(function () {
+	    var _blockJson$name$split, _blockJson$name$split2;
+	    var _text = getObjectProperty(tooltips, "tutorial.step".concat(step, ".text"));
+	    return parseMarkdown(replaceTokens(_text, {
+	      block: _objectSpread2(_objectSpread2({}, blockJson), {}, {
+	        namespace: (_blockJson$name$split = blockJson.name.split("/")) === null || _blockJson$name$split === void 0 ? void 0 : _blockJson$name$split[0],
+	        name: (_blockJson$name$split2 = blockJson.name.split("/")) === null || _blockJson$name$split2 === void 0 ? void 0 : _blockJson$name$split2[1]
+	      })
+	    }));
+	  }, [blockJson, step]);
+	  var _width = React$2.useMemo(function () {
+	    return getObjectProperty(tooltips, "tutorial.step".concat(step, ".width"));
+	  }, [step]);
+	  var style = React$2.useMemo(function () {
+	    var style = {
+	      "--width": "".concat(_width, "px")
+	    };
+	    if (left) {
+	      style["--left"] = "".concat(left, "px");
+	    }
+	    if (right) {
+	      style["--right"] = "".concat(right, "px");
+	    }
+	    return style;
+	  }, [left, right]);
+	  React$2.useEffect(function () {
+	    if (!isVisible && step === tutorialContext.currentStep) {
+	      setIsVisible(true);
+	    } else if (isVisible && step !== tutorialContext.currentStep) {
+	      setIsVisible(false);
+	    } else if (isVisible && !tutorialContext.isActive) {
+	      setIsVisible(false);
+	    }
+	  }, [step, tutorialContext]);
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    ref: tooltipRef,
+	    className: clsx$1("TutorialTooltip", "position-".concat(position), {
+	      "has-label": _label,
+	      "is-visible": isVisible
+	    }),
+	    style: style,
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	      className: "TutorialTooltip-text",
+	      children: [_label && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	        className: "TutorialTooltip-label",
+	        children: _label
+	      }), /*#__PURE__*/jsxRuntimeExports.jsx("p", {
+	        dangerouslySetInnerHTML: {
+	          __html: _text
+	        }
+	      })]
+	    }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	      className: "TutorialTooltip-actions",
+	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	        children: /*#__PURE__*/jsxRuntimeExports.jsx("p", {
+	          className: "TutorialTooltip-skip",
+	          children: "Done? Click here to skip."
+	        })
+	      }), /*#__PURE__*/jsxRuntimeExports.jsx(Button, {
+	        label: "Got it!",
+	        style: ["small", "white"],
+	        onClick: tutorialContext.goToNextStep
+	      })]
+	    })]
+	  });
+	}));
+
 	function BlockIconField(_ref) {
 	  var onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus;
 	  var dispatch = useDispatch();
+	  var tutorialContext = React$2.useContext(TutorialContext);
 	  var blockIcon = useSelector(function (state) {
 	    var _state$blockJson;
 	    return ((_state$blockJson = state.blockJson) === null || _state$blockJson === void 0 ? void 0 : _state$blockJson.icon) || "";
@@ -13514,6 +13493,9 @@
 	    _useState4 = _slicedToArray(_useState3, 2),
 	    searchFilter = _useState4[0],
 	    setSearchFilter = _useState4[1];
+	  var disabled = React$2.useMemo(function () {
+	    return tutorialContext.isActive && tutorialContext.currentStep < 3;
+	  }, [tutorialContext]);
 	  var selectedIcon = React$2.useMemo(function () {
 	    var _iterator = _createForOfIteratorHelper(dashicons),
 	      _step;
@@ -13552,8 +13534,16 @@
 	    setSearchFilter("");
 	    setDropdownOpen(false);
 	    onBlur();
+
+	    // Move on to the next step in the tutorial if the user has started typing a name
+	    if (tutorialContext.isActive && tutorialContext.currentStep === 3) {
+	      tutorialContext.goToNextStep();
+	    }
 	  };
 	  var onClick = function onClick() {
+	    if (disabled) {
+	      return;
+	    }
 	    setDropdownOpen(true);
 	    onFocus();
 	    setTimeout(function () {
@@ -13570,53 +13560,60 @@
 	    }
 	  });
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	    ref: ref,
-	    className: clsx$1("BlockIconField", {
-	      "is-open": isDropdownOpen
-	    }),
-	    onClick: onClick,
-	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	      className: selectedIcon
-	    }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	      className: "BlockIconField-dropdown",
-	      children: [/*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
-	        ref: inputRef,
-	        className: "BlockIconField-filter",
-	        onChange: function onChange(value) {
-	          return setSearchFilter(value.toLowerCase());
-	        },
-	        placeholder: "Filter icons...",
-	        value: searchFilter
-	      }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	        className: "BlockIconField-options",
-	        children: filteredDashicons.map(function (group, index) {
-	          return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	            children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	              className: "BlockIconField-heading",
-	              children: group.label
-	            }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	              className: "BlockIconField-icons",
-	              children: group.icons.map(function (_ref3) {
-	                var icon = _ref3.icon,
-	                  label = _ref3.label,
-	                  value = _ref3.value;
-	                return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	                  onClick: function onClick(event) {
-	                    return setBlockIcon(event, value);
-	                  },
-	                  title: label,
-	                  children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	                    children: /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	                      className: icon
+	    className: "BlockIconField-wrap",
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	      ref: ref,
+	      className: clsx$1("BlockIconField", {
+	        "is-disabled": disabled,
+	        "is-open": isDropdownOpen
+	      }),
+	      onClick: onClick,
+	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	        className: selectedIcon
+	      }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	        className: "BlockIconField-dropdown",
+	        children: [/*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
+	          ref: inputRef,
+	          className: "BlockIconField-filter",
+	          onChange: function onChange(value) {
+	            return setSearchFilter(value.toLowerCase());
+	          },
+	          placeholder: "Filter icons...",
+	          value: searchFilter
+	        }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	          className: "BlockIconField-options",
+	          children: filteredDashicons.map(function (group, index) {
+	            return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	              children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	                className: "BlockIconField-heading",
+	                children: group.label
+	              }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	                className: "BlockIconField-icons",
+	                children: group.icons.map(function (_ref3) {
+	                  var icon = _ref3.icon,
+	                    label = _ref3.label,
+	                    value = _ref3.value;
+	                  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	                    onClick: function onClick(event) {
+	                      return setBlockIcon(event, value);
+	                    },
+	                    title: label,
+	                    children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	                      children: /*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	                        className: icon
+	                      })
 	                    })
-	                  })
-	                }, index);
-	              })
-	            })]
-	          }, index);
-	        })
+	                  }, index);
+	                })
+	              })]
+	            }, index);
+	          })
+	        })]
 	      })]
-	    }), false ]
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(TutorialTooltip, {
+	      step: 3,
+	      position: "right"
+	    })]
 	  });
 	}
 
@@ -13642,6 +13639,7 @@
 	  var messageRect = useRect(messageRef, null, ["height"]);
 	  var appRect = useAppRect();
 	  var navRect = useNavRect();
+	  var tutorialContext = React$2.useContext(TutorialContext);
 	  var _useBlockJson = useBlockJson(),
 	    blockJson = _useBlockJson.blockJson;
 	  var _position = React$2.useMemo(function () {
@@ -13682,7 +13680,9 @@
 	  }, [data, width]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
-	    className: "Tooltip",
+	    className: clsx$1("Tooltip", {
+	      "is-disabled": tutorialContext.isActive
+	    }),
 	    style: {
 	      "--width": _width
 	    },
@@ -13690,7 +13690,7 @@
 	      children: "?"
 	    }), (_label || _text) && /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	      ref: messageRef,
-	      className: clsx$1("Tooltip-message", "is-".concat(direction), "is-".concat(_position), {
+	      className: clsx$1("Tooltip-message", "direction-".concat(direction), "position-".concat(_position), {
 	        "has-label": _label
 	      }),
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
@@ -13723,7 +13723,7 @@
 	        href: _url,
 	        target: "_blank"
 	      })]
-	    }), _url && /*#__PURE__*/jsxRuntimeExports.jsx("a", {
+	    }), _url && !tutorialContext.isActive && /*#__PURE__*/jsxRuntimeExports.jsx("a", {
 	      className: "Tooltip-link",
 	      href: _url,
 	      target: "_blank"
@@ -13737,6 +13737,14 @@
 	  var onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus;
 	  var dispatch = useDispatch();
+	  var ref = React$2.useRef(null);
+	  var nameRef = React$2.useRef(null);
+	  var nameRect = useRect(nameRef, ref, ["right"]);
+	  var tutorialContext = React$2.useContext(TutorialContext);
+	  var _useState = React$2.useState(false),
+	    _useState2 = _slicedToArray(_useState, 2),
+	    hasFocus = _useState2[0],
+	    setHasFocus = _useState2[1];
 	  var blockName = useSelector(function (state) {
 	    return getBlockName(state.blockJson);
 	  });
@@ -13752,6 +13760,11 @@
 	  var setBlockName = function setBlockName(newBlockName) {
 	    dispatch(setName("".concat(blockNamespace, "/").concat(delimiterize(newBlockName))));
 	    dispatch(setChanged(true));
+
+	    // Move on to the next step in the tutorial if the user has started typing a name
+	    if (tutorialContext.isActive && tutorialContext.currentStep === 1 && newBlockName.length > 2) {
+	      tutorialContext.goToNextStep();
+	    }
 	  };
 	  var setBlockNamespace = function setBlockNamespace(newBlockNamespace) {
 	    if (newBlockNamespace === "") {
@@ -13769,28 +13782,48 @@
 	  var showNamespaceInvalid = React$2.useMemo(function () {
 	    return showValidationErrors && !validateNamespace(blockNamespace);
 	  }, [showValidationErrors, blockNamespace]);
+	  var disabled = React$2.useMemo(function () {
+	    return !hasFocus && tutorialContext.isActive && tutorialContext.currentStep !== 1;
+	  }, [hasFocus, tutorialContext]);
+	  var _onBlur = function _onBlur() {
+	    setHasFocus(false);
+	    onBlur();
+	  };
+	  var _onFocus = function _onFocus() {
+	    setHasFocus(true);
+	    onFocus();
+	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    className: "BlockNameField",
+	    ref: ref,
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	      className: "BlockNameField-input",
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
 	        className: "BlockNameField-namespace",
+	        disabled: tutorialContext.isActive,
 	        invalid: showNamespaceInvalid,
-	        onBlur: onBlur,
+	        onBlur: _onBlur,
 	        onChange: setBlockNamespace,
-	        onFocus: onFocus,
+	        onFocus: _onFocus,
 	        value: blockNamespace
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	        "class": "BlockNameField-seperator",
 	        children: "/"
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
+	        ref: nameRef,
 	        className: "BlockNameField-name",
+	        disabled: disabled,
 	        invalid: showNameInvalid,
-	        onBlur: onBlur,
+	        onBlur: _onBlur,
 	        onChange: setBlockName,
-	        onFocus: onFocus,
+	        onFocus: _onFocus,
 	        placeholder: "enter-a-block-name...",
 	        value: blockName
+	      }), /*#__PURE__*/jsxRuntimeExports.jsx(TutorialTooltip, {
+	        ref: ref,
+	        step: 1,
+	        left: nameRect.right,
+	        position: "right"
 	      })]
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx(Tooltip, {
 	      data: "blockJson.name",
@@ -13866,6 +13899,11 @@
 	  var onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus;
 	  var dispatch = useDispatch();
+	  var tutorialContext = React$2.useContext(TutorialContext);
+	  var _useState = React$2.useState(false),
+	    _useState2 = _slicedToArray(_useState, 2),
+	    hasFocus = _useState2[0],
+	    setHasFocus = _useState2[1];
 	  var _useBlockSave = useBlockSave(),
 	    isNew = _useBlockSave.isNew,
 	    setChanged = _useBlockSave.setChanged;
@@ -13885,17 +13923,42 @@
 	    }
 	    dispatch(setTitle(newBlockTitle));
 	    setChanged();
+
+	    // Update the document title when the block title is changed
 	    if (!isNew) {
 	      setDocumentTitle(newBlockTitle);
 	    }
+
+	    // Move on to the next step in the tutorial if the user has started typing a name
+	    if (tutorialContext.isActive && tutorialContext.currentStep === 2 && newBlockTitle.length > 2) {
+	      tutorialContext.goToNextStep();
+	    }
 	  };
-	  return /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
-	    label: "Enter a title...",
-	    tooltip: "blockJson.title",
-	    value: blockTitle,
-	    setValue: setBlockTitle,
-	    onFocus: onFocus,
-	    onBlur: onBlur
+	  var disabled = React$2.useMemo(function () {
+	    return !hasFocus && tutorialContext.isActive && tutorialContext.currentStep !== 2;
+	  }, [hasFocus, tutorialContext]);
+	  var _onBlur = function _onBlur() {
+	    setHasFocus(false);
+	    onBlur();
+	  };
+	  var _onFocus = function _onFocus() {
+	    setHasFocus(true);
+	    onFocus();
+	  };
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    className: "BlockTitleField",
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
+	      disabled: disabled,
+	      label: "Enter a title...",
+	      tooltip: "blockJson.title",
+	      value: blockTitle,
+	      setValue: setBlockTitle,
+	      onFocus: _onFocus,
+	      onBlur: _onBlur
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(TutorialTooltip, {
+	      step: 2,
+	      position: "right"
+	    })]
 	  });
 	};
 
@@ -14274,7 +14337,9 @@
 	}
 
 	function SelectField(_ref) {
-	  var name = _ref.name,
+	  var _ref$disabled = _ref.disabled,
+	    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
+	    name = _ref.name,
 	    label = _ref.label,
 	    onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus,
@@ -14305,6 +14370,9 @@
 	    return null;
 	  }, [value]);
 	  var onClick = function onClick() {
+	    if (disabled) {
+	      return;
+	    }
 	    setSelectOpen(true);
 	    onFocus();
 	  };
@@ -14354,6 +14422,7 @@
 	  blockCategories = _ref$blockCategories === void 0 ? [] : _ref$blockCategories;
 	var PageBlockJson = /*#__PURE__*/React$2.memo(function () {
 	  var dispatch = useDispatch();
+	  var tutorialContext = React$2.useContext(TutorialContext);
 	  var _blockCategories = React$2.useMemo(function () {
 	    return blockCategories.filter(function (_ref2) {
 	      var slug = _ref2.slug;
@@ -14433,6 +14502,7 @@
 	              return _onFocus("title");
 	            }
 	          }), /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
+	            disabled: tutorialContext.isActive,
 	            label: "Enter a description...",
 	            tooltip: "blockJson.description",
 	            multiLine: true,
@@ -14446,6 +14516,7 @@
 	              return _onBlur("description");
 	            }
 	          }), /*#__PURE__*/jsxRuntimeExports.jsx(ListField, {
+	            disabled: tutorialContext.isActive,
 	            label: "Enter a few keywords...",
 	            placeholder: "Enter a keyword...",
 	            tooltip: "blockJson.keywords",
@@ -14458,6 +14529,7 @@
 	              return _onBlur("keywords", index);
 	            }
 	          }), /*#__PURE__*/jsxRuntimeExports.jsx(SelectField, {
+	            disabled: tutorialContext.isActive,
 	            name: "category",
 	            label: "Category",
 	            tooltip: "blockJson.category",
@@ -48157,6 +48229,7 @@
 	  var upsellDialogIsVisible = useSelector(function (state) {
 	    return state.upsellDialog.visible;
 	  });
+	  var tutorialContext = React$2.useContext(TutorialContext);
 	  useDispatchAppRect(ref);
 	  usePreventClose(hasUnsavedChanges);
 	  return /*#__PURE__*/jsxRuntimeExports.jsx(AppContext.Provider, {
@@ -48166,27 +48239,204 @@
 	      setEditorRef: setEditorRef,
 	      setEditorWrapperRef: setEditorWrapperRef
 	    },
-	    children: /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionsProvider, {
-	      children: /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintEditorProvider, {
-	        children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	          ref: ref,
-	          className: clsx$1("App", {
-	            "is-debug": undefined === "development"
-	          }),
-	          children: [/*#__PURE__*/jsxRuntimeExports.jsx(Navigator, {
-	            activeNavItem: activeNavItem,
-	            setActiveNavItem: setActiveNavItem,
-	            onUpdate: saveBlock
-	          }), activeNavItem === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlockJson, {}), activeNavItem === 1 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlueprint, {}), activeNavItem === 2 && /*#__PURE__*/jsxRuntimeExports.jsx(PageViewCss, {}), activeNavItem === 3 && /*#__PURE__*/jsxRuntimeExports.jsx(PageEditorCss, {}), saveDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(SaveDialog, {}), upsellDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(UpsellDialog, {})]
-	        })
-	      })
+	    children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	      ref: ref,
+	      className: clsx$1("App", {
+	        "is-debug": undefined === "development",
+	        "is-tutorial": tutorialContext.isActive
+	      }),
+	      children: [/*#__PURE__*/jsxRuntimeExports.jsx(Navigator, {
+	        activeNavItem: activeNavItem,
+	        setActiveNavItem: setActiveNavItem,
+	        onUpdate: saveBlock
+	      }), activeNavItem === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlockJson, {}), activeNavItem === 1 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlueprint, {}), activeNavItem === 2 && /*#__PURE__*/jsxRuntimeExports.jsx(PageViewCss, {}), activeNavItem === 3 && /*#__PURE__*/jsxRuntimeExports.jsx(PageEditorCss, {}), saveDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(SaveDialog, {}), upsellDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(UpsellDialog, {})]
 	    })
+	  });
+	}
+
+	function BlueprintConnectionsProvider(_ref) {
+	  var children = _ref.children;
+	  var _useState = React$2.useState([]),
+	    _useState2 = _slicedToArray(_useState, 2),
+	    allConnections = _useState2[0],
+	    setAllConnections = _useState2[1];
+	  var _useState3 = React$2.useState(null),
+	    _useState4 = _slicedToArray(_useState3, 2),
+	    existingDraggingConnection = _useState4[0],
+	    setExistingDraggingConnection = _useState4[1];
+	  var _useState5 = React$2.useState(null),
+	    _useState6 = _slicedToArray(_useState5, 2),
+	    newDraggingConnection = _useState6[0],
+	    setNewDraggingConnection = _useState6[1];
+	  var _useBlockJson = useBlockJson(),
+	    blockAttributes = _useBlockJson.blockAttributes;
+	  var _useBlueprint = useBlueprint(),
+	    blockComponents = _useBlueprint.blockComponents,
+	    getComponentsByAttributeName = _useBlueprint.getComponentsByAttributeName;
+	  var startDraggingExistingConnection = React$2.useCallback(function (_ref2) {
+	    var attributeName = _ref2.attributeName,
+	      clientId = _ref2.clientId,
+	      from = _ref2.from,
+	      to = _ref2.to;
+	    setExistingDraggingConnection({
+	      attributeName: attributeName,
+	      clientId: clientId,
+	      from: {
+	        x: (from === null || from === void 0 ? void 0 : from.x) || null,
+	        y: (from === null || from === void 0 ? void 0 : from.y) || null
+	      },
+	      to: {
+	        x: (to === null || to === void 0 ? void 0 : to.x) || null,
+	        y: (to === null || to === void 0 ? void 0 : to.y) || null
+	      }
+	    });
+	  }, []);
+	  var startDraggingNewConnection = React$2.useCallback(function (_ref3) {
+	    var attributeName = _ref3.attributeName,
+	      clientId = _ref3.clientId,
+	      from = _ref3.from,
+	      to = _ref3.to,
+	      type = _ref3.type;
+	    setNewDraggingConnection({
+	      attributeName: attributeName,
+	      clientId: clientId,
+	      from: {
+	        x: (from === null || from === void 0 ? void 0 : from.x) || null,
+	        y: (from === null || from === void 0 ? void 0 : from.y) || null
+	      },
+	      to: {
+	        x: (to === null || to === void 0 ? void 0 : to.x) || null,
+	        y: (to === null || to === void 0 ? void 0 : to.y) || null
+	      },
+	      type: type
+	    });
+	  }, []);
+	  var stopDraggingExistingConnection = React$2.useCallback(function () {
+	    setExistingDraggingConnection(null);
+	  }, []);
+	  var stopDraggingNewConnection = React$2.useCallback(function () {
+	    setNewDraggingConnection(null);
+	  }, []);
+	  React$2.useLayoutEffect(function () {
+	    var allConnections = [];
+	    blockAttributes.forEach(function (attribute) {
+	      if (!(attribute !== null && attribute !== void 0 && attribute.name)) {
+	        return;
+	      }
+	      Object.keys(getComponentsByAttributeName(attribute.name)).forEach(function (to) {
+	        allConnections.push({
+	          from: attribute.clientId,
+	          to: to
+	        });
+	      });
+	    });
+	    setAllConnections(allConnections);
+	  }, [blockAttributes, blockComponents]);
+	  return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionsContext.Provider, {
+	    value: {
+	      allConnections: allConnections,
+	      existingDraggingConnection: existingDraggingConnection,
+	      newDraggingConnection: newDraggingConnection,
+	      startDraggingExistingConnection: startDraggingExistingConnection,
+	      startDraggingNewConnection: startDraggingNewConnection,
+	      stopDraggingExistingConnection: stopDraggingExistingConnection,
+	      stopDraggingNewConnection: stopDraggingNewConnection
+	    },
+	    children: children
+	  });
+	}
+
+	function BlueprintEditorProvider(_ref) {
+	  var children = _ref.children;
+	  var _useState = React$2.useState(null),
+	    _useState2 = _slicedToArray(_useState, 2),
+	    ref = _useState2[0],
+	    setRef = _useState2[1];
+	  var _useState3 = React$2.useState(false),
+	    _useState4 = _slicedToArray(_useState3, 2),
+	    isDragging = _useState4[0],
+	    setIsDragging = _useState4[1];
+	  var _useState5 = React$2.useState(null),
+	    _useState6 = _slicedToArray(_useState5, 2),
+	    currentDraggingContext = _useState6[0],
+	    setCurrentDraggingContext = _useState6[1];
+	  var _useState7 = React$2.useState(null),
+	    _useState8 = _slicedToArray(_useState7, 2),
+	    priorDraggingContext = _useState8[0],
+	    setPriorDraggingContext = _useState8[1];
+	  var resetDraggingContext = React$2.useCallback(function () {
+	    setCurrentDraggingContext(null);
+	  }, []);
+	  var startDragging = React$2.useCallback(function (context) {
+	    setCurrentDraggingContext(context);
+	    setIsDragging(true);
+	  }, []);
+	  var stopDragging = React$2.useCallback(function () {
+	    // this is done at the end of the render to prevent click events
+	    setTimeout(function () {
+	      setPriorDraggingContext(currentDraggingContext);
+	      setIsDragging(false);
+
+	      // this is done at the end of the next render to
+	      // allow pickup by drop listeners
+	      setTimeout(function () {
+	        resetDraggingContext();
+	      }, 0);
+	    }, 0);
+	  }, []);
+	  return /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintEditorContext.Provider, {
+	    value: {
+	      ref: ref,
+	      currentDraggingContext: currentDraggingContext,
+	      isDragging: isDragging,
+	      priorDraggingContext: priorDraggingContext,
+	      resetDraggingContext: resetDraggingContext,
+	      setRef: setRef,
+	      startDragging: startDragging,
+	      stopDragging: stopDragging
+	    },
+	    children: children
+	  });
+	}
+
+	var MAX_STEPS = 4;
+	function TutorialProvider(_ref) {
+	  var children = _ref.children;
+	  var _useState = React$2.useState(true),
+	    _useState2 = _slicedToArray(_useState, 2),
+	    isActive = _useState2[0],
+	    setIsActive = _useState2[1];
+	  var _useState3 = React$2.useState(1),
+	    _useState4 = _slicedToArray(_useState3, 2),
+	    currentStep = _useState4[0],
+	    setCurrentStep = _useState4[1];
+	  var goToNextStep = React$2.useCallback(function () {
+	    console.log("next step:", currentStep + 1 <= MAX_STEPS);
+	    if (currentStep + 1 <= MAX_STEPS) {
+	      setCurrentStep(currentStep + 1);
+	    } else {
+	      setIsActive(false);
+	    }
+	  }, [currentStep]);
+	  return /*#__PURE__*/jsxRuntimeExports.jsx(TutorialContext.Provider, {
+	    value: {
+	      currentStep: currentStep,
+	      goToNextStep: goToNextStep,
+	      isActive: isActive
+	    },
+	    children: children
 	  });
 	}
 
 	client.createRoot(document.getElementById("wpbody")).render( /*#__PURE__*/jsxRuntimeExports.jsx(Provider, {
 	  store: store,
-	  children: /*#__PURE__*/jsxRuntimeExports.jsx(App, {})
+	  children: /*#__PURE__*/jsxRuntimeExports.jsx(TutorialProvider, {
+	    children: /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionsProvider, {
+	      children: /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintEditorProvider, {
+	        children: /*#__PURE__*/jsxRuntimeExports.jsx(App, {})
+	      })
+	    })
+	  })
 	}));
 
 	// This file was generated by lezer-generator. You probably shouldn't edit it.

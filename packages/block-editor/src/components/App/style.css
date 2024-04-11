@@ -54,6 +54,11 @@
 		var(--color-accent-teal),
 		var(--color-accent-blue)
 	);
+	--gradient-teal-blue-soft: linear-gradient(
+		150deg,
+		var(--color-accent-teal-blue),
+		var(--color-accent-blue)
+	);
 	--gradient-teal-blue-transparent: linear-gradient(
 		90deg,
 		var(--color-accent-teal-00) 0%,
@@ -128,14 +133,17 @@
 	position: relative;
 	z-index: 10;
 
-	.is-disabled {
-		cursor: default;
-		opacity: 0.5;
-		user-select: none;
-	}
-
-	p {
+	:where(p) {
 		font-size: inherit;
 		line-height: inherit;
 	}
+
+	.is-disabled {
+		cursor: default;
+		user-select: none;
+	}
+}
+
+.App:not(.is-tutorial) .is-disabled {
+	opacity: 0.5;
 }

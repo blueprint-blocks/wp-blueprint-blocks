@@ -13,6 +13,8 @@
 	display: grid;
 	gap: var(--8x);
 	grid-auto-flow: row;
+	position: relative;
+	z-index: 2;
 }
 
 .PageBlockJson-fieldset {
@@ -38,4 +40,5 @@
 	top: calc(
 		var(--wp-admin--admin-bar--height) + var(--navigator-height) + var(--5x)
 	);
+	z-index: 1;
 }

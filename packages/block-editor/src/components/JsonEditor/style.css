@@ -10,6 +10,7 @@
 	line-height: 1.75;
 	overflow: auto;
 	padding: var(--5x);
+	user-select: none;
 	white-space: pre;
 
 	& span {

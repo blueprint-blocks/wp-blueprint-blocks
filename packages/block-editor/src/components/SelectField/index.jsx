@@ -7,6 +7,7 @@ import FieldLabel from "../FieldLabel";
 import "./style.css";
 
 function SelectField({
+	disabled = false,
 	name,
 	label,
 	onBlur,
@@ -30,6 +31,9 @@ function SelectField({
 	}, [value]);
 
 	const onClick = () => {
+		if (disabled) {
+			return;
+		}
 		setSelectOpen(true);
 		onFocus();
 	};

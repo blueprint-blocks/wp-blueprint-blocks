@@ -1,6 +1,8 @@
 import clsx from "clsx";
-import { memo, useMemo } from "react";
+import { memo, useContext, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import { TutorialContext } from "../../contexts";
 
 import {
 	getRawJson,
@@ -17,7 +19,6 @@ import BlockIconField from "../BlockIconField";
 import BlockNameField from "../BlockNameField";
 import BlockTitleField from "../BlockTitleField";
 import BlockSupportsField from "../BlockSupportsField";
-import BlockVersionField from "../BlockVersionField";
 import JsonEditor from "../JsonEditor";
 import ListField from "../ListField";
 import SelectField from "../SelectField";
@@ -30,6 +31,8 @@ const { blockCategories = [] } =
 
 const PageBlockJson = memo(() => {
 	const dispatch = useDispatch();
+
+	const tutorialContext = useContext(TutorialContext);
 
 	const _blockCategories = useMemo(
 		() =>
@@ -105,6 +108,7 @@ const PageBlockJson = memo(() => {
 							onFocus={() => onFocus("title")}
 						/>
 						<TextField
+							disabled={tutorialContext.isActive}
 							label="Enter a description..."
 							tooltip="blockJson.description"
 							multiLine={true}
@@ -115,6 +119,7 @@ const PageBlockJson = memo(() => {
 							onBlur={() => onBlur("description")}
 						/>
 						<ListField
+							disabled={tutorialContext.isActive}
 							label="Enter a few keywords..."
 							placeholder="Enter a keyword..."
 							tooltip="blockJson.keywords"
@@ -124,6 +129,7 @@ const PageBlockJson = memo(() => {
 							onBlur={(index) => onBlur("keywords", index)}
 						/>
 						<SelectField
+							disabled={tutorialContext.isActive}
 							name="category"
 							label="Category"
 							tooltip="blockJson.category"

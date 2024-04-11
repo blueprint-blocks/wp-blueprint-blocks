@@ -78,6 +78,7 @@ const EditableString = memo(
 					className={clsx("EditableString", className, {
 						"has-focus": hasFocus,
 						"has-value": html.length > 0,
+						"is-disabled": disabled,
 						"is-invalid": invalid,
 						"is-multiline": multiLine,
 					})}
