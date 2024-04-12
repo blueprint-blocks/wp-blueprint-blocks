@@ -10509,8 +10509,16 @@
 	};
 
 	function useTutorial() {
+	  var step = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 	  var context = React$2.useContext(TutorialContext);
-	  return context;
+	  var isStepActive = React$2.useMemo(function () {
+	    return context.isStep(step);
+	  }, [context]);
+	  var stepRef = context.useRef(step);
+	  return _objectSpread2(_objectSpread2({}, context), {}, {
+	    isStepActive: isStepActive,
+	    stepRef: stepRef
+	  });
 	}
 
 	var useBlueprintInsert = function useBlueprintInsert() {
@@ -13461,16 +13469,14 @@
 	}));
 
 	function BlockIconField(_ref) {
-	  var _tutorialContext$focu;
 	  var onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus;
 	  var dispatch = useDispatch();
-	  var tutorialContext = React$2.useContext(TutorialContext);
+	  var tutorial = useTutorial(3);
 	  var blockIcon = useSelector(function (state) {
 	    var _state$blockJson;
 	    return ((_state$blockJson = state.blockJson) === null || _state$blockJson === void 0 ? void 0 : _state$blockJson.icon) || "";
 	  });
-	  var ref = (tutorialContext === null || tutorialContext === void 0 || (_tutorialContext$focu = tutorialContext.focusRefs) === null || _tutorialContext$focu === void 0 ? void 0 : _tutorialContext$focu[2]) || React$2.useRef(null);
 	  var inputRef = React$2.useRef(null);
 	  var _useState = React$2.useState(false),
 	    _useState2 = _slicedToArray(_useState, 2),
@@ -13480,9 +13486,6 @@
 	    _useState4 = _slicedToArray(_useState3, 2),
 	    searchFilter = _useState4[0],
 	    setSearchFilter = _useState4[1];
-	  var disabled = React$2.useMemo(function () {
-	    return tutorialContext.isActive && tutorialContext.currentStep < 3;
-	  }, [tutorialContext]);
 	  var selectedIcon = React$2.useMemo(function () {
 	    var _iterator = _createForOfIteratorHelper(dashicons),
 	      _step;
@@ -13521,14 +13524,9 @@
 	    setSearchFilter("");
 	    setDropdownOpen(false);
 	    onBlur();
-
-	    // Move on to the next step in the tutorial if the user has started typing a name
-	    if (tutorialContext.isActive && tutorialContext.currentStep === 3) {
-	      tutorialContext.goToNextStep();
-	    }
 	  };
 	  var onClick = function onClick() {
-	    if (disabled) {
+	    if (!tutorial.isStepActive) {
 	      return;
 	    }
 	    setDropdownOpen(true);
@@ -13539,7 +13537,7 @@
 	  };
 
 	  // Call hook passing in the ref and a function to call on outside click
-	  useOnClickOutside(ref, function () {
+	  useOnClickOutside(tutorial.stepRef, function () {
 	    if (isDropdownOpen === true) {
 	      setSearchFilter("");
 	      setDropdownOpen(false);
@@ -13549,9 +13547,9 @@
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    className: "BlockIconField-wrap",
 	    children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	      ref: ref,
+	      ref: tutorial.stepRef,
 	      className: clsx$1("BlockIconField", {
-	        "is-disabled": disabled,
+	        "is-disabled": !tutorial.isStepActive,
 	        "is-open": isDropdownOpen
 	      }),
 	      onClick: onClick,
@@ -13718,13 +13716,11 @@
 	var _blueprintBlocksEdito$4;
 	var defaultBlockNamespace = ((_blueprintBlocksEdito$4 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$4 === void 0 || (_blueprintBlocksEdito$4 = _blueprintBlocksEdito$4.blockMetadata) === null || _blueprintBlocksEdito$4 === void 0 ? void 0 : _blueprintBlocksEdito$4.blockNamespace) || "blueprint-blocks";
 	var BlockNameField = function BlockNameField(_ref) {
-	  var _tutorialContext$focu;
 	  var onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus;
 	  var dispatch = useDispatch();
-	  var tutorialContext = React$2.useContext(TutorialContext);
 	  var ref = React$2.useRef(null);
-	  var nameRef = (tutorialContext === null || tutorialContext === void 0 || (_tutorialContext$focu = tutorialContext.focusRefs) === null || _tutorialContext$focu === void 0 ? void 0 : _tutorialContext$focu[0]) || React$2.useRef(null);
+	  var tutorial = useTutorial(1);
 	  var _useState = React$2.useState(false),
 	    _useState2 = _slicedToArray(_useState, 2),
 	    hasFocus = _useState2[0],
@@ -13744,11 +13740,6 @@
 	  var setBlockName = function setBlockName(newBlockName) {
 	    dispatch(setName("".concat(blockNamespace, "/").concat(delimiterize(newBlockName))));
 	    dispatch(setChanged(true));
-
-	    // Move on to the next step in the tutorial if the user has started typing a name
-	    if (tutorialContext.isActive && tutorialContext.currentStep === 1 && newBlockName.length > 2) {
-	      tutorialContext.goToNextStep();
-	    }
 	  };
 	  var setBlockNamespace = function setBlockNamespace(newBlockNamespace) {
 	    if (newBlockNamespace === "") {
@@ -13767,8 +13758,8 @@
 	    return showValidationErrors && !validateNamespace(blockNamespace);
 	  }, [showValidationErrors, blockNamespace]);
 	  var disabled = React$2.useMemo(function () {
-	    return !hasFocus && tutorialContext.isActive && tutorialContext.currentStep !== 1;
-	  }, [hasFocus, tutorialContext]);
+	    return !hasFocus && !tutorial.isStepActive;
+	  }, [hasFocus, tutorial.isStepActive]);
 	  var _onBlur = function _onBlur() {
 	    setHasFocus(false);
 	    onBlur();
@@ -13784,7 +13775,7 @@
 	      className: "BlockNameField-input",
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
 	        className: "BlockNameField-namespace",
-	        disabled: tutorialContext.isActive,
+	        disabled: tutorial.isActive,
 	        invalid: showNamespaceInvalid,
 	        onBlur: _onBlur,
 	        onChange: setBlockNamespace,
@@ -13794,7 +13785,7 @@
 	        "class": "BlockNameField-seperator",
 	        children: "/"
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
-	        ref: nameRef,
+	        ref: tutorial.stepRef,
 	        className: "BlockNameField-name",
 	        disabled: disabled,
 	        invalid: showNameInvalid,
@@ -13875,12 +13866,10 @@
 	}
 
 	var BlockTitleField = function BlockTitleField(_ref) {
-	  var _tutorialContext$focu;
 	  var onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus;
 	  var dispatch = useDispatch();
-	  var tutorialContext = React$2.useContext(TutorialContext);
-	  var ref = (tutorialContext === null || tutorialContext === void 0 || (_tutorialContext$focu = tutorialContext.focusRefs) === null || _tutorialContext$focu === void 0 ? void 0 : _tutorialContext$focu[1]) || React$2.useRef(null);
+	  var tutorial = useTutorial(2);
 	  var _useState = React$2.useState(false),
 	    _useState2 = _slicedToArray(_useState, 2),
 	    hasFocus = _useState2[0],
@@ -13909,15 +13898,10 @@
 	    if (!isNew) {
 	      setDocumentTitle(newBlockTitle);
 	    }
-
-	    // Move on to the next step in the tutorial if the user has started typing a name
-	    if (tutorialContext.isActive && tutorialContext.currentStep === 2 && newBlockTitle.length > 2) {
-	      tutorialContext.goToNextStep();
-	    }
 	  };
 	  var disabled = React$2.useMemo(function () {
-	    return !hasFocus && tutorialContext.isActive && tutorialContext.currentStep !== 2;
-	  }, [hasFocus, tutorialContext]);
+	    return !hasFocus && !tutorial.isStepActive;
+	  }, [hasFocus, tutorial.isStepActive]);
 	  var _onBlur = function _onBlur() {
 	    setHasFocus(false);
 	    onBlur();
@@ -13927,7 +13911,7 @@
 	    onFocus();
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	    ref: ref,
+	    ref: tutorial.stepRef,
 	    className: "BlockTitleField",
 	    children: /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
 	      disabled: disabled,
@@ -48473,7 +48457,13 @@
 	    }
 	  }, [blockComponents]);
 	  React$2.useEffect(function () {
-	    if (tutorialContext.currentStep === 6 && Object.values(blockComponents).length === 2) {
+	    if (tutorialContext.currentStep === 1 && blockJson.name.length > 19) {
+	      tutorialContext.goToStep(2);
+	    } else if (tutorialContext.currentStep === 2 && blockJson.title.length > 2) {
+	      tutorialContext.goToStep(3);
+	    } else if (tutorialContext.currentStep === 3 && blockJson.icon !== "star-filled") {
+	      tutorialContext.goToStep(4);
+	    } else if (tutorialContext.currentStep === 6 && Object.values(blockComponents).length === 2) {
 	      Object.entries(blockComponents).map(function (_ref) {
 	        var _ref2 = _slicedToArray(_ref, 2),
 	          clientId = _ref2[0],
@@ -48491,7 +48481,7 @@
 	    } else if (tutorialContext.currentStep === 9 && saveDialogIsVisible) {
 	      tutorialContext.endTutorial();
 	    }
-	  }, [blockComponents, currentFocus, insertedComponentTagName, saveDialogIsVisible]);
+	  }, [blockComponents, blockJson.icon, blockJson.name, blockJson.supports, blockJson.title, currentFocus, insertedComponentTagName, saveDialogIsVisible]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    "class": "Tutorial",
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(TutorialTooltip, {
@@ -48738,6 +48728,9 @@
 	  var focusRefs = Array.from(Array(MAX_STEPS)).map(function () {
 	    return React$2.useRef(null);
 	  });
+	  var _useRef = React$2.useCallback(function (step) {
+	    return focusRefs[step - 1];
+	  }, [focusRefs]);
 	  var endTutorial = React$2.useCallback(function () {
 	    setIsActive(false);
 	  });
@@ -48751,6 +48744,9 @@
 	  var goToStep = React$2.useCallback(function (step) {
 	    setCurrentStep(step);
 	  }, []);
+	  var isStep = React$2.useCallback(function (step) {
+	    return isActive && currentStep === step;
+	  }, [currentStep, isActive]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsx(TutorialContext.Provider, {
 	    value: {
 	      currentStep: currentStep,
@@ -48758,7 +48754,9 @@
 	      goToNextStep: goToNextStep,
 	      goToStep: goToStep,
 	      isActive: isActive,
-	      focusRefs: focusRefs
+	      isStep: isStep,
+	      focusRefs: focusRefs,
+	      useRef: _useRef
 	    },
 	    children: children
 	  });

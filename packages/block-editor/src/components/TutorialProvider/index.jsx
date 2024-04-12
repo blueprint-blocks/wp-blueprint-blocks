@@ -10,6 +10,8 @@ const TutorialProvider = ({ children }) => {
 
 	const focusRefs = Array.from(Array(MAX_STEPS)).map(() => useRef(null));
 
+	const _useRef = useCallback((step) => focusRefs[step - 1], [focusRefs]);
+
 	const endTutorial = useCallback(() => {
 		setIsActive(false);
 	});
@@ -26,6 +28,11 @@ const TutorialProvider = ({ children }) => {
 		setCurrentStep(step);
 	}, []);
 
+	const isStep = useCallback(
+		(step) => isActive && currentStep === step,
+		[currentStep, isActive],
+	);
+
 	return (
 		<TutorialContext.Provider
 			value={{
@@ -34,7 +41,9 @@ const TutorialProvider = ({ children }) => {
 				goToNextStep,
 				goToStep,
 				isActive,
+				isStep,
 				focusRefs,
+				useRef: _useRef,
 			}}
 		>
 			{children}

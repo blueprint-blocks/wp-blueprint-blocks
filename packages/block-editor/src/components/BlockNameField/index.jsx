@@ -1,8 +1,8 @@
-import { useContext, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { TutorialContext } from "../../contexts";
 import { delimiterize } from "../../functions";
+import { useTutorial } from "../../hooks";
 
 import {
 	getBlockName,
@@ -32,10 +32,9 @@ const defaultBlockNamespace =
 const BlockNameField = ({ onBlur, onFocus }) => {
 	const dispatch = useDispatch();
 
-	const tutorialContext = useContext(TutorialContext);
-
 	const ref = useRef(null);
-	const nameRef = tutorialContext?.focusRefs?.[0] || useRef(null);
+
+	const tutorial = useTutorial(1);
 
 	const [hasFocus, setHasFocus] = useState(false);
 
@@ -62,15 +61,6 @@ const BlockNameField = ({ onBlur, onFocus }) => {
 
 		dispatch(setName(`${blockNamespace}/${delimiterize(newBlockName)}`));
 		dispatch(setChanged(true));
-
-		// Move on to the next step in the tutorial if the user has started typing a name
-		if (
-			tutorialContext.isActive &&
-			tutorialContext.currentStep === 1 &&
-			newBlockName.length > 2
-		) {
-			tutorialContext.goToNextStep();
-		}
 	};
 
 	const setBlockNamespace = (newBlockNamespace) => {
@@ -97,11 +87,8 @@ const BlockNameField = ({ onBlur, onFocus }) => {
 	);
 
 	const disabled = useMemo(
-		() =>
-			!hasFocus &&
-			tutorialContext.isActive &&
-			tutorialContext.currentStep !== 1,
-		[hasFocus, tutorialContext],
+		() => !hasFocus && !tutorial.isStepActive,
+		[hasFocus, tutorial.isStepActive],
 	);
 
 	const _onBlur = () => {
@@ -119,7 +106,7 @@ const BlockNameField = ({ onBlur, onFocus }) => {
 			<div className="BlockNameField-input">
 				<EditableString
 					className="BlockNameField-namespace"
-					disabled={tutorialContext.isActive}
+					disabled={tutorial.isActive}
 					invalid={showNamespaceInvalid}
 					onBlur={_onBlur}
 					onChange={setBlockNamespace}
@@ -128,7 +115,7 @@ const BlockNameField = ({ onBlur, onFocus }) => {
 				/>
 				<div class="BlockNameField-seperator">{"/"}</div>
 				<EditableString
-					ref={nameRef}
+					ref={tutorial.stepRef}
 					className="BlockNameField-name"
 					disabled={disabled}
 					invalid={showNameInvalid}

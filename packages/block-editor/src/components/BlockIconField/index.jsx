@@ -2,9 +2,8 @@ import clsx from "clsx";
 import { useContext, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { TutorialContext } from "../../contexts";
 import { dashicons } from "../../data";
-import { useOnClickOutside } from "../../hooks";
+import { useOnClickOutside, useTutorial } from "../../hooks";
 
 import { setIcon } from "../../store/block-json";
 import { setChanged } from "../../store/post-metadata";
@@ -16,20 +15,14 @@ import "./style.css";
 function BlockIconField({ onBlur, onFocus }) {
 	const dispatch = useDispatch();
 
-	const tutorialContext = useContext(TutorialContext);
+	const tutorial = useTutorial(3);
 
 	const blockIcon = useSelector((state) => state.blockJson?.icon || "");
 
-	const ref = tutorialContext?.focusRefs?.[2] || useRef(null);
 	const inputRef = useRef(null);
 
 	const [isDropdownOpen, setDropdownOpen] = useState(false);
 	const [searchFilter, setSearchFilter] = useState("");
-
-	const disabled = useMemo(
-		() => tutorialContext.isActive && tutorialContext.currentStep < 3,
-		[tutorialContext],
-	);
 
 	const selectedIcon = useMemo(() => {
 		for (let dashicon of dashicons) {
@@ -68,15 +61,10 @@ function BlockIconField({ onBlur, onFocus }) {
 		setDropdownOpen(false);
 
 		onBlur();
-
-		// Move on to the next step in the tutorial if the user has started typing a name
-		if (tutorialContext.isActive && tutorialContext.currentStep === 3) {
-			tutorialContext.goToNextStep();
-		}
 	};
 
 	const onClick = () => {
-		if (disabled) {
+		if (!tutorial.isStepActive) {
 			return;
 		}
 		setDropdownOpen(true);
@@ -87,7 +75,7 @@ function BlockIconField({ onBlur, onFocus }) {
 	};
 
 	// Call hook passing in the ref and a function to call on outside click
-	useOnClickOutside(ref, () => {
+	useOnClickOutside(tutorial.stepRef, () => {
 		if (isDropdownOpen === true) {
 			setSearchFilter("");
 			setDropdownOpen(false);
@@ -98,9 +86,9 @@ function BlockIconField({ onBlur, onFocus }) {
 	return (
 		<div className="BlockIconField-wrap">
 			<div
-				ref={ref}
+				ref={tutorial.stepRef}
 				className={clsx("BlockIconField", {
-					"is-disabled": disabled,
+					"is-disabled": !tutorial.isStepActive,
 					"is-open": isDropdownOpen,
 				})}
 				onClick={onClick}

@@ -1,9 +1,8 @@
-import { useContext, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { TutorialContext } from "../../contexts";
 import { delimiterize, setDocumentTitle } from "../../functions";
-import { useBlockSave } from "../../hooks";
+import { useBlockSave, useTutorial } from "../../hooks";
 
 import {
 	getBlockName,
@@ -19,9 +18,7 @@ import "./style.css";
 const BlockTitleField = ({ onBlur, onFocus }) => {
 	const dispatch = useDispatch();
 
-	const tutorialContext = useContext(TutorialContext);
-
-	const ref = tutorialContext?.focusRefs?.[1] || useRef(null);
+	const tutorial = useTutorial(2);
 
 	const [hasFocus, setHasFocus] = useState(false);
 
@@ -48,23 +45,11 @@ const BlockTitleField = ({ onBlur, onFocus }) => {
 		if (!isNew) {
 			setDocumentTitle(newBlockTitle);
 		}
-
-		// Move on to the next step in the tutorial if the user has started typing a name
-		if (
-			tutorialContext.isActive &&
-			tutorialContext.currentStep === 2 &&
-			newBlockTitle.length > 2
-		) {
-			tutorialContext.goToNextStep();
-		}
 	};
 
 	const disabled = useMemo(
-		() =>
-			!hasFocus &&
-			tutorialContext.isActive &&
-			tutorialContext.currentStep !== 2,
-		[hasFocus, tutorialContext],
+		() => !hasFocus && !tutorial.isStepActive,
+		[hasFocus, tutorial.isStepActive],
 	);
 
 	const _onBlur = () => {
@@ -78,7 +63,7 @@ const BlockTitleField = ({ onBlur, onFocus }) => {
 	};
 
 	return (
-		<div ref={ref} className="BlockTitleField">
+		<div ref={tutorial.stepRef} className="BlockTitleField">
 			<TextField
 				disabled={disabled}
 				label="Enter a title..."

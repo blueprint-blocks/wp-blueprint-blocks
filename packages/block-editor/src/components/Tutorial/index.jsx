@@ -124,7 +124,19 @@ function Tutorial() {
 	}, [blockComponents]);
 
 	useEffect(() => {
-		if (
+		if (tutorialContext.currentStep === 1 && blockJson.name.length > 19) {
+			tutorialContext.goToStep(2);
+		} else if (
+			tutorialContext.currentStep === 2 &&
+			blockJson.title.length > 2
+		) {
+			tutorialContext.goToStep(3);
+		} else if (
+			tutorialContext.currentStep === 3 &&
+			blockJson.icon !== "star-filled"
+		) {
+			tutorialContext.goToStep(4);
+		} else if (
 			tutorialContext.currentStep === 6 &&
 			Object.values(blockComponents).length === 2
 		) {
@@ -150,6 +162,10 @@ function Tutorial() {
 		}
 	}, [
 		blockComponents,
+		blockJson.icon,
+		blockJson.name,
+		blockJson.supports,
+		blockJson.title,
 		currentFocus,
 		insertedComponentTagName,
 		saveDialogIsVisible,
