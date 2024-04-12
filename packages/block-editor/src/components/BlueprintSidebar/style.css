@@ -37,4 +37,5 @@
 	display: grid;
 	gap: var(--2x);
 	grid-template-columns: repeat(var(--columns, 1), minmax(0, 1fr));
+	position: relative;
 }

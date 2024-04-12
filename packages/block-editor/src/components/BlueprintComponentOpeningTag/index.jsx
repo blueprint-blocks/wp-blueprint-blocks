@@ -124,7 +124,10 @@ const BlueprintComponentOpeningTag = ({
 					</BlueprintComponentAttribute>
 				))}
 				{!hasEmptyAttribute && (
-					<BlueprintComponentInsert clientId={clientId} />
+					<BlueprintComponentInsert
+						clientId={clientId}
+						disabled={disabled}
+					/>
 				)}
 				{isMultiLine && (
 					<div className="BlueprintComponent-line">

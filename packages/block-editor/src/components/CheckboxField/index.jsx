@@ -5,6 +5,7 @@ import "./style.css";
 
 function CheckboxField({
 	children,
+	disabled,
 	label,
 	size = "",
 	tooltip,
@@ -12,12 +13,16 @@ function CheckboxField({
 	setValue,
 }) {
 	const onChange = (event) => {
+		if (disabled) {
+			return;
+		}
 		setValue(event.target?.checked || false);
 	};
 
 	return (
 		<div
 			className={clsx("CheckboxField", {
+				"is-disabled": disabled,
 				"is-checked": value === true,
 				"is-small": size === "small",
 			})}

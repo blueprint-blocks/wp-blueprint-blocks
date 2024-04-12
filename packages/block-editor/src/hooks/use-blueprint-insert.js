@@ -1,6 +1,8 @@
 import { useDispatch } from "react-redux";
+
 import useBlockJson from "./use-block-json";
 import useEditorDrag from "./use-editor-drag";
+import useTutorial from "./use-tutorial";
 
 import { camelize, getComponentProperties } from "../functions";
 
@@ -11,6 +13,8 @@ import {
 
 const useBlueprintInsert = () => {
 	const dispatch = useDispatch();
+	const tutorial = useTutorial();
+
 	const { addAttribute, getUniqueAttributeName } = useBlockJson();
 	const { context: draggingContext, resetDraggingContext } = useEditorDrag();
 
@@ -52,6 +56,10 @@ const useBlueprintInsert = () => {
 				}),
 			);
 			resetDraggingContext();
+		}
+
+		if (tutorial.isActive && tutorial.currentStep === 6) {
+			tutorial.goToNextStep();
 		}
 	};
 };

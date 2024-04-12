@@ -123,16 +123,60 @@
 		"step1": {
 			"label": "This is the block name",
 			"text": "All blocks need a unique name to be registered in WordPress. Name it something concise and memorable.",
+			"position": "right",
 			"width": 400
 		},
 		"step2": {
 			"label": "This is the block title",
 			"text": "The title is what the user will see when editing a page. Make sure to give it a descriptive one that is easy to find and recognizable.",
+			"position": "right",
 			"width": 400
 		},
 		"step3": {
 			"label": "This is the block icon",
 			"text": "The icon is displayed when selecting a block in the Inserter. Pick something that will ✨ standout ✨ from the crowd.",
+			"position": "right",
+			"width": 400
+		},
+		"step4": {
+			"label": "These are the block supports",
+			"text": "There are many default functionality options available to enable for blocks. Enable the color option to be able to set background and text colors.",
+			"position": "right",
+			"top": -8,
+			"width": 400
+		},
+		"step5": {
+			"label": "This is the blueprint tab",
+			"text": "Click over here to begin editing the actual structure of your block.",
+			"position": "right",
+			"left": -32,
+			"top": 8,
+			"width": 400
+		},
+		"step6": {
+			"label": "These are the blueprint components",
+			"text": "They are the core building blocks of a block. Try dragging a *Rich Text* component into the *Block Edit* area of the blueprint.",
+			"position": "left",
+			"width": 400
+		},
+		"step7": {
+			"label": "This is a rich text component",
+			"text": "Components can have any valid HTML attributes, but some attributes are specific to how the component functions in the editor. Click this component to open the *Context* panel and see what attributes are available.",
+			"position": "left",
+			"width": 400
+		},
+		"step8": {
+			"label": "This is the context panel",
+			"text": "Additional context is shown here whenever you focus on an element in the blueprint. Try changing the *tagName* to *h3* by clicking a suggested value.",
+			"position": "left",
+			"left": -24,
+			"top": 36,
+			"width": 400
+		},
+		"step9": {
+			"label": "Save early, save often",
+			"text": "When you're satisfied with your changes, don't forget to save them!",
+			"position": "left",
 			"width": 400
 		}
 	}

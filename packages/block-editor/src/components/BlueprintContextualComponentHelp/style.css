@@ -82,4 +82,8 @@
 		font-weight: var(--font-weight-bold);
 		padding: 0 0.4em;
 	}
+
+	> .is-disabled {
+		cursor: default;
+	}
 }

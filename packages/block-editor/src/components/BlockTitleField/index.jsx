@@ -1,4 +1,4 @@
-import { useContext, useMemo, useState } from "react";
+import { useContext, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { TutorialContext } from "../../contexts";
@@ -13,7 +13,6 @@ import {
 } from "../../store/block-json";
 
 import TextField from "../TextField";
-import TutorialTooltip from "../TutorialTooltip";
 
 import "./style.css";
 
@@ -21,6 +20,8 @@ const BlockTitleField = ({ onBlur, onFocus }) => {
 	const dispatch = useDispatch();
 
 	const tutorialContext = useContext(TutorialContext);
+
+	const ref = tutorialContext?.focusRefs?.[1] || useRef(null);
 
 	const [hasFocus, setHasFocus] = useState(false);
 
@@ -77,7 +78,7 @@ const BlockTitleField = ({ onBlur, onFocus }) => {
 	};
 
 	return (
-		<div className="BlockTitleField">
+		<div ref={ref} className="BlockTitleField">
 			<TextField
 				disabled={disabled}
 				label="Enter a title..."
@@ -87,7 +88,6 @@ const BlockTitleField = ({ onBlur, onFocus }) => {
 				onFocus={_onFocus}
 				onBlur={_onBlur}
 			/>
-			<TutorialTooltip step={2} position="right" />
 		</div>
 	);
 };

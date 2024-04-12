@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useLayoutEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 
-import { useEditorDrag } from "../../hooks";
+import { useEditorDrag, useTutorial } from "../../hooks";
 
 import BlueprintSidebarComponentsPanel from "../BlueprintSidebarComponentsPanel";
 import BlueprintSidebarContextPanel from "../BlueprintSidebarContextPanel";
@@ -10,7 +10,10 @@ import BlueprintSidebarContextPanel from "../BlueprintSidebarContextPanel";
 import "./style.css";
 
 function BlueprintSidebar({}) {
-	const ref = useRef(null);
+	const tutorial = useTutorial();
+
+	const ref = (tutorial.isActive && tutorial.focusRefs[7]) || useRef(null);
+
 	const contextPanelRef = useRef(null);
 	const componentsPanelRef = useRef(null);
 

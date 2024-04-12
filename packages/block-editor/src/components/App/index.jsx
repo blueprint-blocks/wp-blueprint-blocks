@@ -18,6 +18,7 @@ import PageEditorCss from "../PageEditorCss";
 import PageViewCss from "../PageViewCss";
 import SaveDialog from "../SaveDialog";
 import UpsellDialog from "../UpsellDialog";
+import Tutorial from "../Tutorial";
 
 import "./style.css";
 import "./style-debug.css";
@@ -49,8 +50,11 @@ function App() {
 	return (
 		<AppContext.Provider
 			value={{
+				appRef: ref,
+				activeNavItem,
 				editorRef,
 				editorWrapperRef,
+				setActiveNavItem,
 				setEditorRef,
 				setEditorWrapperRef,
 			}}
@@ -73,6 +77,7 @@ function App() {
 				{activeNavItem === 3 && <PageEditorCss />}
 				{saveDialogIsVisible && <SaveDialog />}
 				{upsellDialogIsVisible && <UpsellDialog />}
+				{tutorialContext.isActive && <Tutorial />}
 			</div>
 		</AppContext.Provider>
 	);

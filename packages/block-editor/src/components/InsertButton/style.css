@@ -14,7 +14,7 @@
 	z-index: 20;
 }
 
-.InsertButton:hover {
+.InsertButton:not(.is-disabled):hover {
 	--color: var(--color-black);
 }
 

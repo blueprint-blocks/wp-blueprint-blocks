@@ -7517,16 +7517,60 @@
 		step1: {
 			label: "This is the block name",
 			text: "All blocks need a unique name to be registered in WordPress. Name it something concise and memorable.",
+			position: "right",
 			width: 400
 		},
 		step2: {
 			label: "This is the block title",
 			text: "The title is what the user will see when editing a page. Make sure to give it a descriptive one that is easy to find and recognizable.",
+			position: "right",
 			width: 400
 		},
 		step3: {
 			label: "This is the block icon",
 			text: "The icon is displayed when selecting a block in the Inserter. Pick something that will ✨ standout ✨ from the crowd.",
+			position: "right",
+			width: 400
+		},
+		step4: {
+			label: "These are the block supports",
+			text: "There are many default functionality options available to enable for blocks. Enable the color option to be able to set background and text colors.",
+			position: "right",
+			top: -8,
+			width: 400
+		},
+		step5: {
+			label: "This is the blueprint tab",
+			text: "Click over here to begin editing the actual structure of your block.",
+			position: "right",
+			left: -32,
+			top: 8,
+			width: 400
+		},
+		step6: {
+			label: "These are the blueprint components",
+			text: "They are the core building blocks of a block. Try dragging a *Rich Text* component into the *Block Edit* area of the blueprint.",
+			position: "left",
+			width: 400
+		},
+		step7: {
+			label: "This is a rich text component",
+			text: "Components can have any valid HTML attributes, but some attributes are specific to how the component functions in the editor. Click this component to open the *Context* panel and see what attributes are available.",
+			position: "left",
+			width: 400
+		},
+		step8: {
+			label: "This is the context panel",
+			text: "Additional context is shown here whenever you focus on an element in the blueprint. Try changing the *tagName* to *h3* by clicking a suggested value.",
+			position: "left",
+			left: -24,
+			top: 36,
+			width: 400
+		},
+		step9: {
+			label: "Save early, save often",
+			text: "When you're satisfied with your changes, don't forget to save them!",
+			position: "left",
 			width: 400
 		}
 	};
@@ -7722,9 +7766,14 @@
 	  if (typeof string !== "string") {
 	    return string;
 	  }
-	  return string.replaceAll(/\`(.*?)\`/g, function (match, p1) {
+	  var _string = string;
+	  _string = _string.replaceAll(/\`(.*?)\`/g, function (match, p1) {
 	    return "<code>".concat(p1, "</code>");
 	  });
+	  _string = _string.replaceAll(/\*(.*?)\*/g, function (match, p1) {
+	    return "<strong>".concat(p1, "</strong>");
+	  });
+	  return _string;
 	}
 
 	function pascalize(string) {
@@ -10459,8 +10508,14 @@
 	  };
 	};
 
+	function useTutorial() {
+	  var context = React$2.useContext(TutorialContext);
+	  return context;
+	}
+
 	var useBlueprintInsert = function useBlueprintInsert() {
 	  var dispatch = useDispatch();
+	  var tutorial = useTutorial();
 	  var _useBlockJson = useBlockJson(),
 	    addAttribute = _useBlockJson.addAttribute,
 	    getUniqueAttributeName = _useBlockJson.getUniqueAttributeName;
@@ -10497,6 +10552,9 @@
 	        position: ancestry
 	      }));
 	      resetDraggingContext();
+	    }
+	    if (tutorial.isActive && tutorial.currentStep === 6) {
+	      tutorial.goToNextStep();
 	    }
 	  };
 	};
@@ -11994,7 +12052,7 @@
 
 	var jsxRuntimeExports = jsxRuntime.exports;
 
-	var Button = function Button(_ref) {
+	var Button = /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
 	  var children = _ref.children,
 	    _ref$disabled = _ref.disabled,
 	    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
@@ -12008,6 +12066,7 @@
 	    });
 	  }, [style]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("button", {
+	    ref: ref,
 	    className: clsx$1("Button", styles, {
 	      "is-disabled": disabled
 	    }),
@@ -12020,18 +12079,24 @@
 	      children: label
 	    })]
 	  });
-	};
+	});
 
 	var _blueprintBlocksEdito$5 = blueprintBlocksEditorSettings,
 	  _blueprintBlocksEdito2$2 = _blueprintBlocksEdito$5.pluginMetadata,
 	  pluginMetadata$2 = _blueprintBlocksEdito2$2 === void 0 ? {} : _blueprintBlocksEdito2$2;
 	var Navigator = function Navigator(_ref) {
+	  var _tutorialContext$focu;
 	  var activeNavItem = _ref.activeNavItem,
 	    setActiveNavItem = _ref.setActiveNavItem,
 	    onUpdate = _ref.onUpdate;
-	  var ref = React$2.useRef(null);
 	  var tutorialContext = React$2.useContext(TutorialContext);
-	  var navItemRefs = navItems.map(function () {
+	  var ref = React$2.useRef(null);
+	  var updateRef = (tutorialContext === null || tutorialContext === void 0 || (_tutorialContext$focu = tutorialContext.focusRefs) === null || _tutorialContext$focu === void 0 ? void 0 : _tutorialContext$focu[8]) || React$2.useRef(null);
+	  var navItemRefs = navItems.map(function (_, index) {
+	    if (index === 1) {
+	      var _tutorialContext$focu2;
+	      return (tutorialContext === null || tutorialContext === void 0 || (_tutorialContext$focu2 = tutorialContext.focusRefs) === null || _tutorialContext$focu2 === void 0 ? void 0 : _tutorialContext$focu2[4]) || React$2.useRef(null);
+	    }
 	    return React$2.useRef(null);
 	  });
 	  var navItemRects = navItems.map(function (_, index) {
@@ -12041,13 +12106,24 @@
 	    return navItemRects[activeNavItem];
 	  }, [navItemRects]);
 	  var isUpdateDisabled = useSelector(function (state) {
+	    if (tutorialContext.isActive && tutorialContext.currentStep !== 9) {
+	      return true;
+	    }
 	    return !hasUnsavedChanges(state.postMetadata);
 	  });
 	  var _setActiveNavItem = React$2.useCallback(function (index) {
-	    if (tutorialContext.isActive === true) {
+	    if (tutorialContext.isActive && tutorialContext.currentStep !== 5) {
 	      return;
 	    }
+
+	    // Move on to the next step in the tutorial if the user clicks the tab
+	    if (tutorialContext.isActive && tutorialContext.currentStep === 5) {
+	      tutorialContext.goToNextStep();
+	    }
 	    setActiveNavItem(index);
+	  }, [tutorialContext]);
+	  var isDisabled = React$2.useCallback(function (index) {
+	    return tutorialContext.isActive && (tutorialContext.currentStep !== 5 || index !== 1);
 	  }, [tutorialContext]);
 	  useDispatchNavRect(ref);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
@@ -12061,12 +12137,13 @@
 	          ref: navItemRefs[index],
 	          className: clsx$1({
 	            "is-active": index === activeNavItem,
-	            "is-disabled": tutorialContext.isActive
+	            "is-disabled": isDisabled(index)
 	          }),
 	          onClick: function onClick() {
 	            return _setActiveNavItem(index);
 	          },
 	          children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	            className: "Navigator-item",
 	            children: [icon && /*#__PURE__*/jsxRuntimeExports.jsx("img", {
 	              src: "".concat(pluginMetadata$2 === null || pluginMetadata$2 === void 0 ? void 0 : pluginMetadata$2.url, "/assets/images/font-awesome/").concat(icon, ".svg")
 	            }), label]
@@ -12082,6 +12159,7 @@
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "Navigator-actions",
 	      children: /*#__PURE__*/jsxRuntimeExports.jsx(Button, {
+	        ref: updateRef,
 	        disabled: isUpdateDisabled,
 	        label: "Save Changes",
 	        onClick: onUpdate,
@@ -13382,99 +13460,8 @@
 	  });
 	}));
 
-	var TutorialTooltip = /*#__PURE__*/React$2.memo( /*#__PURE__*/React$2.forwardRef(function (_ref, parentRef) {
-	  var _ref$step = _ref.step,
-	    step = _ref$step === void 0 ? null : _ref$step,
-	    _ref$left = _ref.left,
-	    left = _ref$left === void 0 ? null : _ref$left,
-	    _ref$position = _ref.position,
-	    position = _ref$position === void 0 ? "above" : _ref$position,
-	    _ref$right = _ref.right,
-	    right = _ref$right === void 0 ? null : _ref$right;
-	  var tooltipRef = React$2.useRef(null);
-	  useRect(tooltipRef, null, ["height"]);
-	  //const parentRect = useRect(parentRef, null, ["bottom", "top"]);
-
-	  var _useState = React$2.useState(false),
-	    _useState2 = _slicedToArray(_useState, 2),
-	    isVisible = _useState2[0],
-	    setIsVisible = _useState2[1];
-	  useAppRect();
-	  useNavRect();
-	  var tutorialContext = React$2.useContext(TutorialContext);
-	  var _useBlockJson = useBlockJson(),
-	    blockJson = _useBlockJson.blockJson;
-	  var _label = React$2.useMemo(function () {
-	    return getObjectProperty(tooltips, "tutorial.step".concat(step, ".label"));
-	  }, [step]);
-	  var _text = React$2.useMemo(function () {
-	    var _blockJson$name$split, _blockJson$name$split2;
-	    var _text = getObjectProperty(tooltips, "tutorial.step".concat(step, ".text"));
-	    return parseMarkdown(replaceTokens(_text, {
-	      block: _objectSpread2(_objectSpread2({}, blockJson), {}, {
-	        namespace: (_blockJson$name$split = blockJson.name.split("/")) === null || _blockJson$name$split === void 0 ? void 0 : _blockJson$name$split[0],
-	        name: (_blockJson$name$split2 = blockJson.name.split("/")) === null || _blockJson$name$split2 === void 0 ? void 0 : _blockJson$name$split2[1]
-	      })
-	    }));
-	  }, [blockJson, step]);
-	  var _width = React$2.useMemo(function () {
-	    return getObjectProperty(tooltips, "tutorial.step".concat(step, ".width"));
-	  }, [step]);
-	  var style = React$2.useMemo(function () {
-	    var style = {
-	      "--width": "".concat(_width, "px")
-	    };
-	    if (left) {
-	      style["--left"] = "".concat(left, "px");
-	    }
-	    if (right) {
-	      style["--right"] = "".concat(right, "px");
-	    }
-	    return style;
-	  }, [left, right]);
-	  React$2.useEffect(function () {
-	    if (!isVisible && step === tutorialContext.currentStep) {
-	      setIsVisible(true);
-	    } else if (isVisible && step !== tutorialContext.currentStep) {
-	      setIsVisible(false);
-	    } else if (isVisible && !tutorialContext.isActive) {
-	      setIsVisible(false);
-	    }
-	  }, [step, tutorialContext]);
-	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	    ref: tooltipRef,
-	    className: clsx$1("TutorialTooltip", "position-".concat(position), {
-	      "has-label": _label,
-	      "is-visible": isVisible
-	    }),
-	    style: style,
-	    children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	      className: "TutorialTooltip-text",
-	      children: [_label && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	        className: "TutorialTooltip-label",
-	        children: _label
-	      }), /*#__PURE__*/jsxRuntimeExports.jsx("p", {
-	        dangerouslySetInnerHTML: {
-	          __html: _text
-	        }
-	      })]
-	    }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	      className: "TutorialTooltip-actions",
-	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	        children: /*#__PURE__*/jsxRuntimeExports.jsx("p", {
-	          className: "TutorialTooltip-skip",
-	          children: "Done? Click here to skip."
-	        })
-	      }), /*#__PURE__*/jsxRuntimeExports.jsx(Button, {
-	        label: "Got it!",
-	        style: ["small", "white"],
-	        onClick: tutorialContext.goToNextStep
-	      })]
-	    })]
-	  });
-	}));
-
 	function BlockIconField(_ref) {
+	  var _tutorialContext$focu;
 	  var onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus;
 	  var dispatch = useDispatch();
@@ -13483,7 +13470,7 @@
 	    var _state$blockJson;
 	    return ((_state$blockJson = state.blockJson) === null || _state$blockJson === void 0 ? void 0 : _state$blockJson.icon) || "";
 	  });
-	  var ref = React$2.useRef(null);
+	  var ref = (tutorialContext === null || tutorialContext === void 0 || (_tutorialContext$focu = tutorialContext.focusRefs) === null || _tutorialContext$focu === void 0 ? void 0 : _tutorialContext$focu[2]) || React$2.useRef(null);
 	  var inputRef = React$2.useRef(null);
 	  var _useState = React$2.useState(false),
 	    _useState2 = _slicedToArray(_useState, 2),
@@ -13559,9 +13546,9 @@
 	      onBlur();
 	    }
 	  });
-	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    className: "BlockIconField-wrap",
-	    children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	      ref: ref,
 	      className: clsx$1("BlockIconField", {
 	        "is-disabled": disabled,
@@ -13610,10 +13597,7 @@
 	          })
 	        })]
 	      })]
-	    }), /*#__PURE__*/jsxRuntimeExports.jsx(TutorialTooltip, {
-	      step: 3,
-	      position: "right"
-	    })]
+	    })
 	  });
 	}
 
@@ -13734,13 +13718,13 @@
 	var _blueprintBlocksEdito$4;
 	var defaultBlockNamespace = ((_blueprintBlocksEdito$4 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$4 === void 0 || (_blueprintBlocksEdito$4 = _blueprintBlocksEdito$4.blockMetadata) === null || _blueprintBlocksEdito$4 === void 0 ? void 0 : _blueprintBlocksEdito$4.blockNamespace) || "blueprint-blocks";
 	var BlockNameField = function BlockNameField(_ref) {
+	  var _tutorialContext$focu;
 	  var onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus;
 	  var dispatch = useDispatch();
-	  var ref = React$2.useRef(null);
-	  var nameRef = React$2.useRef(null);
-	  var nameRect = useRect(nameRef, ref, ["right"]);
 	  var tutorialContext = React$2.useContext(TutorialContext);
+	  var ref = React$2.useRef(null);
+	  var nameRef = (tutorialContext === null || tutorialContext === void 0 || (_tutorialContext$focu = tutorialContext.focusRefs) === null || _tutorialContext$focu === void 0 ? void 0 : _tutorialContext$focu[0]) || React$2.useRef(null);
 	  var _useState = React$2.useState(false),
 	    _useState2 = _slicedToArray(_useState, 2),
 	    hasFocus = _useState2[0],
@@ -13819,11 +13803,6 @@
 	        onFocus: _onFocus,
 	        placeholder: "enter-a-block-name...",
 	        value: blockName
-	      }), /*#__PURE__*/jsxRuntimeExports.jsx(TutorialTooltip, {
-	        ref: ref,
-	        step: 1,
-	        left: nameRect.right,
-	        position: "right"
 	      })]
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx(Tooltip, {
 	      data: "blockJson.name",
@@ -13896,10 +13875,12 @@
 	}
 
 	var BlockTitleField = function BlockTitleField(_ref) {
+	  var _tutorialContext$focu;
 	  var onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus;
 	  var dispatch = useDispatch();
 	  var tutorialContext = React$2.useContext(TutorialContext);
+	  var ref = (tutorialContext === null || tutorialContext === void 0 || (_tutorialContext$focu = tutorialContext.focusRefs) === null || _tutorialContext$focu === void 0 ? void 0 : _tutorialContext$focu[1]) || React$2.useRef(null);
 	  var _useState = React$2.useState(false),
 	    _useState2 = _slicedToArray(_useState, 2),
 	    hasFocus = _useState2[0],
@@ -13945,9 +13926,10 @@
 	    setHasFocus(true);
 	    onFocus();
 	  };
-	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	    ref: ref,
 	    className: "BlockTitleField",
-	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
+	    children: /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
 	      disabled: disabled,
 	      label: "Enter a title...",
 	      tooltip: "blockJson.title",
@@ -13955,15 +13937,13 @@
 	      setValue: setBlockTitle,
 	      onFocus: _onFocus,
 	      onBlur: _onBlur
-	    }), /*#__PURE__*/jsxRuntimeExports.jsx(TutorialTooltip, {
-	      step: 2,
-	      position: "right"
-	    })]
+	    })
 	  });
 	};
 
 	function CheckboxField(_ref) {
 	  var children = _ref.children,
+	    disabled = _ref.disabled,
 	    label = _ref.label,
 	    _ref$size = _ref.size,
 	    size = _ref$size === void 0 ? "" : _ref$size,
@@ -13973,10 +13953,14 @@
 	    setValue = _ref.setValue;
 	  var onChange = function onChange(event) {
 	    var _event$target;
+	    if (disabled) {
+	      return;
+	    }
 	    setValue(((_event$target = event.target) === null || _event$target === void 0 ? void 0 : _event$target.checked) || false);
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    className: clsx$1("CheckboxField", {
+	      "is-disabled": disabled,
 	      "is-checked": value === true,
 	      "is-small": size === "small"
 	    }),
@@ -14000,8 +13984,111 @@
 	  });
 	}
 
+	var TutorialTooltip = /*#__PURE__*/React$2.memo(function (_ref) {
+	  var onNextStep = _ref.onNextStep,
+	    _ref$step = _ref.step,
+	    step = _ref$step === void 0 ? null : _ref$step;
+	  var tooltipRef = React$2.useRef(null);
+	  var _useState = React$2.useState(false),
+	    _useState2 = _slicedToArray(_useState, 2),
+	    isVisible = _useState2[0],
+	    setIsVisible = _useState2[1];
+	  var appContext = React$2.useContext(AppContext);
+	  var tutorialContext = React$2.useContext(TutorialContext);
+	  var appRect = useRect(appContext.appRef, null, ["left", "right", "top"]);
+	  var focusRect = useRect(tutorialContext.focusRefs[step - 1], appContext.appRef, ["left", "right", "top"]);
+	  var _useBlockJson = useBlockJson(),
+	    blockJson = _useBlockJson.blockJson;
+	  var label = React$2.useMemo(function () {
+	    return getObjectProperty(tooltips, "tutorial.step".concat(step, ".label"));
+	  }, [step]);
+	  var position = React$2.useMemo(function () {
+	    return getObjectProperty(tooltips, "tutorial.step".concat(step, ".position"));
+	  }, [step]);
+	  var text = React$2.useMemo(function () {
+	    var _blockJson$name$split, _blockJson$name$split2;
+	    var text = getObjectProperty(tooltips, "tutorial.step".concat(step, ".text"));
+	    return parseMarkdown(replaceTokens(text, {
+	      block: _objectSpread2(_objectSpread2({}, blockJson), {}, {
+	        namespace: (_blockJson$name$split = blockJson.name.split("/")) === null || _blockJson$name$split === void 0 ? void 0 : _blockJson$name$split[0],
+	        name: (_blockJson$name$split2 = blockJson.name.split("/")) === null || _blockJson$name$split2 === void 0 ? void 0 : _blockJson$name$split2[1]
+	      })
+	    }));
+	  }, [blockJson, step]);
+	  var left = React$2.useMemo(function () {
+	    return getObjectProperty(tooltips, "tutorial.step".concat(step, ".left"));
+	  }, [step]);
+	  var top = React$2.useMemo(function () {
+	    return getObjectProperty(tooltips, "tutorial.step".concat(step, ".top"));
+	  }, [step]);
+	  var width = React$2.useMemo(function () {
+	    return getObjectProperty(tooltips, "tutorial.step".concat(step, ".width"));
+	  }, [step]);
+	  var style = React$2.useMemo(function () {
+	    var style = {
+	      "--top": "".concat(((focusRect === null || focusRect === void 0 ? void 0 : focusRect.top) || 0) + (top || 0), "px"),
+	      "--width": "".concat(width, "px")
+	    };
+	    if (position === "right") {
+	      style["--left"] = "".concat(((focusRect === null || focusRect === void 0 ? void 0 : focusRect.right) || 0) + (left || 0), "px");
+	    } else if (position === "left") {
+	      style["--right"] = "".concat(((appRect === null || appRect === void 0 ? void 0 : appRect.right) || 0) - ((appRect === null || appRect === void 0 ? void 0 : appRect.left) || 0) - ((focusRect === null || focusRect === void 0 ? void 0 : focusRect.left) || 0) + (left || 0), "px");
+	    }
+	    return style;
+	  }, [focusRect, position, top, width]);
+	  if (step === 6 && tutorialContext.currentStep === 6) {
+	    console.log(appRect.right, focusRect.left);
+	  }
+	  var _onNextStep = function _onNextStep() {
+	    onNextStep && onNextStep();
+	    tutorialContext.goToNextStep();
+	  };
+	  React$2.useEffect(function () {
+	    if (!isVisible && step === tutorialContext.currentStep) {
+	      setIsVisible(true);
+	    } else if (isVisible && step !== tutorialContext.currentStep) {
+	      setIsVisible(false);
+	    } else if (isVisible && !tutorialContext.isActive) {
+	      setIsVisible(false);
+	    }
+	  }, [step, tutorialContext]);
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    ref: tooltipRef,
+	    className: clsx$1("TutorialTooltip", "position-".concat(position), {
+	      "has-label": label,
+	      "is-visible": isVisible
+	    }),
+	    style: style,
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	      className: "TutorialTooltip-text",
+	      children: [label && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	        className: "TutorialTooltip-label",
+	        children: label
+	      }), /*#__PURE__*/jsxRuntimeExports.jsx("p", {
+	        dangerouslySetInnerHTML: {
+	          __html: text
+	        }
+	      })]
+	    }), /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	      className: "TutorialTooltip-actions",
+	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	        children: /*#__PURE__*/jsxRuntimeExports.jsx("p", {
+	          className: "TutorialTooltip-skip",
+	          children: "Done? Click here to skip."
+	        })
+	      }), /*#__PURE__*/jsxRuntimeExports.jsx(Button, {
+	        label: "Got it!",
+	        style: ["small", "white"],
+	        onClick: _onNextStep
+	      })]
+	    })]
+	  });
+	});
+
 	var BlockSupportsFieldItem = function BlockSupportsFieldItem(_ref) {
+	  var _tutorialContext$focu;
 	  var label = _ref.label,
+	    name = _ref.name,
 	    tooltip = _ref.tooltip,
 	    setValue = _ref.setValue,
 	    subProperties = _ref.subProperties,
@@ -14010,6 +14097,8 @@
 	    type = _ref$type === void 0 ? "boolean" : _ref$type,
 	    _ref$value = _ref.value,
 	    value = _ref$value === void 0 ? false : _ref$value;
+	  var tutorialContext = React$2.useContext(TutorialContext);
+	  var ref = name === "color" && (tutorialContext === null || tutorialContext === void 0 || (_tutorialContext$focu = tutorialContext.focusRefs) === null || _tutorialContext$focu === void 0 ? void 0 : _tutorialContext$focu[3]) || React$2.useRef(null);
 	  var isChecked = React$2.useMemo(function () {
 	    if (type === "boolean") {
 	      return value;
@@ -14029,6 +14118,9 @@
 	    return false;
 	  }, [type, value]);
 	  var setPropertyValue = function setPropertyValue(newPropertyValue) {
+	    if (tutorialContext.isActive && tutorialContext.currentStep === 4 && name === "color") {
+	      tutorialContext.goToNextStep();
+	    }
 	    setValue(newPropertyValue);
 	  };
 	  var setSubPropertyValue = function setSubPropertyValue(subProperty, newSubPropertyValue) {
@@ -14042,9 +14134,14 @@
 	      }));
 	    }
 	  };
+	  var disabled = React$2.useMemo(function () {
+	    return tutorialContext.isActive && (tutorialContext.currentStep !== 4 || name !== "color");
+	  }, [name, tutorialContext]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	    ref: ref,
 	    className: "BlockSupportsFieldItem",
 	    children: /*#__PURE__*/jsxRuntimeExports.jsx(CheckboxField, {
+	      disabled: disabled,
 	      label: label,
 	      size: size,
 	      tooltip: tooltip,
@@ -14421,8 +14518,21 @@
 	  _ref$blockCategories = _ref$1.blockCategories,
 	  blockCategories = _ref$blockCategories === void 0 ? [] : _ref$blockCategories;
 	var PageBlockJson = /*#__PURE__*/React$2.memo(function () {
+	  var ref = React$2.useRef(null);
+	  var fieldsRef = React$2.useRef(null);
 	  var dispatch = useDispatch();
 	  var tutorialContext = React$2.useContext(TutorialContext);
+	  var _useState = React$2.useState(0),
+	    _useState2 = _slicedToArray(_useState, 2),
+	    scrollOffset = _useState2[0],
+	    setScrollOffset = _useState2[1];
+	  var style = React$2.useMemo(function () {
+	    var style = {};
+	    if (tutorialContext.isActive) {
+	      style["--scroll-offset"] = "".concat(scrollOffset, "px");
+	    }
+	    return style;
+	  }, [tutorialContext, scrollOffset]);
 	  var _blockCategories = React$2.useMemo(function () {
 	    return blockCategories.filter(function (_ref2) {
 	      var slug = _ref2.slug;
@@ -14464,13 +14574,26 @@
 	    hasFocus = _useFocus2[0],
 	    _onBlur = _useFocus2[1],
 	    _onFocus = _useFocus2[2];
+	  React$2.useEffect(function () {
+	    if (tutorialContext.currentStep === 4) {
+	      var _ref$current, _fieldsRef$current;
+	      var gridHeight = (ref === null || ref === void 0 || (_ref$current = ref.current) === null || _ref$current === void 0 || (_ref$current = _ref$current.getBoundingClientRect()) === null || _ref$current === void 0 ? void 0 : _ref$current.height) || 0;
+	      var fieldsHeight = (fieldsRef === null || fieldsRef === void 0 || (_fieldsRef$current = fieldsRef.current) === null || _fieldsRef$current === void 0 || (_fieldsRef$current = _fieldsRef$current.getBoundingClientRect()) === null || _fieldsRef$current === void 0 ? void 0 : _fieldsRef$current.height) || 0;
+	      if (fieldsHeight > gridHeight) {
+	        setScrollOffset(fieldsHeight - gridHeight);
+	      }
+	    }
+	  }, [tutorialContext.currentStep]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    className: clsx$1("PageBlockJson", hasFocus.map(function (focus) {
 	      return "focus-".concat(focus);
 	    })),
+	    style: style,
 	    children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	      ref: ref,
 	      className: "PageBlockJson-grid",
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	        ref: fieldsRef,
 	        className: "PageBlockJson-fields",
 	        children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	          className: "PageBlockJson-fieldset",
@@ -16681,18 +16804,25 @@
 
 	var BlueprintAttributeAdd = /*#__PURE__*/React$2.memo(function () {
 	  var ref = React$2.useRef(null);
+	  var tutorial = useTutorial();
 	  var _useBlockJson = useBlockJson(),
 	    addEmptyAttribute = _useBlockJson.addEmptyAttribute;
 	  var _useBlueprintConnecti = useBlueprintConnectionsDrag(ref, {
 	      context: "newAttribute"
 	    }),
 	    hasDraggingConnectionFocus = _useBlueprintConnecti.hasFocus;
+	  var onClick = React$2.useCallback(function () {
+	    if (!tutorial.isActive) {
+	      addEmptyAttribute();
+	    }
+	  }, [tutorial.isActive]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    ref: ref,
 	    className: clsx$1("BlueprintAttributeAdd", {
-	      "has-focus": hasDraggingConnectionFocus
+	      "has-focus": hasDraggingConnectionFocus,
+	      "is-disabled": tutorial.isActive
 	    }),
-	    onClick: addEmptyAttribute,
+	    onClick: onClick,
 	    children: "Add attribute"
 	  });
 	});
@@ -17101,14 +17231,20 @@
 	};
 
 	var BlueprintComponentInsert = /*#__PURE__*/React$2.memo(function (_ref) {
-	  var clientId = _ref.clientId;
+	  var clientId = _ref.clientId,
+	    _ref$disabled = _ref.disabled,
+	    disabled = _ref$disabled === void 0 ? false : _ref$disabled;
 	  var _useBlueprint = useBlueprint(),
 	    setComponentAttribute = _useBlueprint.setComponentAttribute;
 	  var onClick = function onClick() {
-	    setComponentAttribute(clientId, "", null);
+	    if (!disabled) {
+	      setComponentAttribute(clientId, "", null);
+	    }
 	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsx(InsertButton, {
-	    className: "BlueprintComponentInsert",
+	    className: clsx$1("BlueprintComponentInsert", {
+	      "is-disabled": disabled
+	    }),
 	    onClick: onClick
 	  });
 	});
@@ -17199,7 +17335,8 @@
 	          })
 	        }, attribute.clientId);
 	      }), !hasEmptyAttribute && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentInsert, {
-	        clientId: clientId
+	        clientId: clientId,
+	        disabled: disabled
 	      }), isMultiLine && /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	        className: "BlueprintComponent-line",
 	        children: [!allowsChildren && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
@@ -17225,7 +17362,14 @@
 	    indent = _ref$indent === void 0 ? 0 : _ref$indent,
 	    _ref$draggable = _ref.draggable,
 	    draggable = _ref$draggable === void 0 ? true : _ref$draggable;
-	  var ref = React$2.useRef(null);
+	  var _useBlueprint = useBlueprint(),
+	    getComponentTagName = _useBlueprint.getComponentTagName,
+	    getComponentType = _useBlueprint.getComponentType,
+	    removeComponent = _useBlueprint.removeComponent;
+	  var tagName = getComponentTagName(clientId);
+	  var type = getComponentType(clientId);
+	  var tutorial = useTutorial();
+	  var ref = tutorial.isActive && type === "rich-text" && tutorial.focusRefs[6] || React$2.useRef(null);
 	  var _useState = React$2.useState({
 	      x: 0,
 	      y: 0
@@ -17241,12 +17385,6 @@
 	    hasFocus = _useEditorFocus.hasFocus,
 	    setFocus = _useEditorFocus.setFocus,
 	    unsetFocus = _useEditorFocus.unsetFocus;
-	  var _useBlueprint = useBlueprint(),
-	    getComponentTagName = _useBlueprint.getComponentTagName,
-	    getComponentType = _useBlueprint.getComponentType,
-	    removeComponent = _useBlueprint.removeComponent;
-	  var tagName = getComponentTagName(clientId);
-	  var type = getComponentType(clientId);
 	  var allowsChildren = React$2.useMemo(function () {
 	    return componentAllowsChildren(type, tagName);
 	  }, [tagName, type]);
@@ -17254,6 +17392,9 @@
 	    return type !== "html";
 	  }, [type]);
 	  var onClick = React$2.useCallback(function (event) {
+	    if (tutorial.isActive && type !== "rich-text") {
+	      return;
+	    }
 	    if (isDraggingSelf === false) {
 	      event.stopPropagation();
 	      setFocus({
@@ -17292,6 +17433,9 @@
 
 	  // Remove component on delete
 	  useOnDelete(function () {
+	    if (tutorial.isActive) {
+	      return;
+	    }
 	    if (hasFocus === true) {
 	      removeComponent(clientId);
 	    }
@@ -17299,6 +17443,9 @@
 
 	  // Call hook passing in the ref and a function to call on outside click
 	  useOnClickOutside(ref, function () {
+	    if (tutorial.isActive) {
+	      return;
+	    }
 	    if (hasFocus === true) {
 	      unsetFocus();
 	    }
@@ -17316,6 +17463,7 @@
 	    },
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentOpeningTag, {
 	      clientId: clientId,
+	      disabled: tutorial.isActive,
 	      children: hasAttributeHandle && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionHandleTo, {
 	        clientId: clientId,
 	        context: "to",
@@ -17326,7 +17474,7 @@
 	      children: children
 	    }), allowsChildren && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintComponentClosingTag, {
 	      clientId: clientId
-	    }), draggable && /*#__PURE__*/jsxRuntimeExports.jsx(DraggableWithinEditor, {
+	    }), !tutorial.isActive && draggable && /*#__PURE__*/jsxRuntimeExports.jsx(DraggableWithinEditor, {
 	      clientId: clientId,
 	      context: "existingComponent",
 	      onDrag: onDrag,
@@ -17576,6 +17724,7 @@
 	    setEditorRef = _useContext.setEditorRef;
 	  var _useContext2 = React$2.useContext(BlueprintEditorContext),
 	    setRef = _useContext2.setRef;
+	  var tutorialContext = React$2.useContext(TutorialContext);
 	  var column2Depth = useSelector(function (state) {
 	    return getComponentListDepth(state.blockBlueprint, "edit");
 	  });
@@ -17598,7 +17747,9 @@
 	  }, [column2Depth]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
-	    className: "BlueprintEditor",
+	    className: clsx$1("BlueprintEditor", {
+	      "has-upsell": !tutorialContext.isActive
+	    }),
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      ref: scrollRef,
 	      className: "BlueprintEditor-scroll",
@@ -17618,7 +17769,7 @@
 	          })]
 	        })]
 	      })
-	    }), /*#__PURE__*/jsxRuntimeExports.jsx(UpsellBanner, {})]
+	    }), !tutorialContext.isActive && /*#__PURE__*/jsxRuntimeExports.jsx(UpsellBanner, {})]
 	  });
 	}
 
@@ -17626,14 +17777,16 @@
 	var _blueprintBlocksEdito$2 = blueprintBlocksEditorSettings,
 	  _blueprintBlocksEdito2$1 = _blueprintBlocksEdito$2.pluginMetadata,
 	  pluginMetadata$1 = _blueprintBlocksEdito2$1 === void 0 ? {} : _blueprintBlocksEdito2$1;
-	function BlueprintSidebarItem(_ref) {
-	  var icon = _ref.icon,
-	    label = _ref.label,
-	    _ref$type = _ref.type,
-	    type = _ref$type === void 0 ? "html" : _ref$type,
-	    _ref$defaultAttribute = _ref.defaultAttributes,
-	    defaultAttributes = _ref$defaultAttribute === void 0 ? {} : _ref$defaultAttribute;
-	  var ref = React$2.useRef(null);
+	var BlueprintSidebarItem = /*#__PURE__*/React$2.forwardRef(function (_ref2, ref) {
+	  var _ref2$disabled = _ref2.disabled,
+	    disabled = _ref2$disabled === void 0 ? false : _ref2$disabled,
+	    icon = _ref2.icon,
+	    label = _ref2.label,
+	    _ref2$type = _ref2.type,
+	    type = _ref2$type === void 0 ? "html" : _ref2$type,
+	    _ref2$defaultAttribut = _ref2.defaultAttributes,
+	    defaultAttributes = _ref2$defaultAttribut === void 0 ? {} : _ref2$defaultAttribut;
+	  var _ref = ref || React$2.useRef(null);
 	  var _useContext = React$2.useContext(AppContext),
 	    editorWrapperRef = _useContext.editorWrapperRef;
 	  var _useEditorDrag = useEditorDrag(),
@@ -17658,8 +17811,9 @@
 	    _useDragWithinBounds.offset;
 	    var draggableProps = _objectWithoutProperties(_useDragWithinBounds, _excluded$3);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	    ref: ref,
+	    ref: _ref,
 	    className: clsx$1("BlueprintSidebarItem", {
+	      "is-disabled": disabled,
 	      "is-html": type === "html"
 	    }),
 	    children: [icon && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
@@ -17670,7 +17824,7 @@
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      className: "BlueprintSidebarItem-label",
 	      children: label
-	    }), /*#__PURE__*/jsxRuntimeExports.jsx(Draggable$1, _objectSpread2(_objectSpread2({}, draggableProps), {}, {
+	    }), !disabled && /*#__PURE__*/jsxRuntimeExports.jsx(Draggable$1, _objectSpread2(_objectSpread2({}, draggableProps), {}, {
 	      children: /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	        className: clsx$1("BlueprintSidebarItem", "is-clone", {
 	          "is-html": type === "html"
@@ -17687,10 +17841,21 @@
 	      })
 	    }))]
 	  });
-	}
+	});
 
 	var BlueprintSidebarComponentsPanel = /*#__PURE__*/React$2.memo( /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
 	  _objectDestructuringEmpty(_ref);
+	  var tutorialContext = React$2.useContext(TutorialContext);
+	  var fieldItemRefs = blockComponents$1.fields.map(function (_, index) {
+	    if (index === 0) {
+	      var _tutorialContext$focu;
+	      return (tutorialContext === null || tutorialContext === void 0 || (_tutorialContext$focu = tutorialContext.focusRefs) === null || _tutorialContext$focu === void 0 ? void 0 : _tutorialContext$focu[5]) || React$2.useRef(null);
+	    }
+	    return React$2.useRef(null);
+	  });
+	  var isDisabled = React$2.useCallback(function (index) {
+	    return tutorialContext.isActive && (tutorialContext.currentStep !== 6 || index !== 0);
+	  }, [tutorialContext]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: "BlueprintSidebarComponentsPanel",
@@ -17704,7 +17869,9 @@
 	      },
 	      children: blockComponents$1.fields.map(function (props, index) {
 	        return /*#__PURE__*/React$2.createElement(BlueprintSidebarItem, _objectSpread2(_objectSpread2({}, props), {}, {
-	          key: index
+	          ref: fieldItemRefs[index],
+	          key: index,
+	          disabled: isDisabled(index)
 	        }));
 	      })
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
@@ -17717,7 +17884,8 @@
 	      },
 	      children: blockComponents$1.html.map(function (props, index) {
 	        return /*#__PURE__*/React$2.createElement(BlueprintSidebarItem, _objectSpread2(_objectSpread2({}, props), {}, {
-	          key: index
+	          key: index,
+	          disabled: tutorialContext.isActive
 	        }));
 	      })
 	    })]
@@ -17793,6 +17961,7 @@
 
 	var BlueprintContextualComponentHelp = /*#__PURE__*/React$2.memo(function () {
 	  var ref = React$2.useRef(null);
+	  var tutorial = useTutorial();
 	  var _useBlueprint = useBlueprint(),
 	    getComponentType = _useBlueprint.getComponentType,
 	    setComponentAttribute = _useBlueprint.setComponentAttribute,
@@ -17817,6 +17986,9 @@
 	  var onClickSuggestedValue = function onClickSuggestedValue(_ref3) {
 	    var attributeName = _ref3.attributeName,
 	      attributeValue = _ref3.attributeValue;
+	    if (tutorial.isActive && attributeName !== "tagName" && attributeValue !== "h3") {
+	      return;
+	    }
 	    if (attributeName.indexOf(currentFocus === null || currentFocus === void 0 ? void 0 : currentFocus.attributeName) !== -1) {
 	      unsetComponentAttribute(clientId, currentFocus === null || currentFocus === void 0 ? void 0 : currentFocus.attributeName);
 	    }
@@ -17858,6 +18030,9 @@
 	            className: "BlueprintContextualComponentHelp-suggestedValues",
 	            children: suggestedValues.map(function (attributeValue, index) {
 	              return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	                className: clsx$1({
+	                  "is-disabled": tutorial.isActive && (attributeName !== "tagName" || attributeValue !== "h3")
+	                }),
 	                onClick: function onClick() {
 	                  return onClickSuggestedValue({
 	                    attributeName: attributeName,
@@ -17899,7 +18074,8 @@
 
 	function BlueprintSidebar(_ref) {
 	  _objectDestructuringEmpty(_ref);
-	  var ref = React$2.useRef(null);
+	  var tutorial = useTutorial();
+	  var ref = tutorial.isActive && tutorial.focusRefs[7] || React$2.useRef(null);
 	  var contextPanelRef = React$2.useRef(null);
 	  var componentsPanelRef = React$2.useRef(null);
 	  var currentFocus = useSelector(function (state) {
@@ -47849,7 +48025,6 @@
 	  key: "shadows",
 	  label: "Shadows"
 	}];
-	console.log(cssVariables);
 	function CssSidebar(_ref2) {
 	  var props = _extends$1({}, (_objectDestructuringEmpty(_ref2), _ref2));
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
@@ -48208,6 +48383,153 @@
 	  });
 	}
 
+	var EXAMPLE_BLOCK_NAME = "zesty-capybara";
+	var EXAMPLE_BLOCK_TITLE = "Zesty Capybara";
+	function Tutorial() {
+	  var appContext = React$2.useContext(AppContext);
+	  var tutorialContext = React$2.useContext(TutorialContext);
+	  if (!tutorialContext.isActive) {
+	    return;
+	  }
+	  var dispatch = useDispatch();
+	  var blockSupports = useSelector(function (state) {
+	    var _state$blockJson;
+	    return ((_state$blockJson = state.blockJson) === null || _state$blockJson === void 0 ? void 0 : _state$blockJson.supports) || {};
+	  });
+	  var _useBlockJson = useBlockJson(),
+	    addAttribute = _useBlockJson.addAttribute,
+	    blockJson = _useBlockJson.blockJson,
+	    getUniqueAttributeName = _useBlockJson.getUniqueAttributeName;
+	  var _useBlockSave = useBlockSave(),
+	    saveBlock = _useBlockSave.saveBlock,
+	    saveDialogIsVisible = _useBlockSave.saveDialogIsVisible;
+	  var _useBlueprint = useBlueprint(),
+	    blockComponents = _useBlueprint.blockComponents,
+	    getComponentAttribute = _useBlueprint.getComponentAttribute;
+	  var _useEditorFocus = useEditorFocus(),
+	    currentFocus = _useEditorFocus.currentFocus,
+	    unsetFocus = _useEditorFocus.unsetFocus;
+	  var _useState = React$2.useState(""),
+	    _useState2 = _slicedToArray(_useState, 2),
+	    insertedComponentClientId = _useState2[0],
+	    setInsertedComponentClientId = _useState2[1];
+	  var insertedComponentTagName = getComponentAttribute(insertedComponentClientId, "tagName");
+	  var newAttributeName = getUniqueAttributeName(camelize("rich-text"));
+	  if (!tutorialContext.isActive) {
+	    return null;
+	  }
+	  var setBlockName = React$2.useCallback(function () {
+	    if ((blockJson === null || blockJson === void 0 ? void 0 : blockJson.name) === "blueprint-blocks/") {
+	      var _loop = function _loop(i) {
+	        setTimeout(function () {
+	          dispatch(setName("blueprint-blocks/".concat(EXAMPLE_BLOCK_NAME.slice(0, i + 1))));
+	        }, i * (1000 / 21));
+	        dispatch(setChanged(true));
+	      };
+	      for (var i = 0; i < EXAMPLE_BLOCK_NAME.length; i++) {
+	        _loop(i);
+	      }
+	    }
+	  }, [blockJson]);
+	  var setBlockTitle = React$2.useCallback(function () {
+	    if ((blockJson === null || blockJson === void 0 ? void 0 : blockJson.title) === "") {
+	      var _loop2 = function _loop2(i) {
+	        setTimeout(function () {
+	          dispatch(setTitle(EXAMPLE_BLOCK_TITLE.slice(0, i + 1)));
+	        }, i * (1000 / 21));
+	        dispatch(setChanged(true));
+	      };
+	      for (var i = 0; i < EXAMPLE_BLOCK_TITLE.length; i++) {
+	        _loop2(i);
+	      }
+	    }
+	  }, [blockJson]);
+	  var setColorSuppport = React$2.useCallback(function () {
+	    if (!(blockSupports !== null && blockSupports !== void 0 && blockSupports.color)) {
+	      dispatch(setSupportsProperty({
+	        propertyName: "color",
+	        value: true
+	      }));
+	      dispatch(setChanged(true));
+	    }
+	  });
+	  var addRichText = React$2.useCallback(function () {
+	    if (Object.values(blockComponents).length === 1) {
+	      dispatch(insertNewComponentAtPosition({
+	        context: "edit",
+	        component: {
+	          type: "rich-text",
+	          attributeName: newAttributeName,
+	          placeholder: "Enter some text...",
+	          tagName: "p"
+	        },
+	        position: [0, 0]
+	      }));
+	      addAttribute(newAttributeName, {
+	        type: "string",
+	        "default": null
+	      });
+	      dispatch(setChanged(true));
+	    }
+	  }, [blockComponents]);
+	  React$2.useEffect(function () {
+	    if (tutorialContext.currentStep === 6 && Object.values(blockComponents).length === 2) {
+	      Object.entries(blockComponents).map(function (_ref) {
+	        var _ref2 = _slicedToArray(_ref, 2),
+	          clientId = _ref2[0],
+	          component = _ref2[1];
+	        if (component.type === "rich-text") {
+	          setInsertedComponentClientId(clientId);
+	        }
+	      });
+	      tutorialContext.goToStep(7);
+	    } else if (tutorialContext.currentStep === 7 && (currentFocus === null || currentFocus === void 0 ? void 0 : currentFocus.context) === "component") {
+	      tutorialContext.goToStep(8);
+	    } else if (tutorialContext.currentStep === 8 && insertedComponentTagName === "h3") {
+	      unsetFocus(true);
+	      tutorialContext.goToStep(9);
+	    } else if (tutorialContext.currentStep === 9 && saveDialogIsVisible) {
+	      tutorialContext.endTutorial();
+	    }
+	  }, [blockComponents, currentFocus, insertedComponentTagName, saveDialogIsVisible]);
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    "class": "Tutorial",
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsx(TutorialTooltip, {
+	      step: 1,
+	      onNextStep: setBlockName
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(TutorialTooltip, {
+	      step: 2,
+	      onNextStep: setBlockTitle
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(TutorialTooltip, {
+	      step: 3
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(TutorialTooltip, {
+	      step: 4,
+	      onNextStep: setColorSuppport
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(TutorialTooltip, {
+	      step: 5,
+	      onNextStep: function onNextStep() {
+	        appContext.setActiveNavItem(1);
+	      }
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(TutorialTooltip, {
+	      step: 6,
+	      onNextStep: addRichText
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(TutorialTooltip, {
+	      step: 7,
+	      onNextStep: function onNextStep() {
+	        // set focus
+	      }
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(TutorialTooltip, {
+	      step: 8,
+	      onNextStep: function onNextStep() {
+	        // set h3
+	      }
+	    }), /*#__PURE__*/jsxRuntimeExports.jsx(TutorialTooltip, {
+	      step: 9,
+	      onNextStep: saveBlock
+	    })]
+	  });
+	}
+
 	function App() {
 	  var ref = React$2.useRef(null);
 	  var _useState = React$2.useState(null),
@@ -48234,8 +48556,11 @@
 	  usePreventClose(hasUnsavedChanges);
 	  return /*#__PURE__*/jsxRuntimeExports.jsx(AppContext.Provider, {
 	    value: {
+	      appRef: ref,
+	      activeNavItem: activeNavItem,
 	      editorRef: editorRef,
 	      editorWrapperRef: editorWrapperRef,
+	      setActiveNavItem: setActiveNavItem,
 	      setEditorRef: setEditorRef,
 	      setEditorWrapperRef: setEditorWrapperRef
 	    },
@@ -48249,7 +48574,7 @@
 	        activeNavItem: activeNavItem,
 	        setActiveNavItem: setActiveNavItem,
 	        onUpdate: saveBlock
-	      }), activeNavItem === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlockJson, {}), activeNavItem === 1 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlueprint, {}), activeNavItem === 2 && /*#__PURE__*/jsxRuntimeExports.jsx(PageViewCss, {}), activeNavItem === 3 && /*#__PURE__*/jsxRuntimeExports.jsx(PageEditorCss, {}), saveDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(SaveDialog, {}), upsellDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(UpsellDialog, {})]
+	      }), activeNavItem === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlockJson, {}), activeNavItem === 1 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlueprint, {}), activeNavItem === 2 && /*#__PURE__*/jsxRuntimeExports.jsx(PageViewCss, {}), activeNavItem === 3 && /*#__PURE__*/jsxRuntimeExports.jsx(PageEditorCss, {}), saveDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(SaveDialog, {}), upsellDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(UpsellDialog, {}), tutorialContext.isActive && /*#__PURE__*/jsxRuntimeExports.jsx(Tutorial, {})]
 	    })
 	  });
 	}
@@ -48399,8 +48724,8 @@
 	  });
 	}
 
-	var MAX_STEPS = 4;
-	function TutorialProvider(_ref) {
+	var MAX_STEPS = 9;
+	var TutorialProvider = function TutorialProvider(_ref) {
 	  var children = _ref.children;
 	  var _useState = React$2.useState(true),
 	    _useState2 = _slicedToArray(_useState, 2),
@@ -48410,23 +48735,34 @@
 	    _useState4 = _slicedToArray(_useState3, 2),
 	    currentStep = _useState4[0],
 	    setCurrentStep = _useState4[1];
+	  var focusRefs = Array.from(Array(MAX_STEPS)).map(function () {
+	    return React$2.useRef(null);
+	  });
+	  var endTutorial = React$2.useCallback(function () {
+	    setIsActive(false);
+	  });
 	  var goToNextStep = React$2.useCallback(function () {
-	    console.log("next step:", currentStep + 1 <= MAX_STEPS);
 	    if (currentStep + 1 <= MAX_STEPS) {
 	      setCurrentStep(currentStep + 1);
 	    } else {
 	      setIsActive(false);
 	    }
 	  }, [currentStep]);
+	  var goToStep = React$2.useCallback(function (step) {
+	    setCurrentStep(step);
+	  }, []);
 	  return /*#__PURE__*/jsxRuntimeExports.jsx(TutorialContext.Provider, {
 	    value: {
 	      currentStep: currentStep,
+	      endTutorial: endTutorial,
 	      goToNextStep: goToNextStep,
-	      isActive: isActive
+	      goToStep: goToStep,
+	      isActive: isActive,
+	      focusRefs: focusRefs
 	    },
 	    children: children
 	  });
-	}
+	};
 
 	client.createRoot(document.getElementById("wpbody")).render( /*#__PURE__*/jsxRuntimeExports.jsx(Provider, {
 	  store: store,

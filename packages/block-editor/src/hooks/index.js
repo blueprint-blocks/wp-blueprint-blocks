@@ -29,6 +29,7 @@ import useOnClickOutside from "./use-on-click-outside";
 import usePreventClose from "./use-prevent-close";
 import useRect from "./use-rect";
 import useScroll from "./use-scroll";
+import useTutorial from "./use-tutorial";
 
 export {
 	useAppRect,
@@ -62,4 +63,5 @@ export {
 	usePreventClose,
 	useRect,
 	useScroll,
+	useTutorial,
 };

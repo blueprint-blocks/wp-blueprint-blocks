@@ -1,7 +1,8 @@
+import clsx from "clsx";
 import { memo, useMemo, useRef } from "react";
 
 import { getComponentProperties, parseMarkdown } from "../../functions";
-import { useBlueprint, useEditorFocus } from "../../hooks";
+import { useBlueprint, useEditorFocus, useTutorial } from "../../hooks";
 
 import Tooltip from "../Tooltip";
 
@@ -9,6 +10,8 @@ import "./style.css";
 
 const BlueprintContextualComponentHelp = memo(() => {
 	const ref = useRef(null);
+
+	const tutorial = useTutorial();
 
 	const { getComponentType, setComponentAttribute, unsetComponentAttribute } =
 		useBlueprint();
@@ -30,6 +33,14 @@ const BlueprintContextualComponentHelp = memo(() => {
 	);
 
 	const onClickSuggestedValue = ({ attributeName, attributeValue }) => {
+		if (
+			tutorial.isActive &&
+			attributeName !== "tagName" &&
+			attributeValue !== "h3"
+		) {
+			return;
+		}
+
 		if (attributeName.indexOf(currentFocus?.attributeName) !== -1) {
 			unsetComponentAttribute(clientId, currentFocus?.attributeName);
 		}
@@ -74,6 +85,14 @@ const BlueprintContextualComponentHelp = memo(() => {
 										(attributeValue, index) => (
 											<div
 												key={index}
+												className={clsx({
+													"is-disabled":
+														tutorial.isActive &&
+														(attributeName !==
+															"tagName" ||
+															attributeValue !==
+																"h3"),
+												})}
 												onClick={() =>
 													onClickSuggestedValue({
 														attributeName,

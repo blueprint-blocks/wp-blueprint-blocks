@@ -1,11 +1,15 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useContext, useMemo, useRef } from "react";
+
+import { TutorialContext } from "../../contexts";
 
 import CheckboxField from "../CheckboxField";
+import TutorialTooltip from "../TutorialTooltip";
 
 import "./style.css";
 
 const BlockSupportsFieldItem = ({
 	label,
+	name,
 	tooltip,
 	setValue,
 	subProperties,
@@ -13,6 +17,11 @@ const BlockSupportsFieldItem = ({
 	type = "boolean",
 	value = false,
 }) => {
+	const tutorialContext = useContext(TutorialContext);
+
+	const ref =
+		(name === "color" && tutorialContext?.focusRefs?.[3]) || useRef(null);
+
 	const isChecked = useMemo(() => {
 		if (type === "boolean") {
 			return value;
@@ -36,6 +45,14 @@ const BlockSupportsFieldItem = ({
 	);
 
 	const setPropertyValue = (newPropertyValue) => {
+		if (
+			tutorialContext.isActive &&
+			tutorialContext.currentStep === 4 &&
+			name === "color"
+		) {
+			tutorialContext.goToNextStep();
+		}
+
 		setValue(newPropertyValue);
 	};
 
@@ -54,9 +71,17 @@ const BlockSupportsFieldItem = ({
 		}
 	};
 
+	const disabled = useMemo(
+		() =>
+			tutorialContext.isActive &&
+			(tutorialContext.currentStep !== 4 || name !== "color"),
+		[name, tutorialContext],
+	);
+
 	return (
-		<div className="BlockSupportsFieldItem">
+		<div ref={ref} className="BlockSupportsFieldItem">
 			<CheckboxField
+				disabled={disabled}
 				label={label}
 				size={size}
 				tooltip={tooltip}

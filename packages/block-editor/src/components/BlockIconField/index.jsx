@@ -10,7 +10,6 @@ import { setIcon } from "../../store/block-json";
 import { setChanged } from "../../store/post-metadata";
 
 import EditableString from "../EditableString";
-import TutorialTooltip from "../TutorialTooltip";
 
 import "./style.css";
 
@@ -21,7 +20,7 @@ function BlockIconField({ onBlur, onFocus }) {
 
 	const blockIcon = useSelector((state) => state.blockJson?.icon || "");
 
-	const ref = useRef(null);
+	const ref = tutorialContext?.focusRefs?.[2] || useRef(null);
 	const inputRef = useRef(null);
 
 	const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -145,7 +144,6 @@ function BlockIconField({ onBlur, onFocus }) {
 					</div>
 				</div>
 			</div>
-			<TutorialTooltip step={3} position="right" />
 		</div>
 	);
 }

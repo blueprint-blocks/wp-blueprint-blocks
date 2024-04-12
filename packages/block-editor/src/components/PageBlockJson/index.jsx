@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { memo, useContext, useMemo } from "react";
+import { memo, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { TutorialContext } from "../../contexts";
@@ -30,9 +30,24 @@ const { blockCategories = [] } =
 	blueprintBlocksEditorSettings?.editorMetadata || {};
 
 const PageBlockJson = memo(() => {
+	const ref = useRef(null);
+	const fieldsRef = useRef(null);
+
 	const dispatch = useDispatch();
 
 	const tutorialContext = useContext(TutorialContext);
+
+	const [scrollOffset, setScrollOffset] = useState(0);
+
+	const style = useMemo(() => {
+		const style = {};
+
+		if (tutorialContext.isActive) {
+			style["--scroll-offset"] = `${scrollOffset}px`;
+		}
+
+		return style;
+	}, [tutorialContext, scrollOffset]);
 
 	const _blockCategories = useMemo(
 		() =>
@@ -75,6 +90,19 @@ const PageBlockJson = memo(() => {
 
 	const [hasFocus, onBlur, onFocus] = useFocus([]);
 
+	useEffect(() => {
+		if (tutorialContext.currentStep === 4) {
+			const gridHeight =
+				ref?.current?.getBoundingClientRect()?.height || 0;
+			const fieldsHeight =
+				fieldsRef?.current?.getBoundingClientRect()?.height || 0;
+
+			if (fieldsHeight > gridHeight) {
+				setScrollOffset(fieldsHeight - gridHeight);
+			}
+		}
+	}, [tutorialContext.currentStep]);
+
 	if (process.env.NODE_ENV === "development") {
 		useDebugRenderCount("PageBlockJson");
 	}
@@ -85,9 +113,10 @@ const PageBlockJson = memo(() => {
 				"PageBlockJson",
 				hasFocus.map((focus) => `focus-${focus}`),
 			)}
+			style={style}
 		>
-			<div className="PageBlockJson-grid">
-				<div className="PageBlockJson-fields">
+			<div ref={ref} className="PageBlockJson-grid">
+				<div ref={fieldsRef} className="PageBlockJson-fields">
 					<div
 						className="PageBlockJson-fieldset"
 						style={{ gap: "var(--1x)" }}

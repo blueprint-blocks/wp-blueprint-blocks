@@ -10,7 +10,7 @@
 	user-select: none;
 	z-index: 50;
 
-	ul {
+	> ul {
 		display: grid;
 		grid-auto-flow: column;
 		height: var(--navigator-height);
@@ -22,7 +22,7 @@
 		z-index: 2;
 	}
 
-	li {
+	> ul > li {
 		cursor: pointer;
 		font-size: var(--font-size-base);
 		font-weight: var(--font-weight-semi-bold);
@@ -33,21 +33,7 @@
 		transition: var(--transition);
 	}
 
-	li > div {
-		align-items: center;
-		background: var(--color-white);
-		color: var(--color-darkest-gray);
-		display: grid;
-		gap: var(--2x);
-		grid-auto-columns: max-content;
-		grid-auto-flow: column;
-		height: calc(var(--5x) - 3px);
-		line-height: var(--3x);
-		mix-blend-mode: lighten;
-		padding: 0 var(--1x);
-	}
-
-	li::before {
+	> ul > li::before {
 		background: var(--gradient-teal-blue);
 		bottom: calc(var(--1x) + 3px);
 		content: "";
@@ -61,24 +47,16 @@
 		z-index: -1;
 	}
 
-	li:hover {
+	> ul > li:hover {
 		text-decoration-color: currentColor;
 	}
 
-	li.is-active {
+	> ul > li.is-active {
 		cursor: default;
 	}
 
-	li.is-active::before {
+	> ul > li.is-active::before {
 		opacity: 1;
-	}
-
-	img {
-		display: block;
-		height: var(--3x);
-		object-fit: contain;
-		object-position: center;
-		width: var(--3x);
 	}
 }
 
@@ -92,6 +70,29 @@
 	position: absolute;
 	width: 100%;
 	z-index: 1;
+}
+
+.Navigator-item {
+	align-items: center;
+	background: var(--color-white);
+	color: var(--color-darkest-gray);
+	display: grid;
+	gap: var(--2x);
+	grid-auto-columns: max-content;
+	grid-auto-flow: column;
+	height: calc(var(--5x) - 3px);
+	line-height: var(--3x);
+	mix-blend-mode: lighten;
+	padding: 0 var(--1x);
+	position: relative;
+
+	> img {
+		display: block;
+		height: var(--3x);
+		object-fit: contain;
+		object-position: center;
+		width: var(--3x);
+	}
 }
 
 .Navigator-activeIndicator {

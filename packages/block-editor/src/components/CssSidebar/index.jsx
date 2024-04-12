@@ -28,8 +28,6 @@ const VARIABLE_GROUPS = [
 	},
 ];
 
-console.log(cssVariables);
-
 import "./style.css";
 
 function CssSidebar({ ...props }) {

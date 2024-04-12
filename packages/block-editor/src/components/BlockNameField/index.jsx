@@ -4,8 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { TutorialContext } from "../../contexts";
 import { delimiterize } from "../../functions";
 
-import { useRect } from "../../hooks";
-
 import {
 	getBlockName,
 	getBlockNamespace,
@@ -24,7 +22,6 @@ import {
 
 import EditableString from "../EditableString";
 import Tooltip from "../Tooltip";
-import TutorialTooltip from "../TutorialTooltip";
 
 import "./style.css";
 
@@ -35,12 +32,10 @@ const defaultBlockNamespace =
 const BlockNameField = ({ onBlur, onFocus }) => {
 	const dispatch = useDispatch();
 
-	const ref = useRef(null);
-	const nameRef = useRef(null);
-
-	const nameRect = useRect(nameRef, ref, ["right"]);
-
 	const tutorialContext = useContext(TutorialContext);
+
+	const ref = useRef(null);
+	const nameRef = tutorialContext?.focusRefs?.[0] || useRef(null);
 
 	const [hasFocus, setHasFocus] = useState(false);
 
@@ -142,12 +137,6 @@ const BlockNameField = ({ onBlur, onFocus }) => {
 					onFocus={_onFocus}
 					placeholder={"enter-a-block-name..."}
 					value={blockName}
-				/>
-				<TutorialTooltip
-					ref={ref}
-					step={1}
-					left={nameRect.right}
-					position="right"
 				/>
 			</div>
 			<Tooltip data="blockJson.name" position="below" />

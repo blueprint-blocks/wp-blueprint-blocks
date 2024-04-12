@@ -10,16 +10,17 @@
 	gap: var(--2x);
 	justify-items: start;
 	line-height: var(--line-height-base);
-	min-width: var(--width, 0);
 	opacity: 0;
 	padding: var(--2x) var(--2x) var(--2x) var(--3x);
 	position: absolute;
 	text-align: left;
+	top: var(--top, 0);
 	transform: scale(0.8);
 	transform-origin: center;
 	transition: var(--transition);
 	user-select: none;
-	z-index: 10;
+	width: var(--width);
+	z-index: 100;
 
 	&::before {
 		border: solid transparent;
@@ -28,6 +29,7 @@
 		display: block;
 		height: 0;
 		position: absolute;
+		top: 12px;
 		width: 0;
 	}
 }
@@ -82,34 +84,23 @@
 	}
 }
 
-.TutorialTooltip.position-above {
-	bottom: calc(100% + var(--1x) - 2px);
-
-	&::before {
-		border-top-color: var(--caret-color);
-		border-top-width: var(--1x);
-		bottom: calc(-1 * var(--1x));
-	}
-}
-
-.TutorialTooltip.position-below {
-	top: calc(100% + var(--1x) - 2px);
-
-	&::before {
-		border-bottom-color: var(--caret-color);
-		border-bottom-width: var(--1x);
-		top: calc(-1 * var(--1x));
-	}
-}
-
 .TutorialTooltip.position-right {
-	left: calc(var(--left, 100%) + var(--2x) - 2px);
-	top: 0;
+	left: calc(var(--left, 0) + var(--2x) - 2px);
 
 	&::before {
 		border-width: var(--1x) var(--1x) var(--1x) 0;
 		border-right-color: var(--caret-color);
 		left: calc(-1 * var(--1x));
-		top: var(--2x);
+	}
+}
+
+.TutorialTooltip.position-left {
+	--caret-color: #0385de;
+	right: calc(var(--right, 0) + var(--2x) - 2px);
+
+	&::before {
+		border-width: var(--1x) 0 var(--1x) var(--1x);
+		border-left-color: var(--caret-color);
+		right: calc(-1 * var(--1x));
 	}
 }

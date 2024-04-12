@@ -14,11 +14,19 @@ import "./style.css";
 const { pluginMetadata = {} } = blueprintBlocksEditorSettings;
 
 const Navigator = ({ activeNavItem, setActiveNavItem, onUpdate }) => {
-	const ref = useRef(null);
-
 	const tutorialContext = useContext(TutorialContext);
 
-	const navItemRefs = navItems.map(() => useRef(null));
+	const ref = useRef(null);
+
+	const updateRef = tutorialContext?.focusRefs?.[8] || useRef(null);
+
+	const navItemRefs = navItems.map((_, index) => {
+		if (index === 1) {
+			return tutorialContext?.focusRefs?.[4] || useRef(null);
+		}
+		return useRef(null);
+	});
+
 	const navItemRects = navItems.map((_, index) =>
 		useRect(navItemRefs[index], ref, ["left", "width"]),
 	);
@@ -28,18 +36,33 @@ const Navigator = ({ activeNavItem, setActiveNavItem, onUpdate }) => {
 		[navItemRects],
 	);
 
-	const isUpdateDisabled = useSelector(
-		(state) => !hasUnsavedChanges(state.postMetadata),
-	);
+	const isUpdateDisabled = useSelector((state) => {
+		if (tutorialContext.isActive && tutorialContext.currentStep !== 9) {
+			return true;
+		}
+		return !hasUnsavedChanges(state.postMetadata);
+	});
 
 	const _setActiveNavItem = useCallback(
 		(index) => {
-			if (tutorialContext.isActive === true) {
+			if (tutorialContext.isActive && tutorialContext.currentStep !== 5) {
 				return;
+			}
+
+			// Move on to the next step in the tutorial if the user clicks the tab
+			if (tutorialContext.isActive && tutorialContext.currentStep === 5) {
+				tutorialContext.goToNextStep();
 			}
 
 			setActiveNavItem(index);
 		},
+		[tutorialContext],
+	);
+
+	const isDisabled = useCallback(
+		(index) =>
+			tutorialContext.isActive &&
+			(tutorialContext.currentStep !== 5 || index !== 1),
 		[tutorialContext],
 	);
 
@@ -54,11 +77,11 @@ const Navigator = ({ activeNavItem, setActiveNavItem, onUpdate }) => {
 						key={index}
 						className={clsx({
 							"is-active": index === activeNavItem,
-							"is-disabled": tutorialContext.isActive,
+							"is-disabled": isDisabled(index),
 						})}
 						onClick={() => _setActiveNavItem(index)}
 					>
-						<div>
+						<div className="Navigator-item">
 							{icon && (
 								<img
 									src={`${pluginMetadata?.url}/assets/images/font-awesome/${icon}.svg`}
@@ -78,6 +101,7 @@ const Navigator = ({ activeNavItem, setActiveNavItem, onUpdate }) => {
 			</ul>
 			<div className="Navigator-actions">
 				<Button
+					ref={updateRef}
 					disabled={isUpdateDisabled}
 					label={"Save Changes"}
 					onClick={onUpdate}

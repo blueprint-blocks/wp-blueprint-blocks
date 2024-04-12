@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { memo } from "react";
 
 import { useBlueprint } from "../../hooks";
@@ -6,15 +7,22 @@ import InsertButton from "../InsertButton";
 
 import "./style.css";
 
-const BlueprintComponentInsert = memo(({ clientId }) => {
+const BlueprintComponentInsert = memo(({ clientId, disabled = false }) => {
 	const { setComponentAttribute } = useBlueprint();
 
 	const onClick = () => {
-		setComponentAttribute(clientId, "", null);
+		if (!disabled) {
+			setComponentAttribute(clientId, "", null);
+		}
 	};
 
 	return (
-		<InsertButton className="BlueprintComponentInsert" onClick={onClick} />
+		<InsertButton
+			className={clsx("BlueprintComponentInsert", {
+				"is-disabled": disabled,
+			})}
+			onClick={onClick}
+		/>
 	);
 });
 

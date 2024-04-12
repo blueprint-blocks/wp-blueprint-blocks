@@ -1,11 +1,12 @@
 .PageBlockJson {
 	padding: var(--5x);
+	position: relative;
 }
 
 .PageBlockJson-grid {
 	align-items: start;
 	display: grid;
-	grid-gap: var(--5x);
+	gap: var(--5x);
 	grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
 }
 
@@ -15,6 +16,9 @@
 	grid-auto-flow: row;
 	position: relative;
 	z-index: 2;
+}
+
+.PageBlockJson-fields > div {
 }
 
 .PageBlockJson-fieldset {
@@ -41,4 +45,25 @@
 		var(--wp-admin--admin-bar--height) + var(--navigator-height) + var(--5x)
 	);
 	z-index: 1;
+}
+
+.App.is-tutorial .PageBlockJson {
+	box-sizing: border-box;
+	height: calc(
+		100vh - var(--navigator-height) - var(--wp-admin--admin-bar--height)
+	);
+	overflow: hidden;
+}
+
+.App.is-tutorial .PageBlockJson-grid {
+	height: calc(
+		100vh - var(--navigator-height) - var(--wp-admin--admin-bar--height) -
+			var(--10x)
+	);
+	overflow: visible;
+}
+
+.App.is-tutorial .PageBlockJson-fields {
+	top: calc(-1 * var(--scroll-offset, 0));
+	transition: var(--transition);
 }

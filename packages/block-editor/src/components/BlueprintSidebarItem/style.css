@@ -21,6 +21,10 @@
 	}
 }
 
+.BlueprintSidebarItem.is-disabled {
+	cursor: default;
+}
+
 .BlueprintSidebarItem.is-clone {
 	bottom: 0;
 	left: 0;

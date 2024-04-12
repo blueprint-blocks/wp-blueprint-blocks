@@ -135,7 +135,7 @@
 	z-index: 50;
 }
 
-.Navigator ul {
+.Navigator > ul {
 		display: grid;
 		grid-auto-flow: column;
 		height: var(--navigator-height);
@@ -147,7 +147,7 @@
 		z-index: 2;
 	}
 
-.Navigator li {
+.Navigator > ul > li {
 		cursor: pointer;
 		font-size: var(--font-size-base);
 		font-weight: var(--font-weight-semi-bold);
@@ -158,21 +158,7 @@
 		transition: var(--transition);
 	}
 
-.Navigator li > div {
-		align-items: center;
-		background: var(--color-white);
-		color: var(--color-darkest-gray);
-		display: grid;
-		gap: var(--2x);
-		grid-auto-columns: max-content;
-		grid-auto-flow: column;
-		height: calc(var(--5x) - 3px);
-		line-height: var(--3x);
-		mix-blend-mode: lighten;
-		padding: 0 var(--1x);
-	}
-
-.Navigator li::before {
+.Navigator > ul > li::before {
 		background: var(--gradient-teal-blue);
 		bottom: calc(var(--1x) + 3px);
 		content: "";
@@ -186,26 +172,16 @@
 		z-index: -1;
 	}
 
-.Navigator li:hover {
+.Navigator > ul > li:hover {
 		text-decoration-color: currentColor;
 	}
 
-.Navigator li.is-active {
+.Navigator > ul > li.is-active {
 		cursor: default;
 	}
 
-.Navigator li.is-active::before {
+.Navigator > ul > li.is-active::before {
 		opacity: 1;
-	}
-
-.Navigator img {
-		display: block;
-		height: var(--3x);
-		-o-object-fit: contain;
-		   object-fit: contain;
-		-o-object-position: center;
-		   object-position: center;
-		width: var(--3x);
 	}
 
 .Navigator::after {
@@ -219,6 +195,31 @@
 	width: 100%;
 	z-index: 1;
 }
+
+.Navigator-item {
+	align-items: center;
+	background: var(--color-white);
+	color: var(--color-darkest-gray);
+	display: grid;
+	gap: var(--2x);
+	grid-auto-columns: max-content;
+	grid-auto-flow: column;
+	height: calc(var(--5x) - 3px);
+	line-height: var(--3x);
+	mix-blend-mode: lighten;
+	padding: 0 var(--1x);
+	position: relative;
+}
+
+.Navigator-item > img {
+		display: block;
+		height: var(--3x);
+		-o-object-fit: contain;
+		   object-fit: contain;
+		-o-object-position: center;
+		   object-position: center;
+		width: var(--3x);
+	}
 
 .Navigator-activeIndicator {
 	background: var(--gradient-teal-blue-transparent);
@@ -333,125 +334,6 @@
 .EditableString.has-focus .placeholder {
 	color: var(--placeholder-focus-color);
 }
-
-.TutorialTooltip {
-	--caret-color: var(--color-accent-teal-blue);
-	background: var(--gradient-teal-blue-soft);
-	border-radius: 5px;
-	box-shadow: var(--box-shadow-medium);
-	color: var(--color-white);
-	display: grid;
-	font-size: var(--font-size-base);
-	font-weight: var(--font-weight-medium);
-	gap: var(--2x);
-	justify-items: start;
-	line-height: var(--line-height-base);
-	min-width: var(--width, 0);
-	opacity: 0;
-	padding: var(--2x) var(--2x) var(--2x) var(--3x);
-	position: absolute;
-	text-align: left;
-	transform: scale(0.8);
-	transform-origin: center;
-	transition: var(--transition);
-	-webkit-user-select: none;
-	   -moz-user-select: none;
-	        user-select: none;
-	z-index: 10;
-}
-
-.TutorialTooltip::before {
-		border: solid transparent;
-		border-width: 0 var(--1x) 0 var(--1x);
-		content: "";
-		display: block;
-		height: 0;
-		position: absolute;
-		width: 0;
-	}
-
-.TutorialTooltip.is-visible {
-	opacity: 1;
-	transform: scale(1);
-}
-
-.TutorialTooltip-link {
-	bottom: 0;
-	content: "";
-	display: block;
-	left: 0;
-	position: absolute;
-	right: 0;
-	top: 0;
-	z-index: 10;
-}
-
-.TutorialTooltip-label {
-	color: var(--color-white);
-	font-size: var(--font-size-large);
-	font-weight: var(--font-weight-semi-bold);
-}
-
-.TutorialTooltip-text p {
-	box-sizing: border-box;
-	margin: 0 !important;
-	width: 100%;
-}
-
-.TutorialTooltip-actions {
-	align-items: center;
-	display: grid;
-	gap: var(--1x);
-	grid-template-columns: 1fr max-content;
-	width: 100%;
-}
-
-.TutorialTooltip-actions p {
-		font-size: var(--font-size-small);
-		margin: 0;
-	}
-
-.TutorialTooltip-skip {
-	cursor: pointer;
-	width: -moz-fit-content;
-	width: fit-content;
-}
-
-.TutorialTooltip-skip:hover {
-		text-decoration: underline;
-	}
-
-.TutorialTooltip.position-above {
-	bottom: calc(100% + var(--1x) - 2px);
-}
-
-.TutorialTooltip.position-above::before {
-		border-top-color: var(--caret-color);
-		border-top-width: var(--1x);
-		bottom: calc(-1 * var(--1x));
-	}
-
-.TutorialTooltip.position-below {
-	top: calc(100% + var(--1x) - 2px);
-}
-
-.TutorialTooltip.position-below::before {
-		border-bottom-color: var(--caret-color);
-		border-bottom-width: var(--1x);
-		top: calc(-1 * var(--1x));
-	}
-
-.TutorialTooltip.position-right {
-	left: calc(var(--left, 100%) + var(--2x) - 2px);
-	top: 0;
-}
-
-.TutorialTooltip.position-right::before {
-		border-width: var(--1x) var(--1x) var(--1x) 0;
-		border-right-color: var(--caret-color);
-		left: calc(-1 * var(--1x));
-		top: var(--2x);
-	}
 
 .BlockIconField {
 	align-items: center;
@@ -975,6 +857,10 @@
 		width: calc((26 / 24) * var(--size));
 	}
 
+.CheckboxField.is-disabled .CheckboxField-checkbox input[type="checkbox"] {
+	cursor: default;
+}
+
 .CheckboxField.is-checked > .CheckboxField-checkbox::after {
 	opacity: 1;
 }
@@ -993,8 +879,123 @@
 	grid-auto-flow: row;
 }
 
+.TutorialTooltip {
+	--caret-color: var(--color-accent-teal-blue);
+	background: var(--gradient-teal-blue-soft);
+	border-radius: 5px;
+	box-shadow: var(--box-shadow-medium);
+	color: var(--color-white);
+	display: grid;
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-medium);
+	gap: var(--2x);
+	justify-items: start;
+	line-height: var(--line-height-base);
+	opacity: 0;
+	padding: var(--2x) var(--2x) var(--2x) var(--3x);
+	position: absolute;
+	text-align: left;
+	top: var(--top, 0);
+	transform: scale(0.8);
+	transform-origin: center;
+	transition: var(--transition);
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
+	width: var(--width);
+	z-index: 100;
+}
 
-	.BlockSupportsFieldItem p {
+.TutorialTooltip::before {
+		border: solid transparent;
+		border-width: 0 var(--1x) 0 var(--1x);
+		content: "";
+		display: block;
+		height: 0;
+		position: absolute;
+		top: 12px;
+		width: 0;
+	}
+
+.TutorialTooltip.is-visible {
+	opacity: 1;
+	transform: scale(1);
+}
+
+.TutorialTooltip-link {
+	bottom: 0;
+	content: "";
+	display: block;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 10;
+}
+
+.TutorialTooltip-label {
+	color: var(--color-white);
+	font-size: var(--font-size-large);
+	font-weight: var(--font-weight-semi-bold);
+}
+
+.TutorialTooltip-text p {
+	box-sizing: border-box;
+	margin: 0 !important;
+	width: 100%;
+}
+
+.TutorialTooltip-actions {
+	align-items: center;
+	display: grid;
+	gap: var(--1x);
+	grid-template-columns: 1fr max-content;
+	width: 100%;
+}
+
+.TutorialTooltip-actions p {
+		font-size: var(--font-size-small);
+		margin: 0;
+	}
+
+.TutorialTooltip-skip {
+	cursor: pointer;
+	width: -moz-fit-content;
+	width: fit-content;
+}
+
+.TutorialTooltip-skip:hover {
+		text-decoration: underline;
+	}
+
+.TutorialTooltip.position-right {
+	left: calc(var(--left, 0) + var(--2x) - 2px);
+}
+
+.TutorialTooltip.position-right::before {
+		border-width: var(--1x) var(--1x) var(--1x) 0;
+		border-right-color: var(--caret-color);
+		left: calc(-1 * var(--1x));
+	}
+
+.TutorialTooltip.position-left {
+	--caret-color: #0385de;
+	right: calc(var(--right, 0) + var(--2x) - 2px);
+}
+
+.TutorialTooltip.position-left::before {
+		border-width: var(--1x) 0 var(--1x) var(--1x);
+		border-left-color: var(--caret-color);
+		right: calc(-1 * var(--1x));
+	}
+
+.BlockSupportsFieldItem {
+	position: relative;
+	width: -moz-fit-content;
+	width: fit-content;
+}
+
+.BlockSupportsFieldItem p {
 		margin: 0 0 var(--1x);
 	}
 
@@ -1045,6 +1046,9 @@
 		background: var(--color-darker-gray);
 		border-radius: 5px;
 		padding: 0 var(--1x);
+	}
+.JsonEditor .is-disabled {
+		opacity: 1 !important;
 	}
 .JsonEditor .indent {
 		margin-left: 2em;
@@ -1211,12 +1215,13 @@
 
 .PageBlockJson {
 	padding: var(--5x);
+	position: relative;
 }
 
 .PageBlockJson-grid {
 	align-items: start;
 	display: grid;
-	grid-gap: var(--5x);
+	gap: var(--5x);
 	grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
 }
 
@@ -1226,6 +1231,9 @@
 	grid-auto-flow: row;
 	position: relative;
 	z-index: 2;
+}
+
+.PageBlockJson-fields > div {
 }
 
 .PageBlockJson-fieldset {
@@ -1254,6 +1262,27 @@
 		var(--wp-admin--admin-bar--height) + var(--navigator-height) + var(--5x)
 	);
 	z-index: 1;
+}
+
+.App.is-tutorial .PageBlockJson {
+	box-sizing: border-box;
+	height: calc(
+		100vh - var(--navigator-height) - var(--wp-admin--admin-bar--height)
+	);
+	overflow: hidden;
+}
+
+.App.is-tutorial .PageBlockJson-grid {
+	height: calc(
+		100vh - var(--navigator-height) - var(--wp-admin--admin-bar--height) -
+			var(--10x)
+	);
+	overflow: visible;
+}
+
+.App.is-tutorial .PageBlockJson-fields {
+	top: calc(-1 * var(--scroll-offset, 0));
+	transition: var(--transition);
 }
 
 .BlueprintWarning {
@@ -1604,7 +1633,7 @@
 	transition: var(--transition);
 	white-space: nowrap;
 }
-.BlueprintAttributeAdd:hover {
+.BlueprintAttributeAdd:not(.is-disabled):hover {
 		background: var(--color-white);
 	}
 .BlueprintAttributeAdd.has-focus {
@@ -1816,7 +1845,7 @@
 	z-index: 20;
 }
 
-.InsertButton:hover {
+.InsertButton:not(.is-disabled):hover {
 	--color: var(--color-black);
 }
 
@@ -2115,11 +2144,11 @@
 	width: 100%;
 }
 
-.BlueprintEditor-scroll::after {
-		content: "";
-		display: block;
-		height: var(--11x);
-	}
+.BlueprintEditor.has-upsell .BlueprintEditor-scroll::after {
+	content: "";
+	display: block;
+	height: var(--11x);
+}
 
 .BlueprintEditor-grid {
 	background: var(--color-black);
@@ -2212,6 +2241,10 @@
 		top: 0;
 		z-index: 9;
 	}
+
+.BlueprintSidebarItem.is-disabled {
+	cursor: default;
+}
 
 .BlueprintSidebarItem.is-clone {
 	bottom: 0;
@@ -2435,6 +2468,10 @@
 		padding: 0 0.4em;
 	}
 
+.BlueprintContextualComponentHelp-suggestedValues > .is-disabled {
+		cursor: default;
+	}
+
 .BlueprintSidebarContextPanel {
 	transition: var(--transition);
 }
@@ -2482,6 +2519,7 @@
 	display: grid;
 	gap: var(--2x);
 	grid-template-columns: repeat(var(--columns, 1), minmax(0, 1fr));
+	position: relative;
 }
 
 .PageBlueprint {
@@ -3137,6 +3175,9 @@
 	--10x: 80px;
 	--11x: 88px;
 	--12x: 96px;
+	--13x: 104px;
+	--14x: 112px;
+	--15x: 120px;
 
 	--color-white: #fff;
 	--color-black: #272432;

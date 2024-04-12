@@ -71,6 +71,10 @@
 	}
 }
 
+.CheckboxField.is-disabled .CheckboxField-checkbox input[type="checkbox"] {
+	cursor: default;
+}
+
 .CheckboxField.is-checked > .CheckboxField-checkbox::after {
 	opacity: 1;
 }
