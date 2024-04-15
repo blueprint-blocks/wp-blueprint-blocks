@@ -10,6 +10,7 @@ import {
 	useEditorFocus,
 	useOnClickOutside,
 	useOnDelete,
+	useTutorial,
 } from "../../hooks";
 
 import BlueprintAttributeDefault from "../BlueprintAttributeDefault";
@@ -22,6 +23,8 @@ import "./style.css";
 const BlueprintAttribute = memo(({ clientId }) => {
 	const ref = useRef(null);
 
+	const tutorial = useTutorial();
+
 	const { hasFocus, setFocus, unsetFocus } = useEditorFocus(clientId);
 
 	const { getAttributeById, removeAttribute } = useBlockJson();
@@ -33,7 +36,12 @@ const BlueprintAttribute = memo(({ clientId }) => {
 
 	const onClick = useCallback(
 		(event) => {
+			if (tutorial.isActive) {
+				return;
+			}
+
 			event.stopPropagation();
+
 			if (hasFocus === false) {
 				setFocus({ clientId, context: "attribute" });
 			}
@@ -84,9 +92,18 @@ const BlueprintAttribute = memo(({ clientId }) => {
 		>
 			<div class="BlueprintAttribute-focus" />
 			<BlueprintConnectionHandleFrom clientId={clientId} context="from" />
-			<BlueprintAttributeName clientId={clientId} />
-			<BlueprintAttributeType clientId={clientId} />
-			<BlueprintAttributeDefault clientId={clientId} />
+			<BlueprintAttributeName
+				clientId={clientId}
+				disabled={tutorial.isActive}
+			/>
+			<BlueprintAttributeType
+				clientId={clientId}
+				disabled={tutorial.isActive}
+			/>
+			<BlueprintAttributeDefault
+				clientId={clientId}
+				disabled={tutorial.isActive}
+			/>
 			<div>
 				<span>{"}"}</span>
 			</div>

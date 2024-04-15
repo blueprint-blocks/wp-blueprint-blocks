@@ -10,7 +10,7 @@ import EditableString from "../EditableString";
 
 import "./style.css";
 
-const BlueprintAttributeType = memo(({ clientId }) => {
+const BlueprintAttributeType = memo(({ clientId, disabled = false }) => {
 	const { editAttribute, getAttributeById } = useBlockJson();
 
 	const { name: attributeName, type: attributeType } =
@@ -39,6 +39,7 @@ const BlueprintAttributeType = memo(({ clientId }) => {
 				<span>{`": "`}</span>
 				<EditableString
 					className="BlueprintAttribute-type"
+					disabled={disabled}
 					placeholder="string"
 					value={attributeType}
 					onChange={onChange}

@@ -1,17 +1,31 @@
-import { useContext, useMemo } from "react";
+import { useCallback, useContext, useMemo } from "react";
 import { TutorialContext } from "../contexts";
 
-function useTutorial(step = null) {
+function useTutorial({ step = null } = {}) {
 	const context = useContext(TutorialContext);
 
-	const isStepActive = useMemo(() => context.isStep(step), [context]);
+	const isActiveStep = useMemo(
+		() => context.isActive && context.isCurrentStep(step),
+		[context, step],
+	);
 
-	const stepRef = context.useRef(step);
+	const isNotActiveStep = useMemo(
+		() => context.isActive && !context.isCurrentStep(step),
+		[context, step],
+	);
+
+	const forwardRef = useCallback(
+		(ref, _step = null) => {
+			context.setFocusRef(step || _step, ref);
+		},
+		[context.focusRefs],
+	);
 
 	return {
 		...context,
-		isStepActive,
-		stepRef,
+		forwardRef,
+		isActiveStep,
+		isNotActiveStep,
 	};
 }
 

@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 import {
 	memo,
 	useContext,
@@ -15,6 +17,7 @@ import {
 	useBlueprintConnections,
 	useCenterPoint,
 	useDebugRenderCount,
+	useTutorial,
 } from "../../hooks";
 
 import DraggableWithinEditor from "../DraggableWithinEditor";
@@ -29,6 +32,8 @@ const BlueprintConnectionHandleTo = memo(
 		isDragging = false,
 	}) => {
 		const ref = useRef(null);
+
+		const tutorial = useTutorial();
 
 		const editorContext = useContext(BlueprintEditorContext);
 
@@ -164,17 +169,18 @@ const BlueprintConnectionHandleTo = memo(
 		 * handles are reported back to the store for drawing
 		 * the connections between handles.
 		 */
-		if (!isClone) {
-			useLayoutEffect(() => {
+		useLayoutEffect(() => {
+			if (!isClone) {
 				dispatchPosition();
-			}, [
-				blockAttributes,
-				blockComponents,
-				centerPoint,
-				clientId,
-				draggingOffset,
-			]);
-		}
+			}
+		}, [
+			blockAttributes,
+			blockComponents,
+			centerPoint,
+			clientId,
+			isClone,
+			draggingOffset,
+		]);
 
 		if (process.env.NODE_ENV === "development") {
 			useDebugRenderCount("BlueprintConnectionHandleTo");
@@ -183,22 +189,26 @@ const BlueprintConnectionHandleTo = memo(
 		return (
 			<div
 				ref={ref}
-				className="BlueprintConnectionHandleTo"
+				className={clsx("BlueprintConnectionHandleTo", {
+					"is-disabled": tutorial.isActive,
+				})}
 				onClick={(event) => {
 					event.stopPropagation();
 				}}
 			>
-				<DraggableWithinEditor
-					additionalContext={{ handleContext: "to" }}
-					clientId={clientId}
-					context="connectionHandle"
-					onDrag={onDrag}
-					onStartDrag={onStartDrag}
-					onStopDrag={onStopDrag}
-					ref={ref}
-				>
-					<div className="BlueprintConnectionHandleTo is-clone" />
-				</DraggableWithinEditor>
+				{!tutorial.isActive && (
+					<DraggableWithinEditor
+						additionalContext={{ handleContext: "to" }}
+						clientId={clientId}
+						context="connectionHandle"
+						onDrag={onDrag}
+						onStartDrag={onStartDrag}
+						onStopDrag={onStopDrag}
+						ref={ref}
+					>
+						<div className="BlueprintConnectionHandleTo is-clone" />
+					</DraggableWithinEditor>
+				)}
 			</div>
 		);
 	},

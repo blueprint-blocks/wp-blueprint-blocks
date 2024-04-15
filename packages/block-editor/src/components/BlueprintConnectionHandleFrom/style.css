@@ -22,3 +22,7 @@
 	opacity: 0;
 	top: -2px;
 }
+
+.BlueprintConnectionHandleFrom.is-disabled {
+	cursor: default;
+}

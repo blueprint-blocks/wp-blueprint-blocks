@@ -6,7 +6,7 @@ import { useBlockJson, useBlueprint } from "../../hooks";
 import BlueprintWarning from "../BlueprintWarning";
 import EditableString from "../EditableString";
 
-const BlueprintAttributeName = memo(({ clientId }) => {
+const BlueprintAttributeName = memo(({ clientId, disabled = false }) => {
 	const { getAttributeById, renameAttribute } = useBlockJson();
 
 	const { getComponentsByAttributeName, setComponentAttribute } =
@@ -45,6 +45,7 @@ const BlueprintAttributeName = memo(({ clientId }) => {
 				<span>{'"'}</span>
 				<EditableString
 					className="BlueprintAttribute-name"
+					disabled={disabled}
 					placeholder="attributeName"
 					value={attributeName}
 					onChange={onChange}

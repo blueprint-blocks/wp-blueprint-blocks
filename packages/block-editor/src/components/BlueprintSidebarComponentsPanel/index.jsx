@@ -1,7 +1,14 @@
-import { forwardRef, memo, useCallback, useContext, useRef } from "react";
+import {
+	forwardRef,
+	memo,
+	useCallback,
+	useLayoutEffect,
+	useMemo,
+	useRef,
+} from "react";
 
-import { TutorialContext } from "../../contexts";
 import { blockComponents } from "../../data";
+import { useTutorial } from "../../hooks";
 
 import BlueprintSidebarItem from "../BlueprintSidebarItem";
 
@@ -9,21 +16,26 @@ import "./style.css";
 
 const BlueprintSidebarComponentsPanel = memo(
 	forwardRef(({}, ref) => {
-		const tutorialContext = useContext(TutorialContext);
+		const tutorial = useTutorial({ step: 6 });
 
-		const fieldItemRefs = blockComponents.fields.map((_, index) => {
-			if (index === 0) {
-				return tutorialContext?.focusRefs?.[5] || useRef(null);
-			}
-			return useRef(null);
-		});
+		const fieldItemRefs = blockComponents.fields.map((_, index) =>
+			useRef(null),
+		);
+
+		const isSidebarDisabled = useMemo(
+			() => tutorial.isActive && tutorial.currentStep !== 6,
+			[tutorial.currentStep, tutorial.isActive],
+		);
 
 		const isDisabled = useCallback(
-			(index) =>
-				tutorialContext.isActive &&
-				(tutorialContext.currentStep !== 6 || index !== 0),
-			[tutorialContext],
+			(index) => isSidebarDisabled || (tutorial.isActive && index !== 1),
+			[isSidebarDisabled, tutorial.isActive],
 		);
+
+		// Forward the ref to the tutorial context
+		useLayoutEffect(() => {
+			tutorial.forwardRef(fieldItemRefs[0]);
+		}, [fieldItemRefs[0]]);
 
 		return (
 			<div ref={ref} className="BlueprintSidebarComponentsPanel">
@@ -53,7 +65,7 @@ const BlueprintSidebarComponentsPanel = memo(
 						<BlueprintSidebarItem
 							{...props}
 							key={index}
-							disabled={tutorialContext.isActive}
+							disabled={tutorial.isActive}
 						/>
 					))}
 				</div>

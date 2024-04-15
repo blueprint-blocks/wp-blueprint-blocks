@@ -1,4 +1,4 @@
-import { useBlueprintConnections } from "../../hooks";
+import { useBlueprintConnections, useTutorial } from "../../hooks";
 
 const BlueprintConnection = ({
 	from = null,
@@ -6,6 +6,8 @@ const BlueprintConnection = ({
 	to = null,
 	toPosition = null,
 }) => {
+	const tutorial = useTutorial();
+
 	const { getHandlePosition, removeConnection } = useBlueprintConnections();
 
 	const _fromPosition = fromPosition || getHandlePosition(from);
@@ -19,6 +21,9 @@ const BlueprintConnection = ({
 	const handleOffsetY = Math.round(height * 0.1 * 100) / 100;
 
 	const onClick = () => {
+		if (tutorial.isActive) {
+			return;
+		}
 		removeConnection(to);
 	};
 

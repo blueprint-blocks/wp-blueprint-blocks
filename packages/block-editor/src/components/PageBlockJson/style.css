@@ -64,6 +64,6 @@
 }
 
 .App.is-tutorial .PageBlockJson-fields {
-	top: calc(-1 * var(--scroll-offset, 0));
+	top: var(--scroll-offset, 0);
 	transition: var(--transition);
 }

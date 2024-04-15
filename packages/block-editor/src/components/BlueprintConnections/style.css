@@ -16,3 +16,7 @@
 		cursor: not-allowed;
 	}
 }
+
+.BlueprintConnections.is-disabled path {
+	cursor: default;
+}

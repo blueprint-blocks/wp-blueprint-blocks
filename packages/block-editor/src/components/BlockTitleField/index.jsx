@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { delimiterize, setDocumentTitle } from "../../functions";
@@ -18,7 +18,9 @@ import "./style.css";
 const BlockTitleField = ({ onBlur, onFocus }) => {
 	const dispatch = useDispatch();
 
-	const tutorial = useTutorial(2);
+	const ref = useRef(null);
+
+	const tutorial = useTutorial({ step: 2 });
 
 	const [hasFocus, setHasFocus] = useState(false);
 
@@ -48,8 +50,8 @@ const BlockTitleField = ({ onBlur, onFocus }) => {
 	};
 
 	const disabled = useMemo(
-		() => !hasFocus && !tutorial.isStepActive,
-		[hasFocus, tutorial.isStepActive],
+		() => !hasFocus && tutorial.isNotActiveStep,
+		[hasFocus, tutorial.isNotActiveStep],
 	);
 
 	const _onBlur = () => {
@@ -62,8 +64,13 @@ const BlockTitleField = ({ onBlur, onFocus }) => {
 		onFocus();
 	};
 
+	// Forward the ref to the tutorial context
+	useLayoutEffect(() => {
+		tutorial.forwardRef(ref);
+	}, [ref]);
+
 	return (
-		<div ref={tutorial.stepRef} className="BlockTitleField">
+		<div ref={ref} className="BlockTitleField">
 			<TextField
 				disabled={disabled}
 				label="Enter a title..."

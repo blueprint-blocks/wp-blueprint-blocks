@@ -1,10 +1,9 @@
 import clsx from "clsx";
-import { useCallback, useContext, useMemo, useRef } from "react";
+import { useCallback, useLayoutEffect, useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
 
-import { TutorialContext } from "../../contexts";
 import { navItems } from "../../data";
-import { useDispatchNavRect, useRect } from "../../hooks";
+import { useDispatchNavRect, useRect, useTutorial } from "../../hooks";
 import { hasUnsavedChanges } from "../../store/post-metadata";
 
 import Button from "../Button";
@@ -14,18 +13,12 @@ import "./style.css";
 const { pluginMetadata = {} } = blueprintBlocksEditorSettings;
 
 const Navigator = ({ activeNavItem, setActiveNavItem, onUpdate }) => {
-	const tutorialContext = useContext(TutorialContext);
+	const tutorial = useTutorial();
 
 	const ref = useRef(null);
+	const updateRef = useRef(null);
 
-	const updateRef = tutorialContext?.focusRefs?.[8] || useRef(null);
-
-	const navItemRefs = navItems.map((_, index) => {
-		if (index === 1) {
-			return tutorialContext?.focusRefs?.[4] || useRef(null);
-		}
-		return useRef(null);
-	});
+	const navItemRefs = navItems.map((_, index) => useRef(null));
 
 	const navItemRects = navItems.map((_, index) =>
 		useRect(navItemRefs[index], ref, ["left", "width"]),
@@ -36,35 +29,44 @@ const Navigator = ({ activeNavItem, setActiveNavItem, onUpdate }) => {
 		[navItemRects],
 	);
 
-	const isUpdateDisabled = useSelector((state) => {
-		if (tutorialContext.isActive && tutorialContext.currentStep !== 9) {
-			return true;
+	const isNavDisabled = useMemo(
+		() => tutorial.isActive && tutorial.currentStep !== 5,
+		[tutorial.currentStep, tutorial.isActive],
+	);
+
+	const isUpdateDisabled = useMemo(
+		() => tutorial.isActive && tutorial.currentStep !== 9,
+		[tutorial.currentStep, tutorial.isActive],
+	);
+
+	const _hasUnsavedChanges = useSelector((state) => {
+		if (isUpdateDisabled) {
+			return false;
 		}
-		return !hasUnsavedChanges(state.postMetadata);
+		return hasUnsavedChanges(state.postMetadata);
 	});
+
+	const isNavItemDisabled = useCallback(
+		(index) => isNavDisabled || (tutorial.isActive && index !== 1),
+		[isNavDisabled, tutorial.isActive],
+	);
 
 	const _setActiveNavItem = useCallback(
 		(index) => {
-			if (tutorialContext.isActive && tutorialContext.currentStep !== 5) {
+			if (isNavItemDisabled(index)) {
 				return;
-			}
-
-			// Move on to the next step in the tutorial if the user clicks the tab
-			if (tutorialContext.isActive && tutorialContext.currentStep === 5) {
-				tutorialContext.goToNextStep();
 			}
 
 			setActiveNavItem(index);
 		},
-		[tutorialContext],
+		[isNavDisabled],
 	);
 
-	const isDisabled = useCallback(
-		(index) =>
-			tutorialContext.isActive &&
-			(tutorialContext.currentStep !== 5 || index !== 1),
-		[tutorialContext],
-	);
+	// Forward the ref to the tutorial context
+	useLayoutEffect(() => {
+		tutorial.forwardRef(navItemRefs[1], 5);
+		tutorial.forwardRef(updateRef, 9);
+	}, [navItemRefs[1], updateRef]);
 
 	useDispatchNavRect(ref);
 
@@ -77,7 +79,7 @@ const Navigator = ({ activeNavItem, setActiveNavItem, onUpdate }) => {
 						key={index}
 						className={clsx({
 							"is-active": index === activeNavItem,
-							"is-disabled": isDisabled(index),
+							"is-disabled": isNavItemDisabled(index),
 						})}
 						onClick={() => _setActiveNavItem(index)}
 					>
@@ -102,7 +104,7 @@ const Navigator = ({ activeNavItem, setActiveNavItem, onUpdate }) => {
 			<div className="Navigator-actions">
 				<Button
 					ref={updateRef}
-					disabled={isUpdateDisabled}
+					disabled={!_hasUnsavedChanges}
 					label={"Save Changes"}
 					onClick={onUpdate}
 					style="primary"

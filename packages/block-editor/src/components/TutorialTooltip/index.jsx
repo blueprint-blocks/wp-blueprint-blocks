@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { memo, useContext, useEffect, useMemo, useRef, useState } from "react";
 
-import { AppContext, TutorialContext } from "../../contexts";
+import { AppContext } from "../../contexts";
 import { tooltips } from "../../data";
 
 import {
@@ -10,7 +10,7 @@ import {
 	replaceTokens,
 } from "../../functions";
 
-import { useBlockJson, useRect } from "../../hooks";
+import { useBlockJson, useRect, useTutorial } from "../../hooks";
 
 import Button from "../Button";
 
@@ -21,15 +21,16 @@ const TutorialTooltip = memo(({ onNextStep, step = null }) => {
 	const [isVisible, setIsVisible] = useState(false);
 
 	const appContext = useContext(AppContext);
-	const tutorialContext = useContext(TutorialContext);
+	const tutorial = useTutorial();
 
 	const appRect = useRect(appContext.appRef, null, ["left", "right", "top"]);
 
-	const focusRect = useRect(
-		tutorialContext.focusRefs[step - 1],
-		appContext.appRef,
-		["left", "right", "top"],
-	);
+	const focusRef = tutorial.useRef(step);
+	const focusRect = useRect(focusRef, appContext.appRef, [
+		"left",
+		"right",
+		"top",
+	]);
 
 	const { blockJson } = useBlockJson();
 
@@ -88,24 +89,26 @@ const TutorialTooltip = memo(({ onNextStep, step = null }) => {
 		return style;
 	}, [focusRect, position, top, width]);
 
-	if (step === 6 && tutorialContext.currentStep === 6) {
-		console.log(appRect.right, focusRect.left);
-	}
-
 	const _onNextStep = () => {
 		onNextStep && onNextStep();
-		tutorialContext.goToNextStep();
+		tutorial.goToNextStep();
 	};
 
 	useEffect(() => {
-		if (!isVisible && step === tutorialContext.currentStep) {
+		if (!isVisible && "top" in focusRect) {
 			setIsVisible(true);
-		} else if (isVisible && step !== tutorialContext.currentStep) {
+		}
+	}, [focusRect]);
+
+	useEffect(() => {
+		if (!isVisible && step === tutorial.currentStep) {
+			setIsVisible(true);
+		} else if (isVisible && step !== tutorial.currentStep) {
 			setIsVisible(false);
-		} else if (isVisible && !tutorialContext.isActive) {
+		} else if (isVisible && !tutorial.isActive) {
 			setIsVisible(false);
 		}
-	}, [step, tutorialContext]);
+	}, [step, tutorial.isActive, tutorial.currentStep]);
 
 	return (
 		<div
@@ -122,7 +125,10 @@ const TutorialTooltip = memo(({ onNextStep, step = null }) => {
 			</div>
 			<div className="TutorialTooltip-actions">
 				<div>
-					<p className="TutorialTooltip-skip">
+					<p
+						className="TutorialTooltip-skip"
+						onClick={tutorial.endTutorial}
+					>
 						Done? Click here to skip.
 					</p>
 				</div>

@@ -1,16 +1,19 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 
 import { TutorialContext } from "../../contexts";
+
+const IS_ACTIVE =
+	blueprintBlocksEditorSettings?.tutorialMetadata?.isActive ?? false;
 
 const MAX_STEPS = 9;
 
 const TutorialProvider = ({ children }) => {
-	const [isActive, setIsActive] = useState(true);
+	const [isActive, setIsActive] = useState(IS_ACTIVE);
 	const [currentStep, setCurrentStep] = useState(1);
 
-	const focusRefs = Array.from(Array(MAX_STEPS)).map(() => useRef(null));
-
-	const _useRef = useCallback((step) => focusRefs[step - 1], [focusRefs]);
+	const focusRefs = Array.from(Array(MAX_STEPS)).map(() =>
+		useState({ current: null }),
+	);
 
 	const endTutorial = useCallback(() => {
 		setIsActive(false);
@@ -28,10 +31,17 @@ const TutorialProvider = ({ children }) => {
 		setCurrentStep(step);
 	}, []);
 
-	const isStep = useCallback(
-		(step) => isActive && currentStep === step,
-		[currentStep, isActive],
+	const isCurrentStep = useCallback(
+		(step) => currentStep === step,
+		[currentStep],
 	);
+
+	const setFocusRef = useCallback((step, ref) => {
+		const [_, setRef] = focusRefs[step - 1];
+		setRef(ref);
+	});
+
+	const useRef = useCallback((step) => focusRefs?.[step - 1][0], [focusRefs]);
 
 	return (
 		<TutorialContext.Provider
@@ -41,9 +51,10 @@ const TutorialProvider = ({ children }) => {
 				goToNextStep,
 				goToStep,
 				isActive,
-				isStep,
+				isCurrentStep,
 				focusRefs,
-				useRef: _useRef,
+				setFocusRef,
+				useRef,
 			}}
 		>
 			{children}

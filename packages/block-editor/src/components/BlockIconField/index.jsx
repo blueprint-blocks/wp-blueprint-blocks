@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useContext, useMemo, useRef, useState } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { dashicons } from "../../data";
@@ -15,10 +15,11 @@ import "./style.css";
 function BlockIconField({ onBlur, onFocus }) {
 	const dispatch = useDispatch();
 
-	const tutorial = useTutorial(3);
+	const tutorial = useTutorial({ step: 3 });
 
 	const blockIcon = useSelector((state) => state.blockJson?.icon || "");
 
+	const ref = useRef(null);
 	const inputRef = useRef(null);
 
 	const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -64,7 +65,7 @@ function BlockIconField({ onBlur, onFocus }) {
 	};
 
 	const onClick = () => {
-		if (!tutorial.isStepActive) {
+		if (tutorial.isNotActiveStep) {
 			return;
 		}
 		setDropdownOpen(true);
@@ -75,7 +76,7 @@ function BlockIconField({ onBlur, onFocus }) {
 	};
 
 	// Call hook passing in the ref and a function to call on outside click
-	useOnClickOutside(tutorial.stepRef, () => {
+	useOnClickOutside(ref, () => {
 		if (isDropdownOpen === true) {
 			setSearchFilter("");
 			setDropdownOpen(false);
@@ -83,12 +84,17 @@ function BlockIconField({ onBlur, onFocus }) {
 		}
 	});
 
+	// Forward the ref to the tutorial context
+	useLayoutEffect(() => {
+		tutorial.forwardRef(ref);
+	}, [ref]);
+
 	return (
 		<div className="BlockIconField-wrap">
 			<div
-				ref={tutorial.stepRef}
+				ref={ref}
 				className={clsx("BlockIconField", {
-					"is-disabled": !tutorial.isStepActive,
+					"is-disabled": tutorial.isNotActiveStep,
 					"is-open": isDropdownOpen,
 				})}
 				onClick={onClick}

@@ -1,5 +1,12 @@
 import clsx from "clsx";
-import { memo, useCallback, useMemo, useRef, useState } from "react";
+import {
+	memo,
+	useCallback,
+	useLayoutEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
 
 import { componentAllowsChildren } from "../../functions";
 
@@ -28,15 +35,11 @@ const BlueprintComponent = memo(
 		const tagName = getComponentTagName(clientId);
 		const type = getComponentType(clientId);
 
-		const tutorial = useTutorial();
+		const tutorial = useTutorial({ step: 7 });
 
-		const ref =
-			(tutorial.isActive &&
-				type === "rich-text" &&
-				tutorial.focusRefs[6]) ||
-			useRef(null);
+		const ref = useRef(null);
 
-		const [offset, setOffset] = useState({ x: 0, y: 0 });
+		const [offset, setOffset] = useState({ x: 0, y: 0, a: "b" });
 		const [isDraggingSelf, setIsDraggingSelf] = useState(false);
 
 		const { hasFocus, setFocus, unsetFocus } = useEditorFocus(clientId);
@@ -81,6 +84,13 @@ const BlueprintComponent = memo(
 				clientId,
 				context: "component",
 			});
+
+		// Forward the ref to the tutorial context
+		useLayoutEffect(() => {
+			if (type === "rich-text") {
+				tutorial.forwardRef(ref);
+			}
+		}, [ref, type]);
 
 		// Remove component on delete
 		useOnDelete(() => {
@@ -127,7 +137,7 @@ const BlueprintComponent = memo(
 						<BlueprintConnectionHandleTo
 							clientId={clientId}
 							context="to"
-							isClone={true}
+							isClone={!tutorial.isActive}
 						/>
 					)}
 				</BlueprintComponentOpeningTag>

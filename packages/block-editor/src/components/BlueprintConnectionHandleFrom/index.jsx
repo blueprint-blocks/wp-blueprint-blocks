@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 import {
 	memo,
 	useContext,
@@ -15,6 +17,7 @@ import {
 	useBlueprintConnections,
 	useCenterPoint,
 	useDebugRenderCount,
+	useTutorial,
 } from "../../hooks";
 
 import DraggableWithinEditor from "../DraggableWithinEditor";
@@ -24,6 +27,8 @@ import "./style.css";
 const BlueprintConnectionHandleFrom = memo(
 	({ clientId = null, draggingOffset = { x: 0, y: 0 }, isClone = false }) => {
 		const ref = useRef(null);
+
+		const tutorial = useTutorial();
 
 		const editorContext = useContext(BlueprintEditorContext);
 
@@ -119,22 +124,26 @@ const BlueprintConnectionHandleFrom = memo(
 		return (
 			<div
 				ref={ref}
-				className="BlueprintConnectionHandleFrom"
+				className={clsx("BlueprintConnectionHandleFrom", {
+					"is-disabled": tutorial.isActive,
+				})}
 				onClick={(event) => {
 					event.stopPropagation();
 				}}
 			>
-				<DraggableWithinEditor
-					additionalContext={{ handleContext: "from" }}
-					clientId={clientId}
-					context="connectionHandle"
-					onDrag={onDrag}
-					onStartDrag={onStartDrag}
-					onStopDrag={onStopDrag}
-					ref={ref}
-				>
-					<div className="BlueprintConnectionHandleFrom is-clone" />
-				</DraggableWithinEditor>
+				{!tutorial.isActive && (
+					<DraggableWithinEditor
+						additionalContext={{ handleContext: "from" }}
+						clientId={clientId}
+						context="connectionHandle"
+						onDrag={onDrag}
+						onStartDrag={onStartDrag}
+						onStopDrag={onStopDrag}
+						ref={ref}
+					>
+						<div className="BlueprintConnectionHandleFrom is-clone" />
+					</DraggableWithinEditor>
+				)}
 			</div>
 		);
 	},

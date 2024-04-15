@@ -1,4 +1,11 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import {
+	useCallback,
+	useContext,
+	useEffect,
+	useLayoutEffect,
+	useState,
+} from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 
 import { AppContext, TutorialContext } from "../../contexts";
@@ -24,8 +31,10 @@ function Tutorial() {
 	const appContext = useContext(AppContext);
 	const tutorialContext = useContext(TutorialContext);
 
+	console.log(tutorialContext.isActive, tutorialContext.currentStep);
+
 	if (!tutorialContext.isActive) {
-		return;
+		return null;
 	}
 
 	const dispatch = useDispatch();
@@ -36,8 +45,9 @@ function Tutorial() {
 
 	const { addAttribute, blockJson, getUniqueAttributeName } = useBlockJson();
 	const { saveBlock, saveDialogIsVisible } = useBlockSave();
-	const { blockComponents, getComponentAttribute } = useBlueprint();
-	const { currentFocus, unsetFocus } = useEditorFocus();
+	const { blockComponents, getComponentAttribute, setComponentAttribute } =
+		useBlueprint();
+	const { currentFocus, setFocus, unsetFocus } = useEditorFocus();
 
 	const [insertedComponentClientId, setInsertedComponentClientId] =
 		useState("");
@@ -48,10 +58,6 @@ function Tutorial() {
 	);
 
 	const newAttributeName = getUniqueAttributeName(camelize("rich-text"));
-
-	if (!tutorialContext.isActive) {
-		return null;
-	}
 
 	const setBlockName = useCallback(() => {
 		if (blockJson?.name === "blueprint-blocks/") {
@@ -123,6 +129,17 @@ function Tutorial() {
 		}
 	}, [blockComponents]);
 
+	useLayoutEffect(() => {
+		if (Object.values(blockComponents).length === 2) {
+			Object.entries(blockComponents).map(([clientId, component]) => {
+				if (component.type === "rich-text") {
+					setInsertedComponentClientId(clientId);
+				}
+			});
+		}
+		console.log(blockComponents);
+	}, [blockComponents]);
+
 	useEffect(() => {
 		if (tutorialContext.currentStep === 1 && blockJson.name.length > 19) {
 			tutorialContext.goToStep(2);
@@ -137,14 +154,19 @@ function Tutorial() {
 		) {
 			tutorialContext.goToStep(4);
 		} else if (
+			tutorialContext.currentStep === 4 &&
+			(blockJson.supports?.color ?? null) !== null
+		) {
+			tutorialContext.goToStep(5);
+		} else if (
+			tutorialContext.currentStep === 5 &&
+			appContext.activeNavItem === 1
+		) {
+			tutorialContext.goToStep(6);
+		} else if (
 			tutorialContext.currentStep === 6 &&
 			Object.values(blockComponents).length === 2
 		) {
-			Object.entries(blockComponents).map(([clientId, component]) => {
-				if (component.type === "rich-text") {
-					setInsertedComponentClientId(clientId);
-				}
-			});
 			tutorialContext.goToStep(7);
 		} else if (
 			tutorialContext.currentStep === 7 &&
@@ -161,6 +183,7 @@ function Tutorial() {
 			tutorialContext.endTutorial();
 		}
 	}, [
+		appContext.activeNavItem,
 		blockComponents,
 		blockJson.icon,
 		blockJson.name,
@@ -173,30 +196,54 @@ function Tutorial() {
 
 	return (
 		<div class="Tutorial">
-			<TutorialTooltip step={1} onNextStep={setBlockName} />
-			<TutorialTooltip step={2} onNextStep={setBlockTitle} />
-			<TutorialTooltip step={3} />
-			<TutorialTooltip step={4} onNextStep={setColorSuppport} />
-			<TutorialTooltip
-				step={5}
-				onNextStep={() => {
-					appContext.setActiveNavItem(1);
-				}}
-			/>
-			<TutorialTooltip step={6} onNextStep={addRichText} />
-			<TutorialTooltip
-				step={7}
-				onNextStep={() => {
-					// set focus
-				}}
-			/>
-			<TutorialTooltip
-				step={8}
-				onNextStep={() => {
-					// set h3
-				}}
-			/>
-			<TutorialTooltip step={9} onNextStep={saveBlock} />
+			{tutorialContext.currentStep === 1 && (
+				<TutorialTooltip step={1} onNextStep={setBlockName} />
+			)}
+			{tutorialContext.currentStep === 2 && (
+				<TutorialTooltip step={2} onNextStep={setBlockTitle} />
+			)}
+			{tutorialContext.currentStep === 3 && <TutorialTooltip step={3} />}
+			{tutorialContext.currentStep === 4 && (
+				<TutorialTooltip step={4} onNextStep={setColorSuppport} />
+			)}
+			{tutorialContext.currentStep === 5 && (
+				<TutorialTooltip
+					step={5}
+					onNextStep={() => {
+						appContext.setActiveNavItem(1);
+					}}
+				/>
+			)}
+			{tutorialContext.currentStep === 6 && (
+				<TutorialTooltip step={6} onNextStep={addRichText} />
+			)}
+			{tutorialContext.currentStep === 7 && (
+				<TutorialTooltip
+					step={7}
+					onNextStep={() => {
+						setFocus({
+							context: "component",
+							clientId: insertedComponentClientId,
+						});
+					}}
+				/>
+			)}
+			{tutorialContext.currentStep === 8 && (
+				<TutorialTooltip
+					step={8}
+					onNextStep={() => {
+						unsetFocus(true);
+						setComponentAttribute(
+							insertedComponentClientId,
+							"tagName",
+							"h3",
+						);
+					}}
+				/>
+			)}
+			{tutorialContext.currentStep === 9 && (
+				<TutorialTooltip step={9} onNextStep={saveBlock} />
+			)}
 		</div>
 	);
 }

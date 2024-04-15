@@ -10,9 +10,9 @@ import BlueprintSidebarContextPanel from "../BlueprintSidebarContextPanel";
 import "./style.css";
 
 function BlueprintSidebar({}) {
-	const tutorial = useTutorial();
+	const ref = useRef(null);
 
-	const ref = (tutorial.isActive && tutorial.focusRefs[7]) || useRef(null);
+	const tutorial = useTutorial({ step: 8 });
 
 	const contextPanelRef = useRef(null);
 	const componentsPanelRef = useRef(null);
@@ -31,6 +31,11 @@ function BlueprintSidebar({}) {
 			!currentFocus?.context,
 		);
 	}, [currentFocus]);
+
+	// Forward the ref to the tutorial context
+	useLayoutEffect(() => {
+		tutorial.forwardRef(ref);
+	}, [ref]);
 
 	return (
 		<div

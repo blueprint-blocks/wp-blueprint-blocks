@@ -14,14 +14,14 @@ import {
 	isObject,
 } from "../../functions";
 
-import { useBlockJson, useDebugRenderCount } from "../../hooks";
+import { useBlockJson, useDebugRenderCount, useTutorial } from "../../hooks";
 
 import BlueprintWarning from "../BlueprintWarning";
 import EditableObject from "../EditableObject";
 
 import "./style.css";
 
-const BlueprintAttributeDefault = memo(({ clientId }) => {
+const BlueprintAttributeDefault = memo(({ clientId, disabled = false }) => {
 	const { editAttribute, getAttributeById } = useBlockJson();
 
 	const attribute = getAttributeById(clientId);
@@ -93,6 +93,7 @@ const BlueprintAttributeDefault = memo(({ clientId }) => {
 				<span>{`": `}</span>
 				<EditableObject
 					className="BlueprintAttribute-default"
+					disabled={disabled}
 					onChange={onChange}
 					placeholder="null"
 					value={attributeDefault}

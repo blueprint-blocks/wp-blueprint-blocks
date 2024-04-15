@@ -2,13 +2,8 @@ import clsx from "clsx";
 import { useContext, useLayoutEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-	AppContext,
-	BlueprintEditorContext,
-	TutorialContext,
-} from "../../contexts";
-
-import { useDebugRenderCount, useRect } from "../../hooks";
+import { AppContext, BlueprintEditorContext } from "../../contexts";
+import { useDebugRenderCount, useRect, useTutorial } from "../../hooks";
 import { setSize as setEditorSize } from "../../store/editor";
 import { getComponentListDepth } from "../../store/block-blueprint";
 
@@ -27,7 +22,8 @@ function BlueprintEditor() {
 
 	const { setEditorRef } = useContext(AppContext);
 	const { setRef } = useContext(BlueprintEditorContext);
-	const tutorialContext = useContext(TutorialContext);
+
+	const tutorial = useTutorial();
 
 	const column2Depth = useSelector((state) =>
 		getComponentListDepth(state.blockBlueprint, "edit"),
@@ -65,7 +61,7 @@ function BlueprintEditor() {
 		<div
 			ref={ref}
 			className={clsx("BlueprintEditor", {
-				"has-upsell": !tutorialContext.isActive,
+				"has-upsell": !tutorial.isActive,
 			})}
 		>
 			<div ref={scrollRef} className="BlueprintEditor-scroll">
@@ -86,7 +82,7 @@ function BlueprintEditor() {
 					</div>
 				</div>
 			</div>
-			{!tutorialContext.isActive && <UpsellBanner />}
+			{!tutorial.isActive && <UpsellBanner />}
 		</div>
 	);
 }

@@ -1,9 +1,8 @@
-import { useCallback, useContext, useMemo, useRef } from "react";
+import { useCallback, useLayoutEffect, useMemo, useRef } from "react";
 
-import { TutorialContext } from "../../contexts";
+import { useTutorial } from "../../hooks";
 
 import CheckboxField from "../CheckboxField";
-import TutorialTooltip from "../TutorialTooltip";
 
 import "./style.css";
 
@@ -17,10 +16,9 @@ const BlockSupportsFieldItem = ({
 	type = "boolean",
 	value = false,
 }) => {
-	const tutorialContext = useContext(TutorialContext);
+	const ref = useRef(null);
 
-	const ref =
-		(name === "color" && tutorialContext?.focusRefs?.[3]) || useRef(null);
+	const tutorial = useTutorial({ step: 4 });
 
 	const isChecked = useMemo(() => {
 		if (type === "boolean") {
@@ -45,14 +43,6 @@ const BlockSupportsFieldItem = ({
 	);
 
 	const setPropertyValue = (newPropertyValue) => {
-		if (
-			tutorialContext.isActive &&
-			tutorialContext.currentStep === 4 &&
-			name === "color"
-		) {
-			tutorialContext.goToNextStep();
-		}
-
 		setValue(newPropertyValue);
 	};
 
@@ -72,11 +62,16 @@ const BlockSupportsFieldItem = ({
 	};
 
 	const disabled = useMemo(
-		() =>
-			tutorialContext.isActive &&
-			(tutorialContext.currentStep !== 4 || name !== "color"),
-		[name, tutorialContext],
+		() => name !== "color" && tutorial.isNotActiveStep,
+		[name, tutorial.isNotActiveStep],
 	);
+
+	// Forward the ref to the tutorial context
+	useLayoutEffect(() => {
+		if (name === "color") {
+			tutorial.forwardRef(ref);
+		}
+	}, [name, ref]);
 
 	return (
 		<div ref={ref} className="BlockSupportsFieldItem">

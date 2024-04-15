@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { delimiterize } from "../../functions";
@@ -33,8 +33,9 @@ const BlockNameField = ({ onBlur, onFocus }) => {
 	const dispatch = useDispatch();
 
 	const ref = useRef(null);
+	const nameRef = useRef(null);
 
-	const tutorial = useTutorial(1);
+	const tutorial = useTutorial({ step: 1 });
 
 	const [hasFocus, setHasFocus] = useState(false);
 
@@ -87,8 +88,8 @@ const BlockNameField = ({ onBlur, onFocus }) => {
 	);
 
 	const disabled = useMemo(
-		() => !hasFocus && !tutorial.isStepActive,
-		[hasFocus, tutorial.isStepActive],
+		() => !hasFocus && tutorial.isNotActiveStep,
+		[hasFocus, tutorial.isNotActiveStep],
 	);
 
 	const _onBlur = () => {
@@ -100,6 +101,11 @@ const BlockNameField = ({ onBlur, onFocus }) => {
 		setHasFocus(true);
 		onFocus();
 	};
+
+	// Forward the ref to the tutorial context
+	useLayoutEffect(() => {
+		tutorial.forwardRef(nameRef);
+	}, [nameRef]);
 
 	return (
 		<div className="BlockNameField" ref={ref}>
@@ -115,7 +121,7 @@ const BlockNameField = ({ onBlur, onFocus }) => {
 				/>
 				<div class="BlockNameField-seperator">{"/"}</div>
 				<EditableString
-					ref={tutorial.stepRef}
+					ref={nameRef}
 					className="BlockNameField-name"
 					disabled={disabled}
 					invalid={showNameInvalid}

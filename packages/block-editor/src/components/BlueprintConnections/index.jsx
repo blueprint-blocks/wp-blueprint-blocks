@@ -1,12 +1,15 @@
+import clsx from "clsx";
 import { useSelector } from "react-redux";
 
-import { useBlueprintConnections } from "../../hooks";
+import { useBlueprintConnections, useTutorial } from "../../hooks";
 
 import BlueprintConnection from "../BlueprintConnection";
 
 import "./style.css";
 
 function BlueprintConnections({}) {
+	const tutorial = useTutorial();
+
 	const { allConnections, newDraggingConnection = null } =
 		useBlueprintConnections();
 
@@ -15,7 +18,11 @@ function BlueprintConnections({}) {
 	});
 
 	return (
-		<div className="BlueprintConnections">
+		<div
+			className={clsx("BlueprintConnections", {
+				"is-disabled": tutorial.isActive,
+			})}
+		>
 			<svg
 				width={editor.width}
 				height={editor.height}

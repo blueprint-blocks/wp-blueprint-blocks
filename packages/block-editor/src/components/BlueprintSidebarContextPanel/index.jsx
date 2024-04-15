@@ -9,9 +9,7 @@ import "./style.css";
 const BlueprintSidebarContextPanel = memo(
 	forwardRef(({}, ref) => {
 		const { currentFocus } = useEditorFocus();
-		const { context, ...focus } = currentFocus;
-
-		console.log(context, focus);
+		const { context } = currentFocus;
 
 		return (
 			<div

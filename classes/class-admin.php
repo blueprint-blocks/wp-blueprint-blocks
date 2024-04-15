@@ -105,6 +105,7 @@ class Admin
 			],
             'postMetadata' => [
                 'postId' => $post_id,
+				'isNew' => ( $current_screen->action === 'add' ),
             ],
             'postType' => [
                 'name' => blueprint_blocks()::OBJECT_PREFIX . 'block',
@@ -117,6 +118,9 @@ class Admin
                 'themeName' => $current_theme ? $current_theme->get_stylesheet() : null,
                 'cssVariables' => blueprint_blocks_get_css_variables(),
             ],
+			'tutorialMetadata' => [
+				'isActive' => ( $current_screen->action === 'add' ),
+			],
         ]);
     }
 

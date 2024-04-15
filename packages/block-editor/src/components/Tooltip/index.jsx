@@ -1,7 +1,6 @@
 import clsx from "clsx";
-import { useContext, useMemo, useRef } from "react";
+import { useMemo, useRef } from "react";
 
-import { TutorialContext } from "../../contexts";
 import { tooltips } from "../../data";
 
 import {
@@ -10,7 +9,13 @@ import {
 	replaceTokens,
 } from "../../functions";
 
-import { useAppRect, useBlockJson, useNavRect, useRect } from "../../hooks";
+import {
+	useAppRect,
+	useBlockJson,
+	useNavRect,
+	useRect,
+	useTutorial,
+} from "../../hooks";
 
 import "./style.css";
 
@@ -34,7 +39,7 @@ function Tooltip({
 	const appRect = useAppRect();
 	const navRect = useNavRect();
 
-	const tutorialContext = useContext(TutorialContext);
+	const tutorial = useTutorial();
 	const { blockJson } = useBlockJson();
 
 	const _position = useMemo(() => {
@@ -93,7 +98,7 @@ function Tooltip({
 		<div
 			ref={ref}
 			className={clsx("Tooltip", {
-				"is-disabled": tutorialContext.isActive,
+				"is-disabled": tutorial.isActive,
 			})}
 			style={{ "--width": _width }}
 		>
@@ -143,7 +148,7 @@ function Tooltip({
 					)}
 				</div>
 			)}
-			{_url && !tutorialContext.isActive && (
+			{_url && !tutorial.isActive && (
 				<a className="Tooltip-link" href={_url} target="_blank" />
 			)}
 		</div>

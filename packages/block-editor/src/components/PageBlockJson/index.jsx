@@ -1,8 +1,6 @@
 import clsx from "clsx";
-import { memo, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { TutorialContext } from "../../contexts";
 
 import {
 	getRawJson,
@@ -13,7 +11,12 @@ import {
 
 import { setChanged } from "../../store/post-metadata";
 
-import { useDebugRenderCount, useFocus } from "../../hooks";
+import {
+	useDebugRenderCount,
+	useFocus,
+	useRect,
+	useTutorial,
+} from "../../hooks";
 
 import BlockIconField from "../BlockIconField";
 import BlockNameField from "../BlockNameField";
@@ -35,19 +38,10 @@ const PageBlockJson = memo(() => {
 
 	const dispatch = useDispatch();
 
-	const tutorialContext = useContext(TutorialContext);
+	const tutorial = useTutorial();
 
-	const [scrollOffset, setScrollOffset] = useState(0);
-
-	const style = useMemo(() => {
-		const style = {};
-
-		if (tutorialContext.isActive) {
-			style["--scroll-offset"] = `${scrollOffset}px`;
-		}
-
-		return style;
-	}, [tutorialContext, scrollOffset]);
+	const gridHeight = useRect(ref, null, "height")?.height || 0;
+	const fieldsHeight = useRect(fieldsRef, null, "height")?.height || 0;
 
 	const _blockCategories = useMemo(
 		() =>
@@ -90,18 +84,20 @@ const PageBlockJson = memo(() => {
 
 	const [hasFocus, onBlur, onFocus] = useFocus([]);
 
-	useEffect(() => {
-		if (tutorialContext.currentStep === 4) {
-			const gridHeight =
-				ref?.current?.getBoundingClientRect()?.height || 0;
-			const fieldsHeight =
-				fieldsRef?.current?.getBoundingClientRect()?.height || 0;
-
-			if (fieldsHeight > gridHeight) {
-				setScrollOffset(fieldsHeight - gridHeight);
-			}
+	useLayoutEffect(() => {
+		if (
+			tutorial.isActive &&
+			tutorial.currentStep === 4 &&
+			fieldsHeight > gridHeight
+		) {
+			ref?.current?.style?.setProperty(
+				"--scroll-offset",
+				`-${fieldsHeight - gridHeight}px`,
+			);
+		} else if (!tutorial.isActive) {
+			ref?.current?.style?.setProperty("--scroll-offset", "");
 		}
-	}, [tutorialContext.currentStep]);
+	}, [fieldsHeight, gridHeight, tutorial.isActive, tutorial.currentStep]);
 
 	if (process.env.NODE_ENV === "development") {
 		useDebugRenderCount("PageBlockJson");
@@ -113,7 +109,6 @@ const PageBlockJson = memo(() => {
 				"PageBlockJson",
 				hasFocus.map((focus) => `focus-${focus}`),
 			)}
-			style={style}
 		>
 			<div ref={ref} className="PageBlockJson-grid">
 				<div ref={fieldsRef} className="PageBlockJson-fields">
@@ -137,7 +132,7 @@ const PageBlockJson = memo(() => {
 							onFocus={() => onFocus("title")}
 						/>
 						<TextField
-							disabled={tutorialContext.isActive}
+							disabled={tutorial.isActive}
 							label="Enter a description..."
 							tooltip="blockJson.description"
 							multiLine={true}
@@ -148,7 +143,7 @@ const PageBlockJson = memo(() => {
 							onBlur={() => onBlur("description")}
 						/>
 						<ListField
-							disabled={tutorialContext.isActive}
+							disabled={tutorial.isActive}
 							label="Enter a few keywords..."
 							placeholder="Enter a keyword..."
 							tooltip="blockJson.keywords"
@@ -158,7 +153,7 @@ const PageBlockJson = memo(() => {
 							onBlur={(index) => onBlur("keywords", index)}
 						/>
 						<SelectField
-							disabled={tutorialContext.isActive}
+							disabled={tutorial.isActive}
 							name="category"
 							label="Category"
 							tooltip="blockJson.category"
