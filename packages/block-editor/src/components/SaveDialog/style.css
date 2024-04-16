@@ -1,6 +1,7 @@
 .SaveDialog {
 	background: #ffffff40;
-	height: 100%;
+	height: var(--app-height);
+	left: 0;
 	opacity: 0;
 	position: absolute;
 	top: 0;
@@ -12,6 +13,35 @@
 .SaveDialog.is-visible {
 	backdrop-filter: blur(4px);
 	opacity: 1;
+}
+
+.SaveDialog.is-mini {
+	align-items: center;
+	background: transparent;
+	height: auto;
+	left: var(--3x);
+	top: calc(var(--app-height) + var(--navigator-height) - var(--3x));
+	width: auto;
+}
+
+.SaveDialog.is-mini.is-visible {
+	transform: translateY(-100%);
+}
+
+.SaveDialog-mini {
+	background: var(--color-black);
+	border-radius: 3px;
+	bottom: 0;
+	color: var(--color-white);
+	display: grid;
+	gap: var(--2x);
+	grid-template-columns: max-content 1fr;
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-bold);
+	left: 0;
+	padding: var(--2x) var(--3x) var(--2x) var(--2x);
+	position: absolute;
+	white-space: nowrap;
 }
 
 .SaveDialog-wrap {
@@ -99,18 +129,6 @@
 	grid-auto-flow: row;
 	width: 100%;
 
-	h1 {
-		color: var(--color-black);
-		font-size: var(--font-size-xx-large);
-		font-weight: var(--font-weight-bold);
-		line-height: 1;
-		margin: 0 0 var(--1x);
-
-		&:last-child {
-			margin-bottom: 0;
-		}
-	}
-
 	h3 {
 		color: var(--color-black);
 		font-size: var(--font-size-large);
@@ -158,8 +176,25 @@
 		border: 0;
 		display: block;
 		height: 2px;
+		margin: 0;
 		overflow: hidden;
 		width: 100%;
+	}
+}
+
+.SaveDialog-header {
+	user-select: none;
+
+	h1 {
+		color: var(--color-black);
+		font-size: var(--font-size-xx-large);
+		font-weight: var(--font-weight-bold);
+		line-height: 1;
+		margin: 0 0 var(--1x);
+
+		&:last-child {
+			margin-bottom: 0;
+		}
 	}
 }
 
@@ -168,6 +203,12 @@
 	height: 35px;
 	margin-bottom: var(--3x);
 	object-fit: contain;
-	object-position: center;
+	object-position: left center;
 	width: 40px;
+}
+
+.SaveDialog.is-mini .SaveDialog-icon {
+	height: 24px;
+	margin-bottom: 0;
+	width: 24px;
 }

@@ -9,6 +9,7 @@ import postcss from "rollup-plugin-postcss";
 import postcssAutoprefixer from "autoprefixer";
 import postcssNesting from "postcss-nesting";
 import postcssVariables from "postcss-advanced-variables";
+import svgr from "@svgr/rollup";
 
 const env = config({
 	path: resolve("../../.env"),
@@ -62,6 +63,7 @@ export default {
 			},
 		}),
 		json(),
+		svgr(),
 		postcss({
 			extract: "block-editor.css",
 			plugins: [

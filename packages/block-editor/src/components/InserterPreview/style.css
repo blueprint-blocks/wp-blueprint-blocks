@@ -1,0 +1,162 @@
+.InserterPreview {
+	align-items: start;
+	border-radius: 2px;
+	box-shadow:
+		0 0.7px 1px #0000001a,
+		0 1.2px 1.7px -0.2px #0000001a,
+		0 2.3px 3.3px -0.5px #0000001a;
+	display: grid;
+	grid-auto-flow: row;
+	grid-template-rows: max-content 200px max-content;
+	user-select: none;
+	width: 350px;
+}
+
+.InserterPreview-search {
+	border: solid #ccc;
+	border-width: 1px 1px 0;
+	border-radius: 2px 2px 0 0;
+	box-sizing: border-box;
+	font-family: var(--font-family);
+	font-size: 13px;
+	padding: var(--2x) var(--2x) 0;
+}
+
+.InserterPreview-searchInput {
+	align-items: center;
+	background: var(--wp-components-color-gray-100, #f0f0f0);
+	border: 1px solid transparent;
+	box-sizing: border-box;
+	color: var(--wp-components-color-foreground, #1e1e1e);
+	display: grid;
+	gap: var(--1x);
+	grid-template-columns: 1fr max-content;
+	font-family: var(--font-family);
+	font-size: 13px;
+	height: var(--5x);
+	line-height: var(--5x);
+	padding: 0 var(--1x) 0 var(--2x);
+	transition: var(--transition);
+	width: 100%;
+
+	svg {
+		fill: currentColor;
+		height: var(--3x);
+		width: var(--3x);
+	}
+
+	> div {
+		display: block;
+		overflow: hidden;
+		padding: 0 1px;
+		position: relative;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		width: fit-content;
+	}
+}
+
+.InserterPreview-searchInput.has-placeholder {
+	color: #646970;
+}
+
+.InserterPreview-searchInput.has-placeholder .InserterPreview-searchValue,
+.InserterPreview-searchInput:not(.has-placeholder)
+	.InserterPreview-searchPlaceholder {
+	display: none;
+}
+
+.InserterPreview-searchInput.has-focus {
+	background: #fff;
+	border-color: var(
+		--wp-components-color-accent,
+		var(--wp-admin-theme-color, #3858e9)
+	);
+	box-shadow: 0 0 0 0.5px
+		var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
+}
+
+.InserterPreview-cursor {
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	animation-timing-function: ease-in-out;
+	animation-name: blueprint-blocks-inserter-preview-flash-cursor;
+	background: currentColor;
+	height: 16px;
+	position: absolute;
+	right: 0;
+	top: calc(50% - 8px);
+	width: 1px;
+}
+
+.InserterPreview-searchInput.has-placeholder .InserterPreview-cursor {
+	left: 0;
+	right: initial;
+}
+
+.InserterPreview-list {
+	border: solid #ccc;
+	border-width: 0 1px;
+	box-sizing: border-box;
+	height: 200px;
+	overflow: hidden;
+	padding: var(--2x);
+	width: 100%;
+}
+
+.InserterPreview-grid {
+	align-items: stretch;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+
+	> div {
+		padding: var(--1x);
+	}
+}
+
+.InserterPreview-itemIcon {
+	align-items: center;
+	display: grid;
+	justify-items: center;
+	padding: 12px 20px;
+
+	.dashicon {
+		height: 20px;
+		width: 20px;
+	}
+}
+
+.InserterPreview-itemTitle {
+	color: #1e1e1e;
+	font-family: var(--font-family);
+	font-size: 12px;
+	font-weight: 400;
+	line-height: normal;
+	padding: 4px 2px 8px;
+	text-align: center;
+}
+
+.InserterPreview-button {
+	background: #1e1e1e;
+	border-radius: 0 0 2px 2px;
+	color: #fff;
+	font-family: var(--font-family);
+	font-size: 13px;
+	font-weight: 400;
+	height: 44px;
+	line-height: 44px;
+	text-align: center;
+	width: 100%;
+}
+
+@keyframes blueprint-blocks-inserter-preview-flash-cursor {
+	0%,
+	100% {
+		opacity: 1;
+	}
+
+	40%,
+	60% {
+		opacity: 0;
+	}
+}

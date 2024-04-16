@@ -1,6 +1,10 @@
 .PageBlockJson {
+	box-sizing: border-box;
+	height: var(--app-height);
+	overflow: auto;
 	padding: var(--5x);
 	position: relative;
+	width: 100%;
 }
 
 .PageBlockJson-grid {
@@ -41,9 +45,7 @@
 
 .PageBlockJson-json {
 	position: sticky;
-	top: calc(
-		var(--wp-admin--admin-bar--height) + var(--navigator-height) + var(--5x)
-	);
+	top: 0;
 	z-index: 1;
 }
 

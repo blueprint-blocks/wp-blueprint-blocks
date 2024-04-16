@@ -25,6 +25,7 @@ import pascalize from "./pascalize";
 import replaceTokens from "./replace-tokens";
 import setDocumentHistory from "./set-document-history";
 import setDocumentTitle from "./set-document-title";
+import shuffleArray from "./shuffle-array";
 import throttle from "./throttle";
 import tokenizeObject from "./tokenize-object";
 import validateBlock from "./validate-block";
@@ -59,6 +60,7 @@ export {
 	replaceTokens,
 	setDocumentHistory,
 	setDocumentTitle,
+	shuffleArray,
 	throttle,
 	tokenizeObject,
 	validateBlock,

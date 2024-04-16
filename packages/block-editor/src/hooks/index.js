@@ -30,6 +30,7 @@ import usePreventClose from "./use-prevent-close";
 import useRect from "./use-rect";
 import useScroll from "./use-scroll";
 import useTutorial from "./use-tutorial";
+import useTypedText from "./use-typed-text";
 
 export {
 	useAppRect,
@@ -64,4 +65,5 @@ export {
 	useRect,
 	useScroll,
 	useTutorial,
+	useTypedText,
 };

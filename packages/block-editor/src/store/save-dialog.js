@@ -4,11 +4,13 @@ const slice = createSlice({
 	name: "saveDialog",
 
 	initialState: {
+		hasShownOnce: false,
 		visible: false,
 	},
 
 	reducers: {
 		hideSaveDialog(state, action) {
+			state.hasShownOnce = true;
 			state.visible = false;
 		},
 		showSaveDialog(state, action) {
