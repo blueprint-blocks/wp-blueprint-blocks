@@ -1,11 +1,9 @@
 import clsx from "clsx";
 import { memo, useCallback, useMemo, useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { getComponentAttributeType } from "../../functions";
-import { useBlueprint } from "../../hooks";
-
-import { setFocus } from "../../store/editor";
+import { useBlueprint, useEditorFocus } from "../../hooks";
 
 import EditableString from "../EditableString";
 
@@ -55,7 +53,7 @@ function BlueprintComponentAttribute({
 		[attributeName, componentType],
 	);
 
-	const { currentFocus } = useSelector((state) => state.editor);
+	const { currentFocus, setFocus } = useEditorFocus();
 
 	const onChangeAttributeName = useCallback(
 		(newAttributeName) => {
@@ -65,15 +63,13 @@ function BlueprintComponentAttribute({
 				newAttributeName,
 			);
 
-			dispatch(
-				setFocus({
-					clientId: componentClientId,
-					context: "component",
-					property: "attributeName",
-					attributeName: newAttributeName,
-					attributeValue: _attributeValue,
-				}),
-			);
+			setFocus({
+				clientId: componentClientId,
+				context: "component",
+				property: "attributeName",
+				attributeName: newAttributeName,
+				attributeValue: _attributeValue,
+			});
 		},
 		[_attributeName, _attributeValue],
 	);
@@ -86,15 +82,13 @@ function BlueprintComponentAttribute({
 				newAttributeValue,
 			);
 
-			dispatch(
-				setFocus({
-					clientId: componentClientId,
-					context: "component",
-					property: "attributeValue",
-					attributeName: _attributeName,
-					attributeValue: newAttributeValue,
-				}),
-			);
+			setFocus({
+				clientId: componentClientId,
+				context: "component",
+				property: "attributeValue",
+				attributeName: _attributeName,
+				attributeValue: newAttributeValue,
+			});
 		},
 		[_attributeName],
 	);
@@ -108,27 +102,23 @@ function BlueprintComponentAttribute({
 	}, [_attributeName, _attributeValue]);
 
 	const onFocusAttributeName = useCallback(() => {
-		dispatch(
-			setFocus({
-				clientId: componentClientId,
-				context: "component",
-				property: "attributeName",
-				attributeName: _attributeName,
-				attributeValue: _attributeValue,
-			}),
-		);
+		setFocus({
+			clientId: componentClientId,
+			context: "component",
+			property: "attributeName",
+			attributeName: _attributeName,
+			attributeValue: _attributeValue,
+		});
 	}, [_attributeName, _attributeValue]);
 
 	const onFocusAttributeValue = useCallback(() => {
-		dispatch(
-			setFocus({
-				clientId: componentClientId,
-				context: "component",
-				property: "attributeValue",
-				attributeName: _attributeName,
-				attributeValue: _attributeValue,
-			}),
-		);
+		setFocus({
+			clientId: componentClientId,
+			context: "component",
+			property: "attributeValue",
+			attributeName: _attributeName,
+			attributeValue: _attributeValue,
+		});
 	}, [_attributeName, _attributeValue]);
 
 	return (

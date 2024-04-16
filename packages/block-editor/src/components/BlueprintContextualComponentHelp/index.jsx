@@ -8,7 +8,7 @@ import Tooltip from "../Tooltip";
 
 import "./style.css";
 
-const BlueprintContextualComponentHelp = memo(() => {
+const BlueprintContextualComponentHelp = () => {
 	const ref = useRef(null);
 
 	const tutorial = useTutorial();
@@ -16,8 +16,12 @@ const BlueprintContextualComponentHelp = memo(() => {
 	const { getComponentType, setComponentAttribute, unsetComponentAttribute } =
 		useBlueprint();
 
-	const { currentFocus } = useEditorFocus();
-	const { clientId = null, context, attributeName = "" } = currentFocus;
+	const editorFocus = useEditorFocus();
+	const {
+		clientId = null,
+		context,
+		attributeName = "",
+	} = editorFocus.currentFocus;
 
 	const componentType = getComponentType(clientId);
 
@@ -26,10 +30,13 @@ const BlueprintContextualComponentHelp = memo(() => {
 		[componentType],
 	);
 
-	const componentAttributes = Object.entries(
-		componentProperties?.attributes || {},
-	).filter(
-		([key, _]) => attributeName === "" || key.indexOf(attributeName) !== -1,
+	const componentAttributes = useMemo(
+		() =>
+			Object.entries(componentProperties?.attributes || {}).filter(
+				([key, _]) =>
+					attributeName === "" || key.indexOf(attributeName) !== -1,
+			),
+		[attributeName, componentProperties],
 	);
 
 	const onClickSuggestedValue = ({ attributeName, attributeValue }) => {
@@ -41,8 +48,14 @@ const BlueprintContextualComponentHelp = memo(() => {
 			return;
 		}
 
-		if (attributeName.indexOf(currentFocus?.attributeName) !== -1) {
-			unsetComponentAttribute(clientId, currentFocus?.attributeName);
+		if (
+			attributeName.indexOf(editorFocus.currentFocus?.attributeName) !==
+			-1
+		) {
+			unsetComponentAttribute(
+				clientId,
+				editorFocus.currentFocus?.attributeName,
+			);
 		}
 
 		setComponentAttribute(clientId, attributeName, attributeValue);
@@ -112,6 +125,6 @@ const BlueprintContextualComponentHelp = memo(() => {
 			)}
 		</div>
 	);
-});
+};
 
 export default BlueprintContextualComponentHelp;

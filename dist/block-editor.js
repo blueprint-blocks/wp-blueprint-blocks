@@ -4270,34 +4270,6 @@
 	  });
 	}
 
-	var attributeProperties = [
-		{
-			propertyName: "name",
-			label: "Name",
-			description: "Attribute name can be any valid string value, but it's best practice to format these is a consistent way that describes what they are for. A common format for attribute names is camelCase."
-		},
-		{
-			propertyName: "type",
-			label: "Type",
-			description: "Type indicates the type of data that is stored by the attribute. It should match the type of data provided by the connected component.",
-			suggestedValues: [
-				"array",
-				"boolean",
-				"number",
-				"object",
-				"string"
-			]
-		},
-		{
-			propertyName: "default",
-			label: "Default",
-			description: "A block attribute can contain a default value, which will be used if no data is provided by the connected component, e.g. if the user has not made any changes in the editor. The value of the default should match the format of the type.",
-			suggestedValues: [
-				"null"
-			]
-		}
-	];
-
 	var array$1 = {
 		allowsNull: true
 	};
@@ -9749,7 +9721,7 @@
 	};
 
 	var unsetFocus$1 = function unsetFocus(state, action) {
-	  state.priorFocus = state.currentFocus;
+	  state.priorFocus = _objectSpread2({}, state.currentFocus);
 	  state.currentFocus = null;
 	};
 
@@ -9772,10 +9744,13 @@
 	var selectCurrentFocus = function selectCurrentFocus(state) {
 	  return state.currentFocus;
 	};
-	var getDraggingContext = createSelector$1([selectCurrentFocus], function (currentFocus) {
+	var getFocus = createSelector([selectCurrentFocus], function (currentFocus) {
 	  return currentFocus || {
 	    context: null
 	  };
+	}, {
+	  memoize: weakMapMemoize,
+	  argsMemoize: weakMapMemoize
 	});
 
 	var slice$4 = createSlice({
@@ -9962,25 +9937,23 @@
 	    return componentHasFocus(state.editor, clientId);
 	  });
 	  var currentFocus = useSelector(function (state) {
-	    return getDraggingContext(state.editor);
+	    return getFocus(state.editor);
 	  });
-	  var _setFocus = function _setFocus(context) {
+	  var _setFocus = React$2.useCallback(function (context) {
 	    dispatch(setFocus(context));
-	  };
-	  var _unsetFocus = function _unsetFocus() {
+	  }, []);
+	  var _unsetFocus = React$2.useCallback(function () {
 	    var unsetRegardlessOfCurrentFocus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 	    if (unsetRegardlessOfCurrentFocus || _componentHasFocus) {
 	      dispatch(unsetFocus());
 	    }
-	  };
-	  return React$2.useMemo(function () {
-	    return {
-	      currentFocus: currentFocus,
-	      hasFocus: _componentHasFocus,
-	      setFocus: _setFocus,
-	      unsetFocus: _unsetFocus
-	    };
 	  }, [_componentHasFocus]);
+	  return {
+	    currentFocus: currentFocus,
+	    hasFocus: _componentHasFocus,
+	    setFocus: _setFocus,
+	    unsetFocus: _unsetFocus
+	  };
 	};
 
 	var useBlockJson = function useBlockJson() {
@@ -17035,7 +17008,7 @@
 	    _ref$disabled = _ref.disabled,
 	    disabled = _ref$disabled === void 0 ? false : _ref$disabled;
 	    _objectWithoutProperties(_ref, _excluded$3);
-	  var dispatch = useDispatch();
+	  useDispatch();
 	  var _useBlueprint = useBlueprint(),
 	    getComponentType = _useBlueprint.getComponentType,
 	    renameComponentAttribute = _useBlueprint.renameComponentAttribute,
@@ -17063,29 +17036,27 @@
 	  var attributeType = React$2.useMemo(function () {
 	    return getComponentAttributeType(componentType, attributeName);
 	  }, [attributeName, componentType]);
-	  var _useSelector = useSelector(function (state) {
-	      return state.editor;
-	    });
-	    _useSelector.currentFocus;
+	  var _useEditorFocus = useEditorFocus(),
+	    setFocus = _useEditorFocus.setFocus;
 	  var onChangeAttributeName = React$2.useCallback(function (newAttributeName) {
 	    renameComponentAttribute(componentClientId, _attributeName, newAttributeName);
-	    dispatch(setFocus({
+	    setFocus({
 	      clientId: componentClientId,
 	      context: "component",
 	      property: "attributeName",
 	      attributeName: newAttributeName,
 	      attributeValue: _attributeValue
-	    }));
+	    });
 	  }, [_attributeName, _attributeValue]);
 	  var onChangeAttributeValue = React$2.useCallback(function (newAttributeValue) {
 	    setComponentAttribute(componentClientId, _attributeName, newAttributeValue);
-	    dispatch(setFocus({
+	    setFocus({
 	      clientId: componentClientId,
 	      context: "component",
 	      property: "attributeValue",
 	      attributeName: _attributeName,
 	      attributeValue: newAttributeValue
-	    }));
+	    });
 	  }, [_attributeName]);
 	  var onDeleteAttributeName = React$2.useCallback(function () {
 	    if (String(_attributeValue).length > 0) {
@@ -17094,22 +17065,22 @@
 	    unsetComponentAttribute(componentClientId, _attributeName);
 	  }, [_attributeName, _attributeValue]);
 	  var onFocusAttributeName = React$2.useCallback(function () {
-	    dispatch(setFocus({
+	    setFocus({
 	      clientId: componentClientId,
 	      context: "component",
 	      property: "attributeName",
 	      attributeName: _attributeName,
 	      attributeValue: _attributeValue
-	    }));
+	    });
 	  }, [_attributeName, _attributeValue]);
 	  var onFocusAttributeValue = React$2.useCallback(function () {
-	    dispatch(setFocus({
+	    setFocus({
 	      clientId: componentClientId,
 	      context: "component",
 	      property: "attributeValue",
 	      attributeName: _attributeName,
 	      attributeValue: _attributeValue
-	    }));
+	    });
 	  }, [_attributeName, _attributeValue]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
@@ -17851,105 +17822,42 @@
 	  });
 	}));
 
-	var BlueprintContextualAttributeHelp = /*#__PURE__*/React$2.memo(function () {
-	  var ref = React$2.useRef(null);
-	  var _useEditorFocus = useEditorFocus(),
-	    currentFocus = _useEditorFocus.currentFocus;
-	  var _currentFocus$clientI = currentFocus.clientId,
-	    clientId = _currentFocus$clientI === void 0 ? null : _currentFocus$clientI;
-	  var _useBlockJson = useBlockJson(),
-	    editAttribute = _useBlockJson.editAttribute,
-	    getAttributeById = _useBlockJson.getAttributeById,
-	    renameAttribute = _useBlockJson.renameAttribute;
-	  var _ref = getAttributeById(clientId) || {},
-	    attributeName = _ref.name;
-	  var onClickSuggestedValue = function onClickSuggestedValue(_ref2) {
-	    var propertyName = _ref2.propertyName,
-	      propertyValue = _ref2.propertyValue;
-	    if (propertyName === "name") {
-	      renameAttribute(attributeName, propertyValue);
-	    } else {
-	      editAttribute(attributeName, _defineProperty$1({}, propertyName, propertyValue));
-	    }
-	  };
-	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	    ref: ref,
-	    className: "BlueprintContextualAttributeHelp",
-	    children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	      className: "BlueprintContextualAttributeHelp-heading",
-	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("h3", {
-	        children: "Block Attributes"
-	      }), /*#__PURE__*/jsxRuntimeExports.jsx("p", {
-	        children: "Block attributes store information about the block. For example, a title, metadata about an image, or attributes of a link. When connected to a component, data from the connected component will be stored in the attribute."
-	      })]
-	    }), attributeProperties.map(function (_ref3, index) {
-	      var propertyName = _ref3.propertyName,
-	        label = _ref3.label,
-	        description = _ref3.description,
-	        _ref3$suggestedValues = _ref3.suggestedValues,
-	        suggestedValues = _ref3$suggestedValues === void 0 ? [] : _ref3$suggestedValues;
-	      return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	        children: [/*#__PURE__*/jsxRuntimeExports.jsx("h4", {
-	          children: label
-	        }), /*#__PURE__*/jsxRuntimeExports.jsx("p", {
-	          children: description
-	        }), suggestedValues.length > 0 && /*#__PURE__*/jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, {
-	          children: [/*#__PURE__*/jsxRuntimeExports.jsx("h5", {
-	            children: "Suggested Values"
-	          }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	            className: "BlueprintContextualAttributeHelp-suggestedValues",
-	            children: suggestedValues.map(function (propertyValue, index) {
-	              return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	                onClick: function onClick() {
-	                  return onClickSuggestedValue({
-	                    propertyName: propertyName,
-	                    propertyValue: propertyValue
-	                  });
-	                },
-	                children: /*#__PURE__*/jsxRuntimeExports.jsx("span", {
-	                  children: propertyValue
-	                })
-	              }, index);
-	            })
-	          })]
-	        })]
-	      }, index);
-	    })]
-	  });
-	});
-
-	var BlueprintContextualComponentHelp = /*#__PURE__*/React$2.memo(function () {
+	var BlueprintContextualComponentHelp = function BlueprintContextualComponentHelp() {
 	  var ref = React$2.useRef(null);
 	  var tutorial = useTutorial();
 	  var _useBlueprint = useBlueprint(),
 	    getComponentType = _useBlueprint.getComponentType,
 	    setComponentAttribute = _useBlueprint.setComponentAttribute,
 	    unsetComponentAttribute = _useBlueprint.unsetComponentAttribute;
-	  var _useEditorFocus = useEditorFocus(),
-	    currentFocus = _useEditorFocus.currentFocus;
-	  var _currentFocus$clientI = currentFocus.clientId,
-	    clientId = _currentFocus$clientI === void 0 ? null : _currentFocus$clientI;
-	    currentFocus.context;
-	    var _currentFocus$attribu = currentFocus.attributeName,
-	    attributeName = _currentFocus$attribu === void 0 ? "" : _currentFocus$attribu;
+	  var editorFocus = useEditorFocus();
+	  var _editorFocus$currentF = editorFocus.currentFocus,
+	    _editorFocus$currentF2 = _editorFocus$currentF.clientId,
+	    clientId = _editorFocus$currentF2 === void 0 ? null : _editorFocus$currentF2;
+	    _editorFocus$currentF.context;
+	    var _editorFocus$currentF3 = _editorFocus$currentF.attributeName,
+	    attributeName = _editorFocus$currentF3 === void 0 ? "" : _editorFocus$currentF3;
 	  var componentType = getComponentType(clientId);
 	  var componentProperties = React$2.useMemo(function () {
 	    return getComponentProperties(componentType);
 	  }, [componentType]);
-	  var componentAttributes = Object.entries((componentProperties === null || componentProperties === void 0 ? void 0 : componentProperties.attributes) || {}).filter(function (_ref) {
-	    var _ref2 = _slicedToArray(_ref, 2),
-	      key = _ref2[0];
-	      _ref2[1];
-	    return attributeName === "" || key.indexOf(attributeName) !== -1;
-	  });
+	  var componentAttributes = React$2.useMemo(function () {
+	    return Object.entries((componentProperties === null || componentProperties === void 0 ? void 0 : componentProperties.attributes) || {}).filter(function (_ref) {
+	      var _ref2 = _slicedToArray(_ref, 2),
+	        key = _ref2[0];
+	        _ref2[1];
+	      return attributeName === "" || key.indexOf(attributeName) !== -1;
+	    });
+	  }, [attributeName, componentProperties]);
 	  var onClickSuggestedValue = function onClickSuggestedValue(_ref3) {
+	    var _editorFocus$currentF4;
 	    var attributeName = _ref3.attributeName,
 	      attributeValue = _ref3.attributeValue;
 	    if (tutorial.isActive && attributeName !== "tagName" && attributeValue !== "h3") {
 	      return;
 	    }
-	    if (attributeName.indexOf(currentFocus === null || currentFocus === void 0 ? void 0 : currentFocus.attributeName) !== -1) {
-	      unsetComponentAttribute(clientId, currentFocus === null || currentFocus === void 0 ? void 0 : currentFocus.attributeName);
+	    if (attributeName.indexOf((_editorFocus$currentF4 = editorFocus.currentFocus) === null || _editorFocus$currentF4 === void 0 ? void 0 : _editorFocus$currentF4.attributeName) !== -1) {
+	      var _editorFocus$currentF5;
+	      unsetComponentAttribute(clientId, (_editorFocus$currentF5 = editorFocus.currentFocus) === null || _editorFocus$currentF5 === void 0 ? void 0 : _editorFocus$currentF5.attributeName);
 	    }
 	    setComponentAttribute(clientId, attributeName, attributeValue);
 	  };
@@ -18008,14 +17916,14 @@
 	      }, index);
 	    })]
 	  });
-	});
+	};
 
 	var BlueprintSidebarContextPanel = /*#__PURE__*/React$2.memo( /*#__PURE__*/React$2.forwardRef(function (_ref, ref) {
 	  _objectDestructuringEmpty(_ref);
 	  var _useEditorFocus = useEditorFocus(),
 	    currentFocus = _useEditorFocus.currentFocus;
-	  var context = currentFocus.context;
-	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	  currentFocus.context;
+	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    ref: ref,
 	    className: "BlueprintSidebarContextPanel",
 	    onMouseDown: function onMouseDown(event) {
@@ -18024,21 +17932,19 @@
 	    onTouchStart: function onTouchStart(event) {
 	      event.stopPropagation();
 	    },
-	    children: [context === "attribute" && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintContextualAttributeHelp, {}), context === "component" && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintContextualComponentHelp, {})]
+	    children: /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintContextualComponentHelp, {})
 	  });
 	}));
 
-	function BlueprintSidebar(_ref) {
-	  _objectDestructuringEmpty(_ref);
+	var BlueprintSidebar = function BlueprintSidebar() {
 	  var ref = React$2.useRef(null);
 	  var tutorial = useTutorial({
 	    step: 8
 	  });
 	  var contextPanelRef = React$2.useRef(null);
 	  var componentsPanelRef = React$2.useRef(null);
-	  var currentFocus = useSelector(function (state) {
-	    return state.editor.currentFocus;
-	  });
+	  var _useEditorFocus = useEditorFocus(),
+	    currentFocus = _useEditorFocus.currentFocus;
 	  var _useEditorDrag = useEditorDrag(),
 	    isDragging = _useEditorDrag.isDragging;
 	  React$2.useLayoutEffect(function () {
@@ -18061,7 +17967,7 @@
 	      ref: componentsPanelRef
 	    })]
 	  });
-	}
+	};
 
 	var PageBlueprint = /*#__PURE__*/React$2.memo(function () {
 	  var ref = React$2.useRef(null);

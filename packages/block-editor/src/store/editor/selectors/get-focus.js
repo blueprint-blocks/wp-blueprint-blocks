@@ -1,10 +1,14 @@
-import { createSelector } from "@reduxjs/toolkit";
+import { createSelector, weakMapMemoize } from "reselect";
 
 const selectCurrentFocus = (state) => state.currentFocus;
 
-const getDraggingContext = createSelector(
+const getFocus = createSelector(
 	[selectCurrentFocus],
 	(currentFocus) => currentFocus || { context: null },
+	{
+		memoize: weakMapMemoize,
+		argsMemoize: weakMapMemoize,
+	},
 );
 
-export default getDraggingContext;
+export default getFocus;

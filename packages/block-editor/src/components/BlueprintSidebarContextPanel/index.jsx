@@ -22,12 +22,7 @@ const BlueprintSidebarContextPanel = memo(
 					event.stopPropagation();
 				}}
 			>
-				{context === "attribute" && (
-					<BlueprintContextualAttributeHelp />
-				)}
-				{context === "component" && (
-					<BlueprintContextualComponentHelp />
-				)}
+				<BlueprintContextualComponentHelp />
 			</div>
 		);
 	}),

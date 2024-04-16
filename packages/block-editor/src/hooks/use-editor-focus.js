@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -17,25 +17,25 @@ const useEditorFocus = (clientId) => {
 
 	const currentFocus = useSelector((state) => getFocus(state.editor));
 
-	const _setFocus = (context) => {
+	const _setFocus = useCallback((context) => {
 		dispatch(setFocus(context));
-	};
+	}, []);
 
-	const _unsetFocus = (unsetRegardlessOfCurrentFocus = false) => {
-		if (unsetRegardlessOfCurrentFocus || _componentHasFocus) {
-			dispatch(unsetFocus());
-		}
-	};
-
-	return useMemo(
-		() => ({
-			currentFocus,
-			hasFocus: _componentHasFocus,
-			setFocus: _setFocus,
-			unsetFocus: _unsetFocus,
-		}),
+	const _unsetFocus = useCallback(
+		(unsetRegardlessOfCurrentFocus = false) => {
+			if (unsetRegardlessOfCurrentFocus || _componentHasFocus) {
+				dispatch(unsetFocus());
+			}
+		},
 		[_componentHasFocus],
 	);
+
+	return {
+		currentFocus,
+		hasFocus: _componentHasFocus,
+		setFocus: _setFocus,
+		unsetFocus: _unsetFocus,
+	};
 };
 
 export default useEditorFocus;

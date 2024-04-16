@@ -1,15 +1,14 @@
 import clsx from "clsx";
 import { useLayoutEffect, useRef } from "react";
-import { useSelector } from "react-redux";
 
-import { useEditorDrag, useTutorial } from "../../hooks";
+import { useEditorDrag, useEditorFocus, useTutorial } from "../../hooks";
 
 import BlueprintSidebarComponentsPanel from "../BlueprintSidebarComponentsPanel";
 import BlueprintSidebarContextPanel from "../BlueprintSidebarContextPanel";
 
 import "./style.css";
 
-function BlueprintSidebar({}) {
+const BlueprintSidebar = () => {
 	const ref = useRef(null);
 
 	const tutorial = useTutorial({ step: 8 });
@@ -17,8 +16,7 @@ function BlueprintSidebar({}) {
 	const contextPanelRef = useRef(null);
 	const componentsPanelRef = useRef(null);
 
-	const currentFocus = useSelector((state) => state.editor.currentFocus);
-
+	const { currentFocus } = useEditorFocus();
 	const { isDragging } = useEditorDrag();
 
 	useLayoutEffect(() => {
@@ -46,6 +44,6 @@ function BlueprintSidebar({}) {
 			<BlueprintSidebarComponentsPanel ref={componentsPanelRef} />
 		</div>
 	);
-}
+};
 
 export default BlueprintSidebar;
