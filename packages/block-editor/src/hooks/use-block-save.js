@@ -43,8 +43,6 @@ const useBlockSave = () => {
 	);
 
 	const saveBlock = () => {
-		debugger;
-
 		dispatch(showSaveDialog());
 
 		if (postId === null) {

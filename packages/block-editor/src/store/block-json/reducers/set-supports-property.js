@@ -24,7 +24,7 @@ const setSupportsProperty = (state, action) => {
 		newSupports[propertyName] =
 			supportsProperty?.defaultValueWhenChecked || true;
 	} else {
-		newSupports[propertyName] = false;
+		newSupports[propertyName] = value;
 	}
 
 	state.supports = Object.keys(newSupports)

@@ -9662,7 +9662,7 @@
 	  } else if (value === true) {
 	    newSupports[propertyName] = (supportsProperty === null || supportsProperty === void 0 ? void 0 : supportsProperty.defaultValueWhenChecked) || true;
 	  } else {
-	    newSupports[propertyName] = false;
+	    newSupports[propertyName] = value;
 	  }
 	  state.supports = Object.keys(newSupports).sort().reduce(function (sorted, key) {
 	    sorted[key] = newSupports[key];
@@ -10176,7 +10176,6 @@
 	    return state.saveDialog.visible;
 	  });
 	  var saveBlock = function saveBlock() {
-	    debugger;
 	    dispatch(showSaveDialog());
 	    if (postId === null) {
 	      saveNewBlock({
