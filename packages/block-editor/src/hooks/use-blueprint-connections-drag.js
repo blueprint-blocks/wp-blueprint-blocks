@@ -14,7 +14,7 @@ const useBlueprintConnectionsDrag = (
 ) => {
 	const hasMouseFocus = useMouseFocus(ref);
 
-	const { addAttribute } = useBlockJson();
+	const { addAttribute, editAttribute } = useBlockJson();
 	const { getComponentType, setComponentAttribute, unsetComponentAttribute } =
 		useBlueprint();
 
@@ -48,10 +48,21 @@ const useBlueprintConnectionsDrag = (
 				existingDraggingConnection?.attributeName,
 			);
 		} else if (newDraggingConnection && context === "attribute") {
+			const _attributeName =
+				((attributeName === null || attributeName === "") &&
+					newDraggingConnection?.attributeName) ||
+				attributeName;
+
+			if (_attributeName !== attributeName) {
+				editAttribute(clientId, {
+					name: _attributeName,
+				});
+			}
+
 			setComponentAttribute(
 				newDraggingConnection?.clientId,
 				"attributeName",
-				attributeName,
+				_attributeName,
 			);
 		} else if (newDraggingConnection && context === "newAttribute") {
 			addAttribute(newDraggingConnection?.attributeName, {

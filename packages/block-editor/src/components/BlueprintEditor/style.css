@@ -74,7 +74,10 @@
 	display: grid;
 	gap: var(--4x);
 	position: relative;
-	z-index: 20;
+}
+
+.BlueprintEditor-column:nth-child(1) {
+	z-index: 40;
 }
 
 .BlueprintEditor-label {

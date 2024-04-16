@@ -31,9 +31,14 @@ const useBlueprint = () => {
 
 	const getAttributeByComponentClientId = useCallback((clientId) => {
 		const attributeName = _getComponentAttribute(clientId, "attributeName");
+
 		const attribute = useSelector((state) =>
 			getAttribute(state.blockJson, attributeName),
 		);
+
+		if (attributeName === null || attributeName === "") {
+			return null;
+		}
 
 		if (attribute !== null) {
 			return attribute.clientId;
@@ -88,6 +93,10 @@ const useBlueprint = () => {
 
 	const getComponentsByAttributeName = useCallback(
 		(attributeName) => {
+			if (attributeName === null || attributeName === "") {
+				return [];
+			}
+
 			return Object.fromEntries(
 				Object.entries(blockComponents).filter(([_, blockComponent]) =>
 					blockComponent.attributes.reduce(

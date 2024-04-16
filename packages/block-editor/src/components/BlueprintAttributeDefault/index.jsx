@@ -87,7 +87,12 @@ const BlueprintAttributeDefault = memo(({ clientId, disabled = false }) => {
 					"is-invalid": !attributeDefaultValid,
 				})}
 			>
-				<BlueprintWarning position="right" />
+				<BlueprintWarning
+					data="blockBlueprint.attribute.default"
+					className="is-right"
+					direction="right"
+					visible={!attributeDefaultValid}
+				/>
 				<span>{'"'}</span>
 				<span className="key">{`default`}</span>
 				<span>{`": `}</span>

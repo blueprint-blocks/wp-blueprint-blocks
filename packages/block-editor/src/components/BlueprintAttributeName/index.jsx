@@ -41,7 +41,12 @@ const BlueprintAttributeName = memo(({ clientId, disabled = false }) => {
 	return (
 		<div className="BlueprintAttribute-line">
 			<span className={clsx({ "is-invalid": !attributeNameValid })}>
-				<BlueprintWarning position="left" />
+				<BlueprintWarning
+					data="blockBlueprint.attribute.name"
+					className="is-left"
+					direction="right"
+					visible={!attributeNameValid}
+				/>
 				<span>{'"'}</span>
 				<EditableString
 					className="BlueprintAttribute-name"

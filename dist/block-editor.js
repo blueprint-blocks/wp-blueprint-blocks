@@ -7393,6 +7393,27 @@
 		}
 	];
 
+	var blockBlueprint$1 = {
+		attribute: {
+			name: {
+				label: "Attribute Name",
+				required: true,
+				text: "The attribute name is required. It's a good practice to maintain a consistent format when naming. Common naming schemes are camelCase and snake-case.",
+				width: 300
+			},
+			type: {
+				label: "Attribute Type",
+				required: true,
+				text: "The attribute type is required and must be one of `array`, `boolean`, `number`, `object`, or `string`.",
+				width: 300
+			},
+			"default": {
+				label: "Attribute Default",
+				text: "The attribute default must match the type definition.",
+				width: 300
+			}
+		}
+	};
 	var blockJson$1 = {
 		name: {
 			label: "Block Name",
@@ -7575,6 +7596,7 @@
 		}
 	};
 	var tooltips = {
+		blockBlueprint: blockBlueprint$1,
 		blockJson: blockJson$1,
 		tutorial: tutorial
 	};
@@ -10228,6 +10250,9 @@
 	    var attribute = useSelector(function (state) {
 	      return getAttribute(state.blockJson, attributeName);
 	    });
+	    if (attributeName === null || attributeName === "") {
+	      return null;
+	    }
 	    if (attribute !== null) {
 	      return attribute.clientId;
 	    }
@@ -10274,6 +10299,9 @@
 	    });
 	  };
 	  var getComponentsByAttributeName = React$2.useCallback(function (attributeName) {
+	    if (attributeName === null || attributeName === "") {
+	      return [];
+	    }
 	    return Object.fromEntries(Object.entries(blockComponents).filter(function (_ref) {
 	      var _ref2 = _slicedToArray(_ref, 2);
 	        _ref2[0];
@@ -10500,7 +10528,8 @@
 	    context = _ref$context === void 0 ? "component" : _ref$context;
 	  var hasMouseFocus = useMouseFocus(ref);
 	  var _useBlockJson = useBlockJson(),
-	    addAttribute = _useBlockJson.addAttribute;
+	    addAttribute = _useBlockJson.addAttribute,
+	    editAttribute = _useBlockJson.editAttribute;
 	  var _useBlueprint = useBlueprint(),
 	    getComponentType = _useBlueprint.getComponentType,
 	    setComponentAttribute = _useBlueprint.setComponentAttribute,
@@ -10527,7 +10556,13 @@
 	      unsetComponentAttribute(existingDraggingConnection === null || existingDraggingConnection === void 0 ? void 0 : existingDraggingConnection.clientId, "attributeName");
 	      setComponentAttribute(clientId, "attributeName", existingDraggingConnection === null || existingDraggingConnection === void 0 ? void 0 : existingDraggingConnection.attributeName);
 	    } else if (newDraggingConnection && context === "attribute") {
-	      setComponentAttribute(newDraggingConnection === null || newDraggingConnection === void 0 ? void 0 : newDraggingConnection.clientId, "attributeName", attributeName);
+	      var _attributeName = (attributeName === null || attributeName === "") && (newDraggingConnection === null || newDraggingConnection === void 0 ? void 0 : newDraggingConnection.attributeName) || attributeName;
+	      if (_attributeName !== attributeName) {
+	        editAttribute(clientId, {
+	          name: _attributeName
+	        });
+	      }
+	      setComponentAttribute(newDraggingConnection === null || newDraggingConnection === void 0 ? void 0 : newDraggingConnection.clientId, "attributeName", _attributeName);
 	    } else if (newDraggingConnection && context === "newAttribute") {
 	      var _blockComponents$fiel;
 	      addAttribute(newDraggingConnection === null || newDraggingConnection === void 0 ? void 0 : newDraggingConnection.attributeName, _objectSpread2({
@@ -14671,17 +14706,121 @@
 	});
 
 	function BlueprintWarning(_ref) {
-	  var _ref$position = _ref.position,
-	    position = _ref$position === void 0 ? "left" : _ref$position;
-	    _ref.text;
+	  var _ref$className = _ref.className,
+	    className = _ref$className === void 0 ? "" : _ref$className,
+	    _ref$data = _ref.data,
+	    data = _ref$data === void 0 ? "" : _ref$data,
+	    _ref$direction = _ref.direction,
+	    direction = _ref$direction === void 0 ? "left" : _ref$direction,
+	    label = _ref.label,
+	    _ref$position = _ref.position,
+	    position = _ref$position === void 0 ? "above" : _ref$position,
+	    _ref$required = _ref.required,
+	    required = _ref$required === void 0 ? false : _ref$required,
+	    _ref$defaultValue = _ref.defaultValue,
+	    defaultValue = _ref$defaultValue === void 0 ? null : _ref$defaultValue,
+	    text = _ref.text,
+	    url = _ref.url,
+	    _ref$visible = _ref.visible,
+	    visible = _ref$visible === void 0 ? false : _ref$visible,
+	    _ref$width = _ref.width,
+	    width = _ref$width === void 0 ? 240 : _ref$width;
 	  var ref = React$2.useRef(null);
-	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	  var messageRef = React$2.useRef(null);
+	  var rect = useRect(ref, null, ["bottom", "top"]);
+	  var messageRect = useRect(messageRef, null, ["height"]);
+	  var appRect = useAppRect();
+	  var navRect = useNavRect();
+	  var tutorial = useTutorial();
+	  var _useBlockJson = useBlockJson(),
+	    blockJson = _useBlockJson.blockJson;
+	  var _position = React$2.useMemo(function () {
+	    if (rect.top - messageRect.height < navRect.bottom) {
+	      return "below";
+	    } else if (rect.bottom + messageRect.height > appRect.bottom) {
+	      return "above";
+	    }
+	    return position;
+	  }, [position, rect, appRect, navRect]);
+	  var _label = React$2.useMemo(function () {
+	    return getObjectProperty(tooltips, "".concat(data, ".label")) || label;
+	  }, [data, label]);
+	  var _required = React$2.useMemo(function () {
+	    return getObjectProperty(tooltips, "".concat(data, ".required")) || required;
+	  }, [data, required]);
+	  var _default = React$2.useMemo(function () {
+	    return getObjectProperty(tooltips, "".concat(data, ".default")) || defaultValue;
+	  }, [data, defaultValue]);
+	  var _text = React$2.useMemo(function () {
+	    var _blockJson$name$split, _blockJson$name$split2;
+	    var _text = getObjectProperty(tooltips, "".concat(data, ".text"));
+	    if (_text === null) {
+	      _text = text;
+	    }
+	    return parseMarkdown(replaceTokens(_text, {
+	      block: _objectSpread2(_objectSpread2({}, blockJson), {}, {
+	        namespace: (_blockJson$name$split = blockJson.name.split("/")) === null || _blockJson$name$split === void 0 ? void 0 : _blockJson$name$split[0],
+	        name: (_blockJson$name$split2 = blockJson.name.split("/")) === null || _blockJson$name$split2 === void 0 ? void 0 : _blockJson$name$split2[1]
+	      })
+	    }));
+	  }, [blockJson, data, text]);
+	  var _url = React$2.useMemo(function () {
+	    return getObjectProperty(tooltips, "".concat(data, ".url")) || url;
+	  }, [data, url]);
+	  var _width = React$2.useMemo(function () {
+	    return getObjectProperty(tooltips, "".concat(data, ".width")) || width;
+	  }, [data, width]);
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
-	    className: "BlueprintWarning is-".concat(position === "right" && "right" || "left"),
-	    children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	      className: "BlueprintWarning-icon",
-	      children: "!"
-	    })
+	    className: clsx$1("BlueprintWarning", {
+	      "is-disabled": tutorial.isActive,
+	      "is-visible": visible
+	    }, className),
+	    style: {
+	      "--width": _width
+	    },
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	      children: "?"
+	    }), (_label || _text) && /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	      ref: messageRef,
+	      className: clsx$1("BlueprintWarning-message", "direction-".concat(direction), "position-".concat(_position), {
+	        "has-label": _label
+	      }),
+	      children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	        className: "BlueprintWarning-text",
+	        children: [_label && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	          className: "BlueprintWarning-label",
+	          children: _label
+	        }), /*#__PURE__*/jsxRuntimeExports.jsx("p", {
+	          dangerouslySetInnerHTML: {
+	            __html: _text
+	          }
+	        })]
+	      }), _required && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	        className: "BlueprintWarning-meta",
+	        children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	          className: "BlueprintWarning-required",
+	          children: "Required"
+	        })
+	      }), _default && /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	        className: "BlueprintWarning-default",
+	        children: ["Default value:", _default === "checked" && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	          className: "BlueprintWarning-checkbox is-checked"
+	        }), _default === "unchecked" && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	          className: "BlueprintWarning-checkbox is-unchecked"
+	        }), _default !== "checked" && _default !== "unchecked" && /*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	          children: _default
+	        })]
+	      }), _url && /*#__PURE__*/jsxRuntimeExports.jsx("a", {
+	        className: "BlueprintWarning-link",
+	        href: _url,
+	        target: "_blank"
+	      })]
+	    }), _url && !tutorial.isActive && /*#__PURE__*/jsxRuntimeExports.jsx("a", {
+	      className: "BlueprintWarning-link",
+	      href: _url,
+	      target: "_blank"
+	    })]
 	  });
 	}
 
@@ -14921,7 +15060,10 @@
 	        "is-invalid": !attributeDefaultValid
 	      }),
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintWarning, {
-	        position: "right"
+	        data: "blockBlueprint.attribute.default",
+	        className: "is-right",
+	        direction: "right",
+	        visible: !attributeDefaultValid
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	        children: '"'
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
@@ -14971,7 +15113,10 @@
 	        "is-invalid": !attributeNameValid
 	      }),
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintWarning, {
-	        position: "left"
+	        data: "blockBlueprint.attribute.name",
+	        className: "is-left",
+	        direction: "right",
+	        visible: !attributeNameValid
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	        children: '"'
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
@@ -15011,7 +15156,10 @@
 	        "is-invalid": !attributeTypeValid
 	      }),
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsx(BlueprintWarning, {
-	        position: "right"
+	        data: "blockBlueprint.attribute.type",
+	        className: "is-right",
+	        direction: "right",
+	        visible: !attributeTypeValid
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	        children: '"'
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {

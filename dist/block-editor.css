@@ -1178,19 +1178,6 @@
 }
 
 .BlueprintWarning {
-	position: absolute;
-	top: calc(50% - 8px);
-}
-
-.BlueprintWarning.is-left {
-	left: calc(-1 * (16px + var(--1x)));
-}
-
-.BlueprintWarning.is-right {
-	right: calc(-1 * (16px + var(--1x)));
-}
-
-.BlueprintWarning-icon {
 	background: var(--gradient-orange-red);
 	border-radius: 16px;
 	color: var(--color-white);
@@ -1199,10 +1186,190 @@
 	font-weight: var(--font-weight-bold);
 	height: 16px;
 	line-height: 16px;
-	position: relative;
+	opacity: 0;
+	position: absolute;
 	text-align: center;
+	transition: var(--transition);
+	top: calc(50% - 8px);
 	width: 16px;
 }
+
+.BlueprintWarning.is-visible {
+	opacity: 1;
+}
+
+.BlueprintWarning:not(.is-right) {
+	left: calc(-1 * (16px + var(--1x)));
+}
+
+.BlueprintWarning.is-right {
+	right: calc(-1 * (16px + var(--1x)));
+}
+
+.BlueprintWarning:not(.is-disabled):hover {
+	/*background: var(--color-accent-teal-blue);*/
+	color: var(--color-white);
+	overflow: visible;
+	z-index: 20;
+}
+
+.is-disabled .BlueprintWarning:hover {
+	background: var(--gradient-orange-red);
+	color: var(--color-white);
+	cursor: default;
+}
+
+.BlueprintWarning-link {
+	bottom: 0;
+	content: "";
+	display: block;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 10;
+}
+
+.BlueprintWarning-label {
+	color: var(--color-black);
+	font-size: var(--font-size-large);
+	font-weight: var(--font-weight-semi-bold);
+}
+
+.BlueprintWarning-text p {
+		box-sizing: border-box;
+		margin: 0 !important;
+		width: 100%;
+	}
+
+.BlueprintWarning-default {
+	align-items: center;
+	border-top: 1px solid var(--color-lighter-gray);
+	box-sizing: border-box;
+	color: var(--color-darker-gray);
+	display: grid;
+	gap: var(--1x);
+	grid-auto-columns: max-content;
+	grid-auto-flow: column;
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-semi-bold);
+	line-height: var(--2x);
+	padding: var(--2x) 0 0;
+	width: 100%;
+}
+
+.BlueprintWarning-checkbox {
+	--size: var(--2x);
+	border: 2px solid var(--color-light-gray);
+	border-radius: 3px;
+	box-sizing: border-box;
+	height: var(--2x);
+	position: relative;
+	width: var(--2x);
+}
+
+.BlueprintWarning-checkbox::after {
+		background: url("../assets/images/icon-check.png") no-repeat center;
+		background-size: contain;
+		content: "";
+		display: block;
+		height: calc((19 / 24) * var(--size));
+		left: calc((2 / 24) * var(--size));
+		position: absolute;
+		top: -2px;
+		transition: var(--transition);
+		width: calc((26 / 24) * var(--size));
+	}
+
+.BlueprintWarning-checkbox.is-unchecked::after {
+	opacity: 0;
+}
+
+.BlueprintWarning-meta {
+	box-sizing: border-box;
+	width: 100%;
+}
+
+.BlueprintWarning-required {
+	background: var(--color-lighter-gray);
+	border-radius: var(--3x);
+	color: var(--color-gray);
+	font-size: var(--font-size-small);
+	font-weight: var(--font-weight-semi-bold);
+	line-height: var(--3x);
+	height: var(--3x);
+	padding: 0 var(--1x);
+	width: -moz-fit-content;
+	width: fit-content;
+}
+
+.BlueprintWarning-message {
+	--caret-color: var(--color-white);
+	background: var(--color-white);
+	border-radius: 5px;
+	box-shadow: var(--box-shadow-medium);
+	color: var(--color-black);
+	display: none;
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-medium);
+	gap: var(--2x);
+	justify-items: start;
+	line-height: var(--line-height-base);
+	min-width: calc(1px * var(--width, 0));
+	opacity: 0;
+	padding: var(--2x) var(--2x) var(--2x) var(--3x);
+	position: absolute;
+	text-align: left;
+}
+
+.BlueprintWarning-message::before {
+		border-left: var(--1x) solid transparent;
+		border-right: var(--1x) solid transparent;
+		content: "";
+		display: block;
+		height: 0;
+		position: absolute;
+		width: 0;
+	}
+
+.BlueprintWarning.is-visible:not(.is-disabled):hover .BlueprintWarning-message {
+	display: grid;
+	opacity: 1;
+}
+
+.BlueprintWarning-message.position-above {
+	bottom: calc(100% + var(--1x) - 2px);
+}
+
+.BlueprintWarning-message.position-above::before {
+		border-top: var(--1x) solid var(--caret-color);
+		bottom: calc(-1 * var(--1x));
+	}
+
+.BlueprintWarning-message.position-below {
+	top: calc(100% + var(--1x) - 2px);
+}
+
+.BlueprintWarning-message.position-below::before {
+		border-bottom: var(--1x) solid var(--caret-color);
+		top: calc(-1 * var(--1x));
+	}
+
+.BlueprintWarning-message.direction-left {
+	right: calc(-1 * var(--3x));
+}
+
+.BlueprintWarning-message.direction-left::before {
+		right: var(--3x);
+	}
+
+.BlueprintWarning-message.direction-right {
+	left: calc(-1 * var(--3x));
+}
+
+.BlueprintWarning-message.direction-right::before {
+		left: var(--3x);
+	}
 
 /*.EditableObject {
 	--color: var(--color-darkest-gray);
@@ -2111,7 +2278,10 @@
 	display: grid;
 	gap: var(--4x);
 	position: relative;
-	z-index: 20;
+}
+
+.BlueprintEditor-column:nth-child(1) {
+	z-index: 40;
 }
 
 .BlueprintEditor-label {

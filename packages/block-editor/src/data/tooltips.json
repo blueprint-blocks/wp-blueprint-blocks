@@ -1,4 +1,25 @@
 {
+	"blockBlueprint": {
+		"attribute": {
+			"name": {
+				"label": "Attribute Name",
+				"required": true,
+				"text": "The attribute name is required. It's a good practice to maintain a consistent format when naming. Common naming schemes are camelCase and snake-case.",
+				"width": 300
+			},
+			"type": {
+				"label": "Attribute Type",
+				"required": true,
+				"text": "The attribute type is required and must be one of `array`, `boolean`, `number`, `object`, or `string`.",
+				"width": 300
+			},
+			"default": {
+				"label": "Attribute Default",
+				"text": "The attribute default must match the type definition.",
+				"width": 300
+			}
+		}
+	},
 	"blockJson": {
 		"name": {
 			"label": "Block Name",

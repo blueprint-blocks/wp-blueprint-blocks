@@ -29,7 +29,12 @@ const BlueprintAttributeType = memo(({ clientId, disabled = false }) => {
 	return (
 		<div className="BlueprintAttribute-line indent">
 			<span className={clsx({ "is-invalid": !attributeTypeValid })}>
-				<BlueprintWarning position="right" />
+				<BlueprintWarning
+					data="blockBlueprint.attribute.type"
+					className="is-right"
+					direction="right"
+					visible={!attributeTypeValid}
+				/>
 				<span>{'"'}</span>
 				<span className="key">{`type`}</span>
 				<span>{`": "`}</span>
