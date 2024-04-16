@@ -1,13 +1,17 @@
 import { createSelector, weakMapMemoize } from "reselect";
 
 const selectAttributes = (state) => state.attributes;
-const selectAttributeName = (_, attributeName) => attributeName;
+const selectAttributeName = (_, { attributeName }) => attributeName;
+const selectClientId = (_, { clientId }) => clientId;
 
 const getAttributeIndex = createSelector(
-	[selectAttributes, selectAttributeName],
-	(attributes, attributeName) => {
+	[selectAttributes, selectAttributeName, selectClientId],
+	(attributes, attributeName, clientId) => {
 		for (let i = 0; i < attributes.length; i++) {
-			if (attributes[i].name === attributeName) {
+			if (
+				attributes[i].clientId === clientId ||
+				attributes[i].name === attributeName
+			) {
 				return i;
 			}
 		}

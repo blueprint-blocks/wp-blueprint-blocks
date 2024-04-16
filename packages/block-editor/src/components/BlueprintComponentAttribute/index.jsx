@@ -1,9 +1,8 @@
 import clsx from "clsx";
-import { memo, useCallback, useMemo, useState, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useCallback, useMemo, useState, useRef } from "react";
 
 import { getComponentAttributeType } from "../../functions";
-import { useBlueprint, useEditorFocus } from "../../hooks";
+import { useBlockJson, useBlueprint, useEditorFocus } from "../../hooks";
 
 import EditableString from "../EditableString";
 
@@ -18,14 +17,18 @@ function BlueprintComponentAttribute({
 	disabled = false,
 	...props
 }) {
-	const dispatch = useDispatch();
+	const { editAttribute } = useBlockJson();
 
 	const {
+		getAttributeByComponentClientId,
 		getComponentType,
 		renameComponentAttribute,
 		setComponentAttribute,
 		unsetComponentAttribute,
 	} = useBlueprint();
+
+	const componentAttributeClientId =
+		getAttributeByComponentClientId(componentClientId);
 
 	const componentType = getComponentType(componentClientId);
 
@@ -81,6 +84,12 @@ function BlueprintComponentAttribute({
 				_attributeName,
 				newAttributeValue,
 			);
+
+			if (_attributeName === "attributeName") {
+				editAttribute(componentAttributeClientId, {
+					name: newAttributeValue,
+				});
+			}
 
 			setFocus({
 				clientId: componentClientId,

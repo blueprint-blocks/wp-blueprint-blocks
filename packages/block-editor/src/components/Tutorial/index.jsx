@@ -31,8 +31,6 @@ function Tutorial() {
 	const appContext = useContext(AppContext);
 	const tutorialContext = useContext(TutorialContext);
 
-	console.log(tutorialContext.isActive, tutorialContext.currentStep);
-
 	if (!tutorialContext.isActive) {
 		return null;
 	}
@@ -137,7 +135,6 @@ function Tutorial() {
 				}
 			});
 		}
-		console.log(blockComponents);
 	}, [blockComponents]);
 
 	useEffect(() => {

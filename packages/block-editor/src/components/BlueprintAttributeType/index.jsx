@@ -13,22 +13,18 @@ import "./style.css";
 const BlueprintAttributeType = memo(({ clientId, disabled = false }) => {
 	const { editAttribute, getAttributeById } = useBlockJson();
 
-	const { name: attributeName, type: attributeType } =
-		getAttributeById(clientId);
+	const { type: attributeType } = getAttributeById(clientId);
 
 	const attributeTypeValid = useMemo(
 		() => attributeType in attributeTypes,
 		[attributeType],
 	);
 
-	const onChange = useCallback(
-		(newAttributeType) => {
-			editAttribute(attributeName, {
-				type: newAttributeType,
-			});
-		},
-		[attributeName],
-	);
+	const onChange = useCallback((newAttributeType) => {
+		editAttribute(clientId, {
+			type: newAttributeType,
+		});
+	}, []);
 
 	return (
 		<div className="BlueprintAttribute-line indent">

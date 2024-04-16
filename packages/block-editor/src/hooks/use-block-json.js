@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import useEditorFocus from "./use-editor-focus";
@@ -44,11 +44,11 @@ const useBlockJson = () => {
 		dispatch(setChanged(true));
 	}, []);
 
-	const _editAttribute = useCallback((attributeName, attributeProps) => {
+	const _editAttribute = useCallback((clientId, attributeProps) => {
 		dispatch(
 			editAttribute({
 				...attributeProps,
-				name: attributeName,
+				clientId,
 			}),
 		);
 		dispatch(setChanged(true));

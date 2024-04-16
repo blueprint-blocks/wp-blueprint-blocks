@@ -16,6 +16,8 @@ import {
 	unsetComponentAttribute,
 } from "../store/block-blueprint";
 
+import { getAttribute } from "../store/block-json";
+
 import { setChanged } from "../store/post-metadata";
 
 const useBlueprint = () => {
@@ -26,6 +28,19 @@ const useBlueprint = () => {
 	const blockComponents = useSelector(
 		(state) => state.blockBlueprint.blockComponents,
 	);
+
+	const getAttributeByComponentClientId = useCallback((clientId) => {
+		const attributeName = _getComponentAttribute(clientId, "attributeName");
+		const attribute = useSelector((state) =>
+			getAttribute(state.blockJson, attributeName),
+		);
+
+		if (attribute !== null) {
+			return attribute.clientId;
+		}
+
+		return null;
+	}, []);
 
 	const _getComponent = (clientId) =>
 		useSelector((state) =>
@@ -127,6 +142,7 @@ const useBlueprint = () => {
 
 	return {
 		blockComponents,
+		getAttributeByComponentClientId,
 		getComponent: _getComponent,
 		getComponentAttribute: _getComponentAttribute,
 		getComponentAttributes: _getComponentAttributes,

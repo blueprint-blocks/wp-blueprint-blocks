@@ -1,10 +1,8 @@
 import { getAttributeIndex } from "../selectors";
 
-const ALLOWED_ATTRIBUTE_TYPES = ["array", "number", "string", "object"];
-
 const editAttribute = (state, action) => {
-	const { name = "", ...attribute } = action.payload;
-	const index = getAttributeIndex(state, name);
+	const { clientId = null, ...attribute } = action.payload;
+	const index = getAttributeIndex(state, { clientId });
 
 	if (index === null) {
 		return;
@@ -15,7 +13,7 @@ const editAttribute = (state, action) => {
 	attributes[index] = {
 		...attributes[index],
 		...attribute,
-		name,
+		clientId,
 	};
 
 	state.attributes = attributes;

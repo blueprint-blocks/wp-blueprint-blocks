@@ -7,7 +7,7 @@ import BlueprintWarning from "../BlueprintWarning";
 import EditableString from "../EditableString";
 
 const BlueprintAttributeName = memo(({ clientId, disabled = false }) => {
-	const { getAttributeById, renameAttribute } = useBlockJson();
+	const { editAttribute, getAttributeById } = useBlockJson();
 
 	const { getComponentsByAttributeName, setComponentAttribute } =
 		useBlueprint();
@@ -33,7 +33,7 @@ const BlueprintAttributeName = memo(({ clientId, disabled = false }) => {
 				);
 			});
 
-			renameAttribute(attributeName, newAttributeName);
+			editAttribute(clientId, { name: newAttributeName });
 		},
 		[attributeName, clientId],
 	);

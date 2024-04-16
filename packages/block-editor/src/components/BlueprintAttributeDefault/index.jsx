@@ -70,7 +70,7 @@ const BlueprintAttributeDefault = memo(({ clientId, disabled = false }) => {
 
 	function onChange(newAttributeDefault) {
 		if (newAttributeDefault !== attributeDefault) {
-			editAttribute(attributeName, {
+			editAttribute(clientId, {
 				default: newAttributeDefault,
 			});
 		}
