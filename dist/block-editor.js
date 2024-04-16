@@ -4270,6 +4270,34 @@
 	  });
 	}
 
+	var attributeProperties = [
+		{
+			propertyName: "name",
+			label: "Name",
+			description: "Attribute name can be any valid string value, but it's best practice to format these is a consistent way that describes what they are for. A common format for attribute names is camelCase."
+		},
+		{
+			propertyName: "type",
+			label: "Type",
+			description: "Type indicates the type of data that is stored by the attribute. It should match the type of data provided by the connected component.",
+			suggestedValues: [
+				"array",
+				"boolean",
+				"number",
+				"object",
+				"string"
+			]
+		},
+		{
+			propertyName: "default",
+			label: "Default",
+			description: "A block attribute can contain a default value, which will be used if no data is provided by the connected component, e.g. if the user has not made any changes in the editor. The value of the default should match the format of the type.",
+			suggestedValues: [
+				"null"
+			]
+		}
+	];
+
 	var array$1 = {
 		allowsNull: true
 	};
@@ -17822,6 +17850,73 @@
 	  });
 	}));
 
+	var BlueprintContextualAttributeHelp = /*#__PURE__*/React$2.memo(function () {
+	  var ref = React$2.useRef(null);
+	  var _useEditorFocus = useEditorFocus(),
+	    currentFocus = _useEditorFocus.currentFocus;
+	  var _currentFocus$clientI = currentFocus.clientId,
+	    clientId = _currentFocus$clientI === void 0 ? null : _currentFocus$clientI;
+	  var _useBlockJson = useBlockJson(),
+	    editAttribute = _useBlockJson.editAttribute,
+	    getAttributeById = _useBlockJson.getAttributeById,
+	    renameAttribute = _useBlockJson.renameAttribute;
+	  var _ref = getAttributeById(clientId) || {},
+	    attributeName = _ref.name;
+	  var onClickSuggestedValue = function onClickSuggestedValue(_ref2) {
+	    var propertyName = _ref2.propertyName,
+	      propertyValue = _ref2.propertyValue;
+	    if (propertyName === "name") {
+	      renameAttribute(attributeName, propertyValue);
+	    } else {
+	      editAttribute(attributeName, _defineProperty$1({}, propertyName, propertyValue));
+	    }
+	  };
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	    ref: ref,
+	    className: "BlueprintContextualAttributeHelp",
+	    children: [/*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	      className: "BlueprintContextualAttributeHelp-heading",
+	      children: [/*#__PURE__*/jsxRuntimeExports.jsx("h3", {
+	        children: "Block Attributes"
+	      }), /*#__PURE__*/jsxRuntimeExports.jsx("p", {
+	        children: "Block attributes store information about the block. For example, a title, metadata about an image, or attributes of a link. When connected to a component, data from the connected component will be stored in the attribute."
+	      })]
+	    }), attributeProperties.map(function (_ref3, index) {
+	      var propertyName = _ref3.propertyName,
+	        label = _ref3.label,
+	        description = _ref3.description,
+	        _ref3$suggestedValues = _ref3.suggestedValues,
+	        suggestedValues = _ref3$suggestedValues === void 0 ? [] : _ref3$suggestedValues;
+	      return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
+	        children: [/*#__PURE__*/jsxRuntimeExports.jsx("h4", {
+	          children: label
+	        }), /*#__PURE__*/jsxRuntimeExports.jsx("p", {
+	          children: description
+	        }), suggestedValues.length > 0 && /*#__PURE__*/jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, {
+	          children: [/*#__PURE__*/jsxRuntimeExports.jsx("h5", {
+	            children: "Suggested Values"
+	          }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	            className: "BlueprintContextualAttributeHelp-suggestedValues",
+	            children: suggestedValues.map(function (propertyValue, index) {
+	              return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	                onClick: function onClick() {
+	                  return onClickSuggestedValue({
+	                    propertyName: propertyName,
+	                    propertyValue: propertyValue
+	                  });
+	                },
+	                children: /*#__PURE__*/jsxRuntimeExports.jsx("span", {
+	                  children: propertyValue
+	                })
+	              }, index);
+	            })
+	          })]
+	        })]
+	      }, index);
+	    })]
+	  });
+	});
+
 	var BlueprintContextualComponentHelp = function BlueprintContextualComponentHelp() {
 	  var ref = React$2.useRef(null);
 	  var tutorial = useTutorial();
@@ -17922,8 +18017,8 @@
 	  _objectDestructuringEmpty(_ref);
 	  var _useEditorFocus = useEditorFocus(),
 	    currentFocus = _useEditorFocus.currentFocus;
-	  currentFocus.context;
-	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	  var context = currentFocus.context;
+	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: "BlueprintSidebarContextPanel",
 	    onMouseDown: function onMouseDown(event) {
@@ -17932,7 +18027,7 @@
 	    onTouchStart: function onTouchStart(event) {
 	      event.stopPropagation();
 	    },
-	    children: /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintContextualComponentHelp, {})
+	    children: [context === "attribute" && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintContextualAttributeHelp, {}), context === "component" && /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintContextualComponentHelp, {})]
 	  });
 	}));
 
