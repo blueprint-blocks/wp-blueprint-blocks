@@ -7418,7 +7418,7 @@
 		name: {
 			label: "Block Name",
 			required: true,
-			text: "The name for a block is a unique string that identifies a block. Names have to be structured as namespace/block-name, where namespace is the name of your plugin or theme.",
+			text: "The name for a block is a unique string that identifies a block. Names have to be structured as `namespace/block-name`, where `namespace` is the name of your plugin or theme.",
 			url: "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#name",
 			width: 360
 		},
@@ -8215,9 +8215,9 @@
 	  });
 	}
 
-	var _blueprintBlocksEdito$e;
-	var _ref$5 = ((_blueprintBlocksEdito$e = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$e === void 0 ? void 0 : _blueprintBlocksEdito$e.editorMetadata) || {},
-	  _ref$documentTitle$1 = _ref$5.documentTitle,
+	var _blueprintBlocksEdito$f;
+	var _ref$6 = ((_blueprintBlocksEdito$f = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$f === void 0 ? void 0 : _blueprintBlocksEdito$f.editorMetadata) || {},
+	  _ref$documentTitle$1 = _ref$6.documentTitle,
 	  documentTitle$1 = _ref$documentTitle$1 === void 0 ? "" : _ref$documentTitle$1;
 	var setDocumentHistory = function setDocumentHistory(id, blockTitle) {
 	  window.history.pushState({
@@ -8225,9 +8225,9 @@
 	  }, documentTitle$1.replace("{{ block.title }}", blockTitle), "/wp-admin/post.php?post=".concat(id, "&action=edit"));
 	};
 
-	var _blueprintBlocksEdito$d;
-	var _ref$4 = ((_blueprintBlocksEdito$d = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$d === void 0 ? void 0 : _blueprintBlocksEdito$d.editorMetadata) || {},
-	  _ref$documentTitle = _ref$4.documentTitle,
+	var _blueprintBlocksEdito$e;
+	var _ref$5 = ((_blueprintBlocksEdito$e = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$e === void 0 ? void 0 : _blueprintBlocksEdito$e.editorMetadata) || {},
+	  _ref$documentTitle = _ref$5.documentTitle,
 	  documentTitle = _ref$documentTitle === void 0 ? "" : _ref$documentTitle;
 	var setDocumentTitle = function setDocumentTitle(blockTitle) {
 	  document.title = documentTitle.replace("{{ block.title }}", blockTitle);
@@ -8283,18 +8283,20 @@
 	  };
 	}
 
+	var _blueprintBlocksEdito$d;
+	var _ref$4 = ((_blueprintBlocksEdito$d = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$d === void 0 ? void 0 : _blueprintBlocksEdito$d.editorMetadata) || {},
+	  registeredBlocks = _ref$4.registeredBlocks;
 	var validateFullNameFormat = function validateFullNameFormat(value) {
 	  return !!value.match(/[a-z][a-z0-9]*\/[a-z0-9]+/);
 	};
 	var validateNameClash = function validateNameClash(value) {
-	  return true;
-	  //return value.match(/[a-z][a-z0-9]+\/[a-z0-9]+/);
+	  return !registeredBlocks.includes(value);
 	};
 	var validateName = function validateName(value) {
 	  return !!value.match(/[a-z0-9]+/);
 	};
 	var validateNamespace = function validateNamespace(value) {
-	  return !!value.match(/[a-z][a-z0-9]+/);
+	  return value !== "core" && !!value.match(/[a-z][a-z0-9]+/);
 	};
 	var validateRequired = function validateRequired(value) {
 	  return !!value.match(/[a-z][a-z0-9]*\/[a-z0-9]+/);
@@ -13859,7 +13861,7 @@
 	}
 
 	var _blueprintBlocksEdito$5;
-	var defaultBlockNamespace = ((_blueprintBlocksEdito$5 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$5 === void 0 || (_blueprintBlocksEdito$5 = _blueprintBlocksEdito$5.blockMetadata) === null || _blueprintBlocksEdito$5 === void 0 ? void 0 : _blueprintBlocksEdito$5.blockNamespace) || "blueprint-blocks";
+	((_blueprintBlocksEdito$5 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$5 === void 0 || (_blueprintBlocksEdito$5 = _blueprintBlocksEdito$5.blockMetadata) === null || _blueprintBlocksEdito$5 === void 0 ? void 0 : _blueprintBlocksEdito$5.blockNamespace) || "blueprint-blocks";
 	var BlockNameField = function BlockNameField(_ref) {
 	  var onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus;
@@ -13885,24 +13887,20 @@
 	  });
 	  var setBlockName = function setBlockName(newBlockName) {
 	    dispatch(setName("".concat(blockNamespace, "/").concat(delimiterize(newBlockName))));
-	    dispatch(setChanged(true));
 	  };
 	  var setBlockNamespace = function setBlockNamespace(newBlockNamespace) {
-	    if (newBlockNamespace === "") {
-	      dispatch(setName("".concat(defaultBlockNamespace, "/").concat(blockName)));
-	      dispatch(setTextdomain(defaultBlockNamespace));
-	    } else {
-	      dispatch(setName("".concat(delimiterize(newBlockNamespace), "/").concat(blockName)));
-	      dispatch(setTextdomain(delimiterize(newBlockNamespace)));
-	    }
-	    dispatch(setChanged(true));
+	    dispatch(setName("".concat(delimiterize(newBlockNamespace), "/").concat(blockName)));
+	    dispatch(setTextdomain(delimiterize(newBlockNamespace)));
 	  };
+	  var nameClashInvalid = React$2.useMemo(function () {
+	    return blockSave.showErrors && !validateNameClash("".concat(blockNamespace, "/").concat(blockName));
+	  }, [blockSave.showErrors, blockName, blockNamespace]);
 	  var showNameInvalid = React$2.useMemo(function () {
-	    return blockSave.showErrors && !validateName(blockName);
-	  }, [blockSave.showErrors, blockName]);
+	    return blockSave.showErrors && (nameClashInvalid || !validateName(blockName));
+	  }, [blockSave.showErrors, blockName, nameClashInvalid]);
 	  var showNamespaceInvalid = React$2.useMemo(function () {
-	    return blockSave.showErrors && !validateNamespace(blockNamespace);
-	  }, [blockSave.showErrors, blockNamespace]);
+	    return blockSave.showErrors && (nameClashInvalid || !validateNamespace(blockNamespace));
+	  }, [blockSave.showErrors, blockNamespace, nameClashInvalid]);
 	  var disabled = React$2.useMemo(function () {
 	    return !hasFocus && tutorial.isNotActiveStep;
 	  }, [hasFocus, tutorial.isNotActiveStep]);
@@ -13931,6 +13929,7 @@
 	        onBlur: _onBlur,
 	        onChange: setBlockNamespace,
 	        onFocus: _onFocus,
+	        placeholder: "enter-a-block-namespace...",
 	        value: blockNamespace
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	        "class": "BlockNameField-seperator",

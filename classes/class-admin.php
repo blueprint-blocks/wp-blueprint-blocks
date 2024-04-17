@@ -59,7 +59,7 @@ class Admin
         $block_editor_css = '';
         $block_view_css = '';
 
-		$registered_block_names = array_keys( \WP_Block_Type_Registry::get_instance()->get_all_registered() );
+		$registered_block_names = blueprint_blocks_get_registered_block_names();
 
         if ($current_screen->base === 'post' && $current_screen->action !== 'add') {
             $post_id = get_the_ID();

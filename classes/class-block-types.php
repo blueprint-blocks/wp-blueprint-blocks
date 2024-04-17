@@ -54,18 +54,18 @@ class BlockTypes
      */
 	public function register_block_types()
 	{
-		foreach ( blueprint_blocks_get_block_types() as $block_name => $block_type ) {
+		foreach ( blueprint_blocks_get_block_types() as $block_type ) {
 
-			$block_handle = str_replace( '/', '-', $block_name );
+			$block_handle = str_replace( '/', '-', $block_type[ 'blockName' ] );
 
 			wp_register_style(
 				$block_handle . '-style',
-				blueprint_blocks()->url . '/block-styles/' . $block_name . '/main.css/',
+				blueprint_blocks()->url . '/block-styles/' . $block_type[ 'blockName' ] . '/main.css/',
 				[],
 				$block_type[ 'blockJson' ]['version'] ?? null
 			);
 
-			register_block_type( $block_name, array_merge( $block_type[ 'blockJson' ] ?? [], [
+			register_block_type( $block_type[ 'blockName' ], array_merge( $block_type[ 'blockJson' ] ?? [], [
 				'style' => $block_handle . '-style',
 				'editor_style' => $block_handle . '-editor-style',
 			] ) );
@@ -80,9 +80,9 @@ class BlockTypes
      */
 	public function enqueue_block_editor_assets()
 	{
-		foreach ( blueprint_blocks_get_block_types() as $block_name => $block_type ) {
+		foreach ( blueprint_blocks_get_block_types() as $block_type ) {
 
-			$block_handle = str_replace( '/', '-', $block_name );
+			$block_handle = str_replace( '/', '-', $block_type[ 'blockName' ] );
 			wp_add_inline_style( $block_handle . '-style', $block_type[ 'editorCss' ] );
 
 		}

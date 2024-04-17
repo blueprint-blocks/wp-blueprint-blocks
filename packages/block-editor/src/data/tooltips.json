@@ -24,7 +24,7 @@
 		"name": {
 			"label": "Block Name",
 			"required": true,
-			"text": "The name for a block is a unique string that identifies a block. Names have to be structured as namespace/block-name, where namespace is the name of your plugin or theme.",
+			"text": "The name for a block is a unique string that identifies a block. Names have to be structured as `namespace/block-name`, where `namespace` is the name of your plugin or theme.",
 			"url": "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#name",
 			"width": 360
 		},

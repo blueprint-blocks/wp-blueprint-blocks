@@ -22,7 +22,8 @@ function blueprint_blocks_get_block_types()
 			$block_view_css = (string)get_post_meta( $post->ID, 'blueprint_blocks_view_css', true );
 
 			if ( $block_json && isset( $block_json[ 'name' ] ) && $block_json[ 'name' ] ) {
-				$block_types[ $block_json[ 'name' ] ] = [
+				$block_types[] = [
+					'blockName' => $block_json[ 'name' ],
 					'blockJson' => $block_json,
 					'blockBlueprint' => $block_blueprint ?: null,
 					'editorCss' => $block_editor_css,

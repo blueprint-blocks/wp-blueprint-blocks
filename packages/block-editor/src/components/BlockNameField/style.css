@@ -11,7 +11,8 @@
 		--focus-color: transparent;
 		--focus-margin: 0;
 		--focus-padding: 0;
-		--highlight-padding: 0.3em;
+		--highlight-padding-y: 0.1em;
+		--highlight-padding-x: 0.3em;
 		--line-height: 1.5em;
 	}
 }

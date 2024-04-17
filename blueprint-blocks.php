@@ -23,6 +23,7 @@ require __DIR__ . '/functions/get-block-types.php';
 require __DIR__ . '/functions/get-css-variables.php';
 require __DIR__ . '/functions/get-global-settings-value.php';
 require __DIR__ . '/functions/get-json.php';
+require __DIR__ . '/functions/get-registered-block-names.php';
 
 register_activation_hook( __FILE__, 'blueprint_blocks_activate' );
 register_deactivation_hook( __FILE__, 'blueprint_blocks_deactivate' );

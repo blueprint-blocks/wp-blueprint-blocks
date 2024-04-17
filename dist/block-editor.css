@@ -252,7 +252,8 @@
 	--focus-color: var(--color-light-gray);
 	--focus-margin: 0.2em;
 	--focus-padding: 0.4em;
-	--highlight-padding: 0.4em;
+	--highlight-padding-x: 0.4em;
+	--highlight-padding-y: 0.2em;
 	--hover-color: var(--color-black);
 	--line-height: 1.5em;
 	--margin: 0;
@@ -325,10 +326,10 @@
 }
 
 .EditableString.is-invalid::before {
-		bottom: calc(-1 * var(--highlight-padding));
-		left: calc(-1 * var(--highlight-padding));
-		right: calc(-1 * var(--highlight-padding));
-		top: calc(-1 * var(--highlight-padding));
+		bottom: calc(-1 * var(--highlight-padding-y));
+		left: calc(-1 * var(--highlight-padding-x));
+		right: calc(-1 * var(--highlight-padding-x));
+		top: calc(-1 * var(--highlight-padding-y));
 	}
 
 .EditableString.has-focus .placeholder {
@@ -688,7 +689,8 @@
 		--focus-color: transparent;
 		--focus-margin: 0;
 		--focus-padding: 0;
-		--highlight-padding: 0.3em;
+		--highlight-padding-y: 0.1em;
+		--highlight-padding-x: 0.3em;
 		--line-height: 1.5em;
 	}
 

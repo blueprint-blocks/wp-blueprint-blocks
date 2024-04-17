@@ -6,8 +6,10 @@ function blueprint_blocks_get_block_type( $block_name )
 {
 	$block_types = blueprint_blocks_get_block_types();
 
-	if ( isset( $block_types[ $block_name ] ) ) {
-		return $block_types[ $block_name ];
+	foreach ( $block_types as $block_type ) {
+		if ( $block_type[ 'blockName' ] === $block_name ) {
+			return $block_type;
+		}
 	}
 
 	return null;

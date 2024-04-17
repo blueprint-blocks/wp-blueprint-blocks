@@ -11,14 +11,9 @@ import {
 	setTextdomain,
 	setTitle,
 	validateName,
+	validateNameClash,
 	validateNamespace,
 } from "../../store/block-json";
-
-import {
-	hasValidationErrors,
-	isNewPost,
-	setChanged,
-} from "../../store/post-metadata";
 
 import EditableString from "../EditableString";
 import Tooltip from "../Tooltip";
@@ -56,30 +51,32 @@ const BlockNameField = ({ onBlur, onFocus }) => {
 		}
 
 		dispatch(setName(`${blockNamespace}/${delimiterize(newBlockName)}`));
-		dispatch(setChanged(true));
 	};
 
 	const setBlockNamespace = (newBlockNamespace) => {
-		if (newBlockNamespace === "") {
-			dispatch(setName(`${defaultBlockNamespace}/${blockName}`));
-			dispatch(setTextdomain(defaultBlockNamespace));
-		} else {
-			dispatch(
-				setName(`${delimiterize(newBlockNamespace)}/${blockName}`),
-			);
-			dispatch(setTextdomain(delimiterize(newBlockNamespace)));
-		}
-		dispatch(setChanged(true));
+		dispatch(setName(`${delimiterize(newBlockNamespace)}/${blockName}`));
+		dispatch(setTextdomain(delimiterize(newBlockNamespace)));
 	};
 
+	const nameClashInvalid = useMemo(
+		() =>
+			blockSave.showErrors &&
+			!validateNameClash(`${blockNamespace}/${blockName}`),
+		[blockSave.showErrors, blockName, blockNamespace],
+	);
+
 	const showNameInvalid = useMemo(
-		() => blockSave.showErrors && !validateName(blockName),
-		[blockSave.showErrors, blockName],
+		() =>
+			blockSave.showErrors &&
+			(nameClashInvalid || !validateName(blockName)),
+		[blockSave.showErrors, blockName, nameClashInvalid],
 	);
 
 	const showNamespaceInvalid = useMemo(
-		() => blockSave.showErrors && !validateNamespace(blockNamespace),
-		[blockSave.showErrors, blockNamespace],
+		() =>
+			blockSave.showErrors &&
+			(nameClashInvalid || !validateNamespace(blockNamespace)),
+		[blockSave.showErrors, blockNamespace, nameClashInvalid],
 	);
 
 	const disabled = useMemo(
@@ -112,6 +109,7 @@ const BlockNameField = ({ onBlur, onFocus }) => {
 					onBlur={_onBlur}
 					onChange={setBlockNamespace}
 					onFocus={_onFocus}
+					placeholder={"enter-a-block-namespace..."}
 					value={blockNamespace}
 				/>
 				<div class="BlockNameField-seperator">{"/"}</div>

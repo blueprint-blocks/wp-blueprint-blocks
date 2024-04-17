@@ -12450,15 +12450,15 @@
    *
    * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
    */
-  const { blockTypes = {} } = blueprintBlocksLoaderSettings || {};
+  const { blockTypes = [] } = blueprintBlocksLoaderSettings || {};
 
-  Object.entries(blockTypes).forEach(([blockName, blockType]) => {
+  blockTypes.forEach(({ blockBlueprint, blockJson, blockName }) => {
   	blocks.registerBlockType(blockName, {
-  		...(blockType?.blockJson || {}),
+  		...(blockJson || {}),
 
-  		edit: BlockEdit(blockType?.blockBlueprint || null),
+  		edit: BlockEdit(blockBlueprint || null),
 
-  		save: BlockSave(blockType?.blockBlueprint || null),
+  		save: BlockSave(blockBlueprint || null),
   	});
   });
 

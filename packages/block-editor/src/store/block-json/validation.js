@@ -1,10 +1,12 @@
+const { registeredBlocks } =
+	blueprintBlocksEditorSettings?.editorMetadata || {};
+
 const validateFullNameFormat = (value) => {
 	return !!value.match(/[a-z][a-z0-9]*\/[a-z0-9]+/);
 };
 
 const validateNameClash = (value) => {
-	return true;
-	//return value.match(/[a-z][a-z0-9]+\/[a-z0-9]+/);
+	return !registeredBlocks.includes(value);
 };
 
 const validateName = (value) => {
@@ -12,7 +14,7 @@ const validateName = (value) => {
 };
 
 const validateNamespace = (value) => {
-	return !!value.match(/[a-z][a-z0-9]+/);
+	return value !== "core" && !!value.match(/[a-z][a-z0-9]+/);
 };
 
 const validateRequired = (value) => {
