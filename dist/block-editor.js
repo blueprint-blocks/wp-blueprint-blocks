@@ -14069,6 +14069,9 @@
 	      "is-disabled": disabled,
 	      "is-invalid": invalid
 	    }),
+	    style: {
+	      "--rows": rows
+	    },
 	    children: [label && /*#__PURE__*/jsxRuntimeExports.jsx(FieldLabel, {
 	      label: label,
 	      tooltip: tooltip
@@ -48351,7 +48354,7 @@
 	  var cssValue = useSelector(function (state) {
 	    return state.blockEditorCss.raw;
 	  });
-	  var defaultValue = ".".concat(className, " {\n\t/* Add styles here that should by used wherever the block is displayed */\n}");
+	  var defaultValue = ".".concat(className, " {\n\t/* Add styles here that should by used whern the block is displayed in the editor */\n}");
 	  var onChange = function onChange(value) {
 	    dispatch(setEditorCss(value));
 	    dispatch(setChanged(true));

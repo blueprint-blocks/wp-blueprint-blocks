@@ -770,7 +770,7 @@
 	}
 .TextField .TextField-placeholder {
 		color: var(--color-gray);
-		min-height: calc(1.5 * var(--font-size-large));
+		min-height: calc(1.5 * var(--font-size-large) * var(--rows, 1));
 		-webkit-user-select: none;
 		   -moz-user-select: none;
 		        user-select: none;

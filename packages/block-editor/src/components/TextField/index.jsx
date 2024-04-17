@@ -25,6 +25,9 @@ function TextField({
 				"is-disabled": disabled,
 				"is-invalid": invalid,
 			})}
+			style={{
+				"--rows": rows,
+			}}
 		>
 			{label && <FieldLabel label={label} tooltip={tooltip} />}
 			{disabled && value.length === 0 && (
