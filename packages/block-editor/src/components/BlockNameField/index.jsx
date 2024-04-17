@@ -2,7 +2,7 @@ import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { delimiterize } from "../../functions";
-import { useTutorial } from "../../hooks";
+import { useBlockSave, useTutorial } from "../../hooks";
 
 import {
 	getBlockName,
@@ -35,6 +35,7 @@ const BlockNameField = ({ onBlur, onFocus }) => {
 	const ref = useRef(null);
 	const nameRef = useRef(null);
 
+	const blockSave = useBlockSave();
 	const tutorial = useTutorial({ step: 1 });
 
 	const [hasFocus, setHasFocus] = useState(false);
@@ -47,12 +48,6 @@ const BlockNameField = ({ onBlur, onFocus }) => {
 
 	const delimiterizedBlockTitle = useSelector((state) =>
 		delimiterize(state.blockJson.title),
-	);
-
-	const showValidationErrors = useSelector(
-		(state) =>
-			hasValidationErrors(state.postMetadata) ||
-			!isNewPost(state.postMetadata),
 	);
 
 	const setBlockName = (newBlockName) => {
@@ -78,13 +73,13 @@ const BlockNameField = ({ onBlur, onFocus }) => {
 	};
 
 	const showNameInvalid = useMemo(
-		() => showValidationErrors && !validateName(blockName),
-		[showValidationErrors, blockName],
+		() => blockSave.showErrors && !validateName(blockName),
+		[blockSave.showErrors, blockName],
 	);
 
 	const showNamespaceInvalid = useMemo(
-		() => showValidationErrors && !validateNamespace(blockNamespace),
-		[showValidationErrors, blockNamespace],
+		() => blockSave.showErrors && !validateNamespace(blockNamespace),
+		[blockSave.showErrors, blockNamespace],
 	);
 
 	const disabled = useMemo(

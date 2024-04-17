@@ -8,6 +8,7 @@ import "./style.css";
 function TextField({
 	allowEnter = false,
 	disabled = false,
+	invalid = false,
 	label,
 	multiLine = false,
 	onBlur,
@@ -19,7 +20,12 @@ function TextField({
 	setValue,
 }) {
 	return (
-		<div className={clsx("TextField", { "is-disabled": disabled })}>
+		<div
+			className={clsx("TextField", {
+				"is-disabled": disabled,
+				"is-invalid": invalid,
+			})}
+		>
 			{label && <FieldLabel label={label} tooltip={tooltip} />}
 			{disabled && value.length === 0 && (
 				<div class="TextField-placeholder">{placeholder}</div>

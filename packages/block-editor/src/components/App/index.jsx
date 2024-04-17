@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
 import { AppContext } from "../../contexts";
@@ -32,8 +32,7 @@ function App() {
 
 	const [activeNavItem, setActiveNavItem] = useState(0);
 
-	const { hasUnsavedChanges, saveBlock, saveDialogIsVisible } =
-		useBlockSave();
+	const blockSave = useBlockSave();
 
 	const upsellDialogIsVisible = useSelector(
 		(state) => state.upsellDialog.visible,
@@ -42,7 +41,7 @@ function App() {
 	const tutorial = useTutorial();
 
 	useDispatchAppRect(ref);
-	usePreventClose(hasUnsavedChanges);
+	usePreventClose(blockSave.hasUnsavedChanges);
 
 	if (process.env.NODE_ENV === "development") {
 		useDebugRenderCount("App");
@@ -71,15 +70,15 @@ function App() {
 				<Navigator
 					activeNavItem={activeNavItem}
 					setActiveNavItem={setActiveNavItem}
-					onUpdate={saveBlock}
+					onUpdate={blockSave.tryToSave}
 				/>
 				{activeNavItem === 0 && <PageBlockJson />}
 				{activeNavItem === 1 && <PageBlueprint />}
 				{activeNavItem === 2 && <PageViewCss />}
 				{activeNavItem === 3 && <PageEditorCss />}
-				{saveDialogIsVisible && <SaveDialog />}
-				{upsellDialogIsVisible && <UpsellDialog />}
+				{blockSave.dialogIsVisible && <SaveDialog />}
 				{tutorial.isActive && <Tutorial />}
+				{upsellDialogIsVisible && <UpsellDialog />}
 			</div>
 		</AppContext.Provider>
 	);

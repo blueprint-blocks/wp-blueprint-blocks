@@ -41,8 +41,8 @@ function Tutorial() {
 		(state) => state.blockJson?.supports || {},
 	);
 
+	const blockSave = useBlockSave();
 	const { addAttribute, blockJson, getUniqueAttributeName } = useBlockJson();
-	const { saveBlock, saveDialogIsVisible } = useBlockSave();
 	const { blockComponents, getComponentAttribute, setComponentAttribute } =
 		useBlueprint();
 	const { currentFocus, setFocus, unsetFocus } = useEditorFocus();
@@ -176,7 +176,10 @@ function Tutorial() {
 		) {
 			unsetFocus(true);
 			tutorialContext.goToStep(9);
-		} else if (tutorialContext.currentStep === 9 && saveDialogIsVisible) {
+		} else if (
+			tutorialContext.currentStep === 9 &&
+			blockSave.dialogIsVisible
+		) {
 			tutorialContext.endTutorial();
 		}
 	}, [
@@ -188,7 +191,7 @@ function Tutorial() {
 		blockJson.title,
 		currentFocus,
 		insertedComponentTagName,
-		saveDialogIsVisible,
+		blockSave.dialogIsVisible,
 	]);
 
 	return (
@@ -239,7 +242,7 @@ function Tutorial() {
 				/>
 			)}
 			{tutorialContext.currentStep === 9 && (
-				<TutorialTooltip step={9} onNextStep={saveBlock} />
+				<TutorialTooltip step={9} onNextStep={blockSave.saveBlock} />
 			)}
 		</div>
 	);

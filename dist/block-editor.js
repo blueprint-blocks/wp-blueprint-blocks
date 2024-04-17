@@ -10170,15 +10170,16 @@
 
 	var useBlockSave = function useBlockSave() {
 	  var dispatch = useDispatch();
+	  var firstUpdate = React$2.useRef(true);
 	  var postId = useSelector(function (state) {
 	    return state.postMetadata.postId;
 	  });
 	  var postType = useSelector(function (state) {
 	    return state.postType;
 	  });
-	  var isNew = React$2.useMemo(function () {
-	    return postId === null;
-	  }, [postId]);
+	  var isNew = useSelector(function (state) {
+	    return isNewPost(state.postMetadata);
+	  });
 	  var blockBlueprint = useSelector(function (state) {
 	    return getRawJson$1(state.blockBlueprint);
 	  });
@@ -10194,9 +10195,20 @@
 	  var _hasUnsavedChanges = useSelector(function (state) {
 	    return hasUnsavedChanges(state.postMetadata);
 	  });
-	  var saveDialogIsVisible = useSelector(function (state) {
+	  var dialogIsVisible = useSelector(function (state) {
 	    return state.saveDialog.visible;
 	  });
+	  var validationResults = React$2.useMemo(function () {
+	    return validateBlock({
+	      blockJson: blockJson
+	    });
+	  }, [blockJson]);
+	  var isValid = React$2.useMemo(function () {
+	    return validationResults.blockJson.isValid;
+	  }, [validationResults]);
+	  var showErrors = useSelector(React$2.useCallback(function (state) {
+	    return !isNew || hasValidationErrors(state.postMetadata);
+	  }, [isNew]));
 	  var saveBlock = function saveBlock() {
 	    dispatch(showSaveDialog());
 	    if (postId === null) {
@@ -10229,12 +10241,32 @@
 	  var _setChanged = function _setChanged() {
 	    dispatch(setChanged(true));
 	  };
+	  var tryToSave = React$2.useCallback(function () {
+	    if (isValid) {
+	      saveBlock();
+	    } else {
+	      dispatch(setValid(isValid));
+	      dispatch(showSaveDialog());
+	    }
+	  }, [isValid]);
+
+	  // Watch all stores for changes
+	  React$2.useEffect(function () {
+	    if (firstUpdate.current) {
+	      firstUpdate.current = false;
+	      return;
+	    }
+	    dispatch(setChanged(true));
+	  }, [blockBlueprint, blockJson, blockEditorCss, blockViewCss]);
 	  return {
 	    hasUnsavedChanges: _hasUnsavedChanges,
 	    isNew: isNew,
+	    isValid: isValid,
 	    saveBlock: saveBlock,
-	    saveDialogIsVisible: saveDialogIsVisible,
-	    setChanged: _setChanged
+	    dialogIsVisible: dialogIsVisible,
+	    setChanged: _setChanged,
+	    showErrors: showErrors,
+	    tryToSave: tryToSave
 	  };
 	};
 
@@ -13834,6 +13866,7 @@
 	  var dispatch = useDispatch();
 	  var ref = React$2.useRef(null);
 	  var nameRef = React$2.useRef(null);
+	  var blockSave = useBlockSave();
 	  var tutorial = useTutorial({
 	    step: 1
 	  });
@@ -13850,9 +13883,6 @@
 	  useSelector(function (state) {
 	    return delimiterize(state.blockJson.title);
 	  });
-	  var showValidationErrors = useSelector(function (state) {
-	    return hasValidationErrors(state.postMetadata) || !isNewPost(state.postMetadata);
-	  });
 	  var setBlockName = function setBlockName(newBlockName) {
 	    dispatch(setName("".concat(blockNamespace, "/").concat(delimiterize(newBlockName))));
 	    dispatch(setChanged(true));
@@ -13868,11 +13898,11 @@
 	    dispatch(setChanged(true));
 	  };
 	  var showNameInvalid = React$2.useMemo(function () {
-	    return showValidationErrors && !validateName(blockName);
-	  }, [showValidationErrors, blockName]);
+	    return blockSave.showErrors && !validateName(blockName);
+	  }, [blockSave.showErrors, blockName]);
 	  var showNamespaceInvalid = React$2.useMemo(function () {
-	    return showValidationErrors && !validateNamespace(blockNamespace);
-	  }, [showValidationErrors, blockNamespace]);
+	    return blockSave.showErrors && !validateNamespace(blockNamespace);
+	  }, [blockSave.showErrors, blockNamespace]);
 	  var disabled = React$2.useMemo(function () {
 	    return !hasFocus && tutorial.isNotActiveStep;
 	  }, [hasFocus, tutorial.isNotActiveStep]);
@@ -13948,6 +13978,8 @@
 	    allowEnter = _ref$allowEnter === void 0 ? false : _ref$allowEnter,
 	    _ref$disabled = _ref.disabled,
 	    disabled = _ref$disabled === void 0 ? false : _ref$disabled,
+	    _ref$invalid = _ref.invalid,
+	    invalid = _ref$invalid === void 0 ? false : _ref$invalid,
 	    label = _ref.label,
 	    _ref$multiLine = _ref.multiLine,
 	    multiLine = _ref$multiLine === void 0 ? false : _ref$multiLine,
@@ -13962,7 +13994,8 @@
 	    setValue = _ref.setValue;
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    className: clsx$1("TextField", {
-	      "is-disabled": disabled
+	      "is-disabled": disabled,
+	      "is-invalid": invalid
 	    }),
 	    children: [label && /*#__PURE__*/jsxRuntimeExports.jsx(FieldLabel, {
 	      label: label,
@@ -13991,6 +14024,7 @@
 	    onFocus = _ref.onFocus;
 	  var dispatch = useDispatch();
 	  var ref = React$2.useRef(null);
+	  var blockSave = useBlockSave();
 	  var tutorial = useTutorial({
 	    step: 2
 	  });
@@ -13998,9 +14032,6 @@
 	    _useState2 = _slicedToArray(_useState, 2),
 	    hasFocus = _useState2[0],
 	    setHasFocus = _useState2[1];
-	  var _useBlockSave = useBlockSave(),
-	    isNew = _useBlockSave.isNew,
-	    setChanged = _useBlockSave.setChanged;
 	  var blockName = useSelector(function (state) {
 	    return getBlockName(state.blockJson);
 	  });
@@ -14016,13 +14047,16 @@
 	      dispatch(setName("".concat(blockNamespace, "/").concat(newBlockName)));
 	    }
 	    dispatch(setTitle(newBlockTitle));
-	    setChanged();
+	    //setChanged();
 
 	    // Update the document title when the block title is changed
-	    if (!isNew) {
+	    if (!blockSave.isNew) {
 	      setDocumentTitle(newBlockTitle);
 	    }
 	  };
+	  var invalid = React$2.useMemo(function () {
+	    return blockSave.showErrors && !validateTitle(blockTitle);
+	  }, [blockSave.showErrors, blockTitle]);
 	  var disabled = React$2.useMemo(function () {
 	    return !hasFocus && tutorial.isNotActiveStep;
 	  }, [hasFocus, tutorial.isNotActiveStep]);
@@ -14044,6 +14078,7 @@
 	    className: "BlockTitleField",
 	    children: /*#__PURE__*/jsxRuntimeExports.jsx(TextField, {
 	      disabled: disabled,
+	      invalid: invalid,
 	      label: "Enter a title...",
 	      tooltip: "blockJson.title",
 	      value: blockTitle,
@@ -48547,7 +48582,6 @@
 	    }, 300);
 	  };
 	  React$2.useEffect(function () {
-	    dispatch(setValid(isValid));
 	    setTimeout(function () {
 	      var _ref$current2;
 	      ref === null || ref === void 0 || (_ref$current2 = ref.current) === null || _ref$current2 === void 0 || _ref$current2.classList.add("is-visible");
@@ -48837,13 +48871,11 @@
 	    var _state$blockJson;
 	    return ((_state$blockJson = state.blockJson) === null || _state$blockJson === void 0 ? void 0 : _state$blockJson.supports) || {};
 	  });
+	  var blockSave = useBlockSave();
 	  var _useBlockJson = useBlockJson(),
 	    addAttribute = _useBlockJson.addAttribute,
 	    blockJson = _useBlockJson.blockJson,
 	    getUniqueAttributeName = _useBlockJson.getUniqueAttributeName;
-	  var _useBlockSave = useBlockSave(),
-	    saveBlock = _useBlockSave.saveBlock,
-	    saveDialogIsVisible = _useBlockSave.saveDialogIsVisible;
 	  var _useBlueprint = useBlueprint(),
 	    blockComponents = _useBlueprint.blockComponents,
 	    getComponentAttribute = _useBlueprint.getComponentAttribute,
@@ -48943,10 +48975,10 @@
 	    } else if (tutorialContext.currentStep === 8 && insertedComponentTagName === "h3") {
 	      unsetFocus(true);
 	      tutorialContext.goToStep(9);
-	    } else if (tutorialContext.currentStep === 9 && saveDialogIsVisible) {
+	    } else if (tutorialContext.currentStep === 9 && blockSave.dialogIsVisible) {
 	      tutorialContext.endTutorial();
 	    }
-	  }, [appContext.activeNavItem, blockComponents, blockJson.icon, blockJson.name, blockJson.supports, blockJson.title, currentFocus, insertedComponentTagName, saveDialogIsVisible]);
+	  }, [appContext.activeNavItem, blockComponents, blockJson.icon, blockJson.name, blockJson.supports, blockJson.title, currentFocus, insertedComponentTagName, blockSave.dialogIsVisible]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    "class": "Tutorial",
 	    children: [tutorialContext.currentStep === 1 && /*#__PURE__*/jsxRuntimeExports.jsx(TutorialTooltip, {
@@ -48984,7 +49016,7 @@
 	      }
 	    }), tutorialContext.currentStep === 9 && /*#__PURE__*/jsxRuntimeExports.jsx(TutorialTooltip, {
 	      step: 9,
-	      onNextStep: saveBlock
+	      onNextStep: blockSave.saveBlock
 	    })]
 	  });
 	}
@@ -49003,16 +49035,13 @@
 	    _useState6 = _slicedToArray(_useState5, 2),
 	    activeNavItem = _useState6[0],
 	    setActiveNavItem = _useState6[1];
-	  var _useBlockSave = useBlockSave(),
-	    hasUnsavedChanges = _useBlockSave.hasUnsavedChanges,
-	    saveBlock = _useBlockSave.saveBlock,
-	    saveDialogIsVisible = _useBlockSave.saveDialogIsVisible;
+	  var blockSave = useBlockSave();
 	  var upsellDialogIsVisible = useSelector(function (state) {
 	    return state.upsellDialog.visible;
 	  });
 	  var tutorial = useTutorial();
 	  useDispatchAppRect(ref);
-	  usePreventClose(hasUnsavedChanges);
+	  usePreventClose(blockSave.hasUnsavedChanges);
 	  return /*#__PURE__*/jsxRuntimeExports.jsx(AppContext.Provider, {
 	    value: _defineProperty$1(_defineProperty$1(_defineProperty$1(_defineProperty$1(_defineProperty$1(_defineProperty$1({
 	      activeNavItem: activeNavItem,
@@ -49027,8 +49056,8 @@
 	      children: [/*#__PURE__*/jsxRuntimeExports.jsx(Navigator, {
 	        activeNavItem: activeNavItem,
 	        setActiveNavItem: setActiveNavItem,
-	        onUpdate: saveBlock
-	      }), activeNavItem === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlockJson, {}), activeNavItem === 1 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlueprint, {}), activeNavItem === 2 && /*#__PURE__*/jsxRuntimeExports.jsx(PageViewCss, {}), activeNavItem === 3 && /*#__PURE__*/jsxRuntimeExports.jsx(PageEditorCss, {}), saveDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(SaveDialog, {}), upsellDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(UpsellDialog, {}), tutorial.isActive && /*#__PURE__*/jsxRuntimeExports.jsx(Tutorial, {})]
+	        onUpdate: blockSave.tryToSave
+	      }), activeNavItem === 0 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlockJson, {}), activeNavItem === 1 && /*#__PURE__*/jsxRuntimeExports.jsx(PageBlueprint, {}), activeNavItem === 2 && /*#__PURE__*/jsxRuntimeExports.jsx(PageViewCss, {}), activeNavItem === 3 && /*#__PURE__*/jsxRuntimeExports.jsx(PageEditorCss, {}), blockSave.dialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(SaveDialog, {}), tutorial.isActive && /*#__PURE__*/jsxRuntimeExports.jsx(Tutorial, {}), upsellDialogIsVisible && /*#__PURE__*/jsxRuntimeExports.jsx(UpsellDialog, {})]
 	    })
 	  });
 	}

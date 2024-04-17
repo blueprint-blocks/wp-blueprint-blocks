@@ -321,7 +321,7 @@
 	}
 
 .EditableString.is-invalid {
-	--background-color: var(--color-error);
+	--background-color: var(--color-error-10);
 }
 
 .EditableString.is-invalid::before {
@@ -747,7 +747,11 @@
 	position: relative;
 	transition: var(--transition);
 }
+.TextField.is-invalid {
+		background: var(--color-error);
+	}
 .TextField :is(.EditableString, .TextField-placeholder, .TextField-value) {
+		--focus-color: transparent;
 		--focus-margin: 0;
 		--focus-padding: 0;
 		--color: var(--color-black);
@@ -759,8 +763,8 @@
 	}
 .TextField .EditableString {
 		display: grid;
-		overflow: auto;
 		width: 100%;
+		z-index: 2;
 	}
 .TextField .TextField-placeholder {
 		color: var(--color-gray);
@@ -3018,7 +3022,7 @@
 
 .SaveDialog {
 	background: #ffffff40;
-	height: var(--app-height);
+	height: calc(var(--app-height) + var(--navigator-height));
 	left: 0;
 	opacity: 0;
 	position: absolute;
@@ -3603,7 +3607,8 @@
 	--color-accent-yellow: #f0bc05;
 	--color-accent-yellow-30: #b48e13;
 
-	--color-error: #ed00631a;
+	--color-error: #fde5ef;
+	--color-error-10: #ed00631a;
 
 	--color-code-property: #b10a50;
 	--color-code-value: #ea971a;

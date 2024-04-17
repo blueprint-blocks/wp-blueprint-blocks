@@ -1,6 +1,6 @@
 .SaveDialog {
 	background: #ffffff40;
-	height: var(--app-height);
+	height: calc(var(--app-height) + var(--navigator-height));
 	left: 0;
 	opacity: 0;
 	position: absolute;

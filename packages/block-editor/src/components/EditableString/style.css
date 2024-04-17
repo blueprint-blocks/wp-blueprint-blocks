@@ -73,7 +73,7 @@
 }
 
 .EditableString.is-invalid {
-	--background-color: var(--color-error);
+	--background-color: var(--color-error-10);
 
 	&::before {
 		bottom: calc(-1 * var(--highlight-padding));

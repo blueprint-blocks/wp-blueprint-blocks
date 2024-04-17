@@ -1,17 +1,24 @@
-import { useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { saveNewBlock, updateBlock } from "../api";
 
-import { setDocumentHistory, setDocumentTitle } from "../functions";
+import {
+	setDocumentHistory,
+	setDocumentTitle,
+	validateBlock,
+} from "../functions";
 
 import { getRawJson as getRawBlueprintJson } from "../store/block-blueprint";
 import { getRawJson as getRawBlockJson } from "../store/block-json";
 
 import {
 	hasUnsavedChanges,
+	hasValidationErrors,
+	isNewPost,
 	setChanged,
 	setPostId,
+	setValid,
 } from "../store/post-metadata";
 
 import { showSaveDialog } from "../store/save-dialog";
@@ -19,10 +26,12 @@ import { showSaveDialog } from "../store/save-dialog";
 const useBlockSave = () => {
 	const dispatch = useDispatch();
 
+	const firstUpdate = useRef(true);
+
 	const postId = useSelector((state) => state.postMetadata.postId);
 	const postType = useSelector((state) => state.postType);
 
-	const isNew = useMemo(() => postId === null, [postId]);
+	const isNew = useSelector((state) => isNewPost(state.postMetadata));
 
 	const blockBlueprint = useSelector((state) =>
 		getRawBlueprintJson(state.blockBlueprint),
@@ -38,8 +47,23 @@ const useBlockSave = () => {
 		hasUnsavedChanges(state.postMetadata),
 	);
 
-	const saveDialogIsVisible = useSelector(
-		(state) => state.saveDialog.visible,
+	const dialogIsVisible = useSelector((state) => state.saveDialog.visible);
+
+	const validationResults = useMemo(
+		() => validateBlock({ blockJson }),
+		[blockJson],
+	);
+
+	const isValid = useMemo(
+		() => validationResults.blockJson.isValid,
+		[validationResults],
+	);
+
+	const showErrors = useSelector(
+		useCallback(
+			(state) => !isNew || hasValidationErrors(state.postMetadata),
+			[isNew],
+		),
 	);
 
 	const saveBlock = () => {
@@ -76,12 +100,33 @@ const useBlockSave = () => {
 		dispatch(setChanged(true));
 	};
 
+	const tryToSave = useCallback(() => {
+		if (isValid) {
+			saveBlock();
+		} else {
+			dispatch(setValid(isValid));
+			dispatch(showSaveDialog());
+		}
+	}, [isValid]);
+
+	// Watch all stores for changes
+	useEffect(() => {
+		if (firstUpdate.current) {
+			firstUpdate.current = false;
+			return;
+		}
+		dispatch(setChanged(true));
+	}, [blockBlueprint, blockJson, blockEditorCss, blockViewCss]);
+
 	return {
 		hasUnsavedChanges: _hasUnsavedChanges,
 		isNew,
+		isValid,
 		saveBlock,
-		saveDialogIsVisible,
+		dialogIsVisible,
 		setChanged: _setChanged,
+		showErrors,
+		tryToSave,
 	};
 };
 

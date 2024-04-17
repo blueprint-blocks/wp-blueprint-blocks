@@ -59,6 +59,8 @@ class Admin
         $block_editor_css = '';
         $block_view_css = '';
 
+		$registered_block_names = array_keys( \WP_Block_Type_Registry::get_instance()->get_all_registered() );
+
         if ($current_screen->base === 'post' && $current_screen->action !== 'add') {
             $post_id = get_the_ID();
         }
@@ -79,6 +81,12 @@ class Admin
             if ($meta_value = get_post_meta($post_id, 'blueprint_blocks_view_css', true)) {
                 $block_view_css = $meta_value;
             }
+
+			// Remove the current block from the registered blocks list
+			if ( false !== ( $index = array_search( $block_json->name, $registered_block_names ) ) ) {
+				unset( $registered_block_names[ $index ] );
+				$registered_block_names = array_values( $registered_block_names );
+			}
         }
 
 		$post_type = get_post_type_object( blueprint_blocks()::OBJECT_PREFIX . 'block' );
@@ -102,6 +110,7 @@ class Admin
 			'editorMetadata' => [
 				'blockCategories' => get_block_categories(null),
 				'documentTitle' => $admin_title,
+				'registeredBlocks' => $registered_block_names,
 			],
             'postMetadata' => [
                 'postId' => $post_id,

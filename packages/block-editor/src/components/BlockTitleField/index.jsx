@@ -9,7 +9,10 @@ import {
 	getBlockNamespace,
 	setName,
 	setTitle,
+	validateTitle,
 } from "../../store/block-json";
+
+import { hasValidationErrors, isNewPost } from "../../store/post-metadata";
 
 import TextField from "../TextField";
 
@@ -20,11 +23,10 @@ const BlockTitleField = ({ onBlur, onFocus }) => {
 
 	const ref = useRef(null);
 
+	const blockSave = useBlockSave();
 	const tutorial = useTutorial({ step: 2 });
 
 	const [hasFocus, setHasFocus] = useState(false);
-
-	const { isNew, setChanged } = useBlockSave();
 
 	const blockName = useSelector((state) => getBlockName(state.blockJson));
 
@@ -41,13 +43,18 @@ const BlockTitleField = ({ onBlur, onFocus }) => {
 		}
 
 		dispatch(setTitle(newBlockTitle));
-		setChanged();
+		//setChanged();
 
 		// Update the document title when the block title is changed
-		if (!isNew) {
+		if (!blockSave.isNew) {
 			setDocumentTitle(newBlockTitle);
 		}
 	};
+
+	const invalid = useMemo(
+		() => blockSave.showErrors && !validateTitle(blockTitle),
+		[blockSave.showErrors, blockTitle],
+	);
 
 	const disabled = useMemo(
 		() => !hasFocus && tutorial.isNotActiveStep,
@@ -73,6 +80,7 @@ const BlockTitleField = ({ onBlur, onFocus }) => {
 		<div ref={ref} className="BlockTitleField">
 			<TextField
 				disabled={disabled}
+				invalid={invalid}
 				label="Enter a title..."
 				tooltip="blockJson.title"
 				value={blockTitle}
