@@ -1,20 +1,9 @@
 import clsx from "clsx";
 
-import { memo, useCallback, useMemo } from "react";
+import { memo, useMemo } from "react";
 
-import { attributeTypes } from "../../data";
-
-import {
-	isArray,
-	isAttributeArrayValue,
-	isAttributeNullValue,
-	isAttributeNumberValue,
-	isAttributeObjectValue,
-	isAttributeStringValue,
-	isObject,
-} from "../../functions";
-
-import { useBlockJson, useDebugRenderCount, useTutorial } from "../../hooks";
+import { useBlockJson, useDebugRenderCount } from "../../hooks";
+import { validateAttributeDefault } from "../../store/block-json/validation";
 
 import BlueprintWarning from "../BlueprintWarning";
 import EditableObject from "../EditableObject";
@@ -26,50 +15,13 @@ const BlueprintAttributeDefault = memo(({ clientId, disabled = false }) => {
 
 	const attribute = getAttributeById(clientId);
 
-	const {
-		default: attributeDefault,
-		name: attributeName,
-		type: attributeType,
-	} = attribute;
-
-	const allowsNullDefault = useMemo(
-		() =>
-			(attributeTypes?.[attributeType]?.allowsNull === false && false) ||
-			true,
-		[attributeType],
+	const attributeDefaultValid = useMemo(
+		() => validateAttributeDefault(attribute),
+		[attribute],
 	);
-
-	const attributeTypeValid = useMemo(
-		() => attributeType in attributeTypes,
-		[attributeType],
-	);
-
-	const attributeDefaultValid = useMemo(() => {
-		if (
-			attributeType === "array" &&
-			!isAttributeArrayValue(attributeDefault) &&
-			!isAttributeNullValue(attributeDefault)
-		) {
-			return false;
-		} else if (
-			attributeType === "object" &&
-			!isAttributeObjectValue(attributeDefault) &&
-			!isAttributeNullValue(attributeDefault)
-		) {
-			return false;
-		} else if (
-			attributeTypeValid &&
-			!allowsNullDefault &&
-			!attributeDefault?.length
-		) {
-			return false;
-		}
-
-		return true;
-	}, [allowsNullDefault, attributeDefault, attributeTypeValid]);
 
 	function onChange(newAttributeDefault) {
-		if (newAttributeDefault !== attributeDefault) {
+		if (newAttributeDefault !== attribute?.default) {
 			editAttribute(clientId, {
 				default: newAttributeDefault,
 			});
@@ -101,7 +53,7 @@ const BlueprintAttributeDefault = memo(({ clientId, disabled = false }) => {
 					disabled={disabled}
 					onChange={onChange}
 					placeholder="null"
-					value={attributeDefault}
+					value={attribute?.default}
 				/>
 			</span>
 		</div>

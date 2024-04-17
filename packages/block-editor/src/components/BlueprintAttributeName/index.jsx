@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { memo, useCallback, useMemo } from "react";
 
 import { useBlockJson, useBlueprint } from "../../hooks";
+import { validateAttributeName } from "../../store/block-json/validation";
 
 import BlueprintWarning from "../BlueprintWarning";
 import EditableString from "../EditableString";
@@ -12,17 +13,17 @@ const BlueprintAttributeName = memo(({ clientId, disabled = false }) => {
 	const { getComponentsByAttributeName, setComponentAttribute } =
 		useBlueprint();
 
-	const { name: attributeName } = getAttributeById(clientId) || {};
+	const attribute = getAttributeById(clientId) || {};
 
 	const attributeNameValid = useMemo(
-		() => attributeName?.length > 0,
-		[attributeName],
+		() => validateAttributeName(attribute),
+		[attribute],
 	);
 
 	const onChange = useCallback(
 		(newAttributeName) => {
 			const blockComponents = Object.keys(
-				getComponentsByAttributeName(attributeName),
+				getComponentsByAttributeName(attribute?.name),
 			);
 
 			blockComponents.forEach((clientId) => {
@@ -35,7 +36,7 @@ const BlueprintAttributeName = memo(({ clientId, disabled = false }) => {
 
 			editAttribute(clientId, { name: newAttributeName });
 		},
-		[attributeName, clientId],
+		[attribute?.name, clientId],
 	);
 
 	return (
@@ -52,7 +53,7 @@ const BlueprintAttributeName = memo(({ clientId, disabled = false }) => {
 					className="BlueprintAttribute-name"
 					disabled={disabled}
 					placeholder="attributeName"
-					value={attributeName}
+					value={attribute?.name}
 					onChange={onChange}
 				/>
 				<span>{'": {'}</span>

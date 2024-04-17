@@ -13,5 +13,20 @@
 		"propertyName": "title",
 		"validationFunction": "validateTitle",
 		"warningMessage": "A block title is required for display in the UI. (max 80 characters)"
+	},
+	{
+		"propertyName": "attributes",
+		"validationFunction": "validateAttributeDefaults",
+		"warningMessage": "Block attribute default must match the type definitions."
+	},
+	{
+		"propertyName": "attributes",
+		"validationFunction": "validateAttributeNames",
+		"warningMessage": "Block attribute name is required."
+	},
+	{
+		"propertyName": "attributes",
+		"validationFunction": "validateAttributeTypes",
+		"warningMessage": "Block attribute type is required and must be one of `array`, `boolean`, `number`, `object`, or `string`."
 	}
 ]

@@ -134,7 +134,13 @@ function SaveDialog() {
 												{validationResults?.blockJson?.errors.map(
 													({ warningMessage }) => (
 														<li>
-															{warningMessage}
+															<div
+																dangerouslySetInnerHTML={{
+																	__html: parseMarkdown(
+																		warningMessage,
+																	),
+																}}
+															/>
 														</li>
 													),
 												)}

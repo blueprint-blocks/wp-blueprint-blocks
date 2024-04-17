@@ -2,8 +2,8 @@ import clsx from "clsx";
 
 import { memo, useCallback, useMemo } from "react";
 
-import { attributeTypes } from "../../data";
 import { useBlockJson } from "../../hooks";
+import { validateAttributeType } from "../../store/block-json/validation";
 
 import BlueprintWarning from "../BlueprintWarning";
 import EditableString from "../EditableString";
@@ -13,11 +13,11 @@ import "./style.css";
 const BlueprintAttributeType = memo(({ clientId, disabled = false }) => {
 	const { editAttribute, getAttributeById } = useBlockJson();
 
-	const { type: attributeType } = getAttributeById(clientId);
+	const attribute = getAttributeById(clientId);
 
 	const attributeTypeValid = useMemo(
-		() => attributeType in attributeTypes,
-		[attributeType],
+		() => validateAttributeType(attribute),
+		[attribute],
 	);
 
 	const onChange = useCallback((newAttributeType) => {
@@ -42,7 +42,7 @@ const BlueprintAttributeType = memo(({ clientId, disabled = false }) => {
 					className="BlueprintAttribute-type"
 					disabled={disabled}
 					placeholder="string"
-					value={attributeType}
+					value={attribute?.type}
 					onChange={onChange}
 				/>
 				<span>{'"'}</span>

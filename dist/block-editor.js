@@ -4558,6 +4558,21 @@
 			propertyName: "title",
 			validationFunction: "validateTitle",
 			warningMessage: "A block title is required for display in the UI. (max 80 characters)"
+		},
+		{
+			propertyName: "attributes",
+			validationFunction: "validateAttributeDefaults",
+			warningMessage: "Block attribute default must match the type definitions."
+		},
+		{
+			propertyName: "attributes",
+			validationFunction: "validateAttributeNames",
+			warningMessage: "Block attribute name is required."
+		},
+		{
+			propertyName: "attributes",
+			validationFunction: "validateAttributeTypes",
+			warningMessage: "Block attribute type is required and must be one of `array`, `boolean`, `number`, `object`, or `string`."
 		}
 	];
 
@@ -8286,6 +8301,58 @@
 	var _blueprintBlocksEdito$d;
 	var _ref$4 = ((_blueprintBlocksEdito$d = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$d === void 0 ? void 0 : _blueprintBlocksEdito$d.editorMetadata) || {},
 	  registeredBlocks = _ref$4.registeredBlocks;
+	var validateAttributeDefault = function validateAttributeDefault(attribute) {
+	  var _attributeTypes$attri, _attribute$default;
+	  var allowsNullDefault = (attributeTypes === null || attributeTypes === void 0 || (_attributeTypes$attri = attributeTypes[attribute.type]) === null || _attributeTypes$attri === void 0 ? void 0 : _attributeTypes$attri.allowsNull) === false && false || true;
+	  if (attribute.type === "array" && !isAttributeArrayValue(attribute["default"]) && !isStringNullValue(attribute["default"])) {
+	    return false;
+	  } else if (attribute.type === "object" && !isAttributeObjectValue(attribute["default"]) && !isStringNullValue(attribute["default"])) {
+	    return false;
+	  } else if (validateAttributeType(attribute) && !allowsNullDefault && !((_attribute$default = attribute["default"]) !== null && _attribute$default !== void 0 && _attribute$default.length)) {
+	    return false;
+	  }
+	  return true;
+	};
+	var validateAttributeDefaults = function validateAttributeDefaults(attributes) {
+	  for (var _i = 0, _Object$entries = Object.entries(attributes); _i < _Object$entries.length; _i++) {
+	    var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2);
+	      _Object$entries$_i[0];
+	      var attribute = _Object$entries$_i[1];
+	    if (!validateAttributeDefault(attribute)) {
+	      return false;
+	    }
+	  }
+	  return true;
+	};
+	var validateAttributeName = function validateAttributeName(attribute) {
+	  var _attribute$name;
+	  return (attribute === null || attribute === void 0 || (_attribute$name = attribute.name) === null || _attribute$name === void 0 ? void 0 : _attribute$name.length) > 0;
+	};
+	var validateAttributeNames = function validateAttributeNames(attributes) {
+	  for (var _i2 = 0, _Object$entries2 = Object.entries(attributes); _i2 < _Object$entries2.length; _i2++) {
+	    var _Object$entries2$_i = _slicedToArray(_Object$entries2[_i2], 2);
+	      _Object$entries2$_i[0];
+	      var attribute = _Object$entries2$_i[1];
+	    if (!validateAttributeName(attribute)) {
+	      return false;
+	    }
+	  }
+	  return true;
+	};
+	var validateAttributeType = function validateAttributeType(attribute) {
+	  return (attribute === null || attribute === void 0 ? void 0 : attribute.type) in attributeTypes;
+	};
+	var validateAttributeTypes = function validateAttributeTypes(attributes) {
+	  for (var _i3 = 0, _Object$entries3 = Object.entries(attributes); _i3 < _Object$entries3.length; _i3++) {
+	    var _Object$entries3$_i = _slicedToArray(_Object$entries3[_i3], 2);
+	      _Object$entries3$_i[0];
+	      var attribute = _Object$entries3$_i[1];
+	    if (!validateAttributeType(attribute)) {
+	      return false;
+	    }
+	  }
+	  return true;
+	};
 	var validateFullNameFormat = function validateFullNameFormat(value) {
 	  return !!value.match(/[a-z][a-z0-9]*\/[a-z0-9]+/);
 	};
@@ -8307,6 +8374,12 @@
 
 	var blockJsonValidationFunctions = /*#__PURE__*/Object.freeze({
 		__proto__: null,
+		validateAttributeDefault: validateAttributeDefault,
+		validateAttributeDefaults: validateAttributeDefaults,
+		validateAttributeName: validateAttributeName,
+		validateAttributeNames: validateAttributeNames,
+		validateAttributeType: validateAttributeType,
+		validateAttributeTypes: validateAttributeTypes,
 		validateFullNameFormat: validateFullNameFormat,
 		validateName: validateName,
 		validateNameClash: validateNameClash,
@@ -15060,28 +15133,11 @@
 	    editAttribute = _useBlockJson.editAttribute,
 	    getAttributeById = _useBlockJson.getAttributeById;
 	  var attribute = getAttributeById(clientId);
-	  var attributeDefault = attribute["default"];
-	    attribute.name;
-	    var attributeType = attribute.type;
-	  var allowsNullDefault = React$2.useMemo(function () {
-	    var _attributeTypes$attri;
-	    return (attributeTypes === null || attributeTypes === void 0 || (_attributeTypes$attri = attributeTypes[attributeType]) === null || _attributeTypes$attri === void 0 ? void 0 : _attributeTypes$attri.allowsNull) === false && false || true;
-	  }, [attributeType]);
-	  var attributeTypeValid = React$2.useMemo(function () {
-	    return attributeType in attributeTypes;
-	  }, [attributeType]);
 	  var attributeDefaultValid = React$2.useMemo(function () {
-	    if (attributeType === "array" && !isAttributeArrayValue(attributeDefault) && !isStringNullValue(attributeDefault)) {
-	      return false;
-	    } else if (attributeType === "object" && !isAttributeObjectValue(attributeDefault) && !isStringNullValue(attributeDefault)) {
-	      return false;
-	    } else if (attributeTypeValid && !allowsNullDefault && !(attributeDefault !== null && attributeDefault !== void 0 && attributeDefault.length)) {
-	      return false;
-	    }
-	    return true;
-	  }, [allowsNullDefault, attributeDefault, attributeTypeValid]);
+	    return validateAttributeDefault(attribute);
+	  }, [attribute]);
 	  function onChange(newAttributeDefault) {
-	    if (newAttributeDefault !== attributeDefault) {
+	    if (newAttributeDefault !== (attribute === null || attribute === void 0 ? void 0 : attribute["default"])) {
 	      editAttribute(clientId, {
 	        "default": newAttributeDefault
 	      });
@@ -15110,7 +15166,7 @@
 	        disabled: disabled,
 	        onChange: onChange,
 	        placeholder: "null",
-	        value: attributeDefault
+	        value: attribute === null || attribute === void 0 ? void 0 : attribute["default"]
 	      })]
 	    })
 	  });
@@ -15126,20 +15182,19 @@
 	  var _useBlueprint = useBlueprint(),
 	    getComponentsByAttributeName = _useBlueprint.getComponentsByAttributeName,
 	    setComponentAttribute = _useBlueprint.setComponentAttribute;
-	  var _ref2 = getAttributeById(clientId) || {},
-	    attributeName = _ref2.name;
+	  var attribute = getAttributeById(clientId) || {};
 	  var attributeNameValid = React$2.useMemo(function () {
-	    return (attributeName === null || attributeName === void 0 ? void 0 : attributeName.length) > 0;
-	  }, [attributeName]);
+	    return validateAttributeName(attribute);
+	  }, [attribute]);
 	  var onChange = React$2.useCallback(function (newAttributeName) {
-	    var blockComponents = Object.keys(getComponentsByAttributeName(attributeName));
+	    var blockComponents = Object.keys(getComponentsByAttributeName(attribute === null || attribute === void 0 ? void 0 : attribute.name));
 	    blockComponents.forEach(function (clientId) {
 	      setComponentAttribute(clientId, "attributeName", newAttributeName);
 	    });
 	    editAttribute(clientId, {
 	      name: newAttributeName
 	    });
-	  }, [attributeName, clientId]);
+	  }, [attribute === null || attribute === void 0 ? void 0 : attribute.name, clientId]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    className: "BlueprintAttribute-line",
 	    children: /*#__PURE__*/jsxRuntimeExports.jsxs("span", {
@@ -15157,7 +15212,7 @@
 	        className: "BlueprintAttribute-name",
 	        disabled: disabled,
 	        placeholder: "attributeName",
-	        value: attributeName,
+	        value: attribute === null || attribute === void 0 ? void 0 : attribute.name,
 	        onChange: onChange
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	        children: '": {'
@@ -15173,11 +15228,10 @@
 	  var _useBlockJson = useBlockJson(),
 	    editAttribute = _useBlockJson.editAttribute,
 	    getAttributeById = _useBlockJson.getAttributeById;
-	  var _getAttributeById = getAttributeById(clientId),
-	    attributeType = _getAttributeById.type;
+	  var attribute = getAttributeById(clientId);
 	  var attributeTypeValid = React$2.useMemo(function () {
-	    return attributeType in attributeTypes;
-	  }, [attributeType]);
+	    return validateAttributeType(attribute);
+	  }, [attribute]);
 	  var onChange = React$2.useCallback(function (newAttributeType) {
 	    editAttribute(clientId, {
 	      type: newAttributeType
@@ -15205,7 +15259,7 @@
 	        className: "BlueprintAttribute-type",
 	        disabled: disabled,
 	        placeholder: "string",
-	        value: attributeType,
+	        value: attribute === null || attribute === void 0 ? void 0 : attribute.type,
 	        onChange: onChange
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	        children: '"'
@@ -48651,7 +48705,11 @@
 	                children: validationResults === null || validationResults === void 0 || (_validationResults$bl2 = validationResults.blockJson) === null || _validationResults$bl2 === void 0 ? void 0 : _validationResults$bl2.errors.map(function (_ref) {
 	                  var warningMessage = _ref.warningMessage;
 	                  return /*#__PURE__*/jsxRuntimeExports.jsx("li", {
-	                    children: warningMessage
+	                    children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {
+	                      dangerouslySetInnerHTML: {
+	                        __html: parseMarkdown(warningMessage)
+	                      }
+	                    })
 	                  });
 	                })
 	              })]
