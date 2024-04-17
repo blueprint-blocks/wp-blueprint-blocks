@@ -692,6 +692,8 @@
 		--highlight-padding-y: 0.1em;
 		--highlight-padding-x: 0.3em;
 		--line-height: 1.5em;
+		width: -moz-fit-content;
+		width: fit-content;
 	}
 
 .BlockNameField-input {
@@ -700,7 +702,7 @@
 	font-size: var(--font-size-x-large);
 	font-weight: var(--font-weight-medium);
 	gap: var(--2x);
-	grid-template-columns: repeat(3, max-content);
+	grid-template-columns: repeat(2, max-content) 1fr;
 	position: relative;
 }
 
@@ -1129,6 +1131,7 @@
 	display: grid;
 	gap: var(--8x);
 	grid-auto-flow: row;
+	grid-template-columns: 100%;
 	position: relative;
 	z-index: 2;
 }
@@ -1140,6 +1143,7 @@
 	display: grid;
 	gap: var(--3x);
 	grid-auto-flow: row;
+	grid-template-columns: 100%;
 }
 
 .PageBlockJson-header {

@@ -18,6 +18,7 @@
 	display: grid;
 	gap: var(--8x);
 	grid-auto-flow: row;
+	grid-template-columns: 100%;
 	position: relative;
 	z-index: 2;
 }
@@ -29,6 +30,7 @@
 	display: grid;
 	gap: var(--3x);
 	grid-auto-flow: row;
+	grid-template-columns: 100%;
 }
 
 .PageBlockJson-header {

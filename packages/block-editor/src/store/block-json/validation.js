@@ -55,8 +55,8 @@ const validateAttributeName = (attribute) => {
 };
 
 const validateAttributeNames = (attributes) => {
-	for (let [_, attribute] of Object.entries(attributes)) {
-		if (!validateAttributeName(attribute)) {
+	for (let [attributeName, attribute] of Object.entries(attributes)) {
+		if (!validateAttributeName({ ...attribute, name: attributeName })) {
 			return false;
 		}
 	}

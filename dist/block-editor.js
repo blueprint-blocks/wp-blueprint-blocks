@@ -8330,10 +8330,12 @@
 	};
 	var validateAttributeNames = function validateAttributeNames(attributes) {
 	  for (var _i2 = 0, _Object$entries2 = Object.entries(attributes); _i2 < _Object$entries2.length; _i2++) {
-	    var _Object$entries2$_i = _slicedToArray(_Object$entries2[_i2], 2);
-	      _Object$entries2$_i[0];
-	      var attribute = _Object$entries2$_i[1];
-	    if (!validateAttributeName(attribute)) {
+	    var _Object$entries2$_i = _slicedToArray(_Object$entries2[_i2], 2),
+	      attributeName = _Object$entries2$_i[0],
+	      attribute = _Object$entries2$_i[1];
+	    if (!validateAttributeName(_objectSpread2(_objectSpread2({}, attribute), {}, {
+	      name: attributeName
+	    }))) {
 	      return false;
 	    }
 	  }
@@ -10309,6 +10311,7 @@
 	        blockEditorCss: blockEditorCss,
 	        blockViewCss: blockViewCss
 	      }).then(function () {
+	        debugger;
 	        dispatch(setChanged(false));
 	      });
 	    }

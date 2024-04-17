@@ -91,6 +91,7 @@ const useBlockSave = () => {
 				blockEditorCss,
 				blockViewCss,
 			}).then(() => {
+				debugger;
 				dispatch(setChanged(false));
 			});
 		}
