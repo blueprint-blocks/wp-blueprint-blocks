@@ -1,4 +1,4 @@
-import { createSelector } from "@reduxjs/toolkit";
+import { createSelector, weakMapMemoize } from "reselect";
 
 const ALL_CONTEXTS = ["edit", "toolbar", "save", "sidebar"];
 
@@ -146,6 +146,10 @@ const getRawJson = createSelector(
 		blockSave: rebuildComponentTree(blockSave, blockComponents),
 		blockSidebar: rebuildComponentTree(blockSidebar, blockComponents),
 	}),
+	{
+		memoize: weakMapMemoize,
+		argsMemoize: weakMapMemoize,
+	},
 );
 
 const rebuildComponentTree = (tree = [], components = {}) => {

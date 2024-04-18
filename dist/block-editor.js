@@ -8581,6 +8581,313 @@
 	  return [].concat(_toConsumableArray(componentList.slice(0, index)), [[clientId, subList]], _toConsumableArray(componentList.slice(index)));
 	};
 
+	// src/devModeChecks/identityFunctionCheck.ts
+	var runIdentityFunctionCheck = (resultFunc, inputSelectorsResults, outputSelectorResult) => {
+	  if (inputSelectorsResults.length === 1 && inputSelectorsResults[0] === outputSelectorResult) {
+	    let isInputSameAsOutput = false;
+	    try {
+	      const emptyObject = {};
+	      if (resultFunc(emptyObject) === emptyObject) isInputSameAsOutput = true;
+	    } catch {}
+	    if (isInputSameAsOutput) {
+	      let stack = void 0;
+	      try {
+	        throw new Error();
+	      } catch (e) {
+	        ({
+	          stack
+	        } = e);
+	      }
+	      console.warn("The result function returned its own inputs without modification. e.g\n`createSelector([state => state.todos], todos => todos)`\nThis could lead to inefficient memoization and unnecessary re-renders.\nEnsure transformation logic is in the result function, and extraction logic is in the input selectors.", {
+	        stack
+	      });
+	    }
+	  }
+	};
+
+	// src/devModeChecks/inputStabilityCheck.ts
+	var runInputStabilityCheck = (inputSelectorResultsObject, options, inputSelectorArgs) => {
+	  const {
+	    memoize,
+	    memoizeOptions
+	  } = options;
+	  const {
+	    inputSelectorResults,
+	    inputSelectorResultsCopy
+	  } = inputSelectorResultsObject;
+	  const createAnEmptyObject = memoize(() => ({}), ...memoizeOptions);
+	  const areInputSelectorResultsEqual = createAnEmptyObject.apply(null, inputSelectorResults) === createAnEmptyObject.apply(null, inputSelectorResultsCopy);
+	  if (!areInputSelectorResultsEqual) {
+	    let stack = void 0;
+	    try {
+	      throw new Error();
+	    } catch (e) {
+	      ({
+	        stack
+	      } = e);
+	    }
+	    console.warn("An input selector returned a different result when passed same arguments.\nThis means your output selector will likely run more frequently than intended.\nAvoid returning a new reference inside your input selector, e.g.\n`createSelector([state => state.todos.map(todo => todo.id)], todoIds => todoIds.length)`", {
+	      arguments: inputSelectorArgs,
+	      firstInputs: inputSelectorResults,
+	      secondInputs: inputSelectorResultsCopy,
+	      stack
+	    });
+	  }
+	};
+
+	// src/devModeChecks/setGlobalDevModeChecks.ts
+	var globalDevModeChecks = {
+	  inputStabilityCheck: "once",
+	  identityFunctionCheck: "once"
+	};
+	function assertIsFunction(func, errorMessage = `expected a function, instead received ${typeof func}`) {
+	  if (typeof func !== "function") {
+	    throw new TypeError(errorMessage);
+	  }
+	}
+	function assertIsObject(object, errorMessage = `expected an object, instead received ${typeof object}`) {
+	  if (typeof object !== "object") {
+	    throw new TypeError(errorMessage);
+	  }
+	}
+	function assertIsArrayOfFunctions(array, errorMessage = `expected all items to be functions, instead received the following types: `) {
+	  if (!array.every(item => typeof item === "function")) {
+	    const itemTypes = array.map(item => typeof item === "function" ? `function ${item.name || "unnamed"}()` : typeof item).join(", ");
+	    throw new TypeError(`${errorMessage}[${itemTypes}]`);
+	  }
+	}
+	var ensureIsArray = item => {
+	  return Array.isArray(item) ? item : [item];
+	};
+	function getDependencies(createSelectorArgs) {
+	  const dependencies = Array.isArray(createSelectorArgs[0]) ? createSelectorArgs[0] : createSelectorArgs;
+	  assertIsArrayOfFunctions(dependencies, `createSelector expects all input-selectors to be functions, but received the following types: `);
+	  return dependencies;
+	}
+	function collectInputSelectorResults(dependencies, inputSelectorArgs) {
+	  const inputSelectorResults = [];
+	  const {
+	    length
+	  } = dependencies;
+	  for (let i = 0; i < length; i++) {
+	    inputSelectorResults.push(dependencies[i].apply(null, inputSelectorArgs));
+	  }
+	  return inputSelectorResults;
+	}
+	var getDevModeChecksExecutionInfo = (firstRun, devModeChecks) => {
+	  const {
+	    identityFunctionCheck,
+	    inputStabilityCheck
+	  } = {
+	    ...globalDevModeChecks,
+	    ...devModeChecks
+	  };
+	  return {
+	    identityFunctionCheck: {
+	      shouldRun: identityFunctionCheck === "always" || identityFunctionCheck === "once" && firstRun,
+	      run: runIdentityFunctionCheck
+	    },
+	    inputStabilityCheck: {
+	      shouldRun: inputStabilityCheck === "always" || inputStabilityCheck === "once" && firstRun,
+	      run: runInputStabilityCheck
+	    }
+	  };
+	};
+
+	// src/weakMapMemoize.ts
+	var StrongRef = class {
+	  constructor(value) {
+	    this.value = value;
+	  }
+	  deref() {
+	    return this.value;
+	  }
+	};
+	var Ref = typeof WeakRef !== "undefined" ? WeakRef : StrongRef;
+	var UNTERMINATED = 0;
+	var TERMINATED = 1;
+	function createCacheNode() {
+	  return {
+	    s: UNTERMINATED,
+	    v: void 0,
+	    o: null,
+	    p: null
+	  };
+	}
+	function weakMapMemoize(func, options = {}) {
+	  let fnNode = createCacheNode();
+	  const {
+	    resultEqualityCheck
+	  } = options;
+	  let lastResult;
+	  let resultsCount = 0;
+	  function memoized() {
+	    let cacheNode = fnNode;
+	    const {
+	      length
+	    } = arguments;
+	    for (let i = 0, l = length; i < l; i++) {
+	      const arg = arguments[i];
+	      if (typeof arg === "function" || typeof arg === "object" && arg !== null) {
+	        let objectCache = cacheNode.o;
+	        if (objectCache === null) {
+	          cacheNode.o = objectCache = /* @__PURE__ */new WeakMap();
+	        }
+	        const objectNode = objectCache.get(arg);
+	        if (objectNode === void 0) {
+	          cacheNode = createCacheNode();
+	          objectCache.set(arg, cacheNode);
+	        } else {
+	          cacheNode = objectNode;
+	        }
+	      } else {
+	        let primitiveCache = cacheNode.p;
+	        if (primitiveCache === null) {
+	          cacheNode.p = primitiveCache = /* @__PURE__ */new Map();
+	        }
+	        const primitiveNode = primitiveCache.get(arg);
+	        if (primitiveNode === void 0) {
+	          cacheNode = createCacheNode();
+	          primitiveCache.set(arg, cacheNode);
+	        } else {
+	          cacheNode = primitiveNode;
+	        }
+	      }
+	    }
+	    const terminatedNode = cacheNode;
+	    let result;
+	    if (cacheNode.s === TERMINATED) {
+	      result = cacheNode.v;
+	    } else {
+	      result = func.apply(null, arguments);
+	      resultsCount++;
+	    }
+	    terminatedNode.s = TERMINATED;
+	    if (resultEqualityCheck) {
+	      const lastResultValue = lastResult?.deref?.() ?? lastResult;
+	      if (lastResultValue != null && resultEqualityCheck(lastResultValue, result)) {
+	        result = lastResultValue;
+	        resultsCount !== 0 && resultsCount--;
+	      }
+	      const needsWeakRef = typeof result === "object" && result !== null || typeof result === "function";
+	      lastResult = needsWeakRef ? new Ref(result) : result;
+	    }
+	    terminatedNode.v = result;
+	    return result;
+	  }
+	  memoized.clearCache = () => {
+	    fnNode = createCacheNode();
+	    memoized.resetResultsCount();
+	  };
+	  memoized.resultsCount = () => resultsCount;
+	  memoized.resetResultsCount = () => {
+	    resultsCount = 0;
+	  };
+	  return memoized;
+	}
+
+	// src/createSelectorCreator.ts
+	function createSelectorCreator(memoizeOrOptions, ...memoizeOptionsFromArgs) {
+	  const createSelectorCreatorOptions = typeof memoizeOrOptions === "function" ? {
+	    memoize: memoizeOrOptions,
+	    memoizeOptions: memoizeOptionsFromArgs
+	  } : memoizeOrOptions;
+	  const createSelector2 = (...createSelectorArgs) => {
+	    let recomputations = 0;
+	    let dependencyRecomputations = 0;
+	    let lastResult;
+	    let directlyPassedOptions = {};
+	    let resultFunc = createSelectorArgs.pop();
+	    if (typeof resultFunc === "object") {
+	      directlyPassedOptions = resultFunc;
+	      resultFunc = createSelectorArgs.pop();
+	    }
+	    assertIsFunction(resultFunc, `createSelector expects an output function after the inputs, but received: [${typeof resultFunc}]`);
+	    const combinedOptions = {
+	      ...createSelectorCreatorOptions,
+	      ...directlyPassedOptions
+	    };
+	    const {
+	      memoize,
+	      memoizeOptions = [],
+	      argsMemoize = weakMapMemoize,
+	      argsMemoizeOptions = [],
+	      devModeChecks = {}
+	    } = combinedOptions;
+	    const finalMemoizeOptions = ensureIsArray(memoizeOptions);
+	    const finalArgsMemoizeOptions = ensureIsArray(argsMemoizeOptions);
+	    const dependencies = getDependencies(createSelectorArgs);
+	    const memoizedResultFunc = memoize(function recomputationWrapper() {
+	      recomputations++;
+	      return resultFunc.apply(null, arguments);
+	    }, ...finalMemoizeOptions);
+	    let firstRun = true;
+	    const selector = argsMemoize(function dependenciesChecker() {
+	      dependencyRecomputations++;
+	      const inputSelectorResults = collectInputSelectorResults(dependencies, arguments);
+	      lastResult = memoizedResultFunc.apply(null, inputSelectorResults);
+	      {
+	        const {
+	          identityFunctionCheck,
+	          inputStabilityCheck
+	        } = getDevModeChecksExecutionInfo(firstRun, devModeChecks);
+	        if (identityFunctionCheck.shouldRun) {
+	          identityFunctionCheck.run(resultFunc, inputSelectorResults, lastResult);
+	        }
+	        if (inputStabilityCheck.shouldRun) {
+	          const inputSelectorResultsCopy = collectInputSelectorResults(dependencies, arguments);
+	          inputStabilityCheck.run({
+	            inputSelectorResults,
+	            inputSelectorResultsCopy
+	          }, {
+	            memoize,
+	            memoizeOptions: finalMemoizeOptions
+	          }, arguments);
+	        }
+	        if (firstRun) firstRun = false;
+	      }
+	      return lastResult;
+	    }, ...finalArgsMemoizeOptions);
+	    return Object.assign(selector, {
+	      resultFunc,
+	      memoizedResultFunc,
+	      dependencies,
+	      dependencyRecomputations: () => dependencyRecomputations,
+	      resetDependencyRecomputations: () => {
+	        dependencyRecomputations = 0;
+	      },
+	      lastResult: () => lastResult,
+	      recomputations: () => recomputations,
+	      resetRecomputations: () => {
+	        recomputations = 0;
+	      },
+	      memoize,
+	      argsMemoize
+	    });
+	  };
+	  Object.assign(createSelector2, {
+	    withTypes: () => createSelector2
+	  });
+	  return createSelector2;
+	}
+	var createSelector = /* @__PURE__ */createSelectorCreator(weakMapMemoize);
+
+	// src/createStructuredSelector.ts
+	var createStructuredSelector = Object.assign((inputSelectorsObject, selectorCreator = createSelector) => {
+	  assertIsObject(inputSelectorsObject, `createStructuredSelector expects first argument to be an object where each property is a selector, instead received a ${typeof inputSelectorsObject}`);
+	  const inputSelectorKeys = Object.keys(inputSelectorsObject);
+	  const dependencies = inputSelectorKeys.map(key => inputSelectorsObject[key]);
+	  const structuredSelector = selectorCreator(dependencies, (...inputSelectorResults) => {
+	    return inputSelectorResults.reduce((composition, value, index) => {
+	      composition[inputSelectorKeys[index]] = value;
+	      return composition;
+	    }, {});
+	  });
+	  return structuredSelector;
+	}, {
+	  withTypes: () => createStructuredSelector
+	});
+
 	var ALL_CONTEXTS = ["edit", "toolbar", "save", "sidebar"];
 	var selectBlockComponents = function selectBlockComponents(state) {
 	  return state.blockComponents || {};
@@ -8607,16 +8914,16 @@
 	    attributeName = _ref2.attributeName;
 	  return attributeName;
 	};
-	var getComponent = createSelector$1([selectBlockComponents, selectClientId$4], function (blockComponents, clientId) {
+	var getComponent = createSelector([selectBlockComponents, selectClientId$4], function (blockComponents, clientId) {
 	  if (clientId in blockComponents) {
 	    return blockComponents[clientId];
 	  }
 	  return null;
 	});
-	var getComponentAttributes = createSelector$1([getComponent], function (component) {
+	var getComponentAttributes = createSelector([getComponent], function (component) {
 	  return (component === null || component === void 0 ? void 0 : component.attributes) || [];
 	});
-	var getComponentAttribute = createSelector$1([getComponentAttributes, selectAttributeName$3], function (attributes, attributeName) {
+	var getComponentAttribute = createSelector([getComponentAttributes, selectAttributeName$3], function (attributes, attributeName) {
 	  var _iterator = _createForOfIteratorHelper(attributes || []),
 	    _step;
 	  try {
@@ -8633,10 +8940,10 @@
 	  }
 	  return null;
 	});
-	var getComponentTagName = createSelector$1([getComponent], function (component) {
+	var getComponentTagName = createSelector([getComponent], function (component) {
 	  return (component === null || component === void 0 ? void 0 : component.tagName) || null;
 	});
-	var getComponentType = createSelector$1([getComponent], function (component) {
+	var getComponentType = createSelector([getComponent], function (component) {
 	  return (component === null || component === void 0 ? void 0 : component.type) || "html";
 	});
 	var getComponentList = function getComponentList(state, context) {
@@ -8719,7 +9026,7 @@
 	  }
 	  return null;
 	};
-	var getRawJson$1 = createSelector$1([selectBlockComponents, selectBlockEdit, selectBlockToolbar, selectBlockSave, selectBlockSidebar], function (blockComponents, blockEdit, blockToolbar, blockSave, blockSidebar) {
+	var getRawJson$1 = createSelector([selectBlockComponents, selectBlockEdit, selectBlockToolbar, selectBlockSave, selectBlockSidebar], function (blockComponents, blockEdit, blockToolbar, blockSave, blockSidebar) {
 	  return {
 	    $schema: "https://schemas.blueprint-blocks.com/blueprint.json",
 	    apiVersion: 1,
@@ -8728,6 +9035,9 @@
 	    blockSave: rebuildComponentTree(blockSave, blockComponents),
 	    blockSidebar: rebuildComponentTree(blockSidebar, blockComponents)
 	  };
+	}, {
+	  memoize: weakMapMemoize,
+	  argsMemoize: weakMapMemoize
 	});
 	var rebuildComponentTree = function rebuildComponentTree() {
 	  var tree = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -9159,313 +9469,6 @@
 	var initialState = _objectSpread2(_objectSpread2({}, blockJson), {}, {
 	  keywords: keywords$J,
 	  attributes: attributes$1
-	});
-
-	// src/devModeChecks/identityFunctionCheck.ts
-	var runIdentityFunctionCheck = (resultFunc, inputSelectorsResults, outputSelectorResult) => {
-	  if (inputSelectorsResults.length === 1 && inputSelectorsResults[0] === outputSelectorResult) {
-	    let isInputSameAsOutput = false;
-	    try {
-	      const emptyObject = {};
-	      if (resultFunc(emptyObject) === emptyObject) isInputSameAsOutput = true;
-	    } catch {}
-	    if (isInputSameAsOutput) {
-	      let stack = void 0;
-	      try {
-	        throw new Error();
-	      } catch (e) {
-	        ({
-	          stack
-	        } = e);
-	      }
-	      console.warn("The result function returned its own inputs without modification. e.g\n`createSelector([state => state.todos], todos => todos)`\nThis could lead to inefficient memoization and unnecessary re-renders.\nEnsure transformation logic is in the result function, and extraction logic is in the input selectors.", {
-	        stack
-	      });
-	    }
-	  }
-	};
-
-	// src/devModeChecks/inputStabilityCheck.ts
-	var runInputStabilityCheck = (inputSelectorResultsObject, options, inputSelectorArgs) => {
-	  const {
-	    memoize,
-	    memoizeOptions
-	  } = options;
-	  const {
-	    inputSelectorResults,
-	    inputSelectorResultsCopy
-	  } = inputSelectorResultsObject;
-	  const createAnEmptyObject = memoize(() => ({}), ...memoizeOptions);
-	  const areInputSelectorResultsEqual = createAnEmptyObject.apply(null, inputSelectorResults) === createAnEmptyObject.apply(null, inputSelectorResultsCopy);
-	  if (!areInputSelectorResultsEqual) {
-	    let stack = void 0;
-	    try {
-	      throw new Error();
-	    } catch (e) {
-	      ({
-	        stack
-	      } = e);
-	    }
-	    console.warn("An input selector returned a different result when passed same arguments.\nThis means your output selector will likely run more frequently than intended.\nAvoid returning a new reference inside your input selector, e.g.\n`createSelector([state => state.todos.map(todo => todo.id)], todoIds => todoIds.length)`", {
-	      arguments: inputSelectorArgs,
-	      firstInputs: inputSelectorResults,
-	      secondInputs: inputSelectorResultsCopy,
-	      stack
-	    });
-	  }
-	};
-
-	// src/devModeChecks/setGlobalDevModeChecks.ts
-	var globalDevModeChecks = {
-	  inputStabilityCheck: "once",
-	  identityFunctionCheck: "once"
-	};
-	function assertIsFunction(func, errorMessage = `expected a function, instead received ${typeof func}`) {
-	  if (typeof func !== "function") {
-	    throw new TypeError(errorMessage);
-	  }
-	}
-	function assertIsObject(object, errorMessage = `expected an object, instead received ${typeof object}`) {
-	  if (typeof object !== "object") {
-	    throw new TypeError(errorMessage);
-	  }
-	}
-	function assertIsArrayOfFunctions(array, errorMessage = `expected all items to be functions, instead received the following types: `) {
-	  if (!array.every(item => typeof item === "function")) {
-	    const itemTypes = array.map(item => typeof item === "function" ? `function ${item.name || "unnamed"}()` : typeof item).join(", ");
-	    throw new TypeError(`${errorMessage}[${itemTypes}]`);
-	  }
-	}
-	var ensureIsArray = item => {
-	  return Array.isArray(item) ? item : [item];
-	};
-	function getDependencies(createSelectorArgs) {
-	  const dependencies = Array.isArray(createSelectorArgs[0]) ? createSelectorArgs[0] : createSelectorArgs;
-	  assertIsArrayOfFunctions(dependencies, `createSelector expects all input-selectors to be functions, but received the following types: `);
-	  return dependencies;
-	}
-	function collectInputSelectorResults(dependencies, inputSelectorArgs) {
-	  const inputSelectorResults = [];
-	  const {
-	    length
-	  } = dependencies;
-	  for (let i = 0; i < length; i++) {
-	    inputSelectorResults.push(dependencies[i].apply(null, inputSelectorArgs));
-	  }
-	  return inputSelectorResults;
-	}
-	var getDevModeChecksExecutionInfo = (firstRun, devModeChecks) => {
-	  const {
-	    identityFunctionCheck,
-	    inputStabilityCheck
-	  } = {
-	    ...globalDevModeChecks,
-	    ...devModeChecks
-	  };
-	  return {
-	    identityFunctionCheck: {
-	      shouldRun: identityFunctionCheck === "always" || identityFunctionCheck === "once" && firstRun,
-	      run: runIdentityFunctionCheck
-	    },
-	    inputStabilityCheck: {
-	      shouldRun: inputStabilityCheck === "always" || inputStabilityCheck === "once" && firstRun,
-	      run: runInputStabilityCheck
-	    }
-	  };
-	};
-
-	// src/weakMapMemoize.ts
-	var StrongRef = class {
-	  constructor(value) {
-	    this.value = value;
-	  }
-	  deref() {
-	    return this.value;
-	  }
-	};
-	var Ref = typeof WeakRef !== "undefined" ? WeakRef : StrongRef;
-	var UNTERMINATED = 0;
-	var TERMINATED = 1;
-	function createCacheNode() {
-	  return {
-	    s: UNTERMINATED,
-	    v: void 0,
-	    o: null,
-	    p: null
-	  };
-	}
-	function weakMapMemoize(func, options = {}) {
-	  let fnNode = createCacheNode();
-	  const {
-	    resultEqualityCheck
-	  } = options;
-	  let lastResult;
-	  let resultsCount = 0;
-	  function memoized() {
-	    let cacheNode = fnNode;
-	    const {
-	      length
-	    } = arguments;
-	    for (let i = 0, l = length; i < l; i++) {
-	      const arg = arguments[i];
-	      if (typeof arg === "function" || typeof arg === "object" && arg !== null) {
-	        let objectCache = cacheNode.o;
-	        if (objectCache === null) {
-	          cacheNode.o = objectCache = /* @__PURE__ */new WeakMap();
-	        }
-	        const objectNode = objectCache.get(arg);
-	        if (objectNode === void 0) {
-	          cacheNode = createCacheNode();
-	          objectCache.set(arg, cacheNode);
-	        } else {
-	          cacheNode = objectNode;
-	        }
-	      } else {
-	        let primitiveCache = cacheNode.p;
-	        if (primitiveCache === null) {
-	          cacheNode.p = primitiveCache = /* @__PURE__ */new Map();
-	        }
-	        const primitiveNode = primitiveCache.get(arg);
-	        if (primitiveNode === void 0) {
-	          cacheNode = createCacheNode();
-	          primitiveCache.set(arg, cacheNode);
-	        } else {
-	          cacheNode = primitiveNode;
-	        }
-	      }
-	    }
-	    const terminatedNode = cacheNode;
-	    let result;
-	    if (cacheNode.s === TERMINATED) {
-	      result = cacheNode.v;
-	    } else {
-	      result = func.apply(null, arguments);
-	      resultsCount++;
-	    }
-	    terminatedNode.s = TERMINATED;
-	    if (resultEqualityCheck) {
-	      const lastResultValue = lastResult?.deref?.() ?? lastResult;
-	      if (lastResultValue != null && resultEqualityCheck(lastResultValue, result)) {
-	        result = lastResultValue;
-	        resultsCount !== 0 && resultsCount--;
-	      }
-	      const needsWeakRef = typeof result === "object" && result !== null || typeof result === "function";
-	      lastResult = needsWeakRef ? new Ref(result) : result;
-	    }
-	    terminatedNode.v = result;
-	    return result;
-	  }
-	  memoized.clearCache = () => {
-	    fnNode = createCacheNode();
-	    memoized.resetResultsCount();
-	  };
-	  memoized.resultsCount = () => resultsCount;
-	  memoized.resetResultsCount = () => {
-	    resultsCount = 0;
-	  };
-	  return memoized;
-	}
-
-	// src/createSelectorCreator.ts
-	function createSelectorCreator(memoizeOrOptions, ...memoizeOptionsFromArgs) {
-	  const createSelectorCreatorOptions = typeof memoizeOrOptions === "function" ? {
-	    memoize: memoizeOrOptions,
-	    memoizeOptions: memoizeOptionsFromArgs
-	  } : memoizeOrOptions;
-	  const createSelector2 = (...createSelectorArgs) => {
-	    let recomputations = 0;
-	    let dependencyRecomputations = 0;
-	    let lastResult;
-	    let directlyPassedOptions = {};
-	    let resultFunc = createSelectorArgs.pop();
-	    if (typeof resultFunc === "object") {
-	      directlyPassedOptions = resultFunc;
-	      resultFunc = createSelectorArgs.pop();
-	    }
-	    assertIsFunction(resultFunc, `createSelector expects an output function after the inputs, but received: [${typeof resultFunc}]`);
-	    const combinedOptions = {
-	      ...createSelectorCreatorOptions,
-	      ...directlyPassedOptions
-	    };
-	    const {
-	      memoize,
-	      memoizeOptions = [],
-	      argsMemoize = weakMapMemoize,
-	      argsMemoizeOptions = [],
-	      devModeChecks = {}
-	    } = combinedOptions;
-	    const finalMemoizeOptions = ensureIsArray(memoizeOptions);
-	    const finalArgsMemoizeOptions = ensureIsArray(argsMemoizeOptions);
-	    const dependencies = getDependencies(createSelectorArgs);
-	    const memoizedResultFunc = memoize(function recomputationWrapper() {
-	      recomputations++;
-	      return resultFunc.apply(null, arguments);
-	    }, ...finalMemoizeOptions);
-	    let firstRun = true;
-	    const selector = argsMemoize(function dependenciesChecker() {
-	      dependencyRecomputations++;
-	      const inputSelectorResults = collectInputSelectorResults(dependencies, arguments);
-	      lastResult = memoizedResultFunc.apply(null, inputSelectorResults);
-	      {
-	        const {
-	          identityFunctionCheck,
-	          inputStabilityCheck
-	        } = getDevModeChecksExecutionInfo(firstRun, devModeChecks);
-	        if (identityFunctionCheck.shouldRun) {
-	          identityFunctionCheck.run(resultFunc, inputSelectorResults, lastResult);
-	        }
-	        if (inputStabilityCheck.shouldRun) {
-	          const inputSelectorResultsCopy = collectInputSelectorResults(dependencies, arguments);
-	          inputStabilityCheck.run({
-	            inputSelectorResults,
-	            inputSelectorResultsCopy
-	          }, {
-	            memoize,
-	            memoizeOptions: finalMemoizeOptions
-	          }, arguments);
-	        }
-	        if (firstRun) firstRun = false;
-	      }
-	      return lastResult;
-	    }, ...finalArgsMemoizeOptions);
-	    return Object.assign(selector, {
-	      resultFunc,
-	      memoizedResultFunc,
-	      dependencies,
-	      dependencyRecomputations: () => dependencyRecomputations,
-	      resetDependencyRecomputations: () => {
-	        dependencyRecomputations = 0;
-	      },
-	      lastResult: () => lastResult,
-	      recomputations: () => recomputations,
-	      resetRecomputations: () => {
-	        recomputations = 0;
-	      },
-	      memoize,
-	      argsMemoize
-	    });
-	  };
-	  Object.assign(createSelector2, {
-	    withTypes: () => createSelector2
-	  });
-	  return createSelector2;
-	}
-	var createSelector = /* @__PURE__ */createSelectorCreator(weakMapMemoize);
-
-	// src/createStructuredSelector.ts
-	var createStructuredSelector = Object.assign((inputSelectorsObject, selectorCreator = createSelector) => {
-	  assertIsObject(inputSelectorsObject, `createStructuredSelector expects first argument to be an object where each property is a selector, instead received a ${typeof inputSelectorsObject}`);
-	  const inputSelectorKeys = Object.keys(inputSelectorsObject);
-	  const dependencies = inputSelectorKeys.map(key => inputSelectorsObject[key]);
-	  const structuredSelector = selectorCreator(dependencies, (...inputSelectorResults) => {
-	    return inputSelectorResults.reduce((composition, value, index) => {
-	      composition[inputSelectorKeys[index]] = value;
-	      return composition;
-	    }, {});
-	  });
-	  return structuredSelector;
-	}, {
-	  withTypes: () => createStructuredSelector
 	});
 
 	var selectAttributes$4 = function selectAttributes(state) {
@@ -10260,6 +10263,9 @@
 	  var blockBlueprint = useSelector(function (state) {
 	    return getRawJson$1(state.blockBlueprint);
 	  });
+	  useSelector(function (state) {
+	    return state.blockBlueprint;
+	  });
 	  var blockJson = useSelector(function (state) {
 	    return getRawJson(state.blockJson);
 	  });
@@ -10311,7 +10317,6 @@
 	        blockEditorCss: blockEditorCss,
 	        blockViewCss: blockViewCss
 	      }).then(function () {
-	        debugger;
 	        dispatch(setChanged(false));
 	      });
 	    }
@@ -10319,14 +10324,14 @@
 	  var _setChanged = function _setChanged() {
 	    dispatch(setChanged(true));
 	  };
-	  var tryToSave = React$2.useCallback(function () {
+	  var tryToSave = function tryToSave() {
 	    if (isValid) {
 	      saveBlock();
 	    } else {
 	      dispatch(setValid(isValid));
 	      dispatch(showSaveDialog());
 	    }
-	  }, [isValid]);
+	  };
 
 	  // Watch all stores for changes
 	  React$2.useEffect(function () {

@@ -37,6 +37,8 @@ const useBlockSave = () => {
 		getRawBlueprintJson(state.blockBlueprint),
 	);
 
+	const _blockBlueprint = useSelector((state) => state.blockBlueprint);
+
 	const blockJson = useSelector((state) => getRawBlockJson(state.blockJson));
 
 	const blockEditorCss = useSelector((state) => state.blockEditorCss.raw);
@@ -91,7 +93,6 @@ const useBlockSave = () => {
 				blockEditorCss,
 				blockViewCss,
 			}).then(() => {
-				debugger;
 				dispatch(setChanged(false));
 			});
 		}
@@ -101,14 +102,14 @@ const useBlockSave = () => {
 		dispatch(setChanged(true));
 	};
 
-	const tryToSave = useCallback(() => {
+	const tryToSave = () => {
 		if (isValid) {
 			saveBlock();
 		} else {
 			dispatch(setValid(isValid));
 			dispatch(showSaveDialog());
 		}
-	}, [isValid]);
+	};
 
 	// Watch all stores for changes
 	useEffect(() => {
