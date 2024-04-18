@@ -8459,7 +8459,7 @@
 	      value: value
 	    };
 	  });
-	  if (component.tagName !== null && component.tagName !== ((_componentProperties$ = componentProperties.defaultAttributes) === null || _componentProperties$ === void 0 ? void 0 : _componentProperties$.tagName)) {
+	  if (componentProperties.type !== "html" && component.tagName !== null && component.tagName !== ((_componentProperties$ = componentProperties.defaultAttributes) === null || _componentProperties$ === void 0 ? void 0 : _componentProperties$.tagName)) {
 	    componentAttributes.push({
 	      clientId: getUniqueClientId(),
 	      name: "tagName",

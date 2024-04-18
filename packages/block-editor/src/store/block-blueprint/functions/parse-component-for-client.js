@@ -14,6 +14,7 @@ const parseComponentForClient = (component) => {
 		}));
 
 	if (
+		componentProperties.type !== "html" &&
 		component.tagName !== null &&
 		component.tagName !== componentProperties.defaultAttributes?.tagName
 	) {
