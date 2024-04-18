@@ -9319,7 +9319,7 @@
 	    }
 	    return false;
 	  }, false);
-	  var component = _objectSpread2({}, state.blockComponents[clientId]);
+	  var component = _objectSpread2({}, structuredClone(state.blockComponents[clientId]));
 	  if (attributeIndex !== false) {
 	    component.attributes[attributeIndex].value = attributeValue;
 	  } else {
@@ -13644,14 +13644,14 @@
 	    setHasFocus(true);
 	    onFocus && onFocus();
 	  };
-	  var onKeyDown = React$2.useCallback(function (event) {
+	  var onKeyDown = function onKeyDown(event) {
 	    if (event.key === "Backspace") {
 	      event.stopPropagation();
 	    }
 	    if (event.key === "Backspace" && html.length === 0) {
 	      onDelete && onDelete();
 	    }
-	  }, [html]);
+	  };
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    "data-testid": "editable-string",

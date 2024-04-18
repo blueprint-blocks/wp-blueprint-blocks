@@ -54,18 +54,15 @@ const EditableString = memo(
 				onFocus && onFocus();
 			};
 
-			const onKeyDown = useCallback(
-				(event) => {
-					if (event.key === "Backspace") {
-						event.stopPropagation();
-					}
+			const onKeyDown = (event) => {
+				if (event.key === "Backspace") {
+					event.stopPropagation();
+				}
 
-					if (event.key === "Backspace" && html.length === 0) {
-						onDelete && onDelete();
-					}
-				},
-				[html],
-			);
+				if (event.key === "Backspace" && html.length === 0) {
+					onDelete && onDelete();
+				}
+			};
 
 			if (process.env.NODE_ENV === "development") {
 				useDebugRenderCount("EditableString");
