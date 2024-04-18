@@ -20,7 +20,7 @@ function blueprint_blocks_get_registered_block_names()
 			$block_names[] = $block_type[ 'blockName' ];
 
 			if ( false !== ( $index = array_search($block_type[ 'blockName' ], $registered_block_names ) ) ) {
-				unset( $block_type[ $index ] );
+				unset( $registered_block_names[ $index ] );
 			}
 		}
 
