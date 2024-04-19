@@ -4361,7 +4361,7 @@
 			shortDescription: "Text based input with options for complex formatting.",
 			blockAttribute: {
 				type: "string",
-				"default": null
+				"default": ""
 			},
 			attributes: {
 				allowedFormats: {
@@ -9631,7 +9631,11 @@
 	      _ref.clientId;
 	        var name = _ref.name,
 	        attribute = _objectWithoutProperties(_ref, _excluded$7);
-	      return [name, attribute];
+	      var _attribute = structuredClone(attribute);
+	      if ((_attribute === null || _attribute === void 0 ? void 0 : _attribute.type) === "string" && (_attribute === null || _attribute === void 0 ? void 0 : _attribute["default"]) === null) {
+	        _attribute["default"] = "";
+	      }
+	      return [name, _attribute];
 	    })),
 	    supports: supports,
 	    textdomain: textdomain
@@ -9656,6 +9660,7 @@
 
 	var ALLOWED_ATTRIBUTE_TYPES = ["array", "number", "string", "object"];
 	var addAttribute$1 = function addAttribute(state, action) {
+	  var _defaultValue;
 	  var _action$payload = action.payload,
 	    _action$payload$name = _action$payload.name,
 	    name = _action$payload$name === void 0 ? "" : _action$payload$name,
@@ -9667,10 +9672,14 @@
 	    name = getUniqueAttributeName(state, "attribute");
 	  }
 	  var attributes = _toConsumableArray(state.attributes);
+	  var _type = ALLOWED_ATTRIBUTE_TYPES.includes(type) && type || "string";
+	  if (_type === "string" && defaultValue === null) {
+	    defaultValue = "";
+	  }
 	  attributes.push({
 	    name: name,
-	    type: ALLOWED_ATTRIBUTE_TYPES.includes(type) && type || "string",
-	    "default": defaultValue || null,
+	    type: _type,
+	    "default": (_defaultValue = defaultValue) !== null && _defaultValue !== void 0 ? _defaultValue : null,
 	    clientId: getUniqueClientId()
 	  });
 	  state.attributes = attributes;
@@ -10751,7 +10760,7 @@
 	        component.attributeName = newAttributeName;
 	        addAttribute(newAttributeName, _objectSpread2({
 	          type: "string",
-	          "default": null
+	          "default": ""
 	        }, (componentProperties === null || componentProperties === void 0 ? void 0 : componentProperties.blockAttribute) || {}));
 	      }
 	      dispatch(insertNewComponentAtPosition({
@@ -15014,7 +15023,9 @@
 	    _ref$placeholder = _ref.placeholder,
 	    placeholder = _ref$placeholder === void 0 ? "null" : _ref$placeholder;
 	    _ref.propertySeperator;
-	    var _ref$value = _ref.value,
+	    var _ref$type = _ref.type,
+	    type = _ref$type === void 0 ? null : _ref$type,
+	    _ref$value = _ref.value,
 	    value = _ref$value === void 0 ? {} : _ref$value;
 	    _ref.valuePlaceholder;
 	  var ref = React$2.useRef(null);
@@ -15024,7 +15035,9 @@
 	    hasFocus = _useState2[0],
 	    setHasFocus = _useState2[1];
 	  var objectType = React$2.useMemo(function () {
-	    if (isStringNullValue(value)) {
+	    if (type !== "null") {
+	      return type;
+	    } else if (isStringNullValue(value)) {
 	      return "null";
 	    } else if (isAttributeNumberValue(value)) {
 	      return "number";
@@ -15034,11 +15047,14 @@
 	      return "object";
 	    }
 	    return "string";
-	  }, [value]);
+	  }, [type, value]);
 	  var html = React$2.useMemo(function () {
 	    var _value = value;
 	    if (isStringified(_value)) {
 	      _value = JSON.parse(_value);
+	    }
+	    if (objectType === "string" && _value === null) {
+	      _value = "";
 	    }
 	    return prettyPrintJson.toHtml(_value, {
 	      indent: 2,
@@ -15176,7 +15192,7 @@
 	        className: "BlueprintAttribute-default",
 	        disabled: disabled,
 	        onChange: onChange,
-	        placeholder: "null",
+	        type: attribute === null || attribute === void 0 ? void 0 : attribute.type,
 	        value: attribute === null || attribute === void 0 ? void 0 : attribute["default"]
 	      })]
 	    })

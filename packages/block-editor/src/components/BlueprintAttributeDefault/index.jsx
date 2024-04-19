@@ -52,7 +52,7 @@ const BlueprintAttributeDefault = memo(({ clientId, disabled = false }) => {
 					className="BlueprintAttribute-default"
 					disabled={disabled}
 					onChange={onChange}
-					placeholder="null"
+					type={attribute?.type}
 					value={attribute?.default}
 				/>
 			</span>

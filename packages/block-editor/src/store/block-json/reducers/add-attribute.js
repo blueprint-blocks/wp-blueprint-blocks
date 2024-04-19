@@ -11,11 +11,16 @@ const addAttribute = (state, action) => {
 	}
 
 	const attributes = [...state.attributes];
+	const _type = (ALLOWED_ATTRIBUTE_TYPES.includes(type) && type) || "string";
+
+	if (_type === "string" && defaultValue === null) {
+		defaultValue = "";
+	}
 
 	attributes.push({
 		name,
-		type: (ALLOWED_ATTRIBUTE_TYPES.includes(type) && type) || "string",
-		default: defaultValue || null,
+		type: _type,
+		default: defaultValue ?? null,
 		clientId: getUniqueClientId(),
 	});
 

@@ -53,7 +53,7 @@
       return a;
     }
   }
-  function ownKeys$f(e, r) {
+  function ownKeys$i(e, r) {
     var t = Object.keys(e);
     if (Object.getOwnPropertySymbols) {
       var o = Object.getOwnPropertySymbols(e);
@@ -63,18 +63,18 @@
     }
     return t;
   }
-  function _objectSpread2$f(e) {
+  function _objectSpread2$i(e) {
     for (var r = 1; r < arguments.length; r++) {
       var t = null != arguments[r] ? arguments[r] : {};
-      r % 2 ? ownKeys$f(Object(t), !0).forEach(function (r) {
-        _defineProperty$f(e, r, t[r]);
-      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$f(Object(t)).forEach(function (r) {
+      r % 2 ? ownKeys$i(Object(t), !0).forEach(function (r) {
+        _defineProperty$i(e, r, t[r]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$i(Object(t)).forEach(function (r) {
         Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
       });
     }
     return e;
   }
-  function _toPrimitive$f(t, r) {
+  function _toPrimitive$i(t, r) {
     if ("object" != typeof t || !t) return t;
     var e = t[Symbol.toPrimitive];
     if (void 0 !== e) {
@@ -84,21 +84,21 @@
     }
     return ("string" === r ? String : Number)(t);
   }
-  function _toPropertyKey$f(t) {
-    var i = _toPrimitive$f(t, "string");
+  function _toPropertyKey$i(t) {
+    var i = _toPrimitive$i(t, "string");
     return "symbol" == typeof i ? i : String(i);
   }
-  function _typeof$e(o) {
+  function _typeof$h(o) {
     "@babel/helpers - typeof";
 
-    return _typeof$e = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
+    return _typeof$h = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
       return typeof o;
     } : function (o) {
       return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-    }, _typeof$e(o);
+    }, _typeof$h(o);
   }
-  function _defineProperty$f(obj, key, value) {
-    key = _toPropertyKey$f(key);
+  function _defineProperty$i(obj, key, value) {
+    key = _toPropertyKey$i(key);
     if (key in obj) {
       Object.defineProperty(obj, key, {
         value: value,
@@ -214,7 +214,7 @@
       return a;
     }
   }
-  function ownKeys$e(e, r) {
+  function ownKeys$h(e, r) {
     var t = Object.keys(e);
     if (Object.getOwnPropertySymbols) {
       var o = Object.getOwnPropertySymbols(e);
@@ -224,18 +224,18 @@
     }
     return t;
   }
-  function _objectSpread2$e(e) {
+  function _objectSpread2$h(e) {
     for (var r = 1; r < arguments.length; r++) {
       var t = null != arguments[r] ? arguments[r] : {};
-      r % 2 ? ownKeys$e(Object(t), !0).forEach(function (r) {
-        _defineProperty$e(e, r, t[r]);
-      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$e(Object(t)).forEach(function (r) {
+      r % 2 ? ownKeys$h(Object(t), !0).forEach(function (r) {
+        _defineProperty$h(e, r, t[r]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$h(Object(t)).forEach(function (r) {
         Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
       });
     }
     return e;
   }
-  function _toPrimitive$e(t, r) {
+  function _toPrimitive$h(t, r) {
     if ("object" != typeof t || !t) return t;
     var e = t[Symbol.toPrimitive];
     if (void 0 !== e) {
@@ -245,21 +245,21 @@
     }
     return ("string" === r ? String : Number)(t);
   }
-  function _toPropertyKey$e(t) {
-    var i = _toPrimitive$e(t, "string");
+  function _toPropertyKey$h(t) {
+    var i = _toPrimitive$h(t, "string");
     return "symbol" == typeof i ? i : String(i);
   }
-  function _typeof$d(o) {
+  function _typeof$g(o) {
     "@babel/helpers - typeof";
 
-    return _typeof$d = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
+    return _typeof$g = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
       return typeof o;
     } : function (o) {
       return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-    }, _typeof$d(o);
+    }, _typeof$g(o);
   }
-  function _defineProperty$e(obj, key, value) {
-    key = _toPropertyKey$e(key);
+  function _defineProperty$h(obj, key, value) {
+    key = _toPropertyKey$h(key);
     if (key in obj) {
       Object.defineProperty(obj, key, {
         value: value,
@@ -350,7 +350,7 @@
   function getDefaultExportFromCjs$1(x) {
     return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
   }
-  var classnames$e = {
+  var classnames$h = {
     exports: {}
   };
 
@@ -412,9 +412,1755 @@
         window.classNames = classNames;
       }
     })();
-  })(classnames$e);
-  var classnamesExports$1 = classnames$e.exports;
+  })(classnames$h);
+  var classnamesExports$1 = classnames$h.exports;
   var npmClassNames = /*@__PURE__*/getDefaultExportFromCjs$1(classnamesExports$1);
+
+  /**
+   * @constant DEFAULT_OPTIONS_KEYS the default options keys
+   */
+  var DEFAULT_OPTIONS_KEYS$h = {
+    isEqual: true,
+    isMatchingKey: true,
+    isPromise: true,
+    maxSize: true,
+    onCacheAdd: true,
+    onCacheChange: true,
+    onCacheHit: true,
+    transformKey: true
+  };
+  /**
+   * @function slice
+   *
+   * @description
+   * slice.call() pre-bound
+   */
+  var slice$h = Array.prototype.slice;
+  /**
+   * @function cloneArray
+   *
+   * @description
+   * clone the array-like object and return the new array
+   *
+   * @param arrayLike the array-like object to clone
+   * @returns the clone as an array
+   */
+  function cloneArray$h(arrayLike) {
+    var length = arrayLike.length;
+    if (!length) {
+      return [];
+    }
+    if (length === 1) {
+      return [arrayLike[0]];
+    }
+    if (length === 2) {
+      return [arrayLike[0], arrayLike[1]];
+    }
+    if (length === 3) {
+      return [arrayLike[0], arrayLike[1], arrayLike[2]];
+    }
+    return slice$h.call(arrayLike, 0);
+  }
+  /**
+   * @function getCustomOptions
+   *
+   * @description
+   * get the custom options on the object passed
+   *
+   * @param options the memoization options passed
+   * @returns the custom options passed
+   */
+  function getCustomOptions$h(options) {
+    var customOptions = {};
+    /* eslint-disable no-restricted-syntax */
+    for (var key in options) {
+      if (!DEFAULT_OPTIONS_KEYS$h[key]) {
+        customOptions[key] = options[key];
+      }
+    }
+    /* eslint-enable */
+    return customOptions;
+  }
+  /**
+   * @function isMemoized
+   *
+   * @description
+   * is the function passed already memoized
+   *
+   * @param fn the function to test
+   * @returns is the function already memoized
+   */
+  function isMemoized$h(fn) {
+    return typeof fn === 'function' && fn.isMemoized;
+  }
+  /**
+   * @function isSameValueZero
+   *
+   * @description
+   * are the objects equal based on SameValueZero equality
+   *
+   * @param object1 the first object to compare
+   * @param object2 the second object to compare
+   * @returns are the two objects equal
+   */
+  function isSameValueZero$h(object1, object2) {
+    // eslint-disable-next-line no-self-compare
+    return object1 === object2 || object1 !== object1 && object2 !== object2;
+  }
+  /**
+   * @function mergeOptions
+   *
+   * @description
+   * merge the options into the target
+   *
+   * @param existingOptions the options provided
+   * @param newOptions the options to include
+   * @returns the merged options
+   */
+  function mergeOptions$h(existingOptions, newOptions) {
+    var target = {};
+    /* eslint-disable no-restricted-syntax */
+    for (var key in existingOptions) {
+      target[key] = existingOptions[key];
+    }
+    for (var key in newOptions) {
+      target[key] = newOptions[key];
+    }
+    /* eslint-enable */
+    return target;
+  }
+
+  // utils
+  var Cache$h = /** @class */function () {
+    function Cache(options) {
+      this.keys = [];
+      this.values = [];
+      this.options = options;
+      var isMatchingKeyFunction = typeof options.isMatchingKey === 'function';
+      if (isMatchingKeyFunction) {
+        this.getKeyIndex = this._getKeyIndexFromMatchingKey;
+      } else if (options.maxSize > 1) {
+        this.getKeyIndex = this._getKeyIndexForMany;
+      } else {
+        this.getKeyIndex = this._getKeyIndexForSingle;
+      }
+      this.canTransformKey = typeof options.transformKey === 'function';
+      this.shouldCloneArguments = this.canTransformKey || isMatchingKeyFunction;
+      this.shouldUpdateOnAdd = typeof options.onCacheAdd === 'function';
+      this.shouldUpdateOnChange = typeof options.onCacheChange === 'function';
+      this.shouldUpdateOnHit = typeof options.onCacheHit === 'function';
+    }
+    Object.defineProperty(Cache.prototype, "size", {
+      /**
+       * The number of cached [key,value] results.
+       */
+      get: function () {
+        return this.keys.length;
+      },
+      enumerable: false,
+      configurable: true
+    });
+    Object.defineProperty(Cache.prototype, "snapshot", {
+      /**
+       * A copy of the cache at a moment in time. This is useful
+       * to compare changes over time, since the cache mutates
+       * internally for performance reasons.
+       */
+      get: function () {
+        return {
+          keys: cloneArray$h(this.keys),
+          size: this.size,
+          values: cloneArray$h(this.values)
+        };
+      },
+      enumerable: false,
+      configurable: true
+    });
+    /**
+     * Gets the matching key index when a custom key matcher is used.
+     */
+    Cache.prototype._getKeyIndexFromMatchingKey = function (keyToMatch) {
+      var _a = this.options,
+        isMatchingKey = _a.isMatchingKey,
+        maxSize = _a.maxSize;
+      var keys = this.keys;
+      var keysLength = keys.length;
+      if (!keysLength) {
+        return -1;
+      }
+      if (isMatchingKey(keys[0], keyToMatch)) {
+        return 0;
+      }
+      if (maxSize > 1) {
+        for (var index = 1; index < keysLength; index++) {
+          if (isMatchingKey(keys[index], keyToMatch)) {
+            return index;
+          }
+        }
+      }
+      return -1;
+    };
+    /**
+     * Gets the matching key index when multiple keys are used.
+     */
+    Cache.prototype._getKeyIndexForMany = function (keyToMatch) {
+      var isEqual = this.options.isEqual;
+      var keys = this.keys;
+      var keysLength = keys.length;
+      if (!keysLength) {
+        return -1;
+      }
+      if (keysLength === 1) {
+        return this._getKeyIndexForSingle(keyToMatch);
+      }
+      var keyLength = keyToMatch.length;
+      var existingKey;
+      var argIndex;
+      if (keyLength > 1) {
+        for (var index = 0; index < keysLength; index++) {
+          existingKey = keys[index];
+          if (existingKey.length === keyLength) {
+            argIndex = 0;
+            for (; argIndex < keyLength; argIndex++) {
+              if (!isEqual(existingKey[argIndex], keyToMatch[argIndex])) {
+                break;
+              }
+            }
+            if (argIndex === keyLength) {
+              return index;
+            }
+          }
+        }
+      } else {
+        for (var index = 0; index < keysLength; index++) {
+          existingKey = keys[index];
+          if (existingKey.length === keyLength && isEqual(existingKey[0], keyToMatch[0])) {
+            return index;
+          }
+        }
+      }
+      return -1;
+    };
+    /**
+     * Gets the matching key index when a single key is used.
+     */
+    Cache.prototype._getKeyIndexForSingle = function (keyToMatch) {
+      var keys = this.keys;
+      if (!keys.length) {
+        return -1;
+      }
+      var existingKey = keys[0];
+      var length = existingKey.length;
+      if (keyToMatch.length !== length) {
+        return -1;
+      }
+      var isEqual = this.options.isEqual;
+      if (length > 1) {
+        for (var index = 0; index < length; index++) {
+          if (!isEqual(existingKey[index], keyToMatch[index])) {
+            return -1;
+          }
+        }
+        return 0;
+      }
+      return isEqual(existingKey[0], keyToMatch[0]) ? 0 : -1;
+    };
+    /**
+     * Order the array based on a Least-Recently-Used basis.
+     */
+    Cache.prototype.orderByLru = function (key, value, startingIndex) {
+      var keys = this.keys;
+      var values = this.values;
+      var currentLength = keys.length;
+      var index = startingIndex;
+      while (index--) {
+        keys[index + 1] = keys[index];
+        values[index + 1] = values[index];
+      }
+      keys[0] = key;
+      values[0] = value;
+      var maxSize = this.options.maxSize;
+      if (currentLength === maxSize && startingIndex === currentLength) {
+        keys.pop();
+        values.pop();
+      } else if (startingIndex >= maxSize) {
+        // eslint-disable-next-line no-multi-assign
+        keys.length = values.length = maxSize;
+      }
+    };
+    /**
+     * Update the promise method to auto-remove from cache if rejected, and
+     * if resolved then fire cache hit / changed.
+     */
+    Cache.prototype.updateAsyncCache = function (memoized) {
+      var _this = this;
+      var _a = this.options,
+        onCacheChange = _a.onCacheChange,
+        onCacheHit = _a.onCacheHit;
+      var firstKey = this.keys[0];
+      var firstValue = this.values[0];
+      this.values[0] = firstValue.then(function (value) {
+        if (_this.shouldUpdateOnHit) {
+          onCacheHit(_this, _this.options, memoized);
+        }
+        if (_this.shouldUpdateOnChange) {
+          onCacheChange(_this, _this.options, memoized);
+        }
+        return value;
+      }, function (error) {
+        var keyIndex = _this.getKeyIndex(firstKey);
+        if (keyIndex !== -1) {
+          _this.keys.splice(keyIndex, 1);
+          _this.values.splice(keyIndex, 1);
+        }
+        throw error;
+      });
+    };
+    return Cache;
+  }();
+  function createMemoizedFunction$h(fn, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    if (isMemoized$h(fn)) {
+      return createMemoizedFunction$h(fn.fn, mergeOptions$h(fn.options, options));
+    }
+    if (typeof fn !== 'function') {
+      throw new TypeError('You must pass a function to `memoize`.');
+    }
+    var _a = options.isEqual,
+      isEqual = _a === void 0 ? isSameValueZero$h : _a,
+      isMatchingKey = options.isMatchingKey,
+      _b = options.isPromise,
+      isPromise = _b === void 0 ? false : _b,
+      _c = options.maxSize,
+      maxSize = _c === void 0 ? 1 : _c,
+      onCacheAdd = options.onCacheAdd,
+      onCacheChange = options.onCacheChange,
+      onCacheHit = options.onCacheHit,
+      transformKey = options.transformKey;
+    var normalizedOptions = mergeOptions$h({
+      isEqual: isEqual,
+      isMatchingKey: isMatchingKey,
+      isPromise: isPromise,
+      maxSize: maxSize,
+      onCacheAdd: onCacheAdd,
+      onCacheChange: onCacheChange,
+      onCacheHit: onCacheHit,
+      transformKey: transformKey
+    }, getCustomOptions$h(options));
+    var cache = new Cache$h(normalizedOptions);
+    var keys = cache.keys,
+      values = cache.values,
+      canTransformKey = cache.canTransformKey,
+      shouldCloneArguments = cache.shouldCloneArguments,
+      shouldUpdateOnAdd = cache.shouldUpdateOnAdd,
+      shouldUpdateOnChange = cache.shouldUpdateOnChange,
+      shouldUpdateOnHit = cache.shouldUpdateOnHit;
+    var memoized = function () {
+      var key = shouldCloneArguments ? cloneArray$h(arguments) : arguments;
+      if (canTransformKey) {
+        key = transformKey(key);
+      }
+      var keyIndex = keys.length ? cache.getKeyIndex(key) : -1;
+      if (keyIndex !== -1) {
+        if (shouldUpdateOnHit) {
+          onCacheHit(cache, normalizedOptions, memoized);
+        }
+        if (keyIndex) {
+          cache.orderByLru(keys[keyIndex], values[keyIndex], keyIndex);
+          if (shouldUpdateOnChange) {
+            onCacheChange(cache, normalizedOptions, memoized);
+          }
+        }
+      } else {
+        var newValue = fn.apply(this, arguments);
+        var newKey = shouldCloneArguments ? key : cloneArray$h(arguments);
+        cache.orderByLru(newKey, newValue, keys.length);
+        if (isPromise) {
+          cache.updateAsyncCache(memoized);
+        }
+        if (shouldUpdateOnAdd) {
+          onCacheAdd(cache, normalizedOptions, memoized);
+        }
+        if (shouldUpdateOnChange) {
+          onCacheChange(cache, normalizedOptions, memoized);
+        }
+      }
+      return values[0];
+    };
+    memoized.cache = cache;
+    memoized.fn = fn;
+    memoized.isMemoized = true;
+    memoized.options = normalizedOptions;
+    return memoized;
+  }
+  var valueByIdentifier$h = createMemoizedFunction$h(function () {
+    var identifier = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var value = _objectSpread2$h({}, context);
+    var parts = identifier.split('.');
+    if (parts.length === 0) {
+      return '';
+    }
+    var key = parts.shift();
+    if (!(context !== null && context !== void 0 && context[key])) {
+      return '';
+    }
+    if (parts.length === 0 && key === 'length') {
+      return Object.values(value).length;
+    }
+    if (parts.length === 0) {
+      return value[key];
+    }
+    return valueByIdentifier$h(parts.join('.'), value[key]);
+  });
+  function replaceTokens() {
+    var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    if (typeof string !== 'string') {
+      return string;
+    }
+    return string.replaceAll(/\{\{(.*?)\}\}/g, function (match, p1) {
+      return valueByIdentifier$h(p1.trim(), context);
+    });
+  }
+  var OPERANDS = ['==', '!=', '<', '<=', '>', '>='];
+  function evaluateCondition() {
+    var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var operand = null;
+    OPERANDS.forEach(function (OPERAND) {
+      if (string.indexOf(OPERAND) !== -1) {
+        operand = OPERAND;
+      }
+    });
+    if (operand === null) {
+      return Boolean(replaceTokens(string, context));
+    }
+    var before = replaceTokens(string.slice(0, string.indexOf(operand)).trim(), context);
+    var after = replaceTokens(string.slice(string.indexOf(operand) + operand.length).trim(), context);
+    if (before.slice(0, 1) === "'" && before.slice(-1) === "'" || before.slice(0, 1) === '"' && before.slice(-1) === '"') {
+      before = before.slice(1, -1);
+    }
+    if (after.slice(0, 1) === "'" && after.slice(-1) === "'" || after.slice(0, 1) === '"' && after.slice(-1) === '"') {
+      after = after.slice(1, -1);
+    }
+    if (operand === '==') {
+      return before == after;
+    }
+    if (operand === '!=') {
+      return before != after;
+    }
+    if (operand === '<') {
+      return before < after;
+    }
+    if (operand === '<=') {
+      return before <= after;
+    }
+    if (operand === '>') {
+      return before > after;
+    }
+    if (operand === '>=') {
+      return before >= after;
+    }
+    return false;
+  }
+  function evaluateConditionalString() {
+    var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    if (typeof string !== 'string' || string === '') {
+      return string;
+    }
+    var open = null;
+    var close = null;
+    var evaluatedString = string;
+    do {
+      for (var i = 0; i < string.length; i++) {
+        if (string[i] === '(') {
+          open = i;
+        }
+        if (open !== null && string[i] === ')') {
+          close = i;
+          break;
+        }
+      }
+      var conditional = void 0,
+        before = void 0,
+        after = void 0;
+      if (open === null && close === null) {
+        conditional = string;
+        before = '';
+        after = '';
+      } else {
+        conditional = string.slice(open + 1, close - 1);
+        before = string.slice(0, open - 1);
+        after = string.slice(close + 1);
+      }
+      var ands = conditional.split('&&');
+      var result = ands.reduce(function (result, and) {
+        var ors = and.trim().split('||');
+        return result && ors.reduce(function (reducedOr, or) {
+          return reducedOr || evaluateCondition(or.trim(), context);
+        }, null);
+      }, true);
+      if (before === '' && after === '') {
+        evaluatedString = result && '1' || '0';
+      } else {
+        evaluatedString = before + (result && 'true' || 'false') + after;
+      }
+    } while (open !== null && close !== null);
+    if (evaluatedString === '1' || evaluatedString === 'true') {
+      return true;
+    }
+    if (evaluatedString === '0' || evaluatedString === 'false') {
+      return false;
+    }
+    return Boolean(evaluatedString);
+  }
+
+  /**
+   * Wraps the default classNames function to provide
+   * contextual token replacement
+   */
+  function classNames$1() {
+    var _classNames = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var classNameArray = Array.isArray(_classNames) && _classNames || [_classNames];
+    classNameArray = classNameArray.map(function (className) {
+      if (Array.isArray(className)) {
+        return classNames$1(className, context);
+      } else if (_typeof$g(className) === "object") {
+        return Object.fromEntries(Object.entries(className).map(function (_ref) {
+          var _ref2 = _slicedToArray(_ref, 2),
+            key = _ref2[0],
+            value = _ref2[1];
+          return [replaceTokens(key, context), typeof value === "boolean" ? value : evaluateConditionalString(value, context)];
+        }));
+      }
+      return className;
+    });
+    return replaceTokens(npmClassNames.apply(void 0, _toConsumableArray(classNameArray)), context);
+  }
+  function convertStyleStringToObject() {
+    var style = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+    if (typeof style !== "string") {
+      return {};
+    }
+    return Object.fromEntries(style.split(";").filter(function (property) {
+      return !!property;
+    }).map(function (property) {
+      return property.split(":");
+    }));
+  }
+  var _excluded$1$1 = ["clientId", "attributes", "innerBlocks"];
+  /**
+   * Returns the block context with private attributes formatted.
+   * 
+   * Note: The length of the inner blocks is saved as an attribute because 
+   * they can not be directly referenced upon initial save.
+   */
+  function getBlockContext() {
+    var context = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    context.clientId;
+    var attributes = context.attributes,
+      innerBlocks = context.innerBlocks,
+      blockContext = _objectWithoutProperties(context, _excluded$1$1);
+    var index = 1 + ((attributes === null || attributes === void 0 ? void 0 : attributes._index) || 0);
+    var length = (attributes === null || attributes === void 0 ? void 0 : attributes._innerBlocksLength) || 0;
+    return _objectSpread2$h(_objectSpread2$h({}, blockContext), {}, {
+      block: _objectSpread2$h({
+        index: index
+      }, attributes),
+      innerBlocks: (innerBlocks === null || innerBlocks === void 0 ? void 0 : innerBlocks.length) && innerBlocks || new Array(length).fill(null)
+    });
+  }
+  function isExternalUrl(url) {
+    if (url.length === 0 || url.indexOf('#') === 0 || url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0) {
+      return false;
+    }
+    try {
+      new URL(url);
+    } catch (error) {
+      return false;
+    }
+    return new URL(url).origin !== location.origin;
+  }
+  function isFragmentUrl(url) {
+    if (url.indexOf('#') === 0) {
+      return true;
+    }
+    return false;
+  }
+  function ownKeys$g(e, r) {
+    var t = Object.keys(e);
+    if (Object.getOwnPropertySymbols) {
+      var o = Object.getOwnPropertySymbols(e);
+      r && (o = o.filter(function (r) {
+        return Object.getOwnPropertyDescriptor(e, r).enumerable;
+      })), t.push.apply(t, o);
+    }
+    return t;
+  }
+  function _objectSpread2$g(e) {
+    for (var r = 1; r < arguments.length; r++) {
+      var t = null != arguments[r] ? arguments[r] : {};
+      r % 2 ? ownKeys$g(Object(t), !0).forEach(function (r) {
+        _defineProperty$g(e, r, t[r]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$g(Object(t)).forEach(function (r) {
+        Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
+      });
+    }
+    return e;
+  }
+  function _toPrimitive$g(t, r) {
+    if ("object" != _typeof$g(t) || !t) return t;
+    var e = t[Symbol.toPrimitive];
+    if (void 0 !== e) {
+      var i = e.call(t, r || "default");
+      if ("object" != _typeof$g(i)) return i;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return ("string" === r ? String : Number)(t);
+  }
+  function _toPropertyKey$g(t) {
+    var i = _toPrimitive$g(t, "string");
+    return "symbol" == _typeof$g(i) ? i : String(i);
+  }
+  function _typeof$f(o) {
+    "@babel/helpers - typeof";
+
+    return _typeof$f = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
+      return typeof o;
+    } : function (o) {
+      return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+    }, _typeof$f(o);
+  }
+  function _defineProperty$g(obj, key, value) {
+    key = _toPropertyKey$g(key);
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  var classnames$g = {
+    exports: {}
+  };
+
+  /*!
+  	Copyright (c) 2018 Jed Watson.
+  	Licensed under the MIT License (MIT), see
+  	http://jedwatson.github.io/classnames
+  */
+
+  (function (module) {
+    /* global define */
+
+    (function () {
+      var hasOwn = {}.hasOwnProperty;
+      function classNames() {
+        var classes = '';
+        for (var i = 0; i < arguments.length; i++) {
+          var arg = arguments[i];
+          if (arg) {
+            classes = appendClass(classes, parseValue(arg));
+          }
+        }
+        return classes;
+      }
+      function parseValue(arg) {
+        if (typeof arg === 'string' || typeof arg === 'number') {
+          return arg;
+        }
+        if (_typeof$g(arg) !== 'object') {
+          return '';
+        }
+        if (Array.isArray(arg)) {
+          return classNames.apply(null, arg);
+        }
+        if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
+          return arg.toString();
+        }
+        var classes = '';
+        for (var key in arg) {
+          if (hasOwn.call(arg, key) && arg[key]) {
+            classes = appendClass(classes, key);
+          }
+        }
+        return classes;
+      }
+      function appendClass(value, newClass) {
+        if (!newClass) {
+          return value;
+        }
+        if (value) {
+          return value + ' ' + newClass;
+        }
+        return value + newClass;
+      }
+      if (module.exports) {
+        classNames["default"] = classNames;
+        module.exports = classNames;
+      } else {
+        window.classNames = classNames;
+      }
+    })();
+  })(classnames$g);
+
+  /**
+   * @constant DEFAULT_OPTIONS_KEYS the default options keys
+   */
+  var DEFAULT_OPTIONS_KEYS$g = {
+    isEqual: true,
+    isMatchingKey: true,
+    isPromise: true,
+    maxSize: true,
+    onCacheAdd: true,
+    onCacheChange: true,
+    onCacheHit: true,
+    transformKey: true
+  };
+  /**
+   * @function slice
+   *
+   * @description
+   * slice.call() pre-bound
+   */
+  var slice$g = Array.prototype.slice;
+  /**
+   * @function cloneArray
+   *
+   * @description
+   * clone the array-like object and return the new array
+   *
+   * @param arrayLike the array-like object to clone
+   * @returns the clone as an array
+   */
+  function cloneArray$g(arrayLike) {
+    var length = arrayLike.length;
+    if (!length) {
+      return [];
+    }
+    if (length === 1) {
+      return [arrayLike[0]];
+    }
+    if (length === 2) {
+      return [arrayLike[0], arrayLike[1]];
+    }
+    if (length === 3) {
+      return [arrayLike[0], arrayLike[1], arrayLike[2]];
+    }
+    return slice$g.call(arrayLike, 0);
+  }
+  /**
+   * @function getCustomOptions
+   *
+   * @description
+   * get the custom options on the object passed
+   *
+   * @param options the memoization options passed
+   * @returns the custom options passed
+   */
+  function getCustomOptions$g(options) {
+    var customOptions = {};
+    /* eslint-disable no-restricted-syntax */
+    for (var key in options) {
+      if (!DEFAULT_OPTIONS_KEYS$g[key]) {
+        customOptions[key] = options[key];
+      }
+    }
+    /* eslint-enable */
+    return customOptions;
+  }
+  /**
+   * @function isMemoized
+   *
+   * @description
+   * is the function passed already memoized
+   *
+   * @param fn the function to test
+   * @returns is the function already memoized
+   */
+  function isMemoized$g(fn) {
+    return typeof fn === 'function' && fn.isMemoized;
+  }
+  /**
+   * @function isSameValueZero
+   *
+   * @description
+   * are the objects equal based on SameValueZero equality
+   *
+   * @param object1 the first object to compare
+   * @param object2 the second object to compare
+   * @returns are the two objects equal
+   */
+  function isSameValueZero$g(object1, object2) {
+    // eslint-disable-next-line no-self-compare
+    return object1 === object2 || object1 !== object1 && object2 !== object2;
+  }
+  /**
+   * @function mergeOptions
+   *
+   * @description
+   * merge the options into the target
+   *
+   * @param existingOptions the options provided
+   * @param newOptions the options to include
+   * @returns the merged options
+   */
+  function mergeOptions$g(existingOptions, newOptions) {
+    var target = {};
+    /* eslint-disable no-restricted-syntax */
+    for (var key in existingOptions) {
+      target[key] = existingOptions[key];
+    }
+    for (var key in newOptions) {
+      target[key] = newOptions[key];
+    }
+    /* eslint-enable */
+    return target;
+  }
+
+  // utils
+  var Cache$g = /** @class */function () {
+    function Cache(options) {
+      this.keys = [];
+      this.values = [];
+      this.options = options;
+      var isMatchingKeyFunction = typeof options.isMatchingKey === 'function';
+      if (isMatchingKeyFunction) {
+        this.getKeyIndex = this._getKeyIndexFromMatchingKey;
+      } else if (options.maxSize > 1) {
+        this.getKeyIndex = this._getKeyIndexForMany;
+      } else {
+        this.getKeyIndex = this._getKeyIndexForSingle;
+      }
+      this.canTransformKey = typeof options.transformKey === 'function';
+      this.shouldCloneArguments = this.canTransformKey || isMatchingKeyFunction;
+      this.shouldUpdateOnAdd = typeof options.onCacheAdd === 'function';
+      this.shouldUpdateOnChange = typeof options.onCacheChange === 'function';
+      this.shouldUpdateOnHit = typeof options.onCacheHit === 'function';
+    }
+    Object.defineProperty(Cache.prototype, "size", {
+      /**
+       * The number of cached [key,value] results.
+       */
+      get: function get() {
+        return this.keys.length;
+      },
+      enumerable: false,
+      configurable: true
+    });
+    Object.defineProperty(Cache.prototype, "snapshot", {
+      /**
+       * A copy of the cache at a moment in time. This is useful
+       * to compare changes over time, since the cache mutates
+       * internally for performance reasons.
+       */
+      get: function get() {
+        return {
+          keys: cloneArray$g(this.keys),
+          size: this.size,
+          values: cloneArray$g(this.values)
+        };
+      },
+      enumerable: false,
+      configurable: true
+    });
+    /**
+     * Gets the matching key index when a custom key matcher is used.
+     */
+    Cache.prototype._getKeyIndexFromMatchingKey = function (keyToMatch) {
+      var _a = this.options,
+        isMatchingKey = _a.isMatchingKey,
+        maxSize = _a.maxSize;
+      var keys = this.keys;
+      var keysLength = keys.length;
+      if (!keysLength) {
+        return -1;
+      }
+      if (isMatchingKey(keys[0], keyToMatch)) {
+        return 0;
+      }
+      if (maxSize > 1) {
+        for (var index = 1; index < keysLength; index++) {
+          if (isMatchingKey(keys[index], keyToMatch)) {
+            return index;
+          }
+        }
+      }
+      return -1;
+    };
+    /**
+     * Gets the matching key index when multiple keys are used.
+     */
+    Cache.prototype._getKeyIndexForMany = function (keyToMatch) {
+      var isEqual = this.options.isEqual;
+      var keys = this.keys;
+      var keysLength = keys.length;
+      if (!keysLength) {
+        return -1;
+      }
+      if (keysLength === 1) {
+        return this._getKeyIndexForSingle(keyToMatch);
+      }
+      var keyLength = keyToMatch.length;
+      var existingKey;
+      var argIndex;
+      if (keyLength > 1) {
+        for (var index = 0; index < keysLength; index++) {
+          existingKey = keys[index];
+          if (existingKey.length === keyLength) {
+            argIndex = 0;
+            for (; argIndex < keyLength; argIndex++) {
+              if (!isEqual(existingKey[argIndex], keyToMatch[argIndex])) {
+                break;
+              }
+            }
+            if (argIndex === keyLength) {
+              return index;
+            }
+          }
+        }
+      } else {
+        for (var index = 0; index < keysLength; index++) {
+          existingKey = keys[index];
+          if (existingKey.length === keyLength && isEqual(existingKey[0], keyToMatch[0])) {
+            return index;
+          }
+        }
+      }
+      return -1;
+    };
+    /**
+     * Gets the matching key index when a single key is used.
+     */
+    Cache.prototype._getKeyIndexForSingle = function (keyToMatch) {
+      var keys = this.keys;
+      if (!keys.length) {
+        return -1;
+      }
+      var existingKey = keys[0];
+      var length = existingKey.length;
+      if (keyToMatch.length !== length) {
+        return -1;
+      }
+      var isEqual = this.options.isEqual;
+      if (length > 1) {
+        for (var index = 0; index < length; index++) {
+          if (!isEqual(existingKey[index], keyToMatch[index])) {
+            return -1;
+          }
+        }
+        return 0;
+      }
+      return isEqual(existingKey[0], keyToMatch[0]) ? 0 : -1;
+    };
+    /**
+     * Order the array based on a Least-Recently-Used basis.
+     */
+    Cache.prototype.orderByLru = function (key, value, startingIndex) {
+      var keys = this.keys;
+      var values = this.values;
+      var currentLength = keys.length;
+      var index = startingIndex;
+      while (index--) {
+        keys[index + 1] = keys[index];
+        values[index + 1] = values[index];
+      }
+      keys[0] = key;
+      values[0] = value;
+      var maxSize = this.options.maxSize;
+      if (currentLength === maxSize && startingIndex === currentLength) {
+        keys.pop();
+        values.pop();
+      } else if (startingIndex >= maxSize) {
+        // eslint-disable-next-line no-multi-assign
+        keys.length = values.length = maxSize;
+      }
+    };
+    /**
+     * Update the promise method to auto-remove from cache if rejected, and
+     * if resolved then fire cache hit / changed.
+     */
+    Cache.prototype.updateAsyncCache = function (memoized) {
+      var _this = this;
+      var _a = this.options,
+        onCacheChange = _a.onCacheChange,
+        onCacheHit = _a.onCacheHit;
+      var firstKey = this.keys[0];
+      var firstValue = this.values[0];
+      this.values[0] = firstValue.then(function (value) {
+        if (_this.shouldUpdateOnHit) {
+          onCacheHit(_this, _this.options, memoized);
+        }
+        if (_this.shouldUpdateOnChange) {
+          onCacheChange(_this, _this.options, memoized);
+        }
+        return value;
+      }, function (error) {
+        var keyIndex = _this.getKeyIndex(firstKey);
+        if (keyIndex !== -1) {
+          _this.keys.splice(keyIndex, 1);
+          _this.values.splice(keyIndex, 1);
+        }
+        throw error;
+      });
+    };
+    return Cache;
+  }();
+  function createMemoizedFunction$g(fn, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    if (isMemoized$g(fn)) {
+      return createMemoizedFunction$g(fn.fn, mergeOptions$g(fn.options, options));
+    }
+    if (typeof fn !== 'function') {
+      throw new TypeError('You must pass a function to `memoize`.');
+    }
+    var _a = options.isEqual,
+      isEqual = _a === void 0 ? isSameValueZero$g : _a,
+      isMatchingKey = options.isMatchingKey,
+      _b = options.isPromise,
+      isPromise = _b === void 0 ? false : _b,
+      _c = options.maxSize,
+      maxSize = _c === void 0 ? 1 : _c,
+      onCacheAdd = options.onCacheAdd,
+      onCacheChange = options.onCacheChange,
+      onCacheHit = options.onCacheHit,
+      transformKey = options.transformKey;
+    var normalizedOptions = mergeOptions$g({
+      isEqual: isEqual,
+      isMatchingKey: isMatchingKey,
+      isPromise: isPromise,
+      maxSize: maxSize,
+      onCacheAdd: onCacheAdd,
+      onCacheChange: onCacheChange,
+      onCacheHit: onCacheHit,
+      transformKey: transformKey
+    }, getCustomOptions$g(options));
+    var cache = new Cache$g(normalizedOptions);
+    var keys = cache.keys,
+      values = cache.values,
+      canTransformKey = cache.canTransformKey,
+      shouldCloneArguments = cache.shouldCloneArguments,
+      shouldUpdateOnAdd = cache.shouldUpdateOnAdd,
+      shouldUpdateOnChange = cache.shouldUpdateOnChange,
+      shouldUpdateOnHit = cache.shouldUpdateOnHit;
+    var memoized = function memoized() {
+      var key = shouldCloneArguments ? cloneArray$g(arguments) : arguments;
+      if (canTransformKey) {
+        key = transformKey(key);
+      }
+      var keyIndex = keys.length ? cache.getKeyIndex(key) : -1;
+      if (keyIndex !== -1) {
+        if (shouldUpdateOnHit) {
+          onCacheHit(cache, normalizedOptions, memoized);
+        }
+        if (keyIndex) {
+          cache.orderByLru(keys[keyIndex], values[keyIndex], keyIndex);
+          if (shouldUpdateOnChange) {
+            onCacheChange(cache, normalizedOptions, memoized);
+          }
+        }
+      } else {
+        var newValue = fn.apply(this, arguments);
+        var newKey = shouldCloneArguments ? key : cloneArray$g(arguments);
+        cache.orderByLru(newKey, newValue, keys.length);
+        if (isPromise) {
+          cache.updateAsyncCache(memoized);
+        }
+        if (shouldUpdateOnAdd) {
+          onCacheAdd(cache, normalizedOptions, memoized);
+        }
+        if (shouldUpdateOnChange) {
+          onCacheChange(cache, normalizedOptions, memoized);
+        }
+      }
+      return values[0];
+    };
+    memoized.cache = cache;
+    memoized.fn = fn;
+    memoized.isMemoized = true;
+    memoized.options = normalizedOptions;
+    return memoized;
+  }
+  var valueByIdentifier$g = createMemoizedFunction$g(function () {
+    var identifier = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var value = _objectSpread2$g({}, context);
+    var parts = identifier.split('.');
+    if (parts.length === 0) {
+      return '';
+    }
+    var key = parts.shift();
+    if (!(context !== null && context !== void 0 && context[key])) {
+      return '';
+    }
+    if (parts.length === 0 && key === 'length') {
+      return Object.values(value).length;
+    }
+    if (parts.length === 0) {
+      return value[key];
+    }
+    return valueByIdentifier$g(parts.join('.'), value[key]);
+  });
+  function isArray(value) {
+    return Array.isArray(value) && value !== null;
+  }
+  function isObject(value) {
+    return _typeof$f(value) === 'object' && !Array.isArray(value) && value !== null;
+  }
+  function ownKeys$f(e, r) {
+    var t = Object.keys(e);
+    if (Object.getOwnPropertySymbols) {
+      var o = Object.getOwnPropertySymbols(e);
+      r && (o = o.filter(function (r) {
+        return Object.getOwnPropertyDescriptor(e, r).enumerable;
+      })), t.push.apply(t, o);
+    }
+    return t;
+  }
+  function _objectSpread2$f(e) {
+    for (var r = 1; r < arguments.length; r++) {
+      var t = null != arguments[r] ? arguments[r] : {};
+      r % 2 ? ownKeys$f(Object(t), !0).forEach(function (r) {
+        _defineProperty$f(e, r, t[r]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$f(Object(t)).forEach(function (r) {
+        Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
+      });
+    }
+    return e;
+  }
+  function _toPrimitive$f(t, r) {
+    if ("object" != _typeof$f(t) || !t) return t;
+    var e = t[Symbol.toPrimitive];
+    if (void 0 !== e) {
+      var i = e.call(t, r || "default");
+      if ("object" != _typeof$f(i)) return i;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return ("string" === r ? String : Number)(t);
+  }
+  function _toPropertyKey$f(t) {
+    var i = _toPrimitive$f(t, "string");
+    return "symbol" == _typeof$f(i) ? i : String(i);
+  }
+  function _typeof$e(o) {
+    "@babel/helpers - typeof";
+
+    return _typeof$e = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
+      return typeof o;
+    } : function (o) {
+      return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+    }, _typeof$e(o);
+  }
+  function _defineProperty$f(obj, key, value) {
+    key = _toPropertyKey$f(key);
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  var classnames$f = {
+    exports: {}
+  };
+
+  /*!
+  	Copyright (c) 2018 Jed Watson.
+  	Licensed under the MIT License (MIT), see
+  	http://jedwatson.github.io/classnames
+  */
+
+  (function (module) {
+    /* global define */
+
+    (function () {
+      var hasOwn = {}.hasOwnProperty;
+      function classNames() {
+        var classes = '';
+        for (var i = 0; i < arguments.length; i++) {
+          var arg = arguments[i];
+          if (arg) {
+            classes = appendClass(classes, parseValue(arg));
+          }
+        }
+        return classes;
+      }
+      function parseValue(arg) {
+        if (typeof arg === 'string' || typeof arg === 'number') {
+          return arg;
+        }
+        if (_typeof$f(arg) !== 'object') {
+          return '';
+        }
+        if (Array.isArray(arg)) {
+          return classNames.apply(null, arg);
+        }
+        if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
+          return arg.toString();
+        }
+        var classes = '';
+        for (var key in arg) {
+          if (hasOwn.call(arg, key) && arg[key]) {
+            classes = appendClass(classes, key);
+          }
+        }
+        return classes;
+      }
+      function appendClass(value, newClass) {
+        if (!newClass) {
+          return value;
+        }
+        if (value) {
+          return value + ' ' + newClass;
+        }
+        return value + newClass;
+      }
+      if (module.exports) {
+        classNames["default"] = classNames;
+        module.exports = classNames;
+      } else {
+        window.classNames = classNames;
+      }
+    })();
+  })(classnames$f);
+
+  /**
+   * @constant DEFAULT_OPTIONS_KEYS the default options keys
+   */
+  var DEFAULT_OPTIONS_KEYS$f = {
+    isEqual: true,
+    isMatchingKey: true,
+    isPromise: true,
+    maxSize: true,
+    onCacheAdd: true,
+    onCacheChange: true,
+    onCacheHit: true,
+    transformKey: true
+  };
+  /**
+   * @function slice
+   *
+   * @description
+   * slice.call() pre-bound
+   */
+  var slice$f = Array.prototype.slice;
+  /**
+   * @function cloneArray
+   *
+   * @description
+   * clone the array-like object and return the new array
+   *
+   * @param arrayLike the array-like object to clone
+   * @returns the clone as an array
+   */
+  function cloneArray$f(arrayLike) {
+    var length = arrayLike.length;
+    if (!length) {
+      return [];
+    }
+    if (length === 1) {
+      return [arrayLike[0]];
+    }
+    if (length === 2) {
+      return [arrayLike[0], arrayLike[1]];
+    }
+    if (length === 3) {
+      return [arrayLike[0], arrayLike[1], arrayLike[2]];
+    }
+    return slice$f.call(arrayLike, 0);
+  }
+  /**
+   * @function getCustomOptions
+   *
+   * @description
+   * get the custom options on the object passed
+   *
+   * @param options the memoization options passed
+   * @returns the custom options passed
+   */
+  function getCustomOptions$f(options) {
+    var customOptions = {};
+    /* eslint-disable no-restricted-syntax */
+    for (var key in options) {
+      if (!DEFAULT_OPTIONS_KEYS$f[key]) {
+        customOptions[key] = options[key];
+      }
+    }
+    /* eslint-enable */
+    return customOptions;
+  }
+  /**
+   * @function isMemoized
+   *
+   * @description
+   * is the function passed already memoized
+   *
+   * @param fn the function to test
+   * @returns is the function already memoized
+   */
+  function isMemoized$f(fn) {
+    return typeof fn === 'function' && fn.isMemoized;
+  }
+  /**
+   * @function isSameValueZero
+   *
+   * @description
+   * are the objects equal based on SameValueZero equality
+   *
+   * @param object1 the first object to compare
+   * @param object2 the second object to compare
+   * @returns are the two objects equal
+   */
+  function isSameValueZero$f(object1, object2) {
+    // eslint-disable-next-line no-self-compare
+    return object1 === object2 || object1 !== object1 && object2 !== object2;
+  }
+  /**
+   * @function mergeOptions
+   *
+   * @description
+   * merge the options into the target
+   *
+   * @param existingOptions the options provided
+   * @param newOptions the options to include
+   * @returns the merged options
+   */
+  function mergeOptions$f(existingOptions, newOptions) {
+    var target = {};
+    /* eslint-disable no-restricted-syntax */
+    for (var key in existingOptions) {
+      target[key] = existingOptions[key];
+    }
+    for (var key in newOptions) {
+      target[key] = newOptions[key];
+    }
+    /* eslint-enable */
+    return target;
+  }
+
+  // utils
+  var Cache$f = /** @class */function () {
+    function Cache(options) {
+      this.keys = [];
+      this.values = [];
+      this.options = options;
+      var isMatchingKeyFunction = typeof options.isMatchingKey === 'function';
+      if (isMatchingKeyFunction) {
+        this.getKeyIndex = this._getKeyIndexFromMatchingKey;
+      } else if (options.maxSize > 1) {
+        this.getKeyIndex = this._getKeyIndexForMany;
+      } else {
+        this.getKeyIndex = this._getKeyIndexForSingle;
+      }
+      this.canTransformKey = typeof options.transformKey === 'function';
+      this.shouldCloneArguments = this.canTransformKey || isMatchingKeyFunction;
+      this.shouldUpdateOnAdd = typeof options.onCacheAdd === 'function';
+      this.shouldUpdateOnChange = typeof options.onCacheChange === 'function';
+      this.shouldUpdateOnHit = typeof options.onCacheHit === 'function';
+    }
+    Object.defineProperty(Cache.prototype, "size", {
+      /**
+       * The number of cached [key,value] results.
+       */
+      get: function get() {
+        return this.keys.length;
+      },
+      enumerable: false,
+      configurable: true
+    });
+    Object.defineProperty(Cache.prototype, "snapshot", {
+      /**
+       * A copy of the cache at a moment in time. This is useful
+       * to compare changes over time, since the cache mutates
+       * internally for performance reasons.
+       */
+      get: function get() {
+        return {
+          keys: cloneArray$f(this.keys),
+          size: this.size,
+          values: cloneArray$f(this.values)
+        };
+      },
+      enumerable: false,
+      configurable: true
+    });
+    /**
+     * Gets the matching key index when a custom key matcher is used.
+     */
+    Cache.prototype._getKeyIndexFromMatchingKey = function (keyToMatch) {
+      var _a = this.options,
+        isMatchingKey = _a.isMatchingKey,
+        maxSize = _a.maxSize;
+      var keys = this.keys;
+      var keysLength = keys.length;
+      if (!keysLength) {
+        return -1;
+      }
+      if (isMatchingKey(keys[0], keyToMatch)) {
+        return 0;
+      }
+      if (maxSize > 1) {
+        for (var index = 1; index < keysLength; index++) {
+          if (isMatchingKey(keys[index], keyToMatch)) {
+            return index;
+          }
+        }
+      }
+      return -1;
+    };
+    /**
+     * Gets the matching key index when multiple keys are used.
+     */
+    Cache.prototype._getKeyIndexForMany = function (keyToMatch) {
+      var isEqual = this.options.isEqual;
+      var keys = this.keys;
+      var keysLength = keys.length;
+      if (!keysLength) {
+        return -1;
+      }
+      if (keysLength === 1) {
+        return this._getKeyIndexForSingle(keyToMatch);
+      }
+      var keyLength = keyToMatch.length;
+      var existingKey;
+      var argIndex;
+      if (keyLength > 1) {
+        for (var index = 0; index < keysLength; index++) {
+          existingKey = keys[index];
+          if (existingKey.length === keyLength) {
+            argIndex = 0;
+            for (; argIndex < keyLength; argIndex++) {
+              if (!isEqual(existingKey[argIndex], keyToMatch[argIndex])) {
+                break;
+              }
+            }
+            if (argIndex === keyLength) {
+              return index;
+            }
+          }
+        }
+      } else {
+        for (var index = 0; index < keysLength; index++) {
+          existingKey = keys[index];
+          if (existingKey.length === keyLength && isEqual(existingKey[0], keyToMatch[0])) {
+            return index;
+          }
+        }
+      }
+      return -1;
+    };
+    /**
+     * Gets the matching key index when a single key is used.
+     */
+    Cache.prototype._getKeyIndexForSingle = function (keyToMatch) {
+      var keys = this.keys;
+      if (!keys.length) {
+        return -1;
+      }
+      var existingKey = keys[0];
+      var length = existingKey.length;
+      if (keyToMatch.length !== length) {
+        return -1;
+      }
+      var isEqual = this.options.isEqual;
+      if (length > 1) {
+        for (var index = 0; index < length; index++) {
+          if (!isEqual(existingKey[index], keyToMatch[index])) {
+            return -1;
+          }
+        }
+        return 0;
+      }
+      return isEqual(existingKey[0], keyToMatch[0]) ? 0 : -1;
+    };
+    /**
+     * Order the array based on a Least-Recently-Used basis.
+     */
+    Cache.prototype.orderByLru = function (key, value, startingIndex) {
+      var keys = this.keys;
+      var values = this.values;
+      var currentLength = keys.length;
+      var index = startingIndex;
+      while (index--) {
+        keys[index + 1] = keys[index];
+        values[index + 1] = values[index];
+      }
+      keys[0] = key;
+      values[0] = value;
+      var maxSize = this.options.maxSize;
+      if (currentLength === maxSize && startingIndex === currentLength) {
+        keys.pop();
+        values.pop();
+      } else if (startingIndex >= maxSize) {
+        // eslint-disable-next-line no-multi-assign
+        keys.length = values.length = maxSize;
+      }
+    };
+    /**
+     * Update the promise method to auto-remove from cache if rejected, and
+     * if resolved then fire cache hit / changed.
+     */
+    Cache.prototype.updateAsyncCache = function (memoized) {
+      var _this = this;
+      var _a = this.options,
+        onCacheChange = _a.onCacheChange,
+        onCacheHit = _a.onCacheHit;
+      var firstKey = this.keys[0];
+      var firstValue = this.values[0];
+      this.values[0] = firstValue.then(function (value) {
+        if (_this.shouldUpdateOnHit) {
+          onCacheHit(_this, _this.options, memoized);
+        }
+        if (_this.shouldUpdateOnChange) {
+          onCacheChange(_this, _this.options, memoized);
+        }
+        return value;
+      }, function (error) {
+        var keyIndex = _this.getKeyIndex(firstKey);
+        if (keyIndex !== -1) {
+          _this.keys.splice(keyIndex, 1);
+          _this.values.splice(keyIndex, 1);
+        }
+        throw error;
+      });
+    };
+    return Cache;
+  }();
+  function createMemoizedFunction$f(fn, options) {
+    if (options === void 0) {
+      options = {};
+    }
+    if (isMemoized$f(fn)) {
+      return createMemoizedFunction$f(fn.fn, mergeOptions$f(fn.options, options));
+    }
+    if (typeof fn !== 'function') {
+      throw new TypeError('You must pass a function to `memoize`.');
+    }
+    var _a = options.isEqual,
+      isEqual = _a === void 0 ? isSameValueZero$f : _a,
+      isMatchingKey = options.isMatchingKey,
+      _b = options.isPromise,
+      isPromise = _b === void 0 ? false : _b,
+      _c = options.maxSize,
+      maxSize = _c === void 0 ? 1 : _c,
+      onCacheAdd = options.onCacheAdd,
+      onCacheChange = options.onCacheChange,
+      onCacheHit = options.onCacheHit,
+      transformKey = options.transformKey;
+    var normalizedOptions = mergeOptions$f({
+      isEqual: isEqual,
+      isMatchingKey: isMatchingKey,
+      isPromise: isPromise,
+      maxSize: maxSize,
+      onCacheAdd: onCacheAdd,
+      onCacheChange: onCacheChange,
+      onCacheHit: onCacheHit,
+      transformKey: transformKey
+    }, getCustomOptions$f(options));
+    var cache = new Cache$f(normalizedOptions);
+    var keys = cache.keys,
+      values = cache.values,
+      canTransformKey = cache.canTransformKey,
+      shouldCloneArguments = cache.shouldCloneArguments,
+      shouldUpdateOnAdd = cache.shouldUpdateOnAdd,
+      shouldUpdateOnChange = cache.shouldUpdateOnChange,
+      shouldUpdateOnHit = cache.shouldUpdateOnHit;
+    var memoized = function memoized() {
+      var key = shouldCloneArguments ? cloneArray$f(arguments) : arguments;
+      if (canTransformKey) {
+        key = transformKey(key);
+      }
+      var keyIndex = keys.length ? cache.getKeyIndex(key) : -1;
+      if (keyIndex !== -1) {
+        if (shouldUpdateOnHit) {
+          onCacheHit(cache, normalizedOptions, memoized);
+        }
+        if (keyIndex) {
+          cache.orderByLru(keys[keyIndex], values[keyIndex], keyIndex);
+          if (shouldUpdateOnChange) {
+            onCacheChange(cache, normalizedOptions, memoized);
+          }
+        }
+      } else {
+        var newValue = fn.apply(this, arguments);
+        var newKey = shouldCloneArguments ? key : cloneArray$f(arguments);
+        cache.orderByLru(newKey, newValue, keys.length);
+        if (isPromise) {
+          cache.updateAsyncCache(memoized);
+        }
+        if (shouldUpdateOnAdd) {
+          onCacheAdd(cache, normalizedOptions, memoized);
+        }
+        if (shouldUpdateOnChange) {
+          onCacheChange(cache, normalizedOptions, memoized);
+        }
+      }
+      return values[0];
+    };
+    memoized.cache = cache;
+    memoized.fn = fn;
+    memoized.isMemoized = true;
+    memoized.options = normalizedOptions;
+    return memoized;
+  }
+  var valueByIdentifier$f = createMemoizedFunction$f(function () {
+    var identifier = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var value = _objectSpread2$f({}, context);
+    var parts = identifier.split('.');
+    if (parts.length === 0) {
+      return '';
+    }
+    var key = parts.shift();
+    if (!(context !== null && context !== void 0 && context[key])) {
+      return '';
+    }
+    if (parts.length === 0 && key === 'length') {
+      return Object.values(value).length;
+    }
+    if (parts.length === 0) {
+      return value[key];
+    }
+    return valueByIdentifier$f(parts.join('.'), value[key]);
+  });
+  function ownKeys$e(e, r) {
+    var t = Object.keys(e);
+    if (Object.getOwnPropertySymbols) {
+      var o = Object.getOwnPropertySymbols(e);
+      r && (o = o.filter(function (r) {
+        return Object.getOwnPropertyDescriptor(e, r).enumerable;
+      })), t.push.apply(t, o);
+    }
+    return t;
+  }
+  function _objectSpread2$e(e) {
+    for (var r = 1; r < arguments.length; r++) {
+      var t = null != arguments[r] ? arguments[r] : {};
+      r % 2 ? ownKeys$e(Object(t), !0).forEach(function (r) {
+        _defineProperty$e(e, r, t[r]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$e(Object(t)).forEach(function (r) {
+        Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
+      });
+    }
+    return e;
+  }
+  function _toPrimitive$e(t, r) {
+    if ("object" != _typeof$e(t) || !t) return t;
+    var e = t[Symbol.toPrimitive];
+    if (void 0 !== e) {
+      var i = e.call(t, r || "default");
+      if ("object" != _typeof$e(i)) return i;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return ("string" === r ? String : Number)(t);
+  }
+  function _toPropertyKey$e(t) {
+    var i = _toPrimitive$e(t, "string");
+    return "symbol" == _typeof$e(i) ? i : String(i);
+  }
+  function _typeof$d(o) {
+    "@babel/helpers - typeof";
+
+    return _typeof$d = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
+      return typeof o;
+    } : function (o) {
+      return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+    }, _typeof$d(o);
+  }
+  function _defineProperty$e(obj, key, value) {
+    key = _toPropertyKey$e(key);
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  var classnames$e = {
+    exports: {}
+  };
+
+  /*!
+  	Copyright (c) 2018 Jed Watson.
+  	Licensed under the MIT License (MIT), see
+  	http://jedwatson.github.io/classnames
+  */
+
+  (function (module) {
+    /* global define */
+
+    (function () {
+      var hasOwn = {}.hasOwnProperty;
+      function classNames() {
+        var classes = '';
+        for (var i = 0; i < arguments.length; i++) {
+          var arg = arguments[i];
+          if (arg) {
+            classes = appendClass(classes, parseValue(arg));
+          }
+        }
+        return classes;
+      }
+      function parseValue(arg) {
+        if (typeof arg === 'string' || typeof arg === 'number') {
+          return arg;
+        }
+        if (_typeof$e(arg) !== 'object') {
+          return '';
+        }
+        if (Array.isArray(arg)) {
+          return classNames.apply(null, arg);
+        }
+        if (arg.toString !== Object.prototype.toString && !arg.toString.toString().includes('[native code]')) {
+          return arg.toString();
+        }
+        var classes = '';
+        for (var key in arg) {
+          if (hasOwn.call(arg, key) && arg[key]) {
+            classes = appendClass(classes, key);
+          }
+        }
+        return classes;
+      }
+      function appendClass(value, newClass) {
+        if (!newClass) {
+          return value;
+        }
+        if (value) {
+          return value + ' ' + newClass;
+        }
+        return value + newClass;
+      }
+      if (module.exports) {
+        classNames["default"] = classNames;
+        module.exports = classNames;
+      } else {
+        window.classNames = classNames;
+      }
+    })();
+  })(classnames$e);
 
   /**
    * @constant DEFAULT_OPTIONS_KEYS the default options keys
@@ -554,7 +2300,7 @@
       /**
        * The number of cached [key,value] results.
        */
-      get: function () {
+      get: function get() {
         return this.keys.length;
       },
       enumerable: false,
@@ -566,7 +2312,7 @@
        * to compare changes over time, since the cache mutates
        * internally for performance reasons.
        */
-      get: function () {
+      get: function get() {
         return {
           keys: cloneArray$e(this.keys),
           size: this.size,
@@ -757,7 +2503,7 @@
       shouldUpdateOnAdd = cache.shouldUpdateOnAdd,
       shouldUpdateOnChange = cache.shouldUpdateOnChange,
       shouldUpdateOnHit = cache.shouldUpdateOnHit;
-    var memoized = function () {
+    var memoized = function memoized() {
       var key = shouldCloneArguments ? cloneArray$e(arguments) : arguments;
       if (canTransformKey) {
         key = transformKey(key);
@@ -815,183 +2561,6 @@
     }
     return valueByIdentifier$e(parts.join('.'), value[key]);
   });
-  function replaceTokens() {
-    var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-    var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    if (typeof string !== 'string') {
-      return string;
-    }
-    return string.replaceAll(/\{\{(.*?)\}\}/g, function (match, p1) {
-      return valueByIdentifier$e(p1.trim(), context);
-    });
-  }
-  var OPERANDS = ['==', '!=', '<', '<=', '>', '>='];
-  function evaluateCondition() {
-    var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-    var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    var operand = null;
-    OPERANDS.forEach(function (OPERAND) {
-      if (string.indexOf(OPERAND) !== -1) {
-        operand = OPERAND;
-      }
-    });
-    if (operand === null) {
-      return Boolean(replaceTokens(string, context));
-    }
-    var before = replaceTokens(string.slice(0, string.indexOf(operand)).trim(), context);
-    var after = replaceTokens(string.slice(string.indexOf(operand) + operand.length).trim(), context);
-    if (before.slice(0, 1) === "'" && before.slice(-1) === "'" || before.slice(0, 1) === '"' && before.slice(-1) === '"') {
-      before = before.slice(1, -1);
-    }
-    if (after.slice(0, 1) === "'" && after.slice(-1) === "'" || after.slice(0, 1) === '"' && after.slice(-1) === '"') {
-      after = after.slice(1, -1);
-    }
-    if (operand === '==') {
-      return before == after;
-    }
-    if (operand === '!=') {
-      return before != after;
-    }
-    if (operand === '<') {
-      return before < after;
-    }
-    if (operand === '<=') {
-      return before <= after;
-    }
-    if (operand === '>') {
-      return before > after;
-    }
-    if (operand === '>=') {
-      return before >= after;
-    }
-    return false;
-  }
-  function evaluateConditionalString() {
-    var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-    var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    if (typeof string !== 'string' || string === '') {
-      return string;
-    }
-    var open = null;
-    var close = null;
-    var evaluatedString = string;
-    do {
-      for (var i = 0; i < string.length; i++) {
-        if (string[i] === '(') {
-          open = i;
-        }
-        if (open !== null && string[i] === ')') {
-          close = i;
-          break;
-        }
-      }
-      var conditional = void 0,
-        before = void 0,
-        after = void 0;
-      if (open === null && close === null) {
-        conditional = string;
-        before = '';
-        after = '';
-      } else {
-        conditional = string.slice(open + 1, close - 1);
-        before = string.slice(0, open - 1);
-        after = string.slice(close + 1);
-      }
-      var ands = conditional.split('&&');
-      var result = ands.reduce(function (result, and) {
-        var ors = and.trim().split('||');
-        return result && ors.reduce(function (reducedOr, or) {
-          return reducedOr || evaluateCondition(or.trim(), context);
-        }, null);
-      }, true);
-      if (before === '' && after === '') {
-        evaluatedString = result && '1' || '0';
-      } else {
-        evaluatedString = before + (result && 'true' || 'false') + after;
-      }
-    } while (open !== null && close !== null);
-    if (evaluatedString === '1' || evaluatedString === 'true') {
-      return true;
-    }
-    if (evaluatedString === '0' || evaluatedString === 'false') {
-      return false;
-    }
-    return Boolean(evaluatedString);
-  }
-
-  /**
-   * Wraps the default classNames function to provide
-   * contextual token replacement
-   */
-  function classNames$1() {
-    var _classNames = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    var classNameArray = Array.isArray(_classNames) && _classNames || [_classNames];
-    classNameArray = classNameArray.map(function (className) {
-      if (Array.isArray(className)) {
-        return classNames$1(className, context);
-      } else if (_typeof$d(className) === "object") {
-        return Object.fromEntries(Object.entries(className).map(function (_ref) {
-          var _ref2 = _slicedToArray(_ref, 2),
-            key = _ref2[0],
-            value = _ref2[1];
-          return [replaceTokens(key, context), typeof value === "boolean" ? value : evaluateConditionalString(value, context)];
-        }));
-      }
-      return className;
-    });
-    return replaceTokens(npmClassNames.apply(void 0, _toConsumableArray(classNameArray)), context);
-  }
-  function convertStyleStringToObject() {
-    var style = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-    if (typeof style !== "string") {
-      return {};
-    }
-    return Object.fromEntries(style.split(";").filter(function (property) {
-      return !!property;
-    }).map(function (property) {
-      return property.split(":");
-    }));
-  }
-  var _excluded$1$1 = ["clientId", "attributes", "innerBlocks"];
-  /**
-   * Returns the block context with private attributes formatted.
-   * 
-   * Note: The length of the inner blocks is saved as an attribute because 
-   * they can not be directly referenced upon initial save.
-   */
-  function getBlockContext() {
-    var context = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    context.clientId;
-    var attributes = context.attributes,
-      innerBlocks = context.innerBlocks,
-      blockContext = _objectWithoutProperties(context, _excluded$1$1);
-    var index = 1 + ((attributes === null || attributes === void 0 ? void 0 : attributes._index) || 0);
-    var length = (attributes === null || attributes === void 0 ? void 0 : attributes._innerBlocksLength) || 0;
-    return _objectSpread2$e(_objectSpread2$e({}, blockContext), {}, {
-      block: _objectSpread2$e({
-        index: index
-      }, attributes),
-      innerBlocks: (innerBlocks === null || innerBlocks === void 0 ? void 0 : innerBlocks.length) && innerBlocks || new Array(length).fill(null)
-    });
-  }
-  function isExternalUrl(url) {
-    if (url.length === 0 || url.indexOf('#') === 0 || url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0) {
-      return false;
-    }
-    try {
-      new URL(url);
-    } catch (error) {
-      return false;
-    }
-    return new URL(url).origin !== location.origin;
-  }
-  function isFragmentUrl(url) {
-    if (url.indexOf('#') === 0) {
-      return true;
-    }
-    return false;
-  }
   function ownKeys$d(e, r) {
     var t = Object.keys(e);
     if (Object.getOwnPropertySymbols) {
@@ -1513,12 +3082,6 @@
     }
     return valueByIdentifier$d(parts.join('.'), value[key]);
   });
-  function isArray$1(value) {
-    return Array.isArray(value) && value !== null;
-  }
-  function isObject$1(value) {
-    return _typeof$c(value) === 'object' && !Array.isArray(value) && value !== null;
-  }
   function ownKeys$c(e, r) {
     var t = Object.keys(e);
     if (Object.getOwnPropertySymbols) {
@@ -7820,7 +9383,7 @@
     }
     return obj;
   }
-  var classnames$f = {
+  var classnames$i = {
     exports: {}
   };
 
@@ -7882,12 +9445,12 @@
         window.classNames = classNames;
       }
     })();
-  })(classnames$f);
+  })(classnames$i);
 
   /**
    * @constant DEFAULT_OPTIONS_KEYS the default options keys
    */
-  var DEFAULT_OPTIONS_KEYS$f = {
+  var DEFAULT_OPTIONS_KEYS$i = {
     isEqual: true,
     isMatchingKey: true,
     isPromise: true,
@@ -7903,7 +9466,7 @@
    * @description
    * slice.call() pre-bound
    */
-  var slice$f = Array.prototype.slice;
+  var slice$i = Array.prototype.slice;
   /**
    * @function cloneArray
    *
@@ -7913,7 +9476,7 @@
    * @param arrayLike the array-like object to clone
    * @returns the clone as an array
    */
-  function cloneArray$f(arrayLike) {
+  function cloneArray$i(arrayLike) {
     var length = arrayLike.length;
     if (!length) {
       return [];
@@ -7927,7 +9490,7 @@
     if (length === 3) {
       return [arrayLike[0], arrayLike[1], arrayLike[2]];
     }
-    return slice$f.call(arrayLike, 0);
+    return slice$i.call(arrayLike, 0);
   }
   /**
    * @function getCustomOptions
@@ -7938,11 +9501,11 @@
    * @param options the memoization options passed
    * @returns the custom options passed
    */
-  function getCustomOptions$f(options) {
+  function getCustomOptions$i(options) {
     var customOptions = {};
     /* eslint-disable no-restricted-syntax */
     for (var key in options) {
-      if (!DEFAULT_OPTIONS_KEYS$f[key]) {
+      if (!DEFAULT_OPTIONS_KEYS$i[key]) {
         customOptions[key] = options[key];
       }
     }
@@ -7958,7 +9521,7 @@
    * @param fn the function to test
    * @returns is the function already memoized
    */
-  function isMemoized$f(fn) {
+  function isMemoized$i(fn) {
     return typeof fn === 'function' && fn.isMemoized;
   }
   /**
@@ -7971,7 +9534,7 @@
    * @param object2 the second object to compare
    * @returns are the two objects equal
    */
-  function isSameValueZero$f(object1, object2) {
+  function isSameValueZero$i(object1, object2) {
     // eslint-disable-next-line no-self-compare
     return object1 === object2 || object1 !== object1 && object2 !== object2;
   }
@@ -7985,7 +9548,7 @@
    * @param newOptions the options to include
    * @returns the merged options
    */
-  function mergeOptions$f(existingOptions, newOptions) {
+  function mergeOptions$i(existingOptions, newOptions) {
     var target = {};
     /* eslint-disable no-restricted-syntax */
     for (var key in existingOptions) {
@@ -7999,7 +9562,7 @@
   }
 
   // utils
-  var Cache$f = /** @class */function () {
+  var Cache$i = /** @class */function () {
     function Cache(options) {
       this.keys = [];
       this.values = [];
@@ -8036,9 +9599,9 @@
        */
       get: function get() {
         return {
-          keys: cloneArray$f(this.keys),
+          keys: cloneArray$i(this.keys),
           size: this.size,
-          values: cloneArray$f(this.values)
+          values: cloneArray$i(this.values)
         };
       },
       enumerable: false,
@@ -8186,18 +9749,18 @@
     };
     return Cache;
   }();
-  function createMemoizedFunction$f(fn, options) {
+  function createMemoizedFunction$i(fn, options) {
     if (options === void 0) {
       options = {};
     }
-    if (isMemoized$f(fn)) {
-      return createMemoizedFunction$f(fn.fn, mergeOptions$f(fn.options, options));
+    if (isMemoized$i(fn)) {
+      return createMemoizedFunction$i(fn.fn, mergeOptions$i(fn.options, options));
     }
     if (typeof fn !== 'function') {
       throw new TypeError('You must pass a function to `memoize`.');
     }
     var _a = options.isEqual,
-      isEqual = _a === void 0 ? isSameValueZero$f : _a,
+      isEqual = _a === void 0 ? isSameValueZero$i : _a,
       isMatchingKey = options.isMatchingKey,
       _b = options.isPromise,
       isPromise = _b === void 0 ? false : _b,
@@ -8207,7 +9770,7 @@
       onCacheChange = options.onCacheChange,
       onCacheHit = options.onCacheHit,
       transformKey = options.transformKey;
-    var normalizedOptions = mergeOptions$f({
+    var normalizedOptions = mergeOptions$i({
       isEqual: isEqual,
       isMatchingKey: isMatchingKey,
       isPromise: isPromise,
@@ -8216,8 +9779,8 @@
       onCacheChange: onCacheChange,
       onCacheHit: onCacheHit,
       transformKey: transformKey
-    }, getCustomOptions$f(options));
-    var cache = new Cache$f(normalizedOptions);
+    }, getCustomOptions$i(options));
+    var cache = new Cache$i(normalizedOptions);
     var keys = cache.keys,
       values = cache.values,
       canTransformKey = cache.canTransformKey,
@@ -8226,7 +9789,7 @@
       shouldUpdateOnChange = cache.shouldUpdateOnChange,
       shouldUpdateOnHit = cache.shouldUpdateOnHit;
     var memoized = function memoized() {
-      var key = shouldCloneArguments ? cloneArray$f(arguments) : arguments;
+      var key = shouldCloneArguments ? cloneArray$i(arguments) : arguments;
       if (canTransformKey) {
         key = transformKey(key);
       }
@@ -8243,7 +9806,7 @@
         }
       } else {
         var newValue = fn.apply(this, arguments);
-        var newKey = shouldCloneArguments ? key : cloneArray$f(arguments);
+        var newKey = shouldCloneArguments ? key : cloneArray$i(arguments);
         cache.orderByLru(newKey, newValue, keys.length);
         if (isPromise) {
           cache.updateAsyncCache(memoized);
@@ -8263,7 +9826,7 @@
     memoized.options = normalizedOptions;
     return memoized;
   }
-  var valueByIdentifier = createMemoizedFunction$f(function () {
+  var valueByIdentifier = createMemoizedFunction$i(function () {
     var identifier = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
     var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     var value = _objectSpread2({}, context);
@@ -8285,10 +9848,10 @@
   });
   function normalizeComponentList(componentList) {
     var defaultComponent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    if (isObject$1(componentList)) {
+    if (isObject(componentList)) {
       return [componentList];
     }
-    if (isArray$1(componentList) && componentList.length > 0) {
+    if (isArray(componentList) && componentList.length > 0) {
       return componentList;
     }
     return [defaultComponent];
@@ -8301,7 +9864,7 @@
     if (typeof _styles === "string") {
       _styles = convertStyleStringToObject(_styles);
     }
-    if (_typeof$d(_styles) !== "object") {
+    if (_typeof$g(_styles) !== "object") {
       return {};
     }
     return Object.fromEntries(Object.entries(_styles).map(function (_ref) {
@@ -8312,7 +9875,7 @@
     }));
   }
   var _excluded$10 = ["children", "className", "editorClassName", "viewClassName", "style", "attributeName", "type", "tagName", "persist"],
-    _excluded2$5 = ["jsx"];
+    _excluded2$6 = ["jsx"];
 
   /**
    * Renders an item inside a JSX objects array
@@ -8354,7 +9917,7 @@
         name = _ref4[0],
         value = _ref4[1];
       if (typeof value === 'string' && EXCLUDED_ATTRIBUTES.includes(name) === false) {
-        return [name, replaceTokens(value, _objectSpread2$e(_objectSpread2$e({}, context), {}, {
+        return [name, replaceTokens(value, _objectSpread2$h(_objectSpread2$h({}, context), {}, {
           attribute: {
             value: attributeValue
           }
@@ -8366,7 +9929,7 @@
     if ('display' in jsxAttributes) {
       jsxAttributes.display = evaluateConditionalString(props.display, context);
     }
-    var jsxClassNames = classNames$1([].concat(_toConsumableArray(Array.isArray(className) && className || [className]), _toConsumableArray((context === null || context === void 0 ? void 0 : context.context) === 'edit' && (Array.isArray(editorClassName) && editorClassName || [editorClassName]) || []), _toConsumableArray((context === null || context === void 0 ? void 0 : context.context) === 'save' && (Array.isArray(viewClassName) && viewClassName || [viewClassName]) || [])), _objectSpread2$e(_objectSpread2$e({}, context), {}, {
+    var jsxClassNames = classNames$1([].concat(_toConsumableArray(Array.isArray(className) && className || [className]), _toConsumableArray((context === null || context === void 0 ? void 0 : context.context) === 'edit' && (Array.isArray(editorClassName) && editorClassName || [editorClassName]) || []), _toConsumableArray((context === null || context === void 0 ? void 0 : context.context) === 'save' && (Array.isArray(viewClassName) && viewClassName || [viewClassName]) || [])), _objectSpread2$h(_objectSpread2$h({}, context), {}, {
       attribute: {
         value: attributeValue
       }
@@ -8374,7 +9937,7 @@
     if (jsxClassNames) {
       jsxAttributes.className = jsxClassNames;
     }
-    var jsxStyles = styles(style, _objectSpread2$e(_objectSpread2$e({}, context), {}, {
+    var jsxStyles = styles(style, _objectSpread2$h(_objectSpread2$h({}, context), {}, {
       attribute: {
         value: attributeValue
       }
@@ -8404,7 +9967,7 @@
           if ((context === null || context === void 0 ? void 0 : context.context) === 'save') {
             return;
           }
-          setAttributes(_defineProperty$e({}, attributeName, value), persist);
+          setAttributes(_defineProperty$h({}, attributeName, value), persist);
         }
       }), renderJsxArray({
         clientId: clientId,
@@ -8435,7 +9998,7 @@
   function renderJsxArray(_ref5) {
     var _ref5$jsx = _ref5.jsx,
       jsx = _ref5$jsx === void 0 ? [] : _ref5$jsx,
-      blockProps = _objectWithoutProperties(_ref5, _excluded2$5);
+      blockProps = _objectWithoutProperties(_ref5, _excluded2$6);
     var Components = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     if (Array.isArray(jsx) === false || jsx.length === 0) {
       return null;
@@ -8615,7 +10178,7 @@
   n(css$c,{});
 
   var _excluded$$ = ["onInput", "options", "multiple", "disabled", "value"],
-    _excluded2$4 = ["icon", "subscript", "label"];
+    _excluded2$5 = ["icon", "subscript", "label"];
   function edit$v(_ref) {
     var onInput = _ref.onInput,
       _ref$options = _ref.options,
@@ -8630,7 +10193,7 @@
       var icon = _ref2.icon,
         subscript = _ref2.subscript,
         label = _ref2.label,
-        option = _objectWithoutProperties$1(_ref2, _excluded2$4);
+        option = _objectWithoutProperties$1(_ref2, _excluded2$5);
       return /*#__PURE__*/React.createElement(wp.components.ToolbarButton, {
         icon: icon || /*#__PURE__*/React.createElement("div", {
           className: "label"
@@ -9004,7 +10567,7 @@
     var label = _ref.label,
       show = _ref.show;
     return /*#__PURE__*/React.createElement("div", {
-      style: _objectSpread2$f(_objectSpread2$f({}, elStyle$2), show === true && elShowStyle)
+      style: _objectSpread2$i(_objectSpread2$i({}, elStyle$2), show === true && elShowStyle)
     }, label, /*#__PURE__*/React.createElement("div", {
       style: afterStyle
     }));
@@ -9072,7 +10635,7 @@
     return /*#__PURE__*/React.createElement(Field.edit, _extends$1({}, props, {
       type: "boolean",
       value: value,
-      style: _objectSpread2$f(_objectSpread2$f({}, elStyle$1), size === 'small' && elSmallStyle),
+      style: _objectSpread2$i(_objectSpread2$i({}, elStyle$1), size === 'small' && elSmallStyle),
       onMouseEnter: function onMouseEnter() {
         return setHasHover(true);
       },
@@ -9085,11 +10648,11 @@
         return onInput(!value);
       }
     }, /*#__PURE__*/React.createElement("div", {
-      style: _objectSpread2$f(_objectSpread2$f({}, toggleSizeStyle), toggleFalsePositionStyle)
+      style: _objectSpread2$i(_objectSpread2$i({}, toggleSizeStyle), toggleFalsePositionStyle)
     }), /*#__PURE__*/React.createElement("div", {
-      style: _objectSpread2$f(_objectSpread2$f({}, toggleSizeStyle), toggleTruePositionStyle)
+      style: _objectSpread2$i(_objectSpread2$i({}, toggleSizeStyle), toggleTruePositionStyle)
     }), /*#__PURE__*/React.createElement("div", {
-      style: _objectSpread2$f(_objectSpread2$f(_objectSpread2$f(_objectSpread2$f(_objectSpread2$f({}, toggleStyle$1), toggleSizeStyle), value === true && toggleTrueStyle), value === true && toggleTruePositionStyle), value === false && toggleFalsePositionStyle)
+      style: _objectSpread2$i(_objectSpread2$i(_objectSpread2$i(_objectSpread2$i(_objectSpread2$i({}, toggleStyle$1), toggleSizeStyle), value === true && toggleTrueStyle), value === true && toggleTruePositionStyle), value === false && toggleFalsePositionStyle)
     }), tooltip && /*#__PURE__*/React.createElement(Tooltip, {
       label: tooltip,
       show: hasHover
@@ -10060,7 +11623,7 @@
   };
 
   var _excluded$E = ["onInput", "label", "noticeUI", "noticeOperations", "value"],
-    _excluded2$3 = ["id", "height", "subtype", "type", "url", "width"];
+    _excluded2$4 = ["id", "height", "subtype", "type", "url", "width"];
   var divStyle = {
     position: "relative",
     width: "fit-content"
@@ -10128,7 +11691,7 @@
         type = _ref2.type,
         url = _ref2.url,
         width = _ref2.width;
-        _objectWithoutProperties$1(_ref2, _excluded2$3);
+        _objectWithoutProperties$1(_ref2, _excluded2$4);
       onInput({
         id: id,
         height: height,
@@ -10163,7 +11726,7 @@
       src: value === null || value === void 0 ? void 0 : value.url,
       style: imgStyle$1
     }), /*#__PURE__*/React.createElement("div", {
-      style: _objectSpread2$f(_objectSpread2$f({}, optionsStyle$1), hasHover === true && optionsHoverStyle$1)
+      style: _objectSpread2$i(_objectSpread2$i({}, optionsStyle$1), hasHover === true && optionsHoverStyle$1)
     }, /*#__PURE__*/React.createElement("div", {
       style: optionsDivStyle$1
     }, /*#__PURE__*/React.createElement(wp.blockEditor.MediaUpload, {
@@ -10180,7 +11743,7 @@
           icon: /*#__PURE__*/React.createElement("span", {
             className: "dashicons dashicons-edit"
           }),
-          style: _objectSpread2$f(_objectSpread2$f({}, optionsButtonStyle$1), optionHover === "edit" && optionsButtonHoverStyle$1),
+          style: _objectSpread2$i(_objectSpread2$i({}, optionsButtonStyle$1), optionHover === "edit" && optionsButtonHoverStyle$1),
           onMouseEnter: function onMouseEnter() {
             return setOptionHover("edit");
           },
@@ -10195,7 +11758,7 @@
         className: "dashicons dashicons-trash"
       }),
       onClick: onRemove,
-      style: _objectSpread2$f(_objectSpread2$f({}, optionsButtonStyle$1), optionHover === "remove" && optionsButtonHoverStyle$1),
+      style: _objectSpread2$i(_objectSpread2$i({}, optionsButtonStyle$1), optionHover === "remove" && optionsButtonHoverStyle$1),
       onMouseEnter: function onMouseEnter() {
         return setOptionHover("remove");
       },
@@ -10228,7 +11791,7 @@
     }
     return /*#__PURE__*/React.createElement(Field.save, _extends$1({}, fieldProps, props, {
       src: url,
-      style: _objectSpread2$f(_objectSpread2$f({}, fieldStyle), styles(props === null || props === void 0 ? void 0 : props.style)),
+      style: _objectSpread2$i(_objectSpread2$i({}, fieldStyle), styles(props === null || props === void 0 ? void 0 : props.style)),
       tagName: "img",
       type: "image"
     }));
@@ -10411,7 +11974,7 @@
       name = _ref.name,
       _ref$value = _ref.value,
       value = _ref$value === void 0 ? '' : _ref$value;
-    return classNames(_defineProperty$f({}, "block:".concat(name), name === null || name === void 0 ? void 0 : name.length), _defineProperty$f({}, "".concat(blockName, ":").concat(name), name === null || name === void 0 ? void 0 : name.length), 'blueprint-blocks:component', 'blueprint-blocks:field', "blueprint-blocks:".concat(type, "-field"), {
+    return classNames(_defineProperty$i({}, "block:".concat(name), name === null || name === void 0 ? void 0 : name.length), _defineProperty$i({}, "".concat(blockName, ":").concat(name), name === null || name === void 0 ? void 0 : name.length), 'blueprint-blocks:component', 'blueprint-blocks:field', "blueprint-blocks:".concat(type, "-field"), {
       'has-value': value
     });
   });
@@ -10558,7 +12121,7 @@
       return openDialog(false);
     });
     return /*#__PURE__*/React.createElement("div", {
-      style: _objectSpread2$f(_objectSpread2$f({}, elStyle), style),
+      style: _objectSpread2$i(_objectSpread2$i({}, elStyle), style),
       ref: ref
     }, /*#__PURE__*/React.createElement(wp.components.Button, {
       icon: icon,
@@ -10828,7 +12391,7 @@
         }),
         value: value === null || value === void 0 ? void 0 : value[definition],
         onInput: function onInput(newValue) {
-          return _onInput(_objectSpread2$f(_objectSpread2$f({}, value), {}, _defineProperty$f({}, definition, newValue)));
+          return _onInput(_objectSpread2$i(_objectSpread2$i({}, value), {}, _defineProperty$i({}, definition, newValue)));
         }
       });
     }));
@@ -10878,7 +12441,7 @@
   });
 
   var _excluded$r = ["onInput", "label", "allowedTypes", "multiple", "noticeUI", "noticeOperations", "value"],
-    _excluded2$2 = ["id", "height", "subtype", "type", "url", "width"],
+    _excluded2$3 = ["id", "height", "subtype", "type", "url", "width"],
     _excluded3$1 = ["id", "height", "subtype", "type", "url", "width"];
   var itemsStyle$1 = {
     position: 'relative'
@@ -10956,7 +12519,7 @@
         type = _ref2.type,
         url = _ref2.url,
         width = _ref2.width;
-        _objectWithoutProperties$1(_ref2, _excluded2$2);
+        _objectWithoutProperties$1(_ref2, _excluded2$3);
       onInput([{
         id: id,
         height: height,
@@ -11005,7 +12568,7 @@
       }), type === 'pdf' && getAllowedTypes(allowedTypes).includes('pdf') && /*#__PURE__*/React.createElement("span", {
         className: "fa-solid fa-file-pdf"
       }), /*#__PURE__*/React.createElement("div", {
-        style: _objectSpread2$f(_objectSpread2$f({}, optionsStyle), itemHoverIndex === index && optionsHoverStyle)
+        style: _objectSpread2$i(_objectSpread2$i({}, optionsStyle), itemHoverIndex === index && optionsHoverStyle)
       }, /*#__PURE__*/React.createElement("div", {
         style: optionsDivStyle
       }, /*#__PURE__*/React.createElement(wp.blockEditor.MediaUpload, {
@@ -11025,7 +12588,7 @@
             icon: /*#__PURE__*/React.createElement("span", {
               className: "dashicons dashicons-edit"
             }),
-            style: _objectSpread2$f(_objectSpread2$f({}, optionsButtonStyle), optionHover === 'edit' && optionsButtonHoverStyle),
+            style: _objectSpread2$i(_objectSpread2$i({}, optionsButtonStyle), optionHover === 'edit' && optionsButtonHoverStyle),
             onMouseEnter: function onMouseEnter() {
               return setOptionHover('edit');
             },
@@ -11042,7 +12605,7 @@
         onClick: function onClick() {
           return removeItem(id);
         },
-        style: _objectSpread2$f(_objectSpread2$f({}, optionsButtonStyle), optionHover === 'remove' && optionsButtonHoverStyle),
+        style: _objectSpread2$i(_objectSpread2$i({}, optionsButtonStyle), optionHover === 'remove' && optionsButtonHoverStyle),
         onMouseEnter: function onMouseEnter() {
           return setOptionHover('remove');
         },
@@ -11265,7 +12828,7 @@
         }),
         value: value === null || value === void 0 ? void 0 : value[definition],
         onInput: function onInput(newValue) {
-          return _onInput(_objectSpread2$f(_objectSpread2$f({}, value), {}, _defineProperty$f({}, definition, newValue)));
+          return _onInput(_objectSpread2$i(_objectSpread2$i({}, value), {}, _defineProperty$i({}, definition, newValue)));
         }
       });
     }));
@@ -11473,7 +13036,7 @@
       type: "position",
       value: value
     }), /*#__PURE__*/React.createElement("div", {
-      className: classNames('blueprint-blocks:position-field-wrap', _defineProperty$f({
+      className: classNames('blueprint-blocks:position-field-wrap', _defineProperty$i({
         'can-stretch': axis === 'both' && stretch === true,
         'is-stretch': axis === 'both' && stretch === true && (value === null || value === void 0 ? void 0 : value[1]) === 'stretch',
         'is-both-axes': axis === 'both'
@@ -11905,7 +13468,7 @@
   };
 
   var _excluded$7 = ["onInput", "options", "multiple", "disabled", "value"],
-    _excluded2$1 = ["icon", "image", "label"];
+    _excluded2$2 = ["icon", "image", "label"];
   var wrapStyle = {
     '--grid-columns': 2,
     background: '#fff',
@@ -12063,7 +13626,7 @@
       var icon = _ref3.icon,
         image = _ref3.image,
         label = _ref3.label,
-        option = _objectWithoutProperties$1(_ref3, _excluded2$1);
+        option = _objectWithoutProperties$1(_ref3, _excluded2$2);
       return /*#__PURE__*/React.createElement("div", {
         style: itemStyle
       }, /*#__PURE__*/React.createElement("div", {
@@ -12080,7 +13643,7 @@
         onMouseLeave: function onMouseLeave() {
           return setHoverIndex(null);
         },
-        style: _objectSpread2$f(_objectSpread2$f(_objectSpread2$f(_objectSpread2$f(_objectSpread2$f({}, itemDivStyle), hasImages && itemDivHasImagesStyle), index === hoverIndex && itemDivHoverStyle), index === focusIndex && itemDivFocusStyle), (value === null || value === void 0 ? void 0 : value.indexOf(option === null || option === void 0 ? void 0 : option.value)) !== -1 && itemDivActiveStyle)
+        style: _objectSpread2$i(_objectSpread2$i(_objectSpread2$i(_objectSpread2$i(_objectSpread2$i({}, itemDivStyle), hasImages && itemDivHasImagesStyle), index === hoverIndex && itemDivHoverStyle), index === focusIndex && itemDivFocusStyle), (value === null || value === void 0 ? void 0 : value.indexOf(option === null || option === void 0 ? void 0 : option.value)) !== -1 && itemDivActiveStyle)
       }, !!image && /*#__PURE__*/React.createElement("div", {
         style: imageDivStyle
       }, /*#__PURE__*/React.createElement("div", {
@@ -12090,9 +13653,9 @@
         style: imageStyle
       })), !!icon && !image && /*#__PURE__*/React.createElement("i", {
         className: icon,
-        style: _objectSpread2$f(_objectSpread2$f({}, iconStyle), hasImages && iconHasImagesStyle)
+        style: _objectSpread2$i(_objectSpread2$i({}, iconStyle), hasImages && iconHasImagesStyle)
       }), (!icon || hasImages) && /*#__PURE__*/React.createElement("span", {
-        style: _objectSpread2$f(_objectSpread2$f({}, labelStyle), hasImages && labelHasImagesStyle)
+        style: _objectSpread2$i(_objectSpread2$i({}, labelStyle), hasImages && labelHasImagesStyle)
       }, label)));
     }))));
   }
@@ -12232,7 +13795,7 @@
   });
 
   var _excluded$1 = ["clientId"],
-    _excluded2 = ["children", "tagName"],
+    _excluded2$1 = ["children", "tagName", "type"],
     _excluded3 = ["label"];
   var Components$1 = Object.fromEntries(Object.values(Fields).map(function (_ref) {
     var name = _ref.name,
@@ -12247,7 +13810,7 @@
    * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-hooks/
    */
   wp.hooks.addFilter("blocks.registerBlockType", "blueprint-blocks/default-attributes", function (settings, name) {
-    if (settings !== null && settings !== void 0 && settings.attributes && _typeof$e(settings === null || settings === void 0 ? void 0 : settings.attributes) === "object") {
+    if (settings !== null && settings !== void 0 && settings.attributes && _typeof$h(settings === null || settings === void 0 ? void 0 : settings.attributes) === "object") {
       settings.attributes["_index"] = {
         type: "number",
         "default": 0
@@ -12322,8 +13885,9 @@
         _ref3$children = _ref3.children,
         children = _ref3$children === void 0 ? [] : _ref3$children,
         _ref3$tagName = _ref3.tagName,
-        tagName = _ref3$tagName === void 0 ? "div" : _ref3$tagName,
-        blockEdit = _objectWithoutProperties$1(_ref3, _excluded2);
+        tagName = _ref3$tagName === void 0 ? "div" : _ref3$tagName;
+        _ref3.type;
+        var blockEdit = _objectWithoutProperties$1(_ref3, _excluded2$1);
       var blockAttributes = Object.fromEntries(Object.entries(blockEdit).map(function (_ref4) {
         var _ref5 = _slicedToArray$1(_ref4, 2),
           name = _ref5[0],
@@ -12376,7 +13940,8 @@
     };
   }
 
-  var _excluded = ["children", "tagName"];
+  var _excluded = ["attributes", "innerBlocks"],
+    _excluded2 = ["children", "tagName", "type"];
   var Components = Object.fromEntries(Object.values(Fields).map(function (_ref) {
     var name = _ref.name,
       save = _ref.save;
@@ -12395,7 +13960,8 @@
   function BlockSave(blueprint) {
     return function (_ref2) {
       var attributes = _ref2.attributes,
-        innerBlocks = _ref2.innerBlocks;
+        innerBlocks = _ref2.innerBlocks,
+        props = _objectWithoutProperties$1(_ref2, _excluded);
       var blockProps = wp.blockEditor.useBlockProps.save();
       var blockName = blockProps.className;
       var blockContext = getBlockContext({
@@ -12409,8 +13975,10 @@
         _ref3$children = _ref3.children,
         children = _ref3$children === void 0 ? [] : _ref3$children,
         _ref3$tagName = _ref3.tagName,
-        tagName = _ref3$tagName === void 0 ? "div" : _ref3$tagName,
-        blockSave = _objectWithoutProperties$1(_ref3, _excluded);
+        tagName = _ref3$tagName === void 0 ? "div" : _ref3$tagName;
+        _ref3.type;
+        var blockSave = _objectWithoutProperties$1(_ref3, _excluded2);
+      console.log(children, tagName, blockSave, attributes, props, blockContext);
       var blockAttributes = Object.fromEntries(Object.entries(blockSave).map(function (_ref4) {
         var _ref5 = _slicedToArray$1(_ref4, 2),
           name = _ref5[0],
@@ -12453,6 +14021,7 @@
   const { blockTypes = [] } = blueprintBlocksLoaderSettings || {};
 
   blockTypes.forEach(({ blockBlueprint, blockJson, blockName }) => {
+  	console.log(blockName, blockBlueprint);
   	blocks.registerBlockType(blockName, {
   		...(blockJson || {}),
 

@@ -34,7 +34,7 @@
 			"shortDescription": "Text based input with options for complex formatting.",
 			"blockAttribute": {
 				"type": "string",
-				"default": null
+				"default": ""
 			},
 			"attributes": {
 				"allowedFormats": {

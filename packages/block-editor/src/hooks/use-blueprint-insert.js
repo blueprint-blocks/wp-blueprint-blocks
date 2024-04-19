@@ -43,7 +43,7 @@ const useBlueprintInsert = () => {
 				component.attributeName = newAttributeName;
 				addAttribute(newAttributeName, {
 					type: "string",
-					default: null,
+					default: "",
 					...(componentProperties?.blockAttribute || {}),
 				});
 			}

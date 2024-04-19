@@ -42,6 +42,7 @@ const EditableObject = memo(
 				onBlur,
 				placeholder = "null",
 				propertySeperator = ",",
+				type = null,
 				value = {},
 				valuePlaceholder = "value",
 			},
@@ -52,7 +53,9 @@ const EditableObject = memo(
 			const [hasFocus, setHasFocus] = useState(false);
 
 			const objectType = useMemo(() => {
-				if (isAttributeNullValue(value)) {
+				if (type !== "null") {
+					return type;
+				} else if (isAttributeNullValue(value)) {
 					return "null";
 				} else if (isAttributeNumberValue(value)) {
 					return "number";
@@ -63,13 +66,17 @@ const EditableObject = memo(
 				}
 
 				return "string";
-			}, [value]);
+			}, [type, value]);
 
 			const html = useMemo(() => {
 				let _value = value;
 
 				if (isStringified(_value)) {
 					_value = JSON.parse(_value);
+				}
+
+				if (objectType === "string" && _value === null) {
+					_value = "";
 				}
 
 				return prettyPrintJson.toHtml(_value, {
