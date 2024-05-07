@@ -1,0 +1,224 @@
+<html>
+	<head>
+		<title>Add New Block &mdash; Blueprint Blocks</title>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/@icon/dashicons@0.9.0-alpha.4/dashicons.min.css"
+		/>
+		<link rel="stylesheet" href="./assets/block-editor.css" />
+		<style>
+			body {
+				margin: 0;
+			}
+
+			#wpbody,
+			.App {
+				height: max(100vh, 739px);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wpbody"></div>
+		<script>
+			var blueprintBlocksEditorSettings = {
+				blockMetadata: {
+					blockNamespace: "blueprint-blocks",
+					blockBlueprint: null,
+					blockJson: null,
+					editorCss: "",
+					viewCss: "",
+				},
+				editorMetadata: {
+					blockCategories: [
+						{ slug: "text", title: "Text", icon: null },
+						{ slug: "media", title: "Media", icon: null },
+						{ slug: "design", title: "Design", icon: null },
+						{ slug: "widgets", title: "Widgets", icon: null },
+						{ slug: "theme", title: "Theme", icon: null },
+						{ slug: "embed", title: "Embeds", icon: null },
+						{ slug: "reusable", title: "Patterns", icon: null },
+					],
+					documentTitle: null,
+					registeredBlocks: [],
+					showUpsell: false,
+				},
+				postMetadata: { postId: null, isNew: true },
+				postType: {
+					name: "blueprint_block",
+					restBase: "blueprint_blocks",
+				},
+				pluginMetadata: { url: "http://localhost:3000" },
+				themeMetadata: {
+					themeName: "d3-security",
+					cssVariables: {
+						colors: [
+							{
+								name: "Black",
+								slug: "black",
+								value: "#000000",
+								variable: "--wp--preset--color--black",
+							},
+							{
+								name: "Gray",
+								slug: "gray",
+								value: "#F5F5F5",
+								variable: "--wp--preset--color--gray",
+							},
+							{
+								name: "White",
+								slug: "white",
+								value: "#FFFFFF",
+								variable: "--wp--preset--color--white",
+							},
+							{
+								name: "Midnight",
+								slug: "midnight",
+								value: "#161029",
+								variable: "--wp--preset--color--midnight",
+							},
+							{
+								name: "Plum",
+								slug: "plum",
+								value: "#2C263F",
+								variable: "--wp--preset--color--plum",
+							},
+							{
+								name: "Lavender",
+								slug: "lavender",
+								value: "#6E648C",
+								variable: "--wp--preset--color--lavender",
+							},
+						],
+						fontFamilies: [
+							{
+								name: "General Sans",
+								slug: "general-sans",
+								value: '"General Sans", sans-serif',
+								variable:
+									"--wp--preset--font-family--general-sans",
+							},
+							{
+								name: "System Font",
+								slug: "system-font",
+								value: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
+								variable:
+									"--wp--preset--font-family--system-font",
+							},
+						],
+						fontSizes: [
+							{
+								name: "Small",
+								slug: "small",
+								value: "clamp(0.875rem, 0.875rem + ((1vw - 0.2rem) * 0.208), 1rem)",
+								variable: "--wp--preset--font-size--small",
+							},
+							{
+								name: "Medium",
+								slug: "medium",
+								value: "clamp(1rem, 1rem + ((1vw - 0.2rem) * 0.208), 1.125rem)",
+								variable: "--wp--preset--font-size--medium",
+							},
+							{
+								name: "Large",
+								slug: "large",
+								value: "clamp(1rem, 1rem + ((1vw - 0.2rem) * 0.522), 1.3125rem)",
+								variable: "--wp--preset--font-size--large",
+							},
+							{
+								name: "Extra Large",
+								slug: "x-large",
+								value: "clamp(25.014px, 1.563rem + ((1vw - 3.2px) * 1.769), 42px)",
+								variable: "--wp--preset--font-size--x-large",
+							},
+							{
+								name: "x-small",
+								slug: "x-small",
+								value: "clamp(0.75rem, 0.75rem + ((1vw - 0.2rem) * 0.208), 0.875rem)",
+								variable: "--wp--preset--font-size--x-small",
+							},
+						],
+						gradients: [],
+						shadows: [
+							{
+								name: "Natural",
+								slug: "natural",
+								value: "6px 6px 9px rgba(0, 0, 0, 0.2)",
+								variable: "--wp--preset--shadow--natural",
+							},
+							{
+								name: "Deep",
+								slug: "deep",
+								value: "12px 12px 50px rgba(0, 0, 0, 0.4)",
+								variable: "--wp--preset--shadow--deep",
+							},
+							{
+								name: "Sharp",
+								slug: "sharp",
+								value: "6px 6px 0px rgba(0, 0, 0, 0.2)",
+								variable: "--wp--preset--shadow--sharp",
+							},
+							{
+								name: "Outlined",
+								slug: "outlined",
+								value: "6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1)",
+								variable: "--wp--preset--shadow--outlined",
+							},
+							{
+								name: "Crisp",
+								slug: "crisp",
+								value: "6px 6px 0px rgba(0, 0, 0, 1)",
+								variable: "--wp--preset--shadow--crisp",
+							},
+						],
+						spacing: [
+							{
+								name: "1",
+								slug: "20",
+								value: "0.5rem",
+								variable: "--wp--preset--spacing--20",
+							},
+							{
+								name: "2",
+								slug: "30",
+								value: "clamp(1rem, calc(1rem + ((1vw - 0.48rem) * 8.4135)), 1.5rem)",
+								variable: "--wp--preset--spacing--30",
+							},
+							{
+								name: "3",
+								slug: "40",
+								value: "clamp(1.5rem, calc(1.5rem + ((1vw - 0.48rem) * 8.4135)), 2.5rem)",
+								variable: "--wp--preset--spacing--40",
+							},
+							{
+								name: "4",
+								slug: "50",
+								value: "clamp(2rem, calc(2rem + ((1vw - 0.48rem) * 8.4135)), 4rem)",
+								variable: "--wp--preset--spacing--50",
+							},
+							{
+								name: "5",
+								slug: "60",
+								value: "clamp(3rem, calc(3rem + ((1vw - 0.48rem) * 8.4135)), 5rem)",
+								variable: "--wp--preset--spacing--60",
+							},
+							{
+								name: "6",
+								slug: "80",
+								value: "clamp(4rem, calc(4rem + ((1vw - 0.48rem) * 8.4135)), 7.5rem)",
+								variable: "--wp--preset--spacing--80",
+							},
+							{
+								name: "7",
+								slug: "90",
+								value: "clamp(5rem, calc(5rem + ((1vw - 0.48rem) * 8.4135)), 10rem)",
+								variable: "--wp--preset--spacing--90",
+							},
+						],
+					},
+				},
+				tutorialMetadata: { isActive: true },
+			};
+		</script>
+		<script src="./assets/block-editor.js"></script>
+	</body>
+</html>

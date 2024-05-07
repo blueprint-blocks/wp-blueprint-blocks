@@ -138,7 +138,7 @@ function Tutorial() {
 	}, [blockComponents]);
 
 	useEffect(() => {
-		if (tutorialContext.currentStep === 1 && blockJson.name.length > 19) {
+		if (tutorialContext.currentStep === 1 && blockJson.name?.length > 19) {
 			tutorialContext.goToStep(2);
 		} else if (
 			tutorialContext.currentStep === 2 &&
@@ -195,7 +195,7 @@ function Tutorial() {
 	]);
 
 	return (
-		<div class="Tutorial">
+		<div className="Tutorial">
 			{tutorialContext.currentStep === 1 && (
 				<TutorialTooltip step={1} onNextStep={setBlockName} />
 			)}

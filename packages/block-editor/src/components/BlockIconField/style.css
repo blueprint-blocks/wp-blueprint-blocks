@@ -20,6 +20,7 @@
 		display: block;
 		font-size: var(--size);
 		height: var(--size);
+		line-height: var(--size);
 		text-align: center;
 		width: var(--size);
 	}

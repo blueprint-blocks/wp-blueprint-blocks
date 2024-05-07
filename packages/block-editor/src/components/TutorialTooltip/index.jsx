@@ -51,8 +51,8 @@ const TutorialTooltip = memo(({ onNextStep, step = null }) => {
 			replaceTokens(text, {
 				block: {
 					...blockJson,
-					namespace: blockJson.name.split("/")?.[0],
-					name: blockJson.name.split("/")?.[1],
+					namespace: blockJson.name?.split("/")?.[0],
+					name: blockJson.name?.split("/")?.[1],
 				},
 			}),
 		);

@@ -120,7 +120,8 @@
 	--app-height: max(
 		680px,
 		calc(
-			100vh - var(--navigator-height) - var(--wp-admin--admin-bar--height)
+			100vh - var(--navigator-height) -
+				var(--wp-admin--admin-bar--height, 0px)
 		)
 	);
 

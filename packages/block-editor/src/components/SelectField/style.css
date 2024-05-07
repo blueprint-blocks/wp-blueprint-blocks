@@ -39,6 +39,7 @@
 .SelectField-value {
 	font-size: var(--font-size-large);
 	font-weight: var(--font-weight-semi-bold);
+	min-height: 1.5em;
 }
 
 .SelectField-options {

@@ -111,6 +111,7 @@ class Admin
 				'blockCategories' => get_block_categories(null),
 				'documentTitle' => $admin_title,
 				'registeredBlocks' => $registered_block_names,
+				'showUpsell' => true,
 			],
             'postMetadata' => [
                 'postId' => $post_id,

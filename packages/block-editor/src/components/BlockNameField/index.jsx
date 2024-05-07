@@ -112,7 +112,7 @@ const BlockNameField = ({ onBlur, onFocus }) => {
 					placeholder={"enter-a-block-namespace..."}
 					value={blockNamespace}
 				/>
-				<div class="BlockNameField-seperator">{"/"}</div>
+				<div className="BlockNameField-seperator">{"/"}</div>
 				<EditableString
 					ref={nameRef}
 					className="BlockNameField-name"

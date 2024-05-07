@@ -14,6 +14,9 @@ import BlueprintConnectionsDebug from "../BlueprintConnectionsDebug";
 import BlueprintColumn from "../BlueprintColumn";
 import UpsellBanner from "../UpsellBanner";
 
+const { showUpsell = true } =
+	blueprintBlocksEditorSettings?.editorMetadata || {};
+
 import "./style.css";
 import "./style-debug.css";
 
@@ -61,7 +64,7 @@ function BlueprintEditor() {
 		<div
 			ref={ref}
 			className={clsx("BlueprintEditor", {
-				"has-upsell": !tutorial.isActive,
+				"has-upsell": showUpsell && !tutorial.isActive,
 			})}
 		>
 			<div ref={scrollRef} className="BlueprintEditor-scroll">
@@ -82,7 +85,7 @@ function BlueprintEditor() {
 					</div>
 				</div>
 			</div>
-			{!tutorial.isActive && <UpsellBanner />}
+			{showUpsell && !tutorial.isActive && <UpsellBanner />}
 		</div>
 	);
 }

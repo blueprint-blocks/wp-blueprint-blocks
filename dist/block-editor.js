@@ -4258,6 +4258,9 @@
 	};
 
 	function delimiterize(string) {
+	  if (typeof string !== "string") {
+	    return "";
+	  }
 	  return string.replace(/([a-z])([A-Z])/g, function (match, p1, p2) {
 	    return "".concat(p1, "-").concat(p2);
 	  }).replace(/\//g, "-").replace(/_/g, "-").replace(/[^\w\s-]/g, "").replace(/(\s)/g, "-").toLowerCase();
@@ -8230,9 +8233,9 @@
 	  });
 	}
 
-	var _blueprintBlocksEdito$f;
-	var _ref$6 = ((_blueprintBlocksEdito$f = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$f === void 0 ? void 0 : _blueprintBlocksEdito$f.editorMetadata) || {},
-	  _ref$documentTitle$1 = _ref$6.documentTitle,
+	var _blueprintBlocksEdito$g;
+	var _ref$7 = ((_blueprintBlocksEdito$g = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$g === void 0 ? void 0 : _blueprintBlocksEdito$g.editorMetadata) || {},
+	  _ref$documentTitle$1 = _ref$7.documentTitle,
 	  documentTitle$1 = _ref$documentTitle$1 === void 0 ? "" : _ref$documentTitle$1;
 	var setDocumentHistory = function setDocumentHistory(id, blockTitle) {
 	  window.history.pushState({
@@ -8240,9 +8243,9 @@
 	  }, documentTitle$1.replace("{{ block.title }}", blockTitle), "/wp-admin/post.php?post=".concat(id, "&action=edit"));
 	};
 
-	var _blueprintBlocksEdito$e;
-	var _ref$5 = ((_blueprintBlocksEdito$e = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$e === void 0 ? void 0 : _blueprintBlocksEdito$e.editorMetadata) || {},
-	  _ref$documentTitle = _ref$5.documentTitle,
+	var _blueprintBlocksEdito$f;
+	var _ref$6 = ((_blueprintBlocksEdito$f = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$f === void 0 ? void 0 : _blueprintBlocksEdito$f.editorMetadata) || {},
+	  _ref$documentTitle = _ref$6.documentTitle,
 	  documentTitle = _ref$documentTitle === void 0 ? "" : _ref$documentTitle;
 	var setDocumentTitle = function setDocumentTitle(blockTitle) {
 	  document.title = documentTitle.replace("{{ block.title }}", blockTitle);
@@ -8298,9 +8301,9 @@
 	  };
 	}
 
-	var _blueprintBlocksEdito$d;
-	var _ref$4 = ((_blueprintBlocksEdito$d = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$d === void 0 ? void 0 : _blueprintBlocksEdito$d.editorMetadata) || {},
-	  registeredBlocks = _ref$4.registeredBlocks;
+	var _blueprintBlocksEdito$e;
+	var _ref$5 = ((_blueprintBlocksEdito$e = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$e === void 0 ? void 0 : _blueprintBlocksEdito$e.editorMetadata) || {},
+	  registeredBlocks = _ref$5.registeredBlocks;
 	var validateAttributeDefault = function validateAttributeDefault(attribute) {
 	  var _attributeTypes$attri, _attribute$default;
 	  var allowsNullDefault = (attributeTypes === null || attributeTypes === void 0 || (_attributeTypes$attri = attributeTypes[attribute.type]) === null || _attributeTypes$attri === void 0 ? void 0 : _attributeTypes$attri.allowsNull) === false && false || true;
@@ -8517,9 +8520,9 @@
 	  });
 	};
 
-	var _blueprintBlocksEdito$c;
-	var _ref$3 = ((_blueprintBlocksEdito$c = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$c === void 0 ? void 0 : _blueprintBlocksEdito$c.blockMetadata) || {},
-	  _ref$blockBlueprint = _ref$3.blockBlueprint,
+	var _blueprintBlocksEdito$d;
+	var _ref$4 = ((_blueprintBlocksEdito$d = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$d === void 0 ? void 0 : _blueprintBlocksEdito$d.blockMetadata) || {},
+	  _ref$blockBlueprint = _ref$4.blockBlueprint,
 	  blockBlueprint = _ref$blockBlueprint === void 0 ? {} : _ref$blockBlueprint;
 	var blockEdit = parseComponentTree((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockEdit) || []);
 	var blockToolbar = parseComponentTree((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockToolbar) || []);
@@ -9452,9 +9455,9 @@
 	  reducer$8 = slice$8.reducer;
 	var setHandlePosition = actions$8.setHandlePosition;
 
-	var _blueprintBlocksEdito$b;
-	var _ref$2 = ((_blueprintBlocksEdito$b = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$b === void 0 ? void 0 : _blueprintBlocksEdito$b.blockMetadata) || {},
-	  _ref$blockJson = _ref$2.blockJson,
+	var _blueprintBlocksEdito$c;
+	var _ref$3 = ((_blueprintBlocksEdito$c = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$c === void 0 ? void 0 : _blueprintBlocksEdito$c.blockMetadata) || {},
+	  _ref$blockJson = _ref$3.blockJson,
 	  blockJson = _ref$blockJson === void 0 ? {} : _ref$blockJson;
 	var attributes$1 = Object.entries((blockJson === null || blockJson === void 0 ? void 0 : blockJson.attributes) || {}).map(function (_ref2) {
 	  var _ref3 = _slicedToArray(_ref2, 2),
@@ -9830,8 +9833,8 @@
 	  setTitle = actions$7.setTitle;
 	  actions$7.setVersion;
 
-	var _blueprintBlocksEdito$a = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$7 = _blueprintBlocksEdito$a.blockMetadata,
+	var _blueprintBlocksEdito$b = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$7 = _blueprintBlocksEdito$b.blockMetadata,
 	  blockMetadata$1 = _blueprintBlocksEdito2$7 === void 0 ? {} : _blueprintBlocksEdito2$7;
 	var slice$6 = createSlice({
 	  name: "blockEditorCss",
@@ -9848,8 +9851,8 @@
 	  reducer$6 = slice$6.reducer;
 	var setEditorCss = actions$6.setEditorCss;
 
-	var _blueprintBlocksEdito$9 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$6 = _blueprintBlocksEdito$9.blockMetadata,
+	var _blueprintBlocksEdito$a = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$6 = _blueprintBlocksEdito$a.blockMetadata,
 	  blockMetadata = _blueprintBlocksEdito2$6 === void 0 ? {} : _blueprintBlocksEdito2$6;
 	var slice$5 = createSlice({
 	  name: "blockViewCss",
@@ -9945,8 +9948,8 @@
 	  return state.valid === false;
 	};
 
-	var _blueprintBlocksEdito$8 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$5 = _blueprintBlocksEdito$8.postMetadata,
+	var _blueprintBlocksEdito$9 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$5 = _blueprintBlocksEdito$9.postMetadata,
 	  postMetadata = _blueprintBlocksEdito2$5 === void 0 ? {} : _blueprintBlocksEdito2$5;
 	var slice$3 = createSlice({
 	  name: "postMetadata",
@@ -9973,8 +9976,8 @@
 	  setPostId = actions$3.setPostId,
 	  setValid = actions$3.setValid;
 
-	var _blueprintBlocksEdito$7 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$4 = _blueprintBlocksEdito$7.postType,
+	var _blueprintBlocksEdito$8 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$4 = _blueprintBlocksEdito$8.postType,
 	  postType = _blueprintBlocksEdito2$4 === void 0 ? {} : _blueprintBlocksEdito2$4;
 	var slice$2 = createSlice({
 	  name: "postType",
@@ -12316,8 +12319,8 @@
 	  });
 	});
 
-	var _blueprintBlocksEdito$6 = blueprintBlocksEditorSettings,
-	  _blueprintBlocksEdito2$3 = _blueprintBlocksEdito$6.pluginMetadata,
+	var _blueprintBlocksEdito$7 = blueprintBlocksEditorSettings,
+	  _blueprintBlocksEdito2$3 = _blueprintBlocksEdito$7.pluginMetadata,
 	  pluginMetadata$2 = _blueprintBlocksEdito2$3 === void 0 ? {} : _blueprintBlocksEdito2$3;
 	var Navigator = function Navigator(_ref) {
 	  var activeNavItem = _ref.activeNavItem,
@@ -13804,7 +13807,7 @@
 	          value: searchFilter
 	        }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	          className: "BlockIconField-options",
-	          children: filteredDashicons.map(function (group, index) {
+	          children: filteredDashicons.map(function (group) {
 	            return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	              children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	                className: "BlockIconField-heading",
@@ -13825,10 +13828,10 @@
 	                        className: icon
 	                      })
 	                    })
-	                  }, index);
+	                  }, "".concat(group.label, "-").concat(icon));
 	                })
 	              })]
-	            }, index);
+	            }, group.label);
 	          })
 	        })]
 	      })]
@@ -13879,15 +13882,15 @@
 	    return getObjectProperty(tooltips, "".concat(data, ".default")) || defaultValue;
 	  }, [data, defaultValue]);
 	  var _text = React$2.useMemo(function () {
-	    var _blockJson$name$split, _blockJson$name$split2;
+	    var _blockJson$name, _blockJson$name2;
 	    var _text = getObjectProperty(tooltips, "".concat(data, ".text"));
 	    if (_text === null) {
 	      _text = text;
 	    }
 	    return parseMarkdown(replaceTokens(_text, {
 	      block: _objectSpread2(_objectSpread2({}, blockJson), {}, {
-	        namespace: (_blockJson$name$split = blockJson.name.split("/")) === null || _blockJson$name$split === void 0 ? void 0 : _blockJson$name$split[0],
-	        name: (_blockJson$name$split2 = blockJson.name.split("/")) === null || _blockJson$name$split2 === void 0 ? void 0 : _blockJson$name$split2[1]
+	        namespace: (_blockJson$name = blockJson.name) === null || _blockJson$name === void 0 || (_blockJson$name = _blockJson$name.split("/")) === null || _blockJson$name === void 0 ? void 0 : _blockJson$name[0],
+	        name: (_blockJson$name2 = blockJson.name) === null || _blockJson$name2 === void 0 || (_blockJson$name2 = _blockJson$name2.split("/")) === null || _blockJson$name2 === void 0 ? void 0 : _blockJson$name2[1]
 	      })
 	    }));
 	  }, [blockJson, data, text]);
@@ -13950,8 +13953,8 @@
 	  });
 	}
 
-	var _blueprintBlocksEdito$5;
-	((_blueprintBlocksEdito$5 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$5 === void 0 || (_blueprintBlocksEdito$5 = _blueprintBlocksEdito$5.blockMetadata) === null || _blueprintBlocksEdito$5 === void 0 ? void 0 : _blueprintBlocksEdito$5.blockNamespace) || "blueprint-blocks";
+	var _blueprintBlocksEdito$6;
+	((_blueprintBlocksEdito$6 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$6 === void 0 || (_blueprintBlocksEdito$6 = _blueprintBlocksEdito$6.blockMetadata) === null || _blueprintBlocksEdito$6 === void 0 ? void 0 : _blueprintBlocksEdito$6.blockNamespace) || "blueprint-blocks";
 	var BlockNameField = function BlockNameField(_ref) {
 	  var onBlur = _ref.onBlur,
 	    onFocus = _ref.onFocus;
@@ -14022,7 +14025,7 @@
 	        placeholder: "enter-a-block-namespace...",
 	        value: blockNamespace
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	        "class": "BlockNameField-seperator",
+	        className: "BlockNameField-seperator",
 	        children: "/"
 	      }), /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
 	        ref: nameRef,
@@ -14093,10 +14096,10 @@
 	      label: label,
 	      tooltip: tooltip
 	    }), disabled && value.length === 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	      "class": "TextField-placeholder",
+	      className: "TextField-placeholder",
 	      children: placeholder
 	    }), disabled && value.length > 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	      "class": "TextField-value",
+	      className: "TextField-value",
 	      children: value
 	    }), !disabled && /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
 	      allowEnter: allowEnter,
@@ -14559,10 +14562,10 @@
 	            return setBlur(index);
 	          },
 	          children: [disabled === true && index < itemList.length - 1 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	            "class": "ListField-value",
+	            className: "ListField-value",
 	            children: itemValue
 	          }), disabled === true && index === itemList.length - 1 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	            "class": "ListField-placeholder",
+	            className: "ListField-placeholder",
 	            children: placeholder
 	          }), disabled !== true && /*#__PURE__*/jsxRuntimeExports.jsx(EditableString, {
 	            placeholder: placeholder,
@@ -14657,9 +14660,9 @@
 	  });
 	}
 
-	var _blueprintBlocksEdito$4;
-	var _ref$1 = ((_blueprintBlocksEdito$4 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$4 === void 0 ? void 0 : _blueprintBlocksEdito$4.editorMetadata) || {},
-	  _ref$blockCategories = _ref$1.blockCategories,
+	var _blueprintBlocksEdito$5;
+	var _ref$2 = ((_blueprintBlocksEdito$5 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$5 === void 0 ? void 0 : _blueprintBlocksEdito$5.editorMetadata) || {},
+	  _ref$blockCategories = _ref$2.blockCategories,
 	  blockCategories = _ref$blockCategories === void 0 ? [] : _ref$blockCategories;
 	var PageBlockJson = /*#__PURE__*/React$2.memo(function () {
 	  var _useRect, _useRect2;
@@ -14879,15 +14882,15 @@
 	    return getObjectProperty(tooltips, "".concat(data, ".default")) || defaultValue;
 	  }, [data, defaultValue]);
 	  var _text = React$2.useMemo(function () {
-	    var _blockJson$name$split, _blockJson$name$split2;
+	    var _blockJson$name, _blockJson$name2;
 	    var _text = getObjectProperty(tooltips, "".concat(data, ".text"));
 	    if (_text === null) {
 	      _text = text;
 	    }
 	    return parseMarkdown(replaceTokens(_text, {
 	      block: _objectSpread2(_objectSpread2({}, blockJson), {}, {
-	        namespace: (_blockJson$name$split = blockJson.name.split("/")) === null || _blockJson$name$split === void 0 ? void 0 : _blockJson$name$split[0],
-	        name: (_blockJson$name$split2 = blockJson.name.split("/")) === null || _blockJson$name$split2 === void 0 ? void 0 : _blockJson$name$split2[1]
+	        namespace: (_blockJson$name = blockJson.name) === null || _blockJson$name === void 0 || (_blockJson$name = _blockJson$name.split("/")) === null || _blockJson$name === void 0 ? void 0 : _blockJson$name[0],
+	        name: (_blockJson$name2 = blockJson.name) === null || _blockJson$name2 === void 0 || (_blockJson$name2 = _blockJson$name2.split("/")) === null || _blockJson$name2 === void 0 ? void 0 : _blockJson$name2[1]
 	      })
 	    }));
 	  }, [blockJson, data, text]);
@@ -17999,6 +18002,10 @@
 	  });
 	}
 
+	var _blueprintBlocksEdito$4;
+	var _ref$1 = ((_blueprintBlocksEdito$4 = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$4 === void 0 ? void 0 : _blueprintBlocksEdito$4.editorMetadata) || {},
+	  _ref$showUpsell = _ref$1.showUpsell,
+	  showUpsell = _ref$showUpsell === void 0 ? true : _ref$showUpsell;
 	function BlueprintEditor() {
 	  var dispatch = useDispatch();
 	  var _useContext = React$2.useContext(AppContext),
@@ -18029,7 +18036,7 @@
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
 	    className: clsx$1("BlueprintEditor", {
-	      "has-upsell": !tutorial.isActive
+	      "has-upsell": showUpsell && !tutorial.isActive
 	    }),
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	      ref: scrollRef,
@@ -18050,7 +18057,7 @@
 	          })]
 	        })]
 	      })
-	    }), !tutorial.isActive && /*#__PURE__*/jsxRuntimeExports.jsx(UpsellBanner, {})]
+	    }), showUpsell && !tutorial.isActive && /*#__PURE__*/jsxRuntimeExports.jsx(UpsellBanner, {})]
 	  });
 	}
 
@@ -48860,12 +48867,12 @@
 	    return getObjectProperty(tooltips, "tutorial.step".concat(step, ".position"));
 	  }, [step]);
 	  var text = React$2.useMemo(function () {
-	    var _blockJson$name$split, _blockJson$name$split2;
+	    var _blockJson$name, _blockJson$name2;
 	    var text = getObjectProperty(tooltips, "tutorial.step".concat(step, ".text"));
 	    return parseMarkdown(replaceTokens(text, {
 	      block: _objectSpread2(_objectSpread2({}, blockJson), {}, {
-	        namespace: (_blockJson$name$split = blockJson.name.split("/")) === null || _blockJson$name$split === void 0 ? void 0 : _blockJson$name$split[0],
-	        name: (_blockJson$name$split2 = blockJson.name.split("/")) === null || _blockJson$name$split2 === void 0 ? void 0 : _blockJson$name$split2[1]
+	        namespace: (_blockJson$name = blockJson.name) === null || _blockJson$name === void 0 || (_blockJson$name = _blockJson$name.split("/")) === null || _blockJson$name === void 0 ? void 0 : _blockJson$name[0],
+	        name: (_blockJson$name2 = blockJson.name) === null || _blockJson$name2 === void 0 || (_blockJson$name2 = _blockJson$name2.split("/")) === null || _blockJson$name2 === void 0 ? void 0 : _blockJson$name2[1]
 	      })
 	    }));
 	  }, [blockJson, step]);
@@ -49041,8 +49048,8 @@
 	    }
 	  }, [blockComponents]);
 	  React$2.useEffect(function () {
-	    var _blockJson$supports$c, _blockJson$supports;
-	    if (tutorialContext.currentStep === 1 && blockJson.name.length > 19) {
+	    var _blockJson$name, _blockJson$supports$c, _blockJson$supports;
+	    if (tutorialContext.currentStep === 1 && ((_blockJson$name = blockJson.name) === null || _blockJson$name === void 0 ? void 0 : _blockJson$name.length) > 19) {
 	      tutorialContext.goToStep(2);
 	    } else if (tutorialContext.currentStep === 2 && blockJson.title.length > 2) {
 	      tutorialContext.goToStep(3);
@@ -49064,7 +49071,7 @@
 	    }
 	  }, [appContext.activeNavItem, blockComponents, blockJson.icon, blockJson.name, blockJson.supports, blockJson.title, currentFocus, insertedComponentTagName, blockSave.dialogIsVisible]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
-	    "class": "Tutorial",
+	    className: "Tutorial",
 	    children: [tutorialContext.currentStep === 1 && /*#__PURE__*/jsxRuntimeExports.jsx(TutorialTooltip, {
 	      step: 1,
 	      onNextStep: setBlockName

@@ -8,7 +8,8 @@
 		"test": "jest",
 		"start": "NODE_ENV=development rollup -c -w",
 		"build": "rollup -c",
-		"prepublishOnly": "rm -rf ./dist && npm run build"
+		"prepublishOnly": "rm -rf ./dist && npm run build",
+		"preview": "NODE_ENV=development rollup --config rollup-preview.config.js -w"
 	},
 	"dependencies": {
 		"@codemirror/commands": "^6.3.2",
@@ -58,6 +59,8 @@
 		"postcss-simple-vars": "^7.0.1",
 		"react-test-renderer": "^18.2.0",
 		"rollup": "^4.8.0",
-		"rollup-plugin-external-globals": "^0.9.1"
+		"rollup-plugin-external-globals": "^0.9.1",
+		"rollup-plugin-livereload": "^2.0.5",
+		"rollup-plugin-serve": "^1.1.1"
 	}
 }

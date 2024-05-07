@@ -101,13 +101,13 @@ function ListField({
 						>
 							{disabled === true &&
 								index < itemList.length - 1 && (
-									<div class="ListField-value">
+									<div className="ListField-value">
 										{itemValue}
 									</div>
 								)}
 							{disabled === true &&
 								index === itemList.length - 1 && (
-									<div class="ListField-placeholder">
+									<div className="ListField-placeholder">
 										{placeholder}
 									</div>
 								)}

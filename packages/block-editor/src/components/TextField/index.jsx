@@ -31,10 +31,10 @@ function TextField({
 		>
 			{label && <FieldLabel label={label} tooltip={tooltip} />}
 			{disabled && value.length === 0 && (
-				<div class="TextField-placeholder">{placeholder}</div>
+				<div className="TextField-placeholder">{placeholder}</div>
 			)}
 			{disabled && value.length > 0 && (
-				<div class="TextField-value">{value}</div>
+				<div className="TextField-value">{value}</div>
 			)}
 			{!disabled && (
 				<EditableString

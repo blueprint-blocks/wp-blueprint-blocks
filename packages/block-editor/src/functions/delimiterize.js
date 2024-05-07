@@ -1,4 +1,8 @@
 function delimiterize(string) {
+	if (typeof string !== "string") {
+		return "";
+	}
+
 	return string
 		.replace(/([a-z])([A-Z])/g, (match, p1, p2) => {
 			return `${p1}-${p2}`;

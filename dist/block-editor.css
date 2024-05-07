@@ -306,6 +306,10 @@
 		transition: var(--transition);
 	}
 
+.EditableString [contenteditable]:focus {
+		outline: none;
+	}
+
 .EditableString.is-multiline > div {
 	white-space: initial;
 }
@@ -359,6 +363,7 @@
 		display: block;
 		font-size: var(--size);
 		height: var(--size);
+		line-height: var(--size);
 		text-align: center;
 		width: var(--size);
 	}
@@ -1055,6 +1060,7 @@
 .SelectField-value {
 	font-size: var(--font-size-large);
 	font-weight: var(--font-weight-semi-bold);
+	min-height: 1.5em;
 }
 
 .SelectField-options {
@@ -3691,7 +3697,8 @@
 	--app-height: max(
 		680px,
 		calc(
-			100vh - var(--navigator-height) - var(--wp-admin--admin-bar--height)
+			100vh - var(--navigator-height) -
+				var(--wp-admin--admin-bar--height, 0px)
 		)
 	);
 

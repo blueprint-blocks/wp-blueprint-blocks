@@ -111,8 +111,8 @@ function BlockIconField({ onBlur, onFocus }) {
 						value={searchFilter}
 					/>
 					<div className="BlockIconField-options">
-						{filteredDashicons.map((group, index) => (
-							<div key={index}>
+						{filteredDashicons.map((group) => (
+							<div key={group.label}>
 								<div className="BlockIconField-heading">
 									{group.label}
 								</div>
@@ -120,7 +120,7 @@ function BlockIconField({ onBlur, onFocus }) {
 									{group.icons.map(
 										({ icon, label, value }) => (
 											<div
-												key={index}
+												key={`${group.label}-${icon}`}
 												onClick={(event) =>
 													setBlockIcon(event, value)
 												}

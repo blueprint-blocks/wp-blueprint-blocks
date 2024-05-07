@@ -56,6 +56,10 @@
 		color: var(--placeholder-color);
 		transition: var(--transition);
 	}
+
+	[contenteditable]:focus {
+		outline: none;
+	}
 }
 
 .EditableString.is-multiline > div {
