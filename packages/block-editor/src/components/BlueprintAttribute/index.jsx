@@ -90,7 +90,7 @@ const BlueprintAttribute = memo(({ clientId }) => {
 			})}
 			onClick={onClick}
 		>
-			<div class="BlueprintAttribute-focus" />
+			<div className="BlueprintAttribute-focus" />
 			<BlueprintConnectionHandleFrom clientId={clientId} context="from" />
 			<BlueprintAttributeName
 				clientId={clientId}

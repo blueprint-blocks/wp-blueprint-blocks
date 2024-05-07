@@ -62,7 +62,7 @@ function SearchSelectField({
 				{currentOption && (
 					<>
 						{currentOption?.icon && (
-							<span class={currentOption.icon} />
+							<span className={currentOption.icon} />
 						)}
 						{currentOption.label}
 					</>
@@ -75,7 +75,7 @@ function SearchSelectField({
 						data-value={value}
 						onClick={onSelectOption}
 					>
-						{icon && <span class={icon} />}
+						{icon && <span className={icon} />}
 						{label}
 					</div>
 				))}

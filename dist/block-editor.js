@@ -9314,7 +9314,7 @@
 	    }
 	    return false;
 	  }, false);
-	  var component = _objectSpread2({}, structuredClone(state.blockComponents[clientId]));
+	  var component = _objectSpread2({}, state.blockComponents[clientId]);
 	  if (attributeIndex !== false) {
 	    component.attributes[attributeIndex].value = attributeValue;
 	  } else {
@@ -17041,7 +17041,7 @@
 	    }),
 	    onClick: onClick,
 	    children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	      "class": "BlueprintAttribute-focus"
+	      className: "BlueprintAttribute-focus"
 	    }), /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionHandleFrom, {
 	      clientId: clientId,
 	      context: "from"
@@ -48630,12 +48630,12 @@
 	            title = _ref2.title;
 	          return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	            children: [/*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	              "class": "InserterPreview-itemIcon",
+	              className: "InserterPreview-itemIcon",
 	              children: /*#__PURE__*/jsxRuntimeExports.jsx("span", {
 	                className: "dashicon dashicons dashicons-".concat(icon)
 	              })
 	            }), /*#__PURE__*/jsxRuntimeExports.jsx("div", {
-	              "class": "InserterPreview-itemTitle",
+	              className: "InserterPreview-itemTitle",
 	              children: title
 	            })]
 	          });

@@ -21,7 +21,7 @@ const setComponentAttribute = (state, action) => {
 	);
 
 	const component = {
-		...structuredClone(state.blockComponents[clientId]),
+		...state.blockComponents[clientId],
 	};
 
 	if (attributeIndex !== false) {

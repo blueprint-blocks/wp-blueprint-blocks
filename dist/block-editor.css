@@ -128,7 +128,7 @@
 	height: var(--navigator-height);
 	padding-right: var(--5x);
 	position: sticky;
-	top: var(--wp-admin--admin-bar--height);
+	top: var(--wp-admin--admin-bar--height, 0px);
 	-webkit-user-select: none;
 	   -moz-user-select: none;
 	        user-select: none;
@@ -1175,15 +1175,16 @@
 .App.is-tutorial .PageBlockJson {
 	box-sizing: border-box;
 	height: calc(
-		100vh - var(--navigator-height) - var(--wp-admin--admin-bar--height)
+		100vh - var(--navigator-height) -
+			var(--wp-admin--admin-bar--height, 0px)
 	);
 	overflow: hidden;
 }
 
 .App.is-tutorial .PageBlockJson-grid {
 	height: calc(
-		100vh - var(--navigator-height) - var(--wp-admin--admin-bar--height) -
-			var(--10x)
+		100vh - var(--navigator-height) -
+			var(--wp-admin--admin-bar--height, 0px) - var(--10x)
 	);
 	overflow: visible;
 }
@@ -3089,7 +3090,7 @@
 	justify-items: center;
 	padding: var(--8x);
 	position: sticky;
-	top: var(--wp-admin--admin-bar--height);
+	top: var(--wp-admin--admin-bar--height, 0px);
 	width: 100%;
 }
 
@@ -3312,7 +3313,7 @@
 	justify-items: center;
 	padding: var(--8x);
 	position: sticky;
-	top: var(--wp-admin--admin-bar--height);
+	top: var(--wp-admin--admin-bar--height, 0px);
 	width: 100%;
 }
 

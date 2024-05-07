@@ -129,12 +129,14 @@ const InserterPreview = ({}) => {
 				<div className="InserterPreview-grid">
 					{_inserterBlocks.map(({ icon, title }, index) => (
 						<div>
-							<div class="InserterPreview-itemIcon">
+							<div className="InserterPreview-itemIcon">
 								<span
 									className={`dashicon dashicons dashicons-${icon}`}
 								/>
 							</div>
-							<div class="InserterPreview-itemTitle">{title}</div>
+							<div className="InserterPreview-itemTitle">
+								{title}
+							</div>
 						</div>
 					))}
 				</div>
