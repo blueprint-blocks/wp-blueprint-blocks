@@ -27,7 +27,17 @@
 			var blueprintBlocksEditorSettings = {
 				blockMetadata: {
 					blockNamespace: "blueprint-blocks",
-					blockBlueprint: null,
+					blockBlueprint: {
+						blockEdit: [
+							{
+								tagName: "div",
+								children: [],
+							},
+						],
+						blockSave: null,
+						blockSidebar: null,
+						blockToolbar: null,
+					},
 					blockJson: null,
 					editorCss: "",
 					viewCss: "",
