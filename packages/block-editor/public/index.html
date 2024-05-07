@@ -1,5 +1,6 @@
 <html>
 	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Add New Block &mdash; Blueprint Blocks</title>
 		<link
 			rel="stylesheet"
@@ -8,7 +9,10 @@
 		<link rel="stylesheet" href="./assets/block-editor.css" />
 		<style>
 			body {
+				height: 100vh;
 				margin: 0;
+				overflow: hidden;
+				width: 100vw;
 			}
 
 			#wpbody,
@@ -47,7 +51,7 @@
 					name: "blueprint_block",
 					restBase: "blueprint_blocks",
 				},
-				pluginMetadata: { url: "http://localhost:3000" },
+				pluginMetadata: { url: "." },
 				themeMetadata: {
 					themeName: "d3-security",
 					cssVariables: {
