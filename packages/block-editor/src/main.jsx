@@ -11,7 +11,7 @@ import TutorialProvider from "./components/TutorialProvider";
 
 import "./main.css";
 
-ReactDOM.createRoot(document.getElementById("wpbody")).render(
+ReactDOM.createRoot(document.getElementById("blueprint-blocks-editor")).render(
 	<Provider store={store}>
 		<TutorialProvider>
 			<BlueprintConnectionsProvider>

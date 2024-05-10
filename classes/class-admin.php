@@ -10,12 +10,39 @@ class Admin
      */
     public function __construct()
     {
-        add_action('admin_enqueue_scripts', array(&$this, 'admin_enqueue_scripts'));
-        add_action('admin_menu', array(&$this, 'admin_menu'));
+		add_action( 'admin_enqueue_scripts', array( &$this, 'admin_enqueue_scripts' ) );
+        add_action( 'admin_enqueue_scripts', array( &$this, 'admin_enqueue_scripts_editor' ) );
+		add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
+        add_filter( 'admin_body_class', array( &$this, 'admin_body_class' ) );
+        add_action( 'load-post.php', array( &$this, 'display_editor' ) );
+        add_action( 'load-post-new.php', array( &$this, 'display_editor' ) );
+        add_filter( 'replace_editor', array( &$this, 'replace_editor' ), 10, 2 );
     }
 
     /**
-     * Register post types for editing blocks and patterns.
+     * Adds "blueprint_blocks" to the body class for styles.
+     * @access public
+     * @return void
+     */
+    public function admin_body_class($classes)
+    {
+        $current_screen = get_current_screen();
+
+		if (
+			!( $current_screen->base === 'toplevel_page_blueprint_blocks_start' ) &&
+			!( $current_screen->base === 'blocks_page_blueprint_blocks_settings' ) &&
+			!( $current_screen->post_type === blueprint_blocks()::OBJECT_PREFIX . 'block' && ( $current_screen->base === 'post' || in_array( $current_screen->action, [ 'add', 'edit' ] ) ) )
+		) {
+            return;
+        }
+
+		$classes .= ' blueprint-blocks ';
+
+		return $classes;
+    }
+
+    /**
+     * Enqueues scripts and styles for the plugin.
      * @access public
      * @return void
      */
@@ -23,7 +50,40 @@ class Admin
     {
         $current_screen = get_current_screen();
 
-        if (!($current_screen->post_type === blueprint_blocks()::OBJECT_PREFIX . 'block' && ($current_screen->base === 'post' || in_array($current_screen->action, ['add', 'edit'])))) {
+        if (
+			!( $current_screen->base === 'toplevel_page_blueprint_blocks_start' ) &&
+			!( $current_screen->base === 'blocks_page_blueprint_blocks_settings' ) &&
+			!( $current_screen->post_type === blueprint_blocks()::OBJECT_PREFIX . 'block' && ( $current_screen->base === 'post' || in_array( $current_screen->action, [ 'add', 'edit' ] ) ) )
+		) {
+            return;
+        }
+
+        wp_enqueue_style(
+            'blueprint-blocks-main',
+            blueprint_blocks()->url . '/dist/main.css',
+            array(),
+            blueprint_blocks()::VERSION
+        );
+
+        wp_enqueue_script(
+            'blueprint-blocks-main',
+            blueprint_blocks()->url . '/dist/main.js',
+            array(),
+            blueprint_blocks()::VERSION,
+            true
+        );
+    }
+
+    /**
+     * Enqueues scripts and styles for the block editor.
+     * @access public
+     * @return void
+     */
+    public function admin_enqueue_scripts_editor()
+    {
+        $current_screen = get_current_screen();
+
+        if ( !( $current_screen->post_type === blueprint_blocks()::OBJECT_PREFIX . 'block' && ( $current_screen->base === 'post' || in_array( $current_screen->action, [ 'add', 'edit' ] ) ) ) ) {
             return;
         }
 
@@ -155,28 +215,86 @@ class Admin
 
         add_submenu_page(
             'blueprint_blocks_start',
-            __('Blueprint Blocks', blueprint_blocks()::TEXT_DOMAIN),
-            __('Get Started', blueprint_blocks()::TEXT_DOMAIN),
+            __( 'Blueprint Blocks', blueprint_blocks()::TEXT_DOMAIN ),
+            __( 'Getting Started', blueprint_blocks()::TEXT_DOMAIN ),
             'manage_options',
             'blueprint_blocks_start',
-            array(&$this, 'display_home_page')
+            array( &$this, 'display_home_page' )
         );
 
         add_submenu_page(
             'blueprint_blocks_start',
-            __('All Blocks', blueprint_blocks()::TEXT_DOMAIN),
-            __('All Blocks', blueprint_blocks()::TEXT_DOMAIN),
+            __( 'All Blocks', blueprint_blocks()::TEXT_DOMAIN ),
+            __( 'All Blocks', blueprint_blocks()::TEXT_DOMAIN ),
             'manage_options',
             'edit.php?post_type=' . blueprint_blocks()::OBJECT_PREFIX . 'block'
         );
 
         add_submenu_page(
             'blueprint_blocks_start',
-            __('Add New Block', blueprint_blocks()::TEXT_DOMAIN),
-            __('Add New Block', blueprint_blocks()::TEXT_DOMAIN),
+            __( 'Add New Block', blueprint_blocks()::TEXT_DOMAIN ),
+            __( 'Add New Block', blueprint_blocks()::TEXT_DOMAIN ),
             'manage_options',
             'post-new.php?post_type=' . blueprint_blocks()::OBJECT_PREFIX . 'block'
         );
+
+        add_submenu_page(
+            'blueprint_blocks_start',
+            __( 'Blueprint Blocks', blueprint_blocks()::TEXT_DOMAIN ),
+            __( 'Settings', blueprint_blocks()::TEXT_DOMAIN ),
+            'manage_options',
+            'blueprint_blocks_settings',
+            array( &$this, 'display_settings' )
+        );
+    }
+
+	/**
+     * Displays the editor for blocks.
+     * @access public
+     * @return void
+     */
+    public function display_editor()
+    {
+		global $post_ID, $post_id, $post_type, $post_type_object, $post;
+
+        $current_screen = get_current_screen();
+
+        if (
+			!($current_screen->post_type === blueprint_blocks()::OBJECT_PREFIX . 'block' && ($current_screen->base === 'post' || in_array($current_screen->action, ['add', 'edit'])))
+		) {
+            return;
+        }
+
+		$post = get_post( $_REQUEST[ 'post' ] ?? null );
+
+		if ( isset( $_GET['post'] ) && isset( $_POST['post_ID'] ) && (int) $_GET['post'] !== (int) $_POST['post_ID'] ) {
+			wp_die( __( 'A post ID mismatch has been detected.' ), __( 'Sorry, you are not allowed to edit this item.' ), 400 );
+		} elseif ( isset( $_GET['post'] ) ) {
+			$post_id = (int) $_GET['post'];
+		} elseif ( isset( $_POST['post_ID'] ) ) {
+			$post_id = (int) $_POST['post_ID'];
+		} else {
+			$post_id = 0;
+		}
+		$post_ID = $post_id;
+
+		if ( $post_id ) {
+			$post = get_post( $post_id );
+		} else {
+			$post    = get_default_post_to_edit( $current_screen->post_type ?: 'post', true );
+			$post_id = $post->ID;
+			$post_ID = $post->ID;
+		}
+
+		if ( $post ) {
+			$post_type        = $post->post_type;
+			$post_type_object = get_post_type_object( $post_type );
+		}
+
+		require_once ABSPATH . 'wp-admin/admin-header.php';
+		require_once blueprint_blocks()->path . '/templates/nav-menu.php';
+
+		echo '<div id="blueprint-blocks-editor"></div>', PHP_EOL;
     }
 
     /**
@@ -190,7 +308,17 @@ class Admin
     }
 
     /**
-     * Register post types for editing blocks.
+     * Register post types for editing blocks and patterns.
+     * @access public
+     * @return void
+     */
+    public function display_settings()
+    {
+        include blueprint_blocks()->path . '/templates/getting-started.php';
+    }
+
+    /**
+     * Replace the editor.
      * @access public
      * @return void
      */

@@ -3,7 +3,7 @@
 	background: var(--color-white);
 	display: grid;
 	grid-template-columns: 1fr max-content;
-	height: var(--navigator-height);
+	height: var(--app-nav-height);
 	padding-right: var(--5x);
 	position: sticky;
 	top: var(--wp-admin--admin-bar--height, 0px);
@@ -13,7 +13,7 @@
 	> ul {
 		display: grid;
 		grid-auto-flow: column;
-		height: var(--navigator-height);
+		height: var(--app-nav-height);
 		justify-content: start;
 		list-style: none;
 		margin: 0;
@@ -26,7 +26,7 @@
 		cursor: pointer;
 		font-size: var(--font-size-base);
 		font-weight: var(--font-weight-semi-bold);
-		height: calc(var(--5x) - 3px);
+		height: calc(var(--app-nav-height) - var(--2x) - 3px);
 		margin: 0;
 		padding: var(--1x) var(--4x) calc(var(--1x) + 3px);
 		position: relative;
@@ -80,8 +80,8 @@
 	gap: var(--2x);
 	grid-auto-columns: max-content;
 	grid-auto-flow: column;
-	height: calc(var(--5x) - 3px);
-	line-height: var(--3x);
+	height: calc(var(--app-nav-height) - var(--2x) - 3px);
+	line-height: calc(var(--app-nav-height) - var(--4x));
 	mix-blend-mode: lighten;
 	padding: 0 var(--1x);
 	position: relative;
@@ -107,11 +107,12 @@
 }
 
 .Navigator-actions {
+	align-items: center;
 	display: grid;
+	height: calc(var(--app-nav-height) - 3px);
 	gap: var(--2x);
 	grid-auto-flow: column;
 	grid-template-columns: max-content;
-	padding: var(--1x) 0;
 	position: relative;
 	z-index: 2;
 

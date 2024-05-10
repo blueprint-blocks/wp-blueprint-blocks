@@ -54,16 +54,15 @@
 .App.is-tutorial .PageBlockJson {
 	box-sizing: border-box;
 	height: calc(
-		100vh - var(--navigator-height) -
-			var(--wp-admin--admin-bar--height, 0px)
+		100vh - var(--app-nav-height) - var(--wp-admin--admin-bar--height, 0px)
 	);
 	overflow: hidden;
 }
 
 .App.is-tutorial .PageBlockJson-grid {
 	height: calc(
-		100vh - var(--navigator-height) -
-			var(--wp-admin--admin-bar--height, 0px) - var(--10x)
+		100vh - var(--app-nav-height) - var(--wp-admin--admin-bar--height, 0px) -
+			var(--10x)
 	);
 	overflow: visible;
 }

@@ -1,0 +1,26 @@
+{
+	"name": "@blueprint-blocks/main",
+	"private": true,
+	"version": "0.1.0",
+	"main": "dist/main.js",
+	"type": "module",
+	"scripts": {
+		"test": "jest",
+		"start": "NODE_ENV=development rollup -c -w",
+		"build": "rollup -c",
+		"prepublishOnly": "rm -rf ./dist && npm run build"
+	},
+	"devDependencies": {
+		"@rollup/plugin-commonjs": "^25.0.7",
+		"@rollup/plugin-json": "^6.0.1",
+		"@rollup/plugin-replace": "^5.0.5",
+		"autoprefixer": "^10.4.16",
+		"postcss": "^8.4.31",
+		"postcss-advanced-variables": "^3.0.1",
+		"postcss-conditionals": "^2.1.0",
+		"postcss-nesting": "^11.1.0",
+		"postcss-simple-vars": "^7.0.1",
+		"rollup": "^4.8.0",
+		"rollup-plugin-postcss": "^4.0.2"
+	}
+}

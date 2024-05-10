@@ -1,4 +1,4 @@
-0 silly argv { _: [ 'run' ], lernaVersion: '7.3.0', '$0': 'lerna', script: 'build' }
+0 silly argv { _: [ 'run' ], lernaVersion: '7.3.0', '$0': 'lerna', script: 'start' }
 1 notice cli v7.3.0
 2 verbose packageConfigs Resolving packages based on package.json "workspaces" configuration.
 3 verbose rootPath /Users/cody/Sites/wp-blueprint-blocks-pro

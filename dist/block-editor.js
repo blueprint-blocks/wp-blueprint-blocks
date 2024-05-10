@@ -49375,7 +49375,7 @@
 	  });
 	};
 
-	client.createRoot(document.getElementById("wpbody")).render( /*#__PURE__*/jsxRuntimeExports.jsx(Provider, {
+	client.createRoot(document.getElementById("blueprint-blocks-editor")).render( /*#__PURE__*/jsxRuntimeExports.jsx(Provider, {
 	  store: store,
 	  children: /*#__PURE__*/jsxRuntimeExports.jsx(TutorialProvider, {
 	    children: /*#__PURE__*/jsxRuntimeExports.jsx(BlueprintConnectionsProvider, {

@@ -125,7 +125,7 @@
 	background: var(--color-white);
 	display: grid;
 	grid-template-columns: 1fr max-content;
-	height: var(--navigator-height);
+	height: var(--app-nav-height);
 	padding-right: var(--5x);
 	position: sticky;
 	top: var(--wp-admin--admin-bar--height, 0px);
@@ -138,7 +138,7 @@
 .Navigator > ul {
 		display: grid;
 		grid-auto-flow: column;
-		height: var(--navigator-height);
+		height: var(--app-nav-height);
 		justify-content: start;
 		list-style: none;
 		margin: 0;
@@ -151,7 +151,7 @@
 		cursor: pointer;
 		font-size: var(--font-size-base);
 		font-weight: var(--font-weight-semi-bold);
-		height: calc(var(--5x) - 3px);
+		height: calc(var(--app-nav-height) - var(--2x) - 3px);
 		margin: 0;
 		padding: var(--1x) var(--4x) calc(var(--1x) + 3px);
 		position: relative;
@@ -204,8 +204,8 @@
 	gap: var(--2x);
 	grid-auto-columns: max-content;
 	grid-auto-flow: column;
-	height: calc(var(--5x) - 3px);
-	line-height: var(--3x);
+	height: calc(var(--app-nav-height) - var(--2x) - 3px);
+	line-height: calc(var(--app-nav-height) - var(--4x));
 	mix-blend-mode: lighten;
 	padding: 0 var(--1x);
 	position: relative;
@@ -233,11 +233,12 @@
 }
 
 .Navigator-actions {
+	align-items: center;
 	display: grid;
+	height: calc(var(--app-nav-height) - 3px);
 	gap: var(--2x);
 	grid-auto-flow: column;
 	grid-template-columns: max-content;
-	padding: var(--1x) 0;
 	position: relative;
 	z-index: 2;
 }
@@ -1175,16 +1176,15 @@
 .App.is-tutorial .PageBlockJson {
 	box-sizing: border-box;
 	height: calc(
-		100vh - var(--navigator-height) -
-			var(--wp-admin--admin-bar--height, 0px)
+		100vh - var(--app-nav-height) - var(--wp-admin--admin-bar--height, 0px)
 	);
 	overflow: hidden;
 }
 
 .App.is-tutorial .PageBlockJson-grid {
 	height: calc(
-		100vh - var(--navigator-height) -
-			var(--wp-admin--admin-bar--height, 0px) - var(--10x)
+		100vh - var(--app-nav-height) - var(--wp-admin--admin-bar--height, 0px) -
+			var(--10x)
 	);
 	overflow: visible;
 }
@@ -3035,7 +3035,7 @@
 
 .SaveDialog {
 	background: #ffffff40;
-	height: calc(var(--app-height) + var(--navigator-height));
+	height: calc(var(--app-height) + var(--app-nav-height));
 	left: 0;
 	opacity: 0;
 	position: absolute;
@@ -3056,7 +3056,7 @@
 	background: transparent;
 	height: auto;
 	left: var(--3x);
-	top: calc(var(--app-height) + var(--navigator-height) - var(--3x));
+	top: calc(var(--app-height) + var(--app-nav-height) - var(--3x));
 	width: auto;
 }
 
@@ -3577,144 +3577,26 @@
 	}
 
 .App {
-	--1x: 8px;
-	--2x: 16px;
-	--3x: 24px;
-	--4x: 32px;
-	--5x: 40px;
-	--6x: 48px;
-	--7x: 56px;
-	--8x: 64px;
-	--9x: 72px;
-	--10x: 80px;
-	--11x: 88px;
-	--12x: 96px;
-	--13x: 104px;
-	--14x: 112px;
-	--15x: 120px;
-
-	--color-white: #fff;
-	--color-black: #272432;
-
-	--color-lighter-gray: #e9ebeb;
-	--color-light-gray: #c2c2c2;
-	--color-gray: #9a9a9a;
-	--color-dark-gray: #7c7c7c;
-	--color-darker-gray: #5d5d5d;
-	--color-darkest-gray: #272432;
-
-	--color-light-slate: #d6e5ef;
-	--color-slate: #a3bfd4;
-	--color-dark-slate: #8198a7;
-	--color-darker-slate: #5d7382;
-
-	--color-accent-teal: #00ffba;
-	--color-accent-teal-00: #00ffba00;
-	--color-accent-teal-blue: #00b2d0;
-	--color-accent-blue: #006be5;
-	--color-accent-blue-00: #006be500;
-	--color-accent-purple: #7f1192;
-	--color-accent-pink: #b10a50;
-	--color-accent-red: #e6255d;
-	--color-accent-orange: #ef3e23;
-	--color-accent-yellow: #f0bc05;
-	--color-accent-yellow-30: #b48e13;
-
-	--color-error: #fde5ef;
-	--color-error-10: #ed00631a;
-
-	--color-code-property: #b10a50;
-	--color-code-value: #ea971a;
-
-	--gradient-orange-red: linear-gradient(
-		150deg,
-		var(--color-accent-orange),
-		var(--color-accent-red)
-	);
-	--gradient-teal-blue: linear-gradient(
-		150deg,
-		var(--color-accent-teal),
-		var(--color-accent-blue)
-	);
-	--gradient-teal-blue-soft: linear-gradient(
-		150deg,
-		var(--color-accent-teal-blue),
-		var(--color-accent-blue)
-	);
-	--gradient-teal-blue-transparent: linear-gradient(
-		90deg,
-		var(--color-accent-teal-00) 0%,
-		var(--color-accent-teal) 20%,
-		var(--color-accent-blue) 80%,
-		var(--color-accent-blue-00) 100%
-	);
-	--gradient-gray: linear-gradient(
-		150deg,
-		var(--color-lighter-gray),
-		var(--color-gray)
-	);
-	--gradient-light-gray: linear-gradient(
-		150deg,
-		var(--color-lighter-gray),
-		var(--color-light-gray)
-	);
-	--gradient-white: linear-gradient(
-		150deg,
-		var(--color-white),
-		var(--color-lighter-gray)
-	);
-	--gradient-purple-pink: radial-gradient(
-		ellipse at bottom,
-		#9e05e6,
-		#5200bb
-	);
-
-	--font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-		Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-	--font-family-monospace: "Fira Mono", monospace;
-
-	--font-size-base: 16px;
-	--font-size-large: 20px;
-	--font-size-x-large: 28px;
-	--font-size-xx-large: 40px;
-	--font-size-small: 14px;
-	--font-size-x-small: 12px;
-
-	--font-weight-base: 300;
-	--font-weight-medium: 400;
-	--font-weight-semi-bold: 500;
-	--font-weight-bold: 600;
-
-	--line-height-base: 1.5;
-
-	--box-shadow-medium: 0 3px 15px #27243233;
-	--box-shadow-low: 3px 3px 0 #27243233;
-	--box-shadow-x-low: 2px 2px 0 #27243233;
-
-	--transition: all 0.15s var(--transition-timing-function);
-	--transition-slow: all 0.9s var(--transition-timing-function);
-	--transition-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
-
 	--app-height: max(
 		680px,
 		calc(
-			100vh - var(--navigator-height) -
+			100vh - var(--nav-height, 0px) - var(--app-nav-height, 0px) -
 				var(--wp-admin--admin-bar--height, 0px)
 		)
 	);
-
-	--navigator-height: calc(var(--7x) + 3px);
+	--app-nav-height: calc(var(--8x) + 3px);
 	--sidebar-width: 380px;
 
 	background: #f0f0f1;
 	color: var(--color-black);
 	display: grid;
-	grid-template-rows: var(--navigator-height) max-content;
+	grid-template-rows: var(--app-nav-height) max-content;
 	font-family: var(--font-family);
 	font-size: var(--font-size-base);
 	font-weight: var(--font-weight-base);
 	line-height: var(--line-height-base);
 	position: relative;
+	width: 100%;
 	z-index: 10;
 }
 
@@ -3736,28 +3618,3 @@
 
 
 
-@font-face {
-	font-family: "Fira Mono";
-	font-weight: 300;
-	src: url("../assets/fonts/fira-mono/fira-mono-regular.woff2")
-		format("woff2");
-}
-
-@font-face {
-	font-family: "Fira Mono";
-	font-weight: 400;
-	src: url("../assets/fonts/fira-mono/fira-mono-medium.woff2") format("woff2");
-}
-
-#wpcontent {
-	padding-left: 0;
-}
-
-#wpfooter {
-	display: none;
-}
-
-#wpbody {
-	align-items: stretch;
-	min-height: calc(100vh - var(--wp-admin--admin-bar--height, 0px));
-}
