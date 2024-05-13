@@ -14026,3 +14026,4 @@
   });
 
 })(wp.blocks);
+//# sourceMappingURL=block-loader.js.map

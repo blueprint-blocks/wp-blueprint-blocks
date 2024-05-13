@@ -30,8 +30,8 @@ class Admin
         $current_screen = get_current_screen();
 
 		if (
-			!( $current_screen->base === 'toplevel_page_blueprint_blocks_start' ) &&
-			!( $current_screen->base === 'blocks_page_blueprint_blocks_settings' ) &&
+			!( $current_screen->base === 'toplevel_page_blueprint-blocks-start' ) &&
+			!( $current_screen->base === 'blocks_page_blueprint-blocks-settings' ) &&
 			!( $current_screen->post_type === blueprint_blocks()::OBJECT_PREFIX . 'block' && ( $current_screen->base === 'edit' || $current_screen->base === 'post' || in_array( $current_screen->action, [ 'add', 'edit' ] ) ) )
 		) {
             return;
@@ -52,8 +52,8 @@ class Admin
         $current_screen = get_current_screen();
 
         if (
-			!( $current_screen->base === 'toplevel_page_blueprint_blocks_start' ) &&
-			!( $current_screen->base === 'blocks_page_blueprint_blocks_settings' ) &&
+			!( $current_screen->base === 'toplevel_page_blueprint-blocks-start' ) &&
+			!( $current_screen->base === 'blocks_page_blueprint-blocks-settings' ) &&
 			!( $current_screen->post_type === blueprint_blocks()::OBJECT_PREFIX . 'block' && ( $current_screen->base === 'edit' || $current_screen->base === 'post' || in_array( $current_screen->action, [ 'add', 'edit' ] ) ) )
 		) {
             return;
@@ -208,23 +208,23 @@ class Admin
             __( 'Blueprint Blocks', blueprint_blocks()::TEXT_DOMAIN ),
             __( 'Blocks', blueprint_blocks()::TEXT_DOMAIN ),
             'manage_options',
-            'blueprint_blocks_start',
+            'blueprint-blocks-start',
             array(&$this, 'display_home_page'),
             'dashicons-editor-code',
             81
         );
 
         add_submenu_page(
-            'blueprint_blocks_start',
+            'blueprint-blocks-start',
             __( 'Blueprint Blocks', blueprint_blocks()::TEXT_DOMAIN ),
             __( 'Getting Started', blueprint_blocks()::TEXT_DOMAIN ),
             'manage_options',
-            'blueprint_blocks_start',
+            'blueprint-blocks-start',
             array( &$this, 'display_home_page' )
         );
 
         add_submenu_page(
-            'blueprint_blocks_start',
+            'blueprint-blocks-start',
             __( 'All Blocks', blueprint_blocks()::TEXT_DOMAIN ),
             __( 'All Blocks', blueprint_blocks()::TEXT_DOMAIN ),
             'manage_options',
@@ -232,7 +232,7 @@ class Admin
         );
 
         add_submenu_page(
-            'blueprint_blocks_start',
+            'blueprint-blocks-start',
             __( 'Add New Block', blueprint_blocks()::TEXT_DOMAIN ),
             __( 'Add New Block', blueprint_blocks()::TEXT_DOMAIN ),
             'manage_options',
@@ -240,11 +240,11 @@ class Admin
         );
 
         add_submenu_page(
-            'blueprint_blocks_start',
+            'blueprint-blocks-start',
             __( 'Blueprint Blocks', blueprint_blocks()::TEXT_DOMAIN ),
             __( 'Settings', blueprint_blocks()::TEXT_DOMAIN ),
             'manage_options',
-            'blueprint_blocks_settings',
+            'blueprint-blocks-settings',
             array( &$this, 'display_settings' )
         );
     }
@@ -259,8 +259,8 @@ class Admin
 		$current_screen = get_current_screen();
 
 		if (
-			!( $current_screen->base === 'toplevel_page_blueprint_blocks_start' ) &&
-			!( $current_screen->base === 'blocks_page_blueprint_blocks_settings' ) &&
+			!( $current_screen->base === 'toplevel_page_blueprint-blocks-start' ) &&
+			!( $current_screen->base === 'blocks_page_blueprint-blocks-settings' ) &&
 			!( $current_screen->post_type === blueprint_blocks()::OBJECT_PREFIX . 'block' && ( $current_screen->base === 'edit' || $current_screen->base === 'post' || in_array( $current_screen->action, [ 'add', 'edit' ] ) ) )
 		) {
             return;

@@ -6,7 +6,7 @@ class Core
 	const VERSION = '23.2.0';
 	const TEXT_DOMAIN = 'blueprint-blocks';
     const REST_NAMESPACE = 'blueprint-blocks/v2';
-    const OBJECT_PREFIX = 'blueprint_';
+    const OBJECT_PREFIX = 'blueprint-';
 
 	public $path;
 	public $public_path;

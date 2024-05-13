@@ -163,7 +163,7 @@
 	grid-auto-flow: column;
 	height: var(--nav-height);
 	margin-left: -20px;
-	padding: 0 var(--4x);
+	padding: 0 var(--3x);
 	width: calc(100% + 20px);
 
 	ul {
