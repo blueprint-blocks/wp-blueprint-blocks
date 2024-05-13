@@ -17,8 +17,9 @@
 	font-size: var(--font-size-base);
 	font-weight: var(--font-weight-base);
 	line-height: var(--line-height-base);
+	margin-left: -20px;
 	position: relative;
-	width: 100%;
+	width: calc(100% + 20px);
 	z-index: 10;
 
 	:where(p) {

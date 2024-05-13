@@ -10,10 +10,11 @@ class Admin
      */
     public function __construct()
     {
+        add_filter( 'admin_body_class', array( &$this, 'admin_body_class' ) );
 		add_action( 'admin_enqueue_scripts', array( &$this, 'admin_enqueue_scripts' ) );
         add_action( 'admin_enqueue_scripts', array( &$this, 'admin_enqueue_scripts_editor' ) );
 		add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
-        add_filter( 'admin_body_class', array( &$this, 'admin_body_class' ) );
+		add_action( 'admin_notices', array( &$this, 'admin_notices' ) );
         add_action( 'load-post.php', array( &$this, 'display_editor' ) );
         add_action( 'load-post-new.php', array( &$this, 'display_editor' ) );
         add_filter( 'replace_editor', array( &$this, 'replace_editor' ), 10, 2 );
@@ -31,7 +32,7 @@ class Admin
 		if (
 			!( $current_screen->base === 'toplevel_page_blueprint_blocks_start' ) &&
 			!( $current_screen->base === 'blocks_page_blueprint_blocks_settings' ) &&
-			!( $current_screen->post_type === blueprint_blocks()::OBJECT_PREFIX . 'block' && ( $current_screen->base === 'post' || in_array( $current_screen->action, [ 'add', 'edit' ] ) ) )
+			!( $current_screen->post_type === blueprint_blocks()::OBJECT_PREFIX . 'block' && ( $current_screen->base === 'edit' || $current_screen->base === 'post' || in_array( $current_screen->action, [ 'add', 'edit' ] ) ) )
 		) {
             return;
         }
@@ -53,7 +54,7 @@ class Admin
         if (
 			!( $current_screen->base === 'toplevel_page_blueprint_blocks_start' ) &&
 			!( $current_screen->base === 'blocks_page_blueprint_blocks_settings' ) &&
-			!( $current_screen->post_type === blueprint_blocks()::OBJECT_PREFIX . 'block' && ( $current_screen->base === 'post' || in_array( $current_screen->action, [ 'add', 'edit' ] ) ) )
+			!( $current_screen->post_type === blueprint_blocks()::OBJECT_PREFIX . 'block' && ( $current_screen->base === 'edit' || $current_screen->base === 'post' || in_array( $current_screen->action, [ 'add', 'edit' ] ) ) )
 		) {
             return;
         }
@@ -114,31 +115,31 @@ class Admin
 
         $post_id = null;
 
-        $block_blueprint = blueprint_blocks_get_json('data/blueprint.json');
-        $block_json = blueprint_blocks_get_json('data/block.json');
+        $block_blueprint = blueprint_blocks_get_json( 'data/blueprint.json' );
+        $block_json = blueprint_blocks_get_json( 'data/block.json' );
         $block_editor_css = '';
         $block_view_css = '';
 
 		$registered_block_names = blueprint_blocks_get_registered_block_names();
 
-        if ($current_screen->base === 'post' && $current_screen->action !== 'add') {
+        if ( $current_screen->base === 'post' && $current_screen->action !== 'add' ) {
             $post_id = get_the_ID();
         }
 
-        if ($post_id !== null) {
-            if ($meta_value = get_post_meta($post_id, 'blueprint_blocks_blueprint_json', true)) {
+        if ( $post_id !== null ) {
+            if ( $meta_value = get_post_meta( $post_id, 'blueprint_blocks_blueprint_json', true ) ) {
                 $block_blueprint = (object)$meta_value;
             }
 
-            if ($meta_value = get_post_meta($post_id, 'blueprint_blocks_block_json', true)) {
+            if ( $meta_value = get_post_meta( $post_id, 'blueprint_blocks_block_json', true ) ) {
                 $block_json = (object)$meta_value;
             }
 
-            if ($meta_value = get_post_meta($post_id, 'blueprint_blocks_editor_css', true)) {
+            if ( $meta_value = get_post_meta( $post_id, 'blueprint_blocks_editor_css', true ) ) {
                 $block_editor_css = $meta_value;
             }
 
-            if ($meta_value = get_post_meta($post_id, 'blueprint_blocks_view_css', true)) {
+            if ( $meta_value = get_post_meta( $post_id, 'blueprint_blocks_view_css', true ) ) {
                 $block_view_css = $meta_value;
             }
 
@@ -204,8 +205,8 @@ class Admin
         global $submenu;
 
         $slug = add_menu_page(
-            __('Blueprint Blocks', blueprint_blocks()::TEXT_DOMAIN),
-            __('Blocks', blueprint_blocks()::TEXT_DOMAIN),
+            __( 'Blueprint Blocks', blueprint_blocks()::TEXT_DOMAIN ),
+            __( 'Blocks', blueprint_blocks()::TEXT_DOMAIN ),
             'manage_options',
             'blueprint_blocks_start',
             array(&$this, 'display_home_page'),
@@ -247,6 +248,26 @@ class Admin
             array( &$this, 'display_settings' )
         );
     }
+
+	/**
+     * Displays the nav menu.
+     * @access public
+     * @return void
+     */
+	public function admin_notices()
+	{
+		$current_screen = get_current_screen();
+
+		if (
+			!( $current_screen->base === 'toplevel_page_blueprint_blocks_start' ) &&
+			!( $current_screen->base === 'blocks_page_blueprint_blocks_settings' ) &&
+			!( $current_screen->post_type === blueprint_blocks()::OBJECT_PREFIX . 'block' && ( $current_screen->base === 'edit' || $current_screen->base === 'post' || in_array( $current_screen->action, [ 'add', 'edit' ] ) ) )
+		) {
+            return;
+        }
+
+		require_once blueprint_blocks()->path . '/templates/nav-menu.php';
+	}
 
 	/**
      * Displays the editor for blocks.
@@ -292,7 +313,6 @@ class Admin
 		}
 
 		require_once ABSPATH . 'wp-admin/admin-header.php';
-		require_once blueprint_blocks()->path . '/templates/nav-menu.php';
 
 		echo '<div id="blueprint-blocks-editor"></div>', PHP_EOL;
     }
@@ -304,7 +324,7 @@ class Admin
      */
     public function display_home_page()
     {
-        include blueprint_blocks()->path . '/templates/getting-started.php';
+        require_once blueprint_blocks()->path . '/templates/getting-started.php';
     }
 
     /**
@@ -314,7 +334,7 @@ class Admin
      */
     public function display_settings()
     {
-        include blueprint_blocks()->path . '/templates/getting-started.php';
+        require_once blueprint_blocks()->path . '/templates/settings.php';
     }
 
     /**

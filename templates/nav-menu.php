@@ -8,7 +8,7 @@ if ( $current_screen->base === 'toplevel_page_blueprint_blocks_start' ) {
 	$current_page = 'getting-started';
 } elseif ( $current_screen->base === 'blocks_page_blueprint_blocks_settings' ) {
 	$current_page = 'settings';
-} elseif ( $current_screen->post_type === blueprint_blocks()::OBJECT_PREFIX . 'block' && ( $current_screen->base === 'post' || in_array( $current_screen->action, [ 'add', 'edit' ] ) ) ) {
+} elseif ( $current_screen->post_type === blueprint_blocks()::OBJECT_PREFIX . 'block' && ( $current_screen->base === 'edit' || $current_screen->base === 'post' || in_array( $current_screen->action, [ 'add', 'edit' ] ) ) ) {
 	$current_page = 'block-editor';
 }
 ?>

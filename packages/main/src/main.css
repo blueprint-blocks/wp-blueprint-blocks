@@ -143,10 +143,6 @@
 		min-height: calc(100vh - var(--wp-admin--admin-bar--height, 0px));
 	}
 
-	#wpcontent {
-		padding-left: 0;
-	}
-
 	#wpfooter,
 	#screen-meta,
 	#screen-meta-links {
@@ -166,8 +162,9 @@
 	grid-auto-columns: max-content;
 	grid-auto-flow: column;
 	height: var(--nav-height);
+	margin-left: -20px;
 	padding: 0 var(--4x);
-	width: 100%;
+	width: calc(100% + 20px);
 
 	ul {
 		align-items: center;
