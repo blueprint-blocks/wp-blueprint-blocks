@@ -14,6 +14,24 @@ class PostTypes
 	}
 
 	/**
+	 * Returns the not found template for edit.php.
+     * @access public
+     * @return void
+     */
+    public function get_not_found_template()
+    {
+		static $not_found_template = null;
+
+		if ( $not_found_template === null ) {
+			ob_start();
+			include_once blueprint_blocks()->path . '/templates/edit-not-found.php';
+			$not_found_template = ob_get_clean();
+		}
+
+		return $not_found_template;
+	}
+
+	/**
 	 * Register post types for editing blocks and patterns.
      * @access public
      * @return void
@@ -35,10 +53,13 @@ class PostTypes
 			'labels'            => array(
 				'name'          => __( 'Blocks', blueprint_blocks()::TEXT_DOMAIN ),
                 'singular_name' => __( 'Block', blueprint_blocks()::TEXT_DOMAIN ),
+                'add_new'       => __( 'Add New Block', blueprint_blocks()::TEXT_DOMAIN ),
                 'add_new_item'  => __( 'Add New Block', blueprint_blocks()::TEXT_DOMAIN ),
                 'edit_item'     => __( 'Edit Block', blueprint_blocks()::TEXT_DOMAIN ),
                 'new_item'      => __( 'New Block', blueprint_blocks()::TEXT_DOMAIN ),
                 'view_item'     => __( 'View Block', blueprint_blocks()::TEXT_DOMAIN ),
+                'search_items'      => __( 'Search Blocks', blueprint_blocks()::TEXT_DOMAIN ),
+				'not_found'     => $this->get_not_found_template(),
 			),
 		) );
 

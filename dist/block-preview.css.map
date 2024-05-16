@@ -1,0 +1,1 @@
+{"version":3,"sources":["main.css"],"names":[],"mappings":"AAAA,gCACC,gBAAmB,CACnB,eAKD,CAHC,wCACC,yBACD","file":"block-preview.css","sourcesContent":[".blueprint-blocks-block-preview {\n\taspect-ratio: 2 / 1;\n\tmax-width: 340px;\n\n\t> div > div {\n\t\ttransform-origin: left top;\n\t}\n}\n"]}

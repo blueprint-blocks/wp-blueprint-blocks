@@ -150,6 +150,53 @@
 	}
 }
 
+.blueprint-blocks.edit-php {
+	.tablenav:is(.top, .bottom),
+	.check-column,
+	.row-actions .inline.hide-if-no-js {
+		display: none;
+	}
+
+	.subsubsub {
+		margin-bottom: 6px;
+	}
+
+	#wpbody-content > .wrap {
+		margin-top: 16px;
+	}
+}
+
+.blueprint-blocks-no-block-types.edit-php {
+	.wp-list-table.posts :is(thead, tfoot) {
+		display: none;
+	}
+
+	.wp-list-table.posts .no-items > td {
+		padding: var(--5x) var(--3x);
+
+		> div {
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			gap: var(--2x);
+			justify-content: center;
+			text-align: center;
+		}
+
+		h2 {
+			font-size: var(--font-size-large);
+			font-weight: var(--font-weight-medium);
+			margin: 0;
+		}
+
+		p {
+			color: var(--color-darkest-slate);
+			margin: 0;
+			max-width: 600px;
+		}
+	}
+}
+
 .blueprint-blocks-nav-menu {
 	align-items: center;
 	background: var(--gradient-slate);

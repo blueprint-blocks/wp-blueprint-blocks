@@ -23,6 +23,7 @@ function blueprint_blocks_get_block_types()
 
 			if ( $block_json && isset( $block_json[ 'name' ] ) && $block_json[ 'name' ] ) {
 				$block_types[] = [
+					'postId' => $post->ID,
 					'blockName' => $block_json[ 'name' ],
 					'blockJson' => $block_json,
 					'blockBlueprint' => $block_blueprint ?: null,
