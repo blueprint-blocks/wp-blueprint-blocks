@@ -1,42 +1,22 @@
+import { v4 as uuid } from "uuid";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
+import { createBlock, getBlockType } from "@wordpress/blocks";
 import { BlockPreview } from "@wordpress/block-editor";
 
 import "./main.css";
 
 document.querySelectorAll(".blueprint-blocks-block-preview").forEach(($el) => {
-	/*const blocks = [
-		{
-			name: $el.dataset?.blockName,
-			innerBlocks: [],
-			attrs: [],
-		},
-	];*/
-	const blocks = [
-		{
-			name: "core/heading",
-			innerBlocks: [],
-			attributes: {
-				level: 3,
-				content: "hello heading",
-				placeholder: "hello heading",
-			},
-			attrs: {
-				level: 3,
-				content: "hello heading",
-				placeholder: "hello heading",
-			},
-		},
-		{
-			name: "core/paragraph",
-			innerBlocks: [],
-			attributes: {
-				content: "hello paragraph",
-			},
-		},
-	];
+	const blockType = getBlockType($el.dataset?.blockName);
+
+	if (!blockType) {
+		return null;
+	}
+
+	const blocks = [createBlock(blockType?.name)];
+
 	ReactDOM.createRoot($el).render(
-		<BlockPreview blocks={blocks} viewportWidth={800} minHeight={200} />,
+		<BlockPreview blocks={blocks} viewportWidth={500} />,
 	);
 });

@@ -25,6 +25,7 @@ class Core
 		$this->public_path = substr( rtrim( $this->url, '/' ), strlen( $base_url ) );
 
 		new \BlueprintBlocks\Admin();
+		new \BlueprintBlocks\AdminListTable();
 		new \BlueprintBlocks\BlockTypes();
 		new \BlueprintBlocks\PostTypes();
 		new \BlueprintBlocks\StylesheetLoader();

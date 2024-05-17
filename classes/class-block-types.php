@@ -10,12 +10,13 @@ class BlockTypes
     public function __construct()
     {
 		add_action( 'admin_enqueue_scripts', array( &$this, 'admin_enqueue_scripts' ) );
+		add_action( 'admin_init', array( &$this, 'admin_init' ) );
 		add_action( 'enqueue_block_editor_assets', array( &$this, 'enqueue_block_editor_assets' ) );
 		add_action( 'init', array( &$this, 'register_block_types' ) );
 	}
 
 	/**
-	 * Register post types for editing blocks and patterns.
+	 * Enqueue the scripts for loadings blocks in the editor.
      * @access public
      * @return void
      */
@@ -23,11 +24,21 @@ class BlockTypes
     {
 		$current_screen = get_current_screen();
 
-		if ( ! ( $current_screen->base === 'post' || in_array( $current_screen->action, [ 'add', 'edit' ] ) ) ) {
+		if ( ! ( $current_screen->base === 'edit' || $current_screen->base === 'post' || in_array( $current_screen->action, [ 'add', 'edit' ] ) ) ) {
 			return;
 		}
 
-		wp_enqueue_script(
+		wp_enqueue_script( 'blueprint-blocks-loader' );
+	}
+
+	/**
+	 * Register the scripts for enqueueing.
+     * @access public
+     * @return void
+     */
+    public function admin_init()
+    {
+		wp_register_script(
 			'blueprint-blocks-loader',
 			blueprint_blocks()->url . '/dist/block-loader.js',
 			array(

@@ -10,6 +10,7 @@ Text Domain: blueprint-blocks
 */
 
 require __DIR__ . '/classes/class-admin.php';
+require __DIR__ . '/classes/class-admin-list-table.php';
 require __DIR__ . '/classes/class-block-types.php';
 require __DIR__ . '/classes/class-core.php';
 require __DIR__ . '/classes/class-post-types.php';

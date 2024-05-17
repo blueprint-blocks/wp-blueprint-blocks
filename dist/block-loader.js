@@ -14015,7 +14015,6 @@
   const { blockTypes = [] } = blueprintBlocksLoaderSettings || {};
 
   blockTypes.forEach(({ blockBlueprint, blockJson, blockName }) => {
-  	console.log(blockName, blockBlueprint);
   	blocks.registerBlockType(blockName, {
   		...(blockJson || {}),
 
@@ -14026,4 +14025,3 @@
   });
 
 })(wp.blocks);
-//# sourceMappingURL=block-loader.js.map

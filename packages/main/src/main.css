@@ -143,6 +143,10 @@
 		min-height: calc(100vh - var(--wp-admin--admin-bar--height, 0px));
 	}
 
+	#wpbody-content {
+		padding-bottom: 0;
+	}
+
 	#wpfooter,
 	#screen-meta,
 	#screen-meta-links {
@@ -159,6 +163,10 @@
 
 	.subsubsub {
 		margin-bottom: 6px;
+	}
+
+	.column-block_preview {
+		width: 340px;
 	}
 
 	#wpbody-content > .wrap {
@@ -211,6 +219,8 @@
 	height: var(--nav-height);
 	margin-left: -20px;
 	padding: 0 var(--3x);
+	position: sticky;
+	top: var(--wp-admin--admin-bar--height, 0px);
 	width: calc(100% + 20px);
 
 	ul {
@@ -250,4 +260,9 @@
 	font-size: var(--font-size-large);
 	font-weight: var(--font-weight-semi-bold);
 	line-height: 1;
+}
+
+#blueprint-blocks-editor {
+	position: sticky;
+	top: calc(var(--wp-admin--admin-bar--height, 0px) + var(--nav-height, 0px));
 }

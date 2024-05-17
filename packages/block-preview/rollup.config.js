@@ -14,7 +14,12 @@ const env = config({
 });
 
 export default {
-	external: ["@wordpress/block-editor", "react", "react-dom"],
+	external: [
+		"@wordpress/block-editor",
+		"@wordpress/blocks",
+		"react",
+		"react-dom",
+	],
 	input: "src/main.jsx",
 	output: {
 		file: "../../dist/block-preview.js",
@@ -23,6 +28,7 @@ export default {
 		format: "iife",
 		globals: {
 			"@wordpress/block-editor": "wp.blockEditor",
+			"@wordpress/blocks": "wp.blocks",
 			react: "React",
 			"react-dom": "ReactDOM",
 		},
