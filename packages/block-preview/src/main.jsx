@@ -17,6 +17,6 @@ document.querySelectorAll(".blueprint-blocks-block-preview").forEach(($el) => {
 	const blocks = [createBlock(blockType?.name)];
 
 	ReactDOM.createRoot($el).render(
-		<BlockPreview blocks={blocks} viewportWidth={500} />,
+		<BlockPreview blocks={blocks} viewportWidth={500} minHeight={80} />,
 	);
 });

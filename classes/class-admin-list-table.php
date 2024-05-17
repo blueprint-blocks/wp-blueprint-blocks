@@ -13,8 +13,10 @@ class AdminListTable
         add_filter( 'admin_body_class', array( &$this, 'admin_body_class' ) );
 		add_action( 'admin_enqueue_scripts', array( &$this, 'admin_enqueue_scripts' ) );
 		add_action( 'admin_notices', array( &$this, 'admin_notices' ) );
+		add_action( 'bulk_actions-edit-blueprint-block', array( &$this, 'bulk_actions' ) );
         add_filter( 'manage_edit-blueprint-block_columns', array( &$this, 'manage_columns' ) );
-		add_action( 'manage_posts_custom_column', array( &$this, 'manage_posts_custom_column' ), 10, 2 );
+		add_action( 'manage_blueprint-block_posts_custom_column', array( &$this, 'manage_custom_column' ), 10, 2 );
+		add_filter( 'quick_edit_enabled_for_post_type', array( &$this, 'quick_edit_enabled_for_post_type' ), 10, 2 );
     }
 
     /**
@@ -40,6 +42,16 @@ class AdminListTable
 		}
 
 		return $classes;
+    }
+
+    /**
+     * Disable bulk actions for the edit table.
+     * @access public
+     * @return void
+     */
+    public function bulk_actions( $actions )
+    {
+		return [];
     }
 
 	/**
@@ -114,9 +126,21 @@ class AdminListTable
      * @access public
      * @return void
      */
-	public function manage_posts_custom_column( string $column_name, int $post_id ) {
+	public function manage_custom_column( string $column_name, int $post_id ) {
 		if ( $column_name === 'block_preview' && ( $block_type = blueprint_blocks_get_block_type( $post_id ) ) ) {
 			printf( '<div class="blueprint-blocks-block-preview" data-block-name="%s"></div>', $block_type[ 'blockName' ] );
 		}
+	}
+
+	/**
+     * Disable quick edit for post type.
+     * @access public
+     * @return void
+     */
+	public function quick_edit_enabled_for_post_type( bool $quick_edit, string $post_type ) {
+		if ( $post_type === 'blueprint-block' ) {
+			return false;
+		}
+		return $quick_edit;
 	}
 }

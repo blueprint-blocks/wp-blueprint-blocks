@@ -1188,7 +1188,8 @@
     var blocks$1 = [blocks.createBlock(blockType === null || blockType === void 0 ? void 0 : blockType.name)];
     client.createRoot($el).render( /*#__PURE__*/jsxRuntimeExports.jsx(blockEditor.BlockPreview, {
       blocks: blocks$1,
-      viewportWidth: 500
+      viewportWidth: 500,
+      minHeight: 80
     }));
   });
 
