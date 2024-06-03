@@ -789,6 +789,26 @@
     memoized.options = normalizedOptions;
     return memoized;
   }
+
+  /**
+   * Returns the global context available to all blocks everywhere.
+   */
+  function getGlobalContext() {
+    var _themeData$screenshot, _themeData$screenshot2;
+    var siteData = wp.data.select("core").getSite();
+    var themeData = wp.data.select("core").getCurrentTheme();
+    var siteUrl = (siteData === null || siteData === void 0 ? void 0 : siteData.url) || "";
+    var themeUrl = (themeData === null || themeData === void 0 || (_themeData$screenshot = themeData.screenshot) === null || _themeData$screenshot === void 0 ? void 0 : _themeData$screenshot.slice(0, (themeData === null || themeData === void 0 || (_themeData$screenshot2 = themeData.screenshot) === null || _themeData$screenshot2 === void 0 ? void 0 : _themeData$screenshot2.lastIndexOf("/")) || 0)) || "";
+    return {
+      site: {
+        url: siteUrl
+      },
+      theme: {
+        path: "".concat(themeUrl.slice(siteUrl.length)),
+        url: themeUrl
+      }
+    };
+  }
   var valueByIdentifier = createMemoizedFunction$1(function () {
     var identifier = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
     var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -812,11 +832,12 @@
   function replaceTokens() {
     var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
     var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var allContext = _objectSpread2(_objectSpread2({}, getGlobalContext()), context);
     if (typeof string !== "string") {
       return string;
     }
     return string.replaceAll(/\{\{(.*?)\}\}/g, function (match, p1) {
-      return valueByIdentifier(p1.trim(), context);
+      return valueByIdentifier(p1.trim(), allContext);
     });
   }
   var OPERANDS = ['==', '!=', '<', '<=', '>', '>='];
@@ -1487,39 +1508,117 @@
     save: save$s
   };
 
-  var full = {
-  	icon: "align-full-width",
-  	value: "full"
-  };
-  var wide = {
-  	icon: "align-wide-width",
-  	value: "wide"
-  };
-  var left$3 = {
-  	icon: "align-left",
-  	value: "left"
-  };
-  var center$1 = {
-  	icon: "align-center",
-  	value: "center"
-  };
-  var right$3 = {
-  	icon: "align-right",
-  	value: "right"
-  };
+  var arrowDown = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M212.6 454.6L190 477.3l-22.6-22.6-144-144L.7 288 46 242.8l22.6 22.6L158 354.8 158 64l0-32 64 0 0 32 0 290.7 89.4-89.4L334 242.8 379.3 288l-22.6 22.6-144 144z\"/></svg>";
+
+  var arrowDownLeft = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M46 416H14V384 160 128H78v32V306.7L279.4 105.4 302 82.7 347.3 128l-22.6 22.6L123.3 352H270h32v64H270 46z\"/></svg>";
+
+  var arrowDownRight = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M302 416h32V384 160 128H270v32V306.7L68.6 105.4 46 82.7 .7 128l22.6 22.6L224.7 352H78 46v64H78 302z\"/></svg>";
+
+  var arrowLeft = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M25.4 278.6L2.7 256l22.6-22.6 144-144L192 66.7 237.2 112l-22.6 22.6L125.2 224 416 224l32 0 0 64-32 0-290.7 0 89.4 89.4L237.2 400 192 445.3l-22.6-22.6-144-144z\"/></svg>";
+
+  var arrowRight = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M422.6 278.6L445.3 256l-22.6-22.6-144-144L256 66.7 210.8 112l22.6 22.6L322.8 224 32 224 0 224l0 64 32 0 290.7 0-89.4 89.4L210.8 400 256 445.3l22.6-22.6 144-144z\"/></svg>";
+
+  var arrowUp = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M212.6 57.4L190 34.7 167.4 57.4l-144 144L.7 224 46 269.2l22.6-22.6L158 157.2V448v32h64V448 157.2l89.4 89.4L334 269.2 379.3 224l-22.6-22.6-144-144z\"/></svg>";
+
+  var arrowUpLeft = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M46 96H14v32V352v32H78V352 205.3L279.4 406.6 302 429.3 347.3 384l-22.6-22.6L123.3 160H270h32V96H270 46z\"/></svg>";
+
+  var arrowUpRight = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M302 96h32v32V352v32H270V352 205.3L68.6 406.6 46 429.3 .7 384l22.6-22.6L224.7 160H78 46V96H78 302z\"/></svg>";
+
+  var angleLeft = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M.7 256l22.6 22.6 160 160L206 461.3 251.3 416l-22.6-22.6L91.3 256 228.6 118.6 251.3 96 206 50.7 183.4 73.4l-160 160L.7 256z\"/></svg>";
+
+  var angleRight = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M283.3 256l-22.6 22.6-160 160L78 461.3 32.7 416l22.6-22.6L192.7 256 55.4 118.6 32.7 96 78 50.7l22.6 22.6 160 160L283.3 256z\"/></svg>";
+
+  var circle = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512z\"/></svg>";
+
+  var link = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M563.2 267.3c56.2-56.2 56.2-147.4 0-203.6S415.8 7.4 359.6 63.7L348.3 75l45.3 45.3 11.3-11.3c31.2-31.2 81.9-31.2 113.1 0s31.2 81.9 0 113.1L404.8 335.2c-31.2 31.2-81.9 31.2-113.1 0c-25.6-25.6-30.3-64.3-13.8-94.6c1.8-3.4 3.9-6.7 6.3-9.8l-51.2-38.4c-4.3 5.7-8.1 11.6-11.4 17.8c-29.5 54.6-21.3 124.2 24.9 170.3c56.2 56.2 147.4 56.2 203.6 0L563.2 267.3zM42.8 244.7c-56.2 56.2-56.2 147.4 0 203.6s147.4 56.2 203.6 0L257.7 437l-45.3-45.3-11.3 11.3c-31.2 31.2-81.9 31.2-113.1 0s-31.2-81.9 0-113.1L201.2 176.8c31.2-31.2 81.9-31.2 113.1 0c25.6 25.6 30.3 64.3 13.8 94.6c-1.8 3.4-3.9 6.7-6.3 9.8l51.2 38.4c4.3-5.7 8.1-11.6 11.4-17.8c29.5-54.6 21.3-124.2-24.9-170.3c-56.2-56.2-147.4-56.2-203.6 0L42.8 244.7z\"/></svg>";
+
+  var minus = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M416 288H384L32 288H0l0-64 32 0 352 0 32 0v64z\"/></svg>";
+
+  var objectsAlignBottom = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><!--!Font Awesome Pro 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2024 Fonticons, Inc.--><path d=\"M512 512V464L0 464l0 48 512 0zM64 384H224L224 0H64l0 384zm224 0l160 0 0-256H288l0 256z\"/></svg>";
+
+  var objectsAlignCenterHorizontal = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><!--!Font Awesome Pro 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2024 Fonticons, Inc.--><path d=\"M280 0H232V64H32V224H232v64H96V448H232v64h48V448H416V288H280V224H480V64H280V0z\"/></svg>";
+
+  var objectsAlignCenterVertical = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><!--!Font Awesome Pro 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2024 Fonticons, Inc.--><path d=\"M64 32H224V232h64V96H448V232h64v48H448V416H288V280H224V480H64V280H0V232H64V32z\"/></svg>";
+
+  var objectsAlignLeft = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><!--!Font Awesome Pro 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2024 Fonticons, Inc.--><path d=\"M0 512H48L48 0 0 0 0 512zM128 64V224l384 0V64L128 64zm0 224V448H384V288H128z\"/></svg>";
+
+  var objectsAlignRight = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><!--!Font Awesome Pro 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2024 Fonticons, Inc.--><path d=\"M512 512H464V0l48 0V512zM384 64V224L0 224V64l384 0zm0 224V448H128V288H384z\"/></svg>";
+
+  var objectsAlignTop = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><!--!Font Awesome Pro 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2024 Fonticons, Inc.--><path d=\"M512 0V48H0V0H512zM64 128H224V512H64V128zm224 0H448V384H288V128z\"/></svg>";
+
+  var pencil = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 576 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M9.8 463.5l-9.6 48 48-9.6 102.6-20.5L396.2 236l-15.1-15.1-90.4-90.4-15.1-15.1L30.4 360.9 9.8 463.5zM297 94.2l15.1 15.1 90.4 90.4 15.1 15.1L450.2 182l31.9-31.9-31.9-31.9L393.6 61.5 361.6 29.6 329.7 61.5 297 94.2zM94.2 360.9h11.4v45.2h45.2v11.4l-22.3 22.3L57.8 453.9 72 383.1l22.3-22.3zM307.6 195.2L297 205.9 161.5 341.4l-10.6 10.6-21.3-21.3 10.6-10.6L275.7 184.6l10.6-10.6 21.3 21.3z\"/></svg>";
+
+  var plus = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M240 80V48H176V80 224H32 0v64H32 176V432v32h64V432 288H384h32V224H384 240V80z\"/></svg>";
+
+  var trash = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M144 0L128 32H0V96H448V32H320L304 0H144zM416 128H32L56 512H392l24-384z\"/></svg>";
+
+  var upRightFromSquare = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M512 176l-32 32-65.4-65.4-168 168L224 333.3 178.7 288l22.6-22.6 168-168L304 32 336 0H512V176zM0 32H32 160h32V96H160 64V448H416V352 320h64v32V480v32H448 32 0V480 64 32z\"/></svg>";
+
+  var Icons = /*#__PURE__*/Object.freeze({
+  	__proto__: null,
+  	angleLeft: angleLeft,
+  	angleRight: angleRight,
+  	arrowDown: arrowDown,
+  	arrowDownLeft: arrowDownLeft,
+  	arrowDownRight: arrowDownRight,
+  	arrowLeft: arrowLeft,
+  	arrowRight: arrowRight,
+  	arrowUp: arrowUp,
+  	arrowUpLeft: arrowUpLeft,
+  	arrowUpRight: arrowUpRight,
+  	circle: circle,
+  	link: link,
+  	minus: minus,
+  	objectsAlignBottom: objectsAlignBottom,
+  	objectsAlignCenterHorizontal: objectsAlignCenterHorizontal,
+  	objectsAlignCenterVertical: objectsAlignCenterVertical,
+  	objectsAlignLeft: objectsAlignLeft,
+  	objectsAlignRight: objectsAlignRight,
+  	objectsAlignTop: objectsAlignTop,
+  	pencil: pencil,
+  	plus: plus,
+  	trash: trash,
+  	upRightFromSquare: upRightFromSquare
+  });
+
   var ALIGN_CONTROLS = {
-  	full: full,
-  	wide: wide,
-  	left: left$3,
-  	center: center$1,
-  	right: right$3
+    left: {
+      icon: objectsAlignLeft,
+      label: "Align Left",
+      value: "left"
+    },
+    center: {
+      icon: objectsAlignCenterHorizontal,
+      label: "Align Center",
+      value: "center"
+    },
+    right: {
+      icon: objectsAlignRight,
+      label: "Align Right",
+      value: "right"
+    },
+    top: {
+      icon: objectsAlignTop,
+      label: "Align Top",
+      value: "top"
+    },
+    middle: {
+      icon: objectsAlignCenterVertical,
+      label: "Align Middle",
+      value: "middle"
+    },
+    bottom: {
+      icon: objectsAlignBottom,
+      label: "Align Bottom",
+      value: "bottom"
+    }
   };
 
   var _excluded$X = ["onInput", "controls", "value"];
   function edit$t(_ref) {
     var onInput = _ref.onInput,
       _ref$controls = _ref.controls,
-      controls = _ref$controls === void 0 ? ['left', 'center', 'right'] : _ref$controls,
+      controls = _ref$controls === void 0 ? ["left", "center", "right"] : _ref$controls,
       value = _ref.value,
       props = _objectWithoutProperties$1(_ref, _excluded$X);
     return /*#__PURE__*/React.createElement(ToolbarField.edit, _extends$1({}, props, {
@@ -2208,72 +2307,39 @@
     return memoized;
   }
 
-  var _excluded$P = ["blockName", "name", "colors", "clearable", "disableCustomColors", "enableAlpha", "value", "saveAs", "onInput"];
-  var getColor = createMemoizedFunction(function (_ref) {
-    var color = _ref.color,
-      name = _ref.name,
-      slug = _ref.slug;
+  var _excluded$P = ["blockName", "name", "colors", "clearable", "disableCustomColors", "enableAlpha", "value", "onInput"];
+  var getColor = createMemoizedFunction(function (color) {
     var colors = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
     for (var i = 0; i < colors.length; i++) {
       var _colors$i, _colors$i2, _colors$i3;
-      if (((_colors$i = colors[i]) === null || _colors$i === void 0 ? void 0 : _colors$i.color) === color || ((_colors$i2 = colors[i]) === null || _colors$i2 === void 0 ? void 0 : _colors$i2.name) === name || ((_colors$i3 = colors[i]) === null || _colors$i3 === void 0 ? void 0 : _colors$i3.slug) === slug) {
-        return colors[i];
+      if (((_colors$i = colors[i]) === null || _colors$i === void 0 ? void 0 : _colors$i.color) === color || ((_colors$i2 = colors[i]) === null || _colors$i2 === void 0 ? void 0 : _colors$i2.name) === color || ((_colors$i3 = colors[i]) === null || _colors$i3 === void 0 ? void 0 : _colors$i3.slug) === color) {
+        var _colors$i4, _colors$i5;
+        return {
+          color: (_colors$i4 = colors[i]) === null || _colors$i4 === void 0 ? void 0 : _colors$i4.color,
+          slug: (_colors$i5 = colors[i]) === null || _colors$i5 === void 0 ? void 0 : _colors$i5.slug
+        };
       }
     }
     return {
       color: color,
-      name: name || 'Custom',
-      slug: slug || 'custom'
+      slug: "custom"
     };
   });
-  var getSavedAsToken = createMemoizedFunction(function (saveAs) {
-    if (saveAs.indexOf('{{ color.slug }}') !== -1) {
-      return ['slug', saveAs.indexOf('{{ color.slug }}')];
-    } else if (saveAs.indexOf('{{ color.color }}') !== -1) {
-      return ['color', saveAs.indexOf('{{ color.color }}')];
-    } else if (saveAs.indexOf('{{ color.name }}') !== -1) {
-      return ['name', saveAs.indexOf('{{ color.name }}')];
-    }
-    return [null, null];
-  });
-  var getColorFromSavedAsValue = createMemoizedFunction(function (value, saveAs) {
-    var colors = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-    var _getSavedAsToken = getSavedAsToken(saveAs),
-      _getSavedAsToken2 = _slicedToArray$1(_getSavedAsToken, 2),
-      key = _getSavedAsToken2[0];
-      _getSavedAsToken2[1];
-    if (key === null) {
-      return null;
-    }
-    for (var i = 0; i < colors.length; i++) {
-      if (value.indexOf(colors[i][key]) !== -1) {
-        return colors[i];
-      }
-    }
-    return value;
-  });
-  function edit$p(_ref2) {
-    var _colorValue;
-    _ref2.blockName;
-      _ref2.name;
-      var _ref2$colors = _ref2.colors,
-      colors = _ref2$colors === void 0 ? null : _ref2$colors,
-      _ref2$clearable = _ref2.clearable,
-      clearable = _ref2$clearable === void 0 ? true : _ref2$clearable,
-      _ref2$disableCustomCo = _ref2.disableCustomColors,
-      disableCustomColors = _ref2$disableCustomCo === void 0 ? false : _ref2$disableCustomCo,
-      _ref2$enableAlpha = _ref2.enableAlpha,
-      enableAlpha = _ref2$enableAlpha === void 0 ? false : _ref2$enableAlpha,
-      value = _ref2.value,
-      _ref2$saveAs = _ref2.saveAs,
-      saveAs = _ref2$saveAs === void 0 ? '{{ color.color }}' : _ref2$saveAs,
-      onInput = _ref2.onInput,
-      props = _objectWithoutProperties$1(_ref2, _excluded$P);
-    var palette = colors === null && wp.blockEditor.useSetting('color.palette') || colors || [];
-    var colorValue = value;
-    if (saveAs !== '{{ color.color }}') {
-      colorValue = getColorFromSavedAsValue(value, saveAs, palette);
-    }
+  function edit$p(_ref) {
+    _ref.blockName;
+      _ref.name;
+      var _ref$colors = _ref.colors,
+      colors = _ref$colors === void 0 ? null : _ref$colors,
+      _ref$clearable = _ref.clearable,
+      clearable = _ref$clearable === void 0 ? true : _ref$clearable,
+      _ref$disableCustomCol = _ref.disableCustomColors,
+      disableCustomColors = _ref$disableCustomCol === void 0 ? false : _ref$disableCustomCol,
+      _ref$enableAlpha = _ref.enableAlpha,
+      enableAlpha = _ref$enableAlpha === void 0 ? false : _ref$enableAlpha,
+      value = _ref.value,
+      onInput = _ref.onInput,
+      props = _objectWithoutProperties$1(_ref, _excluded$P);
+    var palette = colors === null && wp.blockEditor.useSetting("color.palette") || colors || [];
     return /*#__PURE__*/React.createElement(Field.edit, _extends$1({}, props, {
       type: "color",
       value: value
@@ -2282,14 +2348,9 @@
       clearable: clearable,
       disableCustomColors: disableCustomColors,
       enableAlpha: enableAlpha,
-      value: ((_colorValue = colorValue) === null || _colorValue === void 0 ? void 0 : _colorValue.color) || colorValue,
+      value: value === null || value === void 0 ? void 0 : value.color,
       onChange: function onChange(hex) {
-        var color = getColor({
-          color: hex
-        }, palette);
-        return onInput((color === null || color === void 0 ? void 0 : color.slug) === "custom" && color.color || replaceTokens(saveAs, {
-          color: color
-        }));
+        return onInput(getColor(hex, palette));
       }
     }));
   }
@@ -2535,61 +2596,6 @@
       }, label);
     }));
   }
-
-  var arrowDown = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M212.6 454.6L190 477.3l-22.6-22.6-144-144L.7 288 46 242.8l22.6 22.6L158 354.8 158 64l0-32 64 0 0 32 0 290.7 89.4-89.4L334 242.8 379.3 288l-22.6 22.6-144 144z\"/></svg>";
-
-  var arrowDownLeft = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M46 416H14V384 160 128H78v32V306.7L279.4 105.4 302 82.7 347.3 128l-22.6 22.6L123.3 352H270h32v64H270 46z\"/></svg>";
-
-  var arrowDownRight = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M302 416h32V384 160 128H270v32V306.7L68.6 105.4 46 82.7 .7 128l22.6 22.6L224.7 352H78 46v64H78 302z\"/></svg>";
-
-  var arrowLeft = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M25.4 278.6L2.7 256l22.6-22.6 144-144L192 66.7 237.2 112l-22.6 22.6L125.2 224 416 224l32 0 0 64-32 0-290.7 0 89.4 89.4L237.2 400 192 445.3l-22.6-22.6-144-144z\"/></svg>";
-
-  var arrowRight = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M422.6 278.6L445.3 256l-22.6-22.6-144-144L256 66.7 210.8 112l22.6 22.6L322.8 224 32 224 0 224l0 64 32 0 290.7 0-89.4 89.4L210.8 400 256 445.3l22.6-22.6 144-144z\"/></svg>";
-
-  var arrowUp = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M212.6 57.4L190 34.7 167.4 57.4l-144 144L.7 224 46 269.2l22.6-22.6L158 157.2V448v32h64V448 157.2l89.4 89.4L334 269.2 379.3 224l-22.6-22.6-144-144z\"/></svg>";
-
-  var arrowUpLeft = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M46 96H14v32V352v32H78V352 205.3L279.4 406.6 302 429.3 347.3 384l-22.6-22.6L123.3 160H270h32V96H270 46z\"/></svg>";
-
-  var arrowUpRight = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M302 96h32v32V352v32H270V352 205.3L68.6 406.6 46 429.3 .7 384l22.6-22.6L224.7 160H78 46V96H78 302z\"/></svg>";
-
-  var angleLeft = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M.7 256l22.6 22.6 160 160L206 461.3 251.3 416l-22.6-22.6L91.3 256 228.6 118.6 251.3 96 206 50.7 183.4 73.4l-160 160L.7 256z\"/></svg>";
-
-  var angleRight = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M283.3 256l-22.6 22.6-160 160L78 461.3 32.7 416l22.6-22.6L192.7 256 55.4 118.6 32.7 96 78 50.7l22.6 22.6 160 160L283.3 256z\"/></svg>";
-
-  var circle = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512z\"/></svg>";
-
-  var link = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 640 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M563.2 267.3c56.2-56.2 56.2-147.4 0-203.6S415.8 7.4 359.6 63.7L348.3 75l45.3 45.3 11.3-11.3c31.2-31.2 81.9-31.2 113.1 0s31.2 81.9 0 113.1L404.8 335.2c-31.2 31.2-81.9 31.2-113.1 0c-25.6-25.6-30.3-64.3-13.8-94.6c1.8-3.4 3.9-6.7 6.3-9.8l-51.2-38.4c-4.3 5.7-8.1 11.6-11.4 17.8c-29.5 54.6-21.3 124.2 24.9 170.3c56.2 56.2 147.4 56.2 203.6 0L563.2 267.3zM42.8 244.7c-56.2 56.2-56.2 147.4 0 203.6s147.4 56.2 203.6 0L257.7 437l-45.3-45.3-11.3 11.3c-31.2 31.2-81.9 31.2-113.1 0s-31.2-81.9 0-113.1L201.2 176.8c31.2-31.2 81.9-31.2 113.1 0c25.6 25.6 30.3 64.3 13.8 94.6c-1.8 3.4-3.9 6.7-6.3 9.8l51.2 38.4c4.3-5.7 8.1-11.6 11.4-17.8c29.5-54.6 21.3-124.2-24.9-170.3c-56.2-56.2-147.4-56.2-203.6 0L42.8 244.7z\"/></svg>";
-
-  var minus = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M416 288H384L32 288H0l0-64 32 0 352 0 32 0v64z\"/></svg>";
-
-  var pencil = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 576 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M9.8 463.5l-9.6 48 48-9.6 102.6-20.5L396.2 236l-15.1-15.1-90.4-90.4-15.1-15.1L30.4 360.9 9.8 463.5zM297 94.2l15.1 15.1 90.4 90.4 15.1 15.1L450.2 182l31.9-31.9-31.9-31.9L393.6 61.5 361.6 29.6 329.7 61.5 297 94.2zM94.2 360.9h11.4v45.2h45.2v11.4l-22.3 22.3L57.8 453.9 72 383.1l22.3-22.3zM307.6 195.2L297 205.9 161.5 341.4l-10.6 10.6-21.3-21.3 10.6-10.6L275.7 184.6l10.6-10.6 21.3 21.3z\"/></svg>";
-
-  var plus = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M240 80V48H176V80 224H32 0v64H32 176V432v32h64V432 288H384h32V224H384 240V80z\"/></svg>";
-
-  var trash = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M144 0L128 32H0V96H448V32H320L304 0H144zM416 128H32L56 512H392l24-384z\"/></svg>";
-
-  var upRightFromSquare = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d=\"M512 176l-32 32-65.4-65.4-168 168L224 333.3 178.7 288l22.6-22.6 168-168L304 32 336 0H512V176zM0 32H32 160h32V96H160 64V448H416V352 320h64v32V480v32H448 32 0V480 64 32z\"/></svg>";
-
-  var Icons = /*#__PURE__*/Object.freeze({
-  	__proto__: null,
-  	angleLeft: angleLeft,
-  	angleRight: angleRight,
-  	arrowDown: arrowDown,
-  	arrowDownLeft: arrowDownLeft,
-  	arrowDownRight: arrowDownRight,
-  	arrowLeft: arrowLeft,
-  	arrowRight: arrowRight,
-  	arrowUp: arrowUp,
-  	arrowUpLeft: arrowUpLeft,
-  	arrowUpRight: arrowUpRight,
-  	circle: circle,
-  	link: link,
-  	minus: minus,
-  	pencil: pencil,
-  	plus: plus,
-  	trash: trash,
-  	upRightFromSquare: upRightFromSquare
-  });
 
   var css$8 = ".blueprint-blocks\\:grid-field-minus {\n  align-items: center;\n  border: 1px solid transparent;\n  border-radius: var(--blueprint-blocks-border-radius);\n  cursor: pointer;\n  display: grid;\n  justify-content: center;\n  height: 26px;\n  transition: border 0.4s, colors 0.4s;\n  width: 26px;\n}\n\n.blueprint-blocks\\:grid-field-minus:not(.is-disabled):hover {\n  border-color: var(--blueprint-blocks-color-accent);\n  color: var(--blueprint-blocks-color-accent);\n}\n\n.blueprint-blocks\\:grid-field-minus:not(.is-disabled):active {\n  background: var(--blueprint-blocks-color-light-gray);\n}\n\n.blueprint-blocks\\:grid-field-minus.is-disabled {\n  cursor: default;\n  opacity: 0.25;\n}\n\n.blueprint-blocks\\:grid-field-minus svg {\n  display: block;\n  height: 12px;\n  width: 12px;\n}";
   n(css$8,{});
@@ -4621,98 +4627,98 @@
   var _excluded$7 = ["onInput", "options", "multiple", "disabled", "value"],
     _excluded2$2 = ["icon", "image", "label"];
   var wrapStyle = {
-    '--grid-columns': 2,
-    background: '#fff',
-    border: '1px solid #8d96a0',
-    borderRadius: '2px',
-    fontFamily: 'var(--wp--preset--font-family--system-font)',
-    fontSize: '13px',
-    lineHeight: '1.4',
-    minHeight: '26px',
-    maxWidth: '300px',
-    overflow: 'hidden',
-    position: 'relative',
-    userSelect: 'none'
+    "--grid-columns": 2,
+    background: "#fff",
+    border: "1px solid #8d96a0",
+    borderRadius: "2px",
+    fontFamily: "var(--wp--preset--font-family--system-font)",
+    fontSize: "13px",
+    lineHeight: "1.4",
+    minHeight: "26px",
+    maxWidth: "300px",
+    overflow: "hidden",
+    position: "relative",
+    userSelect: "none"
   };
   var itemsStyle = {
-    display: 'grid',
-    gap: '1px',
-    gridTemplateColumns: 'repeat(var(--grid-columns), minmax(0, 1fr))',
-    width: '100%'
+    display: "grid",
+    gap: "1px",
+    gridTemplateColumns: "repeat(var(--grid-columns), minmax(0, 1fr))",
+    width: "100%"
   };
   var itemStyle = {
-    alignItems: 'stretch',
-    cursor: 'pointer',
-    display: 'flex',
-    flex: '1',
-    justifyContent: 'stretch',
-    height: '26px',
-    outline: '1px solid #e2e4e7',
-    padding: '2px'
+    alignItems: "stretch",
+    cursor: "pointer",
+    display: "flex",
+    flex: "1",
+    justifyContent: "stretch",
+    height: "26px",
+    outline: "1px solid #e2e4e7",
+    padding: "2px"
   };
   var itemDivStyle = {
-    borderColor: 'transparent',
-    borderRadius: '2px',
-    borderStyle: 'solid',
-    borderWidth: '1px',
-    alignItems: 'center',
-    cursor: 'pointer',
-    display: 'flex',
-    flex: '1',
-    justifyContent: 'center',
-    textAlign: 'center',
-    transition: 'background 0.4s, border 0.4s, colors 0.4s',
-    whiteSpace: 'nowrap'
+    borderColor: "transparent",
+    borderRadius: "2px",
+    borderStyle: "solid",
+    borderWidth: "1px",
+    alignItems: "center",
+    cursor: "pointer",
+    display: "flex",
+    flex: "1",
+    justifyContent: "center",
+    textAlign: "center",
+    transition: "background 0.4s, border 0.4s, colors 0.4s",
+    whiteSpace: "nowrap"
   };
   var itemDivHasImagesStyle = {
-    flexDirection: 'column',
-    height: 'auto',
-    justifyContent: 'start',
-    overflow: 'hidden',
-    whiteSpace: 'normal'
+    flexDirection: "column",
+    height: "auto",
+    justifyContent: "start",
+    overflow: "hidden",
+    whiteSpace: "normal"
   };
   var itemDivHoverStyle = {
-    borderColor: 'var(--wp-components-color-accent, var(--wp-admin-theme-color, #007cba))',
-    color: 'var(--wp-components-color-accent, var(--wp-admin-theme-color, #007cba))'
+    borderColor: "var(--wp-components-color-accent, var(--wp-admin-theme-color, #007cba))",
+    color: "var(--wp-components-color-accent, var(--wp-admin-theme-color, #007cba))"
   };
   var itemDivFocusStyle = {
-    background: 'var(--wp-components-color-gray-300, #ddd)',
-    borderColor: 'var(--wp-components-color-accent, var(--wp-admin-theme-color, #007cba))',
-    color: 'var(--wp-components-color-accent, var(--wp-admin-theme-color, #007cba))'
+    background: "var(--wp-components-color-gray-300, #ddd)",
+    borderColor: "var(--wp-components-color-accent, var(--wp-admin-theme-color, #007cba))",
+    color: "var(--wp-components-color-accent, var(--wp-admin-theme-color, #007cba))"
   };
   var itemDivActiveStyle = {
-    background: '#0085ba',
-    color: '#fff'
+    background: "#0085ba",
+    color: "#fff"
   };
   var imageStyle = {
-    display: 'block',
+    display: "block",
     gridColumn: 1,
     gridRow: 1,
-    height: '100%',
-    objectFit: 'contain',
-    objectPosition: 'center',
-    width: '100%'
+    height: "100%",
+    objectFit: "contain",
+    objectPosition: "center",
+    width: "100%"
   };
   var imageBeforeStyle = {
-    content: '',
-    display: 'block',
+    content: "",
+    display: "block",
     gridColumn: 1,
     gridRow: 1,
-    paddingBottom: 'calc(100% * (64 / 100))'
+    paddingBottom: "calc(100% * (64 / 100))"
   };
   var imageDivStyle = {
-    display: 'grid',
-    width: '100%'
+    display: "grid",
+    width: "100%"
   };
   var iconStyle = {
-    fontSize: '16px'
+    fontSize: "16px"
   };
   var iconHasImagesStyle = {
-    fontSize: '32px'
+    fontSize: "32px"
   };
   var labelStyle = {};
   var labelHasImagesStyle = {
-    padding: '8px'
+    padding: "8px"
   };
   var optionsHaveImages = createMemoizedFunction(function (options) {
     return options.reduce(function (hasImages, _ref) {
@@ -4752,18 +4758,17 @@
           });
         }
       } else {
-        var _options$index2;
-        newValue = [options === null || options === void 0 || (_options$index2 = options[index]) === null || _options$index2 === void 0 ? void 0 : _options$index2.value];
+        newValue = optionValue;
       }
       onInput(newValue);
     };
     var onBlur = function onBlur() {
       setFocusIndex(null);
-      window.removeEventListener('mouseup', onBlur);
+      window.removeEventListener("mouseup", onBlur);
     };
     wp.element.useEffect(function () {
       if (focusIndex !== null) {
-        window.addEventListener('mouseup', onBlur);
+        window.addEventListener("mouseup", onBlur);
       }
     }, [focusIndex]);
     return /*#__PURE__*/React.createElement(Field.edit, _extends$1({}, props, {
