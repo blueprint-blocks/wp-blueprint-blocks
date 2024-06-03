@@ -1583,32 +1583,56 @@
 
   var ALIGN_CONTROLS = {
     left: {
-      icon: objectsAlignLeft,
+      icon: /*#__PURE__*/React.createElement("div", {
+        dangerouslySetInnerHTML: {
+          __html: objectsAlignLeft
+        }
+      }),
       label: "Align Left",
       value: "left"
     },
     center: {
-      icon: objectsAlignCenterHorizontal,
+      icon: /*#__PURE__*/React.createElement("div", {
+        dangerouslySetInnerHTML: {
+          __html: objectsAlignCenterHorizontal
+        }
+      }),
       label: "Align Center",
       value: "center"
     },
     right: {
-      icon: objectsAlignRight,
+      icon: /*#__PURE__*/React.createElement("div", {
+        dangerouslySetInnerHTML: {
+          __html: objectsAlignRight
+        }
+      }),
       label: "Align Right",
       value: "right"
     },
     top: {
-      icon: objectsAlignTop,
+      icon: /*#__PURE__*/React.createElement("div", {
+        dangerouslySetInnerHTML: {
+          __html: objectsAlignTop
+        }
+      }),
       label: "Align Top",
       value: "top"
     },
     middle: {
-      icon: objectsAlignCenterVertical,
+      icon: /*#__PURE__*/React.createElement("div", {
+        dangerouslySetInnerHTML: {
+          __html: objectsAlignCenterVertical
+        }
+      }),
       label: "Align Middle",
       value: "middle"
     },
     bottom: {
-      icon: objectsAlignBottom,
+      icon: /*#__PURE__*/React.createElement("div", {
+        dangerouslySetInnerHTML: {
+          __html: objectsAlignBottom
+        }
+      }),
       label: "Align Bottom",
       value: "bottom"
     }
