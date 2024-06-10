@@ -11,7 +11,7 @@ class BlockTypes
     {
 		add_action( 'admin_enqueue_scripts', array( &$this, 'admin_enqueue_scripts' ) );
 		add_action( 'admin_init', array( &$this, 'admin_init' ) );
-		add_action( 'enqueue_block_editor_assets', array( &$this, 'enqueue_block_editor_assets' ) );
+		add_action( 'enqueue_block_assets', array( &$this, 'enqueue_block_assets' ) );
 		add_action( 'init', array( &$this, 'register_block_types' ) );
 	}
 
@@ -89,7 +89,7 @@ class BlockTypes
      * @access public
      * @return void
      */
-	public function enqueue_block_editor_assets()
+	public function enqueue_block_assets()
 	{
 		foreach ( blueprint_blocks_get_block_types() as $block_type ) {
 
