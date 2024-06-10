@@ -6,6 +6,7 @@
 			rel="stylesheet"
 			href="https://cdn.jsdelivr.net/npm/@icon/dashicons@0.9.0-alpha.4/dashicons.min.css"
 		/>
+		<link rel="stylesheet" href="./assets/main.css" />
 		<link rel="stylesheet" href="./assets/block-editor.css" />
 		<style>
 			body {
@@ -15,14 +16,14 @@
 				width: 100vw;
 			}
 
-			#wpbody,
+			#blueprint-blocks-editor,
 			.App {
 				height: max(100vh, 739px);
 			}
 		</style>
 	</head>
-	<body>
-		<div id="wpbody"></div>
+	<body class="blueprint-blocks">
+		<div id="blueprint-blocks-editor"></div>
 		<script>
 			var blueprintBlocksEditorSettings = {
 				blockMetadata: {
