@@ -1386,7 +1386,7 @@
   var css$b = ".components-panel__body .blueprint-blocks\\:field {\n  margin: 0 0 16px;\n}\n\n.components-panel__body .blueprint-blocks\\:field:last-child {\n  margin-bottom: 0;\n}\n\n.blueprint-blocks\\:field-label {\n  margin-bottom: 8px;\n}";
   n(css$b,{});
 
-  var _excluded$_ = ["attributes", "clientId", "blockName", "attributeName", "children", "dangerouslySetInnerHTML", "innerHtml", "className", "label", "tagName", "type", "display", "value", "onInput"];
+  var _excluded$_ = ["attributes", "clientId", "blockName", "attributeName", "children", "dangerouslySetInnerHTML", "innerHtml", "className", "htmlType", "label", "tagName", "type", "display", "value", "onInput"];
   var selfClosingTagNames$1 = ["area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"];
   function preventEventPropagation(event) {
     event.stopPropagation();
@@ -1404,6 +1404,8 @@
       _ref.innerHtml;
       var _ref$className = _ref.className,
       className = _ref$className === void 0 ? "" : _ref$className,
+      _ref$htmlType = _ref.htmlType,
+      htmlType = _ref$htmlType === void 0 ? null : _ref$htmlType,
       _ref$label = _ref.label,
       label = _ref$label === void 0 ? "" : _ref$label,
       _ref$tagName = _ref.tagName,
@@ -1421,6 +1423,9 @@
     var fieldProps = Object.assign({}, props);
     if (className) {
       fieldProps.className = className;
+    }
+    if (htmlType !== null) {
+      fieldProps.type = htmlType;
     }
     var Component = tagName || "div";
     if (selfClosingTagNames$1.includes(tagName) === false && dangerouslySetInnerHTML) {
@@ -1450,7 +1455,7 @@
     }, label), children);
   }
 
-  var _excluded$Z = ["attributes", "blockName", "attributeName", "label", "children", "clientId", "innerHtml", "className", "tagName", "type", "display"];
+  var _excluded$Z = ["attributes", "blockName", "attributeName", "label", "children", "clientId", "innerHtml", "className", "htmlType", "tagName", "type", "display"];
   var selfClosingTagNames = ["area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"];
   function save$t(_ref) {
     _ref.attributes;
@@ -1463,6 +1468,8 @@
       _ref.innerHtml;
       var _ref$className = _ref.className,
       className = _ref$className === void 0 ? "" : _ref$className,
+      _ref$htmlType = _ref.htmlType,
+      htmlType = _ref$htmlType === void 0 ? null : _ref$htmlType,
       _ref$tagName = _ref.tagName,
       tagName = _ref$tagName === void 0 ? "div" : _ref$tagName;
       _ref.type;
@@ -1476,13 +1483,14 @@
     if (className) {
       fieldProps.className = className;
     }
+    if (htmlType !== null) {
+      fieldProps.type = htmlType;
+    }
     if (tagName === "a" && "href" in fieldProps && !("rel" in fieldProps) && (isExternalUrl(fieldProps.href) || isFragmentUrl(fieldProps.href) || "target" in fieldProps)) {
       fieldProps.rel = "noopener";
     }
     var Component = tagName || "div";
     if (selfClosingTagNames.includes(tagName) === true || ((children === null || children === void 0 ? void 0 : children.length) || 0) === 0 || props.dangerouslySetInnerHTML) ;
-    console.log("save");
-    console.log(Component);
     return /*#__PURE__*/React.createElement(Component, _extends$1({}, fieldProps, {
       children: children
     }));
@@ -4951,6 +4959,7 @@
   	BooleanField: BooleanField,
   	ColorField: index$k,
   	EmailField: index$j,
+  	Field: Field,
   	GradientField: index$i,
   	GridField: index$h,
   	Html: index$g,
