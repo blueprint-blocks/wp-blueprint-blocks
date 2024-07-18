@@ -789,25 +789,25 @@
     memoized.options = normalizedOptions;
     return memoized;
   }
+  var _ref = blueprintBlocksLoaderSettings || {},
+    _ref$tokenContext = _ref.tokenContext,
+    tokenContext = _ref$tokenContext === void 0 ? {} : _ref$tokenContext;
 
   /**
    * Returns the global context available to all blocks everywhere.
    */
   function getGlobalContext() {
-    var _themeData$screenshot, _themeData$screenshot2;
-    var siteData = wp.data.select("core").getSite();
-    var themeData = wp.data.select("core").getCurrentTheme();
-    var siteUrl = (siteData === null || siteData === void 0 ? void 0 : siteData.url) || "";
-    var themeUrl = (themeData === null || themeData === void 0 || (_themeData$screenshot = themeData.screenshot) === null || _themeData$screenshot === void 0 ? void 0 : _themeData$screenshot.slice(0, (themeData === null || themeData === void 0 || (_themeData$screenshot2 = themeData.screenshot) === null || _themeData$screenshot2 === void 0 ? void 0 : _themeData$screenshot2.lastIndexOf("/")) || 0)) || "";
-    return {
-      site: {
-        url: siteUrl
-      },
-      theme: {
-        path: "".concat(themeUrl.slice(siteUrl.length)),
-        url: themeUrl
-      }
-    };
+    var globalContext = _objectSpread2({}, tokenContext);
+    if (Object.entries(globalContext).length === 0) {
+      var _themeData$screenshot, _themeData$screenshot2;
+      var siteData = wp.data.select("core").getSite();
+      var themeData = wp.data.select("core").getCurrentTheme();
+      globalContext.site = {};
+      globalContext.site.url = (siteData === null || siteData === void 0 ? void 0 : siteData.url) || "";
+      globalContext.theme.url = (themeData === null || themeData === void 0 || (_themeData$screenshot = themeData.screenshot) === null || _themeData$screenshot === void 0 ? void 0 : _themeData$screenshot.slice(0, (themeData === null || themeData === void 0 || (_themeData$screenshot2 = themeData.screenshot) === null || _themeData$screenshot2 === void 0 ? void 0 : _themeData$screenshot2.lastIndexOf("/")) || 0)) || "";
+      globalContext.theme.path = globalContext.theme.url.slice(globalContext.site.url.length);
+    }
+    return globalContext;
   }
   var valueByIdentifier = createMemoizedFunction$1(function () {
     var identifier = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
@@ -1066,11 +1066,11 @@
       _ref$style = _ref.style,
       style = _ref$style === void 0 ? {} : _ref$style,
       _ref$attributeName = _ref.attributeName,
-      attributeName = _ref$attributeName === void 0 ? '' : _ref$attributeName,
+      attributeName = _ref$attributeName === void 0 ? "" : _ref$attributeName,
       _ref$type = _ref.type,
-      type = _ref$type === void 0 ? 'html' : _ref$type,
+      type = _ref$type === void 0 ? "html" : _ref$type,
       _ref$tagName = _ref.tagName,
-      tagName = _ref$tagName === void 0 ? 'div' : _ref$tagName,
+      tagName = _ref$tagName === void 0 ? "div" : _ref$tagName,
       _ref$persist = _ref.persist,
       persist = _ref$persist === void 0 ? true : _ref$persist,
       props = _objectWithoutProperties(_ref, _excluded$10);
@@ -1090,7 +1090,7 @@
       var _ref4 = _slicedToArray(_ref3, 2),
         name = _ref4[0],
         value = _ref4[1];
-      if (typeof value === 'string' && EXCLUDED_ATTRIBUTES.includes(name) === false) {
+      if (typeof value === "string" && EXCLUDED_ATTRIBUTES.includes(name) === false) {
         return [name, replaceTokens(value, _objectSpread2(_objectSpread2({}, context), {}, {
           attribute: {
             value: attributeValue
@@ -1100,10 +1100,10 @@
         return [name, value];
       }
     }));
-    if ('display' in jsxAttributes) {
+    if ("display" in jsxAttributes) {
       jsxAttributes.display = evaluateConditionalString(props.display, context);
     }
-    var jsxClassNames = classNames$1([].concat(_toConsumableArray(Array.isArray(className) && className || [className]), _toConsumableArray((context === null || context === void 0 ? void 0 : context.context) === 'edit' && (Array.isArray(editorClassName) && editorClassName || [editorClassName]) || []), _toConsumableArray((context === null || context === void 0 ? void 0 : context.context) === 'save' && (Array.isArray(viewClassName) && viewClassName || [viewClassName]) || [])), _objectSpread2(_objectSpread2({}, context), {}, {
+    var jsxClassNames = classNames$1([].concat(_toConsumableArray(Array.isArray(className) && className || [className]), _toConsumableArray((context === null || context === void 0 ? void 0 : context.context) === "edit" && (Array.isArray(editorClassName) && editorClassName || [editorClassName]) || []), _toConsumableArray((context === null || context === void 0 ? void 0 : context.context) === "save" && (Array.isArray(viewClassName) && viewClassName || [viewClassName]) || [])), _objectSpread2(_objectSpread2({}, context), {}, {
       attribute: {
         value: attributeValue
       }
@@ -1119,18 +1119,23 @@
     if (Object.values(jsxStyles).length > 0) {
       jsxAttributes.style = jsxStyles;
     }
-    var Component = tagName;
+    var jsxTagName = replaceTokens(tagName, _objectSpread2(_objectSpread2({}, context), {}, {
+      attribute: {
+        value: attributeValue
+      }
+    }));
+    var Component = jsxTagName;
     if (type in Components && Components[type]) {
       Component = Components[type];
     } else if ("".concat(type, "-field") in Components && Components["".concat(type, "-field")]) {
       Component = Components["".concat(type, "-field")];
     }
-    if (Component !== tagName) {
+    if (Component !== jsxTagName) {
       return /*#__PURE__*/React.createElement(Component, _extends({}, jsxAttributes, {
         clientId: clientId,
         blockName: blockName,
         attributeName: attributeName,
-        tagName: tagName,
+        tagName: jsxTagName,
         attributes: attributes
       }, attributeValue !== undefined && {
         value: attributeValue
@@ -1138,7 +1143,7 @@
         attributeName: attributeName,
         setAttributes: setAttributes,
         onInput: function onInput(value) {
-          if ((context === null || context === void 0 ? void 0 : context.context) === 'save') {
+          if ((context === null || context === void 0 ? void 0 : context.context) === "save") {
             return;
           }
           setAttributes(_defineProperty({}, attributeName, value), persist);
@@ -1178,7 +1183,7 @@
       return null;
     }
     var jsxComponents = jsx.map(function (jsxComponent) {
-      if (typeof jsxComponent === 'function') {
+      if (typeof jsxComponent === "function") {
         return jsxComponent(blockProps);
       }
       return render(jsxComponent, blockProps, Components);
@@ -1488,6 +1493,9 @@
     }
     if (tagName === "a" && "href" in fieldProps && !("rel" in fieldProps) && (isExternalUrl(fieldProps.href) || isFragmentUrl(fieldProps.href) || "target" in fieldProps)) {
       fieldProps.rel = "noopener";
+    }
+    if (tagName === false) {
+      return /*#__PURE__*/React.createElement(React.Fragment, null, children);
     }
     var Component = tagName || "div";
     if (selfClosingTagNames.includes(tagName) === true || ((children === null || children === void 0 ? void 0 : children.length) || 0) === 0 || props.dangerouslySetInnerHTML) ;
@@ -3145,9 +3153,6 @@
       _ref.templateLock;
       _ref.max;
       var props = _objectWithoutProperties$1(_ref, _excluded$z);
-    if ((props === null || props === void 0 ? void 0 : props.tagName) === false) {
-      return /*#__PURE__*/React.createElement(wp.blockEditor.InnerBlocks.Content, null);
-    }
     return /*#__PURE__*/React.createElement(Field.save, _extends$1({}, props, {
       type: "inner-blocks"
     }), /*#__PURE__*/React.createElement(wp.blockEditor.InnerBlocks.Content, null));
@@ -5187,6 +5192,14 @@
       var blockStyles = Object.assign({}, blockProps.style || {}, blockSave.style || {});
       if (Object.values(blockStyles).length > 0) {
         blockAttributes.style = styles(blockStyles, blockContext);
+      }
+      if (tagName === false) {
+        return /*#__PURE__*/React.createElement(React.Fragment, null, renderJsxArray({
+          blockName: blockName,
+          attributes: attributes,
+          jsx: children,
+          context: blockContext
+        }, Components));
       }
       var Component = tagName;
       return /*#__PURE__*/React.createElement(Component, _extends$1({}, blockProps, blockAttributes), renderJsxArray({

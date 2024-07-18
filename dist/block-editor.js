@@ -650,7 +650,7 @@
 	  if (null == r) return {};
 	  var t = {};
 	  for (var n in r) if ({}.hasOwnProperty.call(r, n)) {
-	    if (e.indexOf(n) >= 0) continue;
+	    if (e.includes(n)) continue;
 	    t[n] = r[n];
 	  }
 	  return t;
@@ -4122,8 +4122,8 @@
 	    r,
 	    i = _objectWithoutPropertiesLoose(e, t);
 	  if (Object.getOwnPropertySymbols) {
-	    var n = Object.getOwnPropertySymbols(e);
-	    for (r = 0; r < n.length; r++) o = n[r], t.indexOf(o) >= 0 || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]);
+	    var s = Object.getOwnPropertySymbols(e);
+	    for (r = 0; r < s.length; r++) o = s[r], t.includes(o) || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]);
 	  }
 	  return i;
 	}
@@ -4131,7 +4131,7 @@
 	  if (null == r) return {};
 	  var t = {};
 	  for (var n in r) if ({}.hasOwnProperty.call(r, n)) {
-	    if (e.indexOf(n) >= 0) continue;
+	    if (e.includes(n)) continue;
 	    t[n] = r[n];
 	  }
 	  return t;
@@ -27898,13 +27898,16 @@
 	    }
 	  }
 	}
-	function scrollableParent(dom) {
-	  let doc = dom.ownerDocument;
+	function scrollableParents(dom) {
+	  let doc = dom.ownerDocument,
+	    x,
+	    y;
 	  for (let cur = dom.parentNode; cur;) {
-	    if (cur == doc.body) {
+	    if (cur == doc.body || x && y) {
 	      break;
 	    } else if (cur.nodeType == 1) {
-	      if (cur.scrollHeight > cur.clientHeight || cur.scrollWidth > cur.clientWidth) return cur;
+	      if (!y && cur.scrollHeight > cur.clientHeight) y = cur;
+	      if (!x && cur.scrollWidth > cur.clientWidth) x = cur;
 	      cur = cur.assignedSlot || cur.parentNode;
 	    } else if (cur.nodeType == 11) {
 	      cur = cur.host;
@@ -27912,7 +27915,10 @@
 	      break;
 	    }
 	  }
-	  return null;
+	  return {
+	    x,
+	    y
+	  };
 	}
 	class DOMSelectionState {
 	  constructor() {
@@ -28408,7 +28414,7 @@
 	const ie = !!(ie_upto10 || ie_11up || ie_edge);
 	const gecko = !ie && /*@__PURE__*/ /gecko\/(\d+)/i.test(nav.userAgent);
 	const chrome = !ie && /*@__PURE__*/ /Chrome\/(\d+)/.exec(nav.userAgent);
-	const webkit = ("webkitFontSmoothing" in doc.documentElement.style);
+	const webkit = "webkitFontSmoothing" in doc.documentElement.style;
 	const safari = !ie && /*@__PURE__*/ /Apple Computer/.test(nav.vendor);
 	const ios = safari && ( /*@__PURE__*/ /Mobile\/\w+/.test(nav.userAgent) || nav.maxTouchPoints > 2);
 	var browser = {
@@ -28963,8 +28969,8 @@
 	    }
 	    return rect;
 	  }
-	  become(_other) {
-	    return false;
+	  become(other) {
+	    return other instanceof LineView && this.children.length == 0 && other.children.length == 0 && attrsEq(this.attrs, other.attrs) && this.breakAfter == other.breakAfter;
 	  }
 	  covers() {
 	    return true;
@@ -31606,7 +31612,7 @@
 	    };
 	    this.scrolling = -1;
 	    this.lastEvent = startEvent;
-	    this.scrollParent = scrollableParent(view.contentDOM);
+	    this.scrollParents = scrollableParents(view.contentDOM);
 	    this.atoms = view.state.facet(atomicRanges).map(f => f(view));
 	    let doc = view.contentDOM.ownerDocument;
 	    doc.addEventListener("mousemove", this.move = this.move.bind(this));
@@ -31621,21 +31627,26 @@
 	    if (this.dragging === false) this.select(event);
 	  }
 	  move(event) {
-	    var _a;
 	    if (event.buttons == 0) return this.destroy();
 	    if (this.dragging || this.dragging == null && dist(this.startEvent, event) < 10) return;
 	    this.select(this.lastEvent = event);
 	    let sx = 0,
 	      sy = 0;
-	    let rect = ((_a = this.scrollParent) === null || _a === void 0 ? void 0 : _a.getBoundingClientRect()) || {
-	      left: 0,
-	      top: 0,
-	      right: this.view.win.innerWidth,
-	      bottom: this.view.win.innerHeight
-	    };
+	    let left = 0,
+	      top = 0,
+	      right = this.view.win.innerWidth,
+	      bottom = this.view.win.innerHeight;
+	    if (this.scrollParents.x) ({
+	      left,
+	      right
+	    } = this.scrollParents.x.getBoundingClientRect());
+	    if (this.scrollParents.y) ({
+	      top,
+	      bottom
+	    } = this.scrollParents.y.getBoundingClientRect());
 	    let margins = getScrollMargins(this.view);
-	    if (event.clientX - margins.left <= rect.left + dragScrollMargin) sx = -dragScrollSpeed(rect.left - event.clientX);else if (event.clientX + margins.right >= rect.right - dragScrollMargin) sx = dragScrollSpeed(event.clientX - rect.right);
-	    if (event.clientY - margins.top <= rect.top + dragScrollMargin) sy = -dragScrollSpeed(rect.top - event.clientY);else if (event.clientY + margins.bottom >= rect.bottom - dragScrollMargin) sy = dragScrollSpeed(event.clientY - rect.bottom);
+	    if (event.clientX - margins.left <= left + dragScrollMargin) sx = -dragScrollSpeed(left - event.clientX);else if (event.clientX + margins.right >= right - dragScrollMargin) sx = dragScrollSpeed(event.clientX - right);
+	    if (event.clientY - margins.top <= top + dragScrollMargin) sy = -dragScrollSpeed(top - event.clientY);else if (event.clientY + margins.bottom >= bottom - dragScrollMargin) sy = dragScrollSpeed(event.clientY - bottom);
 	    this.setScrollSpeed(sx, sy);
 	  }
 	  up(event) {
@@ -31663,12 +31674,19 @@
 	    }
 	  }
 	  scroll() {
-	    if (this.scrollParent) {
-	      this.scrollParent.scrollLeft += this.scrollSpeed.x;
-	      this.scrollParent.scrollTop += this.scrollSpeed.y;
-	    } else {
-	      this.view.win.scrollBy(this.scrollSpeed.x, this.scrollSpeed.y);
+	    let {
+	      x,
+	      y
+	    } = this.scrollSpeed;
+	    if (x && this.scrollParents.x) {
+	      this.scrollParents.x.scrollLeft += x;
+	      x = 0;
 	    }
+	    if (y && this.scrollParents.y) {
+	      this.scrollParents.y.scrollTop += y;
+	      y = 0;
+	    }
+	    if (x || y) this.view.win.scrollBy(x, y);
 	    if (this.dragging === false) this.select(this.lastEvent);
 	  }
 	  skipAtoms(sel) {
@@ -34290,7 +34308,9 @@
 	      // breaking composition.
 	      if ((browser.ie && browser.ie_version <= 11 || browser.ios && view.composing) && mutations.some(m => m.type == "childList" && m.removedNodes.length || m.type == "characterData" && m.oldValue.length > m.target.nodeValue.length)) this.flushSoon();else this.flush();
 	    });
-	    if (window.EditContext && view.constructor.EDIT_CONTEXT === true) {
+	    if (window.EditContext && view.constructor.EDIT_CONTEXT !== false &&
+	    // Chrome <126 doesn't support inverted selections in edit context (#1392)
+	    !(browser.chrome && browser.chrome_version < 126)) {
 	      this.editContext = new EditContextManager(view);
 	      if (view.state.facet(editable)) view.contentDOM.editContext = this.editContext.editContext;
 	    }
@@ -34645,6 +34665,10 @@
 	    clearTimeout(this.resizeTimeout);
 	    this.win.cancelAnimationFrame(this.delayedFlush);
 	    this.win.cancelAnimationFrame(this.flushingAndroidKey);
+	    if (this.editContext) {
+	      this.view.contentDOM.editContext = null;
+	      this.editContext.destroy();
+	    }
 	  }
 	}
 	function findChild(cView, dom, dir) {
@@ -34708,13 +34732,14 @@
 	    // that sometimes breaks series of multiple edits made for a single
 	    // user action on some Android keyboards)
 	    this.pendingContextChange = null;
+	    this.handlers = Object.create(null);
 	    this.resetRange(view.state);
 	    let context = this.editContext = new window.EditContext({
 	      text: view.state.doc.sliceString(this.from, this.to),
 	      selectionStart: this.toContextPos(Math.max(this.from, Math.min(this.to, view.state.selection.main.anchor))),
 	      selectionEnd: this.toContextPos(view.state.selection.main.head)
 	    });
-	    context.addEventListener("textupdate", e => {
+	    this.handlers.textupdate = e => {
 	      let {
 	        anchor
 	      } = view.state.selection.main;
@@ -34726,25 +34751,25 @@
 	      // If the window doesn't include the anchor, assume changes
 	      // adjacent to a side go up to the anchor.
 	      if (change.from == this.from && anchor < this.from) change.from = anchor;else if (change.to == this.to && anchor > this.to) change.to = anchor;
-	      // Edit context sometimes fire empty changes
+	      // Edit contexts sometimes fire empty changes
 	      if (change.from == change.to && !change.insert.length) return;
 	      this.pendingContextChange = change;
 	      applyDOMChangeInner(view, change, EditorSelection.single(this.toEditorPos(e.selectionStart), this.toEditorPos(e.selectionEnd)));
 	      // If the transaction didn't flush our change, revert it so
 	      // that the context is in sync with the editor state again.
 	      if (this.pendingContextChange) this.revertPending(view.state);
-	    });
-	    context.addEventListener("characterboundsupdate", e => {
+	    };
+	    this.handlers.characterboundsupdate = e => {
 	      let rects = [],
 	        prev = null;
 	      for (let i = this.toEditorPos(e.rangeStart), end = this.toEditorPos(e.rangeEnd); i < end; i++) {
 	        let rect = view.coordsForChar(i);
-	        prev = rect && new DOMRect(rect.left, rect.right, rect.right - rect.left, rect.bottom - rect.top) || prev || new DOMRect();
+	        prev = rect && new DOMRect(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top) || prev || new DOMRect();
 	        rects.push(prev);
 	      }
 	      context.updateCharacterBounds(e.rangeStart, rects);
-	    });
-	    context.addEventListener("textformatupdate", e => {
+	    };
+	    this.handlers.textformatupdate = e => {
 	      let deco = [];
 	      for (let format of e.getTextFormats()) {
 	        let lineStyle = format.underlineStyle,
@@ -34761,17 +34786,18 @@
 	      view.dispatch({
 	        effects: setEditContextFormatting.of(Decoration.set(deco))
 	      });
-	    });
-	    context.addEventListener("compositionstart", () => {
+	    };
+	    this.handlers.compositionstart = () => {
 	      if (view.inputState.composing < 0) {
 	        view.inputState.composing = 0;
 	        view.inputState.compositionFirstChange = true;
 	      }
-	    });
-	    context.addEventListener("compositionend", () => {
+	    };
+	    this.handlers.compositionend = () => {
 	      view.inputState.composing = -1;
 	      view.inputState.compositionFirstChange = null;
-	    });
+	    };
+	    for (let event in this.handlers) context.addEventListener(event, this.handlers[event]);
 	    this.measureReq = {
 	      read: view => {
 	        this.editContext.updateControlBounds(view.contentDOM.getBoundingClientRect());
@@ -34791,6 +34817,7 @@
 	        if (pending.from == fromA && pending.to == toA && pending.insert.eq(insert)) {
 	          pending = this.pendingContextChange = null; // Match
 	          off += dLen;
+	          this.to += dLen;
 	          return;
 	        } else {
 	          // Mismatch, revert
@@ -34860,6 +34887,9 @@
 	  }
 	  toContextPos(editorPos) {
 	    return editorPos - this.from;
+	  }
+	  destroy() {
+	    for (let event in this.handlers) this.editContext.removeEventListener(event, this.handlers[event]);
 	  }
 	}
 
@@ -45438,10 +45468,19 @@
 	  only return completions when either there is part of a
 	  completable entity before the cursor, or `explicit` is true.
 	  */
-	  explicit) {
+	  explicit,
+	  /**
+	  The editor view. May be undefined if the context was created
+	  in a situation where there is no such view available, such as
+	  in synchronous updates via
+	  [`CompletionResult.update`](https://codemirror.net/6/docs/ref/#autocomplete.CompletionResult.update)
+	  or when called by test code.
+	  */
+	  view) {
 	    this.state = state;
 	    this.pos = pos;
 	    this.explicit = explicit;
+	    this.view = view;
 	    /**
 	    @internal
 	    */
@@ -46286,12 +46325,13 @@
 	  return result;
 	}
 	const none$1 = [];
-	function getUserEvent(tr, conf) {
+	function getUpdateType(tr, conf) {
 	  if (tr.isUserEvent("input.complete")) {
 	    let completion = tr.annotation(pickedCompletion);
-	    if (completion && conf.activateOnCompletion(completion)) return "input";
+	    if (completion && conf.activateOnCompletion(completion)) return 4 /* UpdateType.Activate */ | 8 /* UpdateType.Reset */;
 	  }
-	  return tr.isUserEvent("input.type") ? "input" : tr.isUserEvent("delete.backward") ? "delete" : null;
+	  let typing = tr.isUserEvent("input.type");
+	  return typing && conf.activateOnTyping ? 4 /* UpdateType.Activate */ | 1 /* UpdateType.Typing */ : typing ? 1 /* UpdateType.Typing */ : tr.isUserEvent("delete.backward") ? 2 /* UpdateType.Backspacing */ : tr.selection ? 8 /* UpdateType.Reset */ : tr.docChanged ? 16 /* UpdateType.ResetIfTouching */ : 0 /* UpdateType.None */;
 	}
 	class ActiveSource {
 	  constructor(source, state, explicitPos = -1) {
@@ -46303,22 +46343,24 @@
 	    return false;
 	  }
 	  update(tr, conf) {
-	    let event = getUserEvent(tr, conf),
+	    let type = getUpdateType(tr, conf),
 	      value = this;
-	    if (event) value = value.handleUserEvent(tr, event, conf);else if (tr.docChanged) value = value.handleChange(tr);else if (tr.selection && value.state != 0 /* State.Inactive */) value = new ActiveSource(value.source, 0 /* State.Inactive */);
+	    if (type & 8 /* UpdateType.Reset */ || type & 16 /* UpdateType.ResetIfTouching */ && this.touches(tr)) value = new ActiveSource(value.source, 0 /* State.Inactive */);
+	    if (type & 4 /* UpdateType.Activate */ && value.state == 0 /* State.Inactive */) value = new ActiveSource(this.source, 1 /* State.Pending */);
+	    value = value.updateFor(tr, type);
 	    for (let effect of tr.effects) {
 	      if (effect.is(startCompletionEffect)) value = new ActiveSource(value.source, 1 /* State.Pending */, effect.value ? cur(tr.state) : -1);else if (effect.is(closeCompletionEffect)) value = new ActiveSource(value.source, 0 /* State.Inactive */);else if (effect.is(setActiveEffect)) for (let active of effect.value) if (active.source == value.source) value = active;
 	    }
 	    return value;
 	  }
-	  handleUserEvent(tr, type, conf) {
-	    return type == "delete" || !conf.activateOnTyping ? this.map(tr.changes) : new ActiveSource(this.source, 1 /* State.Pending */);
-	  }
-	  handleChange(tr) {
-	    return tr.changes.touchesRange(cur(tr.startState)) ? new ActiveSource(this.source, 0 /* State.Inactive */) : this.map(tr.changes);
+	  updateFor(tr, type) {
+	    return this.map(tr.changes);
 	  }
 	  map(changes) {
 	    return changes.empty || this.explicitPos < 0 ? this : new ActiveSource(this.source, this.state, changes.mapPos(this.explicitPos));
+	  }
+	  touches(tr) {
+	    return tr.changes.touchesRange(cur(tr.state));
 	  }
 	}
 	class ActiveResult extends ActiveSource {
@@ -46331,27 +46373,28 @@
 	  hasResult() {
 	    return true;
 	  }
-	  handleUserEvent(tr, type, conf) {
+	  updateFor(tr, type) {
 	    var _a;
+	    if (!(type & 3 /* UpdateType.SimpleInteraction */)) return this.map(tr.changes);
 	    let result = this.result;
 	    if (result.map && !tr.changes.empty) result = result.map(result, tr.changes);
 	    let from = tr.changes.mapPos(this.from),
 	      to = tr.changes.mapPos(this.to, 1);
 	    let pos = cur(tr.state);
-	    if ((this.explicitPos < 0 ? pos <= from : pos < this.from) || pos > to || !result || type == "delete" && cur(tr.startState) == this.from) return new ActiveSource(this.source, type == "input" && conf.activateOnTyping ? 1 /* State.Pending */ : 0 /* State.Inactive */);
+	    if ((this.explicitPos < 0 ? pos <= from : pos < this.from) || pos > to || !result || type & 2 /* UpdateType.Backspacing */ && cur(tr.startState) == this.from) return new ActiveSource(this.source, type & 4 /* UpdateType.Activate */ ? 1 /* State.Pending */ : 0 /* State.Inactive */);
 	    let explicitPos = this.explicitPos < 0 ? -1 : tr.changes.mapPos(this.explicitPos);
 	    if (checkValid(result.validFor, tr.state, from, to)) return new ActiveResult(this.source, explicitPos, result, from, to);
 	    if (result.update && (result = result.update(result, from, to, new CompletionContext(tr.state, pos, explicitPos >= 0)))) return new ActiveResult(this.source, explicitPos, result, result.from, (_a = result.to) !== null && _a !== void 0 ? _a : cur(tr.state));
 	    return new ActiveSource(this.source, 1 /* State.Pending */, explicitPos);
-	  }
-	  handleChange(tr) {
-	    return tr.changes.touchesRange(this.from, this.to) ? new ActiveSource(this.source, 0 /* State.Inactive */) : this.map(tr.changes);
 	  }
 	  map(mapping) {
 	    if (mapping.empty) return this;
 	    let result = this.result.map ? this.result.map(this.result, mapping) : this.result;
 	    if (!result) return new ActiveSource(this.source, 0 /* State.Inactive */);
 	    return new ActiveResult(this.source, this.explicitPos < 0 ? -1 : mapping.mapPos(this.explicitPos), this.result, mapping.mapPos(this.from), mapping.mapPos(this.to, 1));
+	  }
+	  touches(tr) {
+	    return tr.changes.touchesRange(this.from, this.to);
 	  }
 	}
 	function checkValid(validFor, state, from, to) {
@@ -46465,7 +46508,8 @@
 	    let conf = update.state.facet(completionConfig);
 	    if (!update.selectionSet && !update.docChanged && update.startState.field(completionState) == cState) return;
 	    let doesReset = update.transactions.some(tr => {
-	      return (tr.selection || tr.docChanged) && !getUserEvent(tr, conf);
+	      let type = getUpdateType(tr, conf);
+	      return type & 8 /* UpdateType.Reset */ || (tr.selection || tr.docChanged) && !(type & 3 /* UpdateType.SimpleInteraction */);
 	    });
 	    for (let i = 0; i < this.running.length; i++) {
 	      let query = this.running[i];
@@ -46488,7 +46532,7 @@
 	    let delay = this.pendingStart ? 50 : conf.activateOnTypingDelay;
 	    this.debounceUpdate = cState.active.some(a => a.state == 1 /* State.Pending */ && !this.running.some(q => q.active.source == a.source)) ? setTimeout(() => this.startUpdate(), delay) : -1;
 	    if (this.composing != 0 /* CompositionState.None */) for (let tr of update.transactions) {
-	      if (getUserEvent(tr, conf) == "input") this.composing = 2 /* CompositionState.Changed */;else if (this.composing == 2 /* CompositionState.Changed */ && tr.selection) this.composing = 3 /* CompositionState.ChangedAndMoved */;
+	      if (tr.isUserEvent("input.type")) this.composing = 2 /* CompositionState.Changed */;else if (this.composing == 2 /* CompositionState.Changed */ && tr.selection) this.composing = 3 /* CompositionState.ChangedAndMoved */;
 	    }
 	  }
 	  startUpdate() {
@@ -46507,7 +46551,7 @@
 	        state
 	      } = this.view,
 	      pos = cur(state);
-	    let context = new CompletionContext(state, pos, active.explicitPos == pos);
+	    let context = new CompletionContext(state, pos, active.explicitPos == pos, this.view);
 	    let pending = new RunningQuery(active, context);
 	    this.running.push(pending);
 	    Promise.resolve(active.source(context)).then(result => {
@@ -49776,6 +49820,7 @@
 	  operatorChars: "*+\-%<>!=&|~^/",
 	  specialVar: "?",
 	  identifierQuotes: '"',
+	  caseInsensitiveIdentifiers: false,
 	  words: /*@__PURE__*/keywords$I(SQLKeywords, SQLTypes)
 	};
 	function dialect(spec, kws, types, builtin) {
@@ -50029,8 +50074,9 @@
 	  return namespace.self && typeof namespace.self.label == "string";
 	}
 	class CompletionLevel {
-	  constructor(idQuote) {
+	  constructor(idQuote, idCaseInsensitive) {
 	    this.idQuote = idQuote;
+	    this.idCaseInsensitive = idCaseInsensitive;
 	    this.list = [];
 	    this.children = undefined;
 	  }
@@ -50038,8 +50084,8 @@
 	    let children = this.children || (this.children = Object.create(null));
 	    let found = children[name];
 	    if (found) return found;
-	    if (name && !this.list.some(c => c.label == name)) this.list.push(nameCompletion(name, "type", this.idQuote));
-	    return children[name] = new CompletionLevel(this.idQuote);
+	    if (name && !this.list.some(c => c.label == name)) this.list.push(nameCompletion(name, "type", this.idQuote, this.idCaseInsensitive));
+	    return children[name] = new CompletionLevel(this.idQuote, this.idCaseInsensitive);
 	  }
 	  maybeChild(name) {
 	    return this.children ? this.children[name] : null;
@@ -50049,7 +50095,7 @@
 	    if (found > -1) this.list[found] = option;else this.list.push(option);
 	  }
 	  addCompletions(completions) {
-	    for (let option of completions) this.addCompletion(typeof option == "string" ? nameCompletion(option, "property", this.idQuote) : option);
+	    for (let option of completions) this.addCompletion(typeof option == "string" ? nameCompletion(option, "property", this.idQuote, this.idCaseInsensitive) : option);
 	  }
 	  addNamespace(namespace) {
 	    if (Array.isArray(namespace)) {
@@ -50078,8 +50124,8 @@
 	    }
 	  }
 	}
-	function nameCompletion(label, type, idQuote) {
-	  if (/^[a-z_][a-z_\d]*$/.test(label)) return {
+	function nameCompletion(label, type, idQuote, idCaseInsensitive) {
+	  if (new RegExp("^[a-z_][a-z_\\d]*$", idCaseInsensitive ? "i" : "").test(label)) return {
 	    label,
 	    type
 	  };
@@ -50096,7 +50142,7 @@
 	function completeFromSchema$1(schema, tables, schemas, defaultTableName, defaultSchemaName, dialect) {
 	  var _a;
 	  let idQuote = ((_a = dialect === null || dialect === void 0 ? void 0 : dialect.spec.identifierQuotes) === null || _a === void 0 ? void 0 : _a[0]) || '"';
-	  let top = new CompletionLevel(idQuote);
+	  let top = new CompletionLevel(idQuote, !!(dialect === null || dialect === void 0 ? void 0 : dialect.spec.caseInsensitiveIdentifiers));
 	  let defaultSchema = defaultSchemaName ? top.child(defaultSchemaName) : null;
 	  top.addNamespace(schema);
 	  if (tables) (defaultSchema || top).addCompletions(tables);

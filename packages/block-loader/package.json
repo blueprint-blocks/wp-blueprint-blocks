@@ -10,7 +10,7 @@
 		"prepublishOnly": "rm -rf ./dist && npm run build"
 	},
 	"dependencies": {
-		"@blueprint-blocks/components": "^0.1.87"
+		"@blueprint-blocks/components": "^0.1.90"
 	},
 	"peerDependencies": {
 		"@wordpress/blocks": "^12.24.0"
