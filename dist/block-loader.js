@@ -5103,7 +5103,7 @@
       if (Object.values(blockStyles).length > 0) {
         blockAttributes.style = styles(blockStyles, blockContext);
       }
-      var Component = tagName;
+      var Component = tagName || "div";
       return /*#__PURE__*/React.createElement(Component, _extends$1({}, blockProps, blockAttributes), renderJsxArray({
         clientId: clientId,
         blockName: blockName,
