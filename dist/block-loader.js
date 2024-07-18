@@ -3219,7 +3219,7 @@
     }
     return /*#__PURE__*/React.createElement(wp.blockEditor.RichText, _extends$1({}, fieldProps, {
       onChange: onInput,
-      tagName: tagName,
+      tagName: tagName || "div",
       allowedFormats: _allowedFormats,
       keepPlaceholderOnFocus: true,
       placeholder: placeholder,
