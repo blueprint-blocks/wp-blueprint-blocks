@@ -843,9 +843,9 @@
       return valueByIdentifier(p1.trim(), allContext);
     });
   }
-  var OPERANDS = ['==', '!=', '<', '<=', '>', '>='];
+  var OPERANDS = ["==", "!=", "<", "<=", ">", ">="];
   function evaluateCondition() {
-    var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
     var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     var operand = null;
     OPERANDS.forEach(function (OPERAND) {
@@ -864,30 +864,30 @@
     if (after.slice(0, 1) === "'" && after.slice(-1) === "'" || after.slice(0, 1) === '"' && after.slice(-1) === '"') {
       after = after.slice(1, -1);
     }
-    if (operand === '==') {
+    if (operand === "==") {
       return before == after;
     }
-    if (operand === '!=') {
+    if (operand === "!=") {
       return before != after;
     }
-    if (operand === '<') {
-      return before < after;
+    if (operand === "<") {
+      return parseFloat(before) < parseFloat(after);
     }
-    if (operand === '<=') {
-      return before <= after;
+    if (operand === "<=") {
+      return parseFloat(before) <= parseFloat(after);
     }
-    if (operand === '>') {
-      return before > after;
+    if (operand === ">") {
+      return parseFloat(before) > parseFloat(after);
     }
-    if (operand === '>=') {
-      return before >= after;
+    if (operand === ">=") {
+      return parseFloat(before) >= parseFloat(after);
     }
     return false;
   }
   function evaluateConditionalString() {
-    var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
     var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    if (typeof string !== 'string' || string === '') {
+    if (typeof string !== "string" || string === "") {
       return string;
     }
     var open = null;
@@ -895,10 +895,10 @@
     var evaluatedString = string;
     do {
       for (var i = 0; i < string.length; i++) {
-        if (string[i] === '(') {
+        if (string[i] === "(") {
           open = i;
         }
-        if (open !== null && string[i] === ')') {
+        if (open !== null && string[i] === ")") {
           close = i;
           break;
         }
@@ -908,30 +908,30 @@
         after = void 0;
       if (open === null && close === null) {
         conditional = string;
-        before = '';
-        after = '';
+        before = "";
+        after = "";
       } else {
         conditional = string.slice(open + 1, close - 1);
         before = string.slice(0, open - 1);
         after = string.slice(close + 1);
       }
-      var ands = conditional.split('&&');
+      var ands = conditional.split("&&");
       var result = ands.reduce(function (result, and) {
-        var ors = and.trim().split('||');
+        var ors = and.trim().split("||");
         return result && ors.reduce(function (reducedOr, or) {
           return reducedOr || evaluateCondition(or.trim(), context);
         }, null);
       }, true);
-      if (before === '' && after === '') {
-        evaluatedString = result && '1' || '0';
+      if (before === "" && after === "") {
+        evaluatedString = result && "1" || "0";
       } else {
-        evaluatedString = before + (result && 'true' || 'false') + after;
+        evaluatedString = before + (result && "true" || "false") + after;
       }
     } while (open !== null && close !== null);
-    if (evaluatedString === '1' || evaluatedString === 'true') {
+    if (evaluatedString === "1" || evaluatedString === "true") {
       return true;
     }
-    if (evaluatedString === '0' || evaluatedString === 'false') {
+    if (evaluatedString === "0" || evaluatedString === "false") {
       return false;
     }
     return Boolean(evaluatedString);
