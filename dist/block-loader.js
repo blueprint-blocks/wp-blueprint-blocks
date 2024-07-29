@@ -2823,7 +2823,7 @@
   };
 
   var _excluded$E = ["onInput", "label", "noticeUI", "noticeOperations", "value"],
-    _excluded2$4 = ["id", "height", "subtype", "type", "url", "width"];
+    _excluded2$4 = ["alt", "id", "height", "subtype", "type", "url", "width"];
   var divStyle = {
     position: "relative",
     width: "fit-content"
@@ -2885,7 +2885,8 @@
       onInput(null);
     };
     var onSelect = function onSelect(_ref2) {
-      var id = _ref2.id,
+      var alt = _ref2.alt,
+        id = _ref2.id,
         height = _ref2.height,
         subtype = _ref2.subtype,
         type = _ref2.type,
@@ -2893,6 +2894,7 @@
         width = _ref2.width;
         _objectWithoutProperties$1(_ref2, _excluded2$4);
       onInput({
+        alt: alt,
         id: id,
         height: height,
         width: width,

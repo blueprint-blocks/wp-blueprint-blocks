@@ -3994,7 +3994,7 @@
 	function _createForOfIteratorHelper(r, e) {
 	  var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
 	  if (!t) {
-	    if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e  ) {
+	    if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e) {
 	      t && (r = t);
 	      var n = 0,
 	        F = function () {};
@@ -4173,7 +4173,7 @@
 	  }
 	}
 
-	var getComponentAncestors = function getComponentAncestors(clientId) {
+	var _getComponentAncestors = function getComponentAncestors(clientId) {
 	  var tree = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 	  var _iterator = _createForOfIteratorHelper(tree),
 	    _step;
@@ -4183,7 +4183,7 @@
 	      if (clientId === component[0]) {
 	        return component[1].flat(Infinity);
 	      }
-	      var itemAncestors = getComponentAncestors(clientId, component[1]);
+	      var itemAncestors = _getComponentAncestors(clientId, component[1]);
 	      if (itemAncestors.length > 0) {
 	        return itemAncestors;
 	      }
@@ -4196,7 +4196,7 @@
 	  return [];
 	};
 
-	var getComponentAncestry = function getComponentAncestry(clientId) {
+	var _getComponentAncestry = function getComponentAncestry(clientId) {
 	  var tree = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 	  var _iterator = _createForOfIteratorHelper(tree.entries()),
 	    _step;
@@ -4208,7 +4208,7 @@
 	      if (clientId === component[0]) {
 	        return [index];
 	      }
-	      var itemAncestry = getComponentAncestry(clientId, component[1]);
+	      var itemAncestry = _getComponentAncestry(clientId, component[1]);
 	      if (itemAncestry !== false) {
 	        return [index].concat(_toConsumableArray(itemAncestry));
 	      }
@@ -7663,7 +7663,7 @@
 	  return ((_component$attributes = component.attributes) === null || _component$attributes === void 0 || (_component$attributes = _component$attributes[attributeName]) === null || _component$attributes === void 0 ? void 0 : _component$attributes.type) || "string";
 	}
 
-	var getObjectProperty = function getObjectProperty(object, identifier) {
+	var _getObjectProperty = function getObjectProperty(object, identifier) {
 	  if (identifier.indexOf(".") === -1) {
 	    if (identifier in object) {
 	      return object[identifier];
@@ -7676,7 +7676,7 @@
 	  if (!(propertyName in object)) {
 	    return null;
 	  }
-	  return getObjectProperty(object[propertyName], subIdentifier);
+	  return _getObjectProperty(object[propertyName], subIdentifier);
 	};
 
 	function getSupportsProperties(name) {
@@ -8441,7 +8441,7 @@
 	};
 
 	var _excluded$a = ["children"];
-	var parseComponentTree = function parseComponentTree() {
+	var _parseComponentTree3 = function parseComponentTree() {
 	  var tree = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	  var components = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 	  if (!tree) {
@@ -8454,7 +8454,7 @@
 	      component = _objectWithoutProperties(_ref, _excluded$a);
 	    var childClientIds = [];
 	    if (children.length > 0) {
-	      var _parseComponentTree = parseComponentTree(children, components);
+	      var _parseComponentTree = _parseComponentTree3(children, components);
 	      var _parseComponentTree2 = _slicedToArray(_parseComponentTree, 2);
 	      childClientIds = _parseComponentTree2[0];
 	      components = _parseComponentTree2[1];
@@ -8469,7 +8469,7 @@
 	  return [clientIds, components];
 	};
 
-	var removeFromTree = function removeFromTree(clientId) {
+	var _removeFromTree = function removeFromTree(clientId) {
 	  var tree = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 	  return tree.filter(function (_ref) {
 	    var _ref2 = _slicedToArray(_ref, 2),
@@ -8480,7 +8480,7 @@
 	    var _ref4 = _slicedToArray(_ref3, 2),
 	      itemClientId = _ref4[0],
 	      itemChildren = _ref4[1];
-	    return [itemClientId, removeFromTree(clientId, itemChildren)];
+	    return [itemClientId, _removeFromTree(clientId, itemChildren)];
 	  });
 	};
 
@@ -8488,10 +8488,10 @@
 	var _ref$4 = ((_blueprintBlocksEdito$d = blueprintBlocksEditorSettings) === null || _blueprintBlocksEdito$d === void 0 ? void 0 : _blueprintBlocksEdito$d.blockMetadata) || {},
 	  _ref$blockBlueprint = _ref$4.blockBlueprint,
 	  blockBlueprint = _ref$blockBlueprint === void 0 ? {} : _ref$blockBlueprint;
-	var blockEdit = parseComponentTree((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockEdit) || []);
-	var blockToolbar = parseComponentTree((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockToolbar) || []);
-	var blockSave = parseComponentTree((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockSave) || []);
-	var blockSidebar = parseComponentTree((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockSidebar) || []);
+	var blockEdit = _parseComponentTree3((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockEdit) || []);
+	var blockToolbar = _parseComponentTree3((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockToolbar) || []);
+	var blockSave = _parseComponentTree3((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockSave) || []);
+	var blockSidebar = _parseComponentTree3((blockBlueprint === null || blockBlueprint === void 0 ? void 0 : blockBlueprint.blockSidebar) || []);
 	var blockComponents = _objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2({}, blockEdit[1]), blockToolbar[1]), blockSave[1]), blockSidebar[1]);
 	var initialState$1 = {
 	  blockComponents: blockComponents,
@@ -8504,7 +8504,7 @@
 	  isDragging: false
 	};
 
-	var getAtPosition = function getAtPosition(_ref) {
+	var _getAtPosition = function getAtPosition(_ref) {
 	  var _ref2;
 	  var _ref$componentList = _ref.componentList,
 	    componentList = _ref$componentList === void 0 ? [] : _ref$componentList,
@@ -8515,7 +8515,7 @@
 	    return null;
 	  }
 	  if (position.length > 1) {
-	    return getAtPosition({
+	    return _getAtPosition({
 	      componentList: componentList[index][1] || [],
 	      position: position.slice(1)
 	    });
@@ -8523,7 +8523,7 @@
 	  return componentList[index];
 	};
 
-	var insertAtPosition = function insertAtPosition(_ref) {
+	var _insertAtPosition = function insertAtPosition(_ref) {
 	  var _ref2;
 	  var clientId = _ref.clientId,
 	    _ref$subList = _ref.subList,
@@ -8537,7 +8537,7 @@
 	    return componentList;
 	  }
 	  if (position.length > 1) {
-	    componentList[index][1] = insertAtPosition({
+	    componentList[index][1] = _insertAtPosition({
 	      clientId: clientId,
 	      subList: subList,
 	      componentList: componentList[index][1] || [],
@@ -8933,7 +8933,7 @@
 	  if (!componentList || !Array.isArray(componentList)) {
 	    return 0;
 	  }
-	  var getDepth = function getDepth() {
+	  var _getDepth = function getDepth() {
 	    var list = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	    var depth = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 	    list.forEach(function (_ref3) {
@@ -8941,17 +8941,17 @@
 	        _ref4[0];
 	        var list = _ref4[1];
 	      if (Array.isArray(list) && list.length > 0) {
-	        depth = Math.max(depth, getDepth(list, depth + 1));
+	        depth = Math.max(depth, _getDepth(list, depth + 1));
 	      }
 	    });
 	    return depth;
 	  };
-	  return getDepth(componentList);
+	  return _getDepth(componentList);
 	};
 	var getComponentContext = function getComponentContext(state, clientId) {
 	  for (var _i = 0, _ALL_CONTEXTS = ALL_CONTEXTS; _i < _ALL_CONTEXTS.length; _i++) {
 	    var context = _ALL_CONTEXTS[_i];
-	    var position = getComponentPositionInList(state, {
+	    var position = _getComponentPositionInList(state, {
 	      clientId: clientId,
 	      list: getComponentList(state, "edit")
 	    });
@@ -8963,7 +8963,7 @@
 	    }
 	  }
 	};
-	var getComponentPositionInList = function getComponentPositionInList(state, _ref5) {
+	var _getComponentPositionInList = function getComponentPositionInList(state, _ref5) {
 	  var clientId = _ref5.clientId,
 	    _ref5$list = _ref5.list,
 	    list = _ref5$list === void 0 ? [] : _ref5$list;
@@ -8976,7 +8976,7 @@
 	    }
 	    var listPosition = null;
 	    if (Array.isArray(list[i][1]) && list[i][1].length > 0) {
-	      listPosition = getComponentPositionInList(state, {
+	      listPosition = _getComponentPositionInList(state, {
 	        clientId: clientId,
 	        list: list[i][1] || []
 	      });
@@ -8991,16 +8991,16 @@
 	  return {
 	    $schema: "https://schemas.blueprint-blocks.com/blueprint.json",
 	    apiVersion: 1,
-	    blockEdit: rebuildComponentTree(blockEdit, blockComponents),
-	    blockToolbar: rebuildComponentTree(blockToolbar, blockComponents),
-	    blockSave: rebuildComponentTree(blockSave, blockComponents),
-	    blockSidebar: rebuildComponentTree(blockSidebar, blockComponents)
+	    blockEdit: _rebuildComponentTree(blockEdit, blockComponents),
+	    blockToolbar: _rebuildComponentTree(blockToolbar, blockComponents),
+	    blockSave: _rebuildComponentTree(blockSave, blockComponents),
+	    blockSidebar: _rebuildComponentTree(blockSidebar, blockComponents)
 	  };
 	}, {
 	  memoize: weakMapMemoize,
 	  argsMemoize: weakMapMemoize
 	});
-	var rebuildComponentTree = function rebuildComponentTree() {
+	var _rebuildComponentTree = function rebuildComponentTree() {
 	  var tree = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	  var components = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 	  if (!tree) {
@@ -9023,12 +9023,12 @@
 	      return [name, value];
 	    }))), {}, {
 	      type: ((_components$clientId3 = components[clientId]) === null || _components$clientId3 === void 0 ? void 0 : _components$clientId3.type) || "html",
-	      children: rebuildComponentTree(children, components)
+	      children: _rebuildComponentTree(children, components)
 	    });
 	  });
 	};
 
-	var removeAtPosition = function removeAtPosition(_ref) {
+	var _removeAtPosition = function removeAtPosition(_ref) {
 	  var _ref2;
 	  var _ref$componentList = _ref.componentList,
 	    componentList = _ref$componentList === void 0 ? [] : _ref$componentList,
@@ -9039,7 +9039,7 @@
 	    return componentList;
 	  }
 	  if (position.length > 1) {
-	    componentList[index][1] = removeAtPosition({
+	    componentList[index][1] = _removeAtPosition({
 	      componentList: componentList[index][1] || [],
 	      position: position.slice(1)
 	    });
@@ -9073,17 +9073,17 @@
 	    position = _action$payload$posit === void 0 ? [] : _action$payload$posit,
 	    _action$payload$newPo = _action$payload.newPosition,
 	    newPosition = _action$payload$newPo === void 0 ? [] : _action$payload$newPo;
-	  var component = getAtPosition({
+	  var component = _getAtPosition({
 	    componentList: getComponentList(state, context),
 	    position: position
 	  });
 	  if (component && component[0]) {
-	    var componentList = removeAtPosition({
+	    var componentList = _removeAtPosition({
 	      componentList: getComponentList(state, context),
 	      position: position
 	    });
 	    if (context === newContext) {
-	      componentList = insertAtPosition({
+	      componentList = _insertAtPosition({
 	        componentList: componentList,
 	        clientId: component[0],
 	        subList: component[1],
@@ -9102,7 +9102,7 @@
 	          componentList: componentList
 	        }
 	      });
-	      var newComponentList = insertAtPosition({
+	      var newComponentList = _insertAtPosition({
 	        componentList: getComponentList(state, newContext),
 	        clientId: component[0],
 	        subList: component[1],
@@ -9130,7 +9130,7 @@
 	    _parseComponentForCli2 = _slicedToArray(_parseComponentForCli, 2),
 	    clientId = _parseComponentForCli2[0],
 	    parsedComponent = _parseComponentForCli2[1];
-	  var componentList = insertAtPosition({
+	  var componentList = _insertAtPosition({
 	    clientId: clientId,
 	    componentList: getComponentList(state, context),
 	    position: position
@@ -9225,18 +9225,18 @@
 	  if (!(clientId in state.blockComponents)) {
 	    return;
 	  }
-	  var isInBlueprint = getComponentAncestry(clientId, state.blockEdit) !== false;
+	  var isInBlueprint = _getComponentAncestry(clientId, state.blockEdit) !== false;
 	  if (!isInBlueprint) {
 	    return;
 	  }
-	  var ancestors = _toConsumableArray(getComponentAncestors(clientId, state.blockEdit));
+	  var ancestors = _toConsumableArray(_getComponentAncestors(clientId, state.blockEdit));
 	  state.blockComponents = Object.fromEntries(Object.entries(state.blockComponents).filter(function (_ref) {
 	    var _ref2 = _slicedToArray(_ref, 2),
 	      key = _ref2[0];
 	      _ref2[1];
 	    return key !== clientId && !ancestors.includes(key);
 	  }));
-	  state.blockEdit = removeFromTree(clientId, state.blockEdit);
+	  state.blockEdit = _removeFromTree(clientId, state.blockEdit);
 	};
 
 	var renameComponentAttribute$1 = function renameComponentAttribute(state, action) {
@@ -9325,14 +9325,14 @@
 	};
 
 	var reducers$3 = {
-	  getAtPosition: getAtPosition,
-	  insertAtPosition: insertAtPosition,
+	  getAtPosition: _getAtPosition,
+	  insertAtPosition: _insertAtPosition,
 	  insertExistingComponentAtPosition: insertExistingComponentAtPosition,
 	  insertNewComponentAtPosition: insertNewComponentAtPosition$1,
 	  insertDraggingComponentAtPosition: insertDraggingComponentAtPosition,
 	  moveComponentToPosition: moveComponentToPosition$1,
 	  removeComponent: removeComponent$1,
-	  removeAtPosition: removeAtPosition,
+	  removeAtPosition: _removeAtPosition,
 	  renameComponentAttribute: renameComponentAttribute$1,
 	  setComponentAttribute: setComponentAttribute$1,
 	  setComponentList: setComponentList,
@@ -13841,17 +13841,17 @@
 	    return position;
 	  }, [position, rect, appRect, navRect]);
 	  var _label = React$2.useMemo(function () {
-	    return getObjectProperty(tooltips, "".concat(data, ".label")) || label;
+	    return _getObjectProperty(tooltips, "".concat(data, ".label")) || label;
 	  }, [data, label]);
 	  var _required = React$2.useMemo(function () {
-	    return getObjectProperty(tooltips, "".concat(data, ".required")) || required;
+	    return _getObjectProperty(tooltips, "".concat(data, ".required")) || required;
 	  }, [data, required]);
 	  var _default = React$2.useMemo(function () {
-	    return getObjectProperty(tooltips, "".concat(data, ".default")) || defaultValue;
+	    return _getObjectProperty(tooltips, "".concat(data, ".default")) || defaultValue;
 	  }, [data, defaultValue]);
 	  var _text = React$2.useMemo(function () {
 	    var _blockJson$name, _blockJson$name2;
-	    var _text = getObjectProperty(tooltips, "".concat(data, ".text"));
+	    var _text = _getObjectProperty(tooltips, "".concat(data, ".text"));
 	    if (_text === null) {
 	      _text = text;
 	    }
@@ -13863,10 +13863,10 @@
 	    }));
 	  }, [blockJson, data, text]);
 	  var _url = React$2.useMemo(function () {
-	    return getObjectProperty(tooltips, "".concat(data, ".url")) || url;
+	    return _getObjectProperty(tooltips, "".concat(data, ".url")) || url;
 	  }, [data, url]);
 	  var _width = React$2.useMemo(function () {
-	    return getObjectProperty(tooltips, "".concat(data, ".width")) || width;
+	    return _getObjectProperty(tooltips, "".concat(data, ".width")) || width;
 	  }, [data, width]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
@@ -14195,7 +14195,7 @@
 	  });
 	}
 
-	var BlockSupportsFieldItem = function BlockSupportsFieldItem(_ref) {
+	var _BlockSupportsFieldItem = function BlockSupportsFieldItem(_ref) {
 	  var label = _ref.label,
 	    name = _ref.name,
 	    tooltip = _ref.tooltip,
@@ -14265,7 +14265,7 @@
 	      children: isChecked && (subProperties === null || subProperties === void 0 ? void 0 : subProperties.length) > 0 && /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	        className: "BlockSupportsFieldItem-list",
 	        children: subProperties.map(function (subProperty, index) {
-	          return /*#__PURE__*/React$2.createElement(BlockSupportsFieldItem, _objectSpread2(_objectSpread2({}, subProperty), {}, {
+	          return /*#__PURE__*/React$2.createElement(_BlockSupportsFieldItem, _objectSpread2(_objectSpread2({}, subProperty), {}, {
 	            key: index,
 	            size: "small",
 	            value: isSubPropertyChecked(subProperty),
@@ -14303,7 +14303,7 @@
 	  return /*#__PURE__*/jsxRuntimeExports.jsx("div", {
 	    className: "BlockSupportsField",
 	    children: blockSupportsProperties.map(function (property, index) {
-	      return /*#__PURE__*/React$2.createElement(BlockSupportsFieldItem, _objectSpread2(_objectSpread2({}, property), {}, {
+	      return /*#__PURE__*/React$2.createElement(_BlockSupportsFieldItem, _objectSpread2(_objectSpread2({}, property), {}, {
 	        key: index,
 	        value: blockSupportsValues[index],
 	        setValue: function setValue(value) {
@@ -14841,17 +14841,17 @@
 	    return position;
 	  }, [position, rect, appRect, navRect]);
 	  var _label = React$2.useMemo(function () {
-	    return getObjectProperty(tooltips, "".concat(data, ".label")) || label;
+	    return _getObjectProperty(tooltips, "".concat(data, ".label")) || label;
 	  }, [data, label]);
 	  var _required = React$2.useMemo(function () {
-	    return getObjectProperty(tooltips, "".concat(data, ".required")) || required;
+	    return _getObjectProperty(tooltips, "".concat(data, ".required")) || required;
 	  }, [data, required]);
 	  var _default = React$2.useMemo(function () {
-	    return getObjectProperty(tooltips, "".concat(data, ".default")) || defaultValue;
+	    return _getObjectProperty(tooltips, "".concat(data, ".default")) || defaultValue;
 	  }, [data, defaultValue]);
 	  var _text = React$2.useMemo(function () {
 	    var _blockJson$name, _blockJson$name2;
-	    var _text = getObjectProperty(tooltips, "".concat(data, ".text"));
+	    var _text = _getObjectProperty(tooltips, "".concat(data, ".text"));
 	    if (_text === null) {
 	      _text = text;
 	    }
@@ -14863,10 +14863,10 @@
 	    }));
 	  }, [blockJson, data, text]);
 	  var _url = React$2.useMemo(function () {
-	    return getObjectProperty(tooltips, "".concat(data, ".url")) || url;
+	    return _getObjectProperty(tooltips, "".concat(data, ".url")) || url;
 	  }, [data, url]);
 	  var _width = React$2.useMemo(function () {
-	    return getObjectProperty(tooltips, "".concat(data, ".width")) || width;
+	    return _getObjectProperty(tooltips, "".concat(data, ".width")) || width;
 	  }, [data, width]);
 	  return /*#__PURE__*/jsxRuntimeExports.jsxs("div", {
 	    ref: ref,
@@ -17085,7 +17085,7 @@
 	        className: "BlueprintHint-insert",
 	        children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {})
 	      })]
-	    }), undefined === "development" ]
+	    }), undefined === "development"]
 	  });
 	}
 
@@ -17311,7 +17311,7 @@
 	          children: ">"
 	        })]
 	      })
-	    }), undefined === "development"  ]
+	    }), undefined === "development"]
 	  });
 	};
 
@@ -17585,7 +17585,7 @@
 	          children: ">"
 	        })
 	      })]
-	    }), children, undefined === "development"  ]
+	    }), children, undefined === "development"]
 	  });
 	};
 
@@ -17774,7 +17774,7 @@
 	      ref: focusRef,
 	      className: "BlueprintInsert-line",
 	      children: /*#__PURE__*/jsxRuntimeExports.jsx("div", {})
-	    }), undefined === "development" ]
+	    }), undefined === "development"]
 	  });
 	});
 
@@ -20727,14 +20727,15 @@
 	    let {
 	      parser
 	    } = this.p;
-	    if (this.reducePos < this.pos - 25 /* Lookahead.Margin */) this.setLookAhead(this.pos);
+	    let lookaheadRecord = this.reducePos < this.pos - 25 /* Lookahead.Margin */;
+	    if (lookaheadRecord) this.setLookAhead(this.pos);
 	    let dPrec = parser.dynamicPrecedence(type);
 	    if (dPrec) this.score += dPrec;
 	    if (depth == 0) {
 	      this.pushState(parser.getGoto(this.state, type, true), this.reducePos);
 	      // Zero-depth reductions are a special case—they add stuff to
 	      // the stack without popping anything off.
-	      if (type < parser.minRepeatTerm) this.storeNode(type, this.reducePos, this.reducePos, 4, true);
+	      if (type < parser.minRepeatTerm) this.storeNode(type, this.reducePos, this.reducePos, lookaheadRecord ? 8 : 4, true);
 	      this.reduceContext(type, this.reducePos);
 	      return;
 	    }
@@ -20779,7 +20780,7 @@
 	  /**
 	  @internal
 	  */
-	  storeNode(term, start, end, size = 4, isReduce = false) {
+	  storeNode(term, start, end, size = 4, mustSink = false) {
 	    if (term == 0 /* Term.Err */ && (!this.stack.length || this.stack[this.stack.length - 1] < this.buffer.length + this.bufferBase)) {
 	      // Try to omit/merge adjacent error nodes
 	      let cur = this,
@@ -20796,20 +20797,29 @@
 	        }
 	      }
 	    }
-	    if (!isReduce || this.pos == end) {
+	    if (!mustSink || this.pos == end) {
 	      // Simple case, just append
 	      this.buffer.push(term, start, end, size);
 	    } else {
 	      // There may be skipped nodes that have to be moved forward
 	      let index = this.buffer.length;
-	      if (index > 0 && this.buffer[index - 4] != 0 /* Term.Err */) while (index > 0 && this.buffer[index - 2] > end) {
-	        // Move this record forward
-	        this.buffer[index] = this.buffer[index - 4];
-	        this.buffer[index + 1] = this.buffer[index - 3];
-	        this.buffer[index + 2] = this.buffer[index - 2];
-	        this.buffer[index + 3] = this.buffer[index - 1];
-	        index -= 4;
-	        if (size > 4) size -= 4;
+	      if (index > 0 && this.buffer[index - 4] != 0 /* Term.Err */) {
+	        let mustMove = false;
+	        for (let scan = index; scan > 0 && this.buffer[scan - 2] > end; scan -= 4) {
+	          if (this.buffer[scan - 1] >= 0) {
+	            mustMove = true;
+	            break;
+	          }
+	        }
+	        if (mustMove) while (index > 0 && this.buffer[index - 2] > end) {
+	          // Move this record forward
+	          this.buffer[index] = this.buffer[index - 4];
+	          this.buffer[index + 1] = this.buffer[index - 3];
+	          this.buffer[index + 2] = this.buffer[index - 2];
+	          this.buffer[index + 3] = this.buffer[index - 1];
+	          index -= 4;
+	          if (size > 4) size -= 4;
+	        }
 	      }
 	      this.buffer[index] = term;
 	      this.buffer[index + 1] = start;
@@ -31876,8 +31886,7 @@
 	    return EditorSelection.range(from, to);
 	  }
 	}
-	let insideY = (y, rect) => y >= rect.top && y <= rect.bottom;
-	let inside = (x, y, rect) => insideY(y, rect) && x >= rect.left && x <= rect.right;
+	let inside = (x, y, rect) => y >= rect.top && y <= rect.bottom && x >= rect.left && x <= rect.right;
 	// Try to determine, for the given coordinates, associated with the
 	// given position, whether they are related to the element before or
 	// the element after the position.
@@ -31894,8 +31903,8 @@
 	  let after = line.coordsAt(off, 1);
 	  if (after && inside(x, y, after)) return 1;
 	  // This is probably a line wrap point. Pick before if the point is
-	  // beside it.
-	  return before && insideY(y, before) ? -1 : 1;
+	  // above its bottom.
+	  return before && before.bottom >= y ? -1 : 1;
 	}
 	function queryPos(view, event) {
 	  let pos = view.posAtCoords({
@@ -32244,6 +32253,11 @@
 	  }
 	}
 	const wrappingWhiteSpace = ["pre-wrap", "normal", "pre-line", "break-spaces"];
+	// Used to track, during updateHeight, if any actual heights changed
+	let heightChangeFlag = false;
+	function clearHeightChangeFlag() {
+	  heightChangeFlag = false;
+	}
 	class HeightOracle {
 	  constructor(lineWrapping) {
 	    this.lineWrapping = lineWrapping;
@@ -32253,8 +32267,6 @@
 	    this.charWidth = 7;
 	    this.textHeight = 14; // The height of the actual font (font-size)
 	    this.lineLength = 30;
-	    // Used to track, during updateHeight, if any actual heights changed
-	    this.heightChanged = false;
 	  }
 	  heightForGap(from, to) {
 	    let lines = this.doc.lineAt(to).number - this.doc.lineAt(from).number + 1;
@@ -32421,9 +32433,9 @@
 	  set outdated(value) {
 	    this.flags = (value ? 2 /* Flag.Outdated */ : 0) | this.flags & ~2 /* Flag.Outdated */;
 	  }
-	  setHeight(oracle, height) {
+	  setHeight(height) {
 	    if (this.height != height) {
-	      if (Math.abs(this.height - height) > Epsilon) oracle.heightChanged = true;
+	      if (Math.abs(this.height - height) > Epsilon) heightChangeFlag = true;
 	      this.height = height;
 	    }
 	  }
@@ -32463,7 +32475,7 @@
 	      fromB += start.from - fromA;
 	      fromA = start.from;
 	      let nodes = NodeBuilder.build(oracle.setDoc(doc), decorations, fromB, toB);
-	      me = me.replace(fromA, toA, nodes);
+	      me = replace(me, me.replace(fromA, toA, nodes));
 	    }
 	    return me.updateHeight(oracle, 0);
 	  }
@@ -32514,6 +32526,11 @@
 	    return new HeightMapBranch(HeightMap.of(nodes.slice(0, i)), brk, HeightMap.of(nodes.slice(j)));
 	  }
 	}
+	function replace(old, val) {
+	  if (old == val) return old;
+	  if (old.constructor != val.constructor) heightChangeFlag = true;
+	  return val;
+	}
 	HeightMap.prototype.size = 1;
 	class HeightMapBlock extends HeightMap {
 	  constructor(length, height, deco) {
@@ -32530,7 +32547,7 @@
 	    if (from <= offset + this.length && to >= offset) f(this.blockAt(0, oracle, top, offset));
 	  }
 	  updateHeight(oracle, offset = 0, _force = false, measured) {
-	    if (measured && measured.from <= offset && measured.more) this.setHeight(oracle, measured.heights[measured.index++]);
+	    if (measured && measured.from <= offset && measured.more) this.setHeight(measured.heights[measured.index++]);
 	    this.outdated = false;
 	    return this;
 	  }
@@ -32559,7 +32576,7 @@
 	    }
 	  }
 	  updateHeight(oracle, offset = 0, force = false, measured) {
-	    if (measured && measured.from <= offset && measured.more) this.setHeight(oracle, measured.heights[measured.index++]);else if (force || this.outdated) this.setHeight(oracle, Math.max(this.widgetHeight, oracle.heightForLine(this.length - this.collapsed)) + this.breaks * oracle.lineHeight);
+	    if (measured && measured.from <= offset && measured.more) this.setHeight(measured.heights[measured.index++]);else if (force || this.outdated) this.setHeight(Math.max(this.widgetHeight, oracle.heightForLine(this.length - this.collapsed)) + this.breaks * oracle.lineHeight);
 	    this.outdated = false;
 	    return this;
 	  }
@@ -32694,10 +32711,10 @@
 	      }
 	      if (pos <= end) nodes.push(null, new HeightMapGap(end - pos).updateHeight(oracle, pos));
 	      let result = HeightMap.of(nodes);
-	      if (singleHeight < 0 || Math.abs(result.height - this.height) >= Epsilon || Math.abs(singleHeight - this.heightMetrics(oracle, offset).perLine) >= Epsilon) oracle.heightChanged = true;
-	      return result;
+	      if (singleHeight < 0 || Math.abs(result.height - this.height) >= Epsilon || Math.abs(singleHeight - this.heightMetrics(oracle, offset).perLine) >= Epsilon) heightChangeFlag = true;
+	      return replace(this, result);
 	    } else if (force || this.outdated) {
-	      this.setHeight(oracle, oracle.heightForGap(offset, offset + this.length));
+	      this.setHeight(oracle.heightForGap(offset, offset + this.length));
 	      this.outdated = false;
 	    }
 	    return this;
@@ -32778,9 +32795,9 @@
 	  }
 	  balanced(left, right) {
 	    if (left.size > 2 * right.size || right.size > 2 * left.size) return HeightMap.of(this.break ? [left, null, right] : [left, right]);
-	    this.left = left;
-	    this.right = right;
-	    this.height = left.height + right.height;
+	    this.left = replace(this.left, left);
+	    this.right = replace(this.right, right);
+	    this.setHeight(left.height + right.height);
 	    this.outdated = left.outdated || right.outdated;
 	    this.size = left.size + right.size;
 	    this.length = left.length + this.break + right.length;
@@ -33123,8 +33140,9 @@
 	    let heightChanges = ChangedRange.extendWithRanges(contentChanges, heightRelevantDecoChanges(prevDeco, this.stateDeco, update ? update.changes : ChangeSet.empty(this.state.doc.length)));
 	    let prevHeight = this.heightMap.height;
 	    let scrollAnchor = this.scrolledToBottom ? null : this.scrollAnchorAt(this.scrollTop);
+	    clearHeightChangeFlag();
 	    this.heightMap = this.heightMap.applyChanges(this.stateDeco, update.startState.doc, this.heightOracle.setDoc(this.state.doc), heightChanges);
-	    if (this.heightMap.height != prevHeight) update.flags |= 2 /* UpdateFlag.Height */;
+	    if (this.heightMap.height != prevHeight || heightChangeFlag) update.flags |= 2 /* UpdateFlag.Height */;
 	    if (scrollAnchor) {
 	      this.scrollAnchorPos = update.changes.mapPos(scrollAnchor.from, -1);
 	      this.scrollAnchorHeight = scrollAnchor.top;
@@ -33220,12 +33238,12 @@
 	        }
 	      }
 	      if (dTop > 0 && dBottom > 0) bias = Math.max(dTop, dBottom);else if (dTop < 0 && dBottom < 0) bias = Math.min(dTop, dBottom);
-	      oracle.heightChanged = false;
+	      clearHeightChangeFlag();
 	      for (let vp of this.viewports) {
 	        let heights = vp.from == this.viewport.from ? lineHeights : view.docView.measureVisibleLineHeights(vp);
 	        this.heightMap = (refresh ? HeightMap.empty().applyChanges(this.stateDeco, Text$1.empty, this.heightOracle, [new ChangedRange(0, 0, 0, view.state.doc.length)]) : this.heightMap).updateHeight(oracle, 0, refresh, new MeasuredHeights(vp.from, heights));
 	      }
-	      if (oracle.heightChanged) result |= 2 /* UpdateFlag.Height */;
+	      if (heightChangeFlag) result |= 2 /* UpdateFlag.Height */;
 	    }
 	    let viewportChange = !this.viewportIsAppropriate(this.viewport, bias) || this.scrollTarget && (this.scrollTarget.range.head < this.viewport.from || this.scrollTarget.range.head > this.viewport.to);
 	    if (viewportChange) {
@@ -34370,7 +34388,7 @@
 	    }, 50);
 	  }
 	  onPrint(event) {
-	    if (event.type == "change" && !event.matches) return;
+	    if ((event.type == "change" || !event.type) && !event.matches) return;
 	    this.view.viewState.printing = true;
 	    this.view.measure();
 	    setTimeout(() => {
@@ -34637,14 +34655,18 @@
 	  }
 	  addWindowListeners(win) {
 	    win.addEventListener("resize", this.onResize);
-	    if (this.printQuery) this.printQuery.addEventListener("change", this.onPrint);else win.addEventListener("beforeprint", this.onPrint);
+	    if (this.printQuery) {
+	      if (this.printQuery.addEventListener) this.printQuery.addEventListener("change", this.onPrint);else this.printQuery.addListener(this.onPrint);
+	    } else win.addEventListener("beforeprint", this.onPrint);
 	    win.addEventListener("scroll", this.onScroll);
 	    win.document.addEventListener("selectionchange", this.onSelectionChange);
 	  }
 	  removeWindowListeners(win) {
 	    win.removeEventListener("scroll", this.onScroll);
 	    win.removeEventListener("resize", this.onResize);
-	    if (this.printQuery) this.printQuery.removeEventListener("change", this.onPrint);else win.removeEventListener("beforeprint", this.onPrint);
+	    if (this.printQuery) {
+	      if (this.printQuery.removeEventListener) this.printQuery.removeEventListener("change", this.onPrint);else this.printQuery.removeListener(this.onPrint);
+	    } else win.removeEventListener("beforeprint", this.onPrint);
 	    win.document.removeEventListener("selectionchange", this.onSelectionChange);
 	  }
 	  update(update) {
@@ -34754,10 +34776,13 @@
 	      // Edit contexts sometimes fire empty changes
 	      if (change.from == change.to && !change.insert.length) return;
 	      this.pendingContextChange = change;
-	      applyDOMChangeInner(view, change, EditorSelection.single(this.toEditorPos(e.selectionStart), this.toEditorPos(e.selectionEnd)));
+	      if (!view.state.readOnly) applyDOMChangeInner(view, change, EditorSelection.single(this.toEditorPos(e.selectionStart), this.toEditorPos(e.selectionEnd)));
 	      // If the transaction didn't flush our change, revert it so
 	      // that the context is in sync with the editor state again.
-	      if (this.pendingContextChange) this.revertPending(view.state);
+	      if (this.pendingContextChange) {
+	        this.revertPending(view.state);
+	        this.setSelection(view.state);
+	      }
 	    };
 	    this.handlers.characterboundsupdate = e => {
 	      let rects = [],
@@ -34846,12 +34871,13 @@
 	    return !abort;
 	  }
 	  update(update) {
+	    let reverted = this.pendingContextChange;
 	    if (!this.applyEdits(update) || !this.rangeIsValid(update.state)) {
 	      this.pendingContextChange = null;
 	      this.resetRange(update.state);
 	      this.editContext.updateText(0, this.editContext.text.length, update.state.doc.sliceString(this.from, this.to));
 	      this.setSelection(update.state);
-	    } else if (update.docChanged || update.selectionSet) {
+	    } else if (update.docChanged || update.selectionSet || reverted) {
 	      this.setSelection(update.state);
 	    }
 	    if (update.geometryChanged || update.docChanged || update.selectionSet) update.view.requestMeasure(this.measureReq);
@@ -34866,7 +34892,7 @@
 	  revertPending(state) {
 	    let pending = this.pendingContextChange;
 	    this.pendingContextChange = null;
-	    this.editContext.updateText(this.toContextPos(pending.from), this.toContextPos(pending.to + pending.insert.length), state.doc.sliceString(pending.from, pending.to));
+	    this.editContext.updateText(this.toContextPos(pending.from), this.toContextPos(pending.from + pending.insert.length), state.doc.sliceString(pending.from, pending.to));
 	  }
 	  setSelection(state) {
 	    let {
@@ -37437,7 +37463,7 @@
 	        height = (_a = knownHeight.get(tView)) !== null && _a !== void 0 ? _a : size.bottom - size.top;
 	      let offset = tView.offset || noOffset,
 	        ltr = this.view.textDirection == Direction.LTR;
-	      let left = size.width > space.right - space.left ? ltr ? space.left : space.right - size.width : ltr ? Math.min(pos.left - (arrow ? 14 /* Arrow.Offset */ : 0) + offset.x, space.right - width) : Math.max(space.left, pos.left - width + (arrow ? 14 /* Arrow.Offset */ : 0) - offset.x);
+	      let left = size.width > space.right - space.left ? ltr ? space.left : space.right - size.width : ltr ? Math.max(space.left, Math.min(pos.left - (arrow ? 14 /* Arrow.Offset */ : 0) + offset.x, space.right - width)) : Math.min(Math.max(space.left, pos.left - width + (arrow ? 14 /* Arrow.Offset */ : 0) - offset.x), space.right - width);
 	      let above = this.above[i];
 	      if (!tooltip.strictSide && (above ? pos.top - (size.bottom - size.top) - offset.y < space.top : pos.bottom + (size.bottom - size.top) + offset.y > space.bottom) && above == space.bottom - pos.bottom > pos.top - space.top) above = this.above[i] = !above;
 	      let spaceVert = (above ? pos.top - space.top : space.bottom - pos.bottom) - arrowHeight;
@@ -49170,14 +49196,14 @@
 	  var _useBlockJson = useBlockJson(),
 	    blockJson = _useBlockJson.blockJson;
 	  var label = React$2.useMemo(function () {
-	    return getObjectProperty(tooltips, "tutorial.step".concat(step, ".label"));
+	    return _getObjectProperty(tooltips, "tutorial.step".concat(step, ".label"));
 	  }, [step]);
 	  var position = React$2.useMemo(function () {
-	    return getObjectProperty(tooltips, "tutorial.step".concat(step, ".position"));
+	    return _getObjectProperty(tooltips, "tutorial.step".concat(step, ".position"));
 	  }, [step]);
 	  var text = React$2.useMemo(function () {
 	    var _blockJson$name, _blockJson$name2;
-	    var text = getObjectProperty(tooltips, "tutorial.step".concat(step, ".text"));
+	    var text = _getObjectProperty(tooltips, "tutorial.step".concat(step, ".text"));
 	    return parseMarkdown(replaceTokens(text, {
 	      block: _objectSpread2(_objectSpread2({}, blockJson), {}, {
 	        namespace: (_blockJson$name = blockJson.name) === null || _blockJson$name === void 0 || (_blockJson$name = _blockJson$name.split("/")) === null || _blockJson$name === void 0 ? void 0 : _blockJson$name[0],
@@ -49186,13 +49212,13 @@
 	    }));
 	  }, [blockJson, step]);
 	  var left = React$2.useMemo(function () {
-	    return getObjectProperty(tooltips, "tutorial.step".concat(step, ".left"));
+	    return _getObjectProperty(tooltips, "tutorial.step".concat(step, ".left"));
 	  }, [step]);
 	  var top = React$2.useMemo(function () {
-	    return getObjectProperty(tooltips, "tutorial.step".concat(step, ".top"));
+	    return _getObjectProperty(tooltips, "tutorial.step".concat(step, ".top"));
 	  }, [step]);
 	  var width = React$2.useMemo(function () {
-	    return getObjectProperty(tooltips, "tutorial.step".concat(step, ".width"));
+	    return _getObjectProperty(tooltips, "tutorial.step".concat(step, ".width"));
 	  }, [step]);
 	  var style = React$2.useMemo(function () {
 	    var style = {
@@ -68616,7 +68642,7 @@
 	    return state.lastType == "operator" || state.lastType == "," || isOperatorChar.test(textAfter.charAt(0)) || /[,.]/.test(textAfter.charAt(0));
 	  }
 	  function expressionAllowed(stream, state, backUp) {
-	    return state.tokenize == tokenBase && /^(?:operator|sof|keyword [bcd]|case|new|export|default|spread|[\[{}\(,;:]|=>)$/.test(state.lastType) || state.lastType == "quasi" && /\{\s*$/.test(stream.string.slice(0, stream.pos - (backUp )));
+	    return state.tokenize == tokenBase && /^(?:operator|sof|keyword [bcd]|case|new|export|default|spread|[\[{}\(,;:]|=>)$/.test(state.lastType) || state.lastType == "quasi" && /\{\s*$/.test(stream.string.slice(0, stream.pos - (backUp)));
 	  }
 
 	  // Interface
